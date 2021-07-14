@@ -69,8 +69,7 @@ class RecursiveTokenizer(AnnotatorApproach):
     - ``infixes``: Strings that will be split when found at the middle of token.
     - ``whitelist``: Whitelist of strings not to split
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__
-    and the `TokenizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -82,13 +81,13 @@ class RecursiveTokenizer(AnnotatorApproach):
     ----------
 
     prefixes
-        strings to be considered independent tokens when found at the beginning of a word
+        strings to be considered independent tokens when found at the beginning of a word, by default ["'", '"', '(', '[', '\\n']
     suffixes
-        strings to be considered independent tokens when found at the end of a word
+        strings to be considered independent tokens when found at the end of a word, by default ['.', ':', '%', ',', ';', '?', "'", '"', ')', ']', '\\n', '!', "'s"]
     infixes
-        strings to be considered independent tokens when found in the middle of a word
+        strings to be considered independent tokens when found in the middle of a word, by default ['\\n', '(', ')']
     whitelist
-        strings to be considered as single tokens
+        strings to be considered as single tokens , by default ["it\'s", "that\'s", "there\'s", "he\'s", "she\'s", "what\'s", "let\'s", "who\'s", "It\'s", "That\'s", "There\'s", "He\'s", "She\'s", "What\'s", "Let\'s", "Who\'s"]
 
     Examples
     --------
@@ -188,7 +187,9 @@ class RecursiveTokenizerModel(AnnotatorModel):
 
     Parameters
     ----------
+
     None
+
 
     """
     name = 'RecursiveTokenizerModel'
@@ -208,8 +209,7 @@ class Tokenizer(AnnotatorApproach):
     Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
 
     For extended examples of usage see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
-    and `Tokenizer test class <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala>`__
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     =================================================================================== ======================
     Input Annotation types                                                              Output Annotation type
@@ -221,11 +221,11 @@ class Tokenizer(AnnotatorApproach):
     ----------
 
     targetPattern
-        pattern to grab from text as token candidates. Defaults \S+
+        pattern to grab from text as token candidates, by default "\S+"
     prefixPattern
-        regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)
+        regex with groups and begins with \A to match target prefix, by default "\A([^\s\w\$\.]*)"
     suffixPattern
-        regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z
+        regex with groups and ends with \z to match target suffix, by default "([^\s\w]?)([^\s\w]*)\z"
     infixPatterns
         regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults
     exceptions
@@ -233,17 +233,17 @@ class Tokenizer(AnnotatorApproach):
     exceptionsPath
         path to file containing list of exceptions
     caseSensitiveExceptions
-        Whether to care for case sensitiveness in exceptions
+        Whether to care for case sensitiveness in exceptions, by default True
     contextChars
-        character list used to separate from token boundaries
+        character list used to separate from token boundaries, by default ['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '"', "'"]
     splitPattern
         character list used to separate from the inside of tokens
     splitChars
         character list used to separate from the inside of tokens
     minLength
-        Set the minimum allowed legth for each token
+        Set the minimum allowed legth for each token, by default 0
     maxLength
-        Set the maximum allowed legth for each token
+        Set the maximum allowed legth for each token, by default 99999
 
     Examples
     --------
@@ -443,11 +443,11 @@ class TokenizerModel(AnnotatorModel):
 
     See the main class Tokenizer for more examples of usage.
 
-    ================================================================================== ======================
-    Input Annotation types                                                             Output Annotation type
-    ================================================================================== ======================
-    ``DOCUMENT //A Tokenizer could require only for now a SentenceDetector annotator`` ``TOKEN``
-    ================================================================================== ======================
+    ======================  ======================
+    Input Annotation types  Output Annotation type
+    ======================  ======================
+    ``DOCUMENT``            ``TOKEN``
+    ======================  ======================
 
     Parameters
     ----------
@@ -455,9 +455,9 @@ class TokenizerModel(AnnotatorModel):
     exceptions
         Words that won't be affected by tokenization rules
     caseSensitiveExceptions
-        Whether to care for case sensitiveness in exceptions
+        Whether to care for case sensitiveness in exceptions, by default True
     targetPattern
-        pattern to grab from text as token candidates. Defaults \S+
+        pattern to grab from text as token candidates, by default "\S+"
     rules
         Rules structure factory containing pre processed regex rules
     splitPattern
@@ -545,15 +545,15 @@ class RegexTokenizer(AnnotatorModel):
     ----------
 
     minLength
-        Set the minimum allowed legth for each token
+        Set the minimum allowed legth for each token, by default 1
     maxLength
         Set the maximum allowed legth for each token
     toLowercase
-        Indicates whether to convert all characters to lowercase before tokenizing.
+        Indicates whether to convert all characters to lowercase before tokenizing, by default False
     pattern
-        regex pattern used for tokenizing. Defaults \S+
+        regex pattern used for tokenizing, by default "\s+"
     positionalMask
-        Using a positional mask to guarantee the incremental progression of the tokenization.
+        Using a positional mask to guarantee the incremental progression of the tokenization, by default False
 
     Examples
     --------
@@ -655,8 +655,6 @@ class ChunkTokenizer(Tokenizer):
     The ChunkTokenizer will split the extracted NER ``CHUNK`` type Annotations and will create ``TOKEN`` type Annotations.
     The result is then flattened, resulting in a single array.
 
-    For extended examples of usage, see the `ChunkTokenizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkTokenizerTestSpec.scala>`__.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
@@ -666,7 +664,7 @@ class ChunkTokenizer(Tokenizer):
     Parameters
     ----------
 
-
+    None
 
     Examples
     --------
@@ -747,8 +745,7 @@ class ChunkTokenizerModel(TokenizerModel):
     Parameters
     ----------
 
-
-
+    None
 
     """
     name = 'ChunkTokenizerModel'
@@ -775,7 +772,7 @@ class Token2Chunk(AnnotatorModel):
     Parameters
     ----------
 
-
+    None
 
     Examples
     --------
@@ -842,7 +839,7 @@ class Stemmer(AnnotatorModel):
     ----------
 
     language
-        stemmer algorithm
+        stemmer algorithm, by default "english"
 
     Examples
     --------
@@ -905,7 +902,7 @@ class Chunker(AnnotatorModel):
     The part-of-speech tags are wrapped by angle brackets ``<>`` to be easily distinguishable in the text itself.
     This example sentence will result in the form:
 
-    .. code-block:: python
+    .. code-block:: none
 
         "Peter Pipers employees are picking pecks of pickled peppers."
         "<NNP><NNP><NNS><VBP><VBG><NNS><IN><JJ><NNS><.>"
@@ -924,8 +921,7 @@ class Chunker(AnnotatorModel):
     When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
     ``"<NNP>+"`` means 1 or more nouns in succession. Additional patterns can also be set with ``addRegexParsers``.
 
-    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
-    and the  `ChunkerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala>`__.
+    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1029,17 +1025,17 @@ class DocumentNormalizer(AnnotatorModel):
     ----------
 
     action
-        action to perform applying regex patterns on text
+        action to perform applying regex patterns on text, by default "clean"
     patterns
-        normalization regex patterns which match will be removed from document. Defaults is <[^>]*>
+        normalization regex patterns which match will be removed from document, by default ['<[^>]*>']
     replacement
-        replacement string to apply when regexes match
+        replacement string to apply when regexes match, by default " "
     lowercase
-        whether to convert strings to lowercase
+        whether to convert strings to lowercase, by default False
     policy
-        policy to remove pattern from text
+        policy to remove pattern from text, by default "pretty_all"
     encoding
-        file encoding to apply on normalized documents
+        file encoding to apply on normalized documents, by default "UTF-8"
 
     Examples
     --------
@@ -1172,13 +1168,13 @@ class Normalizer(AnnotatorApproach):
     ----------
 
     cleanupPatterns
-        normalization regex patterns which match will be removed from token
+        normalization regex patterns which match will be removed from token, by default ['[^\\pL+]']
     lowercase
-        whether to convert strings to lowercase
+        whether to convert strings to lowercase, by default False
     slangDictionary
         slang dictionary is a delimited text. needs 'delimiter' in options
     minLength
-        Set the minimum allowed legth for each token
+        Set the minimum allowed legth for each token, by default 0
     maxLength
         Set the maximum allowed legth for each token
 
@@ -1338,8 +1334,7 @@ class RegexMatcher(AnnotatorApproach):
 
     Pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
-    and the `RegexMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1351,7 +1346,7 @@ class RegexMatcher(AnnotatorApproach):
     ----------
 
     strategy
-        MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
+        Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE, by default "MATCH_ALL"
     externalRules
         external resource to rules, needs 'delimiter' in options
 
@@ -1442,8 +1437,7 @@ class RegexMatcherModel(AnnotatorModel):
     Parameters
     ----------
 
-
-
+    None
 
     """
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel", java_model=None):
@@ -1463,8 +1457,7 @@ class Lemmatizer(AnnotatorApproach):
     Pretrained models can be loaded with LemmatizerModel.pretrained.
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
-    and the `LemmatizerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1573,7 +1566,7 @@ class LemmatizerModel(AnnotatorModel):
     Parameters
     ----------
 
-
+    None
 
     Examples
     --------
@@ -1690,8 +1683,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     Pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb>`__
-    and the `DateMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1702,7 +1694,21 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     Parameters
     ----------
 
-
+    dateFormat
+        desired format for dates extracted
+    readMonthFirst
+        Whether to parse july 07/05/2015 or as 05/07/2015
+    defaultDayWhenMissing
+        which day to set when it is missing from parsed input
+    anchorDateYear
+        Add an anchor year for the relative dates such as a day after tomorrow. If not set it
+        will use the current year. Example: 2021
+    anchorDateMonth
+        Add an anchor month for the relative dates such as a day after tomorrow. If not set it
+        will use the current month. Example: 1 which means January
+    anchorDateDay
+        Add an anchor day of the day for the relative dates such as a day after tomorrow. If not
+        set it will use the current day. Example: 11
 
     Examples
     --------
@@ -1766,7 +1772,7 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
     Reads the following kind of dates:
 
-    .. code-block:: python
+    .. code-block:: none
 
         "1978-01-28", "1984/04/02,1/02/1980", "2/28/79", "The 31st of April in the year 2008",
         "Fri, 21 Nov 1997", "Jan 21, ‘97", "Sun", "Nov 21", "jan 1st", "next thursday",
@@ -1778,8 +1784,7 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
     For example ``"The 31st of April in the year 2008"`` will be converted into ``2008/04/31``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb>`__
-    and the `MultiDateMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcherTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1790,7 +1795,21 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     Parameters
     ----------
 
-
+    dateFormat
+        desired format for dates extracted
+    readMonthFirst
+        Whether to parse july 07/05/2015 or as 05/07/2015
+    defaultDayWhenMissing
+        which day to set when it is missing from parsed input
+    anchorDateYear
+        Add an anchor year for the relative dates such as a day after tomorrow. If not set it
+        will use the current year. Example: 2021
+    anchorDateMonth
+        Add an anchor month for the relative dates such as a day after tomorrow. If not set it
+        will use the current month. Example: 1 which means January
+    anchorDateDay
+        Add an anchor day of the day for the relative dates such as a day after tomorrow. If not
+        set it will use the current day. Example: 11
 
     Examples
     --------
@@ -1853,8 +1872,7 @@ class TextMatcher(AnnotatorApproach):
     The text file can als be set directly as an
     ExternalResource.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
-    and the `TextMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2055,8 +2073,6 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 
     In contrast to the normal ``TextMatcher``, the ``BigTextMatcher`` is designed for large corpora.
 
-    For extended examples of usage, see the `BigTextMatcherTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcherTestSpec.scala>`__.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
@@ -2069,9 +2085,9 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
     entities
         ExternalResource for entities
     caseSensitive
-        whether to ignore case in index lookups
+        whether to ignore case in index lookups , by default True
     mergeOverlapping
-        whether to merge overlapping matched chunks. Defaults false
+        whether to merge overlapping matched chunks, by default False
     tokenizer
         TokenizerModel to use to tokenize input file for building a Trie
 
@@ -2239,25 +2255,22 @@ class PerceptronApproach(AnnotatorApproach):
     set to the POS tag and have a ``"word"`` mapping to its word inside of member ``metadata``.
     This DataFrame for training can easily created by the helper class POS.
 
-    .. code-block:: python
 
-        POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(truncate=False)
-        +---------------------------------------------+
-        |tags                                         |
-        +---------------------------------------------+
-        |[pos, 0, 5, NNP, [word -> Pierre], []]       |
-        |[pos, 7, 12, NNP, [word -> Vinken], []]      |
-        |[pos, 14, 14, ,, [word -> ,], []]            |
-        |[pos, 31, 34, MD, [word -> will], []]        |
-        |[pos, 36, 39, VB, [word -> join], []]        |
-        |[pos, 41, 43, DT, [word -> the], []]         |
-        |[pos, 45, 49, NN, [word -> board], []]       |
-                                ...
-
+    >>> POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(truncate=False)
+    +---------------------------------------------+
+    |tags                                         |
+    +---------------------------------------------+
+    |[pos, 0, 5, NNP, [word -> Pierre], []]       |
+    |[pos, 7, 12, NNP, [word -> Vinken], []]      |
+    |[pos, 14, 14, ,, [word -> ,], []]            |
+    |[pos, 31, 34, MD, [word -> will], []]        |
+    |[pos, 36, 39, VB, [word -> join], []]        |
+    |[pos, 41, 43, DT, [word -> the], []]         |
+    |[pos, 45, 49, NN, [word -> board], []]       |
+                            ...
 
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb>`__
-    and `PerceptronApproach tests <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2271,7 +2284,7 @@ class PerceptronApproach(AnnotatorApproach):
     posCol
         column of Array of POS tags that match tokens
     nIterations
-        Number of iterations in training, converges to better accuracy
+        Number of iterations in training, converges to better accuracy, by default 5
 
     Examples
     --------
@@ -2388,7 +2401,7 @@ class PerceptronModel(AnnotatorModel):
     Parameters
     ----------
 
-
+    None
 
     Examples
     --------
@@ -2509,9 +2522,22 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     Parameters
     ----------
-
+    useAbbreviations
+        whether to apply abbreviations at sentence detection, by default True
+    customBounds
+        characters used to explicitly mark sentence bounds, by default []
+    useCustomBoundsOnly
+        Only utilize custom bounds in sentence detection, by default False
+    explodeSentences
+        whether to explode each sentence into a different row, for better parallelization , by default False
+    splitLength
+        length at which sentences will be forcibly split
+    minLength
+        Set the minimum allowed length for each sentence, by default 0
+    maxLength
+        Set the maximum allowed length for each sentence, by default 99999
     detectLists
-        whether detect lists during sentence detection
+        whether detect lists during sentence detection, by default True
 
     Examples
     --------
@@ -2610,8 +2636,7 @@ class SentimentDetector(AnnotatorApproach):
     By default, the sentiment score will be assigned labels ``"positive"`` if the score is ``>= 0``, else ``"negative"``.
     To retrieve the raw sentiment scores, ``enableScore`` needs to be set to ``true``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__
-    and the `SentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2635,7 +2660,7 @@ class SentimentDetector(AnnotatorApproach):
     reverseMultiplier
         multiplier for revert sentiments. Defaults -1.0
     enableScore
-        if true, score will show as the double value, else will output string \
+        if true, score will show as the double value, else will output string "positive" or "negative", by default False
 
     Examples
     --------
@@ -2765,8 +2790,7 @@ class SentimentDetectorModel(AnnotatorModel):
     By default, the sentiment score will be assigned labels ``"positive"`` if the score is ``>= 0``, else ``"negative"``.
     To retrieve the raw sentiment scores, ``enableScore`` needs to be set to ``true``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__
-    and the `SentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2808,8 +2832,7 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
     The training data needs to consist of a column for normalized text and a label column (either ``"positive"`` or ``"negative"``).
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
-    and the `ViveknSentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2944,8 +2967,7 @@ class ViveknSentimentModel(AnnotatorModel):
     The analyzer requires sentence boundaries to give a score in context.
     Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
-    and the `ViveknSentimentTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3007,8 +3029,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     For instantiated/pretrained models, see NorvigSweetingModel.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
-    and the `NorvigSweetingTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3020,25 +3041,25 @@ class NorvigSweetingApproach(AnnotatorApproach):
     ----------
 
     dictionary
-        dictionary needs 'tokenPattern' regex in dictionary for separating words
+        Dictionary needs 'tokenPattern' regex in dictionary for separating words
     caseSensitive
-        whether to ignore case sensitivty
+        Whether to ignore case sensitivty, by default False
     doubleVariants
-        whether to use more expensive spell checker
+        Whether to use more expensive spell checker, by default False
     shortCircuit
-        whether to use faster mode
+        Whether to use faster mode, by default False
     frequencyPriority
-        applies frequency over hamming in intersections. When false hamming takes priority
+        Applies frequency over hamming in intersections, when false hamming takes priority, by default True
     wordSizeIgnore
-        minimum size of word before ignoring. Defaults to 3
+        minimum size of word before ignoring, by default 3
     dupsLimit
-        maximum duplicate of characters in a word to consider. Defaults to 2
+        maximum duplicate of characters in a word to consider, by default 2
     reductLimit
-        word reductions limit. Defaults to 3
+        word reductions limit, by default 3
     intersections
-        hamming intersections to attempt. Defaults to 10
+        hamming intersections to attempt, by default 10
     vowelSwapLimit
-        vowel swap attempts. Defaults to 6
+        vowel swap attempts, by default 6
 
     Examples
     --------
@@ -3191,8 +3212,7 @@ class NorvigSweetingModel(AnnotatorModel):
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__
-    and the `NorvigSweetingTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3268,8 +3288,6 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     For instantiated/pretrained models, see SymmetricDeleteModel.
 
-    See `SymmetricDeleteModelTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala>`__ for further reference.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
@@ -3284,13 +3302,13 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     dictionary
         folder or file with text that teaches about the language
     maxEditDistance
-        max edit distance characters to derive strings from a word
+        max edit distance characters to derive strings from a word, by default 3
     frequencyThreshold
-        minimum frequency of words to be considered from training.
+        minimum frequency of words to be considered from training, by default 0
     deletesThreshold
-        minimum frequency of corrections a word needs to have to be considered from training.
+        minimum frequency of corrections a word needs to have to be considered from training, by default 0
     dupsLimit
-        maximum duplicate of characters in a word to consider. Defaults to 2
+        maximum duplicate of characters in a word to consider, by default 2
 
     Examples
     --------
@@ -3417,8 +3435,6 @@ class SymmetricDeleteModel(AnnotatorModel):
     The default model is ``"spellcheck_sd"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
-    See `SymmetricDeleteModelTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala>`__ for further reference.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
@@ -3533,15 +3549,15 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` and an
     additional label column of annotator type ``NAMED_ENTITY``.
     Excluding the label, this can be done with for example
-      - a SentenceDetector,
-      - a Tokenizer,
-      - a PerceptronModel and
-      - a WordEmbeddingsModel.
+
+    * a SentenceDetector,
+    * a Tokenizer,
+    * a PerceptronModel and
+    * a WordEmbeddingsModel.
 
     Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb>`__
-    and the `NerCrfApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproachTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb>`__.
 
     ========================================= ======================
     Input Annotation types                    Output Annotation type
@@ -3552,16 +3568,28 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     Parameters
     ----------
 
+    labelColumn
+        Column with label per each token
+    entities
+        Entities to recognize
+    minEpochs
+        Minimum number of epochs to train, by default 0
+    maxEpochs
+        Maximum number of epochs to train, by default 1000
+    verbose
+        Level of verbosity during training, by default 4
+    randomSeed
+        Random seed
     l2
-        L2 regularization coefficient
+        L2 regularization coefficient, by default 1.0
     c0
-        c0 params defining decay speed for gradient
+        c0 params defining decay speed for gradient, by default 2250000
     lossEps
-        If Epoch relative improvement less than eps then training is stopped
+        If Epoch relative improvement less than eps then training is stopped, by default 0.001
     minW
         Features with less weights then this param value will be filtered
     includeConfidence
-        external features is a delimited text. needs 'delimiter' in options
+        external features is a delimited text. needs 'delimiter' in options, by default False
     externalFeatures
         Additional dictionaries paths to use as a features
 
@@ -3671,9 +3699,10 @@ class NerCrfModel(AnnotatorModel):
     This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
     algorithm. The data should have columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS``.
     These can be extracted with for example
-      - a SentenceDetector,
-      - a Tokenizer and
-      - a PerceptronModel.
+
+    * a SentenceDetector,
+    * a Tokenizer and
+    * a PerceptronModel.
 
     This is the instantiated model of the NerCrfApproach.
     For training your own model, please see the documentation of that class.
@@ -3793,13 +3822,11 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     2003 IOB with ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` and an
     additional label column of annotator type ``NAMED_ENTITY``.
     Excluding the label, this can be done with for example
-      - a SentenceDetector,
-      - a Tokenizer and
-      - a WordEmbeddingsModel
-        (any embeddings can be chosen, e.g. BertEmbeddings for BERT based embeddings).
+    * a SentenceDetector,
+    * a Tokenizer and
+    * a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings for BERT based embeddings).
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner>`__
-    and the `NerDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner>`__.
 
     ==================================== ======================
     Input Annotation types               Output Annotation type
@@ -3810,36 +3837,48 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     Parameters
     ----------
 
+    labelColumn
+        Column with label per each token
+    entities
+        Entities to recognize
+    minEpochs
+        Minimum number of epochs to train, by default 0
+    maxEpochs
+        Maximum number of epochs to train, by default 50
+    verbose
+        Level of verbosity during training, by default 2
+    randomSeed
+        Random seed
     lr
-        Learning Rate
+        Learning Rate, by default 0.001
     po
-        Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)
+        Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch), by default 0.005
     batchSize
-        Batch size
+        Batch size, by default 8
     dropout
-        Dropout coefficient
+        Dropout coefficient, by default 0.5
     graphFolder
         Folder path that contain external graph files
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     useContrib
-        whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
+        whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy
     validationSplit
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default 0.0
     evaluationLogExtended
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default False
     testDataset
         Path to test dataset. If set used to calculate statistic on it during training.
     includeConfidence
-        whether to include confidence scores in annotation metadata
+        whether to include confidence scores in annotation metadata, by default False
     includeAllConfidenceScores
-        whether to include all confidence scores in annotation metadata or just the score of the predicted tag
+        whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False
     enableOutputLogs
-        Whether to use stdout in addition to Spark logs.
+        Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
         Folder path to save training logs
     enableMemoryOptimizer
-        Whether to optimize for large datasets or not. Enabling this option can slow down training.
+        Whether to optimize for large datasets or not. Enabling this option can slow down training, by default False
 
     Examples
     --------
@@ -4040,8 +4079,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     For example, the default model ``"ner_dl"`` requires the
     WordEmbeddings ``"glove_100d"``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__
-    and the `NerDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ==================================== ======================
     Input Annotation types               Output Annotation type
@@ -4052,12 +4090,14 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     includeConfidence
-        whether to include confidence scores in annotation metadata
+        whether to include confidence scores in annotation metadata, by default False
     includeAllConfidenceScores
-        whether to include all confidence scores in annotation metadata or just the score of the predicted tag
+        whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False
     classes
         get the tags used to trained this NerDLModel
 
@@ -4250,8 +4290,6 @@ class DependencyParserApproach(AnnotatorApproach):
 
     Apart from that, no additional training data is needed.
 
-    See `DependencyParserApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala>`__ for further reference on how to use this API.
-
     ======================== ======================
     Input Annotation types   Output Annotation type
     ======================== ======================
@@ -4266,7 +4304,7 @@ class DependencyParserApproach(AnnotatorApproach):
     conllU
         Universal Dependencies source files
     numberOfIterations
-        Number of iterations in training, converges to better accuracy
+        Number of iterations in training, converges to better accuracy , by default 10
 
     Examples
     --------
@@ -4372,8 +4410,7 @@ class DependencyParserModel(AnnotatorModel):
     The default model is ``"dependency_conllu"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__
-    and the `DependencyParserApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__.
 
     ================================ ======================
     Input Annotation types           Output Annotation type
@@ -4480,12 +4517,11 @@ class TypedDependencyParserApproach(AnnotatorApproach):
 
     The parser requires the dependant tokens beforehand with e.g. DependencyParser.
     The required training data can be set in two different ways (only one can be chosen for a particular model):
-      - Dataset in the `CoNLL 2009 format <https://ufal.mff.cuni.cz/conll2009-st/trial-data.html>`__ set with ``setConll2009``
-      - Dataset in the `CoNLL-U format <https://universaldependencies.org/format.html>`__ set with ``setConllU``
+
+    * Dataset in the `CoNLL 2009 format <https://ufal.mff.cuni.cz/conll2009-st/trial-data.html>`__ set with ``setConll2009``
+    * Dataset in the `CoNLL-U format <https://universaldependencies.org/format.html>`__ set with ``setConllU``
 
     Apart from that, no additional training data is needed.
-
-    See `TypedDependencyParserApproachTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproachTestSpec.scala>`__ for further reference on this API.
 
     ========================== ======================
     Input Annotation types     Output Annotation type
@@ -4612,8 +4648,7 @@ class TypedDependencyParserModel(AnnotatorModel):
     The default model is ``"dependency_typed_conllu"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__
-    and the `TypedDependencyModelTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__.
 
     ========================== ======================
     Input Annotation types     Output Annotation type
@@ -4759,8 +4794,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     Statistics about the rate of converted tokens, can be retrieved with WordEmbeddingsModel.withCoverageColumn
     and WordEmbeddingsModel.overallCoverage.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
-    and the `WordEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -4772,7 +4806,7 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     ----------
 
     writeBufferSize
-        buffer size limit before dumping to disk storage while writing
+        buffer size limit before dumping to disk storage while writing, by default 10000
     readCacheSize
         cache size for items retrieved from storage. Increase for performance but higher memory consumption
 
@@ -4911,8 +4945,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
 
 
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
-    and the `WordEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -4923,6 +4956,8 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     Parameters
     ----------
 
+    dimension
+        Number of embedding dimensions
     readCacheSize
         cache size for items retrieved from storage. Increase for performance but higher memory consumption
 
@@ -5041,8 +5076,7 @@ class BertEmbeddings(AnnotatorModel,
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__
-    and the `BertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
     example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
@@ -5074,8 +5108,14 @@ class BertEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch , by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default False
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
@@ -5196,8 +5236,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb>`__
-    and the `BertSentenceEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb>`__.
 
     **Sources** :
 
@@ -5227,8 +5266,14 @@ class BertSentenceEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default False
+    dimension
+        Number of embedding dimensions, by default 768
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
     isLong
         Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.
     configProtoBytes
@@ -5343,8 +5388,7 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     This can be configured with ``setPoolingStrategy``, which either be ``"AVERAGE"`` or ``"SUM"``.
 
     For more extended examples see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb>`__.
-    and the `SentenceEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala>`__.
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb>`__..
 
     ============================= =======================
     Input Annotation types        Output Annotation type
@@ -5355,8 +5399,10 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     Parameters
     ----------
 
+    dimension
+        Number of embedding dimensions
     poolingStrategy
-        Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM
+        Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM, by default AVERAGE
 
     Examples
     --------
@@ -5457,8 +5503,7 @@ class StopWordsCleaner(AnnotatorModel):
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
-    and `StopWordsCleanerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -5470,11 +5515,11 @@ class StopWordsCleaner(AnnotatorModel):
     ----------
 
     stopWords
-        The words to be filtered out
+        The words to be filtered out, by default english stopwords from Spark ML
     caseSensitive
-        whether to do a case sensitive
+        whether to do a case sensitive, by default False
     locale
-        locale of the input. ignored when case sensitive
+        locale of the input. ignored when case sensitive, by default locale of the JVM
 
     Examples
     --------
@@ -5586,8 +5631,7 @@ class NGramGenerator(AnnotatorModel):
     When the input array length is less than n (number of elements per n-gram), no n-grams are
     returned.
 
-    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb>`__
-    and the `NGramGeneratorTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala>`__.
+    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -5599,9 +5643,9 @@ class NGramGenerator(AnnotatorModel):
     ----------
 
     n
-        number elements per n-gram (>=1)
+        number elements per n-gram (>=1), by default 2
     enableCumulative
-        whether to calculate just the actual n-grams
+        whether to calculate just the actual n-grams, by default False
     delimiter
         String to use to join the tokens
 
@@ -5698,8 +5742,7 @@ class ChunkEmbeddings(AnnotatorModel):
     Chunker, NGramGenerator,
     or NerConverter outputs.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__
-    and the `ChunkEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb>`__.
 
     ========================== ======================
     Input Annotation types     Output Annotation type
@@ -5711,7 +5754,7 @@ class ChunkEmbeddings(AnnotatorModel):
     ----------
 
     poolingStrategy
-        Choose how you would like to aggregate Word Embeddings to Chunk Embeddings:
+        Choose how you would like to aggregate Word Embeddings to Chunk Embeddings, by default AVERAGE
     skipOOV
         Whether to discard default vectors for OOV words from the aggregation / pooling
 
@@ -5835,7 +5878,7 @@ class NerOverwriter(AnnotatorModel):
     stopWords
         The words to be overwritten
     newResult
-        new NER class to apply to those stopwords
+        new NER class to apply to those stopwords, by default I-OVERWRITE
 
     Examples
     --------
@@ -5961,8 +6004,7 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
     The default model is ``"tfhub_use"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__
-    and the `UniversalSentenceEncoderTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     **Sources:**
 
@@ -5992,8 +6034,10 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
     Parameters
     ----------
 
+    dimension
+        Number of embedding dimensions
     loadSP
-        Whether to load SentencePiece ops file which is required only by multi-lingual models.
+        Whether to load SentencePiece ops file which is required only by multi-lingual models, by default False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
@@ -6115,8 +6159,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
       - ``"elmo"``: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape ``[batch_size, max_length, 1024]``.
 
     For extended examples of usage, see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_elmo.ipynb>`__
-    and the `ElmoEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala>`__.
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_elmo.ipynb>`__.
 
     **Sources:**
 
@@ -6145,11 +6188,15 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     ----------
 
     batchSize
-        Batch size. Large values allows faster processing but requires more memory.
+        Batch size. Large values allows faster processing but requires more memory, by default 32
+    dimension
+        Number of embedding dimensions
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     poolingLayer
-        Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo
+        Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo, by default word_emb
 
     Examples
     --------
@@ -6279,9 +6326,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         SentenceEmbeddings can be used for the ``inputCol``.
 
     For extended examples of usage, see the Spark NLP Workshop
-    `[1]  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala>`__
-    `[2]  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__
-    and the `ClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala>`__.
+    `Spark NLP Workshop  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -6291,21 +6336,20 @@ class ClassifierDLApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     lr
-        Learning Rate
+        Learning Rate, by default 0.005
     batchSize
-        Batch size
+        Batch size, by default 64
     dropout
-        Dropout coefficient
+        Dropout coefficient, by default 0.5
     maxEpochs
-        Maximum number of epochs to train
+        Maximum number of epochs to train, by default 30
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     validationSplit
         Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
     enableOutputLogs
-        Whether to use stdout in addition to Spark logs.
+        Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
         Folder path to save training logs
     labelColumn
@@ -6471,8 +6515,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
     For extended examples of usage, see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb>`__
-    and the `ClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala>`__.
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -6597,8 +6640,7 @@ class AlbertEmbeddings(AnnotatorModel,
 
     The default model is ``"albert_base_uncased"``, if no name is provided.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__
-    and the `AlbertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
     example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
@@ -6636,10 +6678,16 @@ class AlbertEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
 
     Examples
     --------
@@ -6770,8 +6818,7 @@ class XlnetEmbeddings(AnnotatorModel,
 
     The default model is ``"xlnet_base_cased"``, if no name is provided.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb>`__
-    and the `XlnetEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
     example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
@@ -6802,10 +6849,16 @@ class XlnetEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default True
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
 
     Examples
     --------
@@ -6911,15 +6964,15 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
     certain number of errors, ``ContextSpellChecker`` will rank correction sequences according to three things:
-     1. Different correction candidates for each word — **word level**.
-     1. The surrounding text of each word, i.e. it’s context — **sentence level**.
-     1. The relative cost of different correction candidates according to the edit operations at the character level it requires — **subword level**.
+
+    #. Different correction candidates for each word — **word level**.
+    #. The surrounding text of each word, i.e. it’s context — **sentence level**.
+    #. The relative cost of different correction candidates according to the edit operations at the character level it requires — **subword level**.
 
     For an in-depth explanation of the module see the article `Applying Context Aware Spell Checking in Spark NLP <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
 
     For extended examples of usage, see the article `Training a Contextual Spell Checker for Italian Language <https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf>`__,
-    the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb>`__
-    and the `ContextSpellCheckerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala>`__.
+    the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -7172,9 +7225,10 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
     certain number of errors, ``ContextSpellChecker`` will rank correction sequences according to three things:
-     1. Different correction candidates for each word — **word level**.
-     1. The surrounding text of each word, i.e. it’s context — **sentence level**.
-     1. The relative cost of different correction candidates according to the edit operations at the character level it requires — **subword level**.
+
+    #. Different correction candidates for each word — **word level**.
+    #. The surrounding text of each word, i.e. it’s context — **sentence level**.
+    #. The relative cost of different correction candidates according to the edit operations at the character level it requires — **subword level**.
 
     For an in-depth explanation of the module see the article `Applying Context Aware Spell Checking in Spark NLP <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
 
@@ -7193,8 +7247,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
     The default model is ``"spellcheck_dl"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb>`__
-    and the `ContextSpellCheckerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -7389,14 +7442,14 @@ class SentimentDLApproach(AnnotatorApproach):
     For the instantiated/pretrained models, see SentimentDLModel.
 
     **Notes**:
-      - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-        So positive sentiment can be expressed as either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or ``1``.
-      - UniversalSentenceEncoder,
-        BertSentenceEmbeddings, or
-        SentenceEmbeddings can be used for the ``inputCol``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__
-    and the `SentimentDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala>`__.
+    * This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+      So positive sentiment can be expressed as either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or ``1``.
+    * UniversalSentenceEncoder,
+      BertSentenceEmbeddings, or
+      SentenceEmbeddings can be used for the ``inputCol``.
+
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -7408,19 +7461,19 @@ class SentimentDLApproach(AnnotatorApproach):
     ----------
 
     lr
-        Learning Rate
+        Learning Rate, by default 0.005
     batchSize
-        Batch size
+        Batch size, by default 64
     dropout
-        Dropout coefficient
+        Dropout coefficient, by default 0.5
     maxEpochs
-        Maximum number of epochs to train
+        Maximum number of epochs to train, by default 30
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     validationSplit
         Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
     enableOutputLogs
-        Whether to use stdout in addition to Spark logs.
+        Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
         Folder path to save training logs
     labelColumn
@@ -7430,9 +7483,9 @@ class SentimentDLApproach(AnnotatorApproach):
     randomSeed
         Random seed
     threshold
-        The minimum threshold for the final result otheriwse it will be neutral
+        The minimum threshold for the final result otheriwse it will be neutral, by default 0.6
     thresholdLabel
-        In case the score is less than threshold, what should be the label. Default is neutral.
+        In case the score is less than threshold, what should be the label. Default is neutral, by default "neutral"
 
     Examples
     --------
@@ -7597,8 +7650,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     the IMDB dataset.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb>`__
-    and the `SentimentDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -7612,9 +7664,9 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     threshold
-        The minimum threshold for the final result otheriwse it will be neutral
+        The minimum threshold for the final result otheriwse it will be neutral, by default 0.6
     thresholdLabel
-        In case the score is less than threshold, what should be the label. Default is neutral.
+        In case the score is less than threshold, what should be the label. Default is neutral, by default "neutral"
     classes
         get the tags used to trained this SentimentDLModel
 
@@ -7721,8 +7773,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     if no values are provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Language+Detection>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb>`__
-    And the `LanguageDetectorDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -7736,11 +7787,11 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     threshold
-        The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.
+        The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel, by default 0.5
     thresholdLabel
-        In case the score is less than threshold, what should be the label. Default is neutral.
+        In case the score is less than threshold, what should be the label. Default is neutral, by default Unknown
     coalesceSentences
-        If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.
+        If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false, by default True
     languages
         get the languages used to trained the model
 
@@ -7853,8 +7904,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         BertSentenceEmbeddings, or
         SentenceEmbeddings can be used for the ``inputCol``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__
-    and the `MultiClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -7866,17 +7916,17 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     ----------
 
     lr
-        Learning Rate
+        Learning Rate, by default 0.001
     batchSize
-        Batch size
+        Batch size, by default 64
     maxEpochs
-        Maximum number of epochs to train
+        Maximum number of epochs to train, by default 10
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     validationSplit
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default 0.0
     enableOutputLogs
-        Whether to use stdout in addition to Spark logs.
+        Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
         Folder path to save training logs
     labelColumn
@@ -7884,11 +7934,11 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     verbose
         Level of verbosity during training
     randomSeed
-        Random seed
+        Random seed, by default 44
     shufflePerEpoch
-        whether to shuffle the training data on each Epoch
+        whether to shuffle the training data on each Epoch, by default False
     threshold
-        The minimum threshold for each label to be accepted. Default is 0.5
+        The minimum threshold for each label to be accepted, by default 0.5
 
     Examples
     --------
@@ -8083,8 +8133,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
     (assigning a value of 0 or 1 for each element (label) in y).
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__
-    and the `MultiClassifierDLTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -8098,7 +8147,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     threshold
-        The minimum threshold for each label to be accepted. Default is 0.5
+        The minimum threshold for each label to be accepted, by default 0.5
     classes
         get the tags used to trained this MultiClassifierDLModel
 
@@ -8198,10 +8247,9 @@ class YakeModel(AnnotatorModel):
     Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
     Therefore to filter the keywords, an upper bound for the score can be set with ``setThreshold``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/8.Keyword_Extraction_YAKE_v3.0.ipynb>`__
-    and the `YakeTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/8.Keyword_Extraction_YAKE_v3.0.ipynb>`__.
 
-     **Sources** :
+    **Sources** :
 
     `Campos, R., Mangaravite, V., Pasquali, A., Jatowt, A., Jorge, A., Nunes, C. and Jatowt, A. (2020). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences Journal. Elsevier, Vol 509, pp 257-289 <https://www.sciencedirect.com/science/article/pii/S0020025519308588>`__
 
@@ -8226,17 +8274,17 @@ class YakeModel(AnnotatorModel):
     ----------
 
     minNGrams
-        Minimum N-grams a keyword should have
+        Minimum N-grams a keyword should have, by default 2
     maxNGrams
-        Maximum N-grams a keyword should have
+        Maximum N-grams a keyword should have, by default 3
     threshold
-        Keyword Score threshold
+        Keyword Score threshold, by default -1
     windowSize
-        Window size for Co-Occurrence
+        Window size for Co-Occurrence, by default 3
     nKeywords
-        Number of Keywords to extract
+        Number of Keywords to extract, by default 30
     stopWords
-        the words to be filtered out. by default it's english stop words from Spark ML
+        the words to be filtered out, by default english stop words from Spark ML
 
     Examples
     --------
@@ -8374,8 +8422,7 @@ class SentenceDetectorDLModel(AnnotatorModel):
     Each extracted sentence can be returned in an Array or exploded to separate rows,
     if ``explodeSentences`` is set to ``true``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__
-    and the `SentenceDetectorDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8493,8 +8540,6 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
     Each extracted sentence can be returned in an Array or exploded to separate rows,
     if ``explodeSentences`` is set to ``true``.
-
-    For extended examples of usage, see the `SentenceDetectorDLSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8632,8 +8677,7 @@ class WordSegmenterApproach(AnnotatorApproach):
 
     **Tip**: The helper class POS might be useful to read training data into data frames.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__
-    and the `WordSegmenterTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8647,11 +8691,11 @@ class WordSegmenterApproach(AnnotatorApproach):
     posCol
         column of Array of POS tags that match tokens
     nIterations
-        Number of iterations in training, converges to better accuracy
+        Number of iterations in training, converges to better accuracy, by default 5
     frequencyThreshold
-        How many times at least a tag on a word to be marked as frequent
+        How many times at least a tag on a word to be marked as frequent, by default 5
     ambiguityThreshold
-        How much percentage of total amount of words are covered to be marked as frequent
+        How much percentage of total amount of words are covered to be marked as frequent, by default 0.97
 
     Examples
     --------
@@ -8770,8 +8814,7 @@ class WordSegmenterModel(AnnotatorModel):
     The default model is ``"wordseg_pku"``, default language is ``"zh"``, if no values are provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__
-    and the `WordSegmenterTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8857,8 +8900,7 @@ class T5Transformer(AnnotatorModel):
     The default model is ``"t5_small"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?q=t5>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb>`__
-    and the `T5TestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb>`__.
 
     **Sources:**
      - `Exploring Transfer Learning with T5: the Text-To-Text Transfer Transformer <https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html>`__
@@ -9050,8 +9092,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     The default model is ``"opus_mt_en_fr"``, default language is ``"xx"`` (meaning multi-lingual), if no values are provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Translation>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb>`__
-    and the `MarianTransformerTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb>`__.
 
     **Sources** :
 
@@ -9080,14 +9121,16 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
     langId
-        Transformer's task, e.g. summarize>
+        Transformer's task, e.g. summarize>, by default ""
     maxInputLength
-        Controls the maximum length for encoder inputs (source language texts)
+        Controls the maximum length for encoder inputs (source language texts), by default 40
     maxOutputLength
-        Controls the maximum length for decoder outputs (target language texts)
+        Controls the maximum length for decoder outputs (target language texts), by default 40
 
     Examples
     --------
@@ -9204,8 +9247,7 @@ class DistilBertEmbeddings(AnnotatorModel,
     The default model is ``"distilbert_base_cased"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb>`__
-    and the `DistilBertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
     example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
@@ -9241,8 +9283,14 @@ class DistilBertEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default False
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
@@ -9368,8 +9416,7 @@ class RoBertaEmbeddings(AnnotatorModel,
     The default model is ``"roberta_base"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__
-    and the `RoBertaEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
     example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
@@ -9399,8 +9446,14 @@ class RoBertaEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default True
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 
@@ -9526,8 +9579,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     The default model is ``"xlm_roberta_base"``, default language is ``"xx"`` (meaning multi-lingual), if no values are provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__
-    and the `XlmRoBertaEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala>`__.
+    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
     example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
@@ -9561,8 +9613,14 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     Parameters
     ----------
 
+    batchSize
+        Size of every batch, by default 8
+    dimension
+        Number of embedding dimensions, by default 768
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default True
     maxSentenceLength
-        Max sentence length to process
+        Max sentence length to process, by default 128
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
 

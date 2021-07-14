@@ -23,8 +23,8 @@ For example, the pipeline defined in the last section :ref:`Setting up your own 
 {'token': ['We', 'are', 'very', 'happy', 'about', 'Spark', 'NLP']}
 
 
-Pretrained Pipelines
---------------------
+Pretrained Light Pipelines
+--------------------------
 PretrainedPipelines have a LightPipeline component and therefore have an interface for ``annotate()``:
 
 >>> from sparknlp.pretrained import PretrainedPipeline
