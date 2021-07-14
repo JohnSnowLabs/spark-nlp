@@ -544,29 +544,29 @@ This release comes with new features, new models, bug fixes, and examples.</p>
 
 <p>Users can now resume training/fine-tune existing(already trained) Spark NLP MedicalNer models on new data. Users can simply provide the path to any existing MedicalNer model and train it further on the new dataset:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">().</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"/path/to/trained/medicalnermodel"</span><span class="p">)</span> 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_tagger = MedicalNerApproach().setPretrainedModelPath("/path/to/trained/medicalnermodel") 
 </code></pre></div></div>
 
 <p>If the new dataset contains new tags/labels/entities, users can choose to override existing tags with the new ones. The default behaviour is to reset the list of existing tags and generate a new list from the new dataset. It is also possible to preserve the existing tags by setting the ‘overrideExistingTags’ parameter:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"/path/to/trained/medicalnermodel"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOverrideExistingTags</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_tagger = MedicalNerApproach()\
+  .setPretrainedModelPath("/path/to/trained/medicalnermodel")\
+  .setOverrideExistingTags(False)
 </code></pre></div></div>
 
 <p>Setting overrideExistingTags to false is intended to be used when resuming trainig on the same, or very similar dataset (i.e. with the same tags or with just a few different ones).</p>
 
 <p>If tags overriding is disabled, and new tags are found in the training set, then the approach will try to allocate them to unused output nodes, if any. It is also possible to override specific tags of the old model by mapping them to new tags:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setPretrainedModelPath</span><span class="p">(</span><span class="s">"/path/to/trained/medicalnermodel"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOverrideExistingTags</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setTagsMapping</span><span class="p">(</span><span class="s">"B-PER,B-VIP"</span><span class="p">,</span> <span class="s">"I-PER,I-VIP"</span><span class="p">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_tagger <span class="o">=</span> MedicalNerApproach<span class="o">()</span><span class="se">\</span>
+  .setPretrainedModelPath<span class="o">(</span><span class="s2">"/path/to/trained/medicalnermodel"</span><span class="o">)</span><span class="se">\</span>
+  .setOverrideExistingTags<span class="o">(</span>False<span class="o">)</span><span class="se">\</span>
+  .setTagsMapping<span class="o">(</span><span class="s2">"B-PER,B-VIP"</span>, <span class="s2">"I-PER,I-VIP"</span><span class="o">)</span>
 </code></pre></div></div>
 
-<p>In this case, the new tags ‘B-VIP’ and ‘I-VIP’ will replace the already trained tags ‘B-PER’ and ‘I-PER’. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.</p>
+<p>In this case, the new tags <code class="language-plaintext highlighter-rouge">B-VIP</code> and <code class="language-plaintext highlighter-rouge">I-VIP</code> will replace the already trained tags ‘B-PER’ and ‘I-PER’. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.</p>
 
-<p>Jupyter Notebook: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb</p>
+<p>Jupyter Notebook: [Finetuning Medical NER Model Notebook] (https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)</p>
 
 <h5 id="more-builtin-graphs-for-medicalnerapproach">More builtin graphs for MedicalNerApproach</h5>
 
@@ -580,34 +580,32 @@ Both the input and output formats for the annotator are <code class="language-pl
 
 <p>Example:</p>
 
-<p>Python
-``` - Jan 30, 2018 - 13.04.1999 - 3April 2020
-       sentences = [
-            [‘08/02/2018’],
-            [‘11/2018’],
-            [‘11/01/2018’],
-            [‘12Mar2021’],
-            [‘Jan 30, 2018’],
-            [‘13.04.1999’],
-            [‘3April 2020’],
-            [‘next monday’],
-            [‘today’],
-            [‘next week’],
-        ]
-        df = spark.createDataFrame(sentences).toDF(“text”)
-        document_assembler = DocumentAssembler().setInputCol(‘text’).setOutputCol(‘document’)
-        chunksDF = document_assembler.transform(df)
-        aa = map_annotations_col(chunksDF.select(“document”),
-                            lambda x: [Annotation(‘chunk’, a.begin, a.end, a.result, a.metadata, a.embeddings) for a in x], “document”,
-                            “chunk_date”, “chunk”)
-        dateNormalizer = DateNormalizer().setInputCols(‘chunk_date’).setOutputCol(‘date’).setAnchorDateYear(2021).setAnchorDateMonth(2).setAnchorDateDay(27)
-        dateDf = dateNormalizer.transform(aa)
-        dateDf.select(“date.result”,”text”).show()</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-```bash
-     
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	sentences <span class="o">=</span> <span class="o">[</span>
+		    <span class="o">[</span><span class="s1">'08/02/2018'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'11/2018'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'11/01/2018'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'12Mar2021'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'Jan 30, 2018'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'13.04.1999'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'3April 2020'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'next monday'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'today'</span><span class="o">]</span>,
+		    <span class="o">[</span><span class="s1">'next week'</span><span class="o">]</span>,
+	<span class="o">]</span>
+	<span class="nb">df</span> <span class="o">=</span> spark.createDataFrame<span class="o">(</span>sentences<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
+	document_assembler <span class="o">=</span> DocumentAssembler<span class="o">()</span>.setInputCol<span class="o">(</span><span class="s1">'text'</span><span class="o">)</span>.setOutputCol<span class="o">(</span><span class="s1">'document'</span><span class="o">)</span>
+	chunksDF <span class="o">=</span> document_assembler.transform<span class="o">(</span><span class="nb">df</span><span class="o">)</span>
+	aa <span class="o">=</span> map_annotations_col<span class="o">(</span>chunksDF.select<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>,
+				    lambda x: <span class="o">[</span>Annotation<span class="o">(</span><span class="s1">'chunk'</span>, a.begin, a.end, a.result, a.metadata, a.embeddings<span class="o">)</span> <span class="k">for </span>a <span class="k">in </span>x], <span class="s2">"document"</span>,
+				    <span class="s2">"chunk_date"</span>, <span class="s2">"chunk"</span><span class="o">)</span>
+	dateNormalizer <span class="o">=</span> DateNormalizer<span class="o">()</span>.setInputCols<span class="o">(</span><span class="s1">'chunk_date'</span><span class="o">)</span>.setOutputCol<span class="o">(</span><span class="s1">'date'</span><span class="o">)</span>.setAnchorDateYear<span class="o">(</span>2021<span class="o">)</span>.setAnchorDateMonth<span class="o">(</span>2<span class="o">)</span>.setAnchorDateDay<span class="o">(</span>27<span class="o">)</span>
+	dateDf <span class="o">=</span> dateNormalizer.transform<span class="o">(</span>aa<span class="o">)</span>
+	dateDf.select<span class="o">(</span><span class="s2">"date.result"</span>,<span class="s2">"text"</span><span class="o">)</span>.show<span class="o">()</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     
 +-----------+----------+
-|text        |  date    |
+|text        |  <span class="nb">date</span>    |
 +-----------+----------+
 |08/02/2018  |2018/08/02|
 |11/2018     |2018/11/DD|
@@ -628,19 +626,18 @@ Both the input and output formats for the annotator are <code class="language-pl
 
 <p>Example</p>
 
-<p>Python</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ade_re_model = new RelationExtractionModel().pretrained('ner_ade_clinical', 'en', 'clinical/models')\
-                                     .setInputCols(["embeddings", "pos_tags", "ner_chunk", "dependencies"])\
-                                     .setOutputCol("relations")\
-                                     .setPredictionThreshold(0.5)\
-                                     .setRelationPairs(['ade-drug', 'drug-ade'])
-    pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, 
-                                                   dependency_parser, re_ner_chunk_filter, re_model])
-    text ="""A 30 year old female presented with tense bullae due to excessive use of naproxin, and leg cramps relating to oxaprozin."""
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ade_re_model <span class="o">=</span> new RelationExtractionModel<span class="o">()</span>.pretrained<span class="o">(</span><span class="s1">'ner_ade_clinical'</span>, <span class="s1">'en'</span>, <span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
+                                     .setInputCols<span class="o">([</span><span class="s2">"embeddings"</span>, <span class="s2">"pos_tags"</span>, <span class="s2">"ner_chunk"</span>, <span class="s2">"dependencies"</span><span class="o">])</span><span class="se">\</span>
+                                     .setOutputCol<span class="o">(</span><span class="s2">"relations"</span><span class="o">)</span><span class="se">\</span>
+                                     .setPredictionThreshold<span class="o">(</span>0.5<span class="o">)</span><span class="se">\</span>
+                                     .setRelationPairs<span class="o">([</span><span class="s1">'ade-drug'</span>, <span class="s1">'drug-ade'</span><span class="o">])</span>
+    pipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, 
+                                                   dependency_parser, re_ner_chunk_filter, re_model]<span class="o">)</span>
+    text <span class="o">=</span><span class="s2">"""A 30 year old female presented with tense bullae due to excessive use of naproxin, and leg cramps relating to oxaprozin."""</span>
 
-    p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
+    p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>text]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
     
-    result = p_model.transform(data)
+    result <span class="o">=</span> p_model.transform<span class="o">(</span>data<span class="o">)</span>
        
 </code></pre></div></div>
 
@@ -4689,7 +4686,7 @@ Thank you very much for your important doubts, bug reports and feedback; they ar
   <li>Spark NLP License is now required to utilize the library. Please follow the instructions on the shared email.</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-05-07T00:00:00+00:00">May 07, 2021</time>
+      <time itemprop="dateModified" datetime="2021-07-14T00:00:00+00:00">Jul 14, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
