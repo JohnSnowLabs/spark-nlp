@@ -12,7 +12,6 @@ and the `Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop>`_ for mor
 
     annotation
     annotators
-    pretrained_models
     custom_pipelines
     pretrained_pipelines
     training
