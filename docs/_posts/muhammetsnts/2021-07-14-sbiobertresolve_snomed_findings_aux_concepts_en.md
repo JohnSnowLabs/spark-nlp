@@ -21,7 +21,7 @@ This model maps clinical entities and concepts to Snomed codes using sbiobert_ba
 
 ## Predicted Entities
 
-Predicts Snomed Codes and their normalized definition for each chunk. In the metadata, the `all_k_aux_labels` can be divided to get further information: `ground truth`, `concept`, and `aux` .For example, in the example shared below the ground truth is `Malignant tumor of urinary bladder`, concept is `Condition`, and aux is `Clinical Finding`.
+Predicts Snomed Codes and their normalized definition for each chunk. In the metadata, the `all_k_aux_labels` can be divided to get further information: `ground truth`, `concept`, and `aux` .For example, in the example shared below the ground truth is `Atherosclerosis`, concept is `Observation`, and aux is `Morph Abnormality`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -56,7 +56,7 @@ snomed_pipelineModel = PipelineModel(
         snomed_resolver])
 
 snomed_lp = LightPipeline(snomed_pipelineModel)
-result = snomed_lp.fullAnnotate("bladder cancer")
+result = snomed_lp.fullAnnotate("atherosclerosis")
 ```
 ```scala
 val document_assembler = DocumentAssembler()\
@@ -74,16 +74,16 @@ val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_sn
 val snomed_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, snomed_resolver))
 
 val snomed_lp = LightPipeline(snomed_pipelineModel)
-val result = snomed_lp.fullAnnotate("bladder cancer")
+val result = snomed_lp.fullAnnotate("atherosclerosis")
 ```
 </div>
 
 ## Results
 
 ```bash
-|    | chunks         | code      | resolutions                                                                                                                                                                                                                                                                                                                                                                                                                                    | all_codes                                                                                                                                                                       | billable_hcc_status_score                                       | all_distances                                                                                                                    |
-|---:|:---------------|:----------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|
-|  0 | bladder cancer | 399326009 | [bladder cancer, bladder cancer, invasive bladder cancer, carcinoma of bladder, carcinoma of bladder, carcinoma of bladder, superficial bladder cancer, adenocarcinoma of bladder, suspected bladder cancer, suspected bladder cancer, suspected bladder cancer, transitional cell carcinoma of bladder, transitional cell carcinoma of bladder, squamous cell carcinoma of bladder, cancer in situ of urinary bladder, tumor of bladder neck] | [399326009, 363455001, 425066001, 255108000, 269607003, 154540000, 425231005, 255110003, 139850000, 162582000, 315269000, 393562002, 255109008, 255111004, 92546004, 254932004] | ['Malignant tumor of urinary', 'Condition', 'Clinical Finding'] | [0.0000, 0.0000, 0.0539, 0.0666, 0.0666, 0.0666, 0.0809, 0.0881, 0.0904, 0.0904, 0.0904, 0.0880, 0.0880, 0.0913, 0.0978, 0.1080] |
+|    | chunks          | code     | resolutions                                                                                                                                                                                                                                                                                                                                                                                                                    | all_codes                                                                                                                                                                                          | all_k_aux_labels                                      | all_distances                                                                                                                                   |
+|---:|:----------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|
+|  0 | atherosclerosis | 38716007 | [atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis artery, coronary atherosclerosis, coronary atherosclerosis, coronary atherosclerosis, coronary atherosclerosis, coronary atherosclerosis, arteriosclerosis, carotid atherosclerosis, cardiovascular arteriosclerosis, aortic atherosclerosis, aortic atherosclerosis, atherosclerotic ischemic disease] | [38716007, 155382007, 155414001, 195251000, 266318005, 194848007, 441574008, 443502000, 41702007, 266231003, 155316000, 194841001, 28960008, 300920004, 39468009, 155415000, 195252007, 129573006] | 'Atherosclerosis', 'Observation', 'Morph Abnormality' | [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0280, 0.0451, 0.0451, 0.0451, 0.0451, 0.0451, 0.0462, 0.0477, 0.0466, 0.0490, 0.0490, 0.0485 |
 ```
 
 {:.model-param}
