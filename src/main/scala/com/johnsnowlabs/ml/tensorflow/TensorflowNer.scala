@@ -29,7 +29,6 @@ import scala.collection.mutable.ArrayBuffer
 
 class TensorflowNer(val tensorflow: TensorflowWrapper,
                     val encoder: NerDatasetEncoder,
-                    val batchSize: Int,
                     override val verboseLevel: Verbose.Value
                    ) extends Serializable with Logging {
 
@@ -54,7 +53,8 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   def predict(dataset: Array[WordpieceEmbeddingsSentence],
               configProtoBytes: Option[Array[Byte]] = None,
               includeConfidence: Boolean = false,
-              includeAllConfidenceScores: Boolean): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+              includeAllConfidenceScores: Boolean,
+              batchSize: Int = 8): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val result = ArrayBuffer[Array[(String, Option[Array[Map[String, String]]])]]()
 
@@ -158,6 +158,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
             lr: Float,
             po: Float,
             dropout: Float,
+            batchSize: Int = 8,
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
@@ -235,14 +236,14 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       if (validationSplit > 0.0) {
         println(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength")
         outputLog(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
-        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
+        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
       }
 
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
         outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
-        measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
+        measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
       }
 
     }
@@ -279,6 +280,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
               includeAllConfidenceScores: Boolean = false,
               enableOutputLogs: Boolean = false,
               outputLogsPath: String,
+              batchSize: Int = 8,
               uuid: String = Identifiable.randomUID("annotator")
              ): Unit = {
 
@@ -293,7 +295,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
     for (batch <- labeled) {
 
-      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence, includeAllConfidenceScores = includeAllConfidenceScores)
+      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence, includeAllConfidenceScores = includeAllConfidenceScores, batchSize = batchSize)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
