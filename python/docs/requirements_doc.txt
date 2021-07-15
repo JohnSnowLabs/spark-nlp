@@ -1,0 +1,6 @@
+numpydoc
+pydata-sphinx-theme
+sphinx-copybutton
+Sphinx-Substitution-Extensions
+sphinx-prompt
+sphinx-toggleprompt

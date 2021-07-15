@@ -73,7 +73,7 @@ import scala.collection.mutable.{Map => MMap}
  * ))
  *
  * val trainingDataSet = POS().readDataset(
- *   ResourceHelper.spark,
+ *   spark,
  *   "src/test/resources/word-segmenter/chinese_train.utf8"
  * )
  *
