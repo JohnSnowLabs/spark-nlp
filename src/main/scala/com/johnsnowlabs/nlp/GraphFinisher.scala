@@ -41,6 +41,13 @@ class GraphFinisher(override val uid: String) extends Transformer {
     new BooleanParam(this, "cleanAnnotations", "Whether to remove annotation columns (Default: `true`)")
 
   /**
+    * Annotation metadata format (Default: `false`)
+    * @group param
+    */
+  val includeMetadata: BooleanParam =
+    new BooleanParam(this, "includeMetadata", "Annotation metadata format (Default: `false`)")
+
+  /**
     * Name of input annotation col
     * @group setParam
     */
@@ -65,6 +72,12 @@ class GraphFinisher(override val uid: String) extends Transformer {
   def setCleanAnnotations(value: Boolean): this.type = set(cleanAnnotations, value)
 
   /**
+    * Annotation metadata format (Default: `false`)
+    * @group setParam
+    */
+  def setIncludeMetadata(value: Boolean): this.type = set(includeMetadata, value)
+
+  /**
     * Name of input annotation col
     * @group getParam
     */
@@ -76,13 +89,18 @@ class GraphFinisher(override val uid: String) extends Transformer {
     */
   def getInputCol: String = $(inputCol)
 
-  setDefault(cleanAnnotations -> true, outputAsArray -> true)
+  setDefault(cleanAnnotations -> true, outputAsArray -> true, includeMetadata -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     //TODO: Add relationship info in metadata e.g. (sees, PER)
-   val flattenedDataSet = dataset.withColumn($(outputCol), {
+   var flattenedDataSet = dataset.withColumn($(outputCol), {
      if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol))) else flattenPaths(dataset.col($(inputCol)))
    })
+
+   if ($(includeMetadata)) {
+     flattenedDataSet = flattenedDataSet.withColumn($(outputCol) + "_metadata", flattenMetadata(dataset.col($(inputCol))))
+   }
+
    if ($(cleanAnnotations)) {
      val result = flattenedDataSet.drop(
        flattenedDataSet.schema.fields
@@ -123,6 +141,16 @@ class GraphFinisher(override val uid: String) extends Transformer {
         }
       }
       pathsInRDFFormat
+    }
+  }
+
+  def flattenMetadata: UserDefinedFunction = udf { annotations: Seq[Row] =>
+    annotations.flatMap { row =>
+      val metadata = row.getMap[String, String](4)
+      val relationships = metadata.flatMap{case (key, value) =>
+        if (key.contains("relationship") || key.contains("entities")) Some("(" + value + ")") else None
+      }.toList
+      relationships
     }
   }
 

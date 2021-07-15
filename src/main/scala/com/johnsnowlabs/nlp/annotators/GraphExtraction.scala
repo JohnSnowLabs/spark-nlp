@@ -52,8 +52,6 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   protected val posModel = new StructFeature[PerceptronModel](this, "posModel")
 
-//  protected val posModel = new Param[PerceptronModel](this, "posModel", "posModel")
-
   protected val dependencyParserModel: StructFeature[DependencyParserModel] =
     new StructFeature[DependencyParserModel](this, "dependencyParserModel")
 
@@ -230,7 +228,6 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   }
 
   private def extractGraphsFromEntities(annotationsInfo: AnnotationsInfo, graph: GraphBuilder): Seq[Annotation] = {
-
     var rootIndices: Array[Int] = Array()
 
     if ($(rootTokens).isEmpty) {
@@ -245,7 +242,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
     val entitiesPairData = getEntitiesData(annotationsInfo.nerEntities, annotationsInfo.dependencyData)
     val annotatedPaths = rootIndices.flatMap(rootIndex =>
-      getAnnotatedPaths(entitiesPairData, graph, rootIndex, annotationsInfo.tokens))
+      getAnnotatedPaths(entitiesPairData, graph, rootIndex, annotationsInfo))
     annotatedPaths
   }
 
@@ -275,12 +272,14 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   private def buildPath(graph: GraphBuilder, nodesIndexes: (Int, Int), dependencyData: Seq[DependencyInfo]):
   Option[String] = {
-    val nodesIndexesPath = graph.findPath(nodesIndexes._1, nodesIndexes._2)
+    val rootIndex = nodesIndexes._1
+    val nodesIndexesPath = graph.findPath(rootIndex, nodesIndexes._2)
     val path = nodesIndexesPath.map{ nodeIndex =>
       val dependencyInfo =  dependencyData(nodeIndex - 1)
+      val relation = dependencyInfo.relation
       var result = dependencyInfo.token
       if ($(includeEdges)) {
-        val edge = if (dependencyInfo.relation == "*root*") "" else dependencyInfo.relation + $(delimiter)
+        val edge = if (relation == "*root*" || nodeIndex == rootIndex) "" else relation + $(delimiter)
         result = edge + dependencyInfo.token
       }
       result
@@ -289,30 +288,30 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   }
 
   private def getAnnotatedPaths(entitiesPairData: List[EntitiesPairInfo], graph: GraphBuilder,
-                                rootIndex: Int, tokens: Seq[Annotation]): Seq[Annotation] = {
+                                rootIndex: Int, annotationsInfo: AnnotationsInfo): Seq[Annotation] = {
+
+    val tokens = annotationsInfo.tokens
+    val dependencyData = annotationsInfo.dependencyData
 
     val paths = entitiesPairData.flatMap{ entitiesPairInfo =>
-      val leftPath = graph.findPath(rootIndex, entitiesPairInfo.entitiesIndex._1)
-      val rightPath = graph.findPath(rootIndex, entitiesPairInfo.entitiesIndex._2)
+      val leftPath = buildPath(graph, (rootIndex, entitiesPairInfo.entitiesIndex._1), dependencyData)
+      val rightPath = buildPath(graph, (rootIndex, entitiesPairInfo.entitiesIndex._2), dependencyData)
       if (leftPath.nonEmpty && rightPath.nonEmpty) {
         Some(GraphInfo(entitiesPairInfo.entities, leftPath, rightPath))
-      } else {
-        None
-      }
+      } else None
     }
 
     val sourceToken = tokens(rootIndex - 1)
-    val annotatedPaths = paths.map{ path =>
+    val annotatedPaths = paths.map { path =>
       val leftEntity = path.entities._1
       val rightEntity = path.entities._2
-      val leftPathTokens = path.leftPathIndex.map(index => tokens(index - 1).result)
-      val rightPathTokens = path.rightPathIndex.map(index => tokens(index - 1).result)
-      val fullPath = leftPathTokens.mkString($(delimiter)) + $(delimiter) + rightPathTokens.mkString($(delimiter))
+      val leftPathTokens = path.leftPath
+      val rightPathTokens = path.rightPath
 
       Annotation(NODE, sourceToken.begin, sourceToken.end, sourceToken.result,
-        Map("entities" -> s"$leftEntity,$rightEntity", "path" -> fullPath,
-          "left_path" -> leftPathTokens.mkString($(delimiter)), "right_path" -> rightPathTokens.mkString($(delimiter)))
-      )
+          Map("entities" -> s"$leftEntity,$rightEntity",
+            "left_path" -> leftPathTokens.mkString($(delimiter)), "right_path" -> rightPathTokens.mkString($(delimiter)))
+       )
     }
     annotatedPaths
   }
@@ -360,7 +359,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   }
 
   private case class EntitiesPairInfo(entitiesIndex: (Int, Int), entities: (String, String))
-  private case class GraphInfo(entities: (String, String), leftPathIndex: List[Int], rightPathIndex: List[Int])
+  private case class GraphInfo(entities: (String, String), leftPath: Option[String], rightPath: Option[String])
   private case class AnnotationsInfo(tokens: Seq[Annotation], nerEntities: Seq[Annotation],
                                      dependencyData: Seq[DependencyInfo])
 
