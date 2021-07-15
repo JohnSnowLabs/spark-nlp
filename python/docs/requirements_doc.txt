@@ -4,3 +4,7 @@ sphinx-copybutton
 Sphinx-Substitution-Extensions
 sphinx-prompt
 sphinx-toggleprompt
+numpy
+pyspark==3.0.2
+Jinja2>=3
+-e ..
