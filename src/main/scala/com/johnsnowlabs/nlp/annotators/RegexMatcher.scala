@@ -141,7 +141,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    * ==Example==
    * {{{
    * val regexMatcher = new RegexMatcher()
-   *   .setRules(ExternalResource(
+   *   .setExternalRules(ExternalResource(
    *     "src/test/resources/regex-matcher/rules.txt",
    *     ReadAs.TEXT,
    *     Map("delimiter" -> ",")
