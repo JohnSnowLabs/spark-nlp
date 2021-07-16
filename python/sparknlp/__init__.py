@@ -97,7 +97,7 @@ def start(gpu=False, spark23=False, spark24=False, memory="16G", real_time_outpu
         The initiated Spark session.
 
     """
-    current_version = "3.1.2"
+    current_version = "3.1.3"
 
     class SparkNLPConfig:
 
