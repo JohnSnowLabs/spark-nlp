@@ -19,17 +19,6 @@ use_language_switcher: "Python-Scala-Java"
 
 A pipeline for Adverse Drug Events (ADE) with `ner_ade_biobert`, `assertion_dl_biobert`, `classifierdl_ade_conversational_biobert`, and `re_ade_biobert` . It will classify the document, extract ADE and DRUG clinical entities, assign assertion status to ADE entities, and relate Drugs with their ADEs.
 
-Pipeline components:
-- DocumentAssembler
-- TokenizerModel
-- BertEmbeddings
-- MedicalNerModel
-- NerConverter
-- NerConverter
-- AssertionDLModel
-- SentenceEmbeddings
-- ClassifierDLModel
-- RelationExtractionModel
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}
@@ -52,7 +41,7 @@ res = pipeline.fullAnnotate('I am happy that now am using simvistatin. My hip pa
 ```scala
 val era_pipeline = new PretrainedPipeline("explain_clinical_doc_era", "en", "clinical/models")
 
-val result = era_pipeline.fullAnnotate("""I am happy that now am using simvistatin. My hip pain is now gone which was caused by my previous drug, lipitor.""")(0)
+val result = era_pipeline.fullAnnotate("""Been taking Lipitor for 15 years , have experienced sever fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")(0)
 
 ```
 </div>
@@ -60,10 +49,24 @@ val result = era_pipeline.fullAnnotate("""I am happy that now am using simvistat
 ## Results
 
 ```bash
+
+Class: True
+
+NER_Assertion:
+|    | chunk                   | entitiy    | assertion   |
+|----|-------------------------|------------|-------------|
+| 0  | Lipitor                 | DRUG       | -           |
+| 1  | sever fatigue           | ADE        | Conditional |
+| 2  | voltaren                | DRUG       | -           |
+| 3  | cramps                  | ADE        | Conditional |
+
+Relations:
 |    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
 |----|-------------------------------|------------|-------------|---------|----------|
-| 0  | hip pain is now gone          | ADE        | simvistatin | DRUG    |        0 |
-| 0  | hip pain is now gone          | ADE        | lipitor     | DRUG    |        1 |
+| 0  | sever fatigue                 | ADE        | Lipitor     | DRUG    |        1 |
+| 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
+| 2  | sever fatigue                 | ADE        | voltaren    | DRUG    |        0 |
+| 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
 
 ```
 
