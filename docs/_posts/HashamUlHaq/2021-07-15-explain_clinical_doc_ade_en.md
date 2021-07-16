@@ -34,14 +34,14 @@ A pipeline for Adverse Drug Events (ADE) with `ner_ade_biobert`, `assertion_dl_b
 ```python
 pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
 
-res = pipeline.fullAnnotate('I am happy that now am using simvistatin. My hip pain is now gone which was caused by my previous drug, lipitor.')
+res = pipeline.fullAnnotate("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")
 
 
 ```
 ```scala
-val era_pipeline = new PretrainedPipeline("explain_clinical_doc_era", "en", "clinical/models")
+val era_pipeline = new PretrainedPipeline("explain_clinical_doc_ade", "en", "clinical/models")
 
-val result = era_pipeline.fullAnnotate("""Been taking Lipitor for 15 years , have experienced sever fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")(0)
+val result = era_pipeline.fullAnnotate("""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")(0)
 
 ```
 </div>
@@ -56,16 +56,16 @@ NER_Assertion:
 |    | chunk                   | entitiy    | assertion   |
 |----|-------------------------|------------|-------------|
 | 0  | Lipitor                 | DRUG       | -           |
-| 1  | sever fatigue           | ADE        | Conditional |
+| 1  | severe fatigue          | ADE        | Conditional |
 | 2  | voltaren                | DRUG       | -           |
 | 3  | cramps                  | ADE        | Conditional |
 
 Relations:
 |    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
 |----|-------------------------------|------------|-------------|---------|----------|
-| 0  | sever fatigue                 | ADE        | Lipitor     | DRUG    |        1 |
+| 0  | severe fatigue                | ADE        | Lipitor     | DRUG    |        1 |
 | 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
-| 2  | sever fatigue                 | ADE        | voltaren    | DRUG    |        0 |
+| 2  | severe fatigue                | ADE        | voltaren    | DRUG    |        0 |
 | 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
 
 ```
