@@ -8,5 +8,5 @@
 The html will be available under `../../docs/api/python/index.html`.
 
 ## Note
-The folder `_autosummary` should not be committed, as it is generated from
-sphinx itself.
+
+The folder `_autosummary` should not be committed, as it is generated from sphinx itself.
