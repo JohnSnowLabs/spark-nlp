@@ -78,7 +78,7 @@ re_model = RelationExtractionDLModel()\
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
-text ="""A 44-year-old man taking naproxen for chronic low back pain and a 20-year-old woman on oxaprozin for rheumatoid arthritis presented with tense bullae and cutaneous fragility on the face and the back of the hands."""
+text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
 
 p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
 result = p_model.transform(data)
@@ -124,7 +124,7 @@ val re_model = RelationExtractionDLModel()
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val data = Seq("A 44-year-old man taking naproxen for chronic low back pain and a 20-year-old woman on oxaprozin for rheumatoid arthritis presented with tense bullae and cutaneous fragility on the face and the back of the hands.").toDF("text")
+val data = Seq("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -133,12 +133,12 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-|    | chunk1     | entity1  | chunk2                                                    | entity2 |   result |
-|---:|:-----------|:---------|:----------------------------------------------------------|:--------|---------:|
-|  0 | naproxen   | DRUG     | tense bullae                                              | ADE     |        1 |
-|  1 | naproxen   | DRUG     | cutaneous fragility on the face and the back of the hands | ADE     |        1 |
-|  2 | oxaprozin  | DRUG     | tense bullae                                              | ADE     |        1 |
-|  3 | oxaprozin  | DRUG     | cutaneous fragility on the face and the back of the hands | ADE     |        1 |
+|    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
+|----|-------------------------------|------------|-------------|---------|----------|
+| 0  | severe fatigue                | ADE        | Lipitor     | DRUG    |        1 |
+| 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
+| 2  | severe fatigue                | ADE        | voltaren    | DRUG    |        0 |
+| 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
 
 ```
 
@@ -162,11 +162,10 @@ This model is trained on custom data annotated by JSL.
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-           0       0.85      0.89      0.87      1670
-           1       0.88      0.84      0.86      1673
-   micro avg       0.87      0.87      0.87      3343
-   macro avg       0.87      0.87      0.87      3343
-weighted avg       0.87      0.87      0.87      3343
+Relation           Recall Precision        F1   Support
+0                   0.829     0.895     0.861      1146
+1                   0.955     0.923     0.939      2454
+Avg.                0.892     0.909     0.900
+Weighted Avg.       0.915     0.914     0.914
 
 ```
