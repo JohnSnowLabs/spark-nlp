@@ -12,12 +12,8 @@ Modules
    :recursive:
    :template: custom-module-template.rst
 
-   sparknlp.annotation
    sparknlp.annotator
    sparknlp.base
-   sparknlp.common
    sparknlp.functions
-   sparknlp.internal
-   sparknlp.pretrained
    sparknlp.training
 

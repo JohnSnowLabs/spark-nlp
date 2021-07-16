@@ -23,8 +23,8 @@ copyright = "2021, John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "3.1.2"
-pyspark_version = "3.0.2"
+release = "3.1.3"
+pyspark_version = "3.0.3"
 
 # -- General configuration ---------------------------------------------------
 
