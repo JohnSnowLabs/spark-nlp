@@ -39,13 +39,13 @@ This model is capable of Relating Drugs and adverse reactions caused by them; It
 ```python
 ...
 
-words_embedder = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models") \
+words_embedder = BertEmbeddings() \
+    .pretrained("biobert_pubmed_base_cased", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
 ner_tagger = NerDLModel() \
-    .pretrained("ner_ade_clinical", "en", "clinical/models") \
+    .pretrained("ner_ade_biobert", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
     .setOutputCol("ner_tags")
 
@@ -83,13 +83,13 @@ annotations = light_pipeline.fullAnnotate(text)
 ```scala
 ...
 
-val words_embedder = WordEmbeddingsModel()
-    .pretrained("embeddings_clinical", "en", "clinical/models")
+val words_embedder = BertEmbeddings()
+    .pretrained("biobert_pubmed_base_cased", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
 val ner_tagger = NerDLModel()
-    .pretrained("ner_ade_clinical", "en", "clinical/models")
+    .pretrained("ner_ade_biobert", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
