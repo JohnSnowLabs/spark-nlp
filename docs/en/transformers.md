@@ -35,12 +35,12 @@ Starting with Spark NLP 3.1.0 the support for HuggingFace exported models in equ
 
 Spark NLP | TF Hub | HuggingFace | Model Architecture
 :------------ | :-------------| :-------------| :-------------|
-BertEmbeddings |  ❎  |  ✅  |  BERT - Small BERT - ELECTRA
-BertSentenceEmbeddings |  ❎  | ✅   | BERT - Small BERT - ELECTRA
+BertEmbeddings |  ✅  |  ✅  |  BERT - Small BERT - ELECTRA
+BertSentenceEmbeddings |  ✅  | ✅   | BERT - Small BERT - ELECTRA
 DistilBertEmbeddings|   |  ✅   | DistilBERT
 RoBertaEmbeddings |   | ✅   | RoBERTa - DistilRoBERTa
 XlmRoBertaEmbeddings |   | ✅   | XLM-RoBERTa
-AlbertEmbeddings | ❎  |  ✅  |
+AlbertEmbeddings | ✅  |  ✅  |
 XlnetEmbeddings |   | ✅  |
 ElmoEmbeddings | ❎  |  ❎  |
 UniversalSentenceEncoder |  ❎ |   |
