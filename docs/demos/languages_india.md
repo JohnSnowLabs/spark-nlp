@@ -59,5 +59,33 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_BN
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb      
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Translate text from Marathi to English
+          id: translate_text_from_marathi_to_english
+          image: 
+              src: /assets/images/Translate_text_from_Marathi_to_English.svg
+          image2: 
+              src: /assets/images/Translate_text_from_Marathi_to_English_f.svg
+          excerpt: Translate text from Marathi to English using pre-trained Deep Learning pipeline
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_MARATHI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb  
+        - title: Translate text from Punjabi to English
+          id: translate_text_from_punjabi_to_english
+          image: 
+              src: /assets/images/Translate_text_from_Punjabi_to_English.svg
+          image2: 
+              src: /assets/images/Translate_text_from_Punjabi_to_English_f.svg
+          excerpt: Translate text from Punjabi to English using pretrained Deep Learning pipeline
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_PUNJABI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb
 ---

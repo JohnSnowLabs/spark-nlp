@@ -17,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to ICD10-CM codes using chunk embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
+This model maps extracted medical entities to ICD10-CM codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
 
 ## Predicted Entities
 
-ICD10-CM Codes and their normalized definition with ``sbiobert_base_cased_mli`` sentence embeddings.
+Predicts ICD10-CM Codes and their normalized definitions.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
