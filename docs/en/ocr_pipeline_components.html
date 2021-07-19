@@ -2674,6 +2674,15 @@ one of the methods with params:</p>
 <p>Also known as adaptive or dynamic thresholding. The threshold value is
 the weighted mean for the local neighborhood of a pixel subtracted by a constant.</p>
 
+<p>Supported methods:</p>
+<ul>
+  <li><strong><em>GAUSSIAN</em></strong></li>
+  <li><strong><em>MEAN</em></strong></li>
+  <li><strong><em>MEDIAN</em></strong></li>
+  <li><strong><em>WOLF</em></strong></li>
+  <li><strong><em>SINGH</em></strong></li>
+</ul>
+
 <h4 id="input-columns-15">Input Columns</h4>
 
 <table class="table-model-big">
@@ -2715,8 +2724,8 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
     </tr>
     <tr>
       <td>method</td>
-      <td>string</td>
-      <td> </td>
+      <td><a href="ocr_structures#adaptivethresholdingmethod">AdaptiveThresholdingMethod</a></td>
+      <td>AdaptiveThresholdingMethod.GAUSSIAN</td>
       <td>Method used to determine adaptive threshold for local neighbourhood in weighted mean image.</td>
     </tr>
     <tr>

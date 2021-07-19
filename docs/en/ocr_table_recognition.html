@@ -680,7 +680,11 @@ It based on CascadeTabNet which used Cascade mask Region-based CNN High-Resoluti
 <p><code class="language-plaintext highlighter-rouge">ImageTableCellDetector</code> detect cells on image with table. It based on
 image processing algorithm by detecting horizontal and vertical lines.</p>
 
-<p>Current implementation works for bordered tables without background.</p>
+<p>Current implementation support few algorithm for extract cells:</p>
+<ul>
+  <li><strong><em>CellDetectionAlgos.CONTOURS</em></strong> works only for bordered tables.</li>
+  <li><strong><em>CellDetectionAlgos.MORPHOPS</em></strong> works for bordered, borderless and combined tables.</li>
+</ul>
 
 <h4 id="input-columns-1">Input Columns</h4>
 
@@ -699,6 +703,27 @@ image processing algorithm by detecting horizontal and vertical lines.</p>
       <td>string</td>
       <td>image</td>
       <td>image struct (<a href="ocr_structures#image-schema">Image schema</a>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="parameters-1">Parameters</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>algoType</td>
+      <td><a href="ocr_structures#celldetectionalgos">CellDetectionAlgos</a></td>
+      <td>CellDetectionAlgos.CONTOURS</td>
+      <td>Algorithm for detect cells.</td>
     </tr>
   </tbody>
 </table>
@@ -830,7 +855,7 @@ to <em>outputCol</em> as TableContainer structure.</p>
   </tbody>
 </table>
 
-<h4 id="parameters-1">Parameters</h4>
+<h4 id="parameters-2">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
