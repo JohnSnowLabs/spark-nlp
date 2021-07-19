@@ -4,7 +4,7 @@ title: Detect Entities in 40 languages - XTREME (ner_xtreme_glove_840B_300)
 author: John Snow Labs
 name: ner_xtreme_glove_840B_300
 date: 2021-07-19
-tags: [open_source, xtreme, ner, multilingual, xx]
+tags: [open_source, xtreme, ner, multilingual, xx, glove]
 task: Named Entity Recognition
 language: xx
 edition: Spark NLP 3.1.3
