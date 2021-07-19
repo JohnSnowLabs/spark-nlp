@@ -128,7 +128,9 @@ display_images(data, "image_with_regions")
 `ImageTableCellDetector` detect cells on image with table. It based on
 image processing algorithm by detecting horizontal and vertical lines.
 
-Current implementation works for bordered tables without background.
+Current implementation support few algorithm for extract cells:
+ - ***CellDetectionAlgos.CONTOURS*** works only for bordered tables.
+ - ***CellDetectionAlgos.MORPHOPS*** works for bordered, borderless and combined tables.
 
 #### Input Columns
 
@@ -136,6 +138,14 @@ Current implementation works for bordered tables without background.
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| algoType | [CellDetectionAlgos](ocr_structures#celldetectionalgos) | CellDetectionAlgos.CONTOURS | Algorithm for detect cells.|
 
 
 #### Output Columns
