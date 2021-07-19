@@ -78,14 +78,14 @@ result = pipeline.fit(example).transform(example)
 ```
 ```scala
 val document_assembler = DocumentAssembler() 
-    .setInputCol('text') 
-    .setOutputCol('document')
+    .setInputCol("text") 
+    .setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols(['document']) 
-    .setOutputCol('token')
+    .setInputCols("document") 
+    .setOutputCol("token")
 
-val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")\
+val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")
     .setInputCols("document", "token") 
     .setOutputCol("embeddings")
 
