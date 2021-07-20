@@ -676,6 +676,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#neroverwriter">NerOverwriter</a></td>
+        <td>Overwrites entities of specified strings.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#normalizer">Normalizer</a></td>
         <td>Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary.</td>
         <td>Opensource</td>
@@ -4741,6 +4746,213 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 </details>
 
   </div>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h2 id="neroverwriter">NerOverwriter</h2>
+
+  <p>Overwrites entities of specified strings.</p>
+
+  <p>The input for this Annotator have to be entities that are already extracted, Annotator type <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code>.
+The strings specified with <code class="language-plaintext highlighter-rouge">setStopWords</code> will have new entities assigned to, specified with <code class="language-plaintext highlighter-rouge">setNewResult</code>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerOverwriter">NerOverwriter</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.scala">NerOverwriter</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># First extract the prerequisite Entities
+</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert"</span><span class="p">)</span>
+
+<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"bert"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">sentence</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">nerTagger</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Spark NLP Crosses Five Million Downloads, John Snow Labs Announces."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(ner)"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="c1"># +------------------------------------------------------+
+# |col                                                   |
+# +------------------------------------------------------+
+# |[named_entity, 0, 4, B-ORG, [word -&gt; Spark], []]      |
+# |[named_entity, 6, 8, I-ORG, [word -&gt; NLP], []]        |
+# |[named_entity, 10, 16, O, [word -&gt; Crosses], []]      |
+# |[named_entity, 18, 21, O, [word -&gt; Five], []]         |
+# |[named_entity, 23, 29, O, [word -&gt; Million], []]      |
+# |[named_entity, 31, 39, O, [word -&gt; Downloads], []]    |
+# |[named_entity, 40, 40, O, [word -&gt; ,], []]            |
+# |[named_entity, 42, 45, B-ORG, [word -&gt; John], []]     |
+# |[named_entity, 47, 50, I-ORG, [word -&gt; Snow], []]     |
+# |[named_entity, 52, 55, I-ORG, [word -&gt; Labs], []]     |
+# |[named_entity, 57, 65, I-ORG, [word -&gt; Announces], []]|
+# |[named_entity, 66, 66, O, [word -&gt; .], []]            |
+# +------------------------------------------------------+
+</span>
+<span class="c1"># The recognized entities can then be overwritten
+</span><span class="n">nerOverwriter</span> <span class="o">=</span> <span class="n">NerOverwriter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_overwritten"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setStopWords</span><span class="p">([</span><span class="s">"Million"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setNewResult</span><span class="p">(</span><span class="s">"B-CARDINAL"</span><span class="p">)</span>
+
+<span class="n">nerOverwriter</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(ner_overwritten)"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+---------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">col</span>                                                      <span class="o">|</span>
+<span class="o">+---------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Spark</span><span class="p">],</span> <span class="p">[]]</span>         <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">NLP</span><span class="p">],</span> <span class="p">[]]</span>           <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Crosses</span><span class="p">],</span> <span class="p">[]]</span>         <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Five</span><span class="p">],</span> <span class="p">[]]</span>            <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">CARDINAL</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Million</span><span class="p">],</span> <span class="p">[]]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Downloads</span><span class="p">],</span> <span class="p">[]]</span>       <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="p">,],</span> <span class="p">[]]</span>               <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">John</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Snow</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Labs</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Announces</span><span class="p">],</span> <span class="p">[]]</span>   <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="p">.],</span> <span class="p">[]]</span>               <span class="o">|</span>
+<span class="o">+---------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.ner.NerOverwriter</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="c1">// First extract the prerequisite Entities</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"bert"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"bert"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">sentence</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">nerTagger</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Spark NLP Crosses Five Million Downloads, John Snow Labs Announces."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(ner)"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">/</span>
+<span class="o">+------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">col</span>                                                   <span class="o">|</span>
+<span class="o">+------------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">0</span>, <span class="err">4</span>, <span class="kt">B-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Spark</span><span class="o">]</span>, <span class="o">[]]</span>      <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">6</span>, <span class="err">8</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">NLP</span><span class="o">]</span>, <span class="o">[]]</span>        <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">10</span>, <span class="err">16</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Crosses</span><span class="o">]</span>, <span class="o">[]]</span>      <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">18</span>, <span class="err">21</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Five</span><span class="o">]</span>, <span class="o">[]]</span>         <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">23</span>, <span class="err">29</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Million</span><span class="o">]</span>, <span class="o">[]]</span>      <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">31</span>, <span class="err">39</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Downloads</span><span class="o">]</span>, <span class="o">[]]</span>    <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">40</span>, <span class="err">40</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> ,<span class="o">]</span>, <span class="o">[]]</span>            <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">42</span>, <span class="err">45</span>, <span class="kt">B-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">John</span><span class="o">]</span>, <span class="o">[]]</span>     <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">47</span>, <span class="err">50</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Snow</span><span class="o">]</span>, <span class="o">[]]</span>     <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">52</span>, <span class="err">55</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Labs</span><span class="o">]</span>, <span class="o">[]]</span>     <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">57</span>, <span class="err">65</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Announces</span><span class="o">]</span>, <span class="o">[]]|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">66</span>, <span class="err">66</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">.</span><span class="o">]</span>, <span class="o">[]]</span>            <span class="o">|</span>
+<span class="o">+------------------------------------------------------+</span>
+<span class="o">/</span>
+<span class="c1">// The recognized entities can then be overwritten</span>
+<span class="k">val</span> <span class="nv">nerOverwriter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerOverwriter</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_overwritten"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setStopWords</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"Million"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setNewResult</span><span class="o">(</span><span class="s">"B-CARDINAL"</span><span class="o">)</span>
+
+<span class="nv">nerOverwriter</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">result</span><span class="o">).</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(ner_overwritten)"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+---------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">col</span>                                                      <span class="o">|</span>
+<span class="o">+---------------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">0</span>, <span class="err">4</span>, <span class="kt">B-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Spark</span><span class="o">]</span>, <span class="o">[]]</span>         <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">6</span>, <span class="err">8</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">NLP</span><span class="o">]</span>, <span class="o">[]]</span>           <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">10</span>, <span class="err">16</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Crosses</span><span class="o">]</span>, <span class="o">[]]</span>         <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">18</span>, <span class="err">21</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Five</span><span class="o">]</span>, <span class="o">[]]</span>            <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">23</span>, <span class="err">29</span>, <span class="kt">B-CARDINAL</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Million</span><span class="o">]</span>, <span class="o">[]]|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">31</span>, <span class="err">39</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Downloads</span><span class="o">]</span>, <span class="o">[]]</span>       <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">40</span>, <span class="err">40</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> ,<span class="o">]</span>, <span class="o">[]]</span>               <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">42</span>, <span class="err">45</span>, <span class="kt">B-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">John</span><span class="o">]</span>, <span class="o">[]]</span>        <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">47</span>, <span class="err">50</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Snow</span><span class="o">]</span>, <span class="o">[]]</span>        <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">52</span>, <span class="err">55</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Labs</span><span class="o">]</span>, <span class="o">[]]</span>        <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">57</span>, <span class="err">65</span>, <span class="kt">I-ORG</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">Announces</span><span class="o">]</span>, <span class="o">[]]</span>   <span class="o">|</span>
+<span class="o">|[</span><span class="kt">named_entity</span>, <span class="err">66</span>, <span class="err">66</span>, <span class="kt">O</span>, <span class="o">[</span><span class="kt">word</span> <span class="kt">-&gt;</span> <span class="kt">.</span><span class="o">]</span>, <span class="o">[]]</span>               <span class="o">|</span>
+<span class="o">+---------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
 
 </div>
 
@@ -8913,7 +9125,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="p">])</span>
 
 <span class="n">trainingDataSet</span> <span class="o">=</span> <span class="n">POS</span><span class="p">().</span><span class="n">readDataset</span><span class="p">(</span>
-    <span class="n">ResourceHelper</span><span class="p">.</span><span class="n">spark</span><span class="p">,</span>
+    <span class="n">spark</span><span class="p">,</span>
     <span class="s">"src/test/resources/word-segmenter/chinese_train.utf8"</span>
 <span class="p">)</span>
 
