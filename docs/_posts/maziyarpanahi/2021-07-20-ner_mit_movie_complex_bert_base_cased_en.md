@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This NER model was trained over MIT Movie Corpus complex queries dataset to detect movie triavs. We used BertEmbeddings (bert_base_cased) model for the embeddings to train this NER model.
+This NER model was trained over the MIT Movie Corpus complex queries dataset to detect movie trivia. We used DistilBertEmbeddings (distilbert_base_cased) model for the embeddings to train this NER model.
 
 ## Predicted Entities
 
