@@ -23,7 +23,7 @@ This model is capable of Relating Drugs and adverse reactions caused by them; It
 
 `1` : Shows the adverse event and drug entities are related.
 
- `0` : Shows the adverse event and drug entities are not related.
+`0` : Shows the adverse event and drug entities are not related.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
@@ -75,7 +75,7 @@ nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder
 
 light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-text ="""A 44-year-old man taking naproxen for chronic low back pain and a 20-year-old woman on oxaprozin for rheumatoid arthritis presented with tense bullae and cutaneous fragility on the face and the back of the hands."""
+text ="""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
 
 annotations = light_pipeline.fullAnnotate(text)
 
@@ -120,19 +120,19 @@ val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenize
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 
-val annotations = light_pipeline.fullAnnotate("A 44-year-old man taking naproxen for chronic low back pain and a 20-year-old woman on oxaprozin for rheumatoid arthritis presented with tense bullae and cutaneous fragility on the face and the back of the hands.")
+val annotations = light_pipeline.fullAnnotate("Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps")
 ```
 </div>
 
 ## Results
 
 ```bash
-|    | chunk1     | entity1  | chunk2                                                    | entity2 |   result |
-|---:|:-----------|:---------|:----------------------------------------------------------|:--------|---------:|
-|  0 | naproxen   | DRUG     | tense bullae                                              | ADE     |        1 |
-|  1 | naproxen   | DRUG     | cutaneous fragility on the face and the back of the hands | ADE     |        1 |
-|  2 | oxaprozin  | DRUG     | tense bullae                                              | ADE     |        1 |
-|  3 | oxaprozin  | DRUG     | cutaneous fragility on the face and the back of the hands | ADE     |        1 |
+|    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
+|----|-------------------------------|------------|-------------|---------|----------|
+| 0  | severe fatigue                | ADE        | Lipitor     | DRUG    |        1 |
+| 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
+| 2  | severe fatigue                | ADE        | voltaren    | DRUG    |        0 |
+| 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
 ```
 
 {:.model-param}
@@ -158,11 +158,11 @@ This model is trained on custom data annotated by JSL.
 ```bash
               precision    recall  f1-score   support
 
-           0       0.85      0.89      0.87      1670
-           1       0.88      0.84      0.86      1673
+           0       0.86      0.88      0.87      1787
+           1       0.92      0.90      0.91      2586
 
-   micro avg       0.87      0.87      0.87      3343
-   macro avg       0.87      0.87      0.87      3343
-weighted avg       0.87      0.87      0.87      3343
+   micro avg       0.89      0.89      0.89      4373
+   macro avg       0.89      0.89      0.89      4373
+weighted avg       0.89      0.89      0.89      4373
 
 ```
