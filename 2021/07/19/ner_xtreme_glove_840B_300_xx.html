@@ -1,0 +1,2131 @@
+<!DOCTYPE html><html lang="en">
+  <head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-59JLR64');</script>
+<!-- End Google Tag Manager --><title>Detect Entities in 40 languages - XTREME (ner_xtreme_glove_840B_300)- Spark NLP Model</title><meta name="description" content="DescriptionXTREME: A Massively Multilingual Multi-task Benchmark for Evaluating Cross-lingual Generalization. This NER model was trained over the XTREME data...">
+<link rel="canonical" href="/2021/07/19/ner_xtreme_glove_840B_300_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!---->
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
+
+<!---->
+<!-- <link rel="icon" type="image/png" sizes="32x32" href="/fav.ico"> -->
+
+<!---->
+<!-- <link rel="icon" type="image/png" sizes="16x16" href="/fav.ico"> -->
+
+<!---->
+<!-- <link rel="manifest" href="/fav.ico"> --><link rel="mask-icon" href="/fav.ico" color="#fc4d50"><link rel="shortcut icon" href="/fav.ico">
+
+<meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
+
+<meta name="theme-color" content="#ffffff">
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> 
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!-- end custom head snippets -->
+<script>(function() {
+  window.isArray = function(val) {
+    return Object.prototype.toString.call(val) === '[object Array]';
+  };
+  window.isString = function(val) {
+    return typeof val === 'string';
+  };
+
+  window.decodeUrl = function(str) {
+    return str ? decodeURIComponent(str.replace(/\+/g, '%20')) : '';
+  };
+
+  window.hasEvent = function(event) {
+    return 'on'.concat(event) in window.document;
+  };
+
+  window.isOverallScroller = function(node) {
+    return node === document.documentElement || node === document.body || node === window;
+  };
+
+  window.isFormElement = function(node) {
+    var tagName = node.tagName;
+    return tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA';
+  };
+
+  window.pageLoad = (function () {
+    var loaded = false, cbs = [];
+    window.addEventListener('load', function () {
+      var i;
+      loaded = true;
+      if (cbs.length > 0) {
+        for (i = 0; i < cbs.length; i++) {
+          cbs[i]();
+        }
+      }
+    });
+    return {
+      then: function(cb) {
+        cb && (loaded ? cb() : (cbs.push(cb)));
+      }
+    };
+  })();
+})();
+(function() {
+  window.throttle = function(func, wait) {
+    var args, result, thisArg, timeoutId, lastCalled = 0;
+
+    function trailingCall() {
+      lastCalled = new Date;
+      timeoutId = null;
+      result = func.apply(thisArg, args);
+    }
+    return function() {
+      var now = new Date,
+        remaining = wait - (now - lastCalled);
+
+      args = arguments;
+      thisArg = this;
+
+      if (remaining <= 0) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+        lastCalled = now;
+        result = func.apply(thisArg, args);
+      } else if (!timeoutId) {
+        timeoutId = setTimeout(trailingCall, remaining);
+      }
+      return result;
+    };
+  };
+})();
+(function() {
+  var Set = (function() {
+    var add = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (data[i] === item) {
+          return;
+        }
+      }
+      this.size ++;
+      data.push(item);
+      return data;
+    };
+
+    var Set = function(data) {
+      this.size = 0;
+      this._data = [];
+      var i;
+      if (data.length > 0) {
+        for (i = 0; i < data.length; i++) {
+          add.call(this, data[i]);
+        }
+      }
+    };
+    Set.prototype.add = add;
+    Set.prototype.get = function(index) { return this._data[index]; };
+    Set.prototype.has = function(item) {
+      var i, data = this._data;
+      for (i = 0; i < data.length; i++) {
+        if (this.get(i) === item) {
+          return true;
+        }
+      }
+      return false;
+    };
+    Set.prototype.is = function(map) {
+      if (map._data.length !== this._data.length) { return false; }
+      var i, j, flag, tData = this._data, mData = map._data;
+      for (i = 0; i < tData.length; i++) {
+        for (flag = false, j = 0; j < mData.length; j++) {
+          if (tData[i] === mData[j]) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) { return false; }
+      }
+      return true;
+    };
+    Set.prototype.values = function() {
+      return this._data;
+    };
+    return Set;
+  })();
+
+  window.Lazyload = (function(doc) {
+    var queue = {js: [], css: []}, sources = {js: {}, css: {}}, context = this;
+    var createNode = function(name, attrs) {
+      var node = doc.createElement(name), attr;
+      for (attr in attrs) {
+        if (attrs.hasOwnProperty(attr)) {
+          node.setAttribute(attr, attrs[attr]);
+        }
+      }
+      return node;
+    };
+    var end = function(type, url) {
+      var s, q, qi, cbs, i, j, cur, val, flag;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        s[url] = true;
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (cur.urls.has(url)) {
+            qi = cur, val = qi.urls.values();
+            qi && (cbs = qi.callbacks);
+            for (flag = true, j = 0; j < val.length; j++) {
+              cur = val[j];
+              if (!s[cur]) {
+                flag = false;
+              }
+            }
+            if (flag && cbs && cbs.length > 0) {
+              for (j = 0; j < cbs.length; j++) {
+                cbs[j].call(context);
+              }
+              qi.load = true;
+            }
+          }
+        }
+      }
+    };
+    var load = function(type, urls, callback) {
+      var s, q, qi, node, i, cur,
+        _urls = typeof urls === 'string' ? new Set([urls]) : new Set(urls), val, url;
+      if (type === 'js' || type ==='css') {
+        s = sources[type], q = queue[type];
+        for (i = 0; i < q.length; i++) {
+          cur = q[i];
+          if (_urls.is(cur.urls)) {
+            qi = cur;
+            break;
+          }
+        }
+        val = _urls.values();
+        if (qi) {
+          callback && (qi.load || qi.callbacks.push(callback));
+          callback && (qi.load && callback());
+        } else {
+          q.push({
+            urls: _urls,
+            callbacks: callback ? [callback] : [],
+            load: false
+          });
+          for (i = 0; i < val.length; i++) {
+            node = null, url = val[i];
+            if (s[url] === undefined) {
+              (type === 'js' ) && (node = createNode('script', { src: url }));
+              (type === 'css') && (node = createNode('link', { rel: 'stylesheet', href: url }));
+              if (node) {
+                node.onload = (function(type, url) {
+                  return function() {
+                    end(type, url);
+                  };
+                })(type, url);
+                (doc.head || doc.body).appendChild(node);
+                s[url] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+    return {
+      js: function(url, callback) {
+        load('js', url, callback);
+      },
+      css: function(url, callback) {
+        load('css', url, callback);
+      }
+    };
+  })(this.document);
+})();
+</script><script>
+  (function() {
+    var TEXT_VARIABLES = {
+      version: '2.2.4',
+      sources: {
+        font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
+        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
+        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        gitalk: {
+          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
+          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+        },
+        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+      },
+      site: {
+        toc: {
+          selectors: 'h1,h2,h3'
+        }
+      },
+      paths: {
+        search_js: '/assets/search.js'
+      }
+    };
+    window.TEXT_VARIABLES = TEXT_VARIABLES;
+  })();
+</script></head>
+  <body>
+    <div class="root" data-is-touch="false">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport cell cell--auto">
+
+      <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) --><header class="header"><div class="main">
+      <div class="header__title">
+        <a class="responsive_btn" href="#" id="responsive_menu">          
+        <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
+        </a>
+        <div class="header__brand">
+          <a title="High Performance NLP with Apache Spark
+" href="https://www.johnsnowlabs.com" target="_blank"><svg width="187" height="50" viewBox="0 0 187 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M38.6212 18.6877H42.3588V29.0697C42.3588 33.7209 40.1163 35.382 36.5448 35.382C35.7143 35.382 34.5515 35.2159 33.804 34.9668L34.2192 31.9767C34.7176 32.1428 35.382 32.3089 36.1295 32.3089C37.7076 32.3089 38.6212 31.6445 38.6212 29.0697V18.6877Z" fill="#3E4095"/>
+<path d="M55.2325 28.9867C55.2325 33.3056 52.1594 35.299 48.9202 35.299C45.4319 35.299 42.774 32.9734 42.774 29.1528C42.774 25.3322 45.2657 22.8405 49.0863 22.8405C52.7408 22.8405 55.2325 25.4153 55.2325 28.9867ZM46.5946 29.0698C46.5946 31.1462 47.4252 32.6412 49.0033 32.6412C50.4152 32.6412 51.3289 31.2292 51.3289 29.0698C51.3289 27.3256 50.6644 25.4983 49.0033 25.4983C47.2591 25.4983 46.5946 27.3256 46.5946 29.0698Z" fill="#3E4095"/>
+<path d="M55.6478 17.774H59.3854V24.5847H59.4684C59.8837 24.0863 60.382 23.6711 60.9634 23.3388C61.4618 23.0066 62.2093 22.8405 62.8737 22.8405C65.1993 22.8405 67.0266 24.5016 67.0266 28.0731V35.0498H63.289V28.4883C63.289 26.9103 62.7907 25.8305 61.3787 25.8305C60.382 25.8305 59.8006 26.495 59.5515 27.1594C59.4684 27.4086 59.4684 27.7408 59.4684 27.99V35.0498H55.6478V17.774Z" fill="#3E4095"/>
+<path d="M68.1064 26.9103C68.1064 25.4153 68.0233 24.1694 68.0233 23.0897H71.2625L71.4286 24.7508C71.927 24.0033 73.0898 22.8405 75.0831 22.8405C77.4917 22.8405 79.319 24.4186 79.319 27.907V34.9668H75.5814V28.4053C75.5814 26.9103 75.0831 25.8305 73.6711 25.8305C72.6745 25.8305 72.01 26.495 71.7609 27.2425C71.6778 27.4917 71.5947 27.8239 71.5947 28.1561V35.0498H68.1064V26.9103Z" fill="#3E4095"/>
+<path d="M83.887 31.2292C84.8836 31.7275 86.3787 32.2259 87.9567 32.2259C89.6179 32.2259 90.5315 31.5614 90.5315 30.4817C90.5315 29.485 89.784 28.9036 87.7906 28.1561C85.0497 27.2425 83.3056 25.6644 83.3056 23.3388C83.3056 20.5149 85.6311 18.4385 89.5348 18.4385C91.362 18.4385 92.774 18.8538 93.6876 19.269L92.8571 22.2591C92.1926 21.9268 91.0298 21.5116 89.4517 21.5116C87.8737 21.5116 87.0431 22.2591 87.0431 23.0896C87.0431 24.1694 87.9567 24.5847 90.1162 25.4152C93.0232 26.495 94.3521 27.99 94.3521 30.3156C94.3521 33.0564 92.2757 35.382 87.7076 35.382C85.7973 35.382 83.97 34.8837 83.0564 34.3853L83.887 31.2292Z" fill="#3E4095"/>
+<path d="M94.9336 26.9103C94.9336 25.4153 94.8505 24.1694 94.8505 23.0897H98.0897L98.2558 24.7508H98.3389C98.8372 24.0033 100 22.8405 101.993 22.8405C104.402 22.8405 106.229 24.4186 106.229 27.907V34.9668H102.492V28.4053C102.492 26.9103 101.993 25.8305 100.581 25.8305C99.5847 25.8305 98.9203 26.495 98.6711 27.2425C98.5881 27.4917 98.505 27.8239 98.505 28.1561V35.0498H94.7675V26.9103H94.9336Z" fill="#3E4095"/>
+<path d="M119.103 28.9867C119.103 33.3056 116.03 35.299 112.791 35.299C109.302 35.299 106.645 32.9734 106.645 29.1528C106.645 25.3322 109.136 22.8405 112.957 22.8405C116.694 22.8405 119.103 25.4153 119.103 28.9867ZM110.465 29.0698C110.465 31.1462 111.296 32.6412 112.874 32.6412C114.286 32.6412 115.199 31.2292 115.199 29.0698C115.199 27.3256 114.535 25.4983 112.874 25.4983C111.13 25.4983 110.465 27.3256 110.465 29.0698Z" fill="#3E4095"/>
+<path d="M121.927 23.1727L122.841 28.0731C123.09 29.3189 123.339 30.6478 123.505 31.9767H123.588C123.837 30.6478 124.17 29.2359 124.502 28.0731L125.748 23.1727H128.655L129.817 27.9069C130.15 29.2359 130.482 30.5648 130.731 31.9767H130.814C130.98 30.6478 131.229 29.2359 131.478 27.9069L132.475 23.1727H136.13L132.475 35.0498H128.987L127.907 30.897C127.575 29.7342 127.409 28.6545 127.16 27.1594H127.076C126.827 28.6545 126.578 29.7342 126.329 30.897L125.166 35.0498H121.678L118.189 23.1727H121.927Z" fill="#3E4095"/>
+<path d="M143.023 18.9369H145.1V32.8073H152.575V34.5515H143.023V18.9369Z" fill="#0098DA"/>
+<path d="M155.399 29.5681L153.571 34.5515H151.329L157.226 18.9369H159.801L165.781 34.5515H163.455L161.545 29.5681H155.399ZM161.213 27.99L159.468 23.3389C159.136 22.3422 158.804 21.5116 158.555 20.6811H158.472C158.223 21.5116 157.973 22.3422 157.641 23.2558L155.897 27.99H161.213Z" fill="#0098DA"/>
+<path d="M165.864 19.186C166.777 19.0199 168.355 18.8538 169.933 18.8538C172.176 18.8538 173.505 19.186 174.502 20.0166C175.332 20.6811 175.914 21.5947 175.914 22.8405C175.914 24.3355 174.834 25.6644 173.173 26.2458V26.3289C174.502 26.6611 176.495 27.8239 176.495 30.2326C176.495 31.5615 175.914 32.6412 175.083 33.3887C173.92 34.3854 172.093 34.8837 169.269 34.8837C167.774 34.8837 166.611 34.8007 165.864 34.7176V19.186ZM168.023 25.5814H170.183C172.508 25.5814 173.754 24.5017 173.754 23.0066C173.754 21.0963 172.176 20.4319 170.1 20.4319C169.02 20.4319 168.355 20.5149 168.023 20.598V25.5814ZM168.023 32.9734C168.521 33.0565 169.103 33.0565 169.933 33.0565C172.093 33.0565 174.252 32.392 174.252 29.9834C174.252 27.8239 172.342 26.9934 169.933 26.9934H167.94V32.9734H168.023Z" fill="#0098DA"/>
+<path d="M176.91 31.9768C177.907 32.6412 179.402 33.1396 180.98 33.1396C183.223 33.1396 184.468 32.0598 184.468 30.4818C184.468 28.9867 183.638 28.1562 181.229 27.4087C178.239 26.495 176.661 25.1661 176.661 22.9236C176.661 20.4319 178.821 18.6047 182.06 18.6047C183.887 18.6047 185.133 19.02 185.963 19.4352L185.382 21.0964C184.884 20.7641 183.638 20.2658 182.06 20.2658C179.734 20.2658 178.821 21.5947 178.821 22.5914C178.821 24.0033 179.817 24.7509 182.226 25.4984C185.133 26.412 186.628 27.6578 186.628 30.1495C186.628 32.4751 184.884 34.7176 180.814 34.7176C179.153 34.7176 177.325 34.2193 176.412 33.6379L176.91 31.9768Z" fill="#0098DA"/>
+<path d="M22.5083 35.6312C22.5083 40.1163 18.8538 43.7708 14.3688 43.7708C9.88372 43.7708 6.22924 40.1163 6.22924 35.6312V12.2093L0 11.4618V35.6312C0 43.6047 6.4784 50 14.3688 50C22.2591 50 28.7375 43.5216 28.7375 35.6312V11.4618L22.5083 12.2093V35.6312Z" fill="#0098DA"/>
+<path d="M16.1129 17.7741H8.63786C8.13952 17.7741 7.72424 17.3588 7.72424 16.8604V9.38536C7.72424 8.88702 8.13952 8.47174 8.63786 8.47174H16.1129C16.6113 8.47174 17.0266 8.88702 17.0266 9.38536V16.8604C17.0266 17.3588 16.6113 17.7741 16.1129 17.7741Z" fill="#3E4095"/>
+<path d="M20.515 22.7575H15.2824C14.7841 22.7575 14.3688 22.3422 14.3688 21.8439V16.6113C14.3688 16.113 14.7841 15.6977 15.2824 15.6977H20.515C21.0133 15.6977 21.4286 16.113 21.4286 16.6113V21.8439C21.4286 22.4253 21.0133 22.7575 20.515 22.7575Z" fill="#3E4095"/>
+<path d="M19.8505 9.71762H16.113C15.6146 9.71762 15.1993 9.30233 15.1993 8.80399V5.06645C15.1993 4.56811 15.6146 4.15283 16.113 4.15283H19.8505C20.3488 4.15283 20.7641 4.56811 20.7641 5.06645V8.80399C20.6811 9.30233 20.3488 9.71762 19.8505 9.71762Z" fill="#3E4095"/>
+<path d="M13.6213 3.48837H11.8771C11.3788 3.48837 10.9635 3.07309 10.9635 2.57475V0.913621C10.9635 0.415282 11.3788 0 11.8771 0H13.6213C14.1196 0 14.5349 0.415282 14.5349 0.913621V2.65781C14.5349 3.15615 14.1196 3.48837 13.6213 3.48837Z" fill="#3E4095"/>
+<path d="M20.2658 41.196H8.38867V41.3622H20.2658V41.196Z" fill="#ECF9FF"/>
+<path d="M20.2658 40.9469H8.38867V41.113H20.2658V40.9469Z" fill="#EBF9FF"/>
+<path d="M20.2658 40.7808H8.38867V40.9469H20.2658V40.7808Z" fill="#EAF8FF"/>
+<path d="M20.2658 40.6146H8.38867V40.7807H20.2658V40.6146Z" fill="#E9F8FF"/>
+<path d="M20.2658 40.3655H8.38867V40.5316H20.2658V40.3655Z" fill="#E8F8FF"/>
+<path d="M20.2658 40.1993H8.38867V40.3655H20.2658V40.1993Z" fill="#E7F7FF"/>
+<path d="M20.2658 40.0333H8.38867V40.1994H20.2658V40.0333Z" fill="#E6F7FF"/>
+<path d="M20.2658 39.8671H8.38867V40.0332H20.2658V39.8671Z" fill="#E5F7FF"/>
+<path d="M20.2658 39.618H8.38867V39.7841H20.2658V39.618Z" fill="#E4F6FE"/>
+<path d="M20.2658 39.4518H8.38867V39.618H20.2658V39.4518Z" fill="#E3F6FE"/>
+<path d="M20.2658 39.2858H8.38867V39.4519H20.2658V39.2858Z" fill="#E2F5FE"/>
+<path d="M20.2658 39.0366H8.38867V39.2027H20.2658V39.0366Z" fill="#E1F5FE"/>
+<path d="M20.2658 38.8705H8.38867V39.0366H20.2658V38.8705Z" fill="#E0F5FE"/>
+<path d="M20.2658 38.7043H8.38867V38.8705H20.2658V38.7043Z" fill="#DFF4FE"/>
+<path d="M20.2658 38.4552H8.38867V38.6213H20.2658V38.4552Z" fill="#DEF4FE"/>
+<path d="M20.2658 38.2891H8.38867V38.4552H20.2658V38.2891Z" fill="#DDF4FE"/>
+<path d="M20.2658 38.1229H8.38867V38.289H20.2658V38.1229Z" fill="#DCF3FE"/>
+<path d="M20.2658 37.8738H8.38867V38.0399H20.2658V37.8738Z" fill="#DBF3FE"/>
+<path d="M20.2658 37.7077H8.38867V37.8738H20.2658V37.7077Z" fill="#DAF3FE"/>
+<path d="M20.2658 37.5416H8.38867V37.7077H20.2658V37.5416Z" fill="#D9F2FE"/>
+<path d="M20.2658 37.3754H8.38867V37.5415H20.2658V37.3754Z" fill="#D8F2FE"/>
+<path d="M20.2658 37.1263H8.38867V37.2924H20.2658V37.1263Z" fill="#D7F2FE"/>
+<path d="M20.2658 36.9601H8.38867V37.1263H20.2658V36.9601Z" fill="#D6F1FE"/>
+<path d="M20.2658 36.7941H8.38867V36.9602H20.2658V36.7941Z" fill="#D5F1FE"/>
+<path d="M20.2658 36.5449H8.38867V36.711H20.2658V36.5449Z" fill="#D4F1FD"/>
+<path d="M20.2658 36.3788H8.38867V36.5449H20.2658V36.3788Z" fill="#D3F0FD"/>
+<path d="M20.2658 36.2126H8.38867V36.3788H20.2658V36.2126Z" fill="#D2F0FD"/>
+<path d="M20.2658 35.9635H8.38867V36.1296H20.2658V35.9635Z" fill="#D1F0FD"/>
+<path d="M20.2658 35.7974H8.38867V35.9635H20.2658V35.7974Z" fill="#D0EFFD"/>
+<path d="M20.2658 35.6313H8.38867V35.7974H20.2658V35.6313Z" fill="#CFEFFD"/>
+<path d="M20.2658 35.3821H8.38867V35.5482H20.2658V35.3821Z" fill="#CEEEFD"/>
+<path d="M20.2658 35.216H8.38867V35.3821H20.2658V35.216Z" fill="#CDEEFD"/>
+<path d="M20.2658 35.0499H8.38867V35.216H20.2658V35.0499Z" fill="#CCEEFD"/>
+<path d="M20.2658 34.8837H8.38867V35.0498H20.2658V34.8837Z" fill="#CBEDFD"/>
+<path d="M20.2658 34.6346H8.38867V34.8007H20.2658V34.6346Z" fill="#CAEDFD"/>
+<path d="M20.2658 34.4684H8.38867V34.6346H20.2658V34.4684Z" fill="#C9EDFD"/>
+<path d="M20.2658 34.3024H8.38867V34.4685H20.2658V34.3024Z" fill="#C8ECFD"/>
+<path d="M20.2658 34.0532H8.38867V34.2193H20.2658V34.0532Z" fill="#C7ECFD"/>
+<path d="M20.2658 33.8871H8.38867V34.0532H20.2658V33.8871Z" fill="#C6ECFD"/>
+<path d="M20.2658 33.7209H8.38867V33.8871H20.2658V33.7209Z" fill="#C4EBFC"/>
+<path d="M20.2658 33.4718H8.38867V33.6379H20.2658V33.4718Z" fill="#C3EBFC"/>
+<path d="M20.2658 33.3057H8.38867V33.4718H20.2658V33.3057Z" fill="#C2EBFC"/>
+<path d="M20.2658 33.1396H8.38867V33.3057H20.2658V33.1396Z" fill="#C1EAFC"/>
+<path d="M20.2658 32.8904H8.38867V33.0565H20.2658V32.8904Z" fill="#C0EAFC"/>
+<path d="M20.2658 32.7242H8.38867V32.8904H20.2658V32.7242Z" fill="#BFEAFC"/>
+<path d="M20.2658 32.5582H8.38867V32.7243H20.2658V32.5582Z" fill="#BEE9FC"/>
+<path d="M20.2658 32.392H8.38867V32.5581H20.2658V32.392Z" fill="#BDE9FC"/>
+<path d="M20.2658 32.1429H8.38867V32.309H20.2658V32.1429Z" fill="#BCE9FC"/>
+<path d="M20.2658 31.9768H8.38867V32.1429H20.2658V31.9768Z" fill="#BBE8FC"/>
+<path d="M20.2658 31.8107H8.38867V31.9768H20.2658V31.8107Z" fill="#BAE8FC"/>
+<path d="M20.2658 31.5615H8.38867V31.7276H20.2658V31.5615Z" fill="#B9E7FC"/>
+<path d="M20.2658 31.3954H8.38867V31.5615H20.2658V31.3954Z" fill="#B8E7FC"/>
+<path d="M20.2658 31.2292H8.38867V31.3954H20.2658V31.2292Z" fill="#B7E7FC"/>
+<path d="M20.2658 30.9801H8.38867V31.1462H20.2658V30.9801Z" fill="#B6E6FC"/>
+<path d="M20.2658 30.814H8.38867V30.9801H20.2658V30.814Z" fill="#B5E6FB"/>
+<path d="M20.2658 30.6479H8.38867V30.814H20.2658V30.6479Z" fill="#B4E6FB"/>
+<path d="M20.2658 30.3987H8.38867V30.5648H20.2658V30.3987Z" fill="#B3E5FB"/>
+<path d="M20.2658 30.2326H8.38867V30.3987H20.2658V30.2326Z" fill="#B2E5FB"/>
+<path d="M20.2658 30.0665H8.38867V30.2326H20.2658V30.0665Z" fill="#B1E5FB"/>
+<path d="M20.2658 29.9004H8.38867V30.0665H20.2658V29.9004Z" fill="#B0E4FB"/>
+<path d="M20.2658 29.6512H8.38867V29.8173H20.2658V29.6512Z" fill="#AFE4FB"/>
+<path d="M20.2658 29.4851H8.38867V29.6512H20.2658V29.4851Z" fill="#AEE4FB"/>
+<path d="M20.2658 29.319H8.38867V29.4851H20.2658V29.319Z" fill="#ADE3FB"/>
+<path d="M20.2658 29.0698H8.38867V29.2359H20.2658V29.0698Z" fill="#ACE3FB"/>
+<path d="M20.2658 28.9037H8.38867V29.0698H20.2658V28.9037Z" fill="#ABE3FB"/>
+<path d="M20.2658 28.7375H8.38867V28.9037H20.2658V28.7375Z" fill="#AAE2FB"/>
+<path d="M20.2658 28.4884H8.38867V28.6545H20.2658V28.4884Z" fill="#A9E2FB"/>
+<path d="M20.2658 28.3223H8.38867V28.4884H20.2658V28.3223Z" fill="#A8E2FB"/>
+<path d="M20.2658 28.1562H8.38867V28.3223H20.2658V28.1562Z" fill="#A7E1FB"/>
+<path d="M20.2658 27.907H8.38867V28.0731H20.2658V27.907Z" fill="#A6E1FB"/>
+<path d="M20.2658 27.7409H8.38867V27.907H20.2658V27.7409Z" fill="#A5E0FA"/>
+<path d="M20.2658 27.5748H8.38867V27.7409H20.2658V27.5748Z" fill="#A4E0FA"/>
+<path d="M20.2658 27.4087H8.38867V27.5748H20.2658V27.4087Z" fill="#A3E0FA"/>
+<path d="M20.2658 27.1595H8.38867V27.3256H20.2658V27.1595Z" fill="#A2DFFA"/>
+<path d="M20.2658 26.9934H8.38867V27.1595H20.2658V26.9934Z" fill="#A1DFFA"/>
+<path d="M20.2658 26.8273H8.38867V26.9934H20.2658V26.8273Z" fill="#A0DFFA"/>
+<path d="M20.2658 26.5781H8.38867V26.7442H20.2658V26.5781Z" fill="#9FDEFA"/>
+<path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
+</svg>
+</a><!---->
+            <!-- <a title="High Performance NLP with Apache Spark
+" href="/">Spark NLP</a> -->
+          <!---->
+        </div></div><nav class="navigation top_navigation">
+        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item "><a href="/docs/en/quickstart">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
+      </nav><a class="responsive_btn" href="#" id="aside_menu">          
+        <i class="fas fa-bars"></i>
+        <i class="fas fa-times"></i>
+        </a>
+    </div>
+  </header>
+</div><div class="page__content "><div class ="main"><div class="grid grid--reverse">
+
+              <div class="col-aside d-print-none js-col-aside"></div>
+
+              <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
+
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 19, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-19T00:00:00+00:00"></div><header><h1>Detect Entities in 40 languages - XTREME (ner_xtreme_glove_840B_300)</h1></header></div><meta itemprop="headline" content="Detect Entities in 40 languages - XTREME (ner_xtreme_glove_840B_300)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>xtreme</li><li>ner</li><li>multilingual</li><li>xx</li><li>glove</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-19T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,xtreme,ner,multilingual,xx,glove"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>XTREME: A Massively Multilingual Multi-task Benchmark for Evaluating Cross-lingual Generalization. This NER model was trained over the XTREME dataset by using WordEmbeddings (glove_840B_300).</p>
+
+<p>This NER model covers a subset of the 40 languages included in XTREME (shown here with their ISO 639-1 code):</p>
+
+<p><code class="language-plaintext highlighter-rouge">af</code>, <code class="language-plaintext highlighter-rouge">ar</code>, <code class="language-plaintext highlighter-rouge">bg</code>, <code class="language-plaintext highlighter-rouge">bn</code>, <code class="language-plaintext highlighter-rouge">de</code>, <code class="language-plaintext highlighter-rouge">el</code>, <code class="language-plaintext highlighter-rouge">en</code>, <code class="language-plaintext highlighter-rouge">es</code>, <code class="language-plaintext highlighter-rouge">et</code>, <code class="language-plaintext highlighter-rouge">eu</code>, <code class="language-plaintext highlighter-rouge">fa</code>, <code class="language-plaintext highlighter-rouge">fi</code>, <code class="language-plaintext highlighter-rouge">fr</code>, <code class="language-plaintext highlighter-rouge">he</code>, <code class="language-plaintext highlighter-rouge">hi</code>, <code class="language-plaintext highlighter-rouge">hu</code>, <code class="language-plaintext highlighter-rouge">id</code>, <code class="language-plaintext highlighter-rouge">it</code>, <code class="language-plaintext highlighter-rouge">ja</code>, <code class="language-plaintext highlighter-rouge">jv</code>, <code class="language-plaintext highlighter-rouge">ka</code>, <code class="language-plaintext highlighter-rouge">kk</code>, <code class="language-plaintext highlighter-rouge">ko</code>, <code class="language-plaintext highlighter-rouge">ml</code>, <code class="language-plaintext highlighter-rouge">mr</code>, <code class="language-plaintext highlighter-rouge">ms</code>, <code class="language-plaintext highlighter-rouge">my</code>, <code class="language-plaintext highlighter-rouge">nl</code>, <code class="language-plaintext highlighter-rouge">pt</code>, <code class="language-plaintext highlighter-rouge">ru</code>, <code class="language-plaintext highlighter-rouge">sw</code>, <code class="language-plaintext highlighter-rouge">ta</code>, <code class="language-plaintext highlighter-rouge">te</code>, <code class="language-plaintext highlighter-rouge">th</code>, <code class="language-plaintext highlighter-rouge">tl</code>, <code class="language-plaintext highlighter-rouge">tr</code>, <code class="language-plaintext highlighter-rouge">ur</code>, <code class="language-plaintext highlighter-rouge">vi</code>, <code class="language-plaintext highlighter-rouge">yo</code>, and <code class="language-plaintext highlighter-rouge">zh</code></p>
+
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p><code class="language-plaintext highlighter-rouge">B-LOC</code> 
+<code class="language-plaintext highlighter-rouge">I-LOC</code>
+<code class="language-plaintext highlighter-rouge">B-ORG</code>
+<code class="language-plaintext highlighter-rouge">I-ORG</code>
+<code class="language-plaintext highlighter-rouge">B-PER</code>
+<code class="language-plaintext highlighter-rouge">I-PER</code></p>
+
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_xtreme_glove_840B_300_xx_3.1.3_2.4_1626709939135.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+
+<h2 id="how-to-use">How to use</h2>
+
+<div class="tabs-box">
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
+</div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'glove_840B_300'</span><span class="p">,</span> <span class="s">'xx'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_xtreme_glove_840B_300'</span><span class="p">,</span> <span class="s">'xx'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'ner'</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'entities'</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">ner_model</span><span class="p">,</span>
+    <span class="n">ner_converter</span>
+<span class="p">])</span>
+
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">'My name is John!'</span><span class="p">]}))</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+</code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"glove_840B_300"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_xtreme_glove_840B_300"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">',</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner_model</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">My</span> <span class="kt">name</span> <span class="kt">is</span> <span class="kt">John!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"My name is John!"</span><span class="p">]</span>
+
+<span class="n">ner_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'xx.ner.ner_xtreme_glove_840B_300'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'token'</span><span class="p">)</span>
+</code></pre></div>  </div>
+</div>
+
+<h2 class="model-param" id="model-information">Model Information</h2>
+
+<table class="table-model">
+  <tbody>
+    <tr>
+      <td>Model Name:</td>
+      <td>ner_xtreme_glove_840B_300</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>ner</td>
+    </tr>
+    <tr>
+      <td>Compatibility:</td>
+      <td>Spark NLP 3.1.3+</td>
+    </tr>
+    <tr>
+      <td>License:</td>
+      <td>Open Source</td>
+    </tr>
+    <tr>
+      <td>Edition:</td>
+      <td>Official</td>
+    </tr>
+    <tr>
+      <td>Input Labels:</td>
+      <td>[sentence, token, embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
+    </tr>
+    <tr>
+      <td>Language:</td>
+      <td>xx</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="data-source">Data Source</h2>
+
+<p><a href="https://github.com/google-research/xtreme">https://github.com/google-research/xtreme</a></p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Language by language benchmarks <span class="o">(</span>multi-label classification and CoNLL Eval<span class="o">)</span>:
+
+<span class="c">###############################</span>
+lang:  af
+              precision    recall  f1-score   support
+
+       B-LOC       0.83      0.84      0.83       562
+       I-ORG       0.88      0.87      0.87       786
+       I-LOC       0.70      0.60      0.65       198
+       I-PER       0.90      0.91      0.91       504
+       B-ORG       0.87      0.81      0.84       569
+       B-PER       0.90      0.89      0.89       356
+
+   micro avg       0.86      0.85      0.85      2975
+   macro avg       0.84      0.82      0.83      2975
+weighted avg       0.86      0.85      0.85      2975
+
+processed 10808 tokens with 1487 phrases<span class="p">;</span> found: 1460 phrases<span class="p">;</span> correct: 1230.
+accuracy:  84.50%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  94.64%<span class="p">;</span> precision:  84.25%<span class="p">;</span> recall:  82.72%<span class="p">;</span> FB1:  83.47
+              LOC: precision:  81.15%<span class="p">;</span> recall:  82.74%<span class="p">;</span> FB1:  81.94  573
+              ORG: precision:  85.18%<span class="p">;</span> recall:  79.79%<span class="p">;</span> FB1:  82.40  533
+              PER: precision:  87.85%<span class="p">;</span> recall:  87.36%<span class="p">;</span> FB1:  87.61  354
+
+
+
+
+<span class="c">###############################</span>
+lang:  ar
+              precision    recall  f1-score   support
+
+       B-LOC       0.88      0.71      0.79      3780
+       I-ORG       0.76      0.87      0.81     10045
+       I-LOC       0.92      0.80      0.85      9073
+       I-PER       0.81      0.87      0.84      7937
+       B-ORG       0.76      0.76      0.76      3629
+       B-PER       0.82      0.82      0.82      3850
+
+   micro avg       0.82      0.82      0.82     38314
+   macro avg       0.82      0.81      0.81     38314
+weighted avg       0.83      0.82      0.82     38314
+
+processed 64347 tokens with 11259 phrases<span class="p">;</span> found: 10564 phrases<span class="p">;</span> correct: 8242.
+accuracy:  82.24%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  87.23%<span class="p">;</span> precision:  78.02%<span class="p">;</span> recall:  73.20%<span class="p">;</span> FB1:  75.53
+              LOC: precision:  85.80%<span class="p">;</span> recall:  69.23%<span class="p">;</span> FB1:  76.63  3050
+              ORG: precision:  71.82%<span class="p">;</span> recall:  72.28%<span class="p">;</span> FB1:  72.05  3652
+              PER: precision:  77.73%<span class="p">;</span> recall:  77.97%<span class="p">;</span> FB1:  77.85  3862
+
+
+
+
+<span class="c">###############################</span>
+lang:  <span class="nb">bg
+              </span>precision    recall  f1-score   support
+
+       B-LOC       0.89      0.91      0.90      6436
+       I-ORG       0.82      0.87      0.85      7964
+       I-LOC       0.85      0.78      0.82      3213
+       I-PER       0.89      0.88      0.89      4982
+       B-ORG       0.79      0.77      0.78      3670
+       B-PER       0.91      0.86      0.88      3954
+
+   micro avg       0.86      0.86      0.86     30219
+   macro avg       0.86      0.85      0.85     30219
+weighted avg       0.86      0.86      0.86     30219
+
+processed 83463 tokens with 14060 phrases<span class="p">;</span> found: 13897 phrases<span class="p">;</span> correct: 11836.
+accuracy:  85.80%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  93.83%<span class="p">;</span> precision:  85.17%<span class="p">;</span> recall:  84.18%<span class="p">;</span> FB1:  84.67
+              LOC: precision:  88.08%<span class="p">;</span> recall:  90.23%<span class="p">;</span> FB1:  89.14  6593
+              ORG: precision:  75.27%<span class="p">;</span> recall:  73.57%<span class="p">;</span> FB1:  74.41  3587
+              PER: precision:  89.56%<span class="p">;</span> recall:  84.19%<span class="p">;</span> FB1:  86.79  3717
+
+
+
+
+<span class="c">###############################</span>
+lang:  bn
+              precision    recall  f1-score   support
+
+       B-LOC       0.94      0.82      0.88       393
+       I-ORG       0.86      0.93      0.89      1031
+       I-LOC       0.94      0.82      0.88       703
+       I-PER       0.84      0.92      0.88       731
+       B-ORG       0.87      0.90      0.88       349
+       B-PER       0.87      0.91      0.89       347
+
+   micro avg       0.88      0.89      0.88      3554
+   macro avg       0.89      0.88      0.88      3554
+weighted avg       0.88      0.89      0.88      3554
+
+processed 4377 tokens with 1089 phrases<span class="p">;</span> found: 1071 phrases<span class="p">;</span> correct: 932.
+accuracy:  89.00%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.10%<span class="p">;</span> precision:  87.02%<span class="p">;</span> recall:  85.58%<span class="p">;</span> FB1:  86.30
+              LOC: precision:  92.17%<span class="p">;</span> recall:  80.92%<span class="p">;</span> FB1:  86.18  345
+              ORG: precision:  85.40%<span class="p">;</span> recall:  88.83%<span class="p">;</span> FB1:  87.08  363
+              PER: precision:  83.75%<span class="p">;</span> recall:  87.61%<span class="p">;</span> FB1:  85.63  363
+
+
+
+
+<span class="c">###############################</span>
+lang:  de
+              precision    recall  f1-score   support
+
+       B-LOC       0.78      0.77      0.78      4961
+       I-ORG       0.77      0.76      0.76      6043
+       I-LOC       0.77      0.58      0.66      2289
+       I-PER       0.96      0.84      0.89      6792
+       B-ORG       0.69      0.73      0.71      4157
+       B-PER       0.96      0.83      0.89      4750
+
+   micro avg       0.83      0.77      0.80     28992
+   macro avg       0.82      0.75      0.78     28992
+weighted avg       0.84      0.77      0.80     28992
+
+processed 97646 tokens with 13868 phrases<span class="p">;</span> found: 13393 phrases<span class="p">;</span> correct: 10307.
+accuracy:  77.18%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  91.95%<span class="p">;</span> precision:  76.96%<span class="p">;</span> recall:  74.32%<span class="p">;</span> FB1:  75.62
+              LOC: precision:  75.34%<span class="p">;</span> recall:  73.90%<span class="p">;</span> FB1:  74.61  4866
+              ORG: precision:  64.23%<span class="p">;</span> recall:  68.15%<span class="p">;</span> FB1:  66.13  4411
+              PER: precision:  92.52%<span class="p">;</span> recall:  80.17%<span class="p">;</span> FB1:  85.90  4116
+
+
+
+
+<span class="c">###############################</span>
+lang:  el
+              precision    recall  f1-score   support
+
+       B-LOC       0.84      0.84      0.84      4476
+       I-ORG       0.79      0.88      0.83      6685
+       I-LOC       0.74      0.54      0.62      1919
+       I-PER       0.90      0.87      0.88      5392
+       B-ORG       0.78      0.81      0.79      3655
+       B-PER       0.89      0.84      0.87      4032
+
+   micro avg       0.83      0.83      0.83     26159
+   macro avg       0.82      0.80      0.81     26159
+weighted avg       0.83      0.83      0.83     26159
+
+processed 90666 tokens with 12164 phrases<span class="p">;</span> found: 12083 phrases<span class="p">;</span> correct: 9880.
+accuracy:  82.97%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  94.09%<span class="p">;</span> precision:  81.77%<span class="p">;</span> recall:  81.22%<span class="p">;</span> FB1:  81.49
+              LOC: precision:  82.55%<span class="p">;</span> recall:  82.73%<span class="p">;</span> FB1:  82.64  4486
+              ORG: precision:  75.29%<span class="p">;</span> recall:  77.95%<span class="p">;</span> FB1:  76.60  3784
+              PER: precision:  87.28%<span class="p">;</span> recall:  82.52%<span class="p">;</span> FB1:  84.83  3813
+
+
+
+
+<span class="c">###############################</span>
+lang:  en
+              precision    recall  f1-score   support
+
+       B-LOC       0.80      0.77      0.78      4657
+       I-ORG       0.77      0.68      0.72     11607
+       I-LOC       0.87      0.62      0.72      6447
+       I-PER       0.93      0.75      0.83      7480
+       B-ORG       0.75      0.65      0.69      4745
+       B-PER       0.94      0.82      0.87      4556
+
+   micro avg       0.83      0.71      0.77     39492
+   macro avg       0.84      0.71      0.77     39492
+weighted avg       0.84      0.71      0.76     39492
+
+processed 80326 tokens with 13958 phrases<span class="p">;</span> found: 12542 phrases<span class="p">;</span> correct: 9604.
+accuracy:  70.66%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  84.66%<span class="p">;</span> precision:  76.57%<span class="p">;</span> recall:  68.81%<span class="p">;</span> FB1:  72.48
+              LOC: precision:  72.53%<span class="p">;</span> recall:  69.47%<span class="p">;</span> FB1:  70.97  4460
+              ORG: precision:  67.03%<span class="p">;</span> recall:  58.02%<span class="p">;</span> FB1:  62.20  4107
+              PER: precision:  90.97%<span class="p">;</span> recall:  79.37%<span class="p">;</span> FB1:  84.77  3975
+
+
+
+
+<span class="c">###############################</span>
+lang:  es
+              precision    recall  f1-score   support
+
+       B-LOC       0.94      0.85      0.89      4725
+       I-ORG       0.84      0.91      0.87     11371
+       I-LOC       0.90      0.73      0.81      6601
+       I-PER       0.95      0.86      0.91      7004
+       B-ORG       0.80      0.89      0.84      3576
+       B-PER       0.96      0.88      0.92      3959
+
+   micro avg       0.89      0.86      0.87     37236
+   macro avg       0.90      0.85      0.87     37236
+weighted avg       0.89      0.86      0.87     37236
+
+processed 64727 tokens with 12260 phrases<span class="p">;</span> found: 11855 phrases<span class="p">;</span> correct: 10412.
+accuracy:  85.65%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  91.26%<span class="p">;</span> precision:  87.83%<span class="p">;</span> recall:  84.93%<span class="p">;</span> FB1:  86.35
+              LOC: precision:  91.20%<span class="p">;</span> recall:  82.29%<span class="p">;</span> FB1:  86.52  4263
+              ORG: precision:  78.06%<span class="p">;</span> recall:  86.24%<span class="p">;</span> FB1:  81.94  3951
+              PER: precision:  94.48%<span class="p">;</span> recall:  86.89%<span class="p">;</span> FB1:  90.53  3641
+
+
+
+
+<span class="c">###############################</span>
+lang:  et
+              precision    recall  f1-score   support
+
+       B-LOC       0.82      0.82      0.82      5888
+       I-ORG       0.85      0.76      0.80      5731
+       I-LOC       0.71      0.73      0.72      2467
+       I-PER       0.95      0.86      0.90      5471
+       B-ORG       0.82      0.70      0.75      3875
+       B-PER       0.96      0.85      0.90      4129
+
+   micro avg       0.86      0.79      0.83     27561
+   macro avg       0.85      0.79      0.82     27561
+weighted avg       0.86      0.79      0.83     27561
+
+processed 80485 tokens with 13892 phrases<span class="p">;</span> found: 12865 phrases<span class="p">;</span> correct: 10397.
+accuracy:  79.45%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  91.98%<span class="p">;</span> precision:  80.82%<span class="p">;</span> recall:  74.84%<span class="p">;</span> FB1:  77.71
+              LOC: precision:  75.94%<span class="p">;</span> recall:  75.75%<span class="p">;</span> FB1:  75.84  5873
+              ORG: precision:  75.55%<span class="p">;</span> recall:  64.83%<span class="p">;</span> FB1:  69.78  3325
+              PER: precision:  93.40%<span class="p">;</span> recall:  82.95%<span class="p">;</span> FB1:  87.87  3667
+
+
+
+
+<span class="c">###############################</span>
+lang:  eu
+              precision    recall  f1-score   support
+
+       B-LOC       0.84      0.88      0.86      5682
+       I-ORG       0.86      0.75      0.80      5560
+       I-LOC       0.75      0.78      0.77      2876
+       I-PER       0.95      0.88      0.91      5449
+       B-ORG       0.81      0.72      0.77      3669
+       B-PER       0.94      0.83      0.88      4108
+
+   micro avg       0.87      0.82      0.84     27344
+   macro avg       0.86      0.81      0.83     27344
+weighted avg       0.87      0.82      0.84     27344
+
+processed 90661 tokens with 13459 phrases<span class="p">;</span> found: 12843 phrases<span class="p">;</span> correct: 10619.
+accuracy:  81.56%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  93.91%<span class="p">;</span> precision:  82.68%<span class="p">;</span> recall:  78.90%<span class="p">;</span> FB1:  80.75
+              LOC: precision:  80.69%<span class="p">;</span> recall:  84.72%<span class="p">;</span> FB1:  82.66  5966
+              ORG: precision:  76.70%<span class="p">;</span> recall:  68.08%<span class="p">;</span> FB1:  72.13  3257
+              PER: precision:  91.35%<span class="p">;</span> recall:  80.50%<span class="p">;</span> FB1:  85.58  3620
+
+
+
+
+<span class="c">###############################</span>
+lang:  fa
+              precision    recall  f1-score   support
+
+       B-LOC       0.91      0.81      0.86      3663
+       I-ORG       0.89      0.92      0.91     13255
+       I-LOC       0.92      0.85      0.88      8547
+       I-PER       0.85      0.87      0.86      7900
+       B-ORG       0.85      0.84      0.85      3535
+       B-PER       0.84      0.84      0.84      3544
+
+   micro avg       0.88      0.87      0.88     40444
+   macro avg       0.88      0.86      0.87     40444
+weighted avg       0.88      0.87      0.88     40444
+
+processed 59491 tokens with 10742 phrases<span class="p">;</span> found: 10313 phrases<span class="p">;</span> correct: 8793.
+accuracy:  87.31%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  90.55%<span class="p">;</span> precision:  85.26%<span class="p">;</span> recall:  81.86%<span class="p">;</span> FB1:  83.52
+              LOC: precision:  89.56%<span class="p">;</span> recall:  79.88%<span class="p">;</span> FB1:  84.44  3267
+              ORG: precision:  83.85%<span class="p">;</span> recall:  83.14%<span class="p">;</span> FB1:  83.49  3505
+              PER: precision:  82.69%<span class="p">;</span> recall:  82.62%<span class="p">;</span> FB1:  82.65  3541
+
+
+
+
+<span class="c">###############################</span>
+lang:  <span class="k">fi
+              </span>precision    recall  f1-score   support
+
+       B-LOC       0.82      0.84      0.83      5629
+       I-ORG       0.84      0.79      0.81      5522
+       I-LOC       0.56      0.56      0.56      1096
+       I-PER       0.97      0.89      0.93      5437
+       B-ORG       0.79      0.69      0.74      4180
+       B-PER       0.97      0.88      0.92      4745
+
+   micro avg       0.86      0.81      0.84     26609
+   macro avg       0.83      0.78      0.80     26609
+weighted avg       0.87      0.81      0.84     26609
+
+processed 83660 tokens with 14554 phrases<span class="p">;</span> found: 13685 phrases<span class="p">;</span> correct: 11218.
+accuracy:  81.22%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  93.00%<span class="p">;</span> precision:  81.97%<span class="p">;</span> recall:  77.08%<span class="p">;</span> FB1:  79.45
+              LOC: precision:  77.73%<span class="p">;</span> recall:  79.13%<span class="p">;</span> FB1:  78.42  5730
+              ORG: precision:  72.27%<span class="p">;</span> recall:  63.47%<span class="p">;</span> FB1:  67.58  3671
+              PER: precision:  95.96%<span class="p">;</span> recall:  86.64%<span class="p">;</span> FB1:  91.06  4284
+
+
+
+
+<span class="c">###############################</span>
+lang:  fr
+              precision    recall  f1-score   support
+
+       B-LOC       0.90      0.79      0.84      4985
+       I-ORG       0.82      0.85      0.83     10386
+       I-LOC       0.89      0.72      0.79      5859
+       I-PER       0.95      0.81      0.87      6528
+       B-ORG       0.80      0.83      0.81      3885
+       B-PER       0.96      0.85      0.90      4499
+
+   micro avg       0.88      0.81      0.84     36142
+   macro avg       0.89      0.81      0.84     36142
+weighted avg       0.88      0.81      0.84     36142
+
+processed 68754 tokens with 13369 phrases<span class="p">;</span> found: 12405 phrases<span class="p">;</span> correct: 10621.
+accuracy:  81.03%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.43%<span class="p">;</span> precision:  85.62%<span class="p">;</span> recall:  79.44%<span class="p">;</span> FB1:  82.42
+              LOC: precision:  86.39%<span class="p">;</span> recall:  76.05%<span class="p">;</span> FB1:  80.89  4388
+              ORG: precision:  75.96%<span class="p">;</span> recall:  78.74%<span class="p">;</span> FB1:  77.33  4027
+              PER: precision:  94.51%<span class="p">;</span> recall:  83.82%<span class="p">;</span> FB1:  88.84  3990
+
+
+
+
+<span class="c">###############################</span>
+lang:  he
+              precision    recall  f1-score   support
+
+       B-LOC       0.81      0.67      0.73      5160
+       I-ORG       0.67      0.71      0.69      6907
+       I-LOC       0.73      0.56      0.63      3133
+       I-PER       0.76      0.83      0.79      6816
+       B-ORG       0.69      0.59      0.64      4142
+       B-PER       0.75      0.78      0.77      4396
+
+   micro avg       0.73      0.71      0.72     30554
+   macro avg       0.74      0.69      0.71     30554
+weighted avg       0.74      0.71      0.72     30554
+
+processed 85422 tokens with 13698 phrases<span class="p">;</span> found: 12333 phrases<span class="p">;</span> correct: 8741.
+accuracy:  70.75%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  87.43%<span class="p">;</span> precision:  70.87%<span class="p">;</span> recall:  63.81%<span class="p">;</span> FB1:  67.16
+              LOC: precision:  78.18%<span class="p">;</span> recall:  64.36%<span class="p">;</span> FB1:  70.60  4248
+              ORG: precision:  62.20%<span class="p">;</span> recall:  53.31%<span class="p">;</span> FB1:  57.41  3550
+              PER: precision:  70.83%<span class="p">;</span> recall:  73.07%<span class="p">;</span> FB1:  71.93  4535
+
+
+
+
+<span class="c">###############################</span>
+lang:  hi
+              precision    recall  f1-score   support
+
+       B-LOC       0.84      0.71      0.77       414
+       I-ORG       0.79      0.84      0.81      1123
+       I-LOC       0.80      0.55      0.65       398
+       I-PER       0.74      0.83      0.78       598
+       B-ORG       0.76      0.79      0.77       364
+       B-PER       0.82      0.82      0.82       450
+
+   micro avg       0.79      0.78      0.78      3347
+   macro avg       0.79      0.76      0.77      3347
+weighted avg       0.79      0.78      0.78      3347
+
+processed 6005 tokens with 1228 phrases<span class="p">;</span> found: 1183 phrases<span class="p">;</span> correct: 900.
+accuracy:  77.92%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  85.15%<span class="p">;</span> precision:  76.08%<span class="p">;</span> recall:  73.29%<span class="p">;</span> FB1:  74.66
+              LOC: precision:  79.60%<span class="p">;</span> recall:  67.87%<span class="p">;</span> FB1:  73.27  353
+              ORG: precision:  72.11%<span class="p">;</span> recall:  75.27%<span class="p">;</span> FB1:  73.66  380
+              PER: precision:  76.67%<span class="p">;</span> recall:  76.67%<span class="p">;</span> FB1:  76.67  450
+
+
+
+
+<span class="c">###############################</span>
+lang:  hu
+              precision    recall  f1-score   support
+
+       B-LOC       0.84      0.86      0.85      5671
+       I-ORG       0.81      0.82      0.81      5341
+       I-LOC       0.78      0.73      0.75      2404
+       I-PER       0.96      0.87      0.91      5501
+       B-ORG       0.81      0.77      0.79      3982
+       B-PER       0.96      0.86      0.91      4510
+
+   micro avg       0.87      0.83      0.85     27409
+   macro avg       0.86      0.82      0.84     27409
+weighted avg       0.87      0.83      0.85     27409
+
+processed 90302 tokens with 14163 phrases<span class="p">;</span> found: 13631 phrases<span class="p">;</span> correct: 11348.
+accuracy:  82.81%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  93.83%<span class="p">;</span> precision:  83.25%<span class="p">;</span> recall:  80.12%<span class="p">;</span> FB1:  81.66
+              LOC: precision:  80.91%<span class="p">;</span> recall:  83.09%<span class="p">;</span> FB1:  81.98  5824
+              ORG: precision:  75.76%<span class="p">;</span> recall:  71.82%<span class="p">;</span> FB1:  73.74  3775
+              PER: precision:  93.65%<span class="p">;</span> recall:  83.73%<span class="p">;</span> FB1:  88.41  4032
+
+
+
+
+<span class="c">###############################</span>
+lang:  <span class="nb">id
+              </span>precision    recall  f1-score   support
+
+       B-LOC       0.92      0.91      0.92      3745
+       I-ORG       0.87      0.90      0.89      8584
+       I-LOC       0.95      0.94      0.94      7809
+       I-PER       0.96      0.85      0.90      6520
+       B-ORG       0.86      0.87      0.87      3733
+       B-PER       0.96      0.86      0.91      3969
+
+   micro avg       0.92      0.89      0.91     34360
+   macro avg       0.92      0.89      0.90     34360
+weighted avg       0.92      0.89      0.91     34360
+
+processed 61834 tokens with 11447 phrases<span class="p">;</span> found: 11094 phrases<span class="p">;</span> correct: 9903.
+accuracy:  89.21%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  93.41%<span class="p">;</span> precision:  89.26%<span class="p">;</span> recall:  86.51%<span class="p">;</span> FB1:  87.87
+              LOC: precision:  90.17%<span class="p">;</span> recall:  89.88%<span class="p">;</span> FB1:  90.02  3733
+              ORG: precision:  83.39%<span class="p">;</span> recall:  84.89%<span class="p">;</span> FB1:  84.14  3800
+              PER: precision:  94.58%<span class="p">;</span> recall:  84.86%<span class="p">;</span> FB1:  89.46  3561
+
+
+
+
+<span class="c">###############################</span>
+lang:  it
+              precision    recall  f1-score   support
+
+       B-LOC       0.91      0.77      0.83      4820
+       I-ORG       0.83      0.82      0.83      9222
+       I-LOC       0.85      0.62      0.72      4366
+       I-PER       0.96      0.87      0.92      5794
+       B-ORG       0.80      0.81      0.81      4087
+       B-PER       0.97      0.90      0.93      4842
+
+   micro avg       0.88      0.81      0.84     33131
+   macro avg       0.89      0.80      0.84     33131
+weighted avg       0.88      0.81      0.84     33131
+
+processed 80871 tokens with 13749 phrases<span class="p">;</span> found: 12679 phrases<span class="p">;</span> correct: 10917.
+accuracy:  80.69%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  91.42%<span class="p">;</span> precision:  86.10%<span class="p">;</span> recall:  79.40%<span class="p">;</span> FB1:  82.62
+              LOC: precision:  86.40%<span class="p">;</span> recall:  73.05%<span class="p">;</span> FB1:  79.17  4075
+              ORG: precision:  75.26%<span class="p">;</span> recall:  76.29%<span class="p">;</span> FB1:  75.77  4143
+              PER: precision:  95.90%<span class="p">;</span> recall:  88.35%<span class="p">;</span> FB1:  91.97  4461
+
+
+
+
+<span class="c">###############################</span>
+lang:  ja
+              precision    recall  f1-score   support
+
+       B-LOC       0.83      0.51      0.64      5094
+       I-ORG       0.56      0.56      0.56     24814
+       I-LOC       0.83      0.50      0.62     17278
+       I-PER       0.84      0.50      0.63     21756
+       B-ORG       0.55      0.54      0.55      4267
+       B-PER       0.80      0.55      0.65      4085
+
+   micro avg       0.69      0.52      0.60     77294
+   macro avg       0.73      0.53      0.61     77294
+weighted avg       0.73      0.52      0.60     77294
+
+processed 306959 tokens with 13976 phrases<span class="p">;</span> found: 10196 phrases<span class="p">;</span> correct: 6870.
+accuracy:  52.43%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  86.02%<span class="p">;</span> precision:  67.38%<span class="p">;</span> recall:  49.16%<span class="p">;</span> FB1:  56.84
+              LOC: precision:  80.60%<span class="p">;</span> recall:  49.01%<span class="p">;</span> FB1:  60.96  3134
+              ORG: precision:  52.36%<span class="p">;</span> recall:  47.55%<span class="p">;</span> FB1:  49.84  4236
+              PER: precision:  75.23%<span class="p">;</span> recall:  51.14%<span class="p">;</span> FB1:  60.89  2826
+
+
+
+
+<span class="c">###############################</span>
+lang:  jv
+              precision    recall  f1-score   support
+
+       B-LOC       0.88      0.85      0.86        52
+       I-ORG       0.71      0.76      0.74        66
+       I-LOC       0.67      0.70      0.68        43
+       I-PER       0.84      0.70      0.77        44
+       B-ORG       0.74      0.78      0.76        40
+       B-PER       0.90      0.72      0.80        25
+
+   micro avg       0.77      0.76      0.76       270
+   macro avg       0.79      0.75      0.77       270
+weighted avg       0.78      0.76      0.77       270
+
+processed 678 tokens with 117 phrases<span class="p">;</span> found: 112 phrases<span class="p">;</span> correct: 90.
+accuracy:  75.56%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  88.94%<span class="p">;</span> precision:  80.36%<span class="p">;</span> recall:  76.92%<span class="p">;</span> FB1:  78.60
+              LOC: precision:  84.00%<span class="p">;</span> recall:  80.77%<span class="p">;</span> FB1:  82.35  50
+              ORG: precision:  73.81%<span class="p">;</span> recall:  77.50%<span class="p">;</span> FB1:  75.61  42
+              PER: precision:  85.00%<span class="p">;</span> recall:  68.00%<span class="p">;</span> FB1:  75.56  20
+
+
+
+
+<span class="c">###############################</span>
+lang:  ka
+              precision    recall  f1-score   support
+
+       B-LOC       0.82      0.72      0.77      5288
+       I-ORG       0.84      0.83      0.83      7800
+       I-LOC       0.72      0.59      0.65      2191
+       I-PER       0.80      0.88      0.84      4666
+       B-ORG       0.79      0.66      0.72      3807
+       B-PER       0.80      0.81      0.80      3962
+
+   micro avg       0.81      0.77      0.79     27714
+   macro avg       0.79      0.75      0.77     27714
+weighted avg       0.81      0.77      0.79     27714
+
+processed 81921 tokens with 13057 phrases<span class="p">;</span> found: 11833 phrases<span class="p">;</span> correct: 9017.
+accuracy:  77.30%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  90.06%<span class="p">;</span> precision:  76.20%<span class="p">;</span> recall:  69.06%<span class="p">;</span> FB1:  72.45
+              LOC: precision:  78.11%<span class="p">;</span> recall:  68.68%<span class="p">;</span> FB1:  73.09  4650
+              ORG: precision:  73.14%<span class="p">;</span> recall:  61.15%<span class="p">;</span> FB1:  66.61  3183
+              PER: precision:  76.42%<span class="p">;</span> recall:  77.16%<span class="p">;</span> FB1:  76.79  4000
+
+
+
+
+<span class="c">###############################</span>
+lang:  kk
+              precision    recall  f1-score   support
+
+       B-LOC       0.76      0.79      0.77       383
+       I-ORG       0.63      0.80      0.70       592
+       I-LOC       0.78      0.49      0.60       210
+       I-PER       0.84      0.84      0.84       466
+       B-ORG       0.63      0.61      0.62       355
+       B-PER       0.82      0.74      0.78       377
+
+   micro avg       0.72      0.74      0.73      2383
+   macro avg       0.74      0.71      0.72      2383
+weighted avg       0.73      0.74      0.73      2383
+
+processed 7936 tokens with 1115 phrases<span class="p">;</span> found: 1081 phrases<span class="p">;</span> correct: 744.
+accuracy:  74.11%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.57%<span class="p">;</span> precision:  68.83%<span class="p">;</span> recall:  66.73%<span class="p">;</span> FB1:  67.76
+              LOC: precision:  74.62%<span class="p">;</span> recall:  77.55%<span class="p">;</span> FB1:  76.06  398
+              ORG: precision:  52.48%<span class="p">;</span> recall:  50.70%<span class="p">;</span> FB1:  51.58  343
+              PER: precision:  78.53%<span class="p">;</span> recall:  70.82%<span class="p">;</span> FB1:  74.48  340
+
+
+
+
+<span class="c">###############################</span>
+lang:  ko
+              precision    recall  f1-score   support
+
+       B-LOC       0.88      0.81      0.85      5855
+       I-ORG       0.75      0.81      0.78      5437
+       I-LOC       0.79      0.82      0.80      2712
+       I-PER       0.74      0.84      0.79      3468
+       B-ORG       0.81      0.66      0.72      4319
+       B-PER       0.76      0.80      0.78      4249
+
+   micro avg       0.79      0.79      0.79     26040
+   macro avg       0.79      0.79      0.79     26040
+weighted avg       0.79      0.79      0.79     26040
+
+processed 80841 tokens with 14423 phrases<span class="p">;</span> found: 13369 phrases<span class="p">;</span> correct: 10274.
+accuracy:  78.94%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  90.59%<span class="p">;</span> precision:  76.85%<span class="p">;</span> recall:  71.23%<span class="p">;</span> FB1:  73.93
+              LOC: precision:  83.32%<span class="p">;</span> recall:  77.23%<span class="p">;</span> FB1:  80.16  5427
+              ORG: precision:  71.82%<span class="p">;</span> recall:  58.35%<span class="p">;</span> FB1:  64.38  3509
+              PER: precision:  72.91%<span class="p">;</span> recall:  76.06%<span class="p">;</span> FB1:  74.45  4433
+
+
+
+
+<span class="c">###############################</span>
+lang:  ml
+              precision    recall  f1-score   support
+
+       B-LOC       0.86      0.60      0.70       443
+       I-ORG       0.80      0.88      0.83       774
+       I-LOC       0.80      0.32      0.46       219
+       I-PER       0.73      0.85      0.78       492
+       B-ORG       0.74      0.71      0.72       354
+       B-PER       0.72      0.80      0.76       407
+
+   micro avg       0.77      0.75      0.76      2689
+   macro avg       0.77      0.69      0.71      2689
+weighted avg       0.78      0.75      0.75      2689
+
+processed 6727 tokens with 1204 phrases<span class="p">;</span> found: 1101 phrases<span class="p">;</span> correct: 810.
+accuracy:  74.64%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  87.88%<span class="p">;</span> precision:  73.57%<span class="p">;</span> recall:  67.28%<span class="p">;</span> FB1:  70.28
+              LOC: precision:  83.06%<span class="p">;</span> recall:  57.56%<span class="p">;</span> FB1:  68.00  307
+              ORG: precision:  70.06%<span class="p">;</span> recall:  68.08%<span class="p">;</span> FB1:  69.05  344
+              PER: precision:  69.78%<span class="p">;</span> recall:  77.15%<span class="p">;</span> FB1:  73.28  450
+
+
+
+
+<span class="c">###############################</span>
+lang:  mr
+              precision    recall  f1-score   support
+
+       B-LOC       0.84      0.69      0.76       525
+       I-ORG       0.78      0.91      0.84       852
+       I-LOC       0.67      0.49      0.57       258
+       I-PER       0.85      0.79      0.82       598
+       B-ORG       0.78      0.74      0.76       364
+       B-PER       0.82      0.79      0.80       375
+
+   micro avg       0.80      0.78      0.79      2972
+   macro avg       0.79      0.74      0.76      2972
+weighted avg       0.80      0.78      0.78      2972
+
+processed 7356 tokens with 1264 phrases<span class="p">;</span> found: 1142 phrases<span class="p">;</span> correct: 900.
+accuracy:  77.59%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  88.93%<span class="p">;</span> precision:  78.81%<span class="p">;</span> recall:  71.20%<span class="p">;</span> FB1:  74.81
+              LOC: precision:  81.57%<span class="p">;</span> recall:  67.43%<span class="p">;</span> FB1:  73.83  434
+              ORG: precision:  73.85%<span class="p">;</span> recall:  70.60%<span class="p">;</span> FB1:  72.19  348
+              PER: precision:  80.28%<span class="p">;</span> recall:  77.07%<span class="p">;</span> FB1:  78.64  360
+
+
+
+
+<span class="c">###############################</span>
+lang:  ms
+              precision    recall  f1-score   support
+
+       B-LOC       0.92      0.94      0.93       367
+       I-ORG       0.86      0.89      0.87       913
+       I-LOC       0.97      0.95      0.96       898
+       I-PER       0.95      0.78      0.86       555
+       B-ORG       0.82      0.85      0.84       375
+       B-PER       0.95      0.84      0.89       373
+
+   micro avg       0.91      0.88      0.90      3481
+   macro avg       0.91      0.87      0.89      3481
+weighted avg       0.91      0.88      0.90      3481
+
+processed 5874 tokens with 1115 phrases<span class="p">;</span> found: 1087 phrases<span class="p">;</span> correct: 952.
+accuracy:  88.28%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  92.12%<span class="p">;</span> precision:  87.58%<span class="p">;</span> recall:  85.38%<span class="p">;</span> FB1:  86.47
+              LOC: precision:  91.94%<span class="p">;</span> recall:  93.19%<span class="p">;</span> FB1:  92.56  372
+              ORG: precision:  78.81%<span class="p">;</span> recall:  81.33%<span class="p">;</span> FB1:  80.05  387
+              PER: precision:  92.99%<span class="p">;</span> recall:  81.77%<span class="p">;</span> FB1:  87.02  328
+
+
+
+
+<span class="c">###############################</span>
+lang:  my
+              precision    recall  f1-score   support
+
+       B-LOC       0.55      0.38      0.45        56
+       I-ORG       0.63      0.49      0.55        68
+       I-LOC       0.50      0.75      0.60         4
+       I-PER       0.30      0.67      0.41        46
+       B-ORG       0.84      0.48      0.62        33
+       B-PER       0.31      0.53      0.40        30
+
+   micro avg       0.44      0.51      0.47       237
+   macro avg       0.52      0.55      0.50       237
+weighted avg       0.54      0.51      0.49       237
+
+processed 756 tokens with 119 phrases<span class="p">;</span> found: 108 phrases<span class="p">;</span> correct: 46.
+accuracy:  50.63%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  74.07%<span class="p">;</span> precision:  42.59%<span class="p">;</span> recall:  38.66%<span class="p">;</span> FB1:  40.53
+              LOC: precision:  55.26%<span class="p">;</span> recall:  37.50%<span class="p">;</span> FB1:  44.68  38
+              ORG: precision:  68.42%<span class="p">;</span> recall:  39.39%<span class="p">;</span> FB1:  50.00  19
+              PER: precision:  23.53%<span class="p">;</span> recall:  40.00%<span class="p">;</span> FB1:  29.63  51
+
+
+
+
+<span class="c">###############################</span>
+lang:  <span class="nb">nl
+              </span>precision    recall  f1-score   support
+
+       B-LOC       0.90      0.85      0.87      5133
+       I-ORG       0.83      0.79      0.81      6693
+       I-LOC       0.90      0.68      0.77      3662
+       I-PER       0.96      0.86      0.91      6371
+       B-ORG       0.82      0.80      0.81      3908
+       B-PER       0.96      0.88      0.92      4684
+
+   micro avg       0.89      0.82      0.85     30451
+   macro avg       0.89      0.81      0.85     30451
+weighted avg       0.89      0.82      0.85     30451
+
+processed 85122 tokens with 13725 phrases<span class="p">;</span> found: 12947 phrases<span class="p">;</span> correct: 11196.
+accuracy:  81.69%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  92.93%<span class="p">;</span> precision:  86.48%<span class="p">;</span> recall:  81.57%<span class="p">;</span> FB1:  83.95
+              LOC: precision:  86.27%<span class="p">;</span> recall:  81.01%<span class="p">;</span> FB1:  83.55  4820
+              ORG: precision:  78.22%<span class="p">;</span> recall:  76.92%<span class="p">;</span> FB1:  77.56  3843
+              PER: precision:  94.12%<span class="p">;</span> recall:  86.08%<span class="p">;</span> FB1:  89.92  4284
+
+
+
+
+<span class="c">###############################</span>
+lang:  pt
+              precision    recall  f1-score   support
+
+       B-LOC       0.92      0.85      0.89      4779
+       I-ORG       0.83      0.88      0.85     10542
+       I-LOC       0.89      0.71      0.79      6467
+       I-PER       0.96      0.81      0.88      7310
+       B-ORG       0.81      0.85      0.83      3753
+       B-PER       0.96      0.85      0.90      4291
+
+   micro avg       0.88      0.83      0.85     37142
+   macro avg       0.89      0.82      0.86     37142
+weighted avg       0.89      0.83      0.85     37142
+
+processed 63647 tokens with 12823 phrases<span class="p">;</span> found: 12187 phrases<span class="p">;</span> correct: 10475.
+accuracy:  82.53%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.27%<span class="p">;</span> precision:  85.95%<span class="p">;</span> recall:  81.69%<span class="p">;</span> FB1:  83.77
+              LOC: precision:  87.47%<span class="p">;</span> recall:  81.04%<span class="p">;</span> FB1:  84.13  4428
+              ORG: precision:  77.42%<span class="p">;</span> recall:  81.32%<span class="p">;</span> FB1:  79.32  3942
+              PER: precision:  93.00%<span class="p">;</span> recall:  82.73%<span class="p">;</span> FB1:  87.57  3817
+
+
+
+
+<span class="c">###############################</span>
+lang:  ru
+              precision    recall  f1-score   support
+
+       B-LOC       0.75      0.81      0.78      4560
+       I-ORG       0.78      0.83      0.80      8008
+       I-LOC       0.63      0.69      0.66      3060
+       I-PER       0.93      0.83      0.88      7544
+       B-ORG       0.78      0.72      0.75      4074
+       B-PER       0.90      0.79      0.84      3543
+
+   micro avg       0.80      0.79      0.80     30789
+   macro avg       0.79      0.78      0.78     30789
+weighted avg       0.81      0.79      0.80     30789
+
+processed 71288 tokens with 12177 phrases<span class="p">;</span> found: 11798 phrases<span class="p">;</span> correct: 9093.
+accuracy:  79.34%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.47%<span class="p">;</span> precision:  77.07%<span class="p">;</span> recall:  74.67%<span class="p">;</span> FB1:  75.85
+              LOC: precision:  74.10%<span class="p">;</span> recall:  79.36%<span class="p">;</span> FB1:  76.64  4884
+              ORG: precision:  71.75%<span class="p">;</span> recall:  66.40%<span class="p">;</span> FB1:  68.97  3770
+              PER: precision:  88.07%<span class="p">;</span> recall:  78.15%<span class="p">;</span> FB1:  82.82  3144
+
+
+
+
+<span class="c">###############################</span>
+lang:  sw
+              precision    recall  f1-score   support
+
+       B-LOC       0.86      0.84      0.85       388
+       I-ORG       0.79      0.85      0.82       763
+       I-LOC       0.80      0.67      0.73       568
+       I-PER       0.97      0.87      0.92       744
+       B-ORG       0.84      0.88      0.86       374
+       B-PER       0.97      0.88      0.92       432
+
+   micro avg       0.87      0.83      0.85      3269
+   macro avg       0.87      0.83      0.85      3269
+weighted avg       0.87      0.83      0.85      3269
+
+processed 5786 tokens with 1194 phrases<span class="p">;</span> found: 1161 phrases<span class="p">;</span> correct: 1003.
+accuracy:  82.90%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.63%<span class="p">;</span> precision:  86.39%<span class="p">;</span> recall:  84.00%<span class="p">;</span> FB1:  85.18
+              LOC: precision:  81.33%<span class="p">;</span> recall:  78.61%<span class="p">;</span> FB1:  79.95  375
+              ORG: precision:  81.98%<span class="p">;</span> recall:  86.36%<span class="p">;</span> FB1:  84.11  394
+              PER: precision:  95.66%<span class="p">;</span> recall:  86.81%<span class="p">;</span> FB1:  91.02  392
+
+
+
+
+<span class="c">###############################</span>
+lang:  ta
+              precision    recall  f1-score   support
+
+       B-LOC       0.81      0.71      0.75       436
+       I-ORG       0.77      0.83      0.80       814
+       I-LOC       0.75      0.51      0.61       239
+       I-PER       0.84      0.91      0.87       615
+       B-ORG       0.77      0.68      0.72       383
+       B-PER       0.77      0.85      0.81       422
+
+   micro avg       0.79      0.79      0.79      2909
+   macro avg       0.78      0.75      0.76      2909
+weighted avg       0.79      0.79      0.78      2909
+
+processed 7234 tokens with 1241 phrases<span class="p">;</span> found: 1179 phrases<span class="p">;</span> correct: 869.
+accuracy:  78.51%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  88.98%<span class="p">;</span> precision:  73.71%<span class="p">;</span> recall:  70.02%<span class="p">;</span> FB1:  71.82
+              LOC: precision:  77.89%<span class="p">;</span> recall:  67.89%<span class="p">;</span> FB1:  72.55  380
+              ORG: precision:  69.44%<span class="p">;</span> recall:  61.10%<span class="p">;</span> FB1:  65.00  337
+              PER: precision:  73.38%<span class="p">;</span> recall:  80.33%<span class="p">;</span> FB1:  76.70  462
+
+
+
+
+<span class="c">###############################</span>
+lang:  te
+              precision    recall  f1-score   support
+
+       B-LOC       0.76      0.51      0.61       450
+       I-ORG       0.70      0.74      0.72       633
+       I-LOC       0.71      0.44      0.55       178
+       I-PER       0.50      0.77      0.61       294
+       B-ORG       0.61      0.57      0.59       340
+       B-PER       0.55      0.67      0.61       381
+
+   micro avg       0.63      0.64      0.63      2276
+   macro avg       0.64      0.62      0.61      2276
+weighted avg       0.65      0.64      0.63      2276
+
+processed 8155 tokens with 1171 phrases<span class="p">;</span> found: 1083 phrases<span class="p">;</span> correct: 627.
+accuracy:  63.75%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  85.62%<span class="p">;</span> precision:  57.89%<span class="p">;</span> recall:  53.54%<span class="p">;</span> FB1:  55.63
+              LOC: precision:  73.91%<span class="p">;</span> recall:  49.11%<span class="p">;</span> FB1:  59.01  299
+              ORG: precision:  53.89%<span class="p">;</span> recall:  50.88%<span class="p">;</span> FB1:  52.34  321
+              PER: precision:  50.32%<span class="p">;</span> recall:  61.15%<span class="p">;</span> FB1:  55.21  463
+
+
+
+
+<span class="c">###############################</span>
+lang:  th
+              precision    recall  f1-score   support
+
+       B-LOC       0.85      0.55      0.67      6503
+       I-ORG       0.63      0.67      0.65     56831
+       I-LOC       0.84      0.55      0.66     47608
+       I-PER       0.86      0.65      0.74     57522
+       B-ORG       0.50      0.54      0.52      5151
+       B-PER       0.48      0.60      0.53      5316
+
+   micro avg       0.73      0.62      0.67    178931
+   macro avg       0.69      0.59      0.63    178931
+weighted avg       0.76      0.62      0.67    178931
+
+processed 649606 tokens with 20897 phrases<span class="p">;</span> found: 16403 phrases<span class="p">;</span> correct: 11059.
+accuracy:  61.94%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  87.63%<span class="p">;</span> precision:  67.42%<span class="p">;</span> recall:  52.92%<span class="p">;</span> FB1:  59.30
+              LOC: precision:  80.18%<span class="p">;</span> recall:  51.38%<span class="p">;</span> FB1:  62.62  4238
+              ORG: precision:  48.03%<span class="p">;</span> recall:  44.13%<span class="p">;</span> FB1:  46.00  5469
+              PER: precision:  75.18%<span class="p">;</span> recall:  60.43%<span class="p">;</span> FB1:  67.00  6696
+
+
+
+
+<span class="c">###############################</span>
+lang:  tl
+              precision    recall  f1-score   support
+
+       B-LOC       0.83      0.90      0.86       327
+       I-ORG       0.83      0.81      0.82      1045
+       I-LOC       0.87      0.85      0.86       706
+       I-PER       0.95      0.84      0.89       813
+       B-ORG       0.79      0.82      0.81       341
+       B-PER       0.94      0.86      0.90       366
+
+   micro avg       0.87      0.84      0.85      3598
+   macro avg       0.87      0.85      0.86      3598
+weighted avg       0.87      0.84      0.85      3598
+
+processed 4627 tokens with 1034 phrases<span class="p">;</span> found: 1040 phrases<span class="p">;</span> correct: 857.
+accuracy:  83.82%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  86.73%<span class="p">;</span> precision:  82.40%<span class="p">;</span> recall:  82.88%<span class="p">;</span> FB1:  82.64
+              LOC: precision:  79.26%<span class="p">;</span> recall:  85.32%<span class="p">;</span> FB1:  82.18  352
+              ORG: precision:  76.49%<span class="p">;</span> recall:  79.18%<span class="p">;</span> FB1:  77.81  353
+              PER: precision:  91.94%<span class="p">;</span> recall:  84.15%<span class="p">;</span> FB1:  87.87  335
+
+
+
+
+<span class="c">###############################</span>
+lang:  <span class="nb">tr
+              </span>precision    recall  f1-score   support
+
+       B-LOC       0.87      0.79      0.83      4914
+       I-ORG       0.78      0.89      0.83      6979
+       I-LOC       0.83      0.68      0.75      3005
+       I-PER       0.95      0.84      0.89      5694
+       B-ORG       0.78      0.82      0.80      4154
+       B-PER       0.95      0.84      0.89      4519
+
+   micro avg       0.85      0.82      0.84     29265
+   macro avg       0.86      0.81      0.83     29265
+weighted avg       0.86      0.82      0.84     29265
+
+processed 75731 tokens with 13587 phrases<span class="p">;</span> found: 12822 phrases<span class="p">;</span> correct: 10708.
+accuracy:  82.40%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  92.07%<span class="p">;</span> precision:  83.51%<span class="p">;</span> recall:  78.81%<span class="p">;</span> FB1:  81.09
+              LOC: precision:  84.17%<span class="p">;</span> recall:  76.82%<span class="p">;</span> FB1:  80.33  4485
+              ORG: precision:  73.45%<span class="p">;</span> recall:  77.25%<span class="p">;</span> FB1:  75.30  4369
+              PER: precision:  93.85%<span class="p">;</span> recall:  82.41%<span class="p">;</span> FB1:  87.76  3968
+
+
+
+
+<span class="c">###############################</span>
+lang:  ur
+              precision    recall  f1-score   support
+
+       B-LOC       0.92      0.87      0.90       334
+       I-ORG       0.86      0.89      0.88      1005
+       I-LOC       0.91      0.90      0.91       904
+       I-PER       0.89      0.91      0.90       928
+       B-ORG       0.86      0.86      0.86       323
+       B-PER       0.89      0.89      0.89       363
+
+   micro avg       0.89      0.89      0.89      3857
+   macro avg       0.89      0.89      0.89      3857
+weighted avg       0.89      0.89      0.89      3857
+
+processed 5027 tokens with 1020 phrases<span class="p">;</span> found: 1003 phrases<span class="p">;</span> correct: 878.
+accuracy:  89.50%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  90.89%<span class="p">;</span> precision:  87.54%<span class="p">;</span> recall:  86.08%<span class="p">;</span> FB1:  86.80
+              LOC: precision:  90.54%<span class="p">;</span> recall:  85.93%<span class="p">;</span> FB1:  88.17  317
+              ORG: precision:  86.07%<span class="p">;</span> recall:  86.07%<span class="p">;</span> FB1:  86.07  323
+              PER: precision:  86.23%<span class="p">;</span> recall:  86.23%<span class="p">;</span> FB1:  86.23  363
+
+
+
+
+<span class="c">###############################</span>
+lang:  vi
+              precision    recall  f1-score   support
+
+       B-LOC       0.88      0.86      0.87      3717
+       I-ORG       0.86      0.86      0.86     13562
+       I-LOC       0.89      0.85      0.87      8018
+       I-PER       0.93      0.81      0.87      7787
+       B-ORG       0.82      0.82      0.82      3704
+       B-PER       0.92      0.85      0.88      3884
+
+   micro avg       0.88      0.84      0.86     40672
+   macro avg       0.88      0.84      0.86     40672
+weighted avg       0.88      0.84      0.86     40672
+
+processed 64967 tokens with 11305 phrases<span class="p">;</span> found: 10904 phrases<span class="p">;</span> correct: 9223.
+accuracy:  84.22%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  89.37%<span class="p">;</span> precision:  84.58%<span class="p">;</span> recall:  81.58%<span class="p">;</span> FB1:  83.06
+              LOC: precision:  85.10%<span class="p">;</span> recall:  83.72%<span class="p">;</span> FB1:  84.40  3657
+              ORG: precision:  78.77%<span class="p">;</span> recall:  78.35%<span class="p">;</span> FB1:  78.56  3684
+              PER: precision:  90.06%<span class="p">;</span> recall:  82.62%<span class="p">;</span> FB1:  86.18  3563
+
+
+
+
+<span class="c">###############################</span>
+lang:  yo
+              precision    recall  f1-score   support
+
+       B-LOC       0.73      0.77      0.75        39
+       I-ORG       0.76      0.79      0.78        87
+       I-LOC       0.90      0.89      0.90        72
+       I-PER       0.94      0.72      0.82        71
+       B-ORG       0.68      0.79      0.73        29
+       B-PER       0.97      0.70      0.81        43
+
+   micro avg       0.83      0.78      0.81       341
+   macro avg       0.83      0.78      0.80       341
+weighted avg       0.84      0.78      0.81       341
+
+processed 503 tokens with 111 phrases<span class="p">;</span> found: 106 phrases<span class="p">;</span> correct: 81.
+accuracy:  78.30%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  85.09%<span class="p">;</span> precision:  76.42%<span class="p">;</span> recall:  72.97%<span class="p">;</span> FB1:  74.65
+              LOC: precision:  73.17%<span class="p">;</span> recall:  76.92%<span class="p">;</span> FB1:  75.00  41
+              ORG: precision:  64.71%<span class="p">;</span> recall:  75.86%<span class="p">;</span> FB1:  69.84  34
+              PER: precision:  93.55%<span class="p">;</span> recall:  67.44%<span class="p">;</span> FB1:  78.38  31
+
+
+
+
+<span class="c">###############################</span>
+lang:  zh
+              precision    recall  f1-score   support
+
+       B-LOC       0.83      0.71      0.76      4371
+       I-ORG       0.75      0.68      0.71     17399
+       I-LOC       0.85      0.74      0.79     12282
+       I-PER       0.87      0.77      0.82     12897
+       B-ORG       0.67      0.65      0.66      3779
+       B-PER       0.81      0.76      0.79      3899
+
+   micro avg       0.80      0.72      0.76     54627
+   macro avg       0.80      0.72      0.75     54627
+weighted avg       0.80      0.72      0.76     54627
+
+processed 207505 tokens with 12532 phrases<span class="p">;</span> found: 11033 phrases<span class="p">;</span> correct: 8345.
+accuracy:  72.07%<span class="p">;</span> <span class="o">(</span>non-O<span class="o">)</span>
+accuracy:  90.67%<span class="p">;</span> precision:  75.64%<span class="p">;</span> recall:  66.59%<span class="p">;</span> FB1:  70.83
+              LOC: precision:  80.35%<span class="p">;</span> recall:  66.99%<span class="p">;</span> FB1:  73.06  3730
+              ORG: precision:  67.63%<span class="p">;</span> recall:  59.85%<span class="p">;</span> FB1:  63.50  3642
+              PER: precision:  78.80%<span class="p">;</span> recall:  73.17%<span class="p">;</span> FB1:  75.88  3661
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-19T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<!-- end custom article footer snippet --></footer>
+
+<script>
+
+
+jQuery(document).ready(function(){  
+    $( ".scala-button" ).click(function() {
+        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+
+        //remove  active class from all other buttons
+        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+
+        //toggle language snippets
+        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
+        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
+    });
+
+    $( ".python-button" ).click(function() {
+        //set current button to active class and remove unactive class
+        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+
+        //remove  active class from all other buttons
+        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+
+
+        //toggle language snippets
+        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
+        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
+    });
+
+    $( ".nlu-button" ).click(function() {
+        //set current button to active class and remove unactive class
+        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+
+        //remove  active class from all other buttons
+        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+
+        //toggle language snippets        
+        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
+        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
+    });
+});
+
+function togglePython1() {
+
+    //set current button to active class and remove unactive class
+    $( ".python-button" ).addClass( "code-selector-active" );
+
+
+    //toggle language snippets
+    $( ".tabs-box .language-python" ).show() 
+    $( ".tabs-box .nlu-block" ).hide()
+    $( ".tabs-box .language-scala" ).hide()
+}
+
+function defer(method) { //wait until jquery ready
+    if (window.jQuery) {
+        method();
+    } else {
+        setTimeout(function() { defer(method) }, 15);
+    }
+}
+
+defer(function () { // load inital language
+    togglePython1()
+});
+
+
+
+
+</script>
+
+
+<style>
+  /* Remove Scrollbar from Code Segments */
+.article__content .highlighter-rouge > .highlight > pre > code, .article__content figure.highlight > pre > code  {
+    overflow: auto;
+}
+
+
+
+button.code-selector-active {
+ background-color: white;
+ color: #08c;
+ font-weight: bold;
+ border-width: 1px;
+ padding-left: 12px;
+ padding-right: 12px;
+ width: 90px;
+ padding-top: 6px;
+ margin-right: 2px;
+
+ border-bottom: none;
+
+ position: relative;
+ z-index: 2;
+}
+
+button.code-selector-un-active {
+    background-color: white;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 90px;
+    margin-right: 2px;
+    padding-top: 8px;
+    position: relative;
+    border-bottom: none;
+
+   }
+
+hr.code-selector-underlie {
+    border-top: 1px solid;
+    background-color: black;
+    width: fill;
+    height: 1px;
+    margin-top: -3px;
+    position: relative;
+
+}
+
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/19/ner_wikiner_xlm_roberta_base_xx.html">Detect Entities in 8 languages - WIKINER (ner_wikiner_xlm_roberta_base)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/07/19/ner_xtreme_xlm_roberta_xtreme_base_xx.html">Detect Entities in 40 languages - XTREME (xlm_roberta_xtreme_base)</a></div></div></div>
+
+</div>
+</div>
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
+
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+</script>
+</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+
+<!-- end custom main bottom snippet --></div>
+            </div></div></div><div class="page__footer d-print-none">
+<footer class="footer py-4 js-page-footer">
+  <div class="main"><div itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content=""><meta itemprop="url" content="/"></div><div class="site-info mt-2">
+      <div>© 2021 John Snow Labs Inc.
+        <a href="http://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="http://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+/* Responsive menu
+	 ========================================================*/
+jQuery(document).ready(function($) {
+	jQuery('#responsive_menu').click(function(e) {
+      e.preventDefault();
+      jQuery(this).toggleClass('close');
+      jQuery('.top_navigation').toggleClass('open');
+  });
+  jQuery('#aside_menu').click(function(e) {
+      e.preventDefault();
+      jQuery(this).toggleClass('close');
+      jQuery('.js-col-aside').toggleClass('open');
+      if (jQuery(window).width() <= 1023)
+      {
+        jQuery('.page__sidebar').toggleClass('open'); 
+      jQuery('.demopage-sidemenu').toggleClass('open');
+      }
+  });
+  jQuery('.toc--ellipsis a').click(function(e) {
+    if (jQuery(window).width() <= 767)
+      {
+        jQuery('.js-col-aside').removeClass('open');
+        jQuery('.page__sidebar').removeClass('open');    
+        jQuery('#aside_menu').removeClass('close');  
+      }       
+  });
+});
+
+/*TABS*/
+function openTabCall(cityName){
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+}
+
+function openTab(evt, cityName) {
+  openTabCall(cityName);
+  evt.currentTarget.className += " active";
+}
+
+/*OPen by URL*/
+$(document).ready(function () {  
+  const tabName = (window.location.hash || '').replace('#', '');
+  const tab = document.getElementById(tabName || 'opensource');
+  if (tab) {
+    tab.click();
+  }
+});
+
+jQuery(document).ready(function(){
+	jQuery('.tab-item').click(function(event) {		
+		if (($(window).width() > 400) && ($(window).width() < 1199))
+	    {
+	    	jQuery('.tab-item').removeClass('open');
+	        jQuery(this).toggleClass('open');
+	    }
+  });
+  
+
+});
+
+
+ 
+
+</script></div></div>
+    </div><script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $body = $('body'), $window = $(window);
+    var $pageRoot = $('.js-page-root'), $pageMain = $('.js-page-main');
+    var activeCount = 0;
+    function modal(options) {
+      var $root = this, visible, onChange, hideWhenWindowScroll = false;
+      var scrollTop;
+      function setOptions(options) {
+        var _options = options || {};
+        visible = _options.initialVisible === undefined ? false : show;
+        onChange = _options.onChange;
+        hideWhenWindowScroll = _options.hideWhenWindowScroll;
+      }
+      function init() {
+        setState(visible);
+      }
+      function setState(isShow) {
+        if (isShow === visible) {
+          return;
+        }
+        visible = isShow;
+        if (visible) {
+          activeCount++;
+          scrollTop = $(window).scrollTop() || $pageMain.scrollTop();
+          $root.addClass('modal--show');
+          $pageMain.scrollTop(scrollTop);
+          activeCount === 1 && ($pageRoot.addClass('show-modal'), $body.addClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.on('scroll', hide);
+          $window.on('keyup', handleKeyup);
+        } else {
+          activeCount > 0 && activeCount--;
+          $root.removeClass('modal--show');
+          $window.scrollTop(scrollTop);
+          activeCount === 0 && ($pageRoot.removeClass('show-modal'), $body.removeClass('of-hidden'));
+          hideWhenWindowScroll && window.hasEvent('touchstart') && $window.off('scroll', hide);
+          $window.off('keyup', handleKeyup);
+        }
+        onChange && onChange(visible);
+      }
+      function show() {
+        setState(true);
+      }
+      function hide() {
+        setState(false);
+      }
+      function handleKeyup(e) {
+        // Char Code: 27  ESC
+        if (e.which ===  27) {
+          hide();
+        }
+      }
+      setOptions(options);
+      init();
+      return {
+        show: show,
+        hide: hide,
+        $el: $root
+      };
+    }
+    $.fn.modal = modal;
+  });
+})();
+</script><div class="modal modal--overflow page__search-modal d-print-none js-page-search-modal"></div></div>
+
+
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function scrollToAnchor(anchor, duration, callback) {
+      var $root = this;
+      $root.animate({ scrollTop: $(anchor).position().top }, duration, function() {
+        window.history.replaceState(null, '', window.location.href.split('#')[0] + anchor);
+        callback && callback();
+      });
+    }
+    $.fn.scrollToAnchor = scrollToAnchor;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function affix(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroll,
+        offsetBottom = 0, scrollTarget = window, scroll = window.document, disabled = false, isOverallScroller = true,
+        rootTop, rootLeft, rootHeight, scrollBottom, rootBottomTop,
+        hasInit = false, curState;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.offsetBottom && (offsetBottom = _options.offsetBottom);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroll && (scroll = _options.scroll);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $scrollTarget = $(scrollTarget);
+        isOverallScroller = window.isOverallScroller($scrollTarget[0]);
+        $scroll = $(scroll);
+      }
+      function preCalc() {
+        top();
+        rootHeight = $root.outerHeight();
+        rootTop = $root.offset().top + (isOverallScroller ? 0 :  $scrollTarget.scrollTop());
+        rootLeft = $root.offset().left;
+      }
+      function calc(needPreCalc) {
+        needPreCalc && preCalc();
+        scrollBottom = $scroll.outerHeight() - offsetBottom - rootHeight;
+        rootBottomTop = scrollBottom - rootTop;
+      }
+      function top() {
+        if (curState !== 'top') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: 0
+          });
+          curState = 'top';
+        }
+      }
+      function fixed() {
+        if (curState !== 'fixed') {
+          $root.addClass('fixed').css({
+            left: rootLeft + 'px',
+            top: 0
+          });
+          curState = 'fixed';
+        }
+      }
+      function bottom() {
+        if (curState !== 'bottom') {
+          $root.removeClass('fixed').css({
+            left: 0,
+            top: rootBottomTop + 'px'
+          });
+          curState = 'bottom';
+        }
+      }
+      function setState() {
+        var scrollTop = $scrollTarget.scrollTop();
+        if (scrollTop >= rootTop && scrollTop <= scrollBottom) {
+          fixed();
+        } else if (scrollTop < rootTop) {
+          top();
+        } else {
+          bottom();
+        }
+      }
+      function init() {
+        if(!hasInit) {
+          var interval, timeout;
+          calc(true); setState();
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState();
+          });
+          $window.on('resize', function() {
+            disabled || (calc(true), setState());
+          });
+          hasInit = true;
+        }
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions,
+        refresh: function() {
+          calc(true, { animation: false }); setState();
+        }
+      };
+    }
+    $.fn.affix = affix;
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    function toc(options) {
+      var $root = this, $window = $(window), $scrollTarget, $scroller, $tocUl = $('<ul class="toc toc--ellipsis"></ul>'), $tocLi, $headings, $activeLast, $activeCur,
+        selectors = 'h1,h2,h3', container = 'body', scrollTarget = window, scroller = 'html, body', disabled = false,
+        headingsPos, scrolling = false, hasRendered = false, hasInit = false;
+
+      function setOptions(options) {
+        var _options = options || {};
+        _options.selectors && (selectors = _options.selectors);
+        _options.container && (container = _options.container);
+        _options.scrollTarget && (scrollTarget = _options.scrollTarget);
+        _options.scroller && (scroller = _options.scroller);
+        _options.disabled !== undefined && (disabled = _options.disabled);
+        $headings = $(container).find(selectors).filter('[id]');
+        $scrollTarget = $(scrollTarget);
+        $scroller = $(scroller);
+      }
+      function calc() {
+        headingsPos = [];
+        $headings.each(function() {
+          headingsPos.push(Math.floor($(this).position().top));
+        });
+      }
+      function setState(element, disabled) {
+        var scrollTop = $scrollTarget.scrollTop(), i;
+        if (disabled || !headingsPos || headingsPos.length < 1) { return; }
+        if (element) {
+          $activeCur = element;
+        } else {
+          for (i = 0; i < headingsPos.length; i++) {
+            if (scrollTop >= headingsPos[i]) {
+              $activeCur = $tocLi.eq(i);
+            } else {
+              $activeCur || ($activeCur = $tocLi.eq(i));
+              break;
+            }
+          }
+        }
+        $activeLast && $activeLast.removeClass('active');
+        ($activeLast = $activeCur).addClass('active');
+      }
+      function render() {
+        if(!hasRendered) {
+          $root.append($tocUl);
+          $headings.each(function() {
+            var $this = $(this);
+            $tocUl.append($('<li></li>').addClass('toc-' + $this.prop('tagName').toLowerCase())
+              .append($('<a></a>').text($this.text()).attr('href', '#' + $this.prop('id'))));
+          });
+          $tocLi = $tocUl.children('li');
+          $tocUl.on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            scrolling = true;
+            setState($this.parent());
+            $scroller.scrollToAnchor($this.attr('href'), 400, function() {
+              scrolling = false;
+            });
+          });
+        }
+        hasRendered = true;
+      }
+      function init() {
+        var interval, timeout;
+        if(!hasInit) {
+          render(); calc(); setState(null, scrolling);
+          // run calc every 100 millisecond
+          interval = setInterval(function() {
+            calc();
+          }, 100);
+          timeout = setTimeout(function() {
+            clearInterval(interval);
+          }, 45000);
+          window.pageLoad.then(function() {
+            setTimeout(function() {
+              clearInterval(interval);
+              clearTimeout(timeout);
+            }, 3000);
+          });
+          $scrollTarget.on('scroll', function() {
+            disabled || setState(null, scrolling);
+          });
+          $window.on('resize', window.throttle(function() {
+            if (!disabled) {
+              render(); calc(); setState(null, scrolling);
+            }
+          }, 100));
+        }
+        hasInit = true;
+      }
+
+      setOptions(options);
+      if (!disabled) {
+        init();
+      }
+      $window.on('resize', window.throttle(function() {
+        init();
+      }, 200));
+      return {
+        setOptions: setOptions
+      };
+    }
+    $.fn.toc = toc;
+  });
+})();
+/*(function () {
+
+})();*/
+</script><script>
+  window.Lazyload.js(['https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js', 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js'], function() {
+    var $canvas = null, $this = null, _ctx = null, _text = '';
+    $('.language-chart').each(function(){
+      $this = $(this);
+      $canvas = $('<canvas></canvas>');
+      _text = $this.text();
+      $this.text('').append($canvas);
+      _ctx = $canvas.get(0).getContext('2d');
+      (_ctx && _text) && (new Chart(_ctx, JSON.parse(_text)) && $this.attr('data-processed', true));
+    });
+  });
+</script><script type="text/x-mathjax-config">
+	var _config = { tex2jax: {
+		inlineMath: [['$','$'], ['\\(','\\)']]
+	}};_config.TeX = { equationNumbers: { autoNumber: "all" } };MathJax.Hub.Config(_config);
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script>
+  window.Lazyload.js('https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js', function() {
+    mermaid.initialize({
+      startOnLoad: true
+    });
+    mermaid.init(undefined, '.language-mermaid');
+  });
+</script>
+    </div>
+    <script>(function () {
+  var $root = document.getElementsByClassName('root')[0];
+  if (window.hasEvent('touchstart')) {
+    $root.dataset.isTouch = true;
+    document.addEventListener('touchstart', function(){}, false);
+  }
+})();
+</script>
+  </body>
+</html>

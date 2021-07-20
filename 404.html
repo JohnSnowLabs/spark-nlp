@@ -424,8 +424,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>News Classifier of German text- Spark NLP Model</title><meta name="description" content="DescriptionClassify German texts of newsPredicted EntitiesInland, International, Panorama, Sport, Web, Wirtschaft, Wissenschaft.Live DemoOpen in ColabDownloa...">
-<link rel="canonical" href="/2021/07/12/classifierdl_bert_news_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Universal sentence encoder for 100+ languages trained with CMLM (sent_bert_use_cmlm_multi_base)- Spark NLP Model</title><meta name="description" content="DescriptionThe universal sentence encoder family of models maps the text into high dimensional vectors that capture sentence-level semantics. Our Multilingua...">
+<link rel="canonical" href="/2021/07/20/sent_bert_use_cmlm_multi_base_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -818,21 +818,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 12, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-12T00:00:00+00:00"></div><header><h1>News Classifier of German text</h1></header></div><meta itemprop="headline" content="News Classifier of German text"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>de</li><li>news</li><li>classifier</li><li>open_source</li><li>german</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-12T00:00:00+00:00">
-    <meta itemprop="keywords" content="de,news,classifier,open_source,german"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 20, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-20T00:00:00+00:00"></div><header><h1>Universal sentence encoder for 100+ languages trained with CMLM (sent_bert_use_cmlm_multi_base)</h1></header></div><meta itemprop="headline" content="Universal sentence encoder for 100+ languages trained with CMLM (sent_bert_use_cmlm_multi_base)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>embeddings</li><li>bert</li><li>use</li><li>xx</li><li>multilingual</li><li>cmlm</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-07-20T00:00:00+00:00">
+    <meta itemprop="keywords" content="embeddings,bert,use,xx,multilingual,cmlm,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Classify German texts of news</p>
+<p>The universal sentence encoder family of models maps the text into high dimensional vectors that capture sentence-level semantics. Our Multilingual-base model is trained using a conditional masked language model described in [1]. The model is intended to be used for text classification, text clustering, semantic textual similarity, etc. The base model employs a 12 layer BERT transformer architecture.</p>
 
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>The model extends the BERT transformer architecture that is why we use it with BertSentenceEmbeddings.</p>
 
-<p><code class="language-plaintext highlighter-rouge">Inland</code>, <code class="language-plaintext highlighter-rouge">International</code>, <code class="language-plaintext highlighter-rouge">Panorama</code>, <code class="language-plaintext highlighter-rouge">Sport</code>, <code class="language-plaintext highlighter-rouge">Web</code>, <code class="language-plaintext highlighter-rouge">Wirtschaft</code>, <code class="language-plaintext highlighter-rouge">Wissenschaft</code>.</p>
+<p>[1] Ziyi Yang, Yinfei Yang, Daniel Cer, Jax Law, Eric Darve. <a href="https://openreview.net/forum?id=WDVD4lUCTzU">Universal Sentence Representations Learning with Conditional Masked Language Model. November 2020</a></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_news_de_3.1.1_2.4_1626079085859.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_bert_use_cmlm_multi_base_xx_3.1.3_2.4_1626783880233.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -840,48 +840,22 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
-  <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sent_bert_multi_cased'</span><span class="p">,</span> <span class="s">'xx'</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-
-<span class="n">document_classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_bert_news"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">document_classifier</span><span class="p">])</span>
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Niki Lauda in einem McLaren MP 4/2 TAG Turbo. Mit diesem Gefährt sicherte sich der Österreicher 1984 seinen dritten Weltmeistertitel, einen halben (!)"</span><span class="p">)</span>
-<span class="n">result</span><span class="p">[</span><span class="s">"class"</span><span class="p">]</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_use_cmlm_multi_base"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_bert_use_cmlm_multi_base"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+</code></pre></div>  </div>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span><span class="o">\</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_bert_multi_cased"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
 
-<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_news"</span><span class="o">,</span> <span class="s">"de"</span><span class="o">)</span> <span class="o">\</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> <span class="o">\</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">document_classifier</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">nlpPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)))</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Niki Lauda in einem McLaren MP 4/2 TAG Turbo. Mit diesem Gefährt sicherte sich der Österreicher 1984 seinen dritten Weltmeistertitel, einen halben (!)"</span><span class="o">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"I hate cancer"</span><span class="p">,</span> <span class="s">"Antibiotics aren't painkiller"</span><span class="p">]</span>
+<span class="n">embeddings_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'xx.embed_sentence.sent_bert_use_cmlm_multi_base'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'sentence'</span><span class="p">)</span>
+<span class="n">embeddings_df</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'Sport'</span><span class="o">]</span>
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -889,11 +863,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>classifierdl_bert_news</td>
+      <td>sent_bert_use_cmlm_multi_base</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.1.1+</td>
+      <td>Spark NLP 3.1.3+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -905,40 +879,37 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[sentence]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[bert]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>de</td>
+      <td>xx</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>Trained on a custom dataset with multi-lingual Bert Sentence Embeddings.</p>
+<p><a href="https://tfhub.dev/google/universal-sentence-encoder-cmlm/multilingual-base/1">https://tfhub.dev/google/universal-sentence-encoder-cmlm/multilingual-base/1</a></p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>               precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>We evaluate this model on XEVAL, translated SentEval sentence representation benchmark. XEVAL will be publicly available soon.
 
-       Inland       0.78      0.81      0.79       102
-International       0.80      0.89      0.84       151
-     Panorama       0.84      0.70      0.76       168
-        Sport       0.98      0.99      0.98       120
-          Web       0.93      0.90      0.91       168
-   Wirtschaft       0.74      0.83      0.78       141
- Wissenschaft       0.84      0.75      0.80        57
+XEVAL	ar	<span class="nb">bg	</span>de	....	zh	15 Languages Average
+USE-CMLM-Multilingual-Base	80.6	81.2	82.6	....	81.7	81.2
+USE-CMLM-Multilingual-Base + BR	82.6	83.0	84.0	....	83.0	82.8
 
-     accuracy                           0.84       907
-    macro avg       0.84      0.84      0.84       907
- weighted avg       0.85      0.84      0.84       907
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-12T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-07-20T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1063,7 +1034,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/12/redl_ade_biobert_en.html">Relation extraction between Drugs and ADE (ReDL)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/07/20/sent_bert_use_cmlm_multi_base_br_xx.html">Universal sentence encoder for 100+ languages trained with CMLM (sent_bert_use_cmlm_multi_base_br)</a></div></div></div>
 
 </div>
 </div>
