@@ -529,19 +529,17 @@ DL based <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Annotators</a
 
   <h2 id="import-transformers-into-spark-nlp">Import Transformers into Spark NLP</h2>
 
-  <p>Starting with Spark NLP 3.1.0 the support for HuggingFace exported models in equivalent Spark NLP annotators has been extended. Users can now easily use <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release.</p>
+  <h2 id="overview">Overview</h2>
 
-  <h3 id="compatibility">Compatibility</h3>
+  <p>Spark NLP 🚀  3.1.0 is out! We have extended support for HuggingFace 🤗  exported models in equivalent Spark NLP annotators. Starting this release, you can easily use <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊</p>
 
-  <p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP</p>
+  <h2 id="compatibility">Compatibility</h2>
 
-  <p><strong>TF Hub</strong>: Models from <a href="https://tfhub.dev/">TF Hub</a></p>
-
-  <p><strong>HuggingFace</strong>: Models from <a href="https://huggingface.co/models">HuggingFace</a></p>
-
-  <p><strong>Model Architecture</strong>: Which architecture is compatible with that annotator</p>
-
-  <p><strong>Flags</strong>:</p>
+  <p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP
+<strong>TF Hub</strong>: Models from <a href="https://tfhub.dev/">TF Hub</a>
+<strong>HuggingFace</strong>: Models from <a href="https://huggingface.co/models">HuggingFace</a>
+<strong>Model Architecture</strong>: Which architecture is compatible with that annotator
+<strong>Flags</strong>:</p>
   <ul>
     <li>Fully supported ✅</li>
     <li>Partially supported (requires workarounds) ✔️</li>
@@ -628,7 +626,7 @@ DL based <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Annotators</a
     </tbody>
   </table>
 
-  <h3 id="notebooks">Notebooks</h3>
+  <h2 id="notebooks">Notebooks</h2>
 
   <table>
     <thead>
@@ -669,11 +667,34 @@ DL based <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Annotators</a
     </tbody>
   </table>
 
-  <h3 id="limitations">Limitations</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left">Spark NLP</th>
+        <th style="text-align: left">TF Hub Notebooks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left">BertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb">TF Hub in Spark NLP - BERT</a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">BertSentenceEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">TF Hub in Spark NLP - BERT Sentence</a></td>
+      </tr>
+      <tr>
+        <td style="text-align: left">AlbertEmbeddings</td>
+        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb">TF Hub in Spark NLP - ALBERT</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="limitations">Limitations</h2>
 
   <ul>
     <li>If you are importing models from HuggingFace as Embeddings they must be for <code class="language-plaintext highlighter-rouge">Fill-Mask</code> task. Meaning you cannot use a model in BertEmbeddings if they were trained or fine-tuned on token/text classification tasks in HuggingFace. They have a different architecture.</li>
-    <li>There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: <code class="language-plaintext highlighter-rouge">Required array size too large. (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)</code></li>
+    <li>There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: `Required array size too large. (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)</li>
   </ul>
 
 </div>
@@ -2577,7 +2598,7 @@ answering, natural language inference, sentiment analysis, and document ranking.
 </div>
 
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2019-11-01T00:00:00+00:00">Nov 01, 2019</time>
+      <time itemprop="dateModified" datetime="2021-07-20T00:00:00+00:00">Jul 20, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
