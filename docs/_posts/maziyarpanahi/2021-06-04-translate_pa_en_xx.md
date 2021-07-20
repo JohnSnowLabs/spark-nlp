@@ -25,7 +25,7 @@ Marian is an efficient, free Neural Machine Translation framework written in pur
             target languages: en
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/TRANSLATION_MARIAN/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/public/INDIAN_TRANSLATION_PUNJABI/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/translate_pa_en_xx_3.1.0_2.4_1622846398691.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
