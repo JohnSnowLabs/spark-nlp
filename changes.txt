@@ -1,6 +1,2 @@
-docs/_posts/HashamUlHaq/2021-04-01-ner_bacterial_species_en.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_cellular_biobert_en.md
-docs/_posts/muhammetsnts/2021-06-24-ner_genetic_variants_en.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_bacterial_species_en.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_cellular_biobert_en.md
-docs/_posts/muhammetsnts/2021-06-24-ner_genetic_variants_en.md
+docs/_posts/C-K-Loan/2021-03-23-explain_document_dl_en.md
+docs/_posts/C-K-Loan/2021-03-23-explain_document_dl_en.md
