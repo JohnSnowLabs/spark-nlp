@@ -4,7 +4,7 @@ header: true
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
-modify_date: "2019-11-01"
+modify_date: "2021-07-20"
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -15,18 +15,16 @@ DL based [Annotators](https://nlp.johnsnowlabs.com/docs/en/annotators), such as 
 
 ## Import Transformers into Spark NLP
 
-Starting with Spark NLP 3.1.0 the support for HuggingFace exported models in equivalent Spark NLP annotators has been extended. Users can now easily use `saved_model` feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release.
+## Overview
 
-### Compatibility
+Spark NLP 🚀  3.1.0 is out! We have extended support for HuggingFace 🤗  exported models in equivalent Spark NLP annotators. Starting this release, you can easily use `saved_model` feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
+
+## Compatibility
 
 **Spark NLP**: The equivalent annotator in Spark NLP
-
 **TF Hub**: Models from [TF Hub](https://tfhub.dev/)
-
 **HuggingFace**: Models from [HuggingFace](https://huggingface.co/models)
-
 **Model Architecture**: Which architecture is compatible with that annotator
-
 **Flags**:
 - Fully supported ✅
 - Partially supported (requires workarounds) ✔️
@@ -34,20 +32,20 @@ Starting with Spark NLP 3.1.0 the support for HuggingFace exported models in equ
 - Not supported ❌
 
 Spark NLP | TF Hub | HuggingFace | Model Architecture
-:------------ | :-------------| :-------------| :-------------|
+:------------ | :-------------| :-------------| :-------------| 
 BertEmbeddings |  ✅  |  ✅  |  BERT - Small BERT - ELECTRA
 BertSentenceEmbeddings |  ✅  | ✅   | BERT - Small BERT - ELECTRA
 DistilBertEmbeddings|   |  ✅   | DistilBERT
 RoBertaEmbeddings |   | ✅   | RoBERTa - DistilRoBERTa
 XlmRoBertaEmbeddings |   | ✅   | XLM-RoBERTa
-AlbertEmbeddings | ✅  |  ✅  |
+AlbertEmbeddings | ✅  |  ✅   |
 XlnetEmbeddings |   | ✅  |
 ElmoEmbeddings | ❎  |  ❎  |
 UniversalSentenceEncoder |  ❎ |   |
 T5Transformer |   |  ❌ |
 MarianTransformer|   | ❌  |
 
-### Notebooks
+## Notebooks
 
 Spark NLP | HuggingFace Notebooks
 :------------ | :-------------|
@@ -57,12 +55,18 @@ DistilBertEmbeddings| [HuggingFace in Spark NLP - DistilBERT](https://github.com
 RoBertaEmbeddings | [HuggingFace in Spark NLP - RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb)
 XlmRoBertaEmbeddings | [HuggingFace in Spark NLP - XLM-RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb)
 AlbertEmbeddings | [HuggingFace in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb)
-XlnetEmbeddings | [HuggingFace in Spark NLP - XLNet](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark_NLP%20-%20XLNet.ipynb)
+XlnetEmbeddings|[HuggingFace in Spark NLP - XLNet](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark_NLP%20-%20XLNet.ipynb)
 
-### Limitations
+Spark NLP | TF Hub Notebooks
+:------------ | :-------------|
+BertEmbeddings |  [TF Hub in Spark NLP - BERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb)
+BertSentenceEmbeddings |  [TF Hub in Spark NLP - BERT Sentence](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
+AlbertEmbeddings |  [TF Hub in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb)
+
+## Limitations
 
 - If you are importing models from HuggingFace as Embeddings they must be for `Fill-Mask` task. Meaning you cannot use a model in BertEmbeddings if they were trained or fine-tuned on token/text classification tasks in HuggingFace. They have a different architecture.
-- There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: `Required array size too large. (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)`
+- There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: `Required array size too large. (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)
 
 </div>
 
