@@ -1,4 +1,15 @@
 ========
+3.1.3
+========
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix serialization issue in NorvigSweetingModel
+* Fix the issue with BertSentenceEmbeddings model in TF v2
+* Update ArrayType structure to fix Finisher failing to clean up some annotators
+
+========
 3.1.2
 ========
 
