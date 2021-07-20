@@ -70,6 +70,10 @@ embeddings_df
 |Language:|xx|
 |Case sensitive:|true|
 
+## Data Source
+
+[https://tfhub.dev/google/universal-sentence-encoder-cmlm/multilingual-base-br/1](https://tfhub.dev/google/universal-sentence-encoder-cmlm/multilingual-base-br/1)
+
 ## Benchmarking
 
 ```bash
