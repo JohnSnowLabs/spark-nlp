@@ -13,6 +13,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+"""Contains classes for the :class:`PretrainedPipeline` and downloading Pretrained Models.
+"""
+
 import sparknlp.internal as _internal
 import threading
 import time
@@ -105,6 +108,28 @@ class ResourceDownloader(object):
 class PretrainedPipeline:
 
     def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False, disk_location=None):
+        """Loads a Represents a fully constructed and trained Spark NLP pipeline, ready to be used.
+
+        This way, a whole pipeline can be
+        defined in 1 line. Additionally, the :class:`LightPipeline` version of the model can be retrieved with member
+        :attr:`PretrainedPipeline.light_model`.
+
+        For more extended examples see the `Pipelines page <https://nlp.johnsnowlabs.com/docs/en/pipelines>`_ and our
+        `Github Model Repository <https://github.com/JohnSnowLabs/spark-nlp-models>`_  for available pipeline models.
+
+        Parameters
+        ----------
+        name : str
+            Name of the PretrainedPipeline. These can be gathered from the Pipelines Page.
+        lang : str, optional
+            Langauge of the model, by default 'en'
+        remote_loc : str, optional
+            Link to the remote location of the model (if it was already downloaded), by default None
+        parse_embeddings : bool, optional
+            Whether to parse embeddings, by default False
+        disk_location : str , optional
+            Path to locally stored PretrainedPipeline, by default None
+        """
         if not disk_location:
             self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
         else:
