@@ -783,22 +783,6 @@ aws emr create-cluster \
 
 If your distributed storage is S3 and you don't have a standard Hadoop configuration (i.e. fs.defaultFS)
 You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files.
-First, decide where you want to put your *application.conf* file
-
-```scala
-import com.johnsnowlabs.util.ConfigLoader
-ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
-```
-
-And then we need to put in such application.conf the following content
-
-```bash
-sparknlp {
-  settings {
-    cluster_tmp_dir = "somewhere in s3n:// path to some folder"
-  }
-}
-```
 
 ## Pipelines and Models
 

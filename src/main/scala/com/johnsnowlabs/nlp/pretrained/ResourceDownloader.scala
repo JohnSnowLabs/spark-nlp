@@ -39,7 +39,7 @@ import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSe
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, ConfigHelperV2, ConfigLoaderV2, FileHelper, Version}
+import com.johnsnowlabs.util.{Build, ConfigHelper, ConfigLoader, FileHelper, Version}
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
@@ -76,15 +76,15 @@ trait ResourceDownloader {
 
 object ResourceDownloader {
 
-  val fileSystem: FileSystem = ConfigHelperV2.getFileSystem
+  val fileSystem: FileSystem = ConfigHelper.getFileSystem
 
-  def s3Bucket: String = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.pretrainedS3BucketKey)
+  def s3Bucket: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3BucketKey)
 
-  def s3BucketCommunity: String = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.pretrainedCommunityS3BucketKey)
+  def s3BucketCommunity: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCommunityS3BucketKey)
 
-  def s3Path: String = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.pretrainedS3PathKey)
+  def s3Path: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3PathKey)
 
-  def cacheFolder: String = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.pretrainedCacheFolder)
+  def cacheFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCacheFolder)
 
 //  def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
 //    val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
@@ -103,16 +103,16 @@ object ResourceDownloader {
 //    fetchCredentials()
 //  }
 
-  def credentials: Option[AWSCredentials] = if (ConfigLoaderV2.hasAwsCredentials) {
+  def credentials: Option[AWSCredentials] = if (ConfigLoader.hasAwsCredentials) {
     buildAwsCredentials()
   } else {
     fetchCredentials()
   }
 
   private def buildAwsCredentials(): Option[AWSCredentials] = {
-    val accessKeyId = ConfigLoaderV2.getConfigStringValue(ConfigHelper.accessKeyId)
-    val secretAccessKey = ConfigLoaderV2.getConfigStringValue(ConfigHelper.secretAccessKey)
-    val awsProfile = ConfigLoaderV2.getConfigStringValue(ConfigHelper.awsProfileName)
+    val accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
+    val secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
+    val awsProfile = ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName)
     if (awsProfile != "") {
       return Some(new ProfileCredentialsProvider(awsProfile).getCredentials)
     }

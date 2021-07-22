@@ -1,6 +1,6 @@
 package com.johnsnowlabs.storage
 
-import com.johnsnowlabs.util.{ConfigHelperV2, ConfigLoaderV2}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
@@ -12,7 +12,7 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 //    val tmpLocation = ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
 //      sparkSession.sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
 //    ).toString+"/"+UUID.randomUUID().toString.takeRight(12)+"_cdx"
-    val tmpLocation = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.storageTmpDir)
+    val tmpLocation = ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
     val tmpLocationPath = new Path(tmpLocation)
     fileSystem.mkdirs(tmpLocationPath)
     fileSystem.deleteOnExit(tmpLocationPath)
