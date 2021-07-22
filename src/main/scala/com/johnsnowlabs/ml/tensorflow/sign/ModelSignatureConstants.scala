@@ -156,6 +156,10 @@ object ModelSignatureConstants {
     override val value: String = "StatefulPartitionedCall:0"
   }
 
+  case object LogitsOutput extends TFInfoNameMapper {
+    override val key: String = "logits"
+    override val value: String = "StatefulPartitionedCall:0"
+  }
   /** Retrieve signature patterns for a given provider
    *
    * @param modelProvider : the provider library that built the model and the signatures
