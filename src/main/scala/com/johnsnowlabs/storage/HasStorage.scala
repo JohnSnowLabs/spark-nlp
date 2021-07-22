@@ -8,7 +8,7 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.util.{ConfigHelperV2, ConfigLoaderV2, FileHelper}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -109,9 +109,9 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     if (uri.getScheme != null) {
       if (uri.getScheme.equals("s3a")) {
 //        var accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-        var accessKeyId = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.accessKeyId)
+        var accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
 //        var secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-        var secretAccessKey = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.secretAccessKey)
+        var secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
 //        if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
 //          val defaultCred = new DefaultAWSCredentialsProviderChain().getCredentials
 //          accessKeyId = Some(defaultCred.getAWSAccessKeyId)
