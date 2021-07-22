@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp.util.io
 
-import com.johnsnowlabs.util.{ConfigHelperV2, ConfigLoaderV2}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 
 import java.io.{File, FileWriter, PrintWriter}
@@ -19,7 +19,7 @@ object OutputHelper {
 //    ConfigHelper.getConfigValueOrElse(path, defaultValue)
 //  }
 
-  private def logsFolder: String = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.annotatorLogFolder)
+  private def logsFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
 
   lazy private val isDBFS = fileSystem.getScheme.equals("dbfs")
 

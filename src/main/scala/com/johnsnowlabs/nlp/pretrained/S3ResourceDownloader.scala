@@ -22,7 +22,7 @@ import com.amazonaws.regions.RegionUtils
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.GetObjectRequest
 import com.amazonaws.{AmazonServiceException, ClientConfiguration}
-import com.johnsnowlabs.util.{ConfigHelperV2, ConfigLoaderV2, FileHelper}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.Path
 
 import java.io.File
@@ -54,7 +54,7 @@ class S3ResourceDownloader(bucket: => String,
     val regionObj = RegionUtils.getRegion(region)
 
     val config = new ClientConfiguration()
-    val timeout = ConfigLoaderV2.getConfigIntValue(ConfigHelperV2.s3SocketTimeout)
+    val timeout = ConfigLoader.getConfigIntValue(ConfigHelper.s3SocketTimeout)
     config.setSocketTimeout(timeout)
 
     val s3Client = {
