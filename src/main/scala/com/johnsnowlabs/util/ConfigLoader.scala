@@ -10,10 +10,16 @@ object ConfigLoader {
 
   private val defaultConfig = ConfigFactory.load()
   private val overrideConfigPath: String = {
-    if (System.getenv().containsKey("SPARKNLP_CONFIG_PATH"))
-      System.getenv("SPARKNLP_CONFIG_PATH")
-    else
-      defaultConfig.getString("sparknlp.settings.overrideConfigPath")
+    var configFile: String = ""
+    if (System.getenv().containsKey("SPARKNLP_CONFIG_PATH")) {
+      println("********** Getting config file from environment variable")
+      configFile = System.getenv("SPARKNLP_CONFIG_PATH")
+    } else {
+      println("********** Getting config file from default file")
+      configFile = defaultConfig.getString("sparknlp.settings.overrideConfigPath")
+    }
+    println(s"***************** ConfigFile=$configFile")
+    configFile
   }
 
   def getConfigPath: String = overrideConfigPath
@@ -22,7 +28,7 @@ object ConfigLoader {
 
     ConfigFactory
       .parseFile(new File(overrideConfigPath))
-      .withFallback(defaultConfig)
+      //.withFallback(defaultConfig) TODO: Uncomment after testing it
   }
 
 }

@@ -27,14 +27,27 @@ object ConfigHelper {
   }
 
   def getConfigValue(path: String): Option[String] = {
-    if (!retrieve.hasPath(path))
+    println(s"************* In ConfigHelper.getConfigValue path=$path")
+    if (!retrieve.hasPath(path)) {
       None
-    else
-      Some(retrieve.getString(path))
+    } else {
+      val value = retrieve.getString(path)
+      println(s"************* In ConfigHelper.getConfigValue value=$value")
+      Some(value)
+    }
+//    val value = retrieve.getString(path)
+//    println(s"************* In ConfigHelper.getConfigValue value=$value")
+//    Some(value)
   }
 
   def getConfigValueOrElse(path: String, defaultValue: => String): String = {
-    getConfigValue(path).getOrElse(defaultValue)
+    println(s"************* In ConfigHelper.getConfigValueOrElse path=$path, defaultValue=$defaultValue")
+    val optionConfigValue = getConfigValue(path)
+    if (optionConfigValue.isEmpty) {
+     println(s"*********** In ConfigHelper.getConfigValueOrElse path $path is empty" )
+    }
+    val configValue = optionConfigValue.getOrElse(defaultValue)
+    configValue
   }
 
   // Configures s3 bucket where pretrained models are stored
