@@ -17,68 +17,52 @@
 
 package com.johnsnowlabs.util
 
-import com.johnsnowlabs.util.ConfigLoader.retrieve
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import org.apache.hadoop.fs.FileSystem
 
 
 object ConfigHelper {
 
-  def hasPath(path: String): Boolean = {
-    retrieve.hasPath(path)
-  }
-
-  def getConfigValue(path: String): Option[String] = {
-    println(s"************* In ConfigHelper.getConfigValue path=$path")
-    if (!retrieve.hasPath(path)) {
-      None
-    } else {
-      val value = retrieve.getString(path)
-      println(s"************* In ConfigHelper.getConfigValue value=$value")
-      Some(value)
-    }
-//    val value = retrieve.getString(path)
-//    println(s"************* In ConfigHelper.getConfigValue value=$value")
-//    Some(value)
-  }
-
-  def getConfigValueOrElse(path: String, defaultValue: => String): String = {
-    println(s"************* In ConfigHelper.getConfigValueOrElse path=$path, defaultValue=$defaultValue")
-    val optionConfigValue = getConfigValue(path)
-    if (optionConfigValue.isEmpty) {
-     println(s"*********** In ConfigHelper.getConfigValueOrElse path $path is empty" )
-    }
-    val configValue = optionConfigValue.getOrElse(defaultValue)
-    configValue
-  }
+  private lazy val sparkSession = ResourceHelper.spark
 
   // Configures s3 bucket where pretrained models are stored
-  val pretrainedS3BucketKey = "sparknlp.settings.pretrained.s3_bucket"
+  val pretrainedS3BucketKey = "jsl.settings.pretrained.s3_bucket"
 
   // Configures s3 bucket where community pretrained models are stored
-  val pretrainedCommunityS3BucketKey = "sparknlp.settings.pretrained.s3_community_bucket"
+  val pretrainedCommunityS3BucketKey = "jsl.settings.pretrained.s3_community_bucket"
 
   // Configures s3 path where pretrained models are stored
-  val pretrainedS3PathKey = "sparknlp.settings.pretrained.s3_path"
+  val pretrainedS3PathKey = "jsl.settings.pretrained.s3_path"
 
   // Configures cache folder where to cache pretrained models
-  val pretrainedCacheFolder = "sparknlp.settings.pretrained.cache_folder"
+  val pretrainedCacheFolder = "jsl.settings.pretrained.cache_folder"
 
   // Configures log folder where to store annotator logs using OutputHelper
-  val annotatorLogFolder = "sparknlp.settings.annotator.log_folder"
+  val annotatorLogFolder = "jsl.settings.annotator.log_folder"
 
   // Stores credentials for AWS S3 private models
-  val awsCredentials = "sparknlp.settings.pretrained.credentials"
-
-
+  val awsCredentials = "jsl.settings.pretrained.credentials"
   val accessKeyId: String = awsCredentials + ".access_key_id"
   val secretAccessKey: String = awsCredentials + ".secret_access_key"
   val awsProfileName: String = awsCredentials + ".aws_profile_name"
 
-  val s3SocketTimeout = "sparknlp.settings.pretrained.s3_socket_timeout"
+  val s3SocketTimeout = "jsl.settings.pretrained.s3_socket_timeout"
 
-  val storageTmpDir = "sparknlp.settings.storage.cluster_tmp_dir"
+  val storageTmpDir = "jsl.settings.storage.cluster_tmp_dir" //TODO: Tests this option and add to documentation on S3 Cluster section
 
-  val serializationMode: String = getConfigValueOrElse("sparknlp.settings.annotatorSerializationFormat", "object")
-  val useBroadcast: Boolean = getConfigValueOrElse("sparknlp.settings.useBroadcastForFeatures", "true").toBoolean
+  val serializationMode = "jsl.settings.annotatorSerializationFormat"
+  val useBroadcast = "jsl.settings.useBroadcastForFeatures"
 
+  def getConfigValueOrElse(property: String, defaultValue: String): String = {
+    sparkSession.conf.get(property, defaultValue)
+  }
+
+  def getFileSystem: FileSystem = {
+    FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
+  }
+
+  def getHadoopTmpDir: String = {
+    sparkSession.sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
+  }
 
 }
