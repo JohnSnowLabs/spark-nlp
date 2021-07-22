@@ -1,12 +1,10 @@
 package com.johnsnowlabs.nlp.serialization
 
-import com.github.liblevenshtein.proto.LibLevenshteinProtos.DawgNode
 import com.github.liblevenshtein.serialization.PlainTextSerializer
-import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.johnsnowlabs.nlp.HasFeatures
-import com.johnsnowlabs.nlp.annotators.spell.context.parser.{SpecialClassParser, VocabParser}
+import com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.ConfigHelper
+import com.johnsnowlabs.util.{ConfigHelperV2, ConfigLoaderV2}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
@@ -19,8 +17,8 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model:
 
   private val spark = ResourceHelper.spark
 
-  val serializationMode: String = ConfigHelper.serializationMode
-  val useBroadcast: Boolean = ConfigHelper.useBroadcast
+  val serializationMode: String = ConfigLoaderV2.getConfigStringValue(ConfigHelperV2.serializationMode)
+  val useBroadcast: Boolean = ConfigLoaderV2.getConfigBooleanValue(ConfigHelperV2.useBroadcast)
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
 
   final protected var rawValue: Option[TComplete] = None
@@ -289,7 +287,6 @@ class TransducerFeature(model: HasFeatures, override val name: String)
   override def serializeDataset(spark: SparkSession, path: String, field: String, trans: VocabParser): Unit = {
     implicit val encoder: Encoder[VocabParser] = Encoders.kryo[VocabParser]
     val serializer = new PlainTextSerializer
-    import spark.implicits._
     val dataPath = getFieldPath(path, field)
     spark.createDataset(Seq(trans)).write.mode("overwrite").parquet(dataPath.toString)
   }
