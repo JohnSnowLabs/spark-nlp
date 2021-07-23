@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Automatically identify messages as being regular messages or Spam.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``spam``, ``ham``
 
 {:.btn-box}
