@@ -9,9 +9,6 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
   private val fileSystem = FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
 
   private val clusterTmpLocation: String = {
-//    val tmpLocation = ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
-//      sparkSession.sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
-//    ).toString+"/"+UUID.randomUUID().toString.takeRight(12)+"_cdx"
     val tmpLocation = ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
     val tmpLocationPath = new Path(tmpLocation)
     fileSystem.mkdirs(tmpLocationPath)
