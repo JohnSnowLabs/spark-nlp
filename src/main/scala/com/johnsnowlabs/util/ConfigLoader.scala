@@ -18,7 +18,7 @@ object ConfigLoader {
     getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
     getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
     getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
-    getConfigInfo(ConfigHelper.pretrainedCacheFolder, fileSystem.getHomeDirectory + "/cache_pretrained") ++ //TODO: Check using homeDirectory as in logFolder
+    getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
     getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
     getConfigInfo(ConfigHelper.accessKeyId, "") ++
     getConfigInfo(ConfigHelper.secretAccessKey, "") ++

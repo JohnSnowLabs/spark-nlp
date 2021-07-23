@@ -19,7 +19,6 @@ trait Logging {
   }
   protected def outputLog(value: => String, uuid: String, shouldLog: Boolean, outputLogsPath: String): Unit = {
     if (shouldLog) {
-      println(s"************* In outputLog value=$value, outputLogsPath=$outputLogsPath")
       OutputHelper.writeAppend(uuid, value, outputLogsPath)
     }
   }

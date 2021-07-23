@@ -9,22 +9,13 @@ import scala.language.existentials
 
 object OutputHelper {
 
-  lazy private val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
-
-//  lazy private val homeDirectory = if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home") else fileSystem.getHomeDirectory
-//
-//  private def logsFolder: String = {
-//    val path = ConfigHelper.annotatorLogFolder
-//    val defaultValue = homeDirectory + "/annotator_logs"
-//    ConfigHelper.getConfigValueOrElse(path, defaultValue)
-//  }
+  private lazy val fileSystem = ConfigHelper.getFileSystem
 
   private def logsFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
 
   lazy private val isDBFS = fileSystem.getScheme.equals("dbfs")
 
   def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
-    println(s"**************** In OutputHelper.writeAppend outputLogsPath=$outputLogsPath")
     val targetFolder = if (outputLogsPath.isEmpty) logsFolder else outputLogsPath
 
     if (isDBFS) {
