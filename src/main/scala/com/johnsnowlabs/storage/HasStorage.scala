@@ -108,15 +108,9 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     //if the path contains s3a download to local cache if not present
     if (uri.getScheme != null) {
       if (uri.getScheme.equals("s3a")) {
-//        var accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
         var accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
-//        var secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
         var secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
-//        if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-//          val defaultCred = new DefaultAWSCredentialsProviderChain().getCredentials
-//          accessKeyId = Some(defaultCred.getAWSAccessKeyId)
-//          secretAccessKey = Some(defaultCred.getAWSSecretKey)
-//        }
+
         if (accessKeyId == "" || secretAccessKey == "") {
           val defaultCredentials = new DefaultAWSCredentialsProviderChain().getCredentials
           accessKeyId = defaultCredentials.getAWSAccessKeyId

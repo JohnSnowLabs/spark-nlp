@@ -86,23 +86,6 @@ object ResourceDownloader {
 
   def cacheFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCacheFolder)
 
-//  def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
-//    val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-//    val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-//    val awsProfile = ConfigHelper.getConfigValue(ConfigHelper.awsProfileName)
-//    if (awsProfile.isDefined) {
-//      return Some(new ProfileCredentialsProvider(awsProfile.get).getCredentials)
-//    }
-//    if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-//      fetchCredentials()
-//    }
-//    else
-//      Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
-//  }
-//  else {
-//    fetchCredentials()
-//  }
-
   def credentials: Option[AWSCredentials] = if (ConfigLoader.hasAwsCredentials) {
     buildAwsCredentials()
   } else {

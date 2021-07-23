@@ -41,7 +41,6 @@ class S3ResourceDownloader(bucket: => String,
                           )
   extends ResourceDownloader with AutoCloseable {
 
-  // repository Folder -> repository Metadata
   val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] = mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
