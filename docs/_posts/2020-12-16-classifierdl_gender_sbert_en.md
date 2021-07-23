@@ -20,9 +20,9 @@ use_language_switcher: "Python-Scala-Java"
 This model classifies the gender of the patient in the clinical document. 
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 
-``Female``, ``Male``, `Unknown`.
+`Female`, `Male`, `Unknown`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
