@@ -95,6 +95,8 @@ docs-en:
         url:    /docs/en/ocr
       - title:  Installation
         url:    /docs/en/ocr_install
+      - title:  Version Compatibility
+        url:    /docs/en/version_compatibility
       - title:  Pipeline components
         url:    /docs/en/ocr_pipeline_components
       - title:  Table recognition
