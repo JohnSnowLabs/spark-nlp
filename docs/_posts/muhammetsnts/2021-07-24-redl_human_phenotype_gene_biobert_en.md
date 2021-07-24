@@ -60,7 +60,7 @@ dependency_parser = DependencyParserModel() \
 re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks")#.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
+    .setOutputCol("re_ner_chunks")
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
