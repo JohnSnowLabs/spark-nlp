@@ -4,7 +4,7 @@ title: Detect Assertion Status (assertion_jsl_large)
 author: John Snow Labs
 name: assertion_jsl_large
 date: 2021-07-24
-tags: [en, licensed]
+tags: [licensed, clinical, assertion, en]
 task: Assertion Status
 language: en
 edition: Spark NLP for Healthcare 3.1.2
@@ -133,8 +133,8 @@ Trained on 2010 i2b2/VA challenge on concepts, assertions, and relations in clin
 ## Benchmarking
 
 ```bash
-|    | label           | prec  | rec   | f1    |
-|---:|----------------:|------:|------:|------:|
+|   | label           | prec  | rec   | f1    |
+|--:|----------------:|------:|------:|------:|
 | 0 | absent           | 0.957 | 0.949 | 0.953 |
 | 1 | someoneelse      | 0.958 | 0.936 | 0.947 |
 | 2 | planned          | 0.766 | 0.657 | 0.707 |
