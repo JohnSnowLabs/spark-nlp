@@ -31,7 +31,8 @@ import scala.collection.JavaConverters._
  * @param sentenceStartTokenId Id of sentence start Token
  * @param sentenceEndTokenId   Id of sentence end Token.
  * @param configProtoBytes     Configuration for TensorFlow session
- *
+ * @param tags                 labels which model was trained with in order
+ * @param signatures           TF v2 signatures in Spark NLP
  * */
 class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper,
                                         sentenceStartTokenId: Int,
@@ -61,7 +62,7 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
 
   def calcluateSoftmax(scores: Array[Float]): Array[Float] = {
     val exp = scores.map(x => math.exp(x))
-    exp.map(x => (x / exp.sum)).map(_.toFloat)
+    exp.map(x => x / exp.sum).map(_.toFloat)
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {

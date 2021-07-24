@@ -32,50 +32,28 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
- * vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.
+ * BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
+ * e.g. for Named-Entity-Recognition (NER) tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val embeddings = BertEmbeddings.pretrained()
+ * val embeddings = BertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
- *   .setOutputCol("bert_embeddings")
+ *   .setOutputCol("label")
  * }}}
- * The default model is `"small_bert_L2_768"`, if no name is provided.
+ * The default model is `"bert_base_token_classifier_conll03"`, if no name is provided.
  *
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb Spark NLP Workshop]]
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala BertEmbeddingsTestSpec]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassification.scala BertEmbeddingsTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- *
- * '''Sources''' :
- *
- * [[https://arxiv.org/abs/1810.04805 BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding]]
- *
- * [[https://github.com/google-research/bert]]
- *
- * ''' Paper abstract '''
- *
- * ''We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
- * from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
- * representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
- * result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
- * state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
- * substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
- * obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
- * to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
- * question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
- * absolute improvement).''
  *
  * ==Example==
  * {{{
  * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.Tokenizer
- * import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
- * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+ * import com.johnsnowlabs.nlp.base._
+ * import com.johnsnowlabs.nlp.annotator._
  * import org.apache.spark.ml.Pipeline
  *
  * val documentAssembler = new DocumentAssembler()
@@ -86,39 +64,30 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
+ * val tokenClassifier = BertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
- *   .setOutputCol("bert_embeddings")
- *
- * val embeddingsFinisher = new EmbeddingsFinisher()
- *   .setInputCols("bert_embeddings")
- *   .setOutputCols("finished_embeddings")
- *   .setOutputAsVector(true)
+ *   .setOutputCol("label")
+ *   .setCaseSensitive(true)
  *
  * val pipeline = new Pipeline().setStages(Array(
  *   documentAssembler,
  *   tokenizer,
- *   embeddings,
- *   embeddingsFinisher
+ *   tokenClassifier
  * ))
  *
- * val data = Seq("This is a sentence.").toDF("text")
+ * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
  * val result = pipeline.fit(data).transform(data)
  *
- * result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
- * +--------------------------------------------------------------------------------+
- * |                                                                          result|
- * +--------------------------------------------------------------------------------+
- * |[-2.3497989177703857,0.480538547039032,-0.3238905668258667,-1.612930893898010...|
- * |[-2.1357314586639404,0.32984697818756104,-0.6032363176345825,-1.6791689395904...|
- * |[-1.8244884014129639,-0.27088963985443115,-1.059438943862915,-0.9817547798156...|
- * |[-1.1648050546646118,-0.4725411534309387,-0.5938255786895752,-1.5780693292617...|
- * |[-0.9125322699546814,0.4563939869403839,-0.3975459933280945,-1.81611204147338...|
- * +--------------------------------------------------------------------------------+
+ * result.select("label.result").show(false)
+ * +------------------------------------------------------------------------------------+
+ * |result                                                                              |
+ * +------------------------------------------------------------------------------------+
+ * |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
+ * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[BertSentenceEmbeddings]] for sentence-level embeddings
- * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
+ * @see [[BertForTokenClassification]] for sentence-level embeddings
+ * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
