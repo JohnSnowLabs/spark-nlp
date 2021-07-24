@@ -18,14 +18,10 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
-import org.tensorflow.{Graph, Operand}
-import org.tensorflow.ndarray.StdArrays
+
 import org.tensorflow.ndarray.buffer.IntDataBuffer
-import org.tensorflow.op.Scope
-import org.tensorflow.op.Ops
-import org.tensorflow.op.core.Constant
-import org.tensorflow.types.TFloat32
 
 import scala.collection.JavaConverters._
 
@@ -41,6 +37,7 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
                                         sentenceStartTokenId: Int,
                                         sentenceEndTokenId: Int,
                                         configProtoBytes: Option[Array[Byte]] = None,
+                                        tags: Map[String, Int],
                                         signatures: Option[Map[String, String]] = None
                                        ) extends Serializable {
 
@@ -60,6 +57,11 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
 
         Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(sentenceEndTokenId) ++ padding
       }
+  }
+
+  def calcluateSoftmax(scores: Array[Float]): Array[Float] = {
+    val exp = scores.map(x => math.exp(x))
+    exp.map(x => (x / exp.sum)).map(_.toFloat)
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -99,34 +101,18 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
     val outs = runner.run().asScala
     val rawScores = TensorResources.extractFloats(outs.head)
 
-    // softmax the outs or rawScores - how to apply Softmax over outs / rawScores
-    val g = new Graph()
-    val ops = Ops.create(g)
-    val scope = new Scope(g)
-
-    val matrix = StdArrays.ndCopyOf(Array[Array[Float]](Array(1.9f, 2.8f, 3.7f, 4.6f, 5.5f, 6.4f)))
-    val tensor = TFloat32.tensorOf(matrix)
-
-    val operand = Constant.create(scope, tensor)
-    ops.nn.softmax(operand)
-//    assert(operand.isInstanceOf[Operand[TFloat32]])
-
-    tensors.clearSession(outs)
-    tensors.clearTensors()
-
     val dim = rawScores.length / (batchLength * maxSentenceLength)
-    val batchScores: Array[Array[Array[Float]]] = rawScores.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+    val batchScores: Array[Array[Array[Float]]] = rawScores.grouped(dim).map(scores =>
+      calcluateSoftmax(scores)).toArray.grouped(maxSentenceLength).toArray
 
     batchScores
-
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
-                          originalTokenSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(sentences: Seq[WordpieceTokenizedSentence],
+              originalTokenSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+             ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
@@ -134,7 +120,7 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
       val vectors = tag(encoded)
 
       /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map { case (sentence, tokenVectors) =>
+      batch.zip(vectors).flatMap { case (sentence, tokenVectors) =>
         val tokenLength = sentence._1.tokens.length
 
         /*All wordpiece embeddings*/
@@ -150,28 +136,23 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-          case (token, tokenEmbedding) =>
-            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin).map {
+        val labelsWithScores = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
+          case (token, scores) =>
+            originalTokenSentences(sentence._2).indexedTokens.find(
+              p => p.begin == token.begin).map {
               token =>
-                val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
-                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                    pieceId = tokenWithEmbeddings.pieceId,
-                    isWordStart = tokenWithEmbeddings.isWordStart,
-                    begin = token.begin,
-                    end = token.end
-                  ),
-                  tokenEmbedding
+                val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+                val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+                Annotation(
+                  annotatorType = AnnotatorType.ENTITY,
+                  begin = token.begin,
+                  end = token.end,
+                  result = label,
+                  metadata = Map("sentence" -> sentence._2.toString) ++ meta
                 )
-                originalTokenWithEmbedding
             }
-            originalTokensWithEmbeddings
         }
-
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+        labelsWithScores.toSeq
       }
     }.toSeq
   }
