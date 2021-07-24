@@ -142,6 +142,10 @@ class BertForTokenClassification(override val uid: String)
 
   def this() = this(Identifiable.randomUID("BERT_FOR_TOKEN_CLASSIFICATION"))
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.ENTITY
+
   /** @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -172,6 +176,8 @@ class BertForTokenClassification(override val uid: String)
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
+
+  def getLabels: Map[String, Int] = $$(labels)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
@@ -231,6 +237,7 @@ class BertForTokenClassification(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
+            tags = getLabels,
             signatures = getSignatures
           )
         )
@@ -293,23 +300,17 @@ class BertForTokenClassification(override val uid: String)
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
 
-      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
+      getModelIfNotSet.predict(
         tokenized,
         tokenizedSentences,
         $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive)
+        $(maxSentenceLength)
       )
-      WordpieceEmbeddingsSentence.pack(withEmbeddings)
     }) else {
       Seq(Seq.empty[Annotation])
     }
   }
 
-
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
@@ -318,8 +319,8 @@ class BertForTokenClassification(override val uid: String)
 
 }
 
-trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertForTokenClassification] with HasPretrained[BertForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("small_bert_L2_768")
+trait ReadablePretrainedBertForTokenModel extends ParamsAndFeaturesReadable[BertForTokenClassification] with HasPretrained[BertForTokenClassification] {
+  override val defaultModelName: Some[String] = Some("bert_base_token_classifier_conll03")
 
   /** Java compliant-overrides */
   override def pretrained(): BertForTokenClassification = super.pretrained()
@@ -331,7 +332,7 @@ trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertForToken
   override def pretrained(name: String, lang: String, remoteLoc: String): BertForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertTensorflowModel extends ReadTensorflowModel {
+trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertForTokenClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
@@ -384,8 +385,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   }
 }
 
-
 /**
- * This is the companion object of [[BertEmbeddings]]. Please refer to that class for the documentation.
+ * This is the companion object of [[BertForTokenClassification]]. Please refer to that class for the documentation.
  */
-object BertForTokenClassification extends ReadablePretrainedBertModel with ReadBertTensorflowModel
+object BertForTokenClassification extends ReadablePretrainedBertForTokenModel with ReadBertForTokenTensorflowModel
