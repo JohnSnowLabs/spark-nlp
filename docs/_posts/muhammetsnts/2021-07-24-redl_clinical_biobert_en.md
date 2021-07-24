@@ -4,7 +4,7 @@ title: Extract relations between problem, treatment and test entities (ReDL)
 author: John Snow Labs
 name: redl_clinical_biobert
 date: 2021-07-24
-tags: [en, licensed]
+tags: [en, licensed, relation_extraction, clinical]
 task: Relation Extraction
 language: en
 edition: Spark NLP for Healthcare 3.0.3
