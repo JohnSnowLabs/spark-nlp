@@ -82,7 +82,7 @@ val words_embedder = WordEmbeddingsModel()
     .setOutputCol("embeddings")
     
 val ner_tagger = MedicalNerModel()
-    .pretrained("ner_clinical", "en", "clinical/models")
+    .pretrained("ner_events_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
     
