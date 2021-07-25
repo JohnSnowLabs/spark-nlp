@@ -36,14 +36,14 @@ Next sentence prediction (NSP): the models concatenate two masked sentences as i
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = BertEmbeddings.pretrained("ms_bluebert_uncased", "en") \
+embeddings = BertEmbeddings.pretrained("ms_bluebert_base_uncased", "en") \
       .setInputCols(["sentence", "token"]) \
       .setOutputCol("embeddings")
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 ```
 ```scala
-val embeddings = BertEmbeddings.pretrained("ms_bluebert_uncased", "en")
+val embeddings = BertEmbeddings.pretrained("ms_bluebert_base_uncased", "en")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 
