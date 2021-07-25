@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Detect Assertion Status (assertion_wip_large)- Spark NLP Model</title><meta name="description" content="DescriptionDeep learning named entity recognition model for assertions. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art mod...">
+<!-- End Google Tag Manager --><title>Detect Assertion Status (assertion_wip_large)- Spark NLP Model</title><meta name="description" content="DescriptionThe deep neural network architecture for assertion status detection in Spark NLP is based on a BiLSTM framework, and is a modified version of the ...">
 <link rel="canonical" href="/2021/01/18/jsl_assertion_wip_large_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,7 +409,7 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Deep learning named entity recognition model for assertions. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.</p>
+<p>The deep neural network architecture for assertion status detection in Spark NLP is based on a BiLSTM framework, and is a modified version of the architecture proposed by Fancellu et.al. (Fancellu, Lopez, and Webber 2016). Its goal is to classify the assertions made on given medical concepts as being present, absent, or possible in the patient, conditionally present in the patient under certain circumstances, hypothetically present in the patient at some future point, and mentioned in the patient report but associated with someone- else (Uzuner et al. 2011). Apart from what we released in other assertion models, an in-house annotations on a curated dataset (6K clinical notes) is used to augment the base assertion dataset (2010 i2b2/VA).</p>
 
 <h2 class="h2_title" id="predicted-entities">Predicted Entities</h2>
 <p><code class="language-plaintext highlighter-rouge">present</code>, <code class="language-plaintext highlighter-rouge">absent</code>, <code class="language-plaintext highlighter-rouge">possible</code>, <code class="language-plaintext highlighter-rouge">planned</code>, <code class="language-plaintext highlighter-rouge">someoneelse</code>, <code class="language-plaintext highlighter-rouge">past</code>.</p>

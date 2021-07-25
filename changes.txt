@@ -1,8 +1,2 @@
-docs/_data/navigation.yml
-docs/en/ocr_install.md
-docs/en/ocr_release_notes.md
-docs/en/version_compatibility.md
-docs/_data/navigation.yml
-docs/en/ocr_install.md
-docs/en/ocr_release_notes.md
-docs/en/version_compatibility.md
+docs/_posts/2021-01-18-jsl_assertion_wip_en.md
+docs/_posts/2021-01-18-jsl_assertion_wip_en.md
