@@ -233,7 +233,7 @@ class BertForTokenClassification(override val uid: String)
   setDefault(
     batchSize -> 8,
     maxSentenceLength -> 128,
-    caseSensitive -> false
+    caseSensitive -> true
   )
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
