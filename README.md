@@ -38,7 +38,6 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   - [Kaggle Kernel](#kaggle-kernel)
   - [Databricks Cluser](#databricks-cluster)
   - [EMR Cluser](#emr-cluster)
-  - [S3 Cluster](#s3-cluster)  
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
@@ -776,13 +775,6 @@ aws emr create-cluster \
 --ec2-attributes KeyName=<your_ssh_key>,EmrManagedMasterSecurityGroup=<security_group_with_ssh>,EmrManagedSlaveSecurityGroup=<security_group_with_ssh> \
 --profile <aws_profile_credentials>
 ```
-
-## S3 Cluster
-
-### With no Hadoop configuration
-
-If your distributed storage is S3 and you don't have a standard Hadoop configuration (i.e. fs.defaultFS)
-You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files.
 
 ## Pipelines and Models
 
