@@ -28,9 +28,4 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
     tokenizerWithSentencePipeline.setStages(Array(documentAssembler, sentenceDetector, tokenizerWithSentence))
   }
 
-  override def afterAll(): Unit = {
-    try super.afterAll()
-    spark.stop()
-  }
-
 }

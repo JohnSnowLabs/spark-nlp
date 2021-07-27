@@ -177,11 +177,13 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
   }
 
   it should "handle overlapping entities" ignore {
+    //Ignored because it downloads POS and Dependency Parser pretrained models
     val testDataSet = getOverlappingEntities(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setMergeEntities(true)
+      .setRelationshipTypes(Array("person-PER", "person-LOC"))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
     graphDataSet.show(false)

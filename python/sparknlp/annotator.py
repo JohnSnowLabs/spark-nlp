@@ -9774,18 +9774,18 @@ class GraphExtraction(AnnotatorModel):
 
     posModel = Param(Params._dummy(),
                      "posModel",
-                     "Pretrained POS Model",
-                     typeConverter=TypeConverters.identity)
+                     "Coordinates (name, lang, remoteLoc) to a pretrained POS model",
+                     typeConverter=TypeConverters.toListString)
 
     dependencyParserModel = Param(Params._dummy(),
                                   "dependencyParserModel",
-                                  "Pretrained Dependency Parser Model",
-                                  typeConverter=TypeConverters.identity)
+                                  "Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser model",
+                                  typeConverter=TypeConverters.toListString)
 
     typedDependencyParserModel = Param(Params._dummy(),
                                        "typedDependencyParserModel",
-                                       "Pretrained Typed Dependency Parser Model",
-                                       typeConverter=TypeConverters.identity)
+                                       "Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model",
+                                       typeConverter=TypeConverters.toListString)
 
     def setRelationshipTypes(self, value):
         return self._set(relationshipTypes=value)
@@ -9814,14 +9814,14 @@ class GraphExtraction(AnnotatorModel):
     def setDelimiter(self, value):
         return self._set(delimiter=value)
 
-    # def setPosModel(self, value):
-    #     return self._set(posModel=value)
-    #
-    # def setDependencyParserModel(self, value):
-    #     return self._set(dependencyParserModel=value)
-    #
-    # def setTypedDependencyParserModel(self, value):
-    #     return self._set(typedDependencyParserModel=value)
+    def setPosModel(self, value):
+        return self._set(posModel=value)
+
+    def setDependencyParserModel(self, value):
+        return self._set(dependencyParserModel=value)
+
+    def setTypedDependencyParserModel(self, value):
+        return self._set(typedDependencyParserModel=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.GraphExtraction", java_model=None):

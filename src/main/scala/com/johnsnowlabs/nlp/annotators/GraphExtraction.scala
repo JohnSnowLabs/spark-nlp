@@ -50,13 +50,14 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   protected val delimiter = new Param[String](this, "delimiter",
     "Delimiter symbol used for path output")
 
-  protected val posModel = new StructFeature[PerceptronModel](this, "posModel")
+  protected val posModel = new StringArrayParam(this, "posModel",
+    "Coordinates (name, lang, remoteLoc) to a pretrained POS model")
 
-  protected val dependencyParserModel: StructFeature[DependencyParserModel] =
-    new StructFeature[DependencyParserModel](this, "dependencyParserModel")
+  protected val dependencyParserModel = new StringArrayParam(this, "dependencyParserModel",
+    "Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser model")
 
-  protected val typedDependencyParserModel: StructFeature[TypedDependencyParserModel] =
-    new StructFeature[TypedDependencyParserModel](this, "typedDependencyParserModel")
+  protected val typedDependencyParserModel = new StringArrayParam(this, "typedDependencyParserModel",
+    "Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model")
 
   def setRelationshipTypes (value: Array[String]): this.type = set(relationshipTypes, value)
 
@@ -76,15 +77,16 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
 
   def setDelimiter(value: String): this.type = set(delimiter, value)
 
-//  def setPosModel(value: PerceptronModel): this.type = set(posModel, value)
-//
-//  def setDependencyParserModel(value: DependencyParserModel): this.type = set(dependencyParserModel, value)
-//
-//  def setTypedDependencyParserModel(value: TypedDependencyParserModel): this.type = set(typedDependencyParserModel, value)
+  def setPosModel(value: Array[String]): this.type = set(posModel, value)
+
+  def setDependencyParserModel(value: Array[String]): this.type = set(dependencyParserModel, value)
+
+  def setTypedDependencyParserModel(value: Array[String]): this.type = set(typedDependencyParserModel, value)
 
   setDefault(entityTypes -> Array(), explodeEntities -> false, maxSentenceSize -> 1000, minSentenceSize -> 2,
     mergeEntities -> false, rootTokens -> Array(), relationshipTypes -> Array(), includeEdges -> true,
-    delimiter -> ",")
+    delimiter -> ",", posModel -> Array(), dependencyParserModel -> Array(),
+    typedDependencyParserModel -> Array())
 
   private lazy val allowedEntityRelationships = $(entityTypes).map{ entityRelationship =>
     val result = entityRelationship.split("-")
@@ -95,14 +97,6 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     val result = relationshipTypes.split("-")
     (result.head, result.last)
   }.distinct
-
-  private lazy val posPretrainedModel: Option[PerceptronModel] = if (posModel.isSet) Some(posModel.getOrDefault) else None
-
-  private lazy val dependencyParserPretrainedModel: Option[DependencyParserModel] =
-    if (dependencyParserModel.isSet) Some(dependencyParserModel.getOrDefault) else None
-
-  private lazy val typedDependencyParserPretrainedModel: Option[TypedDependencyParserModel] =
-    if (typedDependencyParserModel.isSet) Some(typedDependencyParserModel.getOrDefault) else None
 
   override def _transform(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DataFrame = {
     if ($(mergeEntities)) {
@@ -186,13 +180,13 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     val relatedAnnotatedTokens = mergeRelatedTokens(annotationsToProcess)
     val sentence = annotationsToProcess.filter(_.annotatorType == AnnotatorType.DOCUMENT)
     val posInput = sentence ++ relatedAnnotatedTokens
-    val posAnnotations = PretrainedAnnotations.getPos(posInput, posPretrainedModel)
+    val posAnnotations = PretrainedAnnotations.getPos(posInput, $(posModel))
     val dependencyParserInput = sentence ++ relatedAnnotatedTokens ++ posAnnotations
     val dependencyParserAnnotations = PretrainedAnnotations.getDependencyParser(dependencyParserInput,
-      dependencyParserPretrainedModel)
+      $(dependencyParserModel))
     val typedDependencyParserInput = relatedAnnotatedTokens ++ posAnnotations ++ dependencyParserAnnotations
     val typedDependencyParserAnnotations = PretrainedAnnotations.getTypedDependencyParser(typedDependencyParserInput,
-      typedDependencyParserPretrainedModel)
+      $(typedDependencyParserModel))
     relatedAnnotatedTokens ++ dependencyParserAnnotations ++ typedDependencyParserAnnotations
   }
 

@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.nlp.Annotation
+import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.types.{ArrayType, MapType, StringType, StructField, StructType}
 
 object FinisherUtil {
@@ -40,6 +41,15 @@ object FinisherUtil {
     if (cleanAnnotations) outputFields.filterNot(f =>
       f.dataType == ArrayType(Annotation.dataType)
     ) else outputFields
+  }
+
+  def cleaningAnnotations(cleanAnnotations: Boolean, dataSet: DataFrame): DataFrame = {
+    if (cleanAnnotations) {
+      val columnsToDrop = dataSet.schema.fields
+        .filter(_.dataType == ArrayType(Annotation.dataType))
+        .map(_.name)
+      dataSet.drop(columnsToDrop:_*)
+    } else dataSet
   }
 
 }
