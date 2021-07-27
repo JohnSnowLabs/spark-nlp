@@ -92,7 +92,6 @@ class GraphFinisher(override val uid: String) extends Transformer {
   setDefault(cleanAnnotations -> true, outputAsArray -> true, includeMetadata -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
-    //TODO: Add relationship info in metadata e.g. (sees, PER)
    var flattenedDataSet = dataset.withColumn($(outputCol), {
      if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol))) else flattenPaths(dataset.col($(inputCol)))
    })
@@ -101,14 +100,7 @@ class GraphFinisher(override val uid: String) extends Transformer {
      flattenedDataSet = flattenedDataSet.withColumn($(outputCol) + "_metadata", flattenMetadata(dataset.col($(inputCol))))
    }
 
-   if ($(cleanAnnotations)) {
-     val result = flattenedDataSet.drop(
-       flattenedDataSet.schema.fields
-         .filter(_.metadata.contains("annotatorType")) //TODO: Verify filter on other Finishers for NER
-         .map(_.name):_*)
-     result
-   }
-   else flattenedDataSet.toDF()
+   FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattenedDataSet)
   }
 
   def flattenPathsAsArray: UserDefinedFunction = udf { annotations: Seq[Row] =>

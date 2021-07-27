@@ -275,11 +275,7 @@ class EmbeddingsFinisher(override val uid: String)
       }
     }
 
-    if ($(cleanAnnotations)) flattened.drop(
-      flattened.schema.fields
-        .filter(_.dataType == ArrayType(Annotation.dataType))
-        .map(_.name):_*)
-    else flattened.toDF()
+    FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())
   }
 
 }

@@ -1784,3 +1784,4 @@ class GraphExtractionTestSpec(unittest.TestCase):
 
         graph_data_set = pipeline_finisher.fit(test_data_set).transform(test_data_set)
         graph_data_set.show(truncate=False)
+
