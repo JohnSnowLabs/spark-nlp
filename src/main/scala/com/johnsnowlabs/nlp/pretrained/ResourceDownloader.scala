@@ -17,7 +17,6 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
@@ -35,11 +34,13 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, RoBertaEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlmRoBertaEmbeddings, XlnetEmbeddings}
+import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, ConfigLoader, FileHelper, Version}
+import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
+import com.johnsnowlabs.util._
+import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
@@ -48,10 +49,6 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import com.amazonaws.AmazonClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
-import org.apache.hadoop.fs.FileSystem
 
 
 trait ResourceDownloader {
@@ -86,53 +83,6 @@ object ResourceDownloader {
 
   def cacheFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCacheFolder)
 
-  def credentials: Option[AWSCredentials] = if (ConfigLoader.hasAwsCredentials) {
-    buildAwsCredentials()
-  } else {
-    fetchCredentials()
-  }
-
-  private def buildAwsCredentials(): Option[AWSCredentials] = {
-    val accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
-    val secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
-    val awsProfile = ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName)
-    if (awsProfile != "") {
-      return Some(new ProfileCredentialsProvider(awsProfile).getCredentials)
-    }
-    if (accessKeyId == "" || secretAccessKey == "") {
-      fetchCredentials()
-    }
-    else
-      Some(new BasicAWSCredentials(accessKeyId, secretAccessKey))
-  }
-
-  private def fetchCredentials(): Option[AWSCredentials] = {
-    try {
-      //check if default profile name works if not try 
-      Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
-    } catch {
-      case _: Exception =>
-        try {
-
-          Some(new DefaultAWSCredentialsProviderChain().getCredentials)
-        } catch {
-          case _: AmazonClientException =>
-            if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-
-              val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-              val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-
-              Some(new BasicAWSCredentials(key, secret))
-            } else {
-              Some(new AnonymousAWSCredentials())
-            }
-          case e: Exception => throw e
-
-        }
-    }
-
-  }
-
   val publicLoc = "public/models"
 
   private val cache = mutable.Map[ResourceRequest, PipelineStage]()
@@ -146,16 +96,16 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
-  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
-  var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
+  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
+  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
+  var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
 
   /**
    * Reset the cache and recreate ResourceDownloader S3 credentials
    */
   def resetResourceDownloader(): Unit = {
     cache.empty
-    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
   }
 
   /**

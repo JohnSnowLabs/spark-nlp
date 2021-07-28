@@ -26,8 +26,12 @@ object ConfigLoader {
     getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
     getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
     getConfigInfo(ConfigHelper.serializationMode, "object") ++
-    getConfigInfo(ConfigHelper.useBroadcast, "true")
-
+    getConfigInfo(ConfigHelper.useBroadcast, "true") ++
+    getConfigInfo(ConfigHelper.logAccessKeyId, "") ++
+    getConfigInfo(ConfigHelper.logSecretAccessKey, "") ++
+    getConfigInfo(ConfigHelper.logAwsProfileName, "") ++
+    getConfigInfo(ConfigHelper.logS3BucketKey, "") ++
+    getConfigInfo(ConfigHelper.logAwsRegion, "")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
@@ -73,6 +77,16 @@ object ConfigLoader {
     val hasSecretAccessKey = getConfigStringValue(ConfigHelper.secretAccessKey) != ""
     val hasAwsProfileName = getConfigStringValue(ConfigHelper.awsProfileName) != ""
     if (hasAwsProfileName || hasAccessKeyId || hasSecretAccessKey) true else false
+  }
+
+  def hasFullAwsCredentials: Boolean = {
+    val hasAccessKeyId = getConfigStringValue(ConfigHelper.logAccessKeyId) != ""
+    val hasSecretAccessKey = getConfigStringValue(ConfigHelper.logSecretAccessKey) != ""
+    val hasAwsProfileName = getConfigStringValue(ConfigHelper.logAwsProfileName) != ""
+    val hasAwsRegion= getConfigStringValue(ConfigHelper.logAwsRegion) != ""
+    val hasAwsBucket= getConfigStringValue(ConfigHelper.logS3BucketKey) != ""
+    if ((hasAwsProfileName && hasAwsRegion &&  hasAwsBucket) ||
+      (hasAccessKeyId && hasSecretAccessKey && hasAwsRegion && hasAwsBucket)) true else false
   }
 
 }
