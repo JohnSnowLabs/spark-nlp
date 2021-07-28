@@ -95,6 +95,17 @@ class MultiDateMatcher(override val uid: String)
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("MULTI_DATE"))
 
+
+  //    val possibleDate = extractFormalDate(_text)
+  //      .orElse(extractRelativeDatePast(_text))
+  //      .orElse(extractRelativeDateFuture(_text))
+  //      .orElse(extractRelaxedDate(_text))
+  //      .orElse(extractRelativeDate(_text))
+  //      .orElse(extractTomorrowYesterday(_text))
+  //      .orElse(extractRelativeExactDay(_text))
+  //
+  //    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
+
   /**
     * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
     *
