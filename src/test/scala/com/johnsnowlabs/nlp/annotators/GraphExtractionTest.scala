@@ -9,6 +9,8 @@ import scala.collection.mutable
 
 class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
 
+  spark.conf.set("spark.sql.crossJoin.enabled", "true")
+
   "Graph Extraction" should "return dependency graphs between all entities" taggedAs FastTest in {
 
     val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
@@ -30,7 +32,6 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
 
     val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
-
   }
 
   it should "return dependency graphs for a pair of entities" taggedAs FastTest in {
@@ -43,7 +44,7 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
       .setIncludeEdges(false)
     val expectedGraph = Array(Seq(
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "ORG,LOC",
-        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,Houston")),
+        "left_path" -> "canceled,United", "right_path" -> "canceled,flights,Houston"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
