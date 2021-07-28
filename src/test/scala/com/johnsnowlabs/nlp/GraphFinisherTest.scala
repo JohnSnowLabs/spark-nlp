@@ -10,6 +10,8 @@ import scala.collection.mutable
 
 class GraphFinisherTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
 
+  spark.conf.set("spark.sql.crossJoin.enabled", "true")
+
   import spark.implicits._
 
   private val textDataSet = Seq("Bruce Wayne lives in Gotham").toDS.toDF("text")
