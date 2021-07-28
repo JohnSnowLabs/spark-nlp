@@ -28,7 +28,7 @@ import org.apache.spark.sql.Dataset
   * Statistics about the rate of converted tokens, can be retrieved with [[WordEmbeddingsModel WordEmbeddingsModel.withCoverageColumn]]
   * and [[WordEmbeddingsModel WordEmbeddingsModel.overallCoverage]].
   *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
   * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
   *
   * ==Example==
