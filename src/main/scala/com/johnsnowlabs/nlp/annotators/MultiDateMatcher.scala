@@ -95,17 +95,6 @@ class MultiDateMatcher(override val uid: String)
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("MULTI_DATE"))
 
-
-  //    val possibleDate = extractFormalDate(_text)
-  //      .orElse(extractRelativeDatePast(_text))
-  //      .orElse(extractRelativeDateFuture(_text))
-  //      .orElse(extractRelaxedDate(_text))
-  //      .orElse(extractRelativeDate(_text))
-  //      .orElse(extractTomorrowYesterday(_text))
-  //      .orElse(extractRelativeExactDay(_text))
-  //
-  //    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
-
   /**
     * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
     *
@@ -113,12 +102,24 @@ class MultiDateMatcher(override val uid: String)
     * @return a possible date-time match
     */
   private[annotators] def extractDate(text: String): Seq[MatchedDateTime] = {
+
+    val sourceLanguage = getSourceLanguage
+    val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
+
+    val _text =
+      if(translationPreds.forall(_.equals(true)))
+        DateMatcherTranslator.translate(text, sourceLanguage)
+      else
+        text
+
     val strategies = Seq(
-      () => extractFormalDate(text),
-      () => extractRelaxedDate(text),
-      () => extractRelativeDate(text),
-      () => extractTomorrowYesterday(text),
-      () => extractRelativeExactDay(text)
+      () => extractFormalDate(_text),
+      () => extractRelativeDatePast(_text),
+      () => extractRelativeDateFuture(_text),
+      () => extractRelaxedDate(_text),
+      () => extractRelativeDate(_text),
+      () => extractTomorrowYesterday(_text),
+      () => extractRelativeExactDay(_text)
     )
 
     strategies.foldLeft(Seq.empty[MatchedDateTime])((previousResults, strategy) => {
@@ -135,6 +136,23 @@ class MultiDateMatcher(override val uid: String)
 
   }
 
+  private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {
+    if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
+      relativeFutureFactory.findMatch(text.toLowerCase()).map(possibleDate =>
+        relativeDateFutureContentParse(possibleDate))
+    else
+      Seq.empty
+  }
+
+  private def extractRelativeDatePast(text: String): Seq[MatchedDateTime] = {
+    if(!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
+      relativePastFactory.findMatch(text.toLowerCase()).map(possibleDate =>
+        relativeDatePastContentParse(possibleDate)
+      )
+    else
+      Seq.empty
+  }
+
   private def extractFormalDate(text: String): Seq[MatchedDateTime] = {
     formalFactory.findMatch(text).map{ possibleDate =>
       formalDateContentParse(possibleDate)
@@ -147,6 +165,7 @@ class MultiDateMatcher(override val uid: String)
     var monthMatch = defaultMonthWhenMissing
     var yearMatch = defaultYearWhenMissing
     var changes = 0
+
     possibleDates.foreach(possibleDate => {
 
       if (possibleDate.identifier == "relaxed days" && possibleDate.content.matched.exists(_.isDigit)) {
