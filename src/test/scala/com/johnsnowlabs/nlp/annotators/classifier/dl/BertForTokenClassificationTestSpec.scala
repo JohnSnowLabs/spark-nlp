@@ -130,7 +130,7 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
 
     val tokenClassifier = BertForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
-      .setOutputCol("label")
+      .setOutputCol("ner")
       .setCaseSensitive(true)
 
     val pipeline = new Pipeline()
@@ -140,24 +140,24 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
     Benchmark.time("Time to save BertForTokenClassification results") {
-      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
+      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_token_classifier")
     }
 
-    println("missing tokens/embeddings: ")
+    println("missing tokens/tags: ")
     pipelineDF.withColumn("sentence_size", size(col("sentence")))
       .withColumn("token_size", size(col("token")))
-      .withColumn("embed_size", size(col("embeddings")))
-      .where(col("token_size") =!= col("embed_size"))
-      .select("sentence_size", "token_size", "embed_size", "token.result", "embeddings.result")
+      .withColumn("ner_size", size(col("ner")))
+      .where(col("token_size") =!= col("ner_size"))
+      .select("sentence_size", "token_size", "ner_size", "token.result", "ner.result")
       .show(false)
 
     println("total sentences: ", pipelineDF.select(explode($"sentence.result")).count)
     val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
-    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+    val totalTags = pipelineDF.select(explode($"ner.result")).count.toInt
 
     println(s"total tokens: $totalTokens")
-    println(s"total embeddings: $totalEmbeddings")
+    println(s"total embeddings: $totalTags")
 
-    assert(totalTokens == totalEmbeddings)
+    assert(totalTokens == totalTags)
   }
 }
