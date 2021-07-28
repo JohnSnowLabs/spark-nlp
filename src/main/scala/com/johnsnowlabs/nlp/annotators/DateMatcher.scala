@@ -100,10 +100,6 @@ import java.util.Calendar
   */
 class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] with HasSimpleAnnotate[DateMatcher] with DateMatcherUtils {
 
-  // Used for past relative date matches
-  val relativePastPattern = " ago"
-  val relativeFuturePattern = "in "
-
   import com.johnsnowlabs.nlp.AnnotatorType._
 
   /** Output annotator type: DATE
@@ -209,7 +205,6 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
       )
     else
       None
-
   }
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
