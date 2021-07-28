@@ -9877,7 +9877,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
         self._setDefault(
             batchSize=8,
             maxSentenceLength=128,
-            caseSensitive=False
+            caseSensitive=True
         )
 
     @staticmethod
