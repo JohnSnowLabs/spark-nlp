@@ -18,9 +18,8 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
-
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -101,6 +100,10 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
 
     val outs = runner.run().asScala
     val rawScores = TensorResources.extractFloats(outs.head)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
 
     val dim = rawScores.length / (batchLength * maxSentenceLength)
     val batchScores: Array[Array[Array[Float]]] = rawScores.grouped(dim).map(scores =>
