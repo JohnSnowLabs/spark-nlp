@@ -275,7 +275,8 @@ class BertSentenceEmbeddings(override val uid: String)
           tensorflow,
           sentenceStartTokenId,
           sentenceEndTokenId,
-          configProtoBytes = getConfigProtoBytes
+          configProtoBytes = getConfigProtoBytes,
+          signatures = getSignatures
         )))
     }
 
@@ -356,7 +357,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
 
   def readTensorflow(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf")
+    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
@@ -388,6 +389,7 @@ trait ReadBertSentenceTensorflowModel extends ReadTensorflowModel {
       case None => throw new Exception("Cannot load signature definitions from model!")
     }
 
+    /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
     new BertSentenceEmbeddings()
       .setVocabulary(words)
       .setSignatures(_signatures)

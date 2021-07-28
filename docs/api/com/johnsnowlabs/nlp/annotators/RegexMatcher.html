@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
-          <meta name="description" content="Spark NLP 3.1.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
-          <meta name="keywords" content="Spark NLP 3.1.2 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
+          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -1950,7 +1950,7 @@ the resource
       <p class="shortcomment cmt">External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member <code>options</code>
 has <code>&quot;delimiter&quot;</code> defined.</p><div class="fullcomment"><div class="comment cmt"><p>External dictionary already in the form of <span class="extype" name="ExternalResource">ExternalResource</span>, for which the Map member <code>options</code>
 has <code>&quot;delimiter&quot;</code> defined.</p><h4>Example</h4><pre><span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher()
-  .setRules(ExternalResource(
+  .setExternalRules(ExternalResource(
     <span class="lit">"src/test/resources/regex-matcher/rules.txt"</span>,
     ReadAs.TEXT,
     <span class="std">Map</span>(<span class="lit">"delimiter"</span> -&gt; <span class="lit">","</span>)
