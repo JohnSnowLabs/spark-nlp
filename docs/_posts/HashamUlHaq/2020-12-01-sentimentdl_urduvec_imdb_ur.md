@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 Analyse sentiment in reviews by classifying them as ``positive``, ``negative`` or ``neutral``. This model is trained using ``urduvec_140M_300d`` word embeddings. The word embeddings are then converted to sentence embeddings before feeding to the sentiment classifier which uses a DL architecture to classify sentences.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 
 ``positive`` , ``negative`` , ``neutral``.
 

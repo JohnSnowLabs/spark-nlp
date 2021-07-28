@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 This model classifies if a text is ADE-related (``True``) or not (``False``).
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``True``, ``False``.
 
 {:.btn-box}

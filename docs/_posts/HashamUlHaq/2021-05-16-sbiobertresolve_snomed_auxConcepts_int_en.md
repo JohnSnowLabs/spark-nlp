@@ -17,11 +17,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps extracted medical entities to Snomed codes (with Morph Abnormality, Procedure, Substance, Physical Object, Body Structure concepts from INT version) using chunk embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
+This model maps clinical entities and concepts to Snomed codes (INT version) codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. This model is capable of extracting Morph Abnormality, Procedure, Substance, Physical Object, and Body Structure concepts of Snomed codes.
+
+It has faster load time, with a speedup of about 6X when compared to previous versions. Also the load process now is more memory friendly meaning that the maximum memory required during load time is smaller, reducing the chances of OOM exceptions, and thus relaxing hardware requirements.
+
 
 ## Predicted Entities
 
-Snomed Codes and their normalized definition with ``sbiobert_base_cased_mli`` embeddings.
+Predicts Snomed Codes and their normalized definition for each chunk.
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}

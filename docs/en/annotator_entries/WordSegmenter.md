@@ -162,7 +162,7 @@ pipeline = Pipeline().setStages([
 ])
 
 trainingDataSet = POS().readDataset(
-    ResourceHelper.spark,
+    spark,
     "src/test/resources/word-segmenter/chinese_train.utf8"
 )
 
