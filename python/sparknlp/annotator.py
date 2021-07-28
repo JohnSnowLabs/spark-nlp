@@ -9803,7 +9803,6 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 class BertForTokenClassification(AnnotatorModel,
                                  HasCaseSensitiveProperties,
                                  HasBatchedAnnotate):
-
     name = "BERT_FOR_TOKEN_CLASSIFICATION"
 
     maxSentenceLength = Param(Params._dummy(),
@@ -9823,7 +9822,8 @@ class BertForTokenClassification(AnnotatorModel,
         return self._set(maxSentenceLength=value)
 
     @keyword_only
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification", java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification",
+                 java_model=None):
         super(BertForTokenClassification, self).__init__(
             classname=classname,
             java_model=java_model
@@ -9844,3 +9844,49 @@ class BertForTokenClassification(AnnotatorModel,
     def pretrained(name="bert_base_token_classifier_conll03", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertForTokenClassification, name, lang, remote_loc)
+
+
+class DistilBertForTokenClassification(AnnotatorModel,
+                                 HasCaseSensitiveProperties,
+                                 HasBatchedAnnotate):
+    name = "DISTILBERT_FOR_TOKEN_CLASSIFICATION"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification",
+                 java_model=None):
+        super(DistilBertForTokenClassification, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=False
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _DistilBertTokenClassifierLoader
+        jModel = _DistilBertTokenClassifierLoader(folder, spark_session._jsparkSession)._java_obj
+        return DistilBertForTokenClassification(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="distilbert_base_token_classifier_conll03", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(DistilBertForTokenClassification, name, lang, remote_loc)
