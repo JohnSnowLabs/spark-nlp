@@ -6,14 +6,18 @@ import org.apache.spark.sql.SparkSession
 
 case class StorageLocator(database: String, storageRef: String, sparkSession: SparkSession) {
 
-  private val fileSystem = FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
+  private lazy val fileSystem = FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
 
   private val clusterTmpLocation: String = {
-    val tmpLocation = ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
-    val tmpLocationPath = new Path(tmpLocation)
-    fileSystem.mkdirs(tmpLocationPath)
-    fileSystem.deleteOnExit(tmpLocationPath)
-    tmpLocation
+    val tmpLocation = getTmpLocation
+    if (tmpLocation.startsWith("s3:/")) {
+      tmpLocation
+    } else {
+      val tmpLocationPath = new Path(tmpLocation)
+      fileSystem.mkdirs(tmpLocationPath)
+      fileSystem.deleteOnExit(tmpLocationPath)
+      tmpLocation
+    }
   }
 
   val clusterFileName: String = {
@@ -21,11 +25,15 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
   }
 
   val clusterFilePath: Path = {
-    Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/" + clusterFileName))
+    if (!getTmpLocation.startsWith("s3:/")) {
+      Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/" + clusterFileName))
+    } else new Path(clusterTmpLocation + "/" + clusterFileName)
   }
 
-  val destinationScheme: String = {
-    fileSystem.getScheme
+  val destinationScheme: String = if (getTmpLocation.startsWith("s3:/")) "s3" else fileSystem.getScheme
+
+  private def getTmpLocation: String = {
+    ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
   }
 
 }

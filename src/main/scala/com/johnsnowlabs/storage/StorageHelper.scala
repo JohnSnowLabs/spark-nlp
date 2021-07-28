@@ -19,7 +19,7 @@ object StorageHelper {
             withinStorage: Boolean
           ): RocksDBConnection = {
 
-    val dbFolder = StorageHelper.resolveStorageName(database.toString, storageRef)
+    val dbFolder = StorageHelper.resolveStorageName(database, storageRef)
     val src = StorageLocator.getStorageSerializedPath(storageSourcePath.replaceAllLiterally("\\", "/"), dbFolder, withinStorage)
 
     val locator = StorageLocator(database, storageRef, spark)
@@ -46,11 +46,11 @@ object StorageHelper {
     fs.copyFromLocalFile(false, true, index, dst)
   }
 
-  def sendToCluster(source: Path, clusterFilePath: Path, clusterFileName: String, destinationScheme: String, sparkContext: SparkContext): Unit = {
-    if (destinationScheme == "file") {
-      copyIndexToLocal(source, new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
-    } else {
-      copyIndexToCluster(source, clusterFilePath, sparkContext)
+  def sendToCluster(source: Path, clusterFilePath: Path, clusterFileName: String, destinationScheme: String,
+                    sparkContext: SparkContext): Unit = {
+    destinationScheme match {
+      case "file" => copyIndexToLocal(source, new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
+      case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
     }
   }
 
