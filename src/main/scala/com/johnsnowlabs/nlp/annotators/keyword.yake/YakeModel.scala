@@ -51,7 +51,7 @@ import scala.math.sqrt
  * Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
  * Therefore to filter the keywords, an upper bound for the score can be set with `setThreshold`.
  *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/8.Keyword_Extraction_YAKE_v3.0.ipynb Spark NLP Workshop]]
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala YakeTestSpec]].
  *
  *  '''Sources''' :

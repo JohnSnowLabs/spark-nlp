@@ -26,7 +26,7 @@ import scala.util.matching.Regex
   * When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
   * `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can also be set with `addRegexParsers`.
   *
-  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
   * and the  [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala ChunkerTestSpec]].
   *
   * ==Example==
