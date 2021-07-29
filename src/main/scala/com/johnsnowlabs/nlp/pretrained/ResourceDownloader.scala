@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{BertForTokenClassification, ClassifierDLModel, DistilBertForTokenClassification, MultiClassifierDLModel, SentimentDLModel}
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -40,17 +40,20 @@ import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResourc
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
-import org.apache.spark.ml.util.DefaultParamsReadable
-import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
+
 import com.amazonaws.AmazonClientException
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
+
+import org.apache.spark.ml.util.DefaultParamsReadable
+import org.apache.spark.ml.{PipelineModel, PipelineStage}
+
 import org.apache.hadoop.fs.FileSystem
 
 
@@ -490,7 +493,9 @@ object PythonResourceDownloader {
     "WordSegmenterModel" -> WordSegmenterModel,
     "DistilBertEmbeddings" -> DistilBertEmbeddings,
     "RoBertaEmbeddings" -> RoBertaEmbeddings,
-    "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings
+    "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings,
+    "BertForTokenClassification" -> BertForTokenClassification,
+    "DistilBertForTokenClassification" -> DistilBertForTokenClassification
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
