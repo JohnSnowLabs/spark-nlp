@@ -668,7 +668,8 @@ class RegexTokenizer(AnnotatorModel):
 class ChunkTokenizer(Tokenizer):
     """Tokenizes and flattens extracted NER chunks.
 
-    The ChunkTokenizer will split the extracted NER ``CHUNK`` type Annotations and will create ``TOKEN`` type Annotations.
+    The ChunkTokenizer will split the extracted NER ``CHUNK`` type Annotations
+    and will create ``TOKEN`` type Annotations.
     The result is then flattened, resulting in a single array.
 
     ====================== ======================
@@ -685,57 +686,45 @@ class ChunkTokenizer(Tokenizer):
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentenceDetector = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        entityExtractor = TextMatcher() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.TEXT) \\
-            .setOutputCol("entity")
-
-        chunkTokenizer = ChunkTokenizer() \\
-            .setInputCols(["entity"]) \\
-            .setOutputCol("chunk_token")
-
-        pipeline = Pipeline().setStages([
-              documentAssembler,
-              sentenceDetector,
-              tokenizer,
-              entityExtractor,
-              chunkTokenizer
-            ])
-
-        data = spark.createDataFrame([[
-            "Hello world, my name is Michael, I am an artist and I work at Benezar",
-            "Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."
-        ]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("entity.result as entity" , "chunk_token.result as chunk_token").show(truncate=False)
-        +-----------------------------------------------+---------------------------------------------------+
-        |entity                                         |chunk_token                                        |
-        +-----------------------------------------------+---------------------------------------------------+
-        |[world, Michael, work at Benezar]              |[world, Michael, work, at, Benezar]                |
-        |[engineer from Farendell, last year, last week]|[engineer, from, Farendell, last, year, last, week]|
-        +-----------------------------------------------+---------------------------------------------------+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentenceDetector = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> entityExtractor = TextMatcher() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setEntities("src/test/resources/entity-extractor/test-chunks.txt", ReadAs.TEXT) \\
+    ...     .setOutputCol("entity")
+    >>> chunkTokenizer = ChunkTokenizer() \\
+    ...     .setInputCols(["entity"]) \\
+    ...     .setOutputCol("chunk_token")
+    >>> pipeline = Pipeline().setStages([
+    ...         documentAssembler,
+    ...         sentenceDetector,
+    ...         tokenizer,
+    ...         entityExtractor,
+    ...         chunkTokenizer
+    ... ])
+    >>> data = spark.createDataFrame([
+    ...     ["Hello world, my name is Michael, I am an artist and I work at Benezar"],
+    ...     ["Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."]
+    >>> ]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("entity.result as entity" , "chunk_token.result as chunk_token").show(truncate=False)
+    +-----------------------------------------------+---------------------------------------------------+
+    |entity                                         |chunk_token                                        |
+    +-----------------------------------------------+---------------------------------------------------+
+    |[world, Michael, work at Benezar]              |[world, Michael, work, at, Benezar]                |
+    |[engineer from Farendell, last year, last week]|[engineer, from, Farendell, last, year, last, week]|
+    +-----------------------------------------------+---------------------------------------------------+
 
     """
     name = 'ChunkTokenizer'
@@ -913,9 +902,12 @@ class Stemmer(AnnotatorModel):
 
 
 class Chunker(AnnotatorModel):
-    """This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.
-    Extracted part-of-speech tags are mapped onto the sentence, which can then be parsed by regular expressions.
-    The part-of-speech tags are wrapped by angle brackets ``<>`` to be easily distinguishable in the text itself.
+    """This annotator matches a pattern of part-of-speech tags in order to
+    return meaningful phrases from document. Extracted part-of-speech tags are
+    mapped onto the sentence, which can then be parsed by regular expressions.
+    The part-of-speech tags are wrapped by angle brackets ``<>`` to be easily
+    distinguishable in the text itself.
+
     This example sentence will result in the form:
 
     .. code-block:: none
@@ -926,16 +918,15 @@ class Chunker(AnnotatorModel):
 
     To then extract these tags, ``regexParsers`` need to be set with e.g.:
 
-    .. code-block:: python
-
-        chunker = Chunker() \\
-            .setInputCols(["sentence", "pos"]) \\
-            .setOutputCol("chunk") \\
-            .setRegexParsers(["<NNP>+", "<NNS>+"])
+    >>> chunker = Chunker() \\
+    ...    .setInputCols(["sentence", "pos"]) \\
+    ...    .setOutputCol("chunk") \\
+    ...    .setRegexParsers(["<NNP>+", "<NNS>+"])
 
 
-    When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
-    ``"<NNP>+"`` means 1 or more nouns in succession. Additional patterns can also be set with ``addRegexParsers``.
+    When defining the regular expressions, tags enclosed in angle brackets are
+    treated as groups, so here specifically ``"<NNP>+"`` means 1 or more nouns
+    in succession.
 
     For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
@@ -949,62 +940,50 @@ class Chunker(AnnotatorModel):
     ----------
 
     regexParsers
-        an array of grammar based chunk parsers
+        An array of grammar based chunk parsers
 
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        POSTag = PerceptronModel.pretrained() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("pos")
-
-        chunker = Chunker() \\
-            .setInputCols(["sentence", "pos"]) \\
-            .setOutputCol("chunk") \\
-            .setRegexParsers(["<NNP>+", "<NNS>+"])
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              sentence,
-              tokenizer,
-              POSTag,
-              chunker
-            ])
-
-        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(chunk) as result").show(truncate=False)
-        +-------------------------------------------------------------+
-        |result                                                       |
-        +-------------------------------------------------------------+
-        |[chunk, 0, 11, Peter Pipers, [sentence -> 0, chunk -> 0], []]|
-        |[chunk, 13, 21, employees, [sentence -> 0, chunk -> 1], []]  |
-        |[chunk, 35, 39, pecks, [sentence -> 0, chunk -> 2], []]      |
-        |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
-        +-------------------------------------------------------------+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols("document") \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> POSTag = PerceptronModel.pretrained() \\
+    ...     .setInputCols("document", "token") \\
+    ...     .setOutputCol("pos")
+    >>> chunker = Chunker() \\
+    ...     .setInputCols("sentence", "pos") \\
+    ...     .setOutputCol("chunk") \\
+    ...     .setRegexParsers(["<NNP>+", "<NNS>+"])
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       sentence,
+    ...       tokenizer,
+    ...       POSTag,
+    ...       chunker
+    ...     ])
+    >>> data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(chunk) as result").show(truncate=False)
+    +-------------------------------------------------------------+
+    |result                                                       |
+    +-------------------------------------------------------------+
+    |[chunk, 0, 11, Peter Pipers, [sentence -> 0, chunk -> 0], []]|
+    |[chunk, 13, 21, employees, [sentence -> 0, chunk -> 1], []]  |
+    |[chunk, 35, 39, pecks, [sentence -> 0, chunk -> 2], []]      |
+    |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
+    +-------------------------------------------------------------+
 
     """
 
@@ -1020,6 +999,24 @@ class Chunker(AnnotatorModel):
         super(Chunker, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Chunker")
 
     def setRegexParsers(self, value):
+        """Set an array of grammar based chunk parsers.
+
+        POS classes should be enclosed in angle brackets, then treated as
+        groups.
+
+        Parameters
+        ----------
+        value : List[str]
+            Array of grammar based chunk parsers
+
+
+        Examples
+        --------
+        >>> chunker = Chunker() \\
+        ...     .setInputCols("sentence", "pos") \\
+        ...     .setOutputCol("chunk") \\
+        ...     .setRegexParsers(["<NNP>+", "<NNS>+"])
+        """
         return self._set(regexParsers=value)
 
 
@@ -6101,9 +6098,9 @@ class NGramGenerator(AnnotatorModel):
 
 
 class ChunkEmbeddings(AnnotatorModel):
-    """This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either
-    Chunker, NGramGenerator,
-    or NerConverter outputs.
+    """This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate
+    chunk embeddings from either Chunker, NGramGenerator, or NerConverter
+    outputs.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
@@ -6117,75 +6114,69 @@ class ChunkEmbeddings(AnnotatorModel):
     ----------
 
     poolingStrategy
-        Choose how you would like to aggregate Word Embeddings to Chunk Embeddings, by default AVERAGE
+        Choose how you would like to aggregate Word Embeddings to Chunk
+        Embeddings, by default AVERAGE.
+        Possible Values: ``AVERAGE, SUM``
     skipOOV
-        Whether to discard default vectors for OOV words from the aggregation / pooling
+        Whether to discard default vectors for OOV words from the
+        aggregation/pooling.
 
     Examples
     --------
 
-    .. code-block:: python
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
+    Extract the Embeddings from the NGrams
 
-        # Extract the Embeddings from the NGrams
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> nGrams = NGramGenerator() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("chunk") \\
+    ...     .setN(2)
+    >>> embeddings = WordEmbeddingsModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("embeddings") \\
+    ...     .setCaseSensitive(False)
 
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
+    Convert the NGram chunks into Word Embeddings
 
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        nGrams = NGramGenerator() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("chunk") \\
-            .setN(2)
-
-        embeddings = WordEmbeddingsModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("embeddings") \\
-            .setCaseSensitive(False)
-
-        # Convert the NGram chunks into Word Embeddings
-        chunkEmbeddings = ChunkEmbeddings() \\
-            .setInputCols(["chunk", "embeddings"]) \\
-            .setOutputCol("chunk_embeddings") \\
-            .setPoolingStrategy("AVERAGE")
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              sentence,
-              tokenizer,
-              nGrams,
-              embeddings,
-              chunkEmbeddings
-            ])
-
-        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(chunk_embeddings) as result") \\
-            .select("result.annotatorType", "result.result", "result.embeddings") \\
-            .show(5, 80)
-        +---------------+----------+--------------------------------------------------------------------------------+
-        |  annotatorType|    result|                                                                      embeddings|
-        +---------------+----------+--------------------------------------------------------------------------------+
-        |word_embeddings|   This is|[-0.55661, 0.42829502, 0.86661, -0.409785, 0.06316501, 0.120775, -0.0732005, ...|
-        |word_embeddings|      is a|[-0.40674996, 0.22938299, 0.50597, -0.288195, 0.555655, 0.465145, 0.140118, 0...|
-        |word_embeddings|a sentence|[0.17417, 0.095253006, -0.0530925, -0.218465, 0.714395, 0.79860497, 0.0129999...|
-        |word_embeddings|sentence .|[0.139705, 0.177955, 0.1887775, -0.45545, 0.20030999, 0.461557, -0.07891501, ...|
-        +---------------+----------+--------------------------------------------------------------------------------+
+    >>> chunkEmbeddings = ChunkEmbeddings() \\
+    ...     .setInputCols(["chunk", "embeddings"]) \\
+    ...     .setOutputCol("chunk_embeddings") \\
+    ...     .setPoolingStrategy("AVERAGE")
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       sentence,
+    ...       tokenizer,
+    ...       nGrams,
+    ...       embeddings,
+    ...       chunkEmbeddings
+    ...     ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(chunk_embeddings) as result") \\
+    ...     .select("result.annotatorType", "result.result", "result.embeddings") \\
+    ...     .show(5, 80)
+    +---------------+----------+--------------------------------------------------------------------------------+
+    |  annotatorType|    result|                                                                      embeddings|
+    +---------------+----------+--------------------------------------------------------------------------------+
+    |word_embeddings|   This is|[-0.55661, 0.42829502, 0.86661, -0.409785, 0.06316501, 0.120775, -0.0732005, ...|
+    |word_embeddings|      is a|[-0.40674996, 0.22938299, 0.50597, -0.288195, 0.555655, 0.465145, 0.140118, 0...|
+    |word_embeddings|a sentence|[0.17417, 0.095253006, -0.0530925, -0.218465, 0.714395, 0.79860497, 0.0129999...|
+    |word_embeddings|sentence .|[0.139705, 0.177955, 0.1887775, -0.45545, 0.20030999, 0.461557, -0.07891501, ...|
+    +---------------+----------+--------------------------------------------------------------------------------+
 
     """
 
@@ -6206,8 +6197,15 @@ class ChunkEmbeddings(AnnotatorModel):
     skipOOV = Param(Params._dummy(), "skipOOV", "Whether to discard default vectors for OOV words from the aggregation / pooling ", typeConverter=TypeConverters.toBoolean)
 
     def setPoolingStrategy(self, strategy):
-        """
-        Sets the value of :py:attr:`poolingStrategy`.
+        """Set how to aggregate Word Embeddings to Chunk Embeddings, by default
+        AVERAGE.
+
+        Possible Values: ``AVERAGE, SUM``
+
+        Parameters
+        ----------
+        strategy : str
+            Aggregation Strategy
         """
         if strategy == "AVERAGE":
             return self._set(poolingStrategy=strategy)
@@ -6217,8 +6215,14 @@ class ChunkEmbeddings(AnnotatorModel):
             return self._set(poolingStrategy="AVERAGE")
 
     def setSkipOOV(self, value):
-        """
-        Sets the value of :py:attr:`skipOOV`.
+        """Set whether to discard default vectors for OOV words from the
+        aggregation/pooling.
+
+        Parameters
+        ----------
+        value : bool
+            whether to discard default vectors for OOV words from the
+            aggregation/pooling.
         """
         return self._set(skipOOV=value)
 
