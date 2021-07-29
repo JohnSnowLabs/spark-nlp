@@ -921,7 +921,6 @@ class Chunker(AnnotatorModel):
     ...    .setOutputCol("chunk") \\
     ...    .setRegexParsers(["<NNP>+", "<NNS>+"])
 
-
     When defining the regular expressions, tags enclosed in angle brackets are
     treated as groups, so here specifically ``"<NNP>+"`` means 1 or more nouns
     in succession.
