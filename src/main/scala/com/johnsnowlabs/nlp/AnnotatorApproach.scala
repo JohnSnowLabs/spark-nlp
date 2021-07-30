@@ -2,10 +2,10 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.storage.HasStorage
 import org.apache.spark.ml.param.ParamMap
-import org.apache.spark.ml.{Estimator, Model, PipelineModel, Transformer}
-import org.apache.spark.sql.{Dataset, SparkSession}
-import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
 import org.apache.spark.ml.util.DefaultParamsWritable
+import org.apache.spark.ml.{Estimator, Model, PipelineModel}
+import org.apache.spark.sql.types.{ArrayType, MetadataBuilder, StructField, StructType}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**
   * Created by saif on 12/06/2017.
