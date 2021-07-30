@@ -28,11 +28,11 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest._
 
-class BertForTokenClassificationTestSpec extends FlatSpec {
+class DistilBertForTokenClassificationTestSpec extends FlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "BertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "DistilBertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
     val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
@@ -49,7 +49,7 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = BertForTokenClassification.pretrained()
+    val tokenClassifier = DistilBertForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -76,7 +76,7 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
 
   }
 
-  "BertForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "DistilBertForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -95,7 +95,7 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = BertForTokenClassification.pretrained()
+    val tokenClassifier = DistilBertForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -107,7 +107,7 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
 
     pipelineDF.select("label.result").show(false)
 
-    Benchmark.time("Time to save BertForTokenClassification pipeline model") {
+    Benchmark.time("Time to save DistilBertForTokenClassification pipeline model") {
       pipelineModel.write.overwrite().save("./tmp_bertfortoken_pipeline")
     }
 
@@ -118,20 +118,21 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_bertfortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = BertForTokenClassification.load("./tmp_bertfortoken_model")
+    val loadedDistilBertModel = DistilBertForTokenClassification.load("./tmp_bertfortoken_model")
     loadedDistilBertModel.getLabels
 
   }
 
-  "BertForTokenClassification" should "benchmark test" taggedAs SlowTest in {
+  "DistilBertForTokenClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val tokenClassifier = BertForTokenClassification.pretrained()
+    val tokenClassifier = DistilBertForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("ner")
       .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -139,7 +140,7 @@ class BertForTokenClassificationTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save BertForTokenClassification results") {
+    Benchmark.time("Time to save DistilBertForTokenClassification results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_token_classifier")
     }
 

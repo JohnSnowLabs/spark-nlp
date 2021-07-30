@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadDistilBertForTokenTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedDistilBertForTokenModel, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -333,5 +333,9 @@ package object annotator {
   type BertForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification
 
   object BertForTokenClassification extends ReadablePretrainedBertForTokenModel with ReadBertForTokenTensorflowModel
+
+  type DistilBertForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification
+
+  object DistilBertForTokenClassification extends ReadablePretrainedDistilBertForTokenModel with ReadDistilBertForTokenTensorflowModel
 
 }

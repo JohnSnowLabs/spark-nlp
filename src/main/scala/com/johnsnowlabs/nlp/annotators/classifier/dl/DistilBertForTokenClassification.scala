@@ -32,20 +32,20 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
+ * DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
  * e.g. for Named-Entity-Recognition (NER) tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val embeddings = BertForTokenClassification.pretrained()
+ * val embeddings = DistilBertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"bert_base_token_classifier_conll03"`, if no name is provided.
+ * The default model is `"distilbert_base_token_classifier_conll03"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala BertForTokenClassificationTestSpec]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala DistilBertForTokenClassificationTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
  *
@@ -64,7 +64,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val tokenClassifier = BertForTokenClassification.pretrained()
+ * val tokenClassifier = DistilBertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -86,7 +86,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[BertForTokenClassification]] for sentence-level embeddings
+ * @see [[DistilBertForTokenClassification]] for sentence-level embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -103,13 +103,13 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class BertForTokenClassification(override val uid: String)
-  extends AnnotatorModel[BertForTokenClassification]
-    with HasBatchedAnnotate[BertForTokenClassification]
+class DistilBertForTokenClassification(override val uid: String)
+  extends AnnotatorModel[DistilBertForTokenClassification]
+    with HasBatchedAnnotate[DistilBertForTokenClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
-  def this() = this(Identifiable.randomUID("BERT_FOR_TOKEN_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("DISTILBERT_FOR_TOKEN_CLASSIFICATION"))
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
@@ -155,7 +155,7 @@ class BertForTokenClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForTokenClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForTokenClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -194,14 +194,14 @@ class BertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertTokenClassification]] = None
+  private var _model: Option[Broadcast[TensorflowDistilBertTokenClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForTokenClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertTokenClassification(
+          new TensorflowDistilBertTokenClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -217,7 +217,7 @@ class BertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertTokenClassification = _model.get.value
+  def getModelIfNotSet: TensorflowDistilBertTokenClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -283,38 +283,38 @@ class BertForTokenClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_classification", BertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert_classification", BertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertForTokenModel extends ParamsAndFeaturesReadable[BertForTokenClassification] with HasPretrained[BertForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_token_classifier_conll03")
+trait ReadablePretrainedDistilBertForTokenModel extends ParamsAndFeaturesReadable[DistilBertForTokenClassification] with HasPretrained[DistilBertForTokenClassification] {
+  override val defaultModelName: Some[String] = Some("distilbert_base_token_classifier_conll03")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForTokenClassification = super.pretrained()
+  override def pretrained(): DistilBertForTokenClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForTokenClassification = super.pretrained(name)
+  override def pretrained(name: String): DistilBertForTokenClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForTokenClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): DistilBertForTokenClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertForTokenClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[BertForTokenClassification] =>
+trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[DistilBertForTokenClassification] =>
 
-  override val tfFile: String = "bert_classification_tensorflow"
+  override val tfFile: String = "distilbert_classification_tensorflow"
 
-  def readTensorflow(instance: BertForTokenClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: DistilBertForTokenClassification, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
+    val tf = readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertForTokenClassification = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertForTokenClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -346,7 +346,7 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertForTokenClassification()
+    new DistilBertForTokenClassification()
       .setVocabulary(words)
       .setLabels(labels)
       .setSignatures(_signatures)
@@ -355,6 +355,6 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
 }
 
 /**
- * This is the companion object of [[BertForTokenClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[DistilBertForTokenClassification]]. Please refer to that class for the documentation.
  */
-object BertForTokenClassification extends ReadablePretrainedBertForTokenModel with ReadBertForTokenTensorflowModel
+object DistilBertForTokenClassification extends ReadablePretrainedDistilBertForTokenModel with ReadDistilBertForTokenTensorflowModel
