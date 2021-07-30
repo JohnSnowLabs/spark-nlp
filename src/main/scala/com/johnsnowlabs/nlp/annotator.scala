@@ -338,4 +338,8 @@ package object annotator {
 
   object DistilBertForTokenClassification extends ReadablePretrainedDistilBertForTokenModel with ReadDistilBertForTokenTensorflowModel
 
+  type LongformerEmbeddings = com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings
+
+  object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerTensorflowModel
+
 }
