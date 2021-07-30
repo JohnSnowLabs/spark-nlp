@@ -368,3 +368,10 @@ class _DistilBertTokenClassifierLoader(ExtendedJavaWrapper):
         super(_DistilBertTokenClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification.loadSavedModel", path,
             jspark)
+
+
+class _LongformerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LongformerLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings.loadSavedModel",
+                                                path,
+                                                jspark)
