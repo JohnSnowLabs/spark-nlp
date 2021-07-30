@@ -388,3 +388,42 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
     def setOutputAsVector(self, value):
         return self._set(outputAsVector=value)
+
+
+class GraphFinisher(AnnotatorTransformer):
+    inputCol = Param(Params._dummy(), "inputCol", "Name of input annotation col", typeConverter=TypeConverters.toString)
+    outputCol = Param(Params._dummy(), "outputCol", "Name of finisher output col", typeConverter=TypeConverters.toString)
+    cleanAnnotations = Param(Params._dummy(),
+                             "cleanAnnotations",
+                             "Whether to remove all the existing annotation columns",
+                             typeConverter=TypeConverters.toBoolean)
+    outputAsArray = Param(Params._dummy(), "outputAsArray", "Finisher generates an Array with the results",
+                          typeConverter=TypeConverters.toBoolean)
+
+    name = "GraphFinisher"
+
+    @keyword_only
+    def __init__(self):
+        super(GraphFinisher, self).__init__(classname="com.johnsnowlabs.nlp.GraphFinisher")
+        self._setDefault(
+            cleanAnnotations=True,
+            outputAsArray=True
+        )
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCol(self, value):
+        return self._set(inputCol=value)
+
+    def setOutputCol(self, value):
+        return self._set(outputCol=value)
+
+    def setCleanAnnotations(self, value):
+        return self._set(cleanAnnotations=value)
+
+    def setOutputAsArray(self, value):
+        return self._set(outputAsArray=value)
+
