@@ -9847,8 +9847,8 @@ class BertForTokenClassification(AnnotatorModel,
 
 
 class DistilBertForTokenClassification(AnnotatorModel,
-                                 HasCaseSensitiveProperties,
-                                 HasBatchedAnnotate):
+                                       HasCaseSensitiveProperties,
+                                       HasBatchedAnnotate):
     name = "DISTILBERT_FOR_TOKEN_CLASSIFICATION"
 
     maxSentenceLength = Param(Params._dummy(),
@@ -9890,3 +9890,51 @@ class DistilBertForTokenClassification(AnnotatorModel,
     def pretrained(name="distilbert_base_token_classifier_conll03", lang="en", remote_loc=None):
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DistilBertForTokenClassification, name, lang, remote_loc)
+
+
+class LongformerEmbeddings(AnnotatorModel,
+                           HasEmbeddingsProperties,
+                           HasCaseSensitiveProperties,
+                           HasStorageRef,
+                           HasBatchedAnnotate):
+    name = "LONGFORMER_EMBEDDINGS"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings", java_model=None):
+        super(LongformerEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=1024,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        from sparknlp.internal import _LongformerLoader
+        jModel = _LongformerLoader(folder, spark_session._jsparkSession)._java_obj
+        return LongformerEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="longformer_base_4096", lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(LongformerEmbeddings, name, lang, remote_loc)
