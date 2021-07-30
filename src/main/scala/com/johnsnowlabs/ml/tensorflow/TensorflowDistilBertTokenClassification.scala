@@ -20,6 +20,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -33,15 +34,15 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
-class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper,
-                                        sentenceStartTokenId: Int,
-                                        sentenceEndTokenId: Int,
-                                        configProtoBytes: Option[Array[Byte]] = None,
-                                        tags: Map[String, Int],
-                                        signatures: Option[Map[String, String]] = None
+class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowWrapper,
+                                              sentenceStartTokenId: Int,
+                                              sentenceEndTokenId: Int,
+                                              configProtoBytes: Option[Array[Byte]] = None,
+                                              tags: Map[String, Int],
+                                              signatures: Option[Map[String, String]] = None
                                        ) extends Serializable {
 
-  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfDistilBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -93,10 +94,9 @@ class TensorflowBertTokenClassification(val tensorflowWrapper: TensorflowWrapper
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
-      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
-      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+      .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
+      .fetch(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
     val rawScores = TensorResources.extractFloats(outs.head)
