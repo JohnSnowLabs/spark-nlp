@@ -39,7 +39,10 @@ import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSe
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
+import com.johnsnowlabs.util.{Build, ConfigHelper, ConfigLoader, FileHelper, Version}
+
+import org.apache.spark.ml.util.DefaultParamsReadable
+import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -70,40 +73,43 @@ trait ResourceDownloader {
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
 
-  val fs: FileSystem = ResourceDownloader.fs
+  val fileSystem: FileSystem = ResourceDownloader.fileSystem
 
 }
 
 object ResourceDownloader {
 
-  val fs: FileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+  val fileSystem: FileSystem = ConfigHelper.getFileSystem
 
-  def s3Bucket: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
+  def s3Bucket: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3BucketKey)
 
-  def s3BucketCommunity: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com")
+  def s3BucketCommunity: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCommunityS3BucketKey)
 
-  def s3Path: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
+  def s3Path: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3PathKey)
 
-  def cacheFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
+  def cacheFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCacheFolder)
 
-  def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
-    val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-    val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-    val awsProfile = ConfigHelper.getConfigValue(ConfigHelper.awsProfileName)
-    if (awsProfile.isDefined) {
-      return Some(new ProfileCredentialsProvider(awsProfile.get).getCredentials)
+  def credentials: Option[AWSCredentials] = if (ConfigLoader.hasAwsCredentials) {
+    buildAwsCredentials()
+  } else {
+    fetchCredentials()
+  }
+
+  private def buildAwsCredentials(): Option[AWSCredentials] = {
+    val accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
+    val secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
+    val awsProfile = ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName)
+    if (awsProfile != "") {
+      return Some(new ProfileCredentialsProvider(awsProfile).getCredentials)
     }
-    if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-      fetchcredentials()
+    if (accessKeyId == "" || secretAccessKey == "") {
+      fetchCredentials()
     }
     else
-      Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
-  }
-  else {
-    fetchcredentials()
+      Some(new BasicAWSCredentials(accessKeyId, secretAccessKey))
   }
 
-  private def fetchcredentials(): Option[AWSCredentials] = {
+  private def fetchCredentials(): Option[AWSCredentials] = {
     try {
       //check if default profile name works if not try 
       Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
