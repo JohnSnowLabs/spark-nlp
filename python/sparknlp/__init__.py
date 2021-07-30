@@ -234,4 +234,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '3.1.1'
+    return '3.1.3'
