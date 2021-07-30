@@ -1,22 +1,18 @@
 package com.johnsnowlabs.storage
 
-import java.util.UUID
-
-import com.johnsnowlabs.util.ConfigHelper
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
 case class StorageLocator(database: String, storageRef: String, sparkSession: SparkSession) {
 
-  private val fs = FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
+  private val fileSystem = FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
 
   private val clusterTmpLocation: String = {
-    val tmpLocation = ConfigHelper.getConfigValue(ConfigHelper.storageTmpDir).map(p => new Path(p)).getOrElse(
-      sparkSession.sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
-    ).toString+"/"+UUID.randomUUID().toString.takeRight(12)+"_cdx"
+    val tmpLocation = ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
     val tmpLocationPath = new Path(tmpLocation)
-    fs.mkdirs(tmpLocationPath)
-    fs.deleteOnExit(tmpLocationPath)
+    fileSystem.mkdirs(tmpLocationPath)
+    fileSystem.deleteOnExit(tmpLocationPath)
     tmpLocation
   }
 
@@ -25,11 +21,11 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
   }
 
   val clusterFilePath: Path = {
-    Path.mergePaths(new Path(fs.getUri.toString + clusterTmpLocation), new Path("/"+clusterFileName))
+    Path.mergePaths(new Path(fileSystem.getUri.toString + clusterTmpLocation), new Path("/" + clusterFileName))
   }
 
   val destinationScheme: String = {
-    fs.getScheme
+    fileSystem.getScheme
   }
 
 }
