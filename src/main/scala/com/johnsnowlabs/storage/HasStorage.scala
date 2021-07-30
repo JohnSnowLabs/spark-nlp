@@ -2,14 +2,13 @@ package com.johnsnowlabs.storage
 
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import java.util.UUID
-
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -109,12 +108,13 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     //if the path contains s3a download to local cache if not present
     if (uri.getScheme != null) {
       if (uri.getScheme.equals("s3a")) {
-        var accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-        var secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-        if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-          val defaultCred = new DefaultAWSCredentialsProviderChain().getCredentials
-          accessKeyId = Some(defaultCred.getAWSAccessKeyId)
-          secretAccessKey = Some(defaultCred.getAWSSecretKey)
+        var accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
+        var secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
+
+        if (accessKeyId == "" || secretAccessKey == "") {
+          val defaultCredentials = new DefaultAWSCredentialsProviderChain().getCredentials
+          accessKeyId = defaultCredentials.getAWSAccessKeyId
+          secretAccessKey = defaultCredentials.getAWSSecretKey
         }
         var old_key = ""
         var old_secret = ""
@@ -126,8 +126,8 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
           val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
           if (!Files.exists(Paths.get(dst.toUri.getPath))) {
             //download s3 resource locally using config keys
-            spark.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
-            spark.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
+            spark.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
+            spark.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
             val s3fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
             val dst_tmp = new Path(ResourceDownloader.cacheFolder, src.getName + "_tmp")
@@ -135,7 +135,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
             s3fs.copyToLocalFile(src, dst_tmp)
             // rename to original file
-            val path = Files.move(
+            Files.move(
               Paths.get(dst_tmp.toUri.getRawPath),
               Paths.get(dst.toUri.getRawPath),
               StandardCopyOption.REPLACE_EXISTING

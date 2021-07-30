@@ -17,7 +17,12 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
+import com.amazonaws.auth.AWSCredentials
+import com.amazonaws.regions.RegionUtils
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.model.GetObjectRequest
+import com.amazonaws.{AmazonServiceException, ClientConfiguration}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.Path
 
 import java.io.File
@@ -25,13 +30,6 @@ import java.nio.file.Files
 import java.sql.Timestamp
 import java.util.Calendar
 import java.util.zip.ZipInputStream
-
-import com.amazonaws.auth.AWSCredentials
-import com.amazonaws.regions.RegionUtils
-import com.amazonaws.services.s3.AmazonS3Client
-import com.amazonaws.services.s3.model.GetObjectRequest
-import com.amazonaws.{AmazonServiceException, ClientConfiguration}
-
 import scala.collection.mutable
 
 
@@ -43,12 +41,11 @@ class S3ResourceDownloader(bucket: => String,
                           )
   extends ResourceDownloader with AutoCloseable {
 
-  // repository Folder -> repository Metadata
   val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] = mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
-  if (!fs.exists(cachePath)) {
-    fs.mkdirs(cachePath)
+  if (!fileSystem.exists(cachePath)) {
+    fileSystem.mkdirs(cachePath)
   }
 
   /* ToDo AmazonS3Client has been deprecated*/
@@ -56,7 +53,7 @@ class S3ResourceDownloader(bucket: => String,
     val regionObj = RegionUtils.getRegion(region)
 
     val config = new ClientConfiguration()
-    val timeout = ConfigHelper.getConfigValue(ConfigHelper.s3SocketTimeout).map(_.toInt).getOrElse(0)
+    val timeout = ConfigLoader.getConfigIntValue(ConfigHelper.s3SocketTimeout)
     config.setSocketTimeout(timeout)
 
     val s3Client = {
@@ -114,7 +111,7 @@ class S3ResourceDownloader(bucket: => String,
         if (!client.doesObjectExist(bucket, s3FilePath)) {
           None
         } else {
-          if (!(fs.exists(dstFile) || fs.exists(new Path(splitPath)))) {
+          if (!(fileSystem.exists(dstFile) || fileSystem.exists(new Path(splitPath)))) {
 
             // 1. Create tmp file
             val tmpFileName = Files.createTempFile(resource.fileName, "").toString
@@ -128,7 +125,7 @@ class S3ResourceDownloader(bucket: => String,
               require(FileHelper.generateChecksum(tmpFileName).equals(resource.checksum), "Checksum validation failed!")
 
             // 4. Move tmp file to destination
-            fs.moveFromLocalFile(new Path(tmpFile.toString), dstFile)
+            fileSystem.moveFromLocalFile(new Path(tmpFile.toString), dstFile)
 
 
           }
@@ -136,8 +133,8 @@ class S3ResourceDownloader(bucket: => String,
           // 5. Unzip if needs
           if (resource.isZipped) {
             //if not already unzipped
-            if (!fs.exists(new Path(splitPath))) {
-              val zis = new ZipInputStream(fs.open(dstFile))
+            if (!fileSystem.exists(new Path(splitPath))) {
+              val zis = new ZipInputStream(fileSystem.open(dstFile))
               val buf = Array.ofDim[Byte](1024)
               var entry = zis.getNextEntry
               require(dstFile.toString.substring(dstFile.toString.length - 4) == ".zip", "Not a zip file.")
@@ -145,7 +142,7 @@ class S3ResourceDownloader(bucket: => String,
               while (entry != null) {
                 if (!entry.isDirectory) {
                   val entryName = new Path(splitPath, entry.getName)
-                  val outputStream = fs.create(entryName)
+                  val outputStream = fileSystem.create(entryName)
                   var bytesRead = zis.read(buf, 0, 1024)
                   while (bytesRead > -1) {
                     outputStream.write(buf, 0, bytesRead)
@@ -158,7 +155,7 @@ class S3ResourceDownloader(bucket: => String,
               }
               zis.close()
               //delete the zip file
-              fs.delete(dstFile, true)
+              fileSystem.delete(dstFile, true)
             }
 
             Some(splitPath)
@@ -194,15 +191,15 @@ class S3ResourceDownloader(bucket: => String,
     val resources = ResourceMetadata.resolveResource(metadata, request)
     for (resource <- resources) {
       val fileName = new Path(cachePath.toString, resource.fileName)
-      if (fs.exists(fileName))
-        fs.delete(fileName, true)
+      if (fileSystem.exists(fileName))
+        fileSystem.delete(fileName, true)
 
       if (resource.isZipped) {
         require(fileName.toString.substring(fileName.toString.length - 4) == ".zip")
         val unzipped = fileName.toString.substring(0, fileName.toString.length - 4)
         val unzippedFile = new Path(unzipped)
-        if (fs.exists(unzippedFile))
-          fs.delete(unzippedFile, true)
+        if (fileSystem.exists(unzippedFile))
+          fileSystem.delete(unzippedFile, true)
       }
     }
   }
