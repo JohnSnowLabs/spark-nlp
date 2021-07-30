@@ -42,6 +42,7 @@ unittest.TextTestRunner().run(YakeModelTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
+unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
@@ -75,13 +76,12 @@ unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # print("Running T5TransformerSummaryWithRepetitionPenaltyTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
 
-
 # Misc tests
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 
-#Functions tests
+# Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
 

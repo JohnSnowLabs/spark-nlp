@@ -1,5 +1,6 @@
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.util.FinisherUtil
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
@@ -233,30 +234,13 @@ class Finisher(override val uid: String)
     require(getInputCols.length == getOutputCols.length, "inputCols and outputCols length must match")
     getInputCols.foreach {
       annotationColumn =>
-        require(getInputCols.forall(schema.fieldNames.contains),
-          s"pipeline annotator stages incomplete. " +
-            s"expected: ${getInputCols.mkString(", ")}, " +
-            s"found: ${schema.fields.filter(_.dataType == ArrayType(Annotation.dataType)).map(_.name).mkString(", ")}, " +
-            s"among available: ${schema.fieldNames.mkString(", ")}")
-        require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
-          s"column [$annotationColumn] must be an NLP Annotation column")
+        FinisherUtil.checkIfInputColsExist(getInputCols, schema)
+        FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
     }
-    val metadataFields =  getOutputCols.flatMap(outputCol => {
-      if ($(outputAsArray))
-        Some(StructField(outputCol + "_metadata", MapType(StringType, StringType), nullable = false))
-      else
-        None
-    })
-    val outputFields = schema.fields ++
-      getOutputCols.map(outputCol => {
-        if ($(outputAsArray))
-          StructField(outputCol, ArrayType(StringType), nullable = false)
-        else
-          StructField(outputCol, StringType, nullable = true)
-      }) ++ metadataFields
-    val cleanFields = if ($(cleanAnnotations)) outputFields.filterNot(f =>
-      f.dataType == ArrayType(Annotation.dataType)
-    ) else outputFields
+    val metadataFields =  FinisherUtil.getMetadataFields(getOutputCols, $(outputAsArray))
+    val outputFields = schema.fields ++ FinisherUtil.getOutputFields(getOutputCols, $(outputAsArray)) ++ metadataFields
+    val cleanFields = FinisherUtil.getCleanFields($(cleanAnnotations), outputFields)
+
     StructType(cleanFields)
   }
 
@@ -290,12 +274,8 @@ class Finisher(override val uid: String)
           Annotation.flattenArrayMetadata(flattened.col(inputCol))
         )
       }
-    if ($(cleanAnnotations)) flattened.drop(
-      flattened.schema.fields
-        .filter(_.dataType == ArrayType(Annotation.dataType))
-        .map(_.name):_*)
-      
-    else flattened.toDF()
+
+    FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())
   }
 
 }
