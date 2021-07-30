@@ -9801,7 +9801,6 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
 
 class GraphExtraction(AnnotatorModel):
-
     name = "GraphExtraction"
 
     relationshipTypes = Param(Params._dummy(),
