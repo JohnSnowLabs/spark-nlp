@@ -115,7 +115,7 @@ class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowW
   def predict(sentences: Seq[WordpieceTokenizedSentence],
               originalTokenSentences: Seq[TokenizedSentence],
               batchSize: Int,
-              maxSentenceLength: Int,
+              maxSentenceLength: Int
              ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
