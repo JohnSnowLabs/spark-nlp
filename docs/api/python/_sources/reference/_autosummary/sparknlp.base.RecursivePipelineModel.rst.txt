@@ -1,0 +1,50 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.RecursivePipelineModel
+====================================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: RecursivePipelineModel
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RecursivePipelineModel.__init__
+      ~RecursivePipelineModel.clear
+      ~RecursivePipelineModel.copy
+      ~RecursivePipelineModel.explainParam
+      ~RecursivePipelineModel.explainParams
+      ~RecursivePipelineModel.extractParamMap
+      ~RecursivePipelineModel.getOrDefault
+      ~RecursivePipelineModel.getParam
+      ~RecursivePipelineModel.hasDefault
+      ~RecursivePipelineModel.hasParam
+      ~RecursivePipelineModel.isDefined
+      ~RecursivePipelineModel.isSet
+      ~RecursivePipelineModel.load
+      ~RecursivePipelineModel.read
+      ~RecursivePipelineModel.save
+      ~RecursivePipelineModel.set
+      ~RecursivePipelineModel.transform
+      ~RecursivePipelineModel.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RecursivePipelineModel.params
+      ~RecursivePipelineModel.uid
+   
+   

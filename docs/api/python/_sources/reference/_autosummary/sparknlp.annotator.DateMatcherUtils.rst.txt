@@ -1,0 +1,57 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.annotator.DateMatcherUtils
+===================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: DateMatcherUtils
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DateMatcherUtils.__init__
+      ~DateMatcherUtils.clear
+      ~DateMatcherUtils.copy
+      ~DateMatcherUtils.explainParam
+      ~DateMatcherUtils.explainParams
+      ~DateMatcherUtils.extractParamMap
+      ~DateMatcherUtils.getOrDefault
+      ~DateMatcherUtils.getParam
+      ~DateMatcherUtils.hasDefault
+      ~DateMatcherUtils.hasParam
+      ~DateMatcherUtils.isDefined
+      ~DateMatcherUtils.isSet
+      ~DateMatcherUtils.set
+      ~DateMatcherUtils.setAnchorDateDay
+      ~DateMatcherUtils.setAnchorDateMonth
+      ~DateMatcherUtils.setAnchorDateYear
+      ~DateMatcherUtils.setDefaultDayWhenMissing
+      ~DateMatcherUtils.setFormat
+      ~DateMatcherUtils.setReadMonthFirst
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DateMatcherUtils.anchorDateDay
+      ~DateMatcherUtils.anchorDateMonth
+      ~DateMatcherUtils.anchorDateYear
+      ~DateMatcherUtils.dateFormat
+      ~DateMatcherUtils.defaultDayWhenMissing
+      ~DateMatcherUtils.params
+      ~DateMatcherUtils.readMonthFirst
+      ~DateMatcherUtils.uid
+   
+   

@@ -1,0 +1,83 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.annotator.WordEmbeddings
+=================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: WordEmbeddings
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~WordEmbeddings.__init__
+      ~WordEmbeddings.clear
+      ~WordEmbeddings.copy
+      ~WordEmbeddings.explainParam
+      ~WordEmbeddings.explainParams
+      ~WordEmbeddings.extractParamMap
+      ~WordEmbeddings.fit
+      ~WordEmbeddings.fitMultiple
+      ~WordEmbeddings.getCaseSensitive
+      ~WordEmbeddings.getDimension
+      ~WordEmbeddings.getIncludeStorage
+      ~WordEmbeddings.getInputCols
+      ~WordEmbeddings.getLazyAnnotator
+      ~WordEmbeddings.getOrDefault
+      ~WordEmbeddings.getOutputCol
+      ~WordEmbeddings.getParam
+      ~WordEmbeddings.getParamValue
+      ~WordEmbeddings.getStoragePath
+      ~WordEmbeddings.getStorageRef
+      ~WordEmbeddings.hasDefault
+      ~WordEmbeddings.hasParam
+      ~WordEmbeddings.isDefined
+      ~WordEmbeddings.isSet
+      ~WordEmbeddings.load
+      ~WordEmbeddings.read
+      ~WordEmbeddings.save
+      ~WordEmbeddings.set
+      ~WordEmbeddings.setCaseSensitive
+      ~WordEmbeddings.setDimension
+      ~WordEmbeddings.setIncludeStorage
+      ~WordEmbeddings.setInputCols
+      ~WordEmbeddings.setLazyAnnotator
+      ~WordEmbeddings.setOutputCol
+      ~WordEmbeddings.setParamValue
+      ~WordEmbeddings.setReadCacheSize
+      ~WordEmbeddings.setStoragePath
+      ~WordEmbeddings.setStorageRef
+      ~WordEmbeddings.setWriteBufferSize
+      ~WordEmbeddings.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WordEmbeddings.caseSensitive
+      ~WordEmbeddings.dimension
+      ~WordEmbeddings.getter_attrs
+      ~WordEmbeddings.includeStorage
+      ~WordEmbeddings.inputCols
+      ~WordEmbeddings.lazyAnnotator
+      ~WordEmbeddings.name
+      ~WordEmbeddings.outputCol
+      ~WordEmbeddings.params
+      ~WordEmbeddings.readCacheSize
+      ~WordEmbeddings.storagePath
+      ~WordEmbeddings.storageRef
+      ~WordEmbeddings.writeBufferSize
+      ~WordEmbeddings.uid
+   
+   

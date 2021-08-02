@@ -1,0 +1,47 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.HasRecursiveFit
+=============================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: HasRecursiveFit
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~HasRecursiveFit.__init__
+      ~HasRecursiveFit.clear
+      ~HasRecursiveFit.copy
+      ~HasRecursiveFit.explainParam
+      ~HasRecursiveFit.explainParams
+      ~HasRecursiveFit.extractParamMap
+      ~HasRecursiveFit.fit
+      ~HasRecursiveFit.fitMultiple
+      ~HasRecursiveFit.getOrDefault
+      ~HasRecursiveFit.getParam
+      ~HasRecursiveFit.hasDefault
+      ~HasRecursiveFit.hasParam
+      ~HasRecursiveFit.isDefined
+      ~HasRecursiveFit.isSet
+      ~HasRecursiveFit.set
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HasRecursiveFit.params
+      ~HasRecursiveFit.uid
+   
+   

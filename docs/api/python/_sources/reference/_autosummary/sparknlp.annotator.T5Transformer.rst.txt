@@ -1,0 +1,86 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.annotator.T5Transformer
+================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: T5Transformer
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~T5Transformer.__init__
+      ~T5Transformer.clear
+      ~T5Transformer.copy
+      ~T5Transformer.explainParam
+      ~T5Transformer.explainParams
+      ~T5Transformer.extractParamMap
+      ~T5Transformer.getInputCols
+      ~T5Transformer.getLazyAnnotator
+      ~T5Transformer.getOrDefault
+      ~T5Transformer.getOutputCol
+      ~T5Transformer.getParam
+      ~T5Transformer.getParamValue
+      ~T5Transformer.hasDefault
+      ~T5Transformer.hasParam
+      ~T5Transformer.isDefined
+      ~T5Transformer.isSet
+      ~T5Transformer.load
+      ~T5Transformer.loadSavedModel
+      ~T5Transformer.pretrained
+      ~T5Transformer.read
+      ~T5Transformer.save
+      ~T5Transformer.set
+      ~T5Transformer.setConfigProtoBytes
+      ~T5Transformer.setDoSample
+      ~T5Transformer.setInputCols
+      ~T5Transformer.setLazyAnnotator
+      ~T5Transformer.setMaxOutputLength
+      ~T5Transformer.setMinOutputLength
+      ~T5Transformer.setNoRepeatNgramSize
+      ~T5Transformer.setOutputCol
+      ~T5Transformer.setParamValue
+      ~T5Transformer.setParams
+      ~T5Transformer.setRepetitionPenalty
+      ~T5Transformer.setTask
+      ~T5Transformer.setTemperature
+      ~T5Transformer.setTopK
+      ~T5Transformer.setTopP
+      ~T5Transformer.transform
+      ~T5Transformer.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~T5Transformer.configProtoBytes
+      ~T5Transformer.doSample
+      ~T5Transformer.getter_attrs
+      ~T5Transformer.inputCols
+      ~T5Transformer.lazyAnnotator
+      ~T5Transformer.maxOutputLength
+      ~T5Transformer.minOutputLength
+      ~T5Transformer.name
+      ~T5Transformer.noRepeatNgramSize
+      ~T5Transformer.outputCol
+      ~T5Transformer.params
+      ~T5Transformer.repetitionPenalty
+      ~T5Transformer.task
+      ~T5Transformer.temperature
+      ~T5Transformer.topK
+      ~T5Transformer.topP
+      ~T5Transformer.uid
+   
+   

@@ -1,0 +1,32 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.training.CoNLL
+=======================
+
+.. currentmodule:: sparknlp.training
+
+.. autoclass:: CoNLL
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CoNLL.__init__
+      ~CoNLL.apply
+      ~CoNLL.new_java_array
+      ~CoNLL.new_java_array_integer
+      ~CoNLL.new_java_array_string
+      ~CoNLL.new_java_obj
+      ~CoNLL.readDataset
+   
+   
+
+   
+   
+   

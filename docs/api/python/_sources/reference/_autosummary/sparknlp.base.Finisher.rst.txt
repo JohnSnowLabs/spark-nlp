@@ -1,0 +1,71 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.Finisher
+======================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: Finisher
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Finisher.__init__
+      ~Finisher.clear
+      ~Finisher.copy
+      ~Finisher.explainParam
+      ~Finisher.explainParams
+      ~Finisher.extractParamMap
+      ~Finisher.getOrDefault
+      ~Finisher.getParam
+      ~Finisher.getParamValue
+      ~Finisher.hasDefault
+      ~Finisher.hasParam
+      ~Finisher.isDefined
+      ~Finisher.isSet
+      ~Finisher.load
+      ~Finisher.read
+      ~Finisher.save
+      ~Finisher.set
+      ~Finisher.setAnnotationSplitSymbol
+      ~Finisher.setCleanAnnotations
+      ~Finisher.setIncludeMetadata
+      ~Finisher.setInputCols
+      ~Finisher.setOutputAsArray
+      ~Finisher.setOutputCols
+      ~Finisher.setParamValue
+      ~Finisher.setParams
+      ~Finisher.setParseEmbeddingsVectors
+      ~Finisher.setValueSplitSymbol
+      ~Finisher.transform
+      ~Finisher.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Finisher.annotationSplitSymbol
+      ~Finisher.cleanAnnotations
+      ~Finisher.getter_attrs
+      ~Finisher.includeMetadata
+      ~Finisher.inputCols
+      ~Finisher.name
+      ~Finisher.outputAsArray
+      ~Finisher.outputCols
+      ~Finisher.params
+      ~Finisher.parseEmbeddingsVectors
+      ~Finisher.valueSplitSymbol
+      ~Finisher.uid
+   
+   
