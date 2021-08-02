@@ -1,0 +1,37 @@
+﻿.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.training
+=================
+
+.. automodule:: sparknlp.training
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+      :template: custom-class-template.rst
+   
+      CoNLL
+      CoNLLU
+      POS
+      PubTator
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,64 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.Chunk2Doc
+=======================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: Chunk2Doc
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Chunk2Doc.__init__
+      ~Chunk2Doc.clear
+      ~Chunk2Doc.copy
+      ~Chunk2Doc.explainParam
+      ~Chunk2Doc.explainParams
+      ~Chunk2Doc.extractParamMap
+      ~Chunk2Doc.getInputCols
+      ~Chunk2Doc.getLazyAnnotator
+      ~Chunk2Doc.getOrDefault
+      ~Chunk2Doc.getOutputCol
+      ~Chunk2Doc.getParam
+      ~Chunk2Doc.getParamValue
+      ~Chunk2Doc.hasDefault
+      ~Chunk2Doc.hasParam
+      ~Chunk2Doc.isDefined
+      ~Chunk2Doc.isSet
+      ~Chunk2Doc.load
+      ~Chunk2Doc.read
+      ~Chunk2Doc.save
+      ~Chunk2Doc.set
+      ~Chunk2Doc.setInputCols
+      ~Chunk2Doc.setLazyAnnotator
+      ~Chunk2Doc.setOutputCol
+      ~Chunk2Doc.setParamValue
+      ~Chunk2Doc.setParams
+      ~Chunk2Doc.transform
+      ~Chunk2Doc.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Chunk2Doc.getter_attrs
+      ~Chunk2Doc.inputCols
+      ~Chunk2Doc.lazyAnnotator
+      ~Chunk2Doc.name
+      ~Chunk2Doc.outputCol
+      ~Chunk2Doc.params
+      ~Chunk2Doc.uid
+   
+   

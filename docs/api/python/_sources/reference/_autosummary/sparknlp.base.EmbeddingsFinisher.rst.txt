@@ -1,0 +1,63 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.EmbeddingsFinisher
+================================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: EmbeddingsFinisher
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~EmbeddingsFinisher.__init__
+      ~EmbeddingsFinisher.clear
+      ~EmbeddingsFinisher.copy
+      ~EmbeddingsFinisher.explainParam
+      ~EmbeddingsFinisher.explainParams
+      ~EmbeddingsFinisher.extractParamMap
+      ~EmbeddingsFinisher.getOrDefault
+      ~EmbeddingsFinisher.getParam
+      ~EmbeddingsFinisher.getParamValue
+      ~EmbeddingsFinisher.hasDefault
+      ~EmbeddingsFinisher.hasParam
+      ~EmbeddingsFinisher.isDefined
+      ~EmbeddingsFinisher.isSet
+      ~EmbeddingsFinisher.load
+      ~EmbeddingsFinisher.read
+      ~EmbeddingsFinisher.save
+      ~EmbeddingsFinisher.set
+      ~EmbeddingsFinisher.setCleanAnnotations
+      ~EmbeddingsFinisher.setInputCols
+      ~EmbeddingsFinisher.setOutputAsVector
+      ~EmbeddingsFinisher.setOutputCols
+      ~EmbeddingsFinisher.setParamValue
+      ~EmbeddingsFinisher.setParams
+      ~EmbeddingsFinisher.transform
+      ~EmbeddingsFinisher.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EmbeddingsFinisher.cleanAnnotations
+      ~EmbeddingsFinisher.getter_attrs
+      ~EmbeddingsFinisher.inputCols
+      ~EmbeddingsFinisher.name
+      ~EmbeddingsFinisher.outputAsVector
+      ~EmbeddingsFinisher.outputCols
+      ~EmbeddingsFinisher.params
+      ~EmbeddingsFinisher.uid
+   
+   

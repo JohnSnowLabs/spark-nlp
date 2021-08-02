@@ -1,0 +1,67 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.DocumentAssembler
+===============================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: DocumentAssembler
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DocumentAssembler.__init__
+      ~DocumentAssembler.clear
+      ~DocumentAssembler.copy
+      ~DocumentAssembler.explainParam
+      ~DocumentAssembler.explainParams
+      ~DocumentAssembler.extractParamMap
+      ~DocumentAssembler.getOrDefault
+      ~DocumentAssembler.getParam
+      ~DocumentAssembler.getParamValue
+      ~DocumentAssembler.hasDefault
+      ~DocumentAssembler.hasParam
+      ~DocumentAssembler.isDefined
+      ~DocumentAssembler.isSet
+      ~DocumentAssembler.load
+      ~DocumentAssembler.read
+      ~DocumentAssembler.save
+      ~DocumentAssembler.set
+      ~DocumentAssembler.setCalculationsCol
+      ~DocumentAssembler.setCleanupMode
+      ~DocumentAssembler.setIdCol
+      ~DocumentAssembler.setInputCol
+      ~DocumentAssembler.setMetadataCol
+      ~DocumentAssembler.setOutputCol
+      ~DocumentAssembler.setParamValue
+      ~DocumentAssembler.setParams
+      ~DocumentAssembler.transform
+      ~DocumentAssembler.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DocumentAssembler.calculationsCol
+      ~DocumentAssembler.cleanupMode
+      ~DocumentAssembler.getter_attrs
+      ~DocumentAssembler.idCol
+      ~DocumentAssembler.inputCol
+      ~DocumentAssembler.metadataCol
+      ~DocumentAssembler.name
+      ~DocumentAssembler.outputCol
+      ~DocumentAssembler.params
+      ~DocumentAssembler.uid
+   
+   

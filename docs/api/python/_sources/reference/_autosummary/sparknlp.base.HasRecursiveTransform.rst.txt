@@ -1,0 +1,47 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.base.HasRecursiveTransform
+===================================
+
+.. currentmodule:: sparknlp.base
+
+.. autoclass:: HasRecursiveTransform
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~HasRecursiveTransform.__init__
+      ~HasRecursiveTransform.clear
+      ~HasRecursiveTransform.copy
+      ~HasRecursiveTransform.explainParam
+      ~HasRecursiveTransform.explainParams
+      ~HasRecursiveTransform.extractParamMap
+      ~HasRecursiveTransform.getOrDefault
+      ~HasRecursiveTransform.getParam
+      ~HasRecursiveTransform.hasDefault
+      ~HasRecursiveTransform.hasParam
+      ~HasRecursiveTransform.isDefined
+      ~HasRecursiveTransform.isSet
+      ~HasRecursiveTransform.set
+      ~HasRecursiveTransform.transform
+      ~HasRecursiveTransform.transform_recursive
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HasRecursiveTransform.params
+      ~HasRecursiveTransform.uid
+   
+   

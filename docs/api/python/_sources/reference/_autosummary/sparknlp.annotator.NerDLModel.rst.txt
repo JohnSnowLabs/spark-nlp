@@ -1,0 +1,78 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.annotator.NerDLModel
+=============================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: NerDLModel
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~NerDLModel.__init__
+      ~NerDLModel.clear
+      ~NerDLModel.copy
+      ~NerDLModel.explainParam
+      ~NerDLModel.explainParams
+      ~NerDLModel.extractParamMap
+      ~NerDLModel.getBatchSize
+      ~NerDLModel.getInputCols
+      ~NerDLModel.getLazyAnnotator
+      ~NerDLModel.getOrDefault
+      ~NerDLModel.getOutputCol
+      ~NerDLModel.getParam
+      ~NerDLModel.getParamValue
+      ~NerDLModel.getStorageRef
+      ~NerDLModel.hasDefault
+      ~NerDLModel.hasParam
+      ~NerDLModel.isDefined
+      ~NerDLModel.isSet
+      ~NerDLModel.load
+      ~NerDLModel.pretrained
+      ~NerDLModel.read
+      ~NerDLModel.save
+      ~NerDLModel.set
+      ~NerDLModel.setBatchSize
+      ~NerDLModel.setConfigProtoBytes
+      ~NerDLModel.setIncludeAllConfidenceScores
+      ~NerDLModel.setIncludeConfidence
+      ~NerDLModel.setInputCols
+      ~NerDLModel.setLazyAnnotator
+      ~NerDLModel.setOutputCol
+      ~NerDLModel.setParamValue
+      ~NerDLModel.setParams
+      ~NerDLModel.setStorageRef
+      ~NerDLModel.transform
+      ~NerDLModel.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NerDLModel.batchSize
+      ~NerDLModel.classes
+      ~NerDLModel.configProtoBytes
+      ~NerDLModel.getter_attrs
+      ~NerDLModel.includeAllConfidenceScores
+      ~NerDLModel.includeConfidence
+      ~NerDLModel.inputCols
+      ~NerDLModel.lazyAnnotator
+      ~NerDLModel.name
+      ~NerDLModel.outputCol
+      ~NerDLModel.params
+      ~NerDLModel.storageRef
+      ~NerDLModel.uid
+   
+   

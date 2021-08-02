@@ -1,0 +1,76 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.annotator.BertForTokenClassification
+=============================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: BertForTokenClassification
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BertForTokenClassification.__init__
+      ~BertForTokenClassification.clear
+      ~BertForTokenClassification.copy
+      ~BertForTokenClassification.explainParam
+      ~BertForTokenClassification.explainParams
+      ~BertForTokenClassification.extractParamMap
+      ~BertForTokenClassification.getBatchSize
+      ~BertForTokenClassification.getCaseSensitive
+      ~BertForTokenClassification.getInputCols
+      ~BertForTokenClassification.getLazyAnnotator
+      ~BertForTokenClassification.getOrDefault
+      ~BertForTokenClassification.getOutputCol
+      ~BertForTokenClassification.getParam
+      ~BertForTokenClassification.getParamValue
+      ~BertForTokenClassification.hasDefault
+      ~BertForTokenClassification.hasParam
+      ~BertForTokenClassification.isDefined
+      ~BertForTokenClassification.isSet
+      ~BertForTokenClassification.load
+      ~BertForTokenClassification.loadSavedModel
+      ~BertForTokenClassification.pretrained
+      ~BertForTokenClassification.read
+      ~BertForTokenClassification.save
+      ~BertForTokenClassification.set
+      ~BertForTokenClassification.setBatchSize
+      ~BertForTokenClassification.setCaseSensitive
+      ~BertForTokenClassification.setConfigProtoBytes
+      ~BertForTokenClassification.setInputCols
+      ~BertForTokenClassification.setLazyAnnotator
+      ~BertForTokenClassification.setMaxSentenceLength
+      ~BertForTokenClassification.setOutputCol
+      ~BertForTokenClassification.setParamValue
+      ~BertForTokenClassification.setParams
+      ~BertForTokenClassification.transform
+      ~BertForTokenClassification.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BertForTokenClassification.batchSize
+      ~BertForTokenClassification.caseSensitive
+      ~BertForTokenClassification.configProtoBytes
+      ~BertForTokenClassification.getter_attrs
+      ~BertForTokenClassification.inputCols
+      ~BertForTokenClassification.lazyAnnotator
+      ~BertForTokenClassification.maxSentenceLength
+      ~BertForTokenClassification.name
+      ~BertForTokenClassification.outputCol
+      ~BertForTokenClassification.params
+      ~BertForTokenClassification.uid
+   
+   

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -418,6 +418,10 @@
                         <a class="object" href="EnglishStemmer$.html" title=""></a>
                         <a href="EnglishStemmer$.html" title="">EnglishStemmer</a>
                       </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="GraphExtraction.html" title=""></a>
+                        <a href="GraphExtraction.html" title="">GraphExtraction</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="Lemmatizer$.html" title="This is the companion object of Lemmatizer."></a>
                         <a class="class" href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word."></a>
                         <a href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word.">Lemmatizer</a>
@@ -441,6 +445,10 @@
                         <a class="object" href="NormalizerModel$.html" title=""></a>
                         <a class="class" href="NormalizerModel.html" title="Instantiated Model of the Normalizer."></a>
                         <a href="NormalizerModel.html" title="Instantiated Model of the Normalizer.">NormalizerModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="PretrainedAnnotations$.html" title=""></a>
+                        <a href="PretrainedAnnotations$.html" title="">PretrainedAnnotations</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedLemmatizer.html" title=""></a>
@@ -959,6 +967,22 @@ result.selectExpr(<span class="lit">"normalizedDocument.result"</span>).show(tru
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the <span class="num">1500</span>s, when an unknown printer took a galley of <span class="kw">type</span> and scrambled it to make a <span class="kw">type</span> specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the <span class="num">1960</span>s <span class="kw">with</span> the release of letraset sheets containing lorem ipsum passages, and more recently <span class="kw">with</span> desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.GraphExtraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GraphExtractionextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.GraphExtraction]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.GraphExtraction]"></a><a id="GraphExtraction:GraphExtraction"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/GraphExtraction.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="GraphExtraction.html"><span class="name">GraphExtraction</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LemmatizerextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.LemmatizerModel]"></a><a id="Lemmatizer:Lemmatizer"></a>
       <span class="permalink">
@@ -1968,6 +1992,22 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
       </span>
       <span class="symbol">
         <a title="" href="NormalizerModel$.html"><span class="name">NormalizerModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="NormalizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.NormalizerModel">NormalizerModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PretrainedAnnotations"></a><a id="PretrainedAnnotations:PretrainedAnnotations"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="PretrainedAnnotations$.html"><span class="name">PretrainedAnnotations</span></a>
       </span>
       
       

@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annotators &#8212; Spark NLP 3.2.0 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../_static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Setting up your own pipeline" href="custom_pipelines.html" />
+    <link rel="prev" title="Annotation" href="annotation.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="annotation.html">
+   Annotation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Annotators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="custom_pipelines.html">
+   Setting up your own pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pretrained_pipelines.html">
+   Pretrained Pipelines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="training.html">
+   Loading datasets for training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="light_pipelines.html">
+   Light Pipelines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="helpers.html">
+   Helper Functions
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annotator-approaches">
+   Annotator Approaches
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annotator-models">
+   Annotator Models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#note">
+     Note
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pretrained-models">
+   Pretrained Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#common-functions">
+   Common Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#available-annotators">
+   Available Annotators
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="annotators">
+<h1>Annotators<a class="headerlink" href="#annotators" title="Permalink to this headline">¶</a></h1>
+<p>Annotators are the spearhead of NLP functions in Spark NLP. Let’s take the <code class="docutils literal notranslate"><span class="pre">ClassifierDL</span></code>
+Annotators as an example. There are two forms of annotators:</p>
+<div class="section" id="annotator-approaches">
+<h2>Annotator Approaches<a class="headerlink" href="#annotator-approaches" title="Permalink to this headline">¶</a></h2>
+<p>Annotator Approaches are those who represent a Spark ML Estimator and require a training stage.
+They have a function called <code class="docutils literal notranslate"><span class="pre">fit(data)</span></code> which trains a model based on some data. They produce the
+second type of annotator which is an annotator model or transformer.</p>
+<p><strong>Example</strong></p>
+<p>First we need to declare all the prerequisite steps and the training data:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">useEmbeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the training data <code class="docutils literal notranslate"><span class="pre">&quot;sentiment.csv&quot;</span></code> has the form of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>text,label
+This movie is the best movie I have wached ever! In my opinion this movie can win an award.,0
+This was a terrible movie! The acting was bad really bad!,1
+...
+</pre></div>
+</div>
+<p>and will be loaded with Spark:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">smallCorpus</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span><span class="s2">&quot;True&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&quot;src/test/resources/classifier/sentiment.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then we declare the <a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.ClassifierDLApproach.html#sparknlp.annotator.ClassifierDLApproach" title="sparknlp.annotator.ClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.ClassifierDLApproach</span></code></a> that is going to be trained in the pipeline. Note that in this case,
+the Annotator also requires a label column, set with <code class="docutils literal notranslate"><span class="pre">setLabelColumn(&quot;label&quot;)</span></code>, to classify the text.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">docClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setLr</span><span class="p">(</span><span class="mf">5e-3</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setDropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">useEmbeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">docClassifier</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Finally the data is fit to the pipeline and the Annotator is trained:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">smallCorpus</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">PipelineModel</span></code> that can be used with <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> to classify sentiment.</p>
+</div>
+<div class="section" id="annotator-models">
+<h2>Annotator Models<a class="headerlink" href="#annotator-models" title="Permalink to this headline">¶</a></h2>
+<p>Annotator Models are Spark models or transformers, meaning they have a <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> function.
+This function takes as input a dataframe to which it adds a new column containing the result of the
+current annotation. All transformers are additive, meaning they append to current data, never replace
+or delete previous information.</p>
+<p>Both forms of annotators can be included in a Pipeline. All annotators included in a Pipeline will
+be automatically executed in the defined order and will transform the data accordingly. A Pipeline
+is turned into a <code class="docutils literal notranslate"><span class="pre">PipelineModel</span></code> after the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> stage. The Pipeline can be saved to disk and re-loaded
+at any time.</p>
+<div class="section" id="note">
+<h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Model</span></code> suffix is explicitly stated when the annotator is the result of a training process.
+Some annotators, such as <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code> are transformers, but do not contain the word Model since
+they are not
+trained annotators.</p>
+<p><strong>Example</strong></p>
+<p>First we need to declare all the prerequisite steps:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">useEmbeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here we use a pretrained <a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.ClassifierDLModel.html#sparknlp.annotator.ClassifierDLModel" title="sparknlp.annotator.ClassifierDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.ClassifierDLModel</span></code></a>. Your trained approach from the previous example could
+also be inserted.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sarcasmDL</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;classifierdl_use_sarcasm&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sarcasm&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">useEmbeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sarcasmDL</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Then we can create some data to classify and use <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> to get the results.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;I&#39;m ready!&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;If I could put into words how much I love waking up at 6 am on Mondays I would.&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(arrays_zip(sentence, sarcasm)) as out&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;out.sentence.result as sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;out.sarcasm.result as sarcasm&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-------------------------------------------------------------------------------+-------+</span>
+<span class="go">|sentence                                                                       |sarcasm|</span>
+<span class="go">+-------------------------------------------------------------------------------+-------+</span>
+<span class="go">|I&#39;m ready!                                                                     |normal |</span>
+<span class="go">|If I could put into words how much I love waking up at 6 am on Mondays I would.|sarcasm|</span>
+<span class="go">+-------------------------------------------------------------------------------+-------+</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="pretrained-models">
+<h2>Pretrained Models<a class="headerlink" href="#pretrained-models" title="Permalink to this headline">¶</a></h2>
+<p>Model annotators have a <code class="docutils literal notranslate"><span class="pre">pretrained()</span></code> on it’s static object, to retrieve the public pre-trained
+version of a model.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classifierDL</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;classification&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pretrained(name,</span> <span class="pre">language,</span> <span class="pre">extra_location)</span></code> will by default, bring a default pre-trained model.
+Sometimes we offer more than one model, in which case, you may have to use name, language or extra
+location to download them.</p>
+</div>
+<div class="section" id="common-functions">
+<h2>Common Functions<a class="headerlink" href="#common-functions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">setInputCols(column_names)</span></code></dt><dd><p>Takes a list of column names of annotations required by this
+annotator. Those are generated by the annotators which precede the current annotator in the
+pipeline.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">setOutputCol(column_name)</span></code></dt><dd><p>Defines the name of the column containing the result of the current
+annotator. Use this name as an input for other annotators down the pipeline requiring the outputs
+generated by the current annotator.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="available-annotators">
+<h2>Available Annotators<a class="headerlink" href="#available-annotators" title="Permalink to this headline">¶</a></h2>
+<p>For all available Annotators refer to the full API reference <a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.html#module-sparknlp.annotator" title="sparknlp.annotator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator</span></code></a>.</p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="annotation.html" title="previous page">Annotation</a>
+    <a class='right-next' id="next-link" href="custom_pipelines.html" title="next page">Setting up your own pipeline</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, John Snow Labs.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

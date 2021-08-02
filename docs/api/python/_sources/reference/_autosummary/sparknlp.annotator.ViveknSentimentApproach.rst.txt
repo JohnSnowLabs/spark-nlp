@@ -1,0 +1,70 @@
+.. https://stackoverflow.com/questions/2701998/sphinx-autodoc-is-not-automatic-enough/62613202#62613202
+
+sparknlp.annotator.ViveknSentimentApproach
+==========================================
+
+.. currentmodule:: sparknlp.annotator
+
+.. autoclass:: ViveknSentimentApproach
+   :members:
+   :show-inheritance:
+   :inherited-members:
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ViveknSentimentApproach.__init__
+      ~ViveknSentimentApproach.clear
+      ~ViveknSentimentApproach.copy
+      ~ViveknSentimentApproach.explainParam
+      ~ViveknSentimentApproach.explainParams
+      ~ViveknSentimentApproach.extractParamMap
+      ~ViveknSentimentApproach.fit
+      ~ViveknSentimentApproach.fitMultiple
+      ~ViveknSentimentApproach.getInputCols
+      ~ViveknSentimentApproach.getLazyAnnotator
+      ~ViveknSentimentApproach.getOrDefault
+      ~ViveknSentimentApproach.getOutputCol
+      ~ViveknSentimentApproach.getParam
+      ~ViveknSentimentApproach.getParamValue
+      ~ViveknSentimentApproach.hasDefault
+      ~ViveknSentimentApproach.hasParam
+      ~ViveknSentimentApproach.isDefined
+      ~ViveknSentimentApproach.isSet
+      ~ViveknSentimentApproach.load
+      ~ViveknSentimentApproach.read
+      ~ViveknSentimentApproach.save
+      ~ViveknSentimentApproach.set
+      ~ViveknSentimentApproach.setInputCols
+      ~ViveknSentimentApproach.setLazyAnnotator
+      ~ViveknSentimentApproach.setOutputCol
+      ~ViveknSentimentApproach.setParamValue
+      ~ViveknSentimentApproach.setPruneCorpus
+      ~ViveknSentimentApproach.setSentimentCol
+      ~ViveknSentimentApproach.write
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ViveknSentimentApproach.featureLimit
+      ~ViveknSentimentApproach.getter_attrs
+      ~ViveknSentimentApproach.importantFeatureRatio
+      ~ViveknSentimentApproach.inputCols
+      ~ViveknSentimentApproach.lazyAnnotator
+      ~ViveknSentimentApproach.outputCol
+      ~ViveknSentimentApproach.params
+      ~ViveknSentimentApproach.pruneCorpus
+      ~ViveknSentimentApproach.sentimentCol
+      ~ViveknSentimentApproach.unimportantFeatureStep
+      ~ViveknSentimentApproach.uid
+   
+   

@@ -1,0 +1,6 @@
+sparknlp.functions.map\_annotations\_col
+========================================
+
+.. currentmodule:: sparknlp.functions
+
+.. autofunction:: map_annotations_col
