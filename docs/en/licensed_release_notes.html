@@ -522,9 +522,7 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="release-notes-spark-nlp-healthcare">Release Notes Spark NLP Healthcare</h1>
-
-<h2 id="313">3.1.3</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="313">3.1.3</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
@@ -623,19 +621,17 @@ Relations:
 
 <p>Allows to use RegexMather chunks as NER chunks and feed the output to the downstream annotators like RE or Deidentification.</p>
 
-<pre><code class="language-Python">        document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-        sentence_detector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-        regex_matcher = RegexMatcher()\
-            .setInputCols("sentence")\
-            .setOutputCol("regex")\
-            .setExternalRules(path="../src/test/resources/regex-matcher/rules.txt",delimiter=",")
+<span class="n">regex_matcher</span> <span class="o">=</span> <span class="n">RegexMatcher</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"regex"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setExternalRules</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">"../src/test/resources/regex-matcher/rules.txt"</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s">","</span><span class="p">)</span>
 
-        chunkConverter = ChunkConverter().setInputCols("regex").setOutputCol("chunk")
-        
-
-</code></pre>
+<span class="n">chunkConverter</span> <span class="o">=</span> <span class="n">ChunkConverter</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"regex"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="312">3.1.2</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.2 has been released!.
@@ -677,9 +673,9 @@ This release comes with new features, new models, bug fixes, and examples.</p>
   .setTagsMapping<span class="o">(</span><span class="s2">"B-PER,B-VIP"</span>, <span class="s2">"I-PER,I-VIP"</span><span class="o">)</span>
 </code></pre></div></div>
 
-<p>In this case, the new tags <code class="language-plaintext highlighter-rouge">B-VIP</code> and <code class="language-plaintext highlighter-rouge">I-VIP</code> will replace the already trained tags ‘B-PER’ and ‘I-PER’. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.</p>
+<p>In this case, the new tags <code class="language-plaintext highlighter-rouge">B-VIP</code> and <code class="language-plaintext highlighter-rouge">I-VIP</code> will replace the already trained tags <code class="language-plaintext highlighter-rouge">B-PER</code> and <code class="language-plaintext highlighter-rouge">I-PER</code>. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.</p>
 
-<p>Jupyter Notebook: [Finetuning Medical NER Model Notebook] (https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)</p>
+<p>Jupyter Notebook: <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb">Finetuning Medical NER Model Notebook</a></p>
 
 <h5 id="more-builtin-graphs-for-medicalnerapproach">More builtin graphs for MedicalNerApproach</h5>
 
@@ -687,8 +683,8 @@ This release comes with new features, new models, bug fixes, and examples.</p>
 
 <h5 id="datenormalizer">DateNormalizer</h5>
 
-<p>New annotator that normalize dates to the format YYYY/MM/DD.
-This annotator identifies dates in chunk annotations, and transform these dates to the format YYYY/MM/DD.
+<p>New annotator that normalize dates to the format <code class="language-plaintext highlighter-rouge">YYYY/MM/DD</code>.
+This annotator identifies dates in chunk annotations, and transform these dates to the format <code class="language-plaintext highlighter-rouge">YYYY/MM/DD</code>.
 Both the input and output formats for the annotator are <code class="language-plaintext highlighter-rouge">chunk</code>.</p>
 
 <p>Example:</p>
@@ -804,8 +800,7 @@ Example how to use the custom transformer.</p>
 
 <h5 id="java-workshop-examples">Java Workshop Examples</h5>
 
-<p>Add Java examples in the workshop repository.
-https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare</p>
+<p>Add Java examples in the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare">workshop repository</a>.</p>
 
 <h5 id="deprecated-compatibility-class-in-python">Deprecated Compatibility class in Python</h5>
 
@@ -966,16 +961,76 @@ Also, the load process now is more  memory friendly meaning that the maximum mem
 </ul>
 
 <h4 id="jsl-sbert-model-speed-benchmark">JSL SBert Model Speed Benchmark</h4>
-<p>| JSL SBert Model| Base Model | Is Cased | Train Datasets | Inference speed (100 rows) |
-|-|-|-|-|-|
-| sbiobert_jsl_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI| 274,53 |
-| sbiobert_jsl_umls_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI, umls | 274,52 |
-| sbert_jsl_medium_uncased | uncased_L-8_H-512_A-8 | Uncased | medNLI, allNLI| 80,40 |
-| sbert_jsl_medium_umls_uncased | uncased_L-8_H-512_A-8 | Uncased | medNLI, allNLI, umls | 78,35 |
-| sbert_jsl_mini_uncased | uncased_L-4_H-256_A-4 | Uncased | medNLI, allNLI| 10,68 |
-| sbert_jsl_mini_umls_uncased | uncased_L-4_H-256_A-4 | Uncased | medNLI, allNLI, umls | 10,29 |
-| sbert_jsl_tiny_uncased | uncased_L-2_H-128_A-2 | Uncased | medNLI, allNLI| 4,54 |
-| sbert_jsl_tiny_umls_uncased | uncased_L-2_H-128_A-2 | Uncased | medNLI, allNL, umls | 4,54 |</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>JSL SBert Model</th>
+      <th>Base Model</th>
+      <th>Is Cased</th>
+      <th>Train Datasets</th>
+      <th>Inference speed (100 rows)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sbiobert_jsl_cased</td>
+      <td>biobert_v1.1_pubmed</td>
+      <td>Cased</td>
+      <td>medNLI, allNLI</td>
+      <td>274,53</td>
+    </tr>
+    <tr>
+      <td>sbiobert_jsl_umls_cased</td>
+      <td>biobert_v1.1_pubmed</td>
+      <td>Cased</td>
+      <td>medNLI, allNLI, umls</td>
+      <td>274,52</td>
+    </tr>
+    <tr>
+      <td>sbert_jsl_medium_uncased</td>
+      <td>uncased_L-8_H-512_A-8</td>
+      <td>Uncased</td>
+      <td>medNLI, allNLI</td>
+      <td>80,40</td>
+    </tr>
+    <tr>
+      <td>sbert_jsl_medium_umls_uncased</td>
+      <td>uncased_L-8_H-512_A-8</td>
+      <td>Uncased</td>
+      <td>medNLI, allNLI, umls</td>
+      <td>78,35</td>
+    </tr>
+    <tr>
+      <td>sbert_jsl_mini_uncased</td>
+      <td>uncased_L-4_H-256_A-4</td>
+      <td>Uncased</td>
+      <td>medNLI, allNLI</td>
+      <td>10,68</td>
+    </tr>
+    <tr>
+      <td>sbert_jsl_mini_umls_uncased</td>
+      <td>uncased_L-4_H-256_A-4</td>
+      <td>Uncased</td>
+      <td>medNLI, allNLI, umls</td>
+      <td>10,29</td>
+    </tr>
+    <tr>
+      <td>sbert_jsl_tiny_uncased</td>
+      <td>uncased_L-2_H-128_A-2</td>
+      <td>Uncased</td>
+      <td>medNLI, allNLI</td>
+      <td>4,54</td>
+    </tr>
+    <tr>
+      <td>sbert_jsl_tiny_umls_uncased</td>
+      <td>uncased_L-2_H-128_A-2</td>
+      <td>Uncased</td>
+      <td>medNLI, allNL, umls</td>
+      <td>4,54</td>
+    </tr>
+  </tbody>
+</table>
 
 <h4 id="new-icd10cm-resolver-models">New ICD10CM resolver models:</h4>
 <p>These models map clinical entities and concepts to ICD10 CM codes using sentence bert embeddings. They also return the official resolution text within the brackets inside the metadata. Both models are augmented with synonyms, and previous augmentations are flexed according to cosine distances to unnormalized terms (ground truths).</p>
@@ -1268,13 +1323,13 @@ The new column will produce annotations with the following structure,</p>
 <h4 id="new-deidentification-pretrained-pipelines">New Deidentification Pretrained Pipelines</h4>
 <p>We developed a <code class="language-plaintext highlighter-rouge">clinical_deidentification</code> pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ID</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">NAME</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>,  <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">LICENSE</code>, <code class="language-plaintext highlighter-rouge">VIN</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">DLN</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">IPADDR</code> entities.</p>
 
-<p>Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html</p>
+<p>Models Hub Page : <a href="https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html">clinical_deidentification</a></p>
 
 <p>There is also a lightweight version of the same pipeline trained with memory efficient <code class="language-plaintext highlighter-rouge">glove_100d</code>embeddings.
 Here are the model names:</p>
 <ul>
-  <li>clinical_deidentification</li>
-  <li>clinical_deidentification_glove</li>
+  <li><code class="language-plaintext highlighter-rouge">clinical_deidentification</code></li>
+  <li><code class="language-plaintext highlighter-rouge">clinical_deidentification_glove</code></li>
 </ul>
 
 <p><em>Example:</em></p>
@@ -1291,7 +1346,7 @@ deid_pipeline.annotate<span class="o">(</span><span class="s2">"Record date : 20
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286."</span><span class="o">)</span>
 </code></pre></div></div>
-<p>Result:</p>
+<p><em>Result</em>:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'sentence'</span>: <span class="o">[</span><span class="s1">'Record date : 2093-01-13, David Hale, M.D.'</span>,
    <span class="s1">'IP: 203.120.223.13.'</span>,
    <span class="s1">'The driver'</span>s license no:A334455B.<span class="s1">',
@@ -1422,7 +1477,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <ul>
   <li>A <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.4.Biomedical_NER_SparkNLP_paper_reproduce.ipynb">new notebook</a>  to reproduce our peer-reviewed NER paper (https://arxiv.org/abs/2011.06315)</li>
-  <li>New databricks <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/case_studies">case study notebooks</a>. In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.</li>
+  <li>New databricks <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/healthcare_case_studies">case study notebooks</a>. In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.</li>
 </ul>
 
 <h3 id="303">3.0.3</h3>
