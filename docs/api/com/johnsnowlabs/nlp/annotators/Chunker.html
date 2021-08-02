@@ -551,7 +551,7 @@ This example sentence will result in the form:</p><pre><span class="lit">"Peter 
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"pos"</span>)
   .setOutputCol(<span class="lit">"chunk"</span>)
   .setRegexParsers(<span class="std">Array</span>(<span class="lit">"&lt;NNP&gt;+"</span>, <span class="lit">"&lt;NNS&gt;+"</span>))</pre><p>When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
-<code>&quot;&lt;NNP&gt;+&quot;</code> means 1 or more nouns in succession. Additional patterns can also be set with <code>addRegexParsers</code>.</p><p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
+<code>&quot;&lt;NNP&gt;+&quot;</code> means 1 or more nouns in succession. Additional patterns can also be set with <code>addRegexParsers</code>.</p><p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
 and the  <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala" target="_blank">ChunkerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.{Chunker, Tokenizer}
