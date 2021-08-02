@@ -13,6 +13,27 @@ case class CoNLLUDocument(text: String,
                           lemma: Seq[PosTaggedSentence]
                         )
 
+/** Instantiates the class to read a CoNLL-U dataset.
+ *
+ * The dataset should be in the format of [[https://universaldependencies.org/format.html CoNLL-U]]
+ * and needs to be specified with `readDataset`, which will create a dataframe with the data.
+ *
+ * ==Example==
+ * {{{
+ * import com.johnsnowlabs.nlp.training.CoNLLU
+ *
+ * val conlluFile = "src/test/resources/conllu/en.test.conllu"
+ * val conllDataSet = CoNLLU(false).readDataset(ResourceHelper.spark, conlluFile)
+ * conllDataSet.selectExpr("text", "form.result as form", "upos.result as upos", "xpos.result as xpos", "lemma.result as lemma")
+ *   .show(1, false)
+ * +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+ * |text                                   |form                                          |upos                                         |xpos                          |lemma                                       |
+ * +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+ * |What if Google Morphed Into GoogleOS?  |[What, if, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, if, Google, morph, into, GoogleOS, ?]|
+ * +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+ * }}}
+ * @param explodeSentences Whether to split each sentence into a separate row
+ */
 case class CoNLLU(explodeSentences: Boolean = true) {
 
   private val annotationType = ArrayType(Annotation.dataType)

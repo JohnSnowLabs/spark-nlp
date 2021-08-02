@@ -27,8 +27,28 @@ from pyspark.sql import SparkSession, DataFrame
 class CoNLL(ExtendedJavaWrapper):
     """Instantiates the class to read a CoNLL dataset.
 
-    The dataset should be in the format of `CoNLL 2003 <https://www.clips.uantwerpen.be/conll2003/ner/>`_
-    and needs to be specified with :meth:`CoNLL.readDataset`.
+    The dataset should be in the format of
+    `CoNLL 2003 <https://www.clips.uantwerpen.be/conll2003/ner/>`_ and needs to
+    be specified with :meth:`.readDataset`,
+    which will create a dataframe with the data.
+
+    Can be used to train a :class:`NerDLApproach <sparknlp.annotator.NerDLApproach>`.
+
+    **Input File Format**
+
+    .. code-block:: none
+
+        -DOCSTART- -X- -X- O
+
+        EU NNP B-NP B-ORG
+        rejects VBZ B-VP O
+        German JJ B-NP B-MISC
+        call NN I-NP O
+        to TO B-VP O
+        boycott VB I-VP O
+        British JJ B-NP B-MISC
+        lamb NN I-NP O
+        . . O O
 
     Parameters
     ----------
@@ -50,6 +70,25 @@ class CoNLL(ExtendedJavaWrapper):
         Name of the label column, by default 'label'
     explodeSentences : bool, optional
         Whether to explode sentences to separate rows, by default True
+
+    Examples
+    --------
+
+    >>> from sparknlp.training import CoNLL
+    >>> trainingData = CoNLL().readDataset(spark, "src/test/resources/conll2003/eng.train")
+    >>> trainingData.selectExpr(
+    ...     "text",
+    ...     "token.result as tokens",
+    ...     "pos.result as pos",
+    ...     "label.result as label"
+    ... ).show(3, False)
+    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+    |text                                            |tokens                                                    |pos                                  |label                                    |
+    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+    |EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|
+    |Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |
+    |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |
+    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
     """
     def __init__(self,
                  documentCol='document',
@@ -75,6 +114,22 @@ class CoNLL(ExtendedJavaWrapper):
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
         # ToDo Replace with std pyspark
+        """Reads the dataset from an external resource.
+
+        Parameters
+        ----------
+        spark : :class:`pyspark.sql.SparkSession`
+            Initiated Spark Session with Spark NLP
+        path : str
+            Path to the resource
+        read_as : str, optional
+            How to read the resource, by default ReadAs.TEXT
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            Spark Dataframe with the data
+        """
         jSession = spark._jsparkSession
 
         jdf = self._java_obj.readDataset(jSession, path, read_as)
@@ -84,19 +139,70 @@ class CoNLL(ExtendedJavaWrapper):
 class CoNLLU(ExtendedJavaWrapper):
     """Instantiates the class to read a CoNLL-U dataset.
 
-    The dataset should be in the format of `CoNLL-U <https://universaldependencies.org/format.html>`_
-    and needs to be specified with :meth:`CoNLLU.readDataset`.
+    The dataset should be in the format of
+    `CoNLL-U <https://universaldependencies.org/format.html>`_ and needs to be
+    specified with :meth:`.readDataset`, which will create a dataframe with the
+    data.
 
+    Can be used to train a
+    :class:`DependencyParserApproach <sparknlp.annotator.DependencyParserApproach>`
 
-    Parameters
-    ----------
-    explodeSentences : bool, optional
-        [description], by default True
+    **Input File Format**
+
+    .. code-block:: none
+
+        -DOCSTART- -X- -X- O
+
+        EU NNP B-NP B-ORG
+        rejects VBZ B-VP O
+        German JJ B-NP B-MISC
+        call NN I-NP O
+        to TO B-VP O
+        boycott VB I-VP O
+        British JJ B-NP B-MISC
+        lamb NN I-NP O
+        . . O O
+
+    Examples
+    --------
+
+    >>> from sparknlp.training import CoNLLU
+    >>> conlluFile = "src/test/resources/conllu/en.test.conllu"
+    >>> conllDataSet = CoNLLU(False).readDataset(spark, conlluFile)
+    >>> conllDataSet.selectExpr(
+    ...     "text",
+    ...     "form.result as form",
+    ...     "upos.result as upos",
+    ...     "xpos.result as xpos",
+    ...     "lemma.result as lemma"
+    ... ).show(1, False)
+    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+    |text                                   |form                                          |upos                                         |xpos                          |lemma                                       |
+    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+    |What if Google Morphed Into GoogleOS?  |[What, if, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, if, Google, morph, into, GoogleOS, ?]|
+    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
     """
     def __init__(self, explodeSentences=True):
         super(CoNLLU, self).__init__("com.johnsnowlabs.nlp.training.CoNLLU", explodeSentences)
 
+
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
+        """Reads the dataset from an external resource.
+
+        Parameters
+        ----------
+        spark : :class:`pyspark.sql.SparkSession`
+            Initiated Spark Session with Spark NLP
+        path : str
+            Path to the resource
+        read_as : str, optional
+            How to read the resource, by default ReadAs.TEXT
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            Spark Dataframe with the data
+        """
         # ToDo Replace with std pyspark
         jSession = spark._jsparkSession
 
@@ -105,12 +211,57 @@ class CoNLLU(ExtendedJavaWrapper):
 
 
 class POS(ExtendedJavaWrapper):
-    """TODO
+    """Helper class for creating DataFrames for training a part-of-speech tagger.
 
-    Parameters
-    ----------
-    ExtendedJavaWrapper : [type]
-        [description]
+    The dataset needs to consist of sentences on each line, where each word is
+    delimited with its respective tag.
+
+    **Input File Format**
+
+    .. code-block:: none
+
+        A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
+
+
+    The sentence can then be parsed with :meth:`.readDataset` into a column with
+    annotations of type ``POS``.
+
+    Can be used to train a
+    :class:`PerceptronApproach <sparknlp.annotator.PerceptronApproach>`.
+
+    Examples
+    --------
+
+    In this example, the file ``test-training.txt`` has the content of the sentence above.
+
+    >>> from sparknlp.training import POS
+    >>> pos = POS()
+    >>> path = "src/test/resources/anc-pos-corpus-small/test-training.txt"
+    >>> posDf = pos.readDataset(spark, path, "|", "tags")
+    >>> posDf.selectExpr("explode(tags) as tags").show(truncate=False)
+    +---------------------------------------------+
+    |tags                                         |
+    +---------------------------------------------+
+    |[pos, 0, 5, NNP, [word -> Pierre], []]       |
+    |[pos, 7, 12, NNP, [word -> Vinken], []]      |
+    |[pos, 14, 14, ,, [word -> ,], []]            |
+    |[pos, 16, 17, CD, [word -> 61], []]          |
+    |[pos, 19, 23, NNS, [word -> years], []]      |
+    |[pos, 25, 27, JJ, [word -> old], []]         |
+    |[pos, 29, 29, ,, [word -> ,], []]            |
+    |[pos, 31, 34, MD, [word -> will], []]        |
+    |[pos, 36, 39, VB, [word -> join], []]        |
+    |[pos, 41, 43, DT, [word -> the], []]         |
+    |[pos, 45, 49, NN, [word -> board], []]       |
+    |[pos, 51, 52, IN, [word -> as], []]          |
+    |[pos, 47, 47, DT, [word -> a], []]           |
+    |[pos, 56, 67, JJ, [word -> nonexecutive], []]|
+    |[pos, 69, 76, NN, [word -> director], []]    |
+    |[pos, 78, 81, NNP, [word -> Nov.], []]       |
+    |[pos, 83, 84, CD, [word -> 29], []]          |
+    |[pos, 81, 81, ., [word -> .], []]            |
+    +---------------------------------------------+
+
     """
     def __init__(self):
         super(POS, self).__init__("com.johnsnowlabs.nlp.training.POS")
@@ -118,6 +269,28 @@ class POS(ExtendedJavaWrapper):
     def readDataset(self, spark, path, delimiter="|", outputPosCol="tags", outputDocumentCol="document",
                     outputTextCol="text"):
         # ToDo Replace with std pyspark
+        """Reads the dataset from an external resource.
+
+        Parameters
+        ----------
+        spark : :class:`pyspark.sql.SparkSession`
+            Initiated Spark Session with Spark NLP
+        path : str
+            Path to the resource
+        delimiter : str, optional
+            Delimiter of word and POS, by default "|"
+        outputPosCol : str, optional
+            Name of the output POS column, by default "tags"
+        outputDocumentCol : str, optional
+            Name of the output document column, by default "document"
+        outputTextCol : str, optional
+            Name of the output text column, by default "text"
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            Spark Dataframe with the data
+        """
         jSession = spark._jsparkSession
 
         jdf = self._java_obj.readDataset(jSession, path, delimiter, outputPosCol, outputDocumentCol, outputTextCol)
@@ -125,18 +298,58 @@ class POS(ExtendedJavaWrapper):
 
 
 class PubTator(ExtendedJavaWrapper):
-    """TODO
+    """The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.
 
-    Parameters
-    ----------
-    ExtendedJavaWrapper : [type]
-        [description]
-    """    
+    For more information see `PubTator Docs <http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783>`_
+    and `MedMentions Docs <http://github.com/chanzuckerberg/MedMentions>`_.
+
+    :meth:`.readDataset` is used to create a Spark DataFrame from a PubTator
+    text file.
+
+    **Input File Format**
+
+    .. code-block:: none
+
+        25763772	0	5	DCTN4	T116,T123	C4308010
+        25763772	23	63	chronic Pseudomonas aeruginosa infection	T047	C0854135
+        25763772	67	82	cystic fibrosis	T047	C0010674
+        25763772	83	120	Pseudomonas aeruginosa (Pa) infection	T047	C0854135
+        25763772	124	139	cystic fibrosis	T047	C0010674
+
+    Examples
+    --------
+
+    >>> from sparknlp.training import PubTator
+    >>> pubTatorFile = "./src/test/resources/corpus_pubtator_sample.txt"
+    >>> pubTatorDataSet = PubTator().readDataset(spark, pubTatorFile)
+    >>> pubTatorDataSet.show(1)
+    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+    |  doc_id|      finished_token|        finished_pos|        finished_ner|finished_token_metadata|finished_pos_metadata|finished_label_metadata|
+    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+    |25763772|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, 0], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|
+    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+    """
     def __init__(self):
         super(PubTator, self).__init__("com.johnsnowlabs.nlp.training.PubTator")
 
     def readDataset(self, spark, path, isPaddedToken=True):
         # ToDo Replace with std pyspark
+        """Reads the dataset from an external resource.
+
+        Parameters
+        ----------
+        spark : :class:`pyspark.sql.SparkSession`
+            Initiated Spark Session with Spark NLP
+        path : str
+            Path to the resource
+        isPaddedToken : str, optional
+            Whether tokens are padded, by default True
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            Spark Dataframe with the data
+        """
         jSession = spark._jsparkSession
 
         jdf = self._java_obj.readDataset(jSession, path, isPaddedToken)
