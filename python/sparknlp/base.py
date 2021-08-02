@@ -157,7 +157,7 @@ class LightPipeline:
         return self.pipeline_model.transform(dataframe)
 
     def setIgnoreUnsupported(self, value):
-        """Set whether to ignore unsupported AnnotatorModels.
+        """Sets whether to ignore unsupported AnnotatorModels.
 
         Parameters
         ----------
@@ -173,7 +173,7 @@ class LightPipeline:
         return self
 
     def getIgnoreUnsupported(self):
-        """Get whether to ignore unsupported AnnotatorModels.
+        """Gets whether to ignore unsupported AnnotatorModels.
 
         Returns
         -------
@@ -366,7 +366,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCol(self, value):
-        """Set input column name.
+        """Sets input column name.
 
         Parameters
         ----------
@@ -376,7 +376,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(inputCol=value)
 
     def setOutputCol(self, value):
-        """Set output column name.
+        """Sets output column name.
 
         Parameters
         ----------
@@ -386,7 +386,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(outputCol=value)
 
     def setIdCol(self, value):
-        """Set name of string type column for row id.
+        """Sets name of string type column for row id.
 
         Parameters
         ----------
@@ -396,7 +396,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(idCol=value)
 
     def setMetadataCol(self, value):
-        """Set name for Map type column with metadata information.
+        """Sets name for Map type column with metadata information.
 
         Parameters
         ----------
@@ -406,7 +406,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(metadataCol=value)
 
     def setCalculationsCol(self, value):
-        """Set name of float vector map column to use for embeddings and other
+        """Sets name of float vector map column to use for embeddings and other
         representations.
 
         Parameters
@@ -417,7 +417,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(metadataCol=value)
 
     def setCleanupMode(self, value):
-        """Set how to cleanup the document , by default disabled.
+        """Sets how to cleanup the document , by default disabled.
         Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
         each, each_full, delete_full``
 
@@ -520,7 +520,7 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
     def setPreservePosition(self, value):
-        """Set whether to preserve the actual position of the tokens or reduce
+        """Sets whether to preserve the actual position of the tokens or reduce
         them to one space.
 
         Parameters
@@ -615,7 +615,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
     def setChunkCol(self, value):
-        """Set column that contains the string. Must be part of DOCUMENT.
+        """Sets column that contains the string. Must be part of DOCUMENT.
 
         Parameters
         ----------
@@ -625,7 +625,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(chunkCol=value)
 
     def setIsArray(self, value):
-        """Set whether the chunkCol is an array of strings.
+        """Sets whether the chunkCol is an array of strings.
 
         Parameters
         ----------
@@ -635,7 +635,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(isArray=value)
 
     def setStartCol(self, value):
-        """Set column that has a reference of where chunk begins.
+        """Sets column that has a reference of where chunk begins.
 
         Parameters
         ----------
@@ -645,7 +645,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(startCol=value)
 
     def setStartColByTokenIndex(self, value):
-        """Set whether start column is prepended by whitespace tokens.
+        """Sets whether start column is prepended by whitespace tokens.
 
         Parameters
         ----------
@@ -655,7 +655,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(startColByTokenIndex=value)
 
     def setFailOnMissing(self, value):
-        """Set whether to fail the job if a chunk is not found within document.
+        """Sets whether to fail the job if a chunk is not found within document.
         Return empty otherwise.
 
         Parameters
@@ -666,7 +666,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(failOnMissing=value)
 
     def setLowerCase(self, value):
-        """Set whether to lower case for matching case
+        """Sets whether to lower case for matching case
 
         Parameters
         ----------
@@ -835,12 +835,12 @@ class Finisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
-        """Set column names of input annotations.
+        """Sets column names of input annotations.
 
         Parameters
         ----------
-        *value : List[str]
-            List of input columns
+        *value : str
+            Input columns for the annotator
         """
         if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value[0])
@@ -848,7 +848,7 @@ class Finisher(AnnotatorTransformer):
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
-        """Set column names of finished output annotations.
+        """Sets column names of finished output annotations.
 
         Parameters
         ----------
@@ -861,7 +861,7 @@ class Finisher(AnnotatorTransformer):
             return self._set(outputCols=list(value))
 
     def setValueSplitSymbol(self, value):
-        """Set character separating values, by default #.
+        """Sets character separating values, by default #.
 
         Parameters
         ----------
@@ -871,7 +871,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(valueSplitSymbol=value)
 
     def setAnnotationSplitSymbol(self, value):
-        """Set character separating annotations, by default @.
+        """Sets character separating annotations, by default @.
 
         Parameters
         ----------
@@ -881,7 +881,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(annotationSplitSymbol=value)
 
     def setCleanAnnotations(self, value):
-        """Set whether to remove annotation columns, by default True.
+        """Sets whether to remove annotation columns, by default True.
 
         Parameters
         ----------
@@ -891,7 +891,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(cleanAnnotations=value)
 
     def setIncludeMetadata(self, value):
-        """Set whether to include annotation metadata
+        """Sets whether to include annotation metadata
 
         Parameters
         ----------
@@ -901,7 +901,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(includeMetadata=value)
 
     def setOutputAsArray(self, value):
-        """Set whether to generate an array with the results instead of a string
+        """Sets whether to generate an array with the results instead of a string
 
         Parameters
         ----------
@@ -911,7 +911,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(outputAsArray=value)
 
     def setParseEmbeddingsVectors(self, value):
-        """Set whether to include embeddings vectors in the process
+        """Sets whether to include embeddings vectors in the process
 
         Parameters
         ----------
@@ -1038,12 +1038,12 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
-        """Set name of input annotation columns containing embeddings
+        """Sets name of input annotation columns containing embeddings
 
         Parameters
         ----------
-        *value : List[str]
-            List of input annotation columns
+        *value : str
+            Input columns for the annotator
         """
 
         if len(value) == 1 and type(value[0]) == list:
@@ -1052,12 +1052,12 @@ class EmbeddingsFinisher(AnnotatorTransformer):
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
-        """Set names of finished output columns
+        """Sets names of finished output columns
 
         Parameters
         ----------
         *value : List[str]
-            List of input annotation columns
+            Input columns for the annotator
         """
 
         if len(value) == 1 and type(value[0]) == list:
@@ -1066,7 +1066,7 @@ class EmbeddingsFinisher(AnnotatorTransformer):
             return self._set(outputCols=list(value))
 
     def setCleanAnnotations(self, value):
-        """Set whether to remove all the existing annotation columns, by default
+        """Sets whether to remove all the existing annotation columns, by default
         False.
 
         Parameters
@@ -1078,7 +1078,7 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         return self._set(cleanAnnotations=value)
 
     def setOutputAsVector(self, value):
-        """Set whether to output the embeddings as Vectors instead of arrays,
+        """Sets whether to output the embeddings as Vectors instead of arrays,
         by default False
 
         Parameters
