@@ -48,33 +48,33 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: ICD10-CM coding 
+        - title: Sentence Entity Resolver for ICD10-CM coding
           hide: yes
           id: icd10-cm_coding
           image: 
               src: /assets/images/Detect_risk_factors.svg
           image2: 
               src: /assets/images/Detect_risk_factors_f.svg
-          excerpt: Automatically detect the pre and post op diagnosis, signs and symptoms or other findings in your healthcare records and automatically link them to the corresponding ICD10-CM code using Spark NLP for Healthcare out of the box.
+          excerpt: This model maps clinical entities and concepts to ICD10 CM codes using sentence biobert embeddings.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: RxNORM coding
+        - title: Sentence Entity Resolver for RxNorm
           hide: yes
           id: rxnorm_coding
           image: 
               src: /assets/images/Detect_drugs_and_prescriptions.svg
           image2: 
               src: /assets/images/Detect_drugs_and_prescriptions_f.svg
-          excerpt: Automatically detect the drugs and treatments names mentioned in your prescription or healthcare records and link them to the corresponding RxNORM codes using Spark NLP for Healthcare out of the box.
+          excerpt: This model maps extracted medical entities to RxNorm codes using sentence embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM
+            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb
