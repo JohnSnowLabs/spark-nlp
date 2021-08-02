@@ -41,12 +41,12 @@ class AnnotatorProperties(Params):
                           )
 
     def setInputCols(self, *value):
-        """Set column names of input annotations.
+        """Sets column names of input annotations.
 
         Parameters
         ----------
-        *value : List[str]
-            List of input columns
+        *value : str
+            Input columns for the annotator
         """
         if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value[0])
@@ -54,11 +54,11 @@ class AnnotatorProperties(Params):
             return self._set(inputCols=list(value))
 
     def getInputCols(self):
-        """Get current column names of input annotations."""
+        """Gets current column names of input annotations."""
         self.getOrDefault(self.inputCols)
 
     def setOutputCol(self, value):
-        """Set output column name of annotations.
+        """Sets output column name of annotations.
 
         Parameters
         ----------
@@ -68,11 +68,11 @@ class AnnotatorProperties(Params):
         return self._set(outputCol=value)
 
     def getOutputCol(self):
-        """Get output column name of annotations."""
+        """Gets output column name of annotations."""
         self.getOrDefault(self.outputCol)
 
     def setLazyAnnotator(self, value):
-        """Set whether Annotator should be evaluated lazily in a
+        """Sets whether Annotator should be evaluated lazily in a
         RecursivePipeline
 
         Parameters
@@ -84,7 +84,7 @@ class AnnotatorProperties(Params):
         return self._set(lazyAnnotator=value)
 
     def getLazyAnnotator(self):
-        """Get whether Annotator should be evaluated lazily in a
+        """Gets whether Annotator should be evaluated lazily in a
         RecursivePipeline
         """
         self.getOrDefault(self.lazyAnnotator)
@@ -115,7 +115,7 @@ class HasEmbeddingsProperties(Params):
                       typeConverter=TypeConverters.toInt)
 
     def setDimension(self, value):
-        """Set embeddings dimension.
+        """Sets embeddings dimension.
 
         Parameters
         ----------
@@ -125,7 +125,7 @@ class HasEmbeddingsProperties(Params):
         return self._set(dimension=value)
 
     def getDimension(self):
-        """Get embeddings dimension."""
+        """Gets embeddings dimension."""
         return self.getOrDefault(self.dimension)
 
 
@@ -136,7 +136,7 @@ class HasStorageRef:
                        TypeConverters.toString)
 
     def setStorageRef(self, value):
-        """Set unique reference name for identification
+        """Sets unique reference name for identification
 
         Parameters
         ----------
@@ -146,7 +146,7 @@ class HasStorageRef:
         return self._set(storageRef=value)
 
     def getStorageRef(self):
-        """Get unique reference name for identification
+        """Gets unique reference name for identification
 
         Returns
         -------
@@ -161,7 +161,7 @@ class HasBatchedAnnotate:
     batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
 
     def setBatchSize(self, v):
-        """Set batch size
+        """Sets batch size
 
         Parameters
         ----------
@@ -171,7 +171,7 @@ class HasBatchedAnnotate:
         return self._set(batchSize=v)
 
     def getBatchSize(self):
-        """Get current batch size
+        """Gets current batch size
 
         Returns
         -------
@@ -188,7 +188,7 @@ class HasCaseSensitiveProperties:
                           typeConverter=TypeConverters.toBoolean)
 
     def setCaseSensitive(self, value):
-        """Set whether to ignore case in tokens for embeddings matching
+        """Sets whether to ignore case in tokens for embeddings matching
 
         Parameters
         ----------
@@ -198,7 +198,7 @@ class HasCaseSensitiveProperties:
         return self._set(caseSensitive=value)
 
     def getCaseSensitive(self):
-        """Get whether to ignore case in tokens for embeddings matching
+        """Gets whether to ignore case in tokens for embeddings matching
 
         Returns
         -------
@@ -216,7 +216,7 @@ class HasExcludableStorage:
                            typeConverter=TypeConverters.toBoolean)
 
     def setIncludeStorage(self, value):
-        """Set whether to include indexed storage in trained model
+        """Sets whether to include indexed storage in trained model
 
         Parameters
         ----------
@@ -226,7 +226,7 @@ class HasExcludableStorage:
         return self._set(includeStorage=value)
 
     def getIncludeStorage(self):
-        """Get whether to include indexed storage in trained model
+        """Gets whether to include indexed storage in trained model
 
         Returns
         -------
@@ -244,7 +244,7 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage
                         typeConverter=TypeConverters.identity)
 
     def setStoragePath(self, path, read_as):
-        """Set path to file
+        """Sets path to file
 
         Parameters
         ----------
@@ -260,7 +260,7 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage
         return self._set(storagePath=ExternalResource(path, read_as, {}))
 
     def getStoragePath(self):
-        """Get path to file
+        """Gets path to file
 
         Returns
         -------

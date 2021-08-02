@@ -528,15 +528,16 @@ class TokenizerModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "token_rules"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        TokenizerModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -996,7 +997,7 @@ class Chunker(AnnotatorModel):
         super(Chunker, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Chunker")
 
     def setRegexParsers(self, value):
-        """Set an array of grammar based chunk parsers.
+        """Sets an array of grammar based chunk parsers.
 
         POS classes should be enclosed in angle brackets, then treated as
         groups.
@@ -1135,7 +1136,7 @@ class DocumentNormalizer(AnnotatorModel):
         )
 
     def setAction(self, value):
-        """Set action to perform before applying regex patterns on text, by
+        """Sets action to perform before applying regex patterns on text, by
         default "clean".
 
         Parameters
@@ -1146,7 +1147,7 @@ class DocumentNormalizer(AnnotatorModel):
         return self._set(action=value)
 
     def setPatterns(self, value):
-        """Set normalization regex patterns which match will be removed from
+        """Sets normalization regex patterns which match will be removed from
         document, by default ['<[^>]*>'].
 
         Parameters
@@ -1158,7 +1159,7 @@ class DocumentNormalizer(AnnotatorModel):
         return self._set(patterns=value)
 
     def setReplacement(self, value):
-        """Set replacement string to apply when regexes match, by default " ".
+        """Sets replacement string to apply when regexes match, by default " ".
 
         Parameters
         ----------
@@ -1168,7 +1169,7 @@ class DocumentNormalizer(AnnotatorModel):
         return self._set(replacement=value)
 
     def setLowercase(self, value):
-        """Set whether to convert strings to lowercase, by default False.
+        """Sets whether to convert strings to lowercase, by default False.
 
         Parameters
         ----------
@@ -1178,7 +1179,7 @@ class DocumentNormalizer(AnnotatorModel):
         return self._set(lowercase=value)
 
     def setPolicy(self, value):
-        """Set policy to remove pattern from text, by default "pretty_all".
+        """Sets policy to remove pattern from text, by default "pretty_all".
 
         Parameters
         ----------
@@ -1188,7 +1189,7 @@ class DocumentNormalizer(AnnotatorModel):
         return self._set(policy=value)
 
     def setEncoding(self, value):
-        """Set file encoding to apply on normalized documents, by default
+        """Sets file encoding to apply on normalized documents, by default
         "UTF-8".
 
         Parameters
@@ -1587,7 +1588,7 @@ class Lemmatizer(AnnotatorApproach):
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.TEXT,
                       options={"format": "text"}):
-        """Set the external dictionary for the lemmatizer.
+        """Sets the external dictionary for the lemmatizer.
 
         Parameters
         ----------
@@ -1635,7 +1636,8 @@ class LemmatizerModel(AnnotatorModel):
     This is the instantiated model of the :class:`.Lemmatizer`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> lemmatizer = LemmatizerModel.pretrained() \\
     ...     .setInputCols(["token"]) \\
@@ -1736,7 +1738,7 @@ class DateMatcherUtils(Params):
                           )
 
     def setFormat(self, value):
-        """Set desired format for extracted dates, by default yyyy/MM/dd.
+        """Sets desired format for extracted dates, by default yyyy/MM/dd.
 
         Not all of the date information needs to be included. For example
         ``"YYYY"`` is also a valid input.
@@ -1749,7 +1751,7 @@ class DateMatcherUtils(Params):
         return self._set(dateFormat=value)
 
     def setReadMonthFirst(self, value):
-        """Set whether to parse the date in mm/dd/yyyy format instead of
+        """Sets whether to parse the date in mm/dd/yyyy format instead of
         dd/mm/yyyy, by default True.
 
         For example July 5th 2015, would be parsed as 07/05/2015 instead of
@@ -1764,7 +1766,7 @@ class DateMatcherUtils(Params):
         return self._set(readMonthFirst=value)
 
     def setDefaultDayWhenMissing(self, value):
-        """Set which day to set when it is missing from parsed input,
+        """Sets which day to set when it is missing from parsed input,
         by default 1.
 
         Parameters
@@ -1775,7 +1777,7 @@ class DateMatcherUtils(Params):
         return self._set(defaultDayWhenMissing=value)
 
     def setAnchorDateYear(self, value):
-        """Set an anchor year for the relative dates such as a day after
+        """Sets an anchor year for the relative dates such as a day after
         tomorrow. If not set it will use the current year.
 
         Example: 2021
@@ -1788,7 +1790,7 @@ class DateMatcherUtils(Params):
         return self._set(anchorDateYear=value)
 
     def setAnchorDateMonth(self, value):
-        """Set an anchor month for the relative dates such as a day after
+        """Sets an anchor month for the relative dates such as a day after
         tomorrow. If not set it will use the current month.
 
         Example: 1 which means January
@@ -1802,7 +1804,7 @@ class DateMatcherUtils(Params):
         return self._set(anchorDateMonth=normalizedMonth)
 
     def setAnchorDateDay(self, value):
-        """Set an anchor day of the day for the relative dates such as a day
+        """Sets an anchor day of the day for the relative dates such as a day
         after tomorrow. If not set it will use the current day.
 
         Example: 11
@@ -2205,15 +2207,16 @@ class TextMatcherModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        TextMatcherModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -2318,7 +2321,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return TextMatcherModel(java_model=java_model)
 
     def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
-        """Set ExternalResource for entities
+        """Sets ExternalResource for entities
 
         Parameters
         ----------
@@ -2332,7 +2335,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
     def setCaseSensitive(self, b):
-        """Set whether to ignore case in index lookups, by default True
+        """Sets whether to ignore case in index lookups, by default True
 
         Parameters
         ----------
@@ -2342,7 +2345,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return self._set(caseSensitive=b)
 
     def setMergeOverlapping(self, b):
-        """Set whether to merge overlapping matched chunks, by default False
+        """Sets whether to merge overlapping matched chunks, by default False
 
         Parameters
         ----------
@@ -2353,7 +2356,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return self._set(mergeOverlapping=b)
 
     def setTokenizer(self, tokenizer_model):
-        """Set TokenizerModel to use to tokenize input file for building a Trie
+        """Sets TokenizerModel to use to tokenize input file for building a Trie
 
         Parameters
         ----------
@@ -2413,7 +2416,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
         )
 
     def setMergeOverlapping(self, b):
-        """Set whether to ignore case in index lookups
+        """Sets whether to ignore case in index lookups
 
         Parameters
         ----------
@@ -2423,7 +2426,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
         return self._set(mergeOverlapping=b)
 
     def setCaseSensitive(self, v):
-        """Set whether to merge overlapping matched chunks, by default False
+        """Sets whether to merge overlapping matched chunks, by default False
 
         Parameters
         ----------
@@ -2463,7 +2466,7 @@ class PerceptronApproach(AnnotatorApproach):
     """Trains an averaged Perceptron model to tag words part-of-speech.
     Sets a POS tag to each word within a sentence.
 
-    For pretrained models please see the PerceptronModel.
+    For pretrained models please see the :class:`.PerceptronModel`.
 
     The training data needs to be in a Spark DataFrame, where the column needs to consist of
     Annotations of type ``POS``. The ``Annotation`` needs to have member ``result``
@@ -2587,11 +2590,11 @@ class PerceptronModel(AnnotatorModel):
     """Averaged Perceptron model to tag words part-of-speech.
     Sets a POS tag to each word within a sentence.
 
-    This is the instantiated model of the
-    PerceptronApproach.
+    This is the instantiated model of the `:class:`.PerceptronApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -2682,15 +2685,16 @@ class PerceptronModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "pos_anc"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        PerceptronModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -3009,7 +3013,7 @@ class SentimentDetector(AnnotatorApproach):
 class SentimentDetectorModel(AnnotatorModel):
     """Rule based sentiment detector, which calculates a score based on predefined keywords.
 
-    This is the instantiated model of the SentimentDetector.
+    This is the instantiated model of the :class:`.SentimentDetector`.
     For training your own model, please see the documentation of that class.
 
     A dictionary of predefined sentiment keywords must be provided with ``setDictionary``, where each line is a word
@@ -3191,7 +3195,7 @@ class ViveknSentimentModel(AnnotatorModel):
     The algorithm is based on the paper
     `"Fast and accurate sentiment classification using an enhanced Naive Bayes model" <https://arxiv.org/abs/1305.6143>`__.
 
-    This is the instantiated model of the ViveknSentimentApproach.
+    This is the instantiated model of the :class:`.ViveknSentimentApproach`.
     For training your own model, please see the documentation of that class.
 
     The analyzer requires sentence boundaries to give a score in context.
@@ -3247,15 +3251,16 @@ class ViveknSentimentModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "sentiment_vivekn"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        ViveknSentimentModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -3273,7 +3278,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     Inspired by Norvig model and `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
 
-    For instantiated/pretrained models, see NorvigSweetingModel.
+    For instantiated/pretrained models, see :class:`.NorvigSweetingModel`.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
@@ -3441,10 +3446,11 @@ class NorvigSweetingModel(AnnotatorModel):
     dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
     (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
 
-    This is the instantiated model of the NorvigSweetingApproach.
+    This is the instantiated model of the :class:`.NorvigSweetingApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -3527,15 +3533,16 @@ class NorvigSweetingModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "spellcheck_norvig"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        NorvigSweetingModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -3548,7 +3555,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
 
-    For instantiated/pretrained models, see SymmetricDeleteModel.
+    For instantiated/pretrained models, see :class:`.SymmetricDeleteModel`.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3685,7 +3692,8 @@ class SymmetricDeleteModel(AnnotatorModel):
 
     Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -3764,15 +3772,16 @@ class SymmetricDeleteModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "spellcheck_sd"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        SymmetricDeleteModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -3796,6 +3805,13 @@ class NerApproach(Params):
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
     def setLabelColumn(self, value):
+        """Sets name of column for data labels
+
+        Parameters
+        ----------
+        value : str
+            Column for data labels
+        """
         return self._set(labelColumn=value)
 
     def setEntities(self, tags):
@@ -3805,12 +3821,33 @@ class NerApproach(Params):
         return self._set(minEpochs=epochs)
 
     def setMaxEpochs(self, epochs):
+        """Sets maximum number of epochs to train, by default 30
+
+        Parameters
+        ----------
+        epochs : int
+            Maximum number of epochs to train
+        """
         return self._set(maxEpochs=epochs)
 
     def setVerbose(self, verboseValue):
+        """Sets level of verbosity during training
+
+        Parameters
+        ----------
+        verboseValue : int
+            Level of verbosity
+        """
         return self._set(verbose=verboseValue)
 
     def setRandomSeed(self, seed):
+        """Sets random seed for shuffling
+
+        Parameters
+        ----------
+        seed : int
+            Random seed for shuffling
+        """
         return self._set(randomSeed=seed)
 
     def getLabelColumn(self):
@@ -3820,7 +3857,7 @@ class NerApproach(Params):
 class NerCrfApproach(AnnotatorApproach, NerApproach):
     """Algorithm for training a Named Entity Recognition Model
 
-    For instantiated/pretrained models, see NerCrfModel.
+    For instantiated/pretrained models, see :class:`.NerCrfModel`.
 
     This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
     algorithm. The training data should be a labeled Spark Dataset, e.g. CoNLL 2003 IOB with
@@ -3983,10 +4020,11 @@ class NerCrfModel(AnnotatorModel):
     * a Tokenizer and
     * a PerceptronModel.
 
-    This is the instantiated model of the NerCrfApproach.
+    This is the instantiated model of the :class:`.NerCrfApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -4092,15 +4130,16 @@ class NerCrfModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "ner_crf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        NerCrfModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -4112,7 +4151,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
 
-    For instantiated/pretrained models, see NerDLModel.
+    For instantiated/pretrained models, see :class:`.NerDLModel`.
 
     The training data should be a labeled Spark Dataset, in the format of CoNLL
     2003 IOB with ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` and an
@@ -4283,7 +4322,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                                   TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -4301,6 +4340,13 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(useContrib=v)
 
     def setLr(self, v):
+        """Sets Learning Rate, by default 0.001
+
+        Parameters
+        ----------
+        v : float
+            Learning Rate
+        """
         self._set(lr=v)
         return self
 
@@ -4309,10 +4355,24 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self
 
     def setBatchSize(self, v):
+        """Sets batch size, by default 64
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
         self._set(batchSize=v)
         return self
 
     def setDropout(self, v):
+        """Sets dropout coefficient, by default 0.5
+
+        Parameters
+        ----------
+        v : float
+            Dropout coefficient
+        """
         self._set(dropout=v)
         return self
 
@@ -4320,6 +4380,15 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return NerDLModel(java_model=java_model)
 
     def setValidationSplit(self, v):
+        """Sets the proportion of training dataset to be validated against the
+        model on each Epoch, by default it is 0.0 and off. The value should be
+        between 0.0 and 1.0.
+
+        Parameters
+        ----------
+        v : float
+            Proportion of training dataset to be validated
+        """
         self._set(validationSplit=v)
         return self
 
@@ -4337,12 +4406,26 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(includeAllConfidenceScores=value)
 
     def setEnableOutputLogs(self, value):
+        """Sets whether to use stdout in addition to Spark logs, by default False
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use stdout in addition to Spark logs
+        """
         return self._set(enableOutputLogs=value)
 
     def setEnableMemoryOptimizer(self, value):
         return self._set(enableMemoryOptimizer=value)
 
     def setOutputLogsPath(self, p):
+        """Sets folder path to save training logs
+
+        Parameters
+        ----------
+        p : str
+            Folder path to save training logs
+        """
         return self._set(outputLogsPath=p)
 
     @keyword_only
@@ -4372,10 +4455,11 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
     Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
 
-    This is the instantiated model of the NerDLApproach.
+    This is the instantiated model of the :class:`.NerDLApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -4495,7 +4579,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -4517,15 +4601,16 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "ner_dl"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        NerDLModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -4711,7 +4796,7 @@ class DependencyParserApproach(AnnotatorApproach):
         self._setDefault(numberOfIterations=10)
 
     def setNumberOfIterations(self, value):
-        """Set number of iterations in training, converges to better accuracy,
+        """Sets number of iterations in training, converges to better accuracy,
         by default 10.
 
         Parameters
@@ -4722,7 +4807,7 @@ class DependencyParserApproach(AnnotatorApproach):
         return self._set(numberOfIterations=value)
 
     def setDependencyTreeBank(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
-        """Set dependency treebank source files.
+        """Sets dependency treebank source files.
 
         Parameters
         ----------
@@ -4737,7 +4822,7 @@ class DependencyParserApproach(AnnotatorApproach):
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
     def setConllU(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
-        """Set Universal Dependencies source files.
+        """Sets Universal Dependencies source files.
 
         Parameters
         ----------
@@ -4767,7 +4852,8 @@ class DependencyParserModel(AnnotatorModel):
     This is the instantiated model of the :class:`.DependencyParserApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> dependencyParserApproach = DependencyParserModel.pretrained() \\
     ...     .setInputCols(["sentence", "pos", "token"]) \\
@@ -4881,7 +4967,7 @@ class TypedDependencyParserApproach(AnnotatorApproach):
     """Labeled parser that finds a grammatical relation between two words in a sentence.
     Its input is either a CoNLL2009 or ConllU dataset.
 
-    For instantiated/pretrained models, see TypedDependencyParserModel.
+    For instantiated/pretrained models, see :class:`.TypedDependencyParserModel`.
 
     Dependency parsers provide information about word relationship. For example, dependency parsing can tell you what
     the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
@@ -5008,7 +5094,8 @@ class TypedDependencyParserModel(AnnotatorModel):
 
     The parser requires the dependant tokens beforehand with e.g. DependencyParser.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -5145,15 +5232,16 @@ class TypedDependencyParserModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "dependency_typed_conllu"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        TypedDependencyParserModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -5163,7 +5251,7 @@ class TypedDependencyParserModel(AnnotatorModel):
 class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     """Word Embeddings lookup annotator that maps tokens to vectors.
 
-    For instantiated/pretrained models, see WordEmbeddingsModel.
+    For instantiated/pretrained models, see :class:`.WordEmbeddingsModel`.
 
     A custom token lookup dictionary for embeddings can be set with ``setStoragePath``.
     Each line of the provided file needs to have a token, followed by their vector representation, delimited by a spaces.
@@ -5294,7 +5382,8 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
 
     This is the instantiated model of WordEmbeddings.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -5440,15 +5529,16 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "glove_100d"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        WordEmbeddingsModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -5470,7 +5560,8 @@ class BertEmbeddings(AnnotatorModel,
     dense vector representations for natural language by using a deep,
     pre-trained neural network with the Transformer architecture.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> embeddings = BertEmbeddings.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
@@ -5581,7 +5672,7 @@ class BertEmbeddings(AnnotatorModel,
                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -5591,7 +5682,7 @@ class BertEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -5644,7 +5735,8 @@ class BertEmbeddings(AnnotatorModel,
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
@@ -5665,7 +5757,8 @@ class BertSentenceEmbeddings(AnnotatorModel,
     natural language by using a deep, pre-trained neural network with the
     Transformer architecture.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>>embeddings = BertSentenceEmbeddings.pretrained() \\
     ...    .setInputCols(["sentence"]) \\
@@ -5778,7 +5871,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -5788,7 +5881,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -5798,7 +5891,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
         return self._set(maxSentenceLength=value)
 
     def setIsLong(self, value):
-        """Set whether to use Long type instead of Int type for inputs buffer.
+        """Sets whether to use Long type instead of Int type for inputs buffer.
 
         Some Bert models require Long instead of Int.
 
@@ -5853,7 +5946,8 @@ class BertSentenceEmbeddings(AnnotatorModel,
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
@@ -6105,15 +6199,16 @@ class StopWordsCleaner(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "stopwords_en"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        StopWordsCleaner
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -6340,7 +6435,7 @@ class ChunkEmbeddings(AnnotatorModel):
                     typeConverter=TypeConverters.toBoolean)
 
     def setPoolingStrategy(self, strategy):
-        """Set how to aggregate Word Embeddings to Chunk Embeddings, by default
+        """Sets how to aggregate Word Embeddings to Chunk Embeddings, by default
         AVERAGE.
 
         Possible Values: ``AVERAGE, SUM``
@@ -6358,7 +6453,7 @@ class ChunkEmbeddings(AnnotatorModel):
             return self._set(poolingStrategy="AVERAGE")
 
     def setSkipOOV(self, value):
-        """Set whether to discard default vectors for OOV words from the
+        """Sets whether to discard default vectors for OOV words from the
         aggregation/pooling.
 
         Parameters
@@ -6502,7 +6597,8 @@ class NerOverwriter(AnnotatorModel):
 class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
     """The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -6620,7 +6716,7 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
         return self._set(loadSP=value)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -6652,7 +6748,7 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
         Returns
         -------
-        ???
+        UniversalSentenceEncoder
             The restored model
         """
         from sparknlp.internal import _USELoader
@@ -6666,15 +6762,16 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "tfhub_use"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        UniversalSentenceEncoder
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -6689,7 +6786,8 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     embedding modules that only perform embedding lookups. The use of an
     accelerator is recommended.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> embeddings = ElmoEmbeddings.pretrained() \\
     ...     .setInputCols(["sentence", "token"]) \\
@@ -6817,7 +6915,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
                          typeConverter=TypeConverters.toString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -6827,7 +6925,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return self._set(configProtoBytes=b)
 
     def setBatchSize(self, value):
-        """Set batch size, by default 32
+        """Sets batch size, by default 32
 
         Parameters
         ----------
@@ -6837,7 +6935,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return self._set(batchSize=value)
 
     def setPoolingLayer(self, layer):
-        """Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or
+        """Sets ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or
         elmo, by default word_emb
 
         Parameters
@@ -7036,7 +7134,7 @@ class ClassifierDLApproach(AnnotatorApproach):
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
     def setVerbose(self, value):
-        """Set level of verbosity during training
+        """Sets level of verbosity during training
 
         Parameters
         ----------
@@ -7046,7 +7144,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self._set(verbose=value)
 
     def setRandomSeed(self, seed):
-        """Set random seed for shuffling
+        """Sets random seed for shuffling
 
         Parameters
         ----------
@@ -7056,7 +7154,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self._set(randomSeed=seed)
 
     def setLabelColumn(self, value):
-        """Set name of column for data labels
+        """Sets name of column for data labels
 
         Parameters
         ----------
@@ -7066,7 +7164,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self._set(labelColumn=value)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -7076,7 +7174,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self._set(configProtoBytes=b)
 
     def setLr(self, v):
-        """Set Learning Rate, by default 0.005
+        """Sets Learning Rate, by default 0.005
 
         Parameters
         ----------
@@ -7087,7 +7185,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setBatchSize(self, v):
-        """Set batch size, by default 64
+        """Sets batch size, by default 64
 
         Parameters
         ----------
@@ -7098,7 +7196,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setDropout(self, v):
-        """Set dropout coefficient, by default 0.5
+        """Sets dropout coefficient, by default 0.5
 
         Parameters
         ----------
@@ -7109,7 +7207,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setMaxEpochs(self, epochs):
-        """Set maximum number of epochs to train, by default 30
+        """Sets maximum number of epochs to train, by default 30
 
         Parameters
         ----------
@@ -7122,7 +7220,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return ClassifierDLModel(java_model=java_model)
 
     def setValidationSplit(self, v):
-        """Set the proportion of training dataset to be validated against the
+        """Sets the proportion of training dataset to be validated against the
         model on each Epoch, by default it is 0.0 and off. The value should be
         between 0.0 and 1.0.
 
@@ -7135,7 +7233,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setEnableOutputLogs(self, value):
-        """Set whether to use stdout in addition to Spark logs, by default False
+        """Sets whether to use stdout in addition to Spark logs, by default False
 
         Parameters
         ----------
@@ -7145,7 +7243,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self._set(enableOutputLogs=value)
 
     def setOutputLogsPath(self, p):
-        """Set folder path to save training logs
+        """Sets folder path to save training logs
 
         Parameters
         ----------
@@ -7178,7 +7276,8 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     This is the instantiated model of the :class:`.ClassifierDLApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> classifierDL = ClassifierDLModel.pretrained() \\
     ...     .setInputCols(["sentence_embeddings"]) \\
@@ -7268,7 +7367,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -7326,7 +7425,8 @@ class AlbertEmbeddings(AnnotatorModel,
     This model requires input tokenization with SentencePiece model, which is
     provided by Spark-NLP (See tokenizers package).
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> embeddings = AlbertEmbeddings.pretrained() \\
     ...    .setInputCols(["sentence", "token"]) \\
@@ -7338,8 +7438,8 @@ class AlbertEmbeddings(AnnotatorModel,
     For extended examples of usage, see the `Spark NLP Workshop
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. The Spark NLP Workshop example shows how to import them
-    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -7442,7 +7542,7 @@ class AlbertEmbeddings(AnnotatorModel,
                               typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -7452,7 +7552,7 @@ class AlbertEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -7505,7 +7605,8 @@ class AlbertEmbeddings(AnnotatorModel,
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
@@ -7538,7 +7639,8 @@ class XlnetEmbeddings(AnnotatorModel,
 
     ``"xlnet_base_cased"`` = `XLNet-Base <https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip>`__    |  12-layer, 768-hidden, 12-heads. This model is trained on full data (different from the one in the paper).
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -7550,8 +7652,8 @@ class XlnetEmbeddings(AnnotatorModel,
     The default model is ``"xlnet_base_cased"``, if no name is provided.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
+    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
 
     **Sources :**
 
@@ -7657,7 +7759,7 @@ class XlnetEmbeddings(AnnotatorModel,
                               typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -7667,7 +7769,7 @@ class XlnetEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -7702,7 +7804,7 @@ class XlnetEmbeddings(AnnotatorModel,
 
         Returns
         -------
-        ???
+        XlnetEmbeddings
             The restored model
         """
         from sparknlp.internal import _XlnetLoader
@@ -7716,15 +7818,16 @@ class XlnetEmbeddings(AnnotatorModel,
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "xlnet_base_cased"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        XlnetEmbeddings
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -7937,7 +8040,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
                              TypeConverters.toListString)
 
     def setLanguageModelClasses(self, count):
-        """Set number of classes to use during factorization of the softmax
+        """Sets number of classes to use during factorization of the softmax
         output in the Language Model.
 
         Parameters
@@ -7948,7 +8051,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(languageModelClasses=count)
 
     def setWordMaxDistance(self, dist):
-        """Set maximum distance for the generated candidates for every word.
+        """Sets maximum distance for the generated candidates for every word.
 
         Parameters
         ----------
@@ -7959,7 +8062,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     def setMaxCandidates(self, candidates):
 
-        """Set maximum number of candidates for every word.
+        """Sets maximum number of candidates for every word.
 
         Parameters
         ----------
@@ -7969,7 +8072,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(maxCandidates=candidates)
 
     def setCaseStrategy(self, strategy):
-        """Set what case combinations to try when generating candidates
+        """Sets what case combinations to try when generating candidates
 
         Possible values are:
 
@@ -7985,7 +8088,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(caseStrategy=strategy)
 
     def setErrorThreshold(self, threshold):
-        """Set threshold perplexity for a word to be considered as an error.
+        """Sets threshold perplexity for a word to be considered as an error.
 
         Parameters
         ----------
@@ -7995,7 +8098,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(errorThreshold=threshold)
 
     def setEpochs(self, count):
-        """Set number of epochs to train the language model.
+        """Sets number of epochs to train the language model.
 
         Parameters
         ----------
@@ -8005,7 +8108,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(epochs=count)
 
     def setBatchSize(self, size):
-        """Set batch size.
+        """Sets batch size.
 
         Parameters
         ----------
@@ -8015,7 +8118,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(batchSize=size)
 
     def setInitialRate(self, rate):
-        """Set initial learning rate for the LM.
+        """Sets initial learning rate for the LM.
 
         Parameters
         ----------
@@ -8025,7 +8128,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(initialRate=rate)
 
     def setFinalRate(self, rate):
-        """Set final learning rate for the LM.
+        """Sets final learning rate for the LM.
 
         Parameters
         ----------
@@ -8035,7 +8138,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(finalRate=rate)
 
     def setValidationFraction(self, fraction):
-        """Set percentage of datapoints to use for validation
+        """Sets percentage of datapoints to use for validation
 
         Parameters
         ----------
@@ -8045,7 +8148,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(validationFraction=fraction)
 
     def setMinCount(self, count):
-        """Set min number of times a token should appear to be included in
+        """Sets min number of times a token should appear to be included in
         vocab.
 
         Parameters
@@ -8056,7 +8159,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(minCount=count)
 
     def setCompoundCount(self, count):
-        """Set min number of times a compound word should appear to be included
+        """Sets min number of times a compound word should appear to be included
         in vocab.
 
         Parameters
@@ -8068,7 +8171,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(compoundCount=count)
 
     def setClassCount(self, count):
-        """Set min number of times the word need to appear in corpus to not be
+        """Sets min number of times the word need to appear in corpus to not be
         considered of a special class.
 
         Parameters
@@ -8081,7 +8184,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(classCount=count)
 
     def setTradeoff(self, alpha):
-        """Set tradeoff between the cost of a word error and a transition in the
+        """Sets tradeoff between the cost of a word error and a transition in the
         language model.
 
         Parameters
@@ -8093,7 +8196,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(tradeoff=alpha)
 
     def setWeightedDistPath(self, path):
-        """Set the path to the file containing the weights for the levenshtein
+        """Sets the path to the file containing the weights for the levenshtein
         distance.
 
         Parameters
@@ -8105,7 +8208,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(weightedDistPath=path)
 
     def setWeightedDistPath(self, path):
-        """Set the path to the file containing the weights for the levenshtein
+        """Sets the path to the file containing the weights for the levenshtein
         distance.
 
         Parameters
@@ -8117,7 +8220,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(weightedDistPath=path)
 
     def setMaxWindowLen(self, length):
-        """Set the maximum size for the window used to remember history prior to
+        """Sets the maximum size for the window used to remember history prior to
         every correction.
 
         Parameters
@@ -8129,7 +8232,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(maxWindowLen=length)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -8196,7 +8299,8 @@ class ContextSpellCheckerModel(AnnotatorModel):
     This is the instantiated model of the :class:`.ContextSpellCheckerApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> spellChecker = ContextSpellCheckerModel.pretrained() \\
     ...     .setInputCols(["token"]) \\
@@ -8335,7 +8439,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
                              TypeConverters.toListString)
 
     def setWordMaxDistance(self, dist):
-        """Set maximum distance for the generated candidates for every word.
+        """Sets maximum distance for the generated candidates for every word.
 
         Parameters
         ----------
@@ -8346,7 +8450,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     def setMaxCandidates(self, candidates):
 
-        """Set maximum number of candidates for every word.
+        """Sets maximum number of candidates for every word.
 
         Parameters
         ----------
@@ -8356,7 +8460,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(maxCandidates=candidates)
 
     def setCaseStrategy(self, strategy):
-        """Set what case combinations to try when generating candidates.
+        """Sets what case combinations to try when generating candidates.
 
         Parameters
         ----------
@@ -8366,7 +8470,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(caseStrategy=strategy)
 
     def setErrorThreshold(self, threshold):
-        """Set threshold perplexity for a word to be considered as an error.
+        """Sets threshold perplexity for a word to be considered as an error.
 
         Parameters
         ----------
@@ -8376,7 +8480,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(errorThreshold=threshold)
 
     def setTradeoff(self, alpha):
-        """Set tradeoff between the cost of a word error and a transition in the
+        """Sets tradeoff between the cost of a word error and a transition in the
         language model.
 
         Parameters
@@ -8388,7 +8492,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(tradeoff=alpha)
 
     def setWeights(self, weights):
-        """Set weights of each word for Levenshtein distance.
+        """Sets weights of each word for Levenshtein distance.
 
         Parameters
         ----------
@@ -8398,7 +8502,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         self._call_java('setWeights', weights)
 
     def setMaxWindowLen(self, length):
-        """Set the maximum size for the window used to remember history prior to
+        """Sets the maximum size for the window used to remember history prior to
         every correction.
 
         Parameters
@@ -8410,7 +8514,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(maxWindowLen=length)
 
     def setGamma(self, g):
-        """Set the influence of individual word frequency in the decision.
+        """Sets the influence of individual word frequency in the decision.
 
         Parameters
         ----------
@@ -8420,7 +8524,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(gamma=g)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -8472,7 +8576,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self
 
     def setCorrectSymbols(self, value):
-        """Set whether to correct special symbols or skip spell checking for
+        """Sets whether to correct special symbols or skip spell checking for
         them.
 
         Parameters
@@ -8484,7 +8588,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(correctSymbols=value)
 
     def setCompareLowcase(self, value):
-        """Set whether to compare tokens in lower case with vocabulary.
+        """Sets whether to compare tokens in lower case with vocabulary.
 
         Parameters
         ----------
@@ -8507,7 +8611,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "spellcheck_dl"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -8665,16 +8769,37 @@ class SentimentDLApproach(AnnotatorApproach):
                            TypeConverters.toString)
 
     def setVerbose(self, value):
+        """Sets level of verbosity during training
+
+        Parameters
+        ----------
+        value : int
+            Level of verbosity
+        """
         return self._set(verbose=value)
 
     def setRandomSeed(self, seed):
+        """Sets random seed for shuffling
+
+        Parameters
+        ----------
+        seed : int
+            Random seed for shuffling
+        """
         return self._set(randomSeed=seed)
 
     def setLabelColumn(self, value):
+        """Sets name of column for data labels
+
+        Parameters
+        ----------
+        value : str
+            Column for data labels
+        """
         return self._set(labelColumn=value)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -8684,31 +8809,82 @@ class SentimentDLApproach(AnnotatorApproach):
         return self._set(configProtoBytes=b)
 
     def setLr(self, v):
+        """Sets Learning Rate, by default 0.005
+
+        Parameters
+        ----------
+        v : float
+            Learning Rate
+        """
         self._set(lr=v)
         return self
 
     def setBatchSize(self, v):
+        """Sets batch size, by default 64
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
         self._set(batchSize=v)
         return self
 
     def setDropout(self, v):
+        """Sets dropout coefficient, by default 0.5
+
+        Parameters
+        ----------
+        v : float
+            Dropout coefficient
+        """
         self._set(dropout=v)
         return self
 
     def setMaxEpochs(self, epochs):
+        """Sets maximum number of epochs to train, by default 30
+
+        Parameters
+        ----------
+        epochs : int
+            Maximum number of epochs to train
+        """
         return self._set(maxEpochs=epochs)
 
     def _create_model(self, java_model):
         return SentimentDLModel(java_model=java_model)
 
     def setValidationSplit(self, v):
+        """Sets the proportion of training dataset to be validated against the
+        model on each Epoch, by default it is 0.0 and off. The value should be
+        between 0.0 and 1.0.
+
+        Parameters
+        ----------
+        v : float
+            Proportion of training dataset to be validated
+        """
         self._set(validationSplit=v)
         return self
 
     def setEnableOutputLogs(self, value):
+        """Sets whether to use stdout in addition to Spark logs, by default False
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use stdout in addition to Spark logs
+        """
         return self._set(enableOutputLogs=value)
 
     def setOutputLogsPath(self, p):
+        """Sets folder path to save training logs
+
+        Parameters
+        ----------
+        p : str
+            Folder path to save training logs
+        """
         return self._set(outputLogsPath=p)
 
     def setThreshold(self, v):
@@ -8739,10 +8915,11 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
     In natural language processing, sentiment analysis is the task of classifying the affective state or subjective view
     of a text. A common example is if either a product review or tweet can be interpreted positively or negatively.
 
-    This is the instantiated model of the SentimentDLApproach.
+    This is the instantiated model of the :class:`.SentimentDLApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -8846,7 +9023,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
                     TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -8869,15 +9046,16 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "sentimentdl_use_imdb"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        SentimentDLModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -8895,7 +9073,8 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
     text longer than 140 characters. The output is a language code in
     `Wiki Code style <https://en.wikipedia.org/wiki/List_of_Wikipedias>`__.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> languageDetector = LanguageDetectorDL.pretrained() \\
     ...     .setInputCols(["sentence"]) \\
@@ -8994,7 +9173,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
                       TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -9004,7 +9183,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self._set(configProtoBytes=b)
 
     def setThreshold(self, v):
-        """Set the minimum threshold for the final result otherwise it will be
+        """Sets the minimum threshold for the final result otherwise it will be
         either neutral or the value set in thresholdLabel, by default 0.5.
 
         Parameters
@@ -9016,7 +9195,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self
 
     def setThresholdLabel(self, p):
-        """Set what should be the label in case the score is less than
+        """Sets what should be the label in case the score is less than
         threshold, by default Unknown.
 
         Parameters
@@ -9027,7 +9206,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
         return self._set(thresholdLabel=p)
 
     def setCoalesceSentences(self, value):
-        """Set if the output of all sentences will be averaged to one output
+        """Sets if the output of all sentences will be averaged to one output
         instead of one output per sentence, by default True.
 
         Parameters
@@ -9214,7 +9393,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
                       "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
 
     def setVerbose(self, v):
-        """Set level of verbosity during training
+        """Sets level of verbosity during training
 
         Parameters
         ----------
@@ -9224,7 +9403,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(verbose=v)
 
     def setRandomSeed(self, seed):
-        """Set random seed for shuffling
+        """Sets random seed for shuffling
 
         Parameters
         ----------
@@ -9234,7 +9413,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(randomSeed=seed)
 
     def setLabelColumn(self, v):
-        """Set name of column for data labels
+        """Sets name of column for data labels
 
         Parameters
         ----------
@@ -9244,7 +9423,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(labelColumn=v)
 
     def setConfigProtoBytes(self, v):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -9254,7 +9433,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(configProtoBytes=v)
 
     def setLr(self, v):
-        """Set Learning Rate, by default 0.001
+        """Sets Learning Rate, by default 0.001
 
         Parameters
         ----------
@@ -9265,7 +9444,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setBatchSize(self, v):
-        """Set batch size, by default 64
+        """Sets batch size, by default 64
 
         Parameters
         ----------
@@ -9276,7 +9455,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setMaxEpochs(self, v):
-        """Set maximum number of epochs to train, by default 10
+        """Sets maximum number of epochs to train, by default 10
 
         Parameters
         ----------
@@ -9289,7 +9468,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return ClassifierDLModel(java_model=java_model)
 
     def setValidationSplit(self, v):
-        """Set the proportion of training dataset to be validated against the
+        """Sets the proportion of training dataset to be validated against the
         model on each Epoch, by default it is 0.0 and off. The value should be
         between 0.0 and 1.0.
 
@@ -9302,7 +9481,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setEnableOutputLogs(self, v):
-        """Set whether to use stdout in addition to Spark logs, by default False
+        """Sets whether to use stdout in addition to Spark logs, by default False
 
         Parameters
         ----------
@@ -9312,7 +9491,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(enableOutputLogs=v)
 
     def setOutputLogsPath(self, v):
-        """Set folder path to save training logs
+        """Sets folder path to save training logs
 
         Parameters
         ----------
@@ -9325,7 +9504,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(shufflePerEpoch=v)
 
     def setThreshold(self, v):
-        """Set minimum threshold for each label to be accepted, by default 0.5.
+        """Sets minimum threshold for each label to be accepted, by default 0.5.
 
         Parameters
         ----------
@@ -9376,7 +9555,8 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     This is the instantiated model of the :class:`.MultiClassifierDLApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> multiClassifier = MultiClassifierDLModel.pretrained() \\
     >>>     .setInputCols(["sentence_embeddings"]) \\
@@ -9465,7 +9645,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
                     TypeConverters.toListString)
 
     def setThreshold(self, v):
-        """Set minimum threshold for each label to be accepted, by default 0.5.
+        """Sets minimum threshold for each label to be accepted, by default 0.5.
 
         Parameters
         ----------
@@ -9476,7 +9656,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
         return self
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -9695,7 +9875,8 @@ class SentenceDetectorDLModel(AnnotatorModel):
     Instantiated Model of the SentenceDetectorDLApproach.
     Detects sentence boundaries using a deep learning approach.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -9815,15 +9996,16 @@ class SentenceDetectorDLModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "sentence_detector_dl"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        SentenceDetectorDLModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -9833,7 +10015,7 @@ class SentenceDetectorDLModel(AnnotatorModel):
 class SentenceDetectorDLApproach(AnnotatorApproach):
     """Trains an annotator that detects sentence boundaries using a deep learning approach.
 
-    For pretrained models see SentenceDetectorDLModel.
+    For pretrained models see :class:`.SentenceDetectorDLModel`.
 
     Currently, only the CNN model is supported for training, but in the future the architecture of the model can
     be set with ``setModelArchitecture``.
@@ -9943,12 +10125,28 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
         return self._set(modelArchitecture=model_architecture)
 
     def setValidationSplit(self, validation_split):
+        """Sets the proportion of training dataset to be validated against the
+        model on each Epoch, by default it is 0.0 and off. The value should be
+        between 0.0 and 1.0.
+
+        Parameters
+        ----------
+        validation_split : float
+            Proportion of training dataset to be validated
+        """
         return self._set(validationSplit=validation_split)
 
     def setEpochsNumber(self, epochs_number):
         return self._set(epochsNumber=epochs_number)
 
     def setOutputLogsPath(self, output_logs_path):
+        """Sets folder path to save training logs
+
+        Parameters
+        ----------
+        output_logs_path : str
+            Folder path to save training logs
+        """
         return self._set(outputLogsPath=output_logs_path)
 
     def setImpossiblePenultimates(self, impossible_penultimates):
@@ -9972,7 +10170,7 @@ class WordSegmenterApproach(AnnotatorApproach):
     Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
     impossible. The WordSegmenter is trained to understand these languages and split them into semantically correct parts.
 
-    For instantiated/pretrained models, see WordSegmenterModel.
+    For instantiated/pretrained models, see :class:`.WordSegmenterModel`.
 
     To train your own model, a training dataset consisting of
     `Part-Of-Speech tags <https://en.wikipedia.org/wiki/Part-of-speech_tagging>`__ is required. The data has to be loaded
@@ -10103,10 +10301,11 @@ class WordSegmenterModel(AnnotatorModel):
     Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
     impossible. The WordSegmenter is trained to understand these languages and plit them into semantically correct parts.
 
-    This is the instantiated model of the WordSegmenterApproach.
+    This is the instantiated model of the :class:`.WordSegmenterApproach`.
     For training your own model, please see the documentation of that class.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -10182,15 +10381,16 @@ class WordSegmenterModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "wordseg_pku"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        WordSegmenterModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -10207,7 +10407,8 @@ class T5Transformer(AnnotatorModel):
     (e.g., sentiment analysis). T5 can even apply to regression tasks by training it to predict the string
     representation of a number instead of the number itself.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -10352,7 +10553,7 @@ class T5Transformer(AnnotatorModel):
                               typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -10408,7 +10609,7 @@ class T5Transformer(AnnotatorModel):
 
         Returns
         -------
-        ???
+        T5Transformer
             The restored model
         """
         from sparknlp.internal import _T5Loader
@@ -10422,15 +10623,16 @@ class T5Transformer(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "t5_small"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        T5Transformer
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -10451,7 +10653,8 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     Translation services and being deployed by many companies, organizations and
     research projects.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> marian = MarianTransformer.pretrained() \\
     ...     .setInputCols(["sentence"]) \\
@@ -10559,7 +10762,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
                             typeConverter=TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -10569,7 +10772,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         return self._set(configProtoBytes=b)
 
     def setLangId(self, value):
-        """Set transformer's task, e.g. "summarize>", by default ""
+        """Sets transformer's task, e.g. "summarize>", by default ""
 
         Parameters
         ----------
@@ -10579,7 +10782,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         return self._set(langId=value)
 
     def setMaxInputLength(self, value):
-        """Set the maximum length for encoder inputs (source language texts), by
+        """Sets the maximum length for encoder inputs (source language texts), by
         default 40
 
         Parameters
@@ -10590,7 +10793,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         return self._set(maxInputLength=value)
 
     def setMaxOutputLength(self, value):
-        """Set the maximum length for decoder outputs (target language texts),
+        """Sets the maximum length for decoder outputs (target language texts),
         by default 40
 
         Parameters
@@ -10666,7 +10869,8 @@ class DistilBertEmbeddings(AnnotatorModel,
     runs 60% faster while preserving over 95% of BERT's performances as measured
     on the GLUE language understanding benchmark.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     >>> embeddings = DistilBertEmbeddings.pretrained() \\
     ...     .setInputCols(["document", "token"]) \\
@@ -10796,7 +11000,7 @@ class DistilBertEmbeddings(AnnotatorModel,
                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -10806,7 +11010,7 @@ class DistilBertEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process.
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -10882,7 +11086,8 @@ class RoBertaEmbeddings(AnnotatorModel,
 
     It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -10895,8 +11100,8 @@ class RoBertaEmbeddings(AnnotatorModel,
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
+    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
 
     **Paper Abstract:**
 
@@ -11003,7 +11208,7 @@ class RoBertaEmbeddings(AnnotatorModel,
                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -11013,7 +11218,7 @@ class RoBertaEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -11048,7 +11253,7 @@ class RoBertaEmbeddings(AnnotatorModel,
 
         Returns
         -------
-        ???
+        RoBertaEmbeddings
             The restored model
         """
         from sparknlp.internal import _RoBertaLoader
@@ -11062,15 +11267,16 @@ class RoBertaEmbeddings(AnnotatorModel,
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "roberta_base"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        RoBertaEmbeddings
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
@@ -11088,7 +11294,8 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl
     data.
 
-    Pretrained models can be loaded with ``pretrained`` of the companion object:
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
 
     .. code-block:: python
 
@@ -11101,8 +11308,8 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-    example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
+    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
 
     **Paper Abstract:**
 
@@ -11213,7 +11420,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
-        """Set configProto from tensorflow, serialized into byte array.
+        """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
@@ -11223,7 +11430,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
-        """Set max sentence length to process
+        """Sets max sentence length to process.
 
         Parameters
         ----------
@@ -11258,7 +11465,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
         Returns
         -------
-        ???
+        XlmRoBertaEmbeddings
             The restored model
         """
         from sparknlp.internal import _XlmRoBertaLoader
@@ -11272,15 +11479,16 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "xlm_roberta_base"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        XlmRoBertaEmbeddings
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
