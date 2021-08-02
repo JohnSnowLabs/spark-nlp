@@ -585,6 +585,7 @@ Currently, Spark NLP has graphs for the most common combination of tags, embeddi
 
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">cd </span>spark-nlp/python/tensorflow
  <span class="nb">export </span><span class="nv">PYTHONPATH</span><span class="o">=</span>lib/ner
+ <span class="nb">cd </span>ner
  python create_models.py <span class="o">[</span>number_of_tags] <span class="o">[</span>embeddings_dimension] <span class="o">[</span>number_of_chars] <span class="o">[</span>output_path]
 </code></pre></div>    </div>
   </li>
@@ -596,8 +597,9 @@ Currently, Spark NLP has graphs for the most common combination of tags, embeddi
   </li>
 </ol>
 
-<p><strong>Note:</strong>  Make sure that you have Python 3 and Tensorflow 1.15.0 installed on your system since <code class="language-plaintext highlighter-rouge">create_models</code> requires those versions to generate the graph successfully.
-<strong>Note:</strong>  We also have a notebook in the same directory if you prefer Jupyter notebook to cerate your custom graph.</p>
+<p><strong>Note:</strong>  Make sure that you have Python 3 and Tensorflow 1.15.0 installed on your system since <code class="language-plaintext highlighter-rouge">create_models</code> requires those versions to generate the graph successfully.</p>
+
+<p><strong>Note:</strong>  We also have a notebook in the same directory if you prefer Jupyter notebook to cerate your custom graph (<code class="language-plaintext highlighter-rouge">create_models.ipynb</code>).</p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2020-02-03T00:00:00+00:00">Feb 03, 2020</time>
     </span><!-- start custom article footer snippet -->
