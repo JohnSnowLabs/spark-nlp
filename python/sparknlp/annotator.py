@@ -10382,45 +10382,29 @@ class T5Transformer(AnnotatorModel):
 class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     """MarianTransformer: Fast Neural Machine Translation
 
-    Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.
-    It is mainly being developed by the Microsoft Translator team. Many academic (most notably the University of
-    Edinburgh and in the past the Adam Mickiewicz University in Poznań) and commercial contributors help with its
-    development. MarianTransformer uses the models trained by MarianNMT.
+    Marian is an efficient, free Neural Machine Translation framework written in
+    pure C++ with minimal dependencies. It is mainly being developed by the
+    Microsoft Translator team. Many academic (most notably the University of
+    Edinburgh and in the past the Adam Mickiewicz University in Poznań) and
+    commercial contributors help with its development. MarianTransformer uses
+    the models trained by MarianNMT.
 
-    It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by
-    many companies, organizations and research projects.
+    It is currently the engine behind the Microsoft Translator Neural Machine
+    Translation services and being deployed by many companies, organizations and
+    research projects.
 
     Pretrained models can be loaded with ``pretrained`` of the companion object:
 
-    .. code-block:: python
+    >>> marian = MarianTransformer.pretrained() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("translation")
 
-        marian = MarianTransformer.pretrained() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("translation")
+    The default model is ``"opus_mt_en_fr"``, default language is ``"xx"``
+    (meaning multi-lingual), if no values are provided.
 
-
-    The default model is ``"opus_mt_en_fr"``, default language is ``"xx"`` (meaning multi-lingual), if no values are provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Translation>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb>`__.
-
-    **Sources** :
-
-    `MarianNMT at GitHub <https://marian-nmt.github.io/>`__
-
-    `Marian: Fast Neural Machine Translation in C++  <https://www.aclweb.org/anthology/P18-4020/>`__
-
-    **Paper Abstract:**
-
-    *We present Marian, an efficient and self-contained Neural Machine Translation framework with an integrated
-    automatic differentiation engine based on dynamic computation graphs. Marian is written entirely in C++. We describe
-    the design of the encoder-decoder framework and demonstrate that a research-friendly toolkit can achieve high
-    training and translation speed.*
-
-    **Note:**
-
-    This is a very computationally expensive module especially on larger sequence.
-    The use of an accelerator such as GPU is recommended.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -10436,55 +10420,66 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     langId
-        Transformer's task, e.g. summarize>, by default ""
+        Transformer's task, e.g. "summarize>", by default ""
     maxInputLength
         Controls the maximum length for encoder inputs (source language texts), by default 40
     maxOutputLength
         Controls the maximum length for decoder outputs (target language texts), by default 40
 
+    Notes
+    -----
+
+    This is a very computationally expensive module especially on larger
+    sequence. The use of an accelerator such as GPU is recommended.
+
+    References
+    ----------
+
+    `MarianNMT at GitHub <https://marian-nmt.github.io/>`__
+
+    `Marian: Fast Neural Machine Translation in C++  <https://www.aclweb.org/anthology/P18-4020/>`__
+
+    **Paper Abstract:**
+
+    *We present Marian, an efficient and self-contained Neural Machine
+    Translation framework with an integrated automatic differentiation
+    engine based on dynamic computation graphs. Marian is written entirely in
+    C++. We describe the design of the encoder-decoder framework and
+    demonstrate that a research-friendly toolkit can achieve high training
+    and translation speed.*
+
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx") \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        marian = MarianTransformer.pretrained() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("translation") \\
-            .setMaxInputLength(30)
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              sentence,
-              marian
-            ])
-
-        data = spark.createDataFrame([["What is the capital of France? We should know this in french."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(translation.result) as result").show(truncate=False)
-        +-------------------------------------+
-        |result                               |
-        +-------------------------------------+
-        |Quelle est la capitale de la France ?|
-        |On devrait le savoir en français.    |
-        +-------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx") \\
+    ...     .setInputCols("document") \\
+    ...     .setOutputCol("sentence")
+    >>> marian = MarianTransformer.pretrained() \\
+    ...     .setInputCols("sentence") \\
+    ...     .setOutputCol("translation") \\
+    ...     .setMaxInputLength(30)
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       sentence,
+    ...       marian
+    ...     ])
+    >>> data = spark.createDataFrame([["What is the capital of France? We should know this in french."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(translation.result) as result").show(truncate=False)
+    +-------------------------------------+
+    |result                               |
+    +-------------------------------------+
+    |Quelle est la capitale de la France ?|
+    |On devrait le savoir en français.    |
+    +-------------------------------------+
     """
 
     name = "MarianTransformer"
@@ -10516,12 +10511,35 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         return self._set(configProtoBytes=b)
 
     def setLangId(self, value):
+        """Set transformer's task, e.g. "summarize>", by default ""
+
+        Parameters
+        ----------
+        value : str
+            Transformer's task, e.g. "summarize>"
+        """
         return self._set(langId=value)
 
     def setMaxInputLength(self, value):
+        """Set the maximum length for encoder inputs (source language texts), by
+        default 40
+
+        Parameters
+        ----------
+        value : int
+            The maximum length for encoder inputs (source language texts)
+        """
         return self._set(maxInputLength=value)
 
     def setMaxOutputLength(self, value):
+        """Set the maximum length for decoder outputs (target language texts),
+        by default 40
+
+        Parameters
+        ----------
+        value : int
+            The maximum length for decoder outputs (target language texts)
+        """
         return self._set(maxOutputLength=value)
 
     @keyword_only
@@ -10550,7 +10568,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
         Returns
         -------
-        ???
+        MarianTransformer
             The restored model
         """
         from sparknlp.internal import _MarianLoader
@@ -10564,15 +10582,16 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "opus_mt_en_fr"
         lang : str, optional
-            Language of the pretrained model, by default "en"
+            Language of the pretrained model, by default "xx"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        MarianTransformer
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
