@@ -38,6 +38,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   - [Kaggle Kernel](#kaggle-kernel)
   - [Databricks Cluser](#databricks-cluster)
   - [EMR Cluser](#emr-cluster)
+  - [Spark NLP Configuration](#spark-nlp-configuration)
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
@@ -470,7 +471,7 @@ If you are interested, there is a simple SBT project for Spark NLP to guide you 
 
 ## Python
 
-Spark NLP supports Python 3.6.x and 3.7.x if you are using PySpark 2.3.x or 2.4.x and Python 3.8.x if you are using PySpark 3.x. 
+Spark NLP supports Python 3.6.x and 3.7.x if you are using PySpark 2.3.x or 2.4.x and Python 3.8.x if you are using PySpark 3.x.
 
 ### Python without explicit Pyspark installation
 
@@ -776,12 +777,82 @@ aws emr create-cluster \
 --profile <aws_profile_credentials>
 ```
 
+## Spark NLP Configuration
+
+You can change the following Spark NLP configurations via Spark Configuration:
+
+| Property Name   |   Default  | Meaning | Since Version |
+|-----------------|------------|---------|---------------|
+|`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory
+|`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark
+|`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory
+
+### How to set Spark NLP Configuration
+
+**SparkSession:**
+
+You can use `.config()` during SparkSession creation to set Spark NLP configurations.
+
+```python
+from pyspark.sql import SparkSession
+
+spark = spark = SparkSession.builder \
+        .master("local[*]") \        
+        .config("spark.driver.memory", "16G") \
+        .config("spark.driver.maxResultSize", "0") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000m") \
+        .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained") \
+        .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0") \
+        .getOrCreate()
+```
+
+**spark-shell:**
+
+```sh
+spark-shell \
+  --driver-memory 16g \
+  --conf spark.driver.maxResultSize=0 \
+  --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+  --conf spark.kryoserializer.buffer.max=2000M \
+  --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
+  --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
+```
+
+**pyspark:**
+
+```sh
+pyspark \
+  --driver-memory 16g \
+  --conf spark.driver.maxResultSize=0 \
+  --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+  --conf spark.kryoserializer.buffer.max=2000M \
+  --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
+  --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
+```
+
+**Databricks:**
+
+On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
+
+```bash
+spark.kryoserializer.buffer.max 2000M
+spark.serializer org.apache.spark.serializer.KryoSerializer
+spark.jsl.settings.pretrained.cache_folder dbfs:/PATH_TO_CACHE
+spark.jsl.settings.storage.cluster_tmp_dir dbfs:/PATH_TO_STORAGE
+spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
+```
+
+NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
+
 ## Pipelines and Models
 
 ### Pipelines
 
 Spark NLP offers more than `450+ pre-trained pipelines` in `192 languages`.
-            | `dependency_parse`                    | 2.4.0 |   `en`    |
 
 **Quick example:**
 
