@@ -4547,17 +4547,24 @@ class NerConverter(AnnotatorModel):
 
 
 class DependencyParserApproach(AnnotatorApproach):
-    """Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.
+    """Trains an unlabeled parser that finds a grammatical relations between two
+    words in a sentence.
 
-    For instantiated/pretrained models, see DependencyParserModel.
+    For instantiated/pretrained models, see :class:`.DependencyParserModel`.
 
-    Dependency parser provides information about word relationship. For example, dependency parsing can tell you what
-    the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+    Dependency parser provides information about word relationship. For example,
+    dependency parsing can tell you what the subjects and objects of a verb are,
+    as well as which words are modifying (describing) the subject. This can help
     you find precise answers to specific questions.
 
-    The required training data can be set in two different ways (only one can be chosen for a particular model):
-      - Dependency treebank in the `Penn Treebank format <http://www.nltk.org/nltk_data/>`__ set with ``setDependencyTreeBank``
-      - Dataset in the `CoNLL-U format <https://universaldependencies.org/format.html>`__ set with ``setConllU``
+    The required training data can be set in two different ways (only one can be
+    chosen for a particular model):
+      - Dependency treebank in the
+        `Penn Treebank format <http://www.nltk.org/nltk_data/>`__ set with
+        ``setDependencyTreeBank``
+      - Dataset in the
+        `CoNLL-U format <https://universaldependencies.org/format.html>`__ set
+        with ``setConllU``
 
     Apart from that, no additional training data is needed.
 
@@ -4575,53 +4582,44 @@ class DependencyParserApproach(AnnotatorApproach):
     conllU
         Universal Dependencies source files
     numberOfIterations
-        Number of iterations in training, converges to better accuracy , by default 10
+        Number of iterations in training, converges to better accuracy,
+        by default 10
 
     Examples
     --------
 
-    .. code-block:: python
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("pos")
+    >>> dependencyParserApproach = DependencyParserApproach() \\
+    ...     .setInputCols(["sentence", "pos", "token"]) \\
+    ...     .setOutputCol("dependency") \\
+    ...     .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     tokenizer,
+    ...     posTagger,
+    ...     dependencyParserApproach
+    ... ])
+    >>> emptyDataSet = spark.createDataFrame([[""]]).toDF("text")
+    >>> pipelineModel = pipeline.fit(emptyDataSet)
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        posTagger = PerceptronModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("pos")
-
-        dependencyParserApproach = DependencyParserApproach() \\
-            .setInputCols(["sentence", "pos", "token"]) \\
-            .setOutputCol("dependency") \\
-            .setDependencyTreeBank("src/test/resources/parser/unlabeled/dependency_treebank")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence,
-            tokenizer,
-            posTagger,
-            dependencyParserApproach
-        ])
-
-        # Additional training data is not needed, the dependency parser relies on the dependency tree bank / CoNLL-U only.
-        emptyDataSet = .empty[String].toDF("text")
-        pipelineModel = pipeline.fit(emptyDataSet)
-
+    Additional training data is not needed, the dependency parser relies on the
+    dependency tree bank / CoNLL-U only.
     """
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
@@ -4645,13 +4643,43 @@ class DependencyParserApproach(AnnotatorApproach):
         self._setDefault(numberOfIterations=10)
 
     def setNumberOfIterations(self, value):
+        """Set number of iterations in training, converges to better accuracy,
+        by default 10.
+
+        Parameters
+        ----------
+        value : int
+            Number of iterations
+        """
         return self._set(numberOfIterations=value)
 
     def setDependencyTreeBank(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
+        """Set dependency treebank source files.
+
+        Parameters
+        ----------
+        path : str
+            Path to the source files
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"key": "value"}
+        """
         opts = options.copy()
         return self._set(dependencyTreeBank=ExternalResource(path, read_as, opts))
 
     def setConllU(self, path, read_as=ReadAs.TEXT, options={"key": "value"}):
+        """Set Universal Dependencies source files.
+
+        Parameters
+        ----------
+        path : str
+            Path to the source files
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"key": "value"}
+        """
         opts = options.copy()
         return self._set(conllU=ExternalResource(path, read_as, opts))
 
@@ -4660,26 +4688,27 @@ class DependencyParserApproach(AnnotatorApproach):
 
 
 class DependencyParserModel(AnnotatorModel):
-    """Unlabeled parser that finds a grammatical relation between two words in a sentence.
+    """Unlabeled parser that finds a grammatical relation between two words in a
+    sentence.
 
-    Dependency parser provides information about word relationship. For example, dependency parsing can tell you what
-    the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
+    Dependency parser provides information about word relationship. For example,
+    dependency parsing can tell you what the subjects and objects of a verb are,
+    as well as which words are modifying (describing) the subject. This can help
     you find precise answers to specific questions.
 
-    This is the instantiated model of the DependencyParserApproach.
+    This is the instantiated model of the :class:`.DependencyParserApproach`.
     For training your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with ``pretrained`` of the companion object:
 
-    .. code-block:: python
-
-        dependencyParserApproach = DependencyParserModel.pretrained() \\
-            .setInputCols(["sentence", "pos", "token"]) \\
-            .setOutputCol("dependency")
+    >>> dependencyParserApproach = DependencyParserModel.pretrained() \\
+    ...     .setInputCols(["sentence", "pos", "token"]) \\
+    ...     .setOutputCol("dependency")
 
 
     The default model is ``"dependency_conllu"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+    For available pretrained models please see the
+    `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
@@ -4698,64 +4727,51 @@ class DependencyParserModel(AnnotatorModel):
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        posTagger = PerceptronModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("pos")
-
-        dependencyParser = DependencyParserModel.pretrained() \\
-            .setInputCols(["sentence", "pos", "token"]) \\
-            .setOutputCol("dependency")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence,
-            tokenizer,
-            posTagger,
-            dependencyParser
-        ])
-
-        data = spark.createDataFrame([[
-            "Unions representing workers at Turner Newall say they are 'disappointed' after talks with stricken parent " +
-              "firm Federal Mogul."
-        ]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(arrays_zip(token.result, dependency.result)) as cols") \\
-            .selectExpr("cols['0'] as token", "cols['1'] as dependency").show(8, truncate = False)
-        +------------+------------+
-        |token       |dependency  |
-        +------------+------------+
-        |Unions      |ROOT        |
-        |representing|workers     |
-        |workers     |Unions      |
-        |at          |Turner      |
-        |Turner      |workers     |
-        |Newall      |say         |
-        |say         |Unions      |
-        |they        |disappointed|
-        +------------+------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("pos")
+    >>> dependencyParser = DependencyParserModel.pretrained() \\
+    ...     .setInputCols(["sentence", "pos", "token"]) \\
+    ...     .setOutputCol("dependency")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     tokenizer,
+    ...     posTagger,
+    ...     dependencyParser
+    ... ])
+    >>> data = spark.createDataFrame([[
+    ...     "Unions representing workers at Turner Newall say they are 'disappointed' after talks with stricken parent " +
+    ...     "firm Federal Mogul."
+    ... ]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(arrays_zip(token.result, dependency.result)) as cols") \\
+    ...     .selectExpr("cols['0'] as token", "cols['1'] as dependency").show(8, truncate = False)
+    +------------+------------+
+    |token       |dependency  |
+    +------------+------------+
+    |Unions      |ROOT        |
+    |representing|workers     |
+    |workers     |Unions      |
+    |at          |Turner      |
+    |Turner      |workers     |
+    |Newall      |say         |
+    |say         |Unions      |
+    |they        |disappointed|
+    +------------+------------+
     """
     name = "DependencyParserModel"
 
@@ -4777,15 +4793,16 @@ class DependencyParserModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "dependency_conllu"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        DependencyParserModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
