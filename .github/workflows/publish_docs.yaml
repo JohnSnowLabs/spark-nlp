@@ -5,15 +5,17 @@ on:
     branches:
       - 'main'
       - '*release*'
+      - 'master'
   pull_request:
     branches:
       - 'main'
+      - 'master'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip doc]')"
+    if: "contains(toJSON(github.event.commits.*.message), '[run doc]')"
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
