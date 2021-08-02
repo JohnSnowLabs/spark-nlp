@@ -6651,49 +6651,38 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
 
 class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveProperties, HasStorageRef):
-    """Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark.
+    """Word embeddings from ELMo (Embeddings from Language Models), a language
+    model trained on the 1 Billion Word Benchmark.
 
-    Note that this is a very computationally expensive module compared to word embedding modules that only perform
-    embedding lookups. The use of an accelerator is recommended.
+    Note that this is a very computationally expensive module compared to word
+    embedding modules that only perform embedding lookups. The use of an
+    accelerator is recommended.
 
     Pretrained models can be loaded with ``pretrained`` of the companion object:
 
-    .. code-block:: python
-
-        embeddings = ElmoEmbeddings.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("elmo_embeddings")
+    >>> embeddings = ElmoEmbeddings.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("elmo_embeddings")
 
 
     The default model is ``"elmo"``, if no name is provided.
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    The pooling layer can be set with ``setPoolingLayer`` to the following values:
-      - ``"word_emb"``: the character-based word representations with shape ``[batch_size, max_length, 512]``.
-      - ``"lstm_outputs1"``: the first LSTM hidden state with shape ``[batch_size, max_length, 1024]``.
-      - ``"lstm_outputs2"``: the second LSTM hidden state with shape ``[batch_size, max_length, 1024]``.
-      - ``"elmo"``: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape ``[batch_size, max_length, 1024]``.
+    The pooling layer can be set with :meth:`.setPoolingLayer` to the following
+    values:
+
+    - ``"word_emb"``: the character-based word representations with shape
+      ``[batch_size, max_length, 512]``.
+    - ``"lstm_outputs1"``: the first LSTM hidden state with shape
+      ``[batch_size, max_length, 1024]``.
+    - ``"lstm_outputs2"``: the second LSTM hidden state with shape
+      ``[batch_size, max_length, 1024]``.
+    - ``"elmo"``: the weighted sum of the 3 layers, where the weights are
+      trainable. This tensor has shape ``[batch_size, max_length, 1024]``.
 
     For extended examples of usage, see the
     `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_elmo.ipynb>`__.
-
-    **Sources:**
-
-    https://tfhub.dev/google/elmo/3
-
-    `Deep contextualized word representations <https://arxiv.org/abs/1802.05365>`__
-
-    **Paper abstract:**
-
-    *We introduce a new type of deep contextualized word representation that models both (1) complex characteristics of
-    word use (e.g., syntax and semantics), and (2) how these uses vary across linguistic contexts (i.e., to model
-    polysemy). Our word vectors are learned functions of the internal states of a deep bidirectional language model
-    (biLM), which is pre-trained on a large text corpus. We show that these representations can be easily added to
-    existing models and significantly improve the state of the art across six challenging NLP problems, including
-    question answering, textual entailment and sentiment analysis. We also present an analysis showing that exposing the
-    deep internals of the pre-trained network is crucial, allowing downstream models to mix different types of
-    semi-supervision signals.*
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -6705,7 +6694,8 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     ----------
 
     batchSize
-        Batch size. Large values allows faster processing but requires more memory, by default 32
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 32
     dimension
         Number of embedding dimensions
     caseSensitive
@@ -6713,60 +6703,70 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     poolingLayer
-        Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo, by default word_emb
+        Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or
+        elmo, by default word_emb
+
+    References
+    ----------
+
+    https://tfhub.dev/google/elmo/3
+
+    `Deep contextualized word representations <https://arxiv.org/abs/1802.05365>`__
+
+    **Paper abstract:**
+
+    *We introduce a new type of deep contextualized word representation that
+    models both (1) complex characteristics of word use (e.g., syntax and
+    semantics), and (2) how these uses vary across linguistic contexts (i.e.,
+    to model polysemy). Our word vectors are learned functions of the internal
+    states of a deep bidirectional language model (biLM), which is pre-trained
+    on a large text corpus. We show that these representations can be easily
+    added to existing models and significantly improve the state of the art
+    across six challenging NLP problems, including question answering, textual
+    entailment and sentiment analysis. We also present an analysis showing that
+    exposing the deep internals of the pre-trained network is crucial, allowing
+    downstream models to mix different types of semi-supervision signals.*
 
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        embeddings = ElmoEmbeddings.pretrained() \\
-            .setPoolingLayer("word_emb") \\
-            .setInputCols(["token", "document"]) \\
-            .setOutputCol("embeddings")
-
-        embeddingsFinisher = EmbeddingsFinisher() \\
-            .setInputCols(["embeddings"]) \\
-            .setOutputCols("finished_embeddings") \\
-            .setOutputAsVector(True) \\
-            .setCleanAnnotations(False)
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            embeddings,
-            embeddingsFinisher
-        ])
-
-        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
-        +--------------------------------------------------------------------------------+
-        |                                                                          result|
-        +--------------------------------------------------------------------------------+
-        |[6.662458181381226E-4,-0.2541114091873169,-0.6275503039360046,0.5787073969841...|
-        |[0.19154725968837738,0.22998669743537903,-0.2894386649131775,0.21524395048618...|
-        |[0.10400570929050446,0.12288510054349899,-0.07056470215320587,-0.246389418840...|
-        |[0.49932169914245605,-0.12706467509269714,0.30969417095184326,0.2643227577209...|
-        |[-0.8871506452560425,-0.20039963722229004,-1.0601330995559692,0.0348707810044...|
-        +--------------------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = ElmoEmbeddings.pretrained() \\
+    ...     .setPoolingLayer("word_emb") \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True) \\
+    ...     .setCleanAnnotations(False)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     embeddingsFinisher
+    ... ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[6.662458181381226E-4,-0.2541114091873169,-0.6275503039360046,0.5787073969841...|
+    |[0.19154725968837738,0.22998669743537903,-0.2894386649131775,0.21524395048618...|
+    |[0.10400570929050446,0.12288510054349899,-0.07056470215320587,-0.246389418840...|
+    |[0.49932169914245605,-0.12706467509269714,0.30969417095184326,0.2643227577209...|
+    |[-0.8871506452560425,-0.20039963722229004,-1.0601330995559692,0.0348707810044...|
+    +--------------------------------------------------------------------------------+
     """
 
     name = "ElmoEmbeddings"
@@ -6796,9 +6796,24 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return self._set(configProtoBytes=b)
 
     def setBatchSize(self, value):
+        """Set batch size, by default 32
+
+        Parameters
+        ----------
+        value : int
+            Batch size
+        """
         return self._set(batchSize=value)
 
     def setPoolingLayer(self, layer):
+        """Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or
+        elmo, by default word_emb
+
+        Parameters
+        ----------
+        layer : str
+            ELMO pooling layer
+        """
         if layer == "word_emb":
             return self._set(poolingLayer=layer)
         elif layer == "lstm_outputs1":
@@ -6834,7 +6849,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
         Returns
         -------
-        ???
+        ElmoEmbeddings
             The restored model
         """
         from sparknlp.internal import _ElmoLoader
@@ -6848,15 +6863,16 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "elmo"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        ElmoEmbeddings
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
