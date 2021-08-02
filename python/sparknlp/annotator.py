@@ -1498,11 +1498,13 @@ class RegexMatcherModel(AnnotatorModel):
 
 
 class Lemmatizer(AnnotatorApproach):
-    """Class to find lemmas out of words with the objective of returning a base dictionary word.
-    Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with ``setDictionary``.
-    The dictionary can be set in either in the form of a delimited text file or directly as an
-    ExternalResource.
-    Pretrained models can be loaded with LemmatizerModel.pretrained.
+    """Class to find lemmas out of words with the objective of returning a base
+    dictionary word.
+
+    Retrieves the significant part of a word. A dictionary of predefined lemmas
+    must be provided with :meth:`.setDictionary`.
+
+    For instantiated/pretrained models, see :class:`.LemmatizerModel`.
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
@@ -1522,61 +1524,53 @@ class Lemmatizer(AnnotatorApproach):
     Examples
     --------
 
-    .. code-block:: python
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.common import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.training import *
+    >>> from pyspark.ml import Pipeline
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the lemma dictionary `lemmas_small.txt` has the form of
-        #
-        # ...
-        # pick	->	pick	picks	picking	picked
-        # peck	->	peck	pecking	pecked	pecks
-        # pickle	->	pickle	pickles	pickled	pickling
-        # pepper	->	pepper	peppers	peppered	peppering
-        # ...
-        #
-        # where each key is delimited by `->` and values are delimited by `\t`
+    In this example, the lemma dictionary ``lemmas_small.txt`` has the form of::
 
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
+        ...
+        pick	->	pick	picks	picking	picked
+        peck	->	peck	pecking	pecked	pecks
+        pickle	->	pickle	pickles	pickled	pickling
+        pepper	->	pepper	peppers	peppered	peppering
+        ...
 
-        sentenceDetector = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
+    where each key is delimited by ``->`` and values are delimited by ``\\t``
 
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        lemmatizer = Lemmatizer() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("lemma") \\
-            .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              sentenceDetector,
-              tokenizer,
-              lemmatizer
-            ])
-
-        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \\
-            .toDF("text")
-
-        result = pipeline.fit(data).transform(data)
-        result.selectExpr("lemma.result").show(truncate=False)
-        +------------------------------------------------------------------+
-        |result                                                            |
-        +------------------------------------------------------------------+
-        |[Peter, Pipers, employees, are, pick, peck, of, pickle, pepper, .]|
-        +------------------------------------------------------------------+
-
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentenceDetector = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> lemmatizer = Lemmatizer() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("lemma") \\
+    ...     .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\\t")
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       sentenceDetector,
+    ...       tokenizer,
+    ...       lemmatizer
+    ...     ])
+    >>> data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \\
+    ...     .toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("lemma.result").show(truncate=False)
+    +------------------------------------------------------------------+
+    |result                                                            |
+    +------------------------------------------------------------------+
+    |[Peter, Pipers, employees, are, pick, peck, of, pickle, pepper, .]|
+    +------------------------------------------------------------------+
     """
     dictionary = Param(Params._dummy(),
                        "dictionary",
@@ -1593,6 +1587,40 @@ class Lemmatizer(AnnotatorApproach):
 
     def setDictionary(self, path, key_delimiter, value_delimiter, read_as=ReadAs.TEXT,
                       options={"format": "text"}):
+        """Set the external dictionary for the lemmatizer.
+
+        Parameters
+        ----------
+        path : str
+            Path to the source files
+        key_delimiter : str
+            Delimiter for the key
+        value_delimiter : str
+            Delimiter for the values
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+
+        Examples
+        --------
+        Here the file has each key is delimited by ``"->"`` and values are
+        delimited by ``"\\t"``::
+
+            ...
+            pick	->	pick	picks	picking	picked
+            peck	->	peck	pecking	pecked	pecks
+            pickle	->	pickle	pickles	pickled	pickling
+            pepper	->	pepper	peppers	peppered	peppering
+            ...
+
+        This file can then be parsed with
+
+        >>> lemmatizer = Lemmatizer() \\
+        ...     .setInputCols(["token"]) \\
+        ...     .setOutputCol("lemma") \\
+        ...     .setDictionary("lemmas_small.txt", "->", "\\t")
+        """
         opts = options.copy()
         if "keyDelimiter" not in opts:
             opts["keyDelimiter"] = key_delimiter
@@ -1602,7 +1630,17 @@ class Lemmatizer(AnnotatorApproach):
 
 
 class LemmatizerModel(AnnotatorModel):
-    """Instantiated Model of the Lemmatizer. For usage and examples, please see the documentation of that class.
+    """Instantiated Model of the Lemmatizer.
+
+    This is the instantiated model of the :class:`.Lemmatizer`.
+    For training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    >>> lemmatizer = LemmatizerModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("lemma")
+
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
 
     ====================== ======================
@@ -1618,20 +1656,12 @@ class LemmatizerModel(AnnotatorModel):
 
     Examples
     --------
+    The lemmatizer from the example of the :class:`.Lemmatizer` can be replaced
+    with:
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # The lemmatizer from the example of the Lemmatizer can be replaced with:
-        lemmatizer = LemmatizerModel.pretrained() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("lemma")
-
+    >>> lemmatizer = LemmatizerModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("lemma")
     """
     name = "LemmatizerModel"
 
@@ -1648,15 +1678,16 @@ class LemmatizerModel(AnnotatorModel):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default "lemma_antbnc"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        LemmatizerModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
