@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip docs]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip doc]')"
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
@@ -56,3 +56,4 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
+         branch: ${{ github.ref }}
