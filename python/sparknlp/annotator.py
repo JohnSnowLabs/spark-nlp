@@ -9063,29 +9063,27 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
 class MultiClassifierDLApproach(AnnotatorApproach):
     """Trains a MultiClassifierDL for Multi-label Text Classification.
 
-    MultiClassifierDL uses a Bidirectional GRU with a convolutional model that we have built inside TensorFlow and supports
-    up to 100 classes.
+    MultiClassifierDL uses a Bidirectional GRU with a convolutional model that
+    we have built inside TensorFlow and supports up to 100 classes.
 
-    For instantiated/pretrained models, see MultiClassifierDLModel.
+    In machine learning, multi-label classification and the strongly related
+    problem of multi-output classification are variants of the classification
+    problem where multiple labels may be assigned to each instance. Multi-label
+    classification is a generalization of multiclass classification, which is
+    the single-label problem of categorizing instances into precisely one of
+    more than two classes; in the multi-label problem there is no constraint on
+    how many of the classes the instance can be assigned to. Formally,
+    multi-label classification is the problem of finding a model that maps
+    inputs x to binary vectors y (assigning a value of 0 or 1 for each element
+    (label) in y).
 
-    The input to ``MultiClassifierDL`` are Sentence Embeddings such as the state-of-the-art
-    UniversalSentenceEncoder,
-    BertSentenceEmbeddings, or
-    SentenceEmbeddings.
+    For instantiated/pretrained models, see :class:`.MultiClassifierDLModel`.
 
-    In machine learning, multi-label classification and the strongly related problem of multi-output classification are
-    variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
-    classification is a generalization of multiclass classification, which is the single-label problem of categorizing
-    instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many
-    of the classes the instance can be assigned to.
-    Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
-    (assigning a value of 0 or 1 for each element (label) in y).
+    The input to `MultiClassifierDL` are Sentence Embeddings such as the
+    state-of-the-art :class:`.UniversalSentenceEncoder`,
+    :class:`.BertSentenceEmbeddings`, :class:`.SentenceEmbeddings` or other
+    sentence embeddings.
 
-    **Notes**:
-      - This annotator requires an array of labels in type of String.
-      - UniversalSentenceEncoder,
-        BertSentenceEmbeddings, or
-        SentenceEmbeddings can be used for the ``inputCol``.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__.
 
@@ -9123,77 +9121,63 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     threshold
         The minimum threshold for each label to be accepted, by default 0.5
 
+    Notes
+    -----
+    - This annotator requires an array of labels in type of String.
+    - UniversalSentenceEncoder, BertSentenceEmbeddings, SentenceEmbeddings or
+      other sentence embeddings can be used for the ``inputCol``.
+
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    In this example, the training data has the form::
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the training data has the form (Note: labels can be arbitrary)
-        #
-        # mr,re
-        # "name[Alimentum], area[city centre], familyFriendly[no], near[Burger King]",Alimentum is an adult establish found in the city centre area near Burger King.
-        # "name[Alimentum], area[city centre], familyFriendly[yes]",Alimentum is a family-friendly place in the city centre.
-        # ...
-        #
-        # It needs some pre-processing first, so the labels are of type `Array[String]`. This can be done like so:
+        +----------------+--------------------+--------------------+
+        |              id|                text|              labels|
+        +----------------+--------------------+--------------------+
+        |ed58abb40640f983|PN NewsYou mean ... |             [toxic]|
+        |a1237f726b5f5d89|Dude.  Place the ...|   [obscene, insult]|
+        |24b0d6c8733c2abe|Thanks  - thanks ...|            [insult]|
+        |8c4478fb239bcfc0|" Gee, 5 minutes ...|[toxic, obscene, ...|
+        +----------------+--------------------+--------------------+
 
-        # Process training data to create text with associated array of labels
-        de splitAndTrim = udf { labels: String =>
-            labels.split(", ").map(x=>x.trim)
-        }
+    Process training data to create text with associated array of labels:
 
-        smallCorpus = spark.read \\
-            .option("header", True) \\
-            .option("inferSchema", True) \\
-            .option("mode", "DROPMALFORMED") \\
-            .csv("src/test/resources/classifier/e2e.csv") \\
-            .withColumn("labels", splitAndTrim(col("mr"))) \\
-            .withColumn("text", col("re")) \\
-            .drop("mr")
+    >>> trainDataset.printSchema()
+    root
+    |-- id: string (nullable = true)
+    |-- text: string (nullable = true)
+    |-- labels: array (nullable = true)
+    |    |-- element: string (containsNull = true)
 
-        smallCorpus.printSchema()
-        # root
-        # |-- re: string (nullable = True)
-        # |-- labels: array (nullable = True)
-        # |    |-- element: string (containsNull = True)
+    Then create pipeline for training:
 
-        # Then create pipeline for training
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document") \\
-            .setCleanupMode("shrink")
-
-        embeddings = UniversalSentenceEncoder.pretrained() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("embeddings")
-
-        docClassifier = MultiClassifierDLApproach() \\
-            .setInputCols(["embeddings"]) \\
-            .setOutputCol("category") \\
-            .setLabelColumn("labels") \\
-            .setBatchSize(128) \\
-            .setMaxEpochs(10) \\
-            .setLr(1e-3) \\
-            .setThreshold(0.5) \\
-            .setValidationSplit(0.1)
-
-        pipeline = Pipeline() \\
-            .setStages(
-              [
-                documentAssembler,
-                embeddings,
-                docClassifier
-              ]
-            )
-
-        pipelineModel = pipeline.fit(smallCorpus)
-
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document") \\
+    ...     .setCleanupMode("shrink")
+    >>> embeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols("document") \\
+    ...     .setOutputCol("embeddings")
+    >>> docClassifier = MultiClassifierDLApproach() \\
+    ...     .setInputCols("embeddings") \\
+    ...     .setOutputCol("category") \\
+    ...     .setLabelColumn("labels") \\
+    ...     .setBatchSize(128) \\
+    ...     .setMaxEpochs(10) \\
+    ...     .setLr(1e-3) \\
+    ...     .setThreshold(0.5) \\
+    ...     .setValidationSplit(0.1)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     embeddings,
+    ...     docClassifier
+    ... ])
+    >>> pipelineModel = pipeline.fit(trainDataset)
     """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -9230,12 +9214,33 @@ class MultiClassifierDLApproach(AnnotatorApproach):
                       "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
 
     def setVerbose(self, v):
+        """Set level of verbosity during training
+
+        Parameters
+        ----------
+        v : int
+            Level of verbosity
+        """
         return self._set(verbose=v)
 
     def setRandomSeed(self, seed):
+        """Set random seed for shuffling
+
+        Parameters
+        ----------
+        seed : int
+            Random seed for shuffling
+        """
         return self._set(randomSeed=seed)
 
     def setLabelColumn(self, v):
+        """Set name of column for data labels
+
+        Parameters
+        ----------
+        v : str
+            Column for data labels
+        """
         return self._set(labelColumn=v)
 
     def setConfigProtoBytes(self, v):
@@ -9249,33 +9254,84 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(configProtoBytes=v)
 
     def setLr(self, v):
+        """Set Learning Rate, by default 0.001
+
+        Parameters
+        ----------
+        v : float
+            Learning Rate
+        """
         self._set(lr=v)
         return self
 
     def setBatchSize(self, v):
+        """Set batch size, by default 64
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
         self._set(batchSize=v)
         return self
 
     def setMaxEpochs(self, v):
+        """Set maximum number of epochs to train, by default 10
+
+        Parameters
+        ----------
+        v : int
+            Maximum number of epochs to train
+        """
         return self._set(maxEpochs=v)
 
     def _create_model(self, java_model):
         return ClassifierDLModel(java_model=java_model)
 
     def setValidationSplit(self, v):
+        """Set the proportion of training dataset to be validated against the
+        model on each Epoch, by default it is 0.0 and off. The value should be
+        between 0.0 and 1.0.
+
+        Parameters
+        ----------
+        v : float
+            Proportion of training dataset to be validated
+        """
         self._set(validationSplit=v)
         return self
 
     def setEnableOutputLogs(self, v):
+        """Set whether to use stdout in addition to Spark logs, by default False
+
+        Parameters
+        ----------
+        v : bool
+            Whether to use stdout in addition to Spark logs
+        """
         return self._set(enableOutputLogs=v)
 
     def setOutputLogsPath(self, v):
+        """Set folder path to save training logs
+
+        Parameters
+        ----------
+        v : str
+            Folder path to save training logs
+        """
         return self._set(outputLogsPath=v)
 
     def setShufflePerEpoch(self, v):
         return self._set(shufflePerEpoch=v)
 
     def setThreshold(self, v):
+        """Set minimum threshold for each label to be accepted, by default 0.5.
+
+        Parameters
+        ----------
+        v : float
+            The minimum threshold for each label to be accepted, by default 0.5
+        """
         self._set(threshold=v)
         return self
 
@@ -9298,37 +9354,41 @@ class MultiClassifierDLApproach(AnnotatorApproach):
 class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     """MultiClassifierDL for Multi-label Text Classification.
 
-    MultiClassifierDL Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes.
-    The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art
-    UniversalSentenceEncoder,
-    BertSentenceEmbeddings, or
-    SentenceEmbeddings.
+    MultiClassifierDL Bidirectional GRU with Convolution model we have built
+    inside TensorFlow and supports up to 100 classes.
 
-    This is the instantiated model of the MultiClassifierDLApproach.
+    In machine learning, multi-label classification and the strongly related
+    problem of multi-output classification are variants of the classification
+    problem where multiple labels may be assigned to each instance. Multi-label
+    classification is a generalization of multiclass classification, which is
+    the single-label problem of categorizing instances into precisely one of
+    more than two classes; in the multi-label problem there is no constraint on
+    how many of the classes the instance can be assigned to. Formally,
+    multi-label classification is the problem of finding a model that maps
+    inputs x to binary vectors y (assigning a value of 0 or 1 for each element
+    (label) in y).
+
+    The input to ``MultiClassifierDL`` are Sentence Embeddings such as the
+    state-of-the-art :class:`.UniversalSentenceEncoder`,
+    :class:`.BertSentenceEmbeddings`, :class:`.SentenceEmbeddings` or other
+    sentence embeddings.
+
+    This is the instantiated model of the :class:`.MultiClassifierDLApproach`.
     For training your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with ``pretrained`` of the companion object:
 
-    .. code-block:: python
+    >>> multiClassifier = MultiClassifierDLModel.pretrained() \\
+    >>>     .setInputCols(["sentence_embeddings"]) \\
+    >>>     .setOutputCol("categories")
 
-        multiClassifier = MultiClassifierDLModel.pretrained() \\
-            .setInputCols(["sentence_embeddings"]) \\
-            .setOutputCol("categories")
+    The default model is ``"multiclassifierdl_use_toxic"``, if no name is
+    provided. It uses embeddings from the UniversalSentenceEncoder and
+    classifies toxic comments.
 
-
-    The default model is ``"multiclassifierdl_use_toxic"``, if no name is provided. It uses embeddings from the
-    UniversalSentenceEncoder and classifies toxic comments.
     The data is based on the
     `Jigsaw Toxic Comment Classification Challenge <https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview>`__.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
-
-    In machine learning, multi-label classification and the strongly related problem of multi-output classification are
-    variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
-    classification is a generalization of multiclass classification, which is the single-label problem of categorizing
-    instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many
-    of the classes the instance can be assigned to.
-    Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
-    (assigning a value of 0 or 1 for each element (label) in y).
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb>`__.
 
@@ -9346,53 +9406,42 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     threshold
         The minimum threshold for each label to be accepted, by default 0.5
     classes
-        get the tags used to trained this MultiClassifierDLModel
+        Get the tags used to trained this MultiClassifierDLModel
 
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence_embeddings")
-
-        multiClassifierDl = MultiClassifierDLModel.pretrained() \\
-            .setInputCols(["sentence_embeddings"]) \\
-            .setOutputCol("classifications")
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              useEmbeddings,
-              multiClassifierDl
-            ])
-
-        data = spark.createDataFrame([[
-            "This is pretty good stuff!",
-            "Wtf kind of crap is this"
-        ]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.select("text", "classifications.result").show(truncate=False)
-        +--------------------------+----------------+
-        |text                      |result          |
-        +--------------------------+----------------+
-        |This is pretty good stuff!|[]              |
-        |Wtf kind of crap is this  |[toxic, obscene]|
-        +--------------------------+----------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols("document") \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> multiClassifierDl = MultiClassifierDLModel.pretrained() \\
+    ...     .setInputCols("sentence_embeddings") \\
+    ...     .setOutputCol("classifications")
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...         documentAssembler,
+    ...         useEmbeddings,
+    ...         multiClassifierDl
+    ...     ])
+    >>> data = spark.createDataFrame([
+    ...     ["This is pretty good stuff!"],
+    ...     ["Wtf kind of crap is this"]
+    ... ]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("text", "classifications.result").show(truncate=False)
+    +--------------------------+----------------+
+    |text                      |result          |
+    +--------------------------+----------------+
+    |This is pretty good stuff!|[]              |
+    |Wtf kind of crap is this  |[toxic, obscene]|
+    +--------------------------+----------------+
     """
     name = "MultiClassifierDLModel"
 
@@ -9416,6 +9465,13 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
                     TypeConverters.toListString)
 
     def setThreshold(self, v):
+        """Set minimum threshold for each label to be accepted, by default 0.5.
+
+        Parameters
+        ----------
+        v : float
+            The minimum threshold for each label to be accepted, by default 0.5
+        """
         self._set(threshold=v)
         return self
 
@@ -9436,15 +9492,17 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "???"
+            Name of the pretrained model, by default
+            "multiclassifierdl_use_toxic"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
 
         Returns
         -------
-        ???
+        MultiClassifierDLModel
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
