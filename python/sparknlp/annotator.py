@@ -1018,9 +1018,11 @@ class Chunker(AnnotatorModel):
 
 
 class DocumentNormalizer(AnnotatorModel):
-    """Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence.
-    Removes all dirty characters from text following one or more input regex patterns.
-    Can apply not wanted character removal with a specific policy.
+    """Annotator which normalizes raw text from tagged text, e.g. scraped web
+    pages or xml documents, from document type columns into Sentence.
+
+    Removes all dirty characters from text following one or more input regex
+    patterns. Can apply not wanted character removal with a specific policy.
     Can apply lower case normalization.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
@@ -1035,9 +1037,11 @@ class DocumentNormalizer(AnnotatorModel):
     ----------
 
     action
-        action to perform applying regex patterns on text, by default "clean"
+        action to perform before applying regex patterns on text, by default
+        "clean"
     patterns
-        normalization regex patterns which match will be removed from document, by default ['<[^>]*>']
+        normalization regex patterns which match will be removed from document,
+        by default ['<[^>]*>']
     replacement
         replacement string to apply when regexes match, by default " "
     lowercase
@@ -1050,55 +1054,42 @@ class DocumentNormalizer(AnnotatorModel):
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        cleanUpPatterns = ["<[^>]>"]
-
-        documentNormalizer = DocumentNormalizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("normalizedDocument") \\
-            .setAction("clean") \\
-            .setPatterns(cleanUpPatterns) \\
-            .setReplacement(" ") \\
-            .setPolicy("pretty_all") \\
-            .setLowercase(True)
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            documentNormalizer
-        ])
-
-        text =
-            \"\"\"
-        <div id="theworldsgreatest" class='my-right my-hide-small my-wide toptext' style="font-family:'Segoe UI',Arial,sans-serif">
-            THE WORLD'S LARGEST WEB DEVELOPER SITE
-            <h1 style="font-size:300%;">THE WORLD'S LARGEST WEB DEVELOPER SITE</h1>
-            <p style="font-size:160%;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum..</p>
-        </div>
-
-        </div>\"\"\"
-        data = spark.createDataFrame([[text]]).toDF("text")
-        pipelineModel = pipeline.fit(data)
-
-        result = pipelineModel.transform(data)
-        result.selectExpr("normalizedDocument.result").show(truncate=False)
-        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        |result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the 1960s with the release of letraset sheets containing lorem ipsum passages, and more recently with desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
-        +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> cleanUpPatterns = ["<[^>]>"]
+    >>> documentNormalizer = DocumentNormalizer() \\
+    ...     .setInputCols("document") \\
+    ...     .setOutputCol("normalizedDocument") \\
+    ...     .setAction("clean") \\
+    ...     .setPatterns(cleanUpPatterns) \\
+    ...     .setReplacement(" ") \\
+    ...     .setPolicy("pretty_all") \\
+    ...     .setLowercase(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     documentNormalizer
+    ... ])
+    >>> text = \"\"\"
+    ... <div id="theworldsgreatest" class='my-right my-hide-small my-wide toptext' style="font-family:'Segoe UI',Arial,sans-serif">
+    ...     THE WORLD'S LARGEST WEB DEVELOPER SITE
+    ...     <h1 style="font-size:300%;">THE WORLD'S LARGEST WEB DEVELOPER SITE</h1>
+    ...     <p style="font-size:160%;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum..</p>
+    ... </div>
+    ... </div>\"\"\"
+    >>> data = spark.createDataFrame([[text]]).toDF("text")
+    >>> pipelineModel = pipeline.fit(data)
+    >>> result = pipelineModel.transform(data)
+    >>> result.selectExpr("normalizedDocument.result").show(truncate=False)
+    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the 1960s with the release of letraset sheets containing lorem ipsum passages, and more recently with desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
+    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     """
 
     action = Param(Params._dummy(),
@@ -1144,21 +1135,67 @@ class DocumentNormalizer(AnnotatorModel):
         )
 
     def setAction(self, value):
+        """Set action to perform before applying regex patterns on text, by
+        default "clean".
+
+        Parameters
+        ----------
+        value : str
+            Action to perform before applying regex patterns
+        """
         return self._set(action=value)
 
     def setPatterns(self, value):
+        """Set normalization regex patterns which match will be removed from
+        document, by default ['<[^>]*>'].
+
+        Parameters
+        ----------
+        value : List[str]
+            Normalization regex patterns which match will be removed from
+            document
+        """
         return self._set(patterns=value)
 
     def setReplacement(self, value):
+        """Set replacement string to apply when regexes match, by default " ".
+
+        Parameters
+        ----------
+        value : str
+            Replacement string to apply when regexes match
+        """
         return self._set(replacement=value)
 
     def setLowercase(self, value):
+        """Set whether to convert strings to lowercase, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to convert strings to lowercase, by default False
+        """
         return self._set(lowercase=value)
 
     def setPolicy(self, value):
+        """Set policy to remove pattern from text, by default "pretty_all".
+
+        Parameters
+        ----------
+        value : str
+            Policy to remove pattern from text, by default "pretty_all"
+        """
         return self._set(policy=value)
 
     def setEncoding(self, value):
+        """Set file encoding to apply on normalized documents, by default
+        "UTF-8".
+
+        Parameters
+        ----------
+        value : str
+            File encoding to apply on normalized documents, by default "UTF-8"
+        """
         return self._set(encoding=value)
 
 
