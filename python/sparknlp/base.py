@@ -15,11 +15,9 @@
 
 """Contains all the basic components to create a Spark NLP Pipeline.
 
-Notes
------
-This module contains extensions to the Spark Pipeline interface in the form of
-the :class:`LightPipeline` and :class:`RecursivePipeline` which offer additional
-functionality.
+This module contains basic transformers and extensions to the Spark Pipeline
+interface. These are the :class:`LightPipeline` and :class:`RecursivePipeline`
+which offer additional functionality.
 """
 
 from abc import ABC
@@ -36,24 +34,42 @@ import sparknlp.internal as _internal
 
 
 class LightPipeline:
+    """Creates a LightPipeline from a Spark PipelineModel.
+
+    LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
+    ML Pipeline. The difference is that it’s execution does not hold to
+    Spark principles, instead it computes everything locally (but in
+    parallel) in order to achieve fast results when dealing with small
+    amounts of data. This means, we do not input a Spark Dataframe, but a
+    string or an Array of strings instead, to be annotated. To create Light
+    Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
+    It’s transform() stage is converted into annotate() instead.
+
+    Parameters
+    ----------
+    pipelineModel : :class:`pyspark.ml.PipelineModel`
+        The PipelineModel containing Spark NLP Annotators
+    parse_embeddings : bool, optional
+        Whether to parse embeddings, by default False
+
+    Examples
+    --------
+    >>> from sparknlp.base import LightPipeline
+    >>> light = LightPipeline(pipeline.fit(data))
+    >>> light.annotate("We are very happy about Spark NLP")
+    {
+        'document': ['We are very happy about Spark NLP'],
+        'lemmas': ['We', 'be', 'very', 'happy', 'about', 'Spark', 'NLP'],
+        'pos': ['PRP', 'VBP', 'RB', 'JJ', 'IN', 'NNP', 'NNP'],
+        'sentence': ['We are very happy about Spark NLP'],
+        'spell': ['We', 'are', 'very', 'happy', 'about', 'Spark', 'NLP'],
+        'stems': ['we', 'ar', 'veri', 'happi', 'about', 'spark', 'nlp'],
+        'token': ['We', 'are', 'very', 'happy', 'about', 'Spark', 'NLP']
+    }
+
+    """
+
     def __init__(self, pipelineModel, parse_embeddings=False):
-        """Creates a LightPipeline from a Spark PipelineModel.
-
-        LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark ML Pipeline.
-        The difference is that it’s execution does not hold to Spark principles, instead it
-        computes everything locally (but in parallel) in order to achieve fast results when
-        dealing with small amounts of data. This means, we do not input a Spark Dataframe, but
-        a string or an Array of strings instead, to be annotated. To create Light Pipelines,
-        you need to input an already trained (fit) Spark ML Pipeline. It’s transform() stage
-        is converted into annotate() instead.
-
-        Parameters
-        ----------
-        pipelineModel : PipelineModel
-            The PipelineModel containing Spark NLP Annotators
-        parse_embeddings : bool, optional
-            Whether to prase embeddings, by default False
-        """
         self.pipeline_model = pipelineModel
         self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
@@ -72,6 +88,20 @@ class LightPipeline:
         return annotations
 
     def fullAnnotate(self, target):
+        """Annotates the data provided into Annotations.
+
+        The data should be either a list or a str.
+
+        Parameters
+        ----------
+        target : list or str
+            The data to be annotated
+
+        Returns
+        -------
+        list or str
+            The result of the annotation
+        """
         result = []
         if type(target) is str:
             target = [target]
@@ -83,7 +113,20 @@ class LightPipeline:
         return result
 
     def annotate(self, target):
+        """Annotates the data provided, extracting the results.
 
+        The data should be either a list or a str.
+
+        Parameters
+        ----------
+        target : list or str
+            The data to be annotated
+
+        Returns
+        -------
+        list or str
+            The result of the annotation
+        """
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
 
@@ -99,17 +142,72 @@ class LightPipeline:
         return result
 
     def transform(self, dataframe):
+        """Transforms a dataframe provided with the stages of the LightPipeline.
+
+        Parameters
+        ----------
+        dataframe : :class:`pyspark.sql.DataFrame`
+            The Dataframe to be transformed
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            The transformed DataFrame
+        """
         return self.pipeline_model.transform(dataframe)
 
     def setIgnoreUnsupported(self, value):
+        """Set whether to ignore unsupported AnnotatorModels.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to ignore unsupported AnnotatorModels.
+
+        Returns
+        -------
+        LightPipeline
+            The current LightPipeline
+        """
         self._lightPipeline.setIgnoreUnsupported(value)
         return self
 
     def getIgnoreUnsupported(self):
+        """Get whether to ignore unsupported AnnotatorModels.
+
+        Returns
+        -------
+        bool
+            Whether to ignore unsupported AnnotatorModels.
+        """
         return self._lightPipeline.getIgnoreUnsupported()
 
 
 class RecursivePipeline(Pipeline, JavaEstimator):
+    """Recursive pipelines are Spark NLP specific pipelines that allow a Spark
+    ML Pipeline to know about itself on every Pipeline Stage task.
+
+    This allows annotators to utilize this same pipeline against external
+    resources to process them in the same way the user decides.
+
+    Only some of the annotators take advantage of this. RecursivePipeline
+    behaves exactly the same as normal Spark ML pipelines, so they can be used
+    with the same intention.
+
+    Examples
+    --------
+
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.base import *
+    >>> recursivePipeline = RecursivePipeline(stages=[
+    ...     documentAssembler,
+    ...     sentenceDetector,
+    ...     tokenizer,
+    ...     lemmatizer,
+    ...     finisher
+    ... ])
+
+    """
     @keyword_only
     def __init__(self, *args, **kwargs):
         super(RecursivePipeline, self).__init__(*args, **kwargs)
@@ -149,7 +247,12 @@ class RecursivePipeline(Pipeline, JavaEstimator):
 
 
 class RecursivePipelineModel(PipelineModel):
+    """Fitted RecursivePipeline.
 
+    Behaves the same as a Spark PipelineModel does. Not intended to be
+    initialized by itself. To create a RecursivePipelineModel please fit data to
+    a :class:`RecursivePipeline <sparknlp.base.RecursivePipeline>`.
+    """
     def __init__(self, pipeline_model):
         super(PipelineModel, self).__init__()
         self.stages = pipeline_model.stages
@@ -167,14 +270,82 @@ class RecursivePipelineModel(PipelineModel):
 
 
 class HasRecursiveFit(RecursiveEstimator, ABC):
+    """Properties for the implementation of the RecursivePipeline."""
     pass
 
 
 class HasRecursiveTransform(RecursiveTransformer):
+    """Properties for the implementation of the RecursivePipeline."""
     pass
 
 
 class DocumentAssembler(AnnotatorTransformer):
+    """Prepares data into a format that is processable by Spark NLP.
+
+    This is the entry point for every Spark NLP pipeline. The
+    ``DocumentAssembler`` can read either a ``String`` column or an
+    ``Array[String]``. Additionally, setCleanupMode can be used to pre-process
+    the text (Default: ``disabled``). For possible options please refer the
+    parameters section.
+
+    For more extended examples on document pre-processing see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``NONE``               ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    inputCol
+        Input column name
+    outputCol
+        Output column name
+    idCol
+        Name of String type column for row id.
+    metadataCol
+        Name of Map type column with metadata information
+    calculationsCol
+        Name of float vector map column to use for embeddings and other
+        representations.
+    cleanupMode
+        How to cleanup the document , by default disabled.
+        Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
+        each, each_full, delete_full``
+
+    Examples
+    --------
+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from pyspark.ml import Pipeline
+    >>> data = spark.createDataFrame([["Spark NLP is an open-source text processing library."]]).toDF("text")
+    >>> documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+    >>> result = documentAssembler.transform(data)
+    >>> result.select("document").show(truncate=False)
+    +----------------------------------------------------------------------------------------------+
+    |document                                                                                      |
+    +----------------------------------------------------------------------------------------------+
+    |[[document, 0, 51, Spark NLP is an open-source text processing library., [sentence -> 0], []]]|
+    +----------------------------------------------------------------------------------------------+
+    >>> result.select("document").printSchema()
+    root
+    |-- document: array (nullable = True)
+    |    |-- element: struct (containsNull = True)
+    |    |    |-- annotatorType: string (nullable = True)
+    |    |    |-- begin: integer (nullable = False)
+    |    |    |-- end: integer (nullable = False)
+    |    |    |-- result: string (nullable = True)
+    |    |    |-- metadata: map (nullable = True)
+    |    |    |    |-- key: string
+    |    |    |    |-- value: string (valueContainsNull = True)
+    |    |    |-- embeddings: array (nullable = True)
+    |    |    |    |-- element: float (containsNull = False)
+
+    """
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "output column name", typeConverter=TypeConverters.toString)
@@ -195,27 +366,146 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCol(self, value):
+        """Set input column name.
+
+        Parameters
+        ----------
+        value : str
+            Name of the input column
+        """
         return self._set(inputCol=value)
 
     def setOutputCol(self, value):
+        """Set output column name.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Output Column
+        """
         return self._set(outputCol=value)
 
     def setIdCol(self, value):
+        """Set name of string type column for row id.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Id Column
+        """
         return self._set(idCol=value)
 
     def setMetadataCol(self, value):
+        """Set name for Map type column with metadata information.
+
+        Parameters
+        ----------
+        value : str
+            Name of the metadata column
+        """
         return self._set(metadataCol=value)
 
     def setCalculationsCol(self, value):
+        """Set name of float vector map column to use for embeddings and other
+        representations.
+
+        Parameters
+        ----------
+        value : str
+            Name of the calculations column
+        """
         return self._set(metadataCol=value)
 
     def setCleanupMode(self, value):
+        """Set how to cleanup the document , by default disabled.
+        Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
+        each, each_full, delete_full``
+
+        Parameters
+        ----------
+        value : str
+            Cleanup mode
+        """
         if value.strip().lower() not in ['disabled', 'inplace', 'inplace_full', 'shrink', 'shrink_full', 'each', 'each_full', 'delete_full']:
             raise Exception("Cleanup mode possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full")
         return self._set(cleanupMode=value)
 
 
 class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
+    """This transformer reconstructs a ``DOCUMENT`` type annotation from tokens,
+    usually after these have been normalized, lemmatized, normalized, spell
+    checked, etc, in order to use this document annotation in further
+    annotators. Requires ``DOCUMENT`` and ``TOKEN`` type annotations as input.
+
+    For more extended examples on document pre-processing see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    preservePosition
+        Whether to preserve the actual position of the tokens or reduce them to
+        one space
+
+    Examples
+    --------
+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+
+    First, the text is tokenized and cleaned
+
+    >>> documentAssembler = DocumentAssembler() \\
+    ...    .setInputCol("text") \\
+    ...    .setOutputCol("document")
+    >>> sentenceDetector = SentenceDetector() \\
+    ...    .setInputCols(["document"]) \\
+    ...    .setOutputCol("sentences")
+    >>> tokenizer = Tokenizer() \\
+    ...    .setInputCols(["sentences"]) \\
+    ...    .setOutputCol("token")
+    >>> normalizer = Normalizer() \\
+    ...    .setInputCols(["token"]) \\
+    ...    .setOutputCol("normalized") \\
+    ...    .setLowercase(False)
+    >>> stopwordsCleaner = StopWordsCleaner() \\
+    ...    .setInputCols(["normalized"]) \\
+    ...    .setOutputCol("cleanTokens") \\
+    ...    .setCaseSensitive(False)
+
+    Then the TokenAssembler turns the cleaned tokens into a ``DOCUMENT`` type
+    structure.
+
+    >>> tokenAssembler = TokenAssembler() \\
+    ...    .setInputCols(["sentences", "cleanTokens"]) \\
+    ...    .setOutputCol("cleanText")
+    >>> data = spark.createDataFrame([["Spark NLP is an open-source text processing library for advanced natural language processing."]]) \\
+    ...    .toDF("text")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentenceDetector,
+    ...     tokenizer,
+    ...     normalizer,
+    ...     stopwordsCleaner,
+    ...     tokenAssembler
+    ... ]).fit(data)
+    >>> result = pipeline.transform(data)
+    >>> result.select("cleanText").show(truncate=False)
+    +---------------------------------------------------------------------------------------------------------------------------+
+    |cleanText                                                                                                                  |
+    +---------------------------------------------------------------------------------------------------------------------------+
+    |[[document, 0, 80, Spark NLP opensource text processing library advanced natural language processing, [sentence -> 0], []]]|
+    +---------------------------------------------------------------------------------------------------------------------------+
+
+    """
 
     name = "TokenAssembler"
     preservePosition = Param(Params._dummy(), "preservePosition", "whether to preserve the actual position of the tokens or reduce them to one space", typeConverter=TypeConverters.toBoolean)
@@ -230,10 +520,79 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
     def setPreservePosition(self, value):
+        """Set whether to preserve the actual position of the tokens or reduce
+        them to one space.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Id Column
+        """
         return self._set(preservePosition=value)
 
 
 class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
+    """Converts ``DOCUMENT`` type annotations into ``CHUNK`` type with the
+    contents of a ``chunkCol``.
+
+    Chunk text must be contained within input ``DOCUMENT``. May be either
+    ``StringType`` or ``ArrayType[StringType]`` (using setIsArray). Useful for
+    annotators that require a CHUNK type input.
+
+    For more extended examples on document pre-processing see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    chunkCol
+        Column that contains the string. Must be part of DOCUMENT
+    startCol
+        Column that has a reference of where the chunk begins
+    startColByTokenIndex
+        Whether start column is prepended by whitespace tokens
+    isArray
+        Whether the chunkCol is an array of strings, by default False
+    failOnMissing
+        Whether to fail the job if a chunk is not found within document.
+        Return empty otherwise
+    lowerCase
+        Whether to lower case for matching case
+
+    Examples
+    --------
+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.common import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.training import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+    >>> chunkAssembler = Doc2Chunk() \\
+    ...     .setInputCols("document") \\
+    ...     .setChunkCol("target") \\
+    ...     .setOutputCol("chunk") \\
+    ...     .setIsArray(True)
+    >>> data = spark.createDataFrame([[
+    ...     "Spark NLP is an open-source text processing library for advanced natural language processing.",
+    ...     ["Spark NLP", "text processing library", "natural language processing"]
+    ... ]]).toDF("text", "target")
+    >>> pipeline = Pipeline().setStages([documentAssembler, chunkAssembler]).fit(data)
+    >>> result = pipeline.transform(data)
+    >>> result.selectExpr("chunk.result", "chunk.annotatorType").show(truncate=False)
+    +-----------------------------------------------------------------+---------------------+
+    |result                                                           |annotatorType        |
+    +-----------------------------------------------------------------+---------------------+
+    |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|
+    +-----------------------------------------------------------------+---------------------+
+    """
 
     chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
     startCol = Param(Params._dummy(), "startCol", "column that has a reference of where chunk begins", typeConverter=TypeConverters.toString)
@@ -256,25 +615,115 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
     def setChunkCol(self, value):
+        """Set column that contains the string. Must be part of DOCUMENT.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Chunk Column
+        """
         return self._set(chunkCol=value)
 
     def setIsArray(self, value):
+        """Set whether the chunkCol is an array of strings.
+
+        Parameters
+        ----------
+        value : bool
+            Whether the chunkCol is an array of strings
+        """
         return self._set(isArray=value)
 
     def setStartCol(self, value):
+        """Set column that has a reference of where chunk begins.
+
+        Parameters
+        ----------
+        value : str
+            Name of the reference column
+        """
         return self._set(startCol=value)
 
     def setStartColByTokenIndex(self, value):
+        """Set whether start column is prepended by whitespace tokens.
+
+        Parameters
+        ----------
+        value : bool
+            whether start column is prepended by whitespace tokens
+        """
         return self._set(startColByTokenIndex=value)
 
     def setFailOnMissing(self, value):
+        """Set whether to fail the job if a chunk is not found within document.
+        Return empty otherwise.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to fail job on missing chunks
+        """
         return self._set(failOnMissing=value)
 
     def setLowerCase(self, value):
+        """Set whether to lower case for matching case
+
+        Parameters
+        ----------
+        value : bool
+            Name of the Id Column
+        """
         return self._set(lowerCase=value)
 
 
 class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
+    """Converts a ``CHUNK`` type column back into ``DOCUMENT``. Useful when
+    trying to re-tokenize or do further analysis on a ``CHUNK`` result.
+
+    For more extended examples on document pre-processing see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``CHUNK``              ``DOCUMENT``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    None
+
+    Examples
+    --------
+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.pretrained import PretrainedPipeline
+
+    Location entities are extracted and converted back into ``DOCUMENT`` type for
+    further processing.
+
+    >>> data = spark.createDataFrame([[1, "New York and New Jersey aren't that far apart actually."]]).toDF("id", "text")
+
+    Define pretrained pipeline that extracts Named Entities amongst other things
+    and apply `Chunk2Doc` on it.
+
+    >>> pipeline = PretrainedPipeline("explain_document_dl")
+    >>> chunkToDoc = Chunk2Doc().setInputCols("entities").setOutputCol("chunkConverted")
+    >>> explainResult = pipeline.transform(data)
+
+    Show results.
+
+    >>> result = chunkToDoc.transform(explainResult)
+    >>> result.selectExpr("explode(chunkConverted)").show(truncate=False)
+    +------------------------------------------------------------------------------+
+    |col                                                                           |
+    +------------------------------------------------------------------------------+
+    |[document, 0, 7, New York, [entity -> LOC, sentence -> 0, chunk -> 0], []]    |
+    |[document, 13, 22, New Jersey, [entity -> LOC, sentence -> 0, chunk -> 1], []]|
+    +------------------------------------------------------------------------------+
+    """
 
     name = "Chunk2Doc"
 
@@ -289,6 +738,73 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
 
 
 class Finisher(AnnotatorTransformer):
+    """Converts annotation results into a format that easier to use.
+
+    It is useful to extract the results from Spark NLP Pipelines. The Finisher
+    outputs annotation(s) values into ``String``.
+
+    For more extended examples on document pre-processing see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``ANY``                ``NONE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    inputCols
+        Input annotations
+    outputCols
+        Output finished annotation cols
+    valueSplitSymbol
+        Character separating values, by default #
+    annotationSplitSymbol
+        Character separating annotations, by default @
+    cleanAnnotations
+        Whether to remove annotation columns, by default True
+    includeMetadata
+        Whether to include annotation metadata, by default False
+    outputAsArray
+        Finisher generates an Array with the results instead of string, by
+        default True
+    parseEmbeddingsVectors
+        Whether to include embeddings vectors in the process, by default False
+
+    Examples
+    --------
+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.pretrained import PretrainedPipeline
+    >>> data = spark.createDataFrame([[1, "New York and New Jersey aren't that far apart actually."]]).toDF("id", "text")
+
+    Define pretrained pipeline that extracts Named Entities amongst other things
+    and apply the `Finisher` on it.
+
+    >>> pipeline = PretrainedPipeline("explain_document_dl")
+    >>> finisher = Finisher().setInputCols("entities").setOutputCols("output")
+    >>> explainResult = pipeline.transform(data)
+
+    Show results.
+
+    >>> explainResult.selectExpr("explode(entities)").show(truncate=False)
+    +------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |entities                                                                                                                                              |
+    +------------------------------------------------------------------------------------------------------------------------------------------------------+
+    |[[chunk, 0, 7, New York, [entity -> LOC, sentence -> 0, chunk -> 0], []], [chunk, 13, 22, New Jersey, [entity -> LOC, sentence -> 0, chunk -> 1], []]]|
+    +------------------------------------------------------------------------------------------------------------------------------------------------------+
+    >>> result = finisher.transform(explainResult)
+    >>> result.select("output").show(truncate=False)
+    +----------------------+
+    |output                |
+    +----------------------+
+    |[New York, New Jersey]|
+    +----------------------+
+    """
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
     outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
@@ -319,37 +835,187 @@ class Finisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
+        """Set column names of input annotations.
+
+        Parameters
+        ----------
+        *value : List[str]
+            List of input columns
+        """
         if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value[0])
         else:
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
+        """Set column names of finished output annotations.
+
+        Parameters
+        ----------
+        *value : List[str]
+            List of output columns
+        """
         if len(value) == 1 and type(value[0]) == list:
             return self._set(outputCols=value[0])
         else:
             return self._set(outputCols=list(value))
 
     def setValueSplitSymbol(self, value):
+        """Set character separating values, by default #.
+
+        Parameters
+        ----------
+        value : str
+            Character to separate annotations
+        """
         return self._set(valueSplitSymbol=value)
 
     def setAnnotationSplitSymbol(self, value):
+        """Set character separating annotations, by default @.
+
+        Parameters
+        ----------
+        value : str
+            ...
+        """
         return self._set(annotationSplitSymbol=value)
 
     def setCleanAnnotations(self, value):
+        """Set whether to remove annotation columns, by default True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to remove annotation columns
+        """
         return self._set(cleanAnnotations=value)
 
     def setIncludeMetadata(self, value):
+        """Set whether to include annotation metadata
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include annotation metadata
+        """
         return self._set(includeMetadata=value)
 
     def setOutputAsArray(self, value):
+        """Set whether to generate an array with the results instead of a string
+
+        Parameters
+        ----------
+        value : bool
+            Whether to generate an array with the results instead of a string
+        """
         return self._set(outputAsArray=value)
 
     def setParseEmbeddingsVectors(self, value):
+        """Set whether to include embeddings vectors in the process
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include embeddings vectors in the process
+        """
         return self._set(parseEmbeddingsVectors=value)
 
 
 class EmbeddingsFinisher(AnnotatorTransformer):
+    """Extracts embeddings from Annotations into a more easily usable form.
+
+    This is useful for example:
+
+    - WordEmbeddings,
+    - Transformer based embeddings such as BertEmbeddings,
+    - SentenceEmbeddings and
+    - ChunkEmbeddings, etc.
+
+    By using ``EmbeddingsFinisher`` you can easily transform your embeddings
+    into array of floats or vectors which are compatible with Spark ML functions
+    such as LDA, K-mean, Random Forest classifier or any other functions that
+    require a ``featureCol``.
+
+    For more extended examples see the
+    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb>`__.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``EMBEDDINGS``         ``NONE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    inputCols
+        Names of input annotation columns containing embeddings
+    outputCols
+        Names of finished output columns
+    cleanAnnotations
+        Whether to remove all the existing annotation columns, by default False
+    outputAsVector
+        Whether to output the embeddings as Vectors instead of arrays,
+        by default False
+
+    Examples
+    --------
+
+    First extract embeddings.
+
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...    .setInputCol("text") \\
+    ...    .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...    .setInputCols("document") \\
+    ...    .setOutputCol("token")
+    >>> normalizer = Normalizer() \\
+    ...    .setInputCols("token") \\
+    ...    .setOutputCol("normalized")
+    >>> stopwordsCleaner = StopWordsCleaner() \\
+    ...    .setInputCols("normalized") \\
+    ...    .setOutputCol("cleanTokens") \\
+    ...    .setCaseSensitive(False)
+    >>> gloveEmbeddings = WordEmbeddingsModel.pretrained() \\
+    ...    .setInputCols("document", "cleanTokens") \\
+    ...    .setOutputCol("embeddings") \\
+    ...    .setCaseSensitive(False)
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...    .setInputCols("embeddings") \\
+    ...    .setOutputCols("finished_sentence_embeddings") \\
+    ...    .setOutputAsVector(True) \\
+    ...    .setCleanAnnotations(False)
+    >>> data = spark.createDataFrame([["Spark NLP is an open-source text processing library."]]) \\
+    ...    .toDF("text")
+    >>> pipeline = Pipeline().setStages([
+    ...    documentAssembler,
+    ...    tokenizer,
+    ...    normalizer,
+    ...    stopwordsCleaner,
+    ...    gloveEmbeddings,
+    ...    embeddingsFinisher
+    ... ]).fit(data)
+    >>> result = pipeline.transform(data)
+
+    Show results.
+
+    >>> resultWithSize = result.selectExpr("explode(finished_sentence_embeddings) as embeddings")
+    >>> resultWithSize.show(5, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                      embeddings|
+    +--------------------------------------------------------------------------------+
+    |[0.1619900017976761,0.045552998781204224,-0.03229299932718277,-0.685609996318...|
+    |[-0.42416998744010925,1.1378999948501587,-0.5717899799346924,-0.5078899860382...|
+    |[0.08621499687433243,-0.15772999823093414,-0.06067200005054474,0.395359992980...|
+    |[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|
+    |[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|
+    +--------------------------------------------------------------------------------+
+
+    """
 
     inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
     outputCols = Param(Params._dummy(), "outputCols", "output EmbeddingsFinisher ouput cols", typeConverter=TypeConverters.toListString)
@@ -372,21 +1038,55 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
+        """Set name of input annotation columns containing embeddings
+
+        Parameters
+        ----------
+        *value : List[str]
+            List of input annotation columns
+        """
+
         if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value[0])
         else:
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
+        """Set names of finished output columns
+
+        Parameters
+        ----------
+        *value : List[str]
+            List of input annotation columns
+        """
+
         if len(value) == 1 and type(value[0]) == list:
             return self._set(outputCols=value[0])
         else:
             return self._set(outputCols=list(value))
 
     def setCleanAnnotations(self, value):
+        """Set whether to remove all the existing annotation columns, by default
+        False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to remove all the existing annotation columns
+        """
+
         return self._set(cleanAnnotations=value)
 
     def setOutputAsVector(self, value):
+        """Set whether to output the embeddings as Vectors instead of arrays,
+        by default False
+
+        Parameters
+        ----------
+        value : bool
+            Whether to output the embeddings as Vectors instead of arrays
+        """
+
         return self._set(outputAsVector=value)
 
 
