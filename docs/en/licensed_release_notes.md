@@ -7,7 +7,6 @@ key: docs-licensed-release-notes
 modify_date: 2021-07-14
 ---
 
-# Release Notes Spark NLP Healthcare
 
 ## 3.1.3
 We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
@@ -112,19 +111,17 @@ result = snomed_lp.fullAnnotate("atherosclerosis")
 
 Allows to use RegexMather chunks as NER chunks and feed the output to the downstream annotators like RE or Deidentification.
 
-``` Python
-        document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
+```python
+document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
 
-        sentence_detector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+sentence_detector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
 
-        regex_matcher = RegexMatcher()\
-            .setInputCols("sentence")\
-            .setOutputCol("regex")\
-            .setExternalRules(path="../src/test/resources/regex-matcher/rules.txt",delimiter=",")
+regex_matcher = RegexMatcher()\
+    .setInputCols("sentence")\
+    .setOutputCol("regex")\
+    .setExternalRules(path="../src/test/resources/regex-matcher/rules.txt",delimiter=",")
 
-        chunkConverter = ChunkConverter().setInputCols("regex").setOutputCol("chunk")
-        
-
+chunkConverter = ChunkConverter().setInputCols("regex").setOutputCol("chunk")
 ```
 
 
@@ -171,9 +168,9 @@ ner_tagger = MedicalNerApproach()\
   .setTagsMapping("B-PER,B-VIP", "I-PER,I-VIP")
 ```
 
-In this case, the new tags `B-VIP` and `I-VIP` will replace the already trained tags 'B-PER' and 'I-PER'. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.
+In this case, the new tags `B-VIP` and `I-VIP` will replace the already trained tags `B-PER` and `I-PER`. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.
 
-Jupyter Notebook: [Finetuning Medical NER Model Notebook] (https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)
+Jupyter Notebook: [Finetuning Medical NER Model Notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)
 
 ##### More builtin graphs for MedicalNerApproach
 
@@ -182,8 +179,8 @@ Seventy new TensorFlow graphs have been added to the library of available graphs
 
 ##### DateNormalizer
 
-New annotator that normalize dates to the format YYYY/MM/DD.
-This annotator identifies dates in chunk annotations, and transform these dates to the format YYYY/MM/DD.
+New annotator that normalize dates to the format `YYYY/MM/DD`.
+This annotator identifies dates in chunk annotations, and transform these dates to the format `YYYY/MM/DD`.
 Both the input and output formats for the annotator are `chunk`.
 
 Example:
@@ -305,8 +302,7 @@ Example how to use the custom transformer.
 
 ##### Java Workshop Examples
 
-Add Java examples in the workshop repository.
-https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare
+Add Java examples in the [workshop repository](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare).
 
 ##### Deprecated Compatibility class in Python
 
@@ -463,6 +459,7 @@ We trained new sBert models in TF2 and fined tuned on MedNLI, NLI and UMLS datas
 + `sbert_jsl_tiny_umls_uncased`
 
 #### JSL SBert Model Speed Benchmark
+
 | JSL SBert Model| Base Model | Is Cased | Train Datasets | Inference speed (100 rows) |
 |-|-|-|-|-|
 | sbiobert_jsl_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI| 274,53 |
@@ -634,12 +631,12 @@ reDeidentification = ReIdentification()
 #### New Deidentification Pretrained Pipelines
 We developed a `clinical_deidentification` pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`, `CITY`, `COUNTRY`, `DOCTOR`, `HOSPITAL`, `IDNUM`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`,  `STREET`, `USERNAME`, `ZIP`, `ACCOUNT`, `LICENSE`, `VIN`, `SSN`, `DLN`, `PLATE`, `IPADDR` entities. 
 
-Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html
+Models Hub Page : [clinical_deidentification](https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html)
 
 There is also a lightweight version of the same pipeline trained with memory efficient `glove_100d`embeddings.
 Here are the model names:
-- clinical_deidentification
-- clinical_deidentification_glove
+- `clinical_deidentification`
+- `clinical_deidentification_glove`
 
 *Example:*
 
@@ -657,7 +654,7 @@ val deid_pipeline = PretrainedPipeline("clinical_deidentification","en","clinica
 
 val result = deid_pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286.")
 ```
-Result:
+*Result*:
 ```bash
 {'sentence': ['Record date : 2093-01-13, David Hale, M.D.',
    'IP: 203.120.223.13.',
@@ -799,7 +796,7 @@ This will result in `oncology_ner_20210605_141701.log` filename being used, in w
 #### New Notebooks
 
 + A [new notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.4.Biomedical_NER_SparkNLP_paper_reproduce.ipynb)  to reproduce our peer-reviewed NER paper (https://arxiv.org/abs/2011.06315)
-+ New databricks [case study notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/case_studies). In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.
++ New databricks [case study notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/healthcare_case_studies). In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.
 
 
 ### 3.0.3
