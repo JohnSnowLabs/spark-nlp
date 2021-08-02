@@ -7,33 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loading datasets for training &#8212; Spark NLP 3.2.0 documentation</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../static/css/theme.css" rel="stylesheet" />
+  <link href="../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
 
     
   <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/toggleprompt.js"></script>
-    <link rel="shortcut icon" href="../_static/fav.ico"/>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
+    <script src="../static/jquery.js"></script>
+    <script src="../static/underscore.js"></script>
+    <script src="../static/doctools.js"></script>
+    <script src="../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../static/fav.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Light Pipelines" href="light_pipelines.html" />
@@ -54,7 +54,7 @@
     
 
 <a class="navbar-brand" href="../index.html">
-  <img src="../_static/logo.png" class="logo" alt="logo">
+  <img src="../static/logo.png" class="logo" alt="logo">
 </a>
 
 
@@ -185,6 +185,11 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conllu-dataset">
+   CoNLLU Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#spell-checkers-dataset">
    Spell Checkers Dataset
   </a>
@@ -221,8 +226,8 @@
 <div class="section" id="pos-dataset">
 <h2>POS Dataset<a class="headerlink" href="#pos-dataset" title="Permalink to this headline">¶</a></h2>
 <p>In order to train a Part of Speech Tagger annotator
-(<a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.PerceptronApproach.html#sparknlp.annotator.PerceptronApproach" title="sparknlp.annotator.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.PerceptronApproach</span></code></a>), we need to
-get corpus data as a Spark dataframe. <a class="reference internal" href="../reference/_autosummary/sparknlp.training.POS.html#sparknlp.training.POS" title="sparknlp.training.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.training.POS</span></code></a> reads a plain text file
+(<a class="reference internal" href="../reference/autosummary/sparknlp.annotator.PerceptronApproach.html#sparknlp.annotator.PerceptronApproach" title="sparknlp.annotator.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>), we need to
+get corpus data as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp.training.POS.html#sparknlp.training.POS" title="sparknlp.training.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> reads a plain text file
 and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">|</span><span class="n">DT</span> <span class="n">few</span><span class="o">|</span><span class="n">JJ</span> <span class="n">months</span><span class="o">|</span><span class="n">NNS</span> <span class="n">ago</span><span class="o">|</span><span class="n">RB</span> <span class="n">you</span><span class="o">|</span><span class="n">PRP</span> <span class="n">received</span><span class="o">|</span><span class="n">VBD</span> <span class="n">a</span><span class="o">|</span><span class="n">DT</span> <span class="n">letter</span><span class="o">|</span><span class="n">NN</span>
@@ -236,9 +241,9 @@ and transforms it to a Spark dataset.</p>
 </div>
 <div class="section" id="conll-dataset">
 <h2>CoNLL Dataset<a class="headerlink" href="#conll-dataset" title="Permalink to this headline">¶</a></h2>
-<p>In order to train a <a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach" title="sparknlp.annotator.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NerDLApproach</span></code></a> annotator, we need to get
+<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach" title="sparknlp.annotator.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NerDLApproach</span></code></a> annotator, we need to get
 <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> format data
-as a Spark dataframe. <a class="reference internal" href="../reference/_autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL" title="sparknlp.training.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.training.CoNLL</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
+as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL" title="sparknlp.training.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.training.CoNLL</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
@@ -259,10 +264,36 @@ as a Spark dataframe. <a class="reference internal" href="../reference/_autosumm
 </pre></div>
 </div>
 </div>
+<div class="section" id="conllu-dataset">
+<h2>CoNLLU Dataset<a class="headerlink" href="#conllu-dataset" title="Permalink to this headline">¶</a></h2>
+<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.DependencyParserApproach.html#sparknlp.annotator.DependencyParserApproach" title="sparknlp.annotator.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a> annotator, we need to get
+<a class="reference external" href="https://universaldependencies.org/format.html">CoNLL-U</a> format data
+as a Spark dataframe. <a class="reference internal" href="../reference/autosummary/sparknlp.training.CoNLLU.html#sparknlp.training.CoNLLU" title="sparknlp.training.CoNLLU"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLLU</span></code></a> reads a plain text file and transforms it to a Spark dataset.</p>
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
+
+<span class="n">EU</span> <span class="n">NNP</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span>
+<span class="n">rejects</span> <span class="n">VBZ</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">German</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">call</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="n">to</span> <span class="n">TO</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">boycott</span> <span class="n">VB</span> <span class="n">I</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">British</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">lamb</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="o">.</span> <span class="o">.</span> <span class="n">O</span> <span class="n">O</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLLU</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">conlluFile</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/conllu/en.test.conllu&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">conllDataSet</span> <span class="o">=</span> <span class="n">CoNLLU</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conlluFile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="spell-checkers-dataset">
 <h2>Spell Checkers Dataset<a class="headerlink" href="#spell-checkers-dataset" title="Permalink to this headline">¶</a></h2>
-<p>In order to train a <a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.NorvigSweetingApproach.html#sparknlp.annotator.NorvigSweetingApproach" title="sparknlp.annotator.NorvigSweetingApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NorvigSweetingApproach</span></code></a> or
-<a class="reference internal" href="../reference/_autosummary/sparknlp.annotator.SymmetricDeleteApproach.html#sparknlp.annotator.SymmetricDeleteApproach" title="sparknlp.annotator.SymmetricDeleteApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.SymmetricDeleteApproach</span></code></a>, we need to get corpus data as a spark
+<p>In order to train a <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.NorvigSweetingApproach.html#sparknlp.annotator.NorvigSweetingApproach" title="sparknlp.annotator.NorvigSweetingApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NorvigSweetingApproach</span></code></a> or
+<a class="reference internal" href="../reference/autosummary/sparknlp.annotator.SymmetricDeleteApproach.html#sparknlp.annotator.SymmetricDeleteApproach" title="sparknlp.annotator.SymmetricDeleteApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">SymmetricDeleteApproach</span></code></a>, we need to get corpus data as a spark
 dataframe. We can read any plain text file and transform it to a Spark dataset.</p>
 <p><strong>Example</strong></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_corpus</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;./sherlockholmes.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
@@ -273,7 +304,7 @@ dataframe. We can read any plain text file and transform it to a Spark dataset.<
 <h2>PubTator Dataset<a class="headerlink" href="#pubtator-dataset" title="Permalink to this headline">¶</a></h2>
 <p>The PubTator format includes medical papers’ titles, abstracts, and tagged chunks
 (see PubTator Docs and MedMentions Docs for more information).
-We can create a Spark DataFrame from a PubTator text file with <a class="reference internal" href="../reference/_autosummary/sparknlp.training.PubTator.html#sparknlp.training.PubTator" title="sparknlp.training.PubTator"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.training.PubTator</span></code></a>.</p>
+We can create a Spark DataFrame from a PubTator text file with <a class="reference internal" href="../reference/autosummary/sparknlp.training.PubTator.html#sparknlp.training.PubTator" title="sparknlp.training.PubTator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PubTator</span></code></a>.</p>
 <p><strong>Input File Format</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">25763772</span>    <span class="mi">0</span>       <span class="mi">5</span>       <span class="n">DCTN4</span>   <span class="n">T116</span><span class="p">,</span><span class="n">T123</span>       <span class="n">C4308010</span>
 <span class="mi">25763772</span>    <span class="mi">23</span>      <span class="mi">63</span>      <span class="n">chronic</span> <span class="n">Pseudomonas</span> <span class="n">aeruginosa</span> <span class="n">infection</span>        <span class="n">T047</span>    <span class="n">C0854135</span>
@@ -307,7 +338,7 @@ We can create a Spark DataFrame from a PubTator text file with <a class="referen
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../static/js/index.1c5a1a01449ed65a7b51.js"></script>
 
   <footer class="footer mt-5 mt-md-0">
   <div class="container">
