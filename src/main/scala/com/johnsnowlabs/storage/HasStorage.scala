@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.storage
 
 import java.nio.file.{Files, Paths, StandardCopyOption}
@@ -43,14 +60,14 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
                               localFiles: Array[String],
                               fitDataset: Dataset[_],
                               spark: SparkContext
-                           ): Unit = {
+                            ): Unit = {
 
     require(databases.length == localFiles.length, "Storage temp locations must be equal to the amount of databases")
 
     lazy val connections = databases.zip(localFiles)
-      .map{ case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile))}
+      .map { case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile)) }
 
-    val writers = connections.map{ case (db, conn) =>
+    val writers = connections.map { case (db, conn) =>
       (db, createWriter(db, conn))
     }.toMap[Database.Name, StorageWriter[_]]
 
@@ -81,7 +98,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     val sparkContext = spark.sparkContext
 
     val tmpLocalDestinations = {
-      databases.map( _ =>
+      databases.map(_ =>
         Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
           .toAbsolutePath.toString
       )
@@ -91,9 +108,10 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark))
 
-    tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
+    tmpLocalDestinations.zip(locators).foreach { case (tmpLocalDestination, locator) =>
+
       /** tmpFiles indexed must be explicitly set to be local files */
-      val uri = "file://"+(new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath)
+      val uri = "file://" + (new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath)
       StorageHelper.sendToCluster(new Path(uri), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
     }
 
