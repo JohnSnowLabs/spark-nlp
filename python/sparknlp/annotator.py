@@ -4217,20 +4217,25 @@ class NerCrfModel(AnnotatorModel):
 
 
 class NerDLApproach(AnnotatorApproach, NerApproach):
-    """This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.
+    """This Named Entity recognition annotator allows to train generic NER model
+    based on Neural Networks.
 
-    The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
+    The architecture of the neural network is a Char CNNs - BiLSTM - CRF that
+    achieves state-of-the-art in most datasets.
 
     For instantiated/pretrained models, see :class:`.NerDLModel`.
 
-    The training data should be a labeled Spark Dataset, in the format of CoNLL
-    2003 IOB with ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` and an
-    additional label column of annotator type ``NAMED_ENTITY``.
-    Excluding the label, this can be done with for example
+    The training data should be a labeled Spark Dataset, in the format of
+    :class:`.CoNLL` 2003 IOB with ``Annotation`` type columns. The data should
+    have columns of type ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` and an additional
+    label column of annotator type ``NAMED_ENTITY``.
+
+    Excluding the label, this can be done with for example:
 
     - a SentenceDetector,
     - a Tokenizer and
-    - a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings for BERT based embeddings).
+    - a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings
+      for BERT based embeddings).
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner>`__.
 
@@ -4272,7 +4277,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     validationSplit
         Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default 0.0
     evaluationLogExtended
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default False
+        Whether logs for validation to be extended, by default False.
     testDataset
         Path to test dataset. If set used to calculate statistic on it during training.
     includeConfidence
@@ -4288,56 +4293,49 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.training import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    First extract the prerequisites for the NerDLApproach
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = BertEmbeddings.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("embeddings")
 
-        # First extract the prerequisites for the NerDLApproach
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
+    Then the training can start
 
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
+    >>> nerTagger = NerDLApproach() \\
+    ...     .setInputCols(["sentence", "token", "embeddings"]) \\
+    ...     .setLabelColumn("label") \\
+    ...     .setOutputCol("ner") \\
+    ...     .setMaxEpochs(1) \\
+    ...     .setRandomSeed(0) \\
+    ...     .setVerbose(0)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     nerTagger
+    ... ])
 
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
+    We use the text and labels from the CoNLL dataset
 
-        embeddings = BertEmbeddings.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("embeddings")
-
-        # Then the training can start
-        nerTagger = NerDLApproach() \\
-            .setInputCols(["sentence", "token", "embeddings"]) \\
-            .setLabelColumn("label") \\
-            .setOutputCol("ner") \\
-            .setMaxEpochs(1) \\
-            .setRandomSeed(0) \\
-            .setVerbose(0)
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence,
-            tokenizer,
-            embeddings,
-            nerTagger
-        ])
-
-        # We use the text and labels from the CoNLL dataset
-        conll = CoNLL()
-        trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
-
-        pipelineModel = pipeline.fit(trainingData)
-
+    >>> conll = CoNLL()
+    >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+    >>> pipelineModel = pipeline.fit(trainingData)
     """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -4365,7 +4363,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                             TypeConverters.toFloat)
 
     evaluationLogExtended = Param(Params._dummy(), "evaluationLogExtended",
-                                  "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
+                                  "Whether logs for validation to be extended: it displays time and evaluation of each label. Default is False.",
                                   TypeConverters.toBoolean)
 
     testDataset = Param(Params._dummy(), "testDataset",
@@ -4402,9 +4400,29 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(configProtoBytes=b)
 
     def setGraphFolder(self, p):
+        """Sets folder path that contain external graph files.
+
+        Parameters
+        ----------
+        p : str
+            Folder path that contain external graph files
+        """
         return self._set(graphFolder=p)
 
     def setUseContrib(self, v):
+        """Sets whether to use contrib LSTM Cells. Not compatible with Windows.
+        Might slightly improve accuracy.
+
+        Parameters
+        ----------
+        v : bool
+            Whether to use contrib LSTM Cells
+
+        Raises
+        ------
+        Exception
+            Windows not supported to use contrib
+        """
         if v and sys.version == 'win32':
             raise Exception("Windows not supported to use contrib")
         return self._set(useContrib=v)
@@ -4421,6 +4439,15 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self
 
     def setPo(self, v):
+        """Sets Learning rate decay coefficient, by default 0.005.
+
+        Real Learning Rage is lr / (1 + po * epoch).
+
+        Parameters
+        ----------
+        v : float
+            Learning rate decay coefficient
+        """
         self._set(po=v)
         return self
 
@@ -4463,16 +4490,55 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self
 
     def setEvaluationLogExtended(self, v):
+        """Sets whether logs for validation to be extended, by default False.
+        Displays time and evaluation of each label.
+
+        Parameters
+        ----------
+        v : bool
+            Whether logs for validation to be extended
+
+        """
         self._set(evaluationLogExtended=v)
         return self
 
     def setTestDataset(self, path, read_as=ReadAs.SPARK, options={"format": "parquet"}):
+        """Sets Path to test dataset. If set used to calculate statistic on it
+        during training.
+
+        Parameters
+        ----------
+        path : str
+            Path to test dataset
+        read_as : str, optional
+            How to read the resource, by default :attr:`.ReadAs.SPARK`
+        options : dict, optional
+            Options for reading the resource, by default {"format": "parquet"}
+        """
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def setIncludeConfidence(self, value):
+
+        """Sets whether to include confidence scores in annotation metadata, by
+        default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include the confidence value in the output.
+        """
         return self._set(includeConfidence=value)
 
     def setIncludeAllConfidenceScores(self, value):
+        """Sets whether to include all confidence scores in annotation metadata
+        or just the score of the predicted tag, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include all confidence scores in annotation metadata or
+            just the score of the predicted tag
+        """
         return self._set(includeAllConfidenceScores=value)
 
     def setEnableOutputLogs(self, value):
@@ -4486,6 +4552,14 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(enableOutputLogs=value)
 
     def setEnableMemoryOptimizer(self, value):
+        """Sets Whether to optimize for large datasets or not, by default False.
+        Enabling this option can slow down training.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to optimize for large datasets
+        """
         return self._set(enableMemoryOptimizer=value)
 
     def setOutputLogsPath(self, p):
@@ -4521,33 +4595,36 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
 
 class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
-    """This Named Entity recognition annotator is a generic NER model based on Neural Networks.
+    """This Named Entity recognition annotator is a generic NER model based on
+    Neural Networks.
 
-    Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.
+    Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves
+    state-of-the-art in most datasets.
 
-    This is the instantiated model of the :class:`.NerDLApproach`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.NerDLApproach`. For training
+    your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        nerModel = NerDLModel.pretrained() \\
-            .setInputCols(["sentence", "token", "embeddings"]) \\
-            .setOutputCol("ner")
+    >>> nerModel = NerDLModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token", "embeddings"]) \\
+    ...     .setOutputCol("ner")
 
 
     The default model is ``"ner_dl"``, if no name is provided.
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
-    Additionally, pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+    Additionally, pretrained pipelines are available for this module, see
+    `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
-    Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
-    For example, the default model ``"ner_dl"`` requires the
-    WordEmbeddings ``"glove_100d"``.
+    Note that some pretrained models require specific types of embeddings,
+    depending on which they were trained on. For example, the default model
+    ``"ner_dl"`` requires the WordEmbeddings ``"glove_100d"``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ==================================== ======================
     Input Annotation types               Output Annotation type
@@ -4563,64 +4640,56 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     includeConfidence
-        whether to include confidence scores in annotation metadata, by default False
+        Whether to include confidence scores in annotation metadata, by default
+        False
     includeAllConfidenceScores
-        whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False
+        Whether to include all confidence scores in annotation metadata or just
+        the score of the predicted tag, by default False
     classes
-        get the tags used to trained this NerDLModel
+        Tags used to trained this NerDLModel
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    First extract the prerequisites for the NerDLModel
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = WordEmbeddingsModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("bert")
 
-        # First extract the prerequisites for the NerDLModel
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
+    Then NER can be extracted
 
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        embeddings = WordEmbeddingsModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("bert")
-
-        # Then NER can be extracted
-        nerTagger = NerDLModel.pretrained() \\
-            .setInputCols(["sentence", "token", "bert"]) \\
-            .setOutputCol("ner")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence,
-            tokenizer,
-            embeddings,
-            nerTagger
-        ])
-
-        data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.select("ner.result").show(truncate=False)
-        +------------------------------------+
-        |result                              |
-        +------------------------------------+
-        |[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
-        +------------------------------------+
-
+    >>> nerTagger = NerDLModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token", "bert"]) \\
+    ...     .setOutputCol("ner")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     nerTagger
+    ... ])
+    >>> data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("ner.result").show(truncate=False)
+    +------------------------------------+
+    |result                              |
+    +------------------------------------+
+    |[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
+    +------------------------------------+
     """
     name = "NerDLModel"
 
@@ -4659,9 +4728,27 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         return self._set(configProtoBytes=b)
 
     def setIncludeConfidence(self, value):
+
+        """Sets whether to include confidence scores in annotation metadata, by
+        default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include the confidence value in the output.
+        """
         return self._set(includeConfidence=value)
 
     def setIncludeAllConfidenceScores(self, value):
+        """Sets whether to include all confidence scores in annotation metadata
+        or just the score of the predicted tag, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include all confidence scores in annotation metadata or
+            just the score of the predicted tag
+        """
         return self._set(includeAllConfidenceScores=value)
 
     @staticmethod
@@ -4688,13 +4775,17 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
 
 class NerConverter(AnnotatorModel):
-    """Converts a IOB or IOB2 representation of NER to a user-friendly one,
-    by associating the tokens of recognized entities and their label. Results in ``CHUNK`` Annotation type.
+    """Converts a IOB or IOB2 representation of NER to a user-friendly one, by
+    associating the tokens of recognized entities and their label. Results in
+    ``CHUNK`` Annotation type.
 
-    NER chunks can then be filtered by setting a whitelist with ``setWhiteList``.
-    Chunks with no associated entity (tagged "O") are filtered.
+    NER chunks can then be filtered by setting a whitelist with
+    ``setWhiteList``. Chunks with no associated entity (tagged "O") are
+    filtered.
 
-    See also `Inside–outside–beginning (tagging) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`__ for more information.
+    See also `Inside–outside–beginning (tagging)
+    <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`__
+    for more information.
 
     ================================= ======================
     Input Annotation types            Output Annotation type
@@ -4706,51 +4797,42 @@ class NerConverter(AnnotatorModel):
     ----------
 
     whiteList
-        If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels
+        If defined, list of entities to process. The rest will be ignored. Do
+        not include IOB prefix on labels
 
     Examples
     --------
+    This is a continuation of the example of the :class:`.NerDLModel`. See that
+    class on how to extract the entities. The output of the NerDLModel follows
+    the Annotator schema and can be converted like so:
 
-    .. code-block:: python
+    >>> result.selectExpr("explode(ner)").show(truncate=False)
+    +----------------------------------------------------+
+    |col                                                 |
+    +----------------------------------------------------+
+    |[named_entity, 0, 2, B-ORG, [word -> U.N], []]      |
+    |[named_entity, 3, 3, O, [word -> .], []]            |
+    |[named_entity, 5, 12, O, [word -> official], []]    |
+    |[named_entity, 14, 18, B-PER, [word -> Ekeus], []]  |
+    |[named_entity, 20, 24, O, [word -> heads], []]      |
+    |[named_entity, 26, 28, O, [word -> for], []]        |
+    |[named_entity, 30, 36, B-LOC, [word -> Baghdad], []]|
+    |[named_entity, 37, 37, O, [word -> .], []]          |
+    +----------------------------------------------------+
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # This is a continuation of the example of the NerDLModel. See that class
-        # on how to extract the entities.
-        # The output of the NerDLModel follows the Annotator schema and can be converted like so:
-        result.selectExpr("explode(ner)").show(truncate=False)
-        +----------------------------------------------------+
-        |col                                                 |
-        +----------------------------------------------------+
-        |[named_entity, 0, 2, B-ORG, [word -> U.N], []]      |
-        |[named_entity, 3, 3, O, [word -> .], []]            |
-        |[named_entity, 5, 12, O, [word -> official], []]    |
-        |[named_entity, 14, 18, B-PER, [word -> Ekeus], []]  |
-        |[named_entity, 20, 24, O, [word -> heads], []]      |
-        |[named_entity, 26, 28, O, [word -> for], []]        |
-        |[named_entity, 30, 36, B-LOC, [word -> Baghdad], []]|
-        |[named_entity, 37, 37, O, [word -> .], []]          |
-        +----------------------------------------------------+
+    After the converter is used:
 
-        # After the converter is used:
-        converter = NerConverter() \\
-            .setInputCols(["sentence", "token", "ner"]) \\
-            .setOutputCol("entities") \\
-            .setPreservePosition(False)
-
-        converter.transform(result).selectExpr("explode(entities)").show(truncate=False)
-        +------------------------------------------------------------------------+
-        |col                                                                     |
-        +------------------------------------------------------------------------+
-        |[chunk, 0, 2, U.N, [entity -> ORG, sentence -> 0, chunk -> 0], []]      |
-        |[chunk, 14, 18, Ekeus, [entity -> PER, sentence -> 0, chunk -> 1], []]  |
-        |[chunk, 30, 36, Baghdad, [entity -> LOC, sentence -> 0, chunk -> 2], []]|
-        +------------------------------------------------------------------------+
-
+    >>> converter = NerConverter() \\
+    ...     .setInputCols(["sentence", "token", "ner"]) \\
+    ...     .setOutputCol("entities")
+    >>> converter.transform(result).selectExpr("explode(entities)").show(truncate=False)
+    +------------------------------------------------------------------------+
+    |col                                                                     |
+    +------------------------------------------------------------------------+
+    |[chunk, 0, 2, U.N, [entity -> ORG, sentence -> 0, chunk -> 0], []]      |
+    |[chunk, 14, 18, Ekeus, [entity -> PER, sentence -> 0, chunk -> 1], []]  |
+    |[chunk, 30, 36, Baghdad, [entity -> LOC, sentence -> 0, chunk -> 2], []]|
+    +------------------------------------------------------------------------+
     """
     name = 'NerConverter'
 
@@ -4762,6 +4844,16 @@ class NerConverter(AnnotatorModel):
     )
 
     def setWhiteList(self, entities):
+        """Sets list of entities to process. The rest will be ignored.
+
+        Does not include IOB prefix on labels.
+
+        Parameters
+        ----------
+        entities : List[str]
+            If defined, list of entities to process. The rest will be ignored.
+
+        """
         return self._set(whiteList=entities)
 
     @keyword_only
