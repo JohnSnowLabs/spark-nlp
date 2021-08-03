@@ -175,7 +175,9 @@ class RecursiveTokenizer(AnnotatorApproach):
 
 class RecursiveTokenizerModel(AnnotatorModel):
     """Instantiated model of the RecursiveTokenizer.
-    For usage and examples see the documentation of the main class.
+
+    This is the instantiated model of the :class:`.RecursiveTokenizer`.
+    For training your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -738,7 +740,9 @@ class ChunkTokenizer(Tokenizer):
 
 class ChunkTokenizerModel(TokenizerModel):
     """Instantiated model of the ChunkTokenizer.
-    For usage and examples see the documentation of the main class.
+
+    This is the instantiated model of the :class:`.ChunkTokenizer`.
+    For training your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1201,10 +1205,12 @@ class DocumentNormalizer(AnnotatorModel):
 
 
 class Normalizer(AnnotatorApproach):
-    """Annotator that cleans out tokens. Requires stems, hence tokens.
-    Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
+    """Annotator that cleans out tokens. Requires stems, hence tokens. Removes
+    all dirty characters from text following a regex pattern and transforms
+    words based on a provided dictionary
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1216,59 +1222,51 @@ class Normalizer(AnnotatorApproach):
     ----------
 
     cleanupPatterns
-        normalization regex patterns which match will be removed from token, by default ['[^\\pL+]']
+        Normalization regex patterns which match will be removed from token, by default ['[^\\pL+]']
     lowercase
-        whether to convert strings to lowercase, by default False
+        Whether to convert strings to lowercase, by default False
     slangDictionary
-        slang dictionary is a delimited text. needs 'delimiter' in options
+        Slang dictionary is a delimited text. needs 'delimiter' in options
     minLength
-        Set the minimum allowed legth for each token, by default 0
+        The minimum allowed legth for each token, by default 0
     maxLength
-        Set the maximum allowed legth for each token
+        The maximum allowed legth for each token
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> normalizer = Normalizer() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("normalized") \\
+    ...     .setLowercase(True) \\
+    ...     .setCleanupPatterns([\"\"\"[^\\w\\d\\s]\"\"\"])
 
-    .. code-block:: python
+    The pattern removes punctuations (keeps alphanumeric chars). If we don't set
+    CleanupPatterns, it will only keep alphabet letters ([^A-Za-z])
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        normalizer = Normalizer() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("normalized") \\
-            .setLowercase(True) \\
-            .setCleanupPatterns([\"\"\"[^\w\d\s]\"\"\"]) # remove punctuations (keep alphanumeric chars)
-        # if we don't set CleanupPatterns, it will only keep alphabet letters ([^A-Za-z])
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            normalizer
-        ])
-
-        data = spark.createDataFrame([["John and Peter are brothers. However they don't support each other that much."]]) \\
-            .toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("normalized.result").show(truncate = False)
-        +----------------------------------------------------------------------------------------+
-        |result                                                                                  |
-        +----------------------------------------------------------------------------------------+
-        |[john, and, peter, are, brothers, however, they, dont, support, each, other, that, much]|
-        +----------------------------------------------------------------------------------------+
-
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     normalizer
+    ... ])
+    >>> data = spark.createDataFrame([["John and Peter are brothers. However they don't support each other that much."]]) \\
+    ...     .toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("normalized.result").show(truncate = False)
+    +----------------------------------------------------------------------------------------+
+    |result                                                                                  |
+    +----------------------------------------------------------------------------------------+
+    |[john, and, peter, are, brothers, however, they, dont, support, each, other, that, much]|
+    +----------------------------------------------------------------------------------------+
     """
 
     cleanupPatterns = Param(Params._dummy(),
@@ -1310,21 +1308,64 @@ class Normalizer(AnnotatorApproach):
         )
 
     def setCleanupPatterns(self, value):
+        """Sets normalization regex patterns which match will be removed from
+        token, by default ['[^\\pL+]'].
+
+        Parameters
+        ----------
+        value : List[str]
+            Normalization regex patterns which match will be removed from token
+        """
         return self._set(cleanupPatterns=value)
 
     def setLowercase(self, value):
+        """Sets whether to convert strings to lowercase, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to convert strings to lowercase, by default False
+        """
         return self._set(lowercase=value)
 
     def setSlangDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Sets slang dictionary is a delimited text. Needs 'delimiter' in
+        options
+
+        Parameters
+        ----------
+        path : str
+            Path to the source files
+        delimiter : str
+            Delimiter for the values
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+        """
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(slangDictionary=ExternalResource(path, read_as, opts))
 
     def setMinLength(self, value):
+        """Sets the minimum allowed legth for each token, by default 0.
+
+        Parameters
+        ----------
+        value : int
+            Minimum allowed legth for each token.
+        """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
+        """Sets the maximum allowed legth for each token.
+
+        Parameters
+        ----------
+        value : int
+            Maximum allowed legth for each token
+        """
         return self._set(maxLength=value)
 
     def _create_model(self, java_model):
@@ -1332,7 +1373,10 @@ class Normalizer(AnnotatorApproach):
 
 
 class NormalizerModel(AnnotatorModel):
-    """Instantiated Model of the Normalizer. For usage and examples, please see the documentation of that class.
+    """Instantiated Model of the Normalizer.
+
+    This is the instantiated model of the :class:`.Normalizer`.
+    For training your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1347,8 +1391,6 @@ class NormalizerModel(AnnotatorModel):
         normalization regex patterns which match will be removed from token
     lowercase
         whether to convert strings to lowercase
-
-
     """
 
     cleanupPatterns = Param(Params._dummy(),
@@ -1474,7 +1516,9 @@ class RegexMatcher(AnnotatorApproach):
 
 class RegexMatcherModel(AnnotatorModel):
     """Instantiated model of the RegexMatcher.
-    For usage and examples see the documentation of the main class.
+
+    This is the instantiated model of the :class:`.RegexMatcher`.
+    For training your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1527,9 +1571,7 @@ class Lemmatizer(AnnotatorApproach):
 
     >>> import sparknlp
     >>> from sparknlp.base import *
-    >>> from sparknlp.common import *
     >>> from sparknlp.annotator import *
-    >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
 
     In this example, the lemma dictionary ``lemmas_small.txt`` has the form of::
@@ -2141,7 +2183,9 @@ class TextMatcher(AnnotatorApproach):
 
 class TextMatcherModel(AnnotatorModel):
     """Instantiated model of the TextMatcher.
-    For usage and examples see the documentation of the main class.
+
+    This is the instantiated model of the :class:`.TextMatcher`.
+    For training your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2371,7 +2415,8 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     """Instantiated model of the BigTextMatcher.
 
-    For usage and examples see the documentation of the main class.
+    This is the instantiated model of the :class:`.BigTextMatcher`.
+    For training your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -4511,7 +4556,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         path : str
             Path to test dataset
         read_as : str, optional
-            How to read the resource, by default :attr:`.ReadAs.SPARK`
+            How to read the resource, by default ReadAs.SPARK
         options : dict, optional
             Options for reading the resource, by default {"format": "parquet"}
         """
@@ -6412,9 +6457,7 @@ class NGramGenerator(AnnotatorModel):
 
     >>> import sparknlp
     >>> from sparknlp.base import *
-    >>> from sparknlp.common import *
     >>> from sparknlp.annotator import *
-    >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
@@ -7240,9 +7283,7 @@ class ClassifierDLApproach(AnnotatorApproach):
     --------
     >>> import sparknlp
     >>> from sparknlp.base import *
-    >>> from sparknlp.common import *
     >>> from sparknlp.annotator import *
-    >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
 
     In this example, the training data ``"sentiment.csv"`` has the form of::
