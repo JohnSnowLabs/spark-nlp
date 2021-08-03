@@ -2508,18 +2508,20 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
 
 
 class PerceptronApproach(AnnotatorApproach):
-    """Trains an averaged Perceptron model to tag words part-of-speech.
-    Sets a POS tag to each word within a sentence.
+    """Trains an averaged Perceptron model to tag words part-of-speech. Sets a
+    POS tag to each word within a sentence.
 
     For pretrained models please see the :class:`.PerceptronModel`.
 
-    The training data needs to be in a Spark DataFrame, where the column needs to consist of
-    Annotations of type ``POS``. The ``Annotation`` needs to have member ``result``
-    set to the POS tag and have a ``"word"`` mapping to its word inside of member ``metadata``.
-    This DataFrame for training can easily created by the helper class POS.
+    The training data needs to be in a Spark DataFrame, where the column needs
+    to consist of Annotations of type ``POS``. The `Annotation` needs to have
+    member ``result`` set to the POS tag and have a ``"word"`` mapping to its
+    word inside of member ``metadata``. This DataFrame for training can easily
+    created by the helper class :class:`.POS`.
 
 
-    >>> POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(truncate=False)
+    >>> POS().readDataset(spark, datasetPath) \\
+    ...     .selectExpr("explode(tags) as tags").show(truncate=False)
     +---------------------------------------------+
     |tags                                         |
     +---------------------------------------------+
@@ -2533,7 +2535,8 @@ class PerceptronApproach(AnnotatorApproach):
                             ...
 
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2545,60 +2548,48 @@ class PerceptronApproach(AnnotatorApproach):
     ----------
 
     posCol
-        column of Array of POS tags that match tokens
+        Column name for Array of POS tags that match tokens
     nIterations
-        Number of iterations in training, converges to better accuracy, by default 5
+        Number of iterations in training, converges to better accuracy, by
+        default 5
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        datasetPath = "src/test/resources/anc-pos-corpus-small/test-training.txt"
-        trainingPerceptronDF = POS().readDataset(spark, datasetPath)
-
-        trainedPos = PerceptronApproach() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("pos") \\
-            .setPosColumn("tags") \\
-            .fit(trainingPerceptronDF)
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence,
-            tokenizer,
-            trainedPos
-        ])
-
-        data = spark.createDataFrame([["To be or not to be, is this the question?"]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("pos.result").show(truncate=False)
-        +--------------------------------------------------+
-        |result                                            |
-        +--------------------------------------------------+
-        |[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|
-        +--------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.training import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> datasetPath = "src/test/resources/anc-pos-corpus-small/test-training.txt"
+    >>> trainingPerceptronDF = POS().readDataset(spark, datasetPath)
+    >>> trainedPos = PerceptronApproach() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("pos") \\
+    ...     .setPosColumn("tags") \\
+    ...     .fit(trainingPerceptronDF)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     tokenizer,
+    ...     trainedPos
+    ... ])
+    >>> data = spark.createDataFrame([["To be or not to be, is this the question?"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("pos.result").show(truncate=False)
+    +--------------------------------------------------+
+    |result                                            |
+    +--------------------------------------------------+
+    |[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|
+    +--------------------------------------------------+
     """
     posCol = Param(Params._dummy(),
                    "posCol",
@@ -2619,12 +2610,33 @@ class PerceptronApproach(AnnotatorApproach):
         )
 
     def setPosColumn(self, value):
+        """Sets column name for Array of POS tags that match tokens.
+
+        Parameters
+        ----------
+        value : str
+            Name of column for Array of POS tags
+        """
         return self._set(posCol=value)
 
     def setIterations(self, value):
+        """Sets number of iterations in training, by default 5.
+
+        Parameters
+        ----------
+        value : int
+            Number of iterations in training
+        """
         return self._set(nIterations=value)
 
     def getNIterations(self):
+        """Gets number of iterations in training, by default 5.
+
+        Returns
+        -------
+        int
+            Number of iterations in training
+        """
         return self.getOrDefault(self.nIterations)
 
     def _create_model(self, java_model):
@@ -2632,28 +2644,29 @@ class PerceptronApproach(AnnotatorApproach):
 
 
 class PerceptronModel(AnnotatorModel):
-    """Averaged Perceptron model to tag words part-of-speech.
-    Sets a POS tag to each word within a sentence.
+    """Averaged Perceptron model to tag words part-of-speech. Sets a POS tag to
+    each word within a sentence.
 
-    This is the instantiated model of the `:class:`.PerceptronApproach`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.PerceptronApproach`. For
+    training your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        posTagger = PerceptronModel.pretrained() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("pos")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("pos")
 
 
     The default model is ``"pos_anc"``, if no name is provided.
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging>`__.
-    Additionally, pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging>`__.
+    Additionally, pretrained pipelines are available for this module, see
+    `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2668,52 +2681,40 @@ class PerceptronModel(AnnotatorModel):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        posTagger = PerceptronModel.pretrained() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("pos")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            posTagger
-        ])
-
-        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers"]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(pos) as pos").show(truncate=False)
-        +-------------------------------------------+
-        |pos                                        |
-        +-------------------------------------------+
-        |[pos, 0, 4, NNP, [word -> Peter], []]      |
-        |[pos, 6, 11, NNP, [word -> Pipers], []]    |
-        |[pos, 13, 21, NNS, [word -> employees], []]|
-        |[pos, 23, 25, VBP, [word -> are], []]      |
-        |[pos, 27, 33, VBG, [word -> picking], []]  |
-        |[pos, 35, 39, NNS, [word -> pecks], []]    |
-        |[pos, 41, 42, IN, [word -> of], []]        |
-        |[pos, 44, 50, JJ, [word -> pickled], []]   |
-        |[pos, 52, 58, NNS, [word -> peppers], []]  |
-        +-------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("pos")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     posTagger
+    ... ])
+    >>> data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(pos) as pos").show(truncate=False)
+    +-------------------------------------------+
+    |pos                                        |
+    +-------------------------------------------+
+    |[pos, 0, 4, NNP, [word -> Peter], []]      |
+    |[pos, 6, 11, NNP, [word -> Pipers], []]    |
+    |[pos, 13, 21, NNS, [word -> employees], []]|
+    |[pos, 23, 25, VBP, [word -> are], []]      |
+    |[pos, 27, 33, VBG, [word -> picking], []]  |
+    |[pos, 35, 39, NNS, [word -> pecks], []]    |
+    |[pos, 41, 42, IN, [word -> of], []]        |
+    |[pos, 44, 50, JJ, [word -> pickled], []]   |
+    |[pos, 52, 58, NNS, [word -> peppers], []]  |
+    +-------------------------------------------+
     """
     name = "PerceptronModel"
 
