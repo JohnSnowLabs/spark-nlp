@@ -52,9 +52,9 @@ data:
           hide: yes
           id: icd10-cm_coding
           image: 
-              src: /assets/images/Detect_risk_factors.svg
+              src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding.svg
           image2: 
-              src: /assets/images/Detect_risk_factors_f.svg
+              src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding_c.svg
           excerpt: This model maps clinical entities and concepts to ICD10 CM codes using sentence biobert embeddings.
           actions:
           - text: Live Demo
@@ -67,9 +67,9 @@ data:
           hide: yes
           id: rxnorm_coding
           image: 
-              src: /assets/images/Detect_drugs_and_prescriptions.svg
+              src: /assets/images/Sentence_Entity_Resolver_for_RxNorm.svg
           image2: 
-              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
+              src: /assets/images/Sentence_Entity_Resolver_for_RxNorm_c.svg
           excerpt: This model maps extracted medical entities to RxNorm codes using sentence embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions.
           actions:
           - text: Live Demo
