@@ -258,7 +258,7 @@ class Tokenizer(AnnotatorApproach):
     ----------
 
     targetPattern
-        pattern to grab from text as token candidates, by default "\S+"
+        pattern to grab from text as token candidates, by default "\\S+"
     prefixPattern
         regex with groups and begins with \A to match target prefix, by default "\A([^\s\w\$\.]*)"
     suffixPattern
@@ -494,13 +494,13 @@ class TokenizerModel(AnnotatorModel):
     caseSensitiveExceptions
         Whether to care for case sensitiveness in exceptions, by default True
     targetPattern
-        pattern to grab from text as token candidates, by default "\S+"
+        Pattern to grab from text as token candidates, by default "\\S+"
     rules
         Rules structure factory containing pre processed regex rules
     splitPattern
-        character list used to separate from the inside of tokens
+        Character list used to separate from the inside of tokens
     splitChars
-        character list used to separate from the inside of tokens
+        Character list used to separate from the inside of tokens
 
 
     """
@@ -605,7 +605,7 @@ class RegexTokenizer(AnnotatorModel):
     toLowercase
         Indicates whether to convert all characters to lowercase before tokenizing, by default False
     pattern
-        regex pattern used for tokenizing, by default "\s+"
+        Regex pattern used for tokenizing, by default "\\s+"
     positionalMask
         Using a positional mask to guarantee the incremental progression of the tokenization, by default False
 
@@ -2498,22 +2498,22 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
         )
 
     def setMergeOverlapping(self, b):
-        """Sets whether to ignore case in index lookups
-
-        Parameters
-        ----------
-        b : bool
-            Whether to ignore case in index lookups
-        """
-        return self._set(mergeOverlapping=b)
-
-    def setCaseSensitive(self, v):
         """Sets whether to merge overlapping matched chunks, by default False
 
         Parameters
         ----------
         v : bool
             Whether to merge overlapping matched chunks, by default False
+        """
+        return self._set(mergeOverlapping=b)
+
+    def setCaseSensitive(self, v):
+        """Sets whether to ignore case in index lookups
+
+        Parameters
+        ----------
+        b : bool
+            Whether to ignore case in index lookups
         """
         return self._set(caseSensitive=v)
 
@@ -4007,7 +4007,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     This Named Entity recognition annotator allows for a generic model to be
     trained by utilizing a CRF machine learning algorithm. The training data
     should be a labeled Spark Dataset, e.g. :class:`.CoNLL` 2003 IOB with
-    ``Annotation`` type columns. The data should have columns of type
+    `Annotation` type columns. The data should have columns of type
     ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` and an additional label column of
     annotator type ``NAMED_ENTITY``.
 
@@ -4350,7 +4350,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     For instantiated/pretrained models, see :class:`.NerDLModel`.
 
     The training data should be a labeled Spark Dataset, in the format of
-    :class:`.CoNLL` 2003 IOB with ``Annotation`` type columns. The data should
+    :class:`.CoNLL` 2003 IOB with `Annotation` type columns. The data should
     have columns of type ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` and an additional
     label column of annotator type ``NAMED_ENTITY``.
 
@@ -10472,7 +10472,7 @@ class WordSegmenterApproach(AnnotatorApproach):
     into a dataframe, where the column is an Annotation of type ``"POS"``. This can be
     set with ``setPosColumn``.
 
-    **Tip**: The helper class POS might be useful to read training data into data frames.
+    **Tip**: The helper class :class:`.POS` might be useful to read training data into data frames.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__.
 
