@@ -103,4 +103,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
+        - title: Extract entities from visual documents 
+          hide: yes
+          id: extract_entities_from_visual_documents  
+          image: 
+              src: /assets/images/Extract_entities_from_visual_documents.svg
+          image2: 
+              src: /assets/images/Extract_entities_from_visual_documents_c.svg
+          excerpt: Exract entities form any visual document by using pretrained models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb
 ---
