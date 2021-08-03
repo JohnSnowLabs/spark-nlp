@@ -3313,19 +3313,24 @@ class ViveknSentimentModel(AnnotatorModel):
 
 
 class NorvigSweetingApproach(AnnotatorApproach):
-    """Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.
+    """Trains annotator, that retrieves tokens and makes corrections
+    automatically if not found in an English dictionary.
 
-    The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-    dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-    (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-    A dictionary of correct spellings must be provided with ``setDictionary`` either in the form of a text file or directly
-    as an ExternalResource, where each word is parsed by a regex pattern.
+    The Symmetric Delete spelling correction algorithm reduces the complexity of
+    edit candidate generation and dictionary lookup for a given
+    Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
+    standard approach with deletes + transposes + replaces + inserts) and
+    language independent. A dictionary of correct spellings must be provided
+    with :meth:`.setDictionary` in the form of a text file, where each word is
+    parsed by a regex pattern.
 
-    Inspired by Norvig model and `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+    Inspired by Norvig model and `SymSpell
+    <https://github.com/wolfgarbe/SymSpell>`__.
 
     For instantiated/pretrained models, see :class:`.NorvigSweetingModel`.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3339,68 +3344,64 @@ class NorvigSweetingApproach(AnnotatorApproach):
     dictionary
         Dictionary needs 'tokenPattern' regex in dictionary for separating words
     caseSensitive
-        Whether to ignore case sensitivty, by default False
+        Whether to ignore case sensitivity, by default False
     doubleVariants
         Whether to use more expensive spell checker, by default False
+
+        Increase search at cost of performance. Enables extra check for word
+        combinations.
     shortCircuit
         Whether to use faster mode, by default False
+
+        Increase performance at cost of accuracy. Faster but less accurate.
     frequencyPriority
         Applies frequency over hamming in intersections, when false hamming takes priority, by default True
     wordSizeIgnore
-        minimum size of word before ignoring, by default 3
+        Minimum size of word before ignoring, by default 3
     dupsLimit
-        maximum duplicate of characters in a word to consider, by default 2
+        Maximum duplicate of characters in a word to consider, by default 2
     reductLimit
-        word reductions limit, by default 3
+        Word reductions limit, by default 3
     intersections
-        hamming intersections to attempt, by default 10
+        Hamming intersections to attempt, by default 10
     vowelSwapLimit
-        vowel swap attempts, by default 6
+        Vowel swap attempts, by default 6
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    In this example, the dictionary ``"words.txt"`` has the form of::
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the dictionary `"words.txt"` has the form of
-        #
-        # ...
-        # gummy
-        # gummic
-        # gummier
-        # gummiest
-        # gummiferous
-        # ...
-        #
-        # This dictionary is then set to be the basis of the spell checker.
+        ...
+        gummy
+        gummic
+        gummier
+        gummiest
+        gummiferous
+        ...
 
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
+    This dictionary is then set to be the basis of the spell checker.
 
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        spellChecker = NorvigSweetingApproach() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("spell") \\
-            .setDictionary("src/test/resources/spell/words.txt")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            spellChecker
-        ])
-
-        pipelineModel = pipeline.fit(trainingData)
-
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> spellChecker = NorvigSweetingApproach() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("spell") \\
+    ...     .setDictionary("src/test/resources/spell/words.txt")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     spellChecker
+    ... ])
+    >>> pipelineModel = pipeline.fit(trainingData)
     """
     dictionary = Param(Params._dummy(),
                        "dictionary",
@@ -3461,6 +3462,20 @@ class NorvigSweetingApproach(AnnotatorApproach):
         self.dictionary_path = ""
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Sets dictionary which needs 'tokenPattern' regex for separating
+        words.
+
+        Parameters
+        ----------
+        path : str
+            Path to the source file
+        token_pattern : str, optional
+            Pattern for token separation, by default "\\S+"
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+        """
         self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
@@ -3468,15 +3483,49 @@ class NorvigSweetingApproach(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
     def setCaseSensitive(self, value):
+        """Sets whether to ignore case sensitivity, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to ignore case sensitivity
+        """
         return self._set(caseSensitive=value)
 
     def setDoubleVariants(self, value):
+        """Sets whether to use more expensive spell checker, by default False.
+
+        Increase search at cost of performance. Enables extra check for word
+        combinations.
+
+        Parameters
+        ----------
+        value : bool
+            [description]
+        """
         return self._set(doubleVariants=value)
 
     def setShortCircuit(self, value):
+        """Sets whether to use faster mode, by default False.
+
+        Increase performance at cost of accuracy. Faster but less accurate.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use faster mode
+        """
         return self._set(shortCircuit=value)
 
     def setFrequencyPriority(self, value):
+        """Sets whether to consider frequency over hamming in intersections,
+        when false hamming takes priority, by default True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to consider frequency over hamming in intersections
+        """
         return self._set(frequencyPriority=value)
 
     def _create_model(self, java_model):
@@ -3484,32 +3533,36 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
 
 class NorvigSweetingModel(AnnotatorModel):
-    """This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.
-    Inspired by Norvig model and `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+    """This annotator retrieves tokens and makes corrections automatically if
+    not found in an English dictionary.
 
-    The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-    dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-    (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+    Inspired by Norvig model and `SymSpell
+    <https://github.com/wolfgarbe/SymSpell>`__.
 
-    This is the instantiated model of the :class:`.NorvigSweetingApproach`.
-    For training your own model, please see the documentation of that class.
+    The Symmetric Delete spelling correction algorithm reduces the complexity of
+    edit candidate generation and dictionary lookup for a given
+    Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
+    standard approach with deletes + transposes + replaces + inserts) and
+    language independent.
+
+    This is the instantiated model of the :class:`.NorvigSweetingApproach`. For
+    training your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        spellChecker = NorvigSweetingModel.pretrained() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("spell") \\
-            .setDoubleVariants(True)
+    >>>    spellChecker = NorvigSweetingModel.pretrained() \\
+    ...        .setInputCols(["token"]) \\
+    ...        .setOutputCol("spell") \\
 
 
-    The default model is ``"spellcheck_norvig"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+    The default model is ``"spellcheck_norvig"``, if no name is provided. For
+    available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3520,48 +3573,36 @@ class NorvigSweetingModel(AnnotatorModel):
     Parameters
     ----------
 
-
+    None
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        spellChecker = NorvigSweetingModel.pretrained() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("spell")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            spellChecker
-        ])
-
-        data = spark.createDataFrame([["somtimes i wrrite wordz erong."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-        result.select("spell.result").show(truncate=False)
-        +--------------------------------------+
-        |result                                |
-        +--------------------------------------+
-        |[sometimes, i, write, words, wrong, .]|
-        +--------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> spellChecker = NorvigSweetingModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("spell")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     spellChecker
+    ... ])
+    >>> data = spark.createDataFrame([["somtimes i wrrite wordz erong."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("spell.result").show(truncate=False)
+    +--------------------------------------+
+    |result                                |
+    +--------------------------------------+
+    |[sometimes, i, write, words, wrong, .]|
+    +--------------------------------------+
     """
     name = "NorvigSweetingModel"
 
