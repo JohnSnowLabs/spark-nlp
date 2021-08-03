@@ -3815,13 +3815,27 @@ class NerApproach(Params):
         return self._set(labelColumn=value)
 
     def setEntities(self, tags):
+        """Sets entities to recognize.
+
+        Parameters
+        ----------
+        tags : List[str]
+            List of entities
+        """
         return self._set(entities=tags)
 
     def setMinEpochs(self, epochs):
+        """Sets minimum number of epochs to train.
+
+        Parameters
+        ----------
+        epochs : int
+            Minimum number of epochs to train
+        """
         return self._set(minEpochs=epochs)
 
     def setMaxEpochs(self, epochs):
-        """Sets maximum number of epochs to train, by default 30
+        """Sets maximum number of epochs to train
 
         Parameters
         ----------
@@ -3851,6 +3865,13 @@ class NerApproach(Params):
         return self._set(randomSeed=seed)
 
     def getLabelColumn(self):
+        """Gets column for label per each token.
+
+        Returns
+        -------
+        str
+            Column with label per each token
+        """
         return self.getOrDefault(self.labelColumn)
 
 
