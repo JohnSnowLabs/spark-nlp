@@ -41,8 +41,7 @@ To overcome this exception message we have to follow these steps:
     ```bash
     cd spark-nlp/python/tensorflow
     export PYTHONPATH=lib/ner
-    cd ner
-    python create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars] [output_path]
+    python ner/create_models.py [number_of_tags] [embeddings_dimension] [number_of_chars] [output_path]
     ```
 
 3. This will generate a graph on the directory defined on `output_path argument.
