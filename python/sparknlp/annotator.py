@@ -6216,14 +6216,15 @@ class StopWordsCleaner(AnnotatorModel):
 
 
 class NGramGenerator(AnnotatorModel):
-    """A feature transformer that converts the input array of strings (annotatorType TOKEN) into an
-    array of n-grams (annotatorType CHUNK).
-    Null values in the input array are ignored.
-    It returns an array of n-grams where each n-gram is represented by a space-separated string of
-    words.
+    """A feature transformer that converts the input array of strings
+    (annotatorType ``TOKEN``) into an array of n-grams (annotatorType
+    ``CHUNK``).
 
-    When the input is empty, an empty array is returned.
-    When the input array length is less than n (number of elements per n-gram), no n-grams are
+    Null values in the input array are ignored. It returns an array of n-grams
+    where each n-gram is represented by a space-separated string of words.
+
+    When the input is empty, an empty array is returned. When the input array
+    length is less than n (number of elements per n-gram), no n-grams are
     returned.
 
     For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb>`__.
@@ -6238,61 +6239,51 @@ class NGramGenerator(AnnotatorModel):
     ----------
 
     n
-        number elements per n-gram (>=1), by default 2
+        Number elements per n-gram (>=1), by default 2
     enableCumulative
-        whether to calculate just the actual n-grams, by default False
+        Whether to calculate just the actual n-grams, by default False
     delimiter
-        String to use to join the tokens
+        Character to use to join the tokens, by default " "
 
     Examples
     --------
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        nGrams = NGramGenerator() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("ngrams") \\
-            .setN(2)
-
-        pipeline = Pipeline().setStages([
-              documentAssembler,
-              sentence,
-              tokenizer,
-              nGrams
-            ])
-
-        data = spark.createDataFrame([["This is my sentence."]]).toDF("text")
-        results = pipeline.fit(data).transform(data)
-
-        results.selectExpr("explode(ngrams) as result").show(truncate=False)
-        +------------------------------------------------------------+
-        |result                                                      |
-        +------------------------------------------------------------+
-        |[chunk, 0, 6, This is, [sentence -> 0, chunk -> 0], []]     |
-        |[chunk, 5, 9, is my, [sentence -> 0, chunk -> 1], []]       |
-        |[chunk, 8, 18, my sentence, [sentence -> 0, chunk -> 2], []]|
-        |[chunk, 11, 19, sentence ., [sentence -> 0, chunk -> 3], []]|
-        +------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.common import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.training import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> nGrams = NGramGenerator() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("ngrams") \\
+    ...     .setN(2)
+    >>> pipeline = Pipeline().setStages([
+    ...       documentAssembler,
+    ...       sentence,
+    ...       tokenizer,
+    ...       nGrams
+    ...     ])
+    >>> data = spark.createDataFrame([["This is my sentence."]]).toDF("text")
+    >>> results = pipeline.fit(data).transform(data)
+    >>> results.selectExpr("explode(ngrams) as result").show(truncate=False)
+    +------------------------------------------------------------+
+    |result                                                      |
+    +------------------------------------------------------------+
+    |[chunk, 0, 6, This is, [sentence -> 0, chunk -> 0], []]     |
+    |[chunk, 5, 9, is my, [sentence -> 0, chunk -> 1], []]       |
+    |[chunk, 8, 18, my sentence, [sentence -> 0, chunk -> 2], []]|
+    |[chunk, 11, 19, sentence ., [sentence -> 0, chunk -> 3], []]|
+    +------------------------------------------------------------+
     """
 
     name = "NGramGenerator"
@@ -6313,20 +6304,37 @@ class NGramGenerator(AnnotatorModel):
                       typeConverter=TypeConverters.toString)
 
     def setN(self, value):
-        """
-        Sets the value of :py:attr:`n`.
+        """Sets number elements per n-gram (>=1), by default 2.
+
+        Parameters
+        ----------
+        value : int
+            Number elements per n-gram (>=1), by default 2
         """
         return self._set(n=value)
 
     def setEnableCumulative(self, value):
-        """
-        Sets the value of :py:attr:`enableCumulative`.
+        """Sets whether to calculate just the actual n-grams, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to calculate just the actual n-grams
         """
         return self._set(enableCumulative=value)
 
     def setDelimiter(self, value):
-        """
-        Sets the value of :py:attr:`delimiter`.
+        """Sets character to use to join the tokens
+
+        Parameters
+        ----------
+        value : str
+            character to use to join the tokens
+
+        Raises
+        ------
+        Exception
+            Delimiter should have length == 1
         """
         if len(value) > 1:
             raise Exception("Delimiter should have length == 1")
