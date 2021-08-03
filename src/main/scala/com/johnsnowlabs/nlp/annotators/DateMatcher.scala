@@ -130,7 +130,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
     val _text =
       if(translationPreds.forall(_.equals(true)))
-        DateMatcherTranslator.translate(text, sourceLanguage)
+        new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
       else
         text
 
