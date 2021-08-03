@@ -3880,18 +3880,22 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     For instantiated/pretrained models, see :class:`.NerCrfModel`.
 
-    This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
-    algorithm. The training data should be a labeled Spark Dataset, e.g. CoNLL 2003 IOB with
-    ``Annotation`` type columns. The data should have columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` and an
-    additional label column of annotator type ``NAMED_ENTITY``.
-    Excluding the label, this can be done with for example
+    This Named Entity recognition annotator allows for a generic model to be
+    trained by utilizing a CRF machine learning algorithm. The training data
+    should be a labeled Spark Dataset, e.g. :class:`.CoNLL` 2003 IOB with
+    ``Annotation`` type columns. The data should have columns of type
+    ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`` and an additional label column of
+    annotator type ``NAMED_ENTITY``.
 
-    * a SentenceDetector,
-    * a Tokenizer,
-    * a PerceptronModel and
-    * a WordEmbeddingsModel.
+    Excluding the label, this can be done with for example:
 
-    Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.
+    - a :class:`.SentenceDetector`,
+    - a :class:`.Tokenizer`,
+    - a :class:`.PerceptronModel` and
+    - a :class:`.WordEmbeddingsModel`.
+
+    Optionally the user can provide an entity dictionary file with
+    :meth:`.setExternalFeatures` for better accuracy.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb>`__.
 
@@ -3925,54 +3929,46 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     minW
         Features with less weights then this param value will be filtered
     includeConfidence
-        external features is a delimited text. needs 'delimiter' in options, by default False
+        Whether to include confidence scores in annotation metadata, by default
+        False
     externalFeatures
         Additional dictionaries paths to use as a features
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.training import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    This CoNLL dataset already includes the sentence, token, pos and label
+    column with their respective annotator types. If a custom dataset is used,
+    these need to be defined.
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
-        # If a custom dataset is used, these need to be defined.
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        embeddings = WordEmbeddingsModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("embeddings") \\
-            .setCaseSensitive(False)
-
-        nerTagger = NerCrfApproach() \\
-            .setInputCols(["sentence", "token", "pos", "embeddings"]) \\
-            .setLabelColumn("label") \\
-            .setMinEpochs(1) \\
-            .setMaxEpochs(3) \\
-            .setC0(34) \\
-            .setL2(3.0) \\
-            .setOutputCol("ner")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            embeddings,
-            nerTagger
-        ])
-
-
-        conll = CoNLL()
-        trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
-
-        pipelineModel = pipeline.fit(trainingData)
-
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> embeddings = WordEmbeddingsModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("embeddings") \\
+    ...     .setCaseSensitive(False)
+    >>> nerTagger = NerCrfApproach() \\
+    ...     .setInputCols(["sentence", "token", "pos", "embeddings"]) \\
+    ...     .setLabelColumn("label") \\
+    ...     .setMinEpochs(1) \\
+    ...     .setMaxEpochs(3) \\
+    ...     .setC0(34) \\
+    ...     .setL2(3.0) \\
+    ...     .setOutputCol("ner")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     embeddings,
+    ...     nerTagger
+    ... ])
+    >>> conll = CoNLL()
+    >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+    >>> pipelineModel = pipeline.fit(trainingData)
     """
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
@@ -3993,24 +3989,77 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
                              TypeConverters.identity)
 
     def setL2(self, l2value):
+        """Sets L2 regularization coefficient, by default 1.0.
+
+        Parameters
+        ----------
+        l2value : float
+            L2 regularization coefficient
+        """
         return self._set(l2=l2value)
 
     def setC0(self, c0value):
+        """Sets c0 params defining decay speed for gradient, by default 2250000.
+
+        Parameters
+        ----------
+        c0value : int
+            c0 params defining decay speed for gradient
+        """
         return self._set(c0=c0value)
 
     def setLossEps(self, eps):
+        """Sets If Epoch relative improvement less than eps then training is
+        stopped, by default 0.001.
+
+        Parameters
+        ----------
+        eps : float
+            The threshold
+        """
         return self._set(lossEps=eps)
 
     def setMinW(self, w):
+        """Sets minimum weight value.
+
+        Features with less weights then this param value will be filtered.
+
+        Parameters
+        ----------
+        w : float
+            Minimum weight value
+        """
         return self._set(minW=w)
 
     def setExternalFeatures(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Sets Additional dictionaries paths to use as a features.
+
+        Parameters
+        ----------
+        path : str
+            Path to the source files
+        delimiter : str
+            Delimiter for the dictionary file. Can also be set it `options`.
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+        """
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
     def setIncludeConfidence(self, b):
+
+        """Sets whether to include confidence scores in annotation metadata, by
+        default False.
+
+        Parameters
+        ----------
+        b : bool
+            Whether to include the confidence value in the output.
+        """
         return self._set(includeConfidence=b)
 
     def _create_model(self, java_model):
@@ -4033,31 +4082,32 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
 class NerCrfModel(AnnotatorModel):
     """Extracts Named Entities based on a CRF Model.
 
-    This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
-    algorithm. The data should have columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS``.
-    These can be extracted with for example
+    This Named Entity recognition annotator allows for a generic model to be
+    trained by utilizing a CRF machine learning algorithm. The data should have
+    columns of type ``DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS``. These can be
+    extracted with for example
 
-    * a SentenceDetector,
-    * a Tokenizer and
-    * a PerceptronModel.
+    - a SentenceDetector,
+    - a Tokenizer and
+    - a PerceptronModel.
 
-    This is the instantiated model of the :class:`.NerCrfApproach`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.NerCrfApproach`. For training
+    your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        nerTagger = NerCrfModel.pretrained() \\
-            .setInputCols(["sentence", "token", "word_embeddings", "pos"]) \\
-            .setOutputCol("ner"
+    >>> nerTagger = NerCrfModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token", "word_embeddings", "pos"]) \\
+    ...     .setOutputCol("ner")
 
 
-    The default model is ``"ner_crf"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+    The default model is ``"ner_crf"``, if no name is provided. For available
+    pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb>`__.
 
     ========================================= ======================
     Input Annotation types                    Output Annotation type
@@ -4069,65 +4119,55 @@ class NerCrfModel(AnnotatorModel):
     ----------
 
     includeConfidence
-        external features is a delimited text. needs 'delimiter' in options
+        Whether to include confidence scores in annotation metadata, by default
+        False
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    First extract the prerequisites for the NerCrfModel
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = WordEmbeddingsModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("word_embeddings")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("pos")
 
-        # First extract the prerequisites for the NerCrfModel
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
+    Then NER can be extracted
 
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        embeddings = WordEmbeddingsModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("word_embeddings")
-
-        posTagger = PerceptronModel.pretrained() \\
-            .setInputCols(["sentence", "token"]) \\
-            .setOutputCol("pos")
-
-        # Then NER can be extracted
-        nerTagger = NerCrfModel.pretrained() \\
-            .setInputCols(["sentence", "token", "word_embeddings", "pos"]) \\
-            .setOutputCol("ner")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence,
-            tokenizer,
-            embeddings,
-            posTagger,
-            nerTagger
-        ])
-
-        data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.select("ner.result").show(truncate=False)
-        +------------------------------------+
-        |result                              |
-        +------------------------------------+
-        |[I-ORG, O, O, I-PER, O, O, I-LOC, O]|
-        +------------------------------------+
-
+    >>> nerTagger = NerCrfModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token", "word_embeddings", "pos"]) \\
+    ...     .setOutputCol("ner")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     posTagger,
+    ...     nerTagger
+    ... ])
+    >>> data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("ner.result").show(truncate=False)
+    +------------------------------------+
+    |result                              |
+    +------------------------------------+
+    |[I-ORG, O, O, I-PER, O, O, I-LOC, O]|
+    +------------------------------------+
     """
     name = "NerCrfModel"
 
@@ -4142,6 +4182,15 @@ class NerCrfModel(AnnotatorModel):
         )
 
     def setIncludeConfidence(self, b):
+
+        """Sets whether to include confidence scores in annotation metadata, by
+        default False.
+
+        Parameters
+        ----------
+        b : bool
+            Whether to include the confidence value in the output.
+        """
         return self._set(includeConfidence=b)
 
     @staticmethod
