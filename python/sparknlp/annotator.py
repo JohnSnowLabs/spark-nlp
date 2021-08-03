@@ -80,49 +80,45 @@ class RecursiveTokenizer(AnnotatorApproach):
     ----------
 
     prefixes
-        strings to be considered independent tokens when found at the beginning of a word, by default ["'", '"', '(', '[', '\\n']
+        Strings to be considered independent tokens when found at the beginning
+        of a word, by default ["'", '"', '(', '[', '\\n']
     suffixes
-        strings to be considered independent tokens when found at the end of a word, by default ['.', ':', '%', ',', ';', '?', "'", '"', ')', ']', '\\n', '!', "'s"]
+        Strings to be considered independent tokens when found at the end of a
+        word, by default ['.', ':', '%', ',', ';', '?', "'", '"', ')', ']',
+        '\\n', '!', "'s"]
     infixes
-        strings to be considered independent tokens when found in the middle of a word, by default ['\\n', '(', ')']
+        Strings to be considered independent tokens when found in the middle of
+        a word, by default ['\\n', '(', ')']
     whitelist
-        strings to be considered as single tokens , by default ["it\'s", "that\'s", "there\'s", "he\'s", "she\'s", "what\'s", "let\'s", "who\'s", "It\'s", "That\'s", "There\'s", "He\'s", "She\'s", "What\'s", "Let\'s", "Who\'s"]
+        Strings to be considered as single tokens , by default ["it\'s",
+        "that\'s", "there\'s", "he\'s", "she\'s", "what\'s", "let\'s", "who\'s",
+        "It\'s", "That\'s", "There\'s", "He\'s", "She\'s", "What\'s", "Let\'s",
+        "Who\'s"]
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = RecursiveTokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer
-        ])
-
-        data = spark.createDataFrame([["One, after the Other, (and) again. PO, QAM,"]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.select("token.result").show(truncate=False)
-        +------------------------------------------------------------------+
-        |result                                                            |
-        +------------------------------------------------------------------+
-        |[One, ,, after, the, Other, ,, (, and, ), again, ., PO, ,, QAM, ,]|
-        +------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = RecursiveTokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer
+    ... ])
+    >>> data = spark.createDataFrame([["One, after the Other, (and) again. PO, QAM,"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("token.result").show(truncate=False)
+    +------------------------------------------------------------------+
+    |result                                                            |
+    +------------------------------------------------------------------+
+    |[One, ,, after, the, Other, ,, (, and, ), again, ., PO, ,, QAM, ,]|
+    +------------------------------------------------------------------+
     """
     name = 'RecursiveTokenizer'
 
@@ -147,15 +143,58 @@ class RecursiveTokenizer(AnnotatorApproach):
                       typeConverter=TypeConverters.toListString)
 
     def setPrefixes(self, p):
+        """Sets strings to be considered independent tokens when found at the
+        beginning of a word, by default ["'", '"', '(', '[', '\\n'].
+
+        Parameters
+        ----------
+        p : List[str]
+            Strings to be considered independent tokens when found at the
+            beginning of a word
+        """
         return self._set(prefixes=p)
 
     def setSuffixes(self, s):
+        """Sets strings to be considered independent tokens when found at the
+        end of a word, by default ['.', ':', '%', ',', ';', '?', "'", '"', ')',
+        ']', '\\n', '!', "'s"]
+
+        Parameters
+        ----------
+        s : List[str]
+            Strings to be considered independent tokens when found at the end of
+            a word
+        """
         return self._set(suffixes=s)
 
     def setInfixes(self, i):
+        """Sets strings to be considered independent tokens when found in the
+        middle of a word, by default ['\\n', '(', ')']
+
+        Parameters
+        ----------
+        i : List[str]
+            Strings to be considered independent tokens when found in the middle
+            of a word
+
+        Returns
+        -------
+        [type]
+            [description]
+        """
         return self._set(infixes=i)
 
     def setWhitelist(self, w):
+        """Sets strings to be considered as single tokens, by default ["it\'s",
+        "that\'s", "there\'s", "he\'s", "she\'s", "what\'s", "let\'s", "who\'s",
+        "It\'s", "That\'s", "There\'s", "He\'s", "She\'s", "What\'s", "Let\'s",
+        "Who\'s"]
+
+        Parameters
+        ----------
+        w : List[str]
+            Strings to be considered as single tokens
+        """
         return self._set(whitelist=w)
 
     @keyword_only
@@ -189,8 +228,6 @@ class RecursiveTokenizerModel(AnnotatorModel):
     ----------
 
     None
-
-
     """
     name = 'RecursiveTokenizerModel'
 
