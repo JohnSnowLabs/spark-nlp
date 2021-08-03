@@ -7,8 +7,22 @@ import java.io.{FileNotFoundException, IOException}
 import scala.io.Source
 import scala.util.matching.Regex
 
+sealed trait DateMatcherTranslatorPolicy {
+  def value: String
+}
 
-object DateMatcherTranslator extends Serializable {
+
+case object SingleDatePolicy extends DateMatcherTranslatorPolicy {
+  override def value: String = "single"
+}
+
+
+case object MultiDatePolicy extends DateMatcherTranslatorPolicy {
+  override def value: String = "multi"
+}
+
+
+class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Serializable {
 
   val SupportedLanguagesFilePath = "/date-matcher/supported_languages.txt"
   val TranslationDataBaseDir = "/date-matcher/translation-dictionaries/dynamic/"
@@ -31,6 +45,9 @@ object DateMatcherTranslator extends Serializable {
 
   val AccentsPattern = "\\p{InCombiningDiacriticalMarks}+"
   val PunctuationPattern = "[^a-zA-Z0-9 \\/]"
+
+  /** Return one policy in [single, multi] associated to this translator */
+  def getPolicy() = policy
 
   /**
     * Load dictionary from supported language repository.
@@ -178,6 +195,8 @@ object DateMatcherTranslator extends Serializable {
     // e.g. Map(it -> Set((.*) anni fa))
     val processedSourceLanguageInfo: Map[String, Set[String]] = _processSourceLanguageInfo(text, sourceLanguage)
 
+    println(processedSourceLanguageInfo.mkString("\n"))
+
     // if multiple source languages match we default to english as further processing is not possible
     if(processedSourceLanguageInfo.size != 1)
       Map(English-> Set())
@@ -289,12 +308,15 @@ object DateMatcherTranslator extends Serializable {
       case _ => -1
     }
 
-    val candidates = Array("second", "minute", "hour", "day", "month", "year")
+    val candidates = Array("second", "minute", "hour", "day", "week", "month", "year")
 
-    var acc = text
+    var acc = text.replaceAll("\\.|,"," ")
     val adjusted: String =
       if(res > 1) {
-        val matchingCandidates = for(c <- candidates if text.contains(c)) yield c
+        val matchingCandidates = for(c <- candidates
+                                     if text.contains(c)
+                                       && !text.contains(1 + " " + c)
+                                       && !text.contains(c + "s")) yield c
         matchingCandidates.foreach(c => acc = acc.replaceAll(c, c + "s"))
         acc
       }
@@ -311,42 +333,72 @@ object DateMatcherTranslator extends Serializable {
     * @param sourceLanguageInfo: the source info map.
     * @return the translated sentence.
     * */
-  def translateBySentence(text: String, sourceLanguageInfo: Map[String, Set[String]]) = {
+  def translateBySentence(text: String,
+                          sourceLanguageInfo: Map[String, Set[String]],
+                          policy: DateMatcherTranslatorPolicy) = {
 
-    val strPattern = sourceLanguageInfo.values.flatten.head.r
-    val normalizedText = text.toLowerCase
-    val matchingGroup = strPattern.findAllIn(normalizedText).toList.head
+    val _text = text.toLowerCase
 
-    val toBeReplaced =
-      if(!matchingGroup.contains(ValuePlaceholder) || !matchingGroup.contains(ValuePlaceholder))
-        Array(matchingGroup)
-      else {
-        val groupTokens = matchingGroup.split(SpaceChar)
-        groupTokens.takeRight(groupTokens.size - 1)
+    // return only the first matched pattern
+    def translateWithMultiDatePolicy = {
+      val patterns: Iterable[Regex] = sourceLanguageInfo.values.flatten.map(_.r)
+      var acc = text
+
+      for(p <- patterns){
+        acc = _translateWithPattern(acc, p)
       }
 
-    val sourceLanguage = sourceLanguageInfo.head._1
-    val replacingKeys = getKeyFromDictionaryValue(toBeReplaced, sourceLanguage)
-
-    val cardinality = getTimeUnitCardinality(text).toString
-
-    var acc = EmptyStr
-
-    if(cardinality != NotDetected){
-      replacingKeys.foreach(rk =>
-        acc = text.replaceAll(
-          rk._2.replace(ValuePlaceholder, cardinality),
-          rk._1.replace(KeyPlaceholder, cardinality)))
-
-      val adjusted = adjustPlurality(acc)
-      adjusted
-    }
-    else {
-      replacingKeys
-        .foreach(rk =>
-          acc = normalizedText.replaceAll(rk._2, rk._1))
       acc
     }
+
+    def _translateWithPattern(text: String, pattern: Regex) = {
+      val matchingGroup = pattern.findAllIn(text).toList.head
+
+      val toBeReplaced =
+        if (!matchingGroup.contains(ValuePlaceholder) || !matchingGroup.contains(ValuePlaceholder))
+          Array(matchingGroup)
+        else {
+          val groupTokens = matchingGroup.split(SpaceChar)
+          groupTokens.takeRight(groupTokens.size - 1)
+        }
+
+      val sourceLanguage = sourceLanguageInfo.head._1
+      val replacingKeys = getKeyFromDictionaryValue(toBeReplaced, sourceLanguage)
+
+      val cardinality = getTimeUnitCardinality(text).toString
+
+      var acc = EmptyStr
+
+      if (cardinality != NotDetected) {
+        replacingKeys.foreach(rk =>
+          acc = text.replaceAll(
+            rk._2.replace(ValuePlaceholder, cardinality),
+            rk._1.replace(KeyPlaceholder, cardinality)))
+
+        val adjusted = adjustPlurality(acc)
+        adjusted
+      }
+      else {
+        replacingKeys
+          .foreach(rk =>
+            acc = _text.replaceAll(rk._2, rk._1))
+        acc
+      }
+    }
+
+    // return only the first matched pattern
+    def translateWithSingleDatePolicy = {
+      val strPattern = sourceLanguageInfo.values.flatten.head.r
+      _translateWithPattern(_text, strPattern)
+    }
+
+    val res = policy.value match {
+      case "single" => translateWithSingleDatePolicy
+      case "multi" => translateWithMultiDatePolicy
+      case _ => throw new Exception("Unknown date match translation policy")
+    }
+
+    res
   }
 
   /**
@@ -375,6 +427,45 @@ object DateMatcherTranslator extends Serializable {
   }
 
   /**
+    * Return the longest match
+    * @param sortedMatches: the list of matches sorted by length
+    * @return a List containing the longest match found in the input list
+    * */
+  private def _regularizeSingleDateMatches(sortedMatches: List[String]) = {
+    List(sortedMatches.head)
+  }
+
+  /**
+    * Return the longest match
+    * @param sortedMatches: the list of matches sorted by length
+    * @param n: the number of desire matches
+    * @return the n longest match found in the input list
+    * */
+  private def _regularizeMultiDateMatches(sortedMatches: List[String], n: Int = 2) = {
+    var acc = sortedMatches
+
+    for(m <- sortedMatches) {
+      sortedMatches.map(key =>
+      {
+        //println(s"m: $m | key: $key ==> m.contains(key) | ${m.contains(key)}")
+        if(m.contains(key) && m.length > key.length) acc = acc.filterNot(_ == key)
+      })
+    }
+    //println(s"RES: ${acc.mkString("|")}")
+    acc
+  }
+
+  def preprocessSortedByLengthMatches(sortedMatches: List[String], policy: DateMatcherTranslatorPolicy) = {
+    policy.value match {
+      case "single" => _regularizeSingleDateMatches(sortedMatches)
+      case "multi" => _regularizeMultiDateMatches(sortedMatches)
+    }
+  }
+  // TODO Policy can be
+  // - keep first longest match like today
+  // - keep distinct longest matches -> to be coded (here an inclusion test must be performed)
+
+  /**
     * Translate the text from source language to destination language.
     *
     * @param text the text to translate.
@@ -387,10 +478,14 @@ object DateMatcherTranslator extends Serializable {
                          destination: String = English) = {
 
     val key = sourceLanguageInfo.keySet.head
-    val longestMatch = sourceLanguageInfo.values.flatten.toList
-      .sortWith(_.length > _.length)
-      .head
-    val _sourceLanguageInfo: Map[String, Set[String]] = Map(key -> Set(longestMatch))
+
+    val sortedMatches: List[String] = sourceLanguageInfo.values.flatten.toList.sortWith(_.length > _.length)
+
+    // Date Matcher takes 1 match, multi date n = 2 matches
+    val _sortedMatches = preprocessSortedByLengthMatches(sortedMatches, getPolicy)
+
+    val _sourceLanguageInfo: Map[String, Set[String]] = Map(key -> _sortedMatches.toSet)
+    println(s"_sourceLanguageInfo: ${_sourceLanguageInfo.mkString("|")}")
 
     val predicates = Array(
       !_sourceLanguageInfo.keySet.head.isEmpty,
@@ -400,7 +495,7 @@ object DateMatcherTranslator extends Serializable {
 
     val res =
       if(predicates.forall(_.equals(true)))
-        translateBySentence(text, _sourceLanguageInfo)
+        translateBySentence(text, _sourceLanguageInfo, getPolicy)
       else
         translateTokens(text, _sourceLanguageInfo)
 
@@ -430,6 +525,7 @@ object DateMatcherTranslator extends Serializable {
       else
         _text
 
+    println(translated)
     translated
   }
 }

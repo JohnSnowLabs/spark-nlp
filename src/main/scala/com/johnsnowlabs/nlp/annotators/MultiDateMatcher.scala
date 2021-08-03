@@ -108,7 +108,7 @@ class MultiDateMatcher(override val uid: String)
 
     val _text =
       if(translationPreds.forall(_.equals(true)))
-        DateMatcherTranslator.translate(text, sourceLanguage)
+        new DateMatcherTranslator(MultiDatePolicy).translate(text, sourceLanguage)
       else
         text
 
@@ -137,7 +137,7 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {
-    if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
+    if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativeFuturePattern))
       relativeFutureFactory.findMatch(text.toLowerCase()).map(possibleDate =>
         relativeDateFutureContentParse(possibleDate))
     else
@@ -154,7 +154,7 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def extractFormalDate(text: String): Seq[MatchedDateTime] = {
-    formalFactory.findMatch(text).map{ possibleDate =>
+    formalFactory.findMatch(text).map { possibleDate =>
       formalDateContentParse(possibleDate)
     }
   }

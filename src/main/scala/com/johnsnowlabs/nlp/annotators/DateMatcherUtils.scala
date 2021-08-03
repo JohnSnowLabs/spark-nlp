@@ -48,7 +48,7 @@ trait DateMatcherUtils extends Params {
   private val relaxedMonths = "(?i)" + months.zip(shortMonths).map(m => m._1 + "|" + m._2).mkString("|")
   private val relaxedYear = "\\d{4}\\b|\\B'\\d{2}\\b".r
 
-  // Used for past relative date matches
+  /** Used for past relative date matches */
   val relativePastPattern = " ago"
   val relativeFuturePattern = "in "
 
