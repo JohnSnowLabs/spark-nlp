@@ -586,8 +586,10 @@ class TokenizerModel(AnnotatorModel):
 class RegexTokenizer(AnnotatorModel):
     """A tokenizer that splits text by a regex pattern.
 
-    The pattern needs to be set with ``setPattern`` and this sets the delimiting pattern or how the tokens should be split.
-    By default this pattern is ``\s+`` which means that tokens should be split by 1 or more whitespace characters.
+    The pattern needs to be set with :meth:`.setPattern` and this sets the
+    delimiting pattern or how the tokens should be split. By default this
+    pattern is ``\\s+`` which means that tokens should be split by 1 or more
+    whitespace characters.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -603,49 +605,39 @@ class RegexTokenizer(AnnotatorModel):
     maxLength
         Set the maximum allowed legth for each token
     toLowercase
-        Indicates whether to convert all characters to lowercase before tokenizing, by default False
+        Indicates whether to convert all characters to lowercase before
+        tokenizing, by default False
     pattern
-        Regex pattern used for tokenizing, by default "\\s+"
+        Regex pattern used for tokenizing, by default ``\\s+``
     positionalMask
-        Using a positional mask to guarantee the incremental progression of the tokenization, by default False
+        Using a positional mask to guarantee the incremental progression of the
+        tokenization, by default False
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        regexTokenizer = RegexTokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("regexToken") \\
-            .setToLowercase(True) \\
-            .setPattern("\\s+")
-
-        pipeline = Pipeline().setStages([
-                documentAssembler,
-                regexTokenizer
-            ])
-
-        data = spark.createDataFrame([["This is my first sentence. This is my second."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("regexToken.result").show(truncate=False)
-        +-------------------------------------------------------+
-        |result                                                 |
-        +-------------------------------------------------------+
-        |[this, is, my, first, sentence., this, is, my, second.]|
-        +-------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> regexTokenizer = RegexTokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("regexToken") \\
+    ...     .setToLowercase(True) \\
+    >>> pipeline = Pipeline().setStages([
+    ...       documentAssembler,
+    ...       regexTokenizer
+    ...     ])
+    >>> data = spark.createDataFrame([["This is my first sentence.\\nThis is my second."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("regexToken.result").show(truncate=False)
+    +-------------------------------------------------------+
+    |result                                                 |
+    +-------------------------------------------------------+
+    |[this, is, my, first, sentence., this, is, my, second.]|
+    +-------------------------------------------------------+
     """
 
     name = "RegexTokenizer"
@@ -688,18 +680,55 @@ class RegexTokenizer(AnnotatorModel):
                            typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
+        """Sets the minimum allowed legth for each token, by default 1.
+
+        Parameters
+        ----------
+        value : int
+            Minimum allowed legth for each token
+        """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
+        """Sets the maximum allowed legth for each token.
+
+        Parameters
+        ----------
+        value : int
+            Maximum allowed legth for each token
+        """
         return self._set(maxLength=value)
 
     def setToLowercase(self, value):
+        """Sets whether to convert all characters to lowercase before
+        tokenizing, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to convert all characters to lowercase before tokenizing
+        """
         return self._set(toLowercase=value)
 
     def setPattern(self, value):
+        """Sets the regex pattern used for tokenizing, by default ``\\s+``.
+
+        Parameters
+        ----------
+        value : str
+            Regex pattern used for tokenizing
+        """
         return self._set(pattern=value)
 
     def setPositionalMask(self, value):
+        """Sets whether to use a positional mask to guarantee the incremental
+        progression of the tokenization, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use a positional mask
+        """
         return self._set(positionalMask=value)
 
 
@@ -1453,15 +1482,18 @@ class NormalizerModel(AnnotatorModel):
 
 
 class RegexMatcher(AnnotatorApproach):
-    """Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
+    """Uses a reference file to match a set of regular expressions and associate
+    them with a provided identifier.
 
-    A dictionary of predefined regular expressions must be provided with ``setExternalRules``.
-    The dictionary can be set in either in the form of a delimited text file or directly as an
-    ExternalResource.
+    A dictionary of predefined regular expressions must be provided with
+    :meth:`.setExternalRules`. The dictionary can be set in the form of a
+    delimited text file.
 
-    Pretrained pipelines are available for this module, see `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+    Pretrained pipelines are available for this module, see `Pipelines
+    <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -1473,53 +1505,44 @@ class RegexMatcher(AnnotatorApproach):
     ----------
 
     strategy
-        Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE, by default "MATCH_ALL"
+        Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE, by default
+        "MATCH_ALL"
     externalRules
         external resource to rules, needs 'delimiter' in options
 
     Examples
     --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
 
-    .. code-block:: python
+    In this example, the ``rules.txt`` has the form of::
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the `rules.txt` has the form of
-        #
-        # the\s\w+, followed by 'the'
-        # ceremonies, ceremony
-        #
-        # where each regex is separated by the identifier by `","`
+        the\\s\\w+, followed by 'the'
+        ceremonies, ceremony
 
-        documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+    where each regex is separated by the identifier ``","``
 
-        sentence = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
-
-        regexMatcher = RegexMatcher() \\
-            .setExternalRules("src/test/resources/regex-matcher/rules.txt",  ",") \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("regex") \\
-            .setStrategy("MATCH_ALL")
-
-        pipeline = Pipeline().setStages([documentAssembler, sentence, regexMatcher])
-
-        data = spark.createDataFrame([[
-            "My first sentence with the first rule. This is my second sentence with ceremonies rule."
-        ]]).toDF("text")
-        results = pipeline.fit(data).transform(data)
-
-        results.selectExpr("explode(regex) as result").show(truncate=False)
-        +--------------------------------------------------------------------------------------------+
-        |result                                                                                      |
-        +--------------------------------------------------------------------------------------------+
-        |[chunk, 23, 31, the first, [identifier -> followed by 'the', sentence -> 0, chunk -> 0], []]|
-        |[chunk, 71, 80, ceremonies, [identifier -> ceremony, sentence -> 1, chunk -> 0], []]        |
-        +--------------------------------------------------------------------------------------------+
-
+    >>> documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+    >>> sentence = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+    >>> regexMatcher = RegexMatcher() \\
+    ...     .setExternalRules("src/test/resources/regex-matcher/rules.txt",  ",") \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("regex") \\
+    ...     .setStrategy("MATCH_ALL")
+    >>> pipeline = Pipeline().setStages([documentAssembler, sentence, regexMatcher])
+    >>> data = spark.createDataFrame([[
+    ...     "My first sentence with the first rule. This is my second sentence with ceremonies rule."
+    ... ]]).toDF("text")
+    >>> results = pipeline.fit(data).transform(data)
+    >>> results.selectExpr("explode(regex) as result").show(truncate=False)
+    +--------------------------------------------------------------------------------------------+
+    |result                                                                                      |
+    +--------------------------------------------------------------------------------------------+
+    |[chunk, 23, 31, the first, [identifier -> followed by 'the', sentence -> 0, chunk -> 0], []]|
+    |[chunk, 71, 80, ceremonies, [identifier -> ceremony, sentence -> 1, chunk -> 0], []]        |
+    +--------------------------------------------------------------------------------------------+
     """
 
     strategy = Param(Params._dummy(),
@@ -1539,9 +1562,31 @@ class RegexMatcher(AnnotatorApproach):
         )
 
     def setStrategy(self, value):
+        """Sets matching strategy, by default "MATCH_ALL".
+
+        Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE.
+
+        Parameters
+        ----------
+        value : str
+            Matching Strategy
+        """
         return self._set(strategy=value)
 
     def setExternalRules(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Sets external resource to rules, needs 'delimiter' in options.
+
+        Parameters
+        ----------
+        path : str
+            Path to the source files
+        delimiter : str
+            Delimiter for the dictionary file. Can also be set it `options`.
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+        """
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -1565,9 +1610,7 @@ class RegexMatcherModel(AnnotatorModel):
 
     Parameters
     ----------
-
     None
-
     """
 
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.RegexMatcherModel", java_model=None):
@@ -1685,7 +1728,7 @@ class Lemmatizer(AnnotatorApproach):
         Examples
         --------
         Here the file has each key is delimited by ``"->"`` and values are
-        delimited by ``"\\t"``::
+        delimited by ``\\t``::
 
             ...
             pick	->	pick	picks	picking	picked
@@ -3508,7 +3551,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
         path : str
             Path to the source file
         token_pattern : str, optional
-            Pattern for token separation, by default "\\S+"
+            Pattern for token separation, by default ``\\S+``
         read_as : str, optional
             How to read the file, by default ReadAs.TEXT
         options : dict, optional
