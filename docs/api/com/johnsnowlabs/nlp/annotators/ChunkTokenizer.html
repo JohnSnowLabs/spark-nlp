@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ChunkTokenizer</title>
-          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ChunkTokenizer" />
-          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ChunkTokenizer" />
+          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ChunkTokenizer</title>
+          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ChunkTokenizer" />
+          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ChunkTokenizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -391,12 +391,12 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented4">
                         <a class="object" href="ChunkTokenizer$.html" title="This is the companion object of ChunkTokenizer."></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">ChunkTokenizer</a>
+                        <a class="class" href="" title="Tokenizes and flattens extracted NER chunks."></a>
+                        <a href="" title="Tokenizes and flattens extracted NER chunks.">ChunkTokenizer</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="ChunkTokenizerModel$.html" title=""></a>
-                        <a class="class" href="ChunkTokenizerModel.html" title=""></a>
-                        <a href="ChunkTokenizerModel.html" title="">ChunkTokenizerModel</a>
+                        <a class="class" href="ChunkTokenizerModel.html" title="Instantiated model of the ChunkTokenizer."></a>
+                        <a href="ChunkTokenizerModel.html" title="Instantiated model of the ChunkTokenizer.">ChunkTokenizerModel</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Chunker$.html" title="This is the companion object of Chunker."></a>
                         <a class="class" href="Chunker.html" title="This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document."></a>
@@ -459,12 +459,12 @@
                         <a href="ReadablePretrainedTokenizer.html" title="">ReadablePretrainedTokenizer</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="RecursiveTokenizer.html" title=""></a>
-                        <a href="RecursiveTokenizer.html" title="">RecursiveTokenizer</a>
+                        <a class="class" href="RecursiveTokenizer.html" title="Tokenizes raw text recursively based on a handful of definable rules."></a>
+                        <a href="RecursiveTokenizer.html" title="Tokenizes raw text recursively based on a handful of definable rules.">RecursiveTokenizer</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="RecursiveTokenizerModel.html" title=""></a>
-                        <a href="RecursiveTokenizerModel.html" title="">RecursiveTokenizerModel</a>
+                        <a class="class" href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer."></a>
+                        <a href="RecursiveTokenizerModel.html" title="Instantiated model of the RecursiveTokenizer.">RecursiveTokenizerModel</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="RegexMatcher$.html" title="This is the companion object of RegexMatcher."></a>
                         <a class="class" href="RegexMatcher.html" title="Uses a reference file to match a set of regular expressions and associate them with a provided identifier."></a>
@@ -495,8 +495,8 @@
                         <a href="TextMatcherModel.html" title="Instantiated model of the TextMatcher.">TextMatcherModel</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Token2Chunk$.html" title="This is the companion object of Token2Chunk."></a>
-                        <a class="class" href="Token2Chunk.html" title=""></a>
-                        <a href="Token2Chunk.html" title="">Token2Chunk</a>
+                        <a class="class" href="Token2Chunk.html" title="Converts TOKEN type Annotations to CHUNK type."></a>
+                        <a href="Token2Chunk.html" title="Converts TOKEN type Annotations to CHUNK type.">Token2Chunk</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Tokenizer$.html" title="This is the companion object of Tokenizer."></a>
                         <a class="class" href="Tokenizer.html" title="Tokenizes raw text in document type columns into TokenizedSentence ."></a>
@@ -535,7 +535,56 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Tokenizes and flattens extracted NER chunks.</p><p>The ChunkTokenizer will split the extracted NER <code>CHUNK</code> type Annotations and will create <code>TOKEN</code> type Annotations.
+The result is then flattened, resulting in a single array.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkTokenizerTestSpec.scala" target="_blank">ChunkTokenizerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.{ChunkTokenizer, TextMatcher, Tokenizer}
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.util.io.ReadAs
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>))
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> entityExtractor = <span class="kw">new</span> TextMatcher()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setEntities(<span class="lit">"src/test/resources/entity-extractor/test-chunks.txt"</span>, ReadAs.TEXT)
+  .setOutputCol(<span class="lit">"entity"</span>)
+
+<span class="kw">val</span> chunkTokenizer = <span class="kw">new</span> ChunkTokenizer()
+  .setInputCols(<span class="lit">"entity"</span>)
+  .setOutputCol(<span class="lit">"chunk_token"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    entityExtractor,
+    chunkTokenizer
+  ))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"Hello world, my name is Michael, I am an artist and I work at Benezar"</span>,
+  <span class="lit">"Robert, an engineer from Farendell, graduated last year. The other one, Lucas, graduated last week."</span>
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"entity.result as entity"</span> , <span class="lit">"chunk_token.result as chunk_token"</span>).show(<span class="kw">false</span>)
++-----------------------------------------------+---------------------------------------------------+
+|entity                                         |chunk_token                                        |
++-----------------------------------------------+---------------------------------------------------+
+|[world, Michael, work at Benezar]              |[world, Michael, work, at, Benezar]                |
+|[engineer from Farendell, last year, last week]|[engineer, from, Farendell, last, year, last, week]|
++-----------------------------------------------+---------------------------------------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>

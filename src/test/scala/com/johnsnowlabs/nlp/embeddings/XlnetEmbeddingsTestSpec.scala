@@ -23,8 +23,7 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest._
 
@@ -33,7 +32,7 @@ class XlnetEmbeddingsTestSpec extends FlatSpec {
 
   "XlnetEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true")
+    val smallCorpus = ResourceHelper.spark.read.option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
@@ -64,9 +63,9 @@ class XlnetEmbeddingsTestSpec extends FlatSpec {
     println(pipelineDF.count())
     pipelineDF.show()
     //    pipelineDF.printSchema()
-    pipelineDF.select("token.result").show(4, false)
-    pipelineDF.select("embeddings.result").show(4, false)
-    pipelineDF.select("embeddings.metadata").show(4, false)
+    pipelineDF.select("token.result").show(4, truncate = false)
+    pipelineDF.select("embeddings.result").show(4, truncate = false)
+    pipelineDF.select("embeddings.metadata").show(4, truncate = false)
     pipelineDF.select("embeddings.embeddings").show(4, truncate = 300)
     pipelineDF.select(size(pipelineDF("embeddings.embeddings")).as("embeddings_size")).show
     Benchmark.time("Time to save XlnetEmbeddings results") {
@@ -79,11 +78,13 @@ class XlnetEmbeddingsTestSpec extends FlatSpec {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val embeddings = XlnetEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
+      .setMaxSentenceLength(512)
+      .setBatchSize(12)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -91,7 +92,7 @@ class XlnetEmbeddingsTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save AlbertEmbeddings results") {
+    Benchmark.time("Time to save XlnetEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
     }
 
@@ -116,6 +117,94 @@ class XlnetEmbeddingsTestSpec extends FlatSpec {
       // it is normal that the embeddings is less than total tokens in a sentence/document
       // tokens generate multiple sub-wrods or pieces which won't be included in the final results
       assert(totalTokens >= totalEmbeddings)
+
+      /*
+      Time to save AlbertEmbeddings results: 828.654641349sec
+      missing tokens/embeddings:
+      +-------------+----------+----------+
+      |sentence_size|token_size|embed_size|
+      +-------------+----------+----------+
+      +-------------+----------+----------+
+
+      Time to finish checking counts in results: 1008.313457171sec
+      (total sentences: ,14041)
+      * */
     }
+  }
+
+  "XlnetEmbeddings" should "be aligned with custome tokens from Tokenizer" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "EU rejects German call to boycott British lamb .",
+      "TORONTO 1996-08-21"
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = XlnetEmbeddings
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("token").show(false)
+    pipelineDF.select("embeddings.result").show(false)
+    pipelineDF
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("token_size") =!= col("embed_size"))
+      .select("token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total tokens: $totalTokens")
+    println(s"total embeddings: $totalEmbeddings")
+
+  }
+
+  "XlnetEmbeddings" should "be saved and loaded from disk" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Something is weird on the notebooks, something is happening."
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = XlnetEmbeddings
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    pipeline.fit(ddd).write.overwrite().save("./tmp_xlnet_pipeline")
+    val pipelineModel = PipelineModel.load("./tmp_xlnet_pipeline")
+
+    pipelineModel.transform(ddd)
   }
 }
