@@ -31,7 +31,7 @@ Kevin Clark and Minh-Thang Luong and Quoc V. Le and Christopher D. Manning: [ELE
 
 ```python
 ...
-embeddings = BertEmbeddings.pretrained("sent_electra_small_uncased", "en") \
+embeddings = BertSentenceEmbeddings.pretrained("sent_electra_small_uncased", "en") \
       .setInputCols("sentence") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
@@ -41,7 +41,7 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 
 ```scala
 ...
-val embeddings = BertEmbeddings.pretrained("sent_electra_small_uncased", "en")
+val embeddings = BertSentenceEmbeddings.pretrained("sent_electra_small_uncased", "en")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))

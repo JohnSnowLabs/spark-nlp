@@ -21,10 +21,10 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 
 /**
  *
- * @param spp           StencePieceWrapper loaded from either from disk or a saved Spark NLP model
- * @param caseSensitive whether it cares about uppercase or lowercases
- * @param delimiterId   what is the part prefix id
- * @param pieceIdFromZero   whether or not pieceId should be as is or plus 1
+ * @param spp             StencePieceWrapper loaded from either from disk or a saved Spark NLP model
+ * @param caseSensitive   whether it cares about uppercase or lowercases
+ * @param delimiterId     what is the part prefix id
+ * @param pieceIdFromZero whether or not pieceId should be as is or plus 1
  */
 private[ml] class SentencepieceEncoder
 (
@@ -43,12 +43,13 @@ private[ml] class SentencepieceEncoder
     val text = token.token
     var start = 0
     var end = text.length
+    val normalizedDelimiterId = if (pieceIdFromZero) delimiterId + 1 else delimiterId
 
     val tokenContent = if (caseSensitive) token.token else token.token.toLowerCase()
     val wordPieces = spp.getSppModel.encodeAsPieces(tokenContent).toArray.map(x => x.toString)
     val encodedIds = spp.getSppModel.encodeAsIds(tokenContent)
     val pieceIds = if (pieceIdFromZero) encodedIds.map(x => x + 1) else encodedIds
-    wordPieces.zip(pieceIds).filter(id => id._2 != delimiterId).map { piece =>
+    wordPieces.zip(pieceIds).filter(id => id._2 != normalizedDelimiterId).map { piece =>
       val tokenPiece = TokenPiece(piece._1, token.token, piece._2, start == 0, token.begin + start, token.end)
       start = end
       end = text.length

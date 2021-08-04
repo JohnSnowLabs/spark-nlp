@@ -22,7 +22,7 @@ Classify text/sentence in two categories:
 
 - `False` : The sentences doesn’t have any information about an ADE.
 
-## Classified Labels
+## Predicted Entities
 
 `True`, `False`
 

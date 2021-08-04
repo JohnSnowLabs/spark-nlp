@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Classify open-domain, fact-based questions into one of the following broad semantic categories: Abbreviation, Description, Entities, Human Beings, Locations or Numeric Values.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``ABBR``,  ``DESC``,  ``NUM``,  ``ENTY``,  ``LOC``,  ``HUM``. 
 
 {:.btn-box}

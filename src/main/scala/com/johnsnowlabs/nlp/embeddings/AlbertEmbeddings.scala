@@ -58,6 +58,8 @@ import java.io.File
  *
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala AlbertEmbeddingsTestSpec]].
+ * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+ * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
  *
  * '''Sources:'''
  *
@@ -164,11 +166,13 @@ class AlbertEmbeddings(override val uid: String)
 
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
+   *
    * @group anno
    */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
   /**
    * Output Annotator Types: WORD_EMBEDDINGS
+   *
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS

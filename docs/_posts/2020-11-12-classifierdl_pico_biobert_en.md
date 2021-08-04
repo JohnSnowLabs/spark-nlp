@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 Classify medical text according to PICO framework.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``CONCLUSIONS``, ``DESIGN_SETTING``, ``INTERVENTION``, ``PARTICIPANTS``, ``FINDINGS``, ``MEASUREMENTS``, ``AIMS``.
 
 {:.btn-box}

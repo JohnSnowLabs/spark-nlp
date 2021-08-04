@@ -83,7 +83,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     *
     * @group anno
     */
-  override val inputAnnotatorTypes: Array[String] = Array(TOKEN) // Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
+  override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
   /** Normalization regex patterns which match will be removed from token (Default: `Array("[^\\pL+]")`)
     *
@@ -110,7 +110,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   val lowercase = new BooleanParam(this, "lowercase", "Whether to convert strings to lowercase (Default: `false`)")
 
   /**
-    * Whether to convert strings to lowercase (Default: `false`)`
+    * Whether to convert strings to lowercase (Default: `false`)
     * @group getParam
     */
   def getLowercase: Boolean = $(lowercase)
