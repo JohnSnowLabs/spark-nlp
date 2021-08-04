@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Assertion of Clinical Entities based on Deep Learning.  
 
-## Predicted Entities
+## Assertion Status 
 `hypothetical`, `present`, `absent`, `possible`, `conditional`, `associated_with_someone_else`.
 
 {:.btn-box}

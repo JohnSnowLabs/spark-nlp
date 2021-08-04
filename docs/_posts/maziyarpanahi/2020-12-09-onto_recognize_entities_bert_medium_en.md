@@ -16,9 +16,8 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-A pre-trained pipeline containing NerDl Model. The NER model trained on OntoNotes 5.0 with `small_bert_L8_512` embeddings. It can extract up to following 18 entities:
+A pre-trained pipeline containing NerDl Model. The NER model trained on OntoNotes 5.0 with `small_bert_L8_512` embeddings. It can extract up to following 18 entities :
 
-## Predicted Entities
 `CARDINAL`, `DATE`, `EVENT`, `FAC`, `GPE`, `LANGUAGE`, `LAW`, `LOC`, `MONEY`, `NORP`, `ORDINAL`, `ORG`, `PERCENT`, `PERSON`, `PRODUCT`, `QUANTITY`, `TIME`, `WORK_OF_ART`.
 
 {:.btn-box}

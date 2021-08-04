@@ -153,32 +153,20 @@ private[nlp] abstract class BpeTokenizer(
     */
   protected def bpe(indToken: IndexedToken
                    ): Array[TokenPiece] = {
-    var processedToken = ""
-    try {
-      processedToken = preProcessTokenForBpe(indToken.token)
-      // TODO: Caching
-      var word: Array[String] = Array[String]()
-      // split the word into characters, to be combined into subwords
-      word = processedToken.map(_.toString).toArray
-      val pairs: Array[(String, String)] = getBytePairs(word)
+    val processedToken = preProcessTokenForBpe(indToken.token)
 
-      if (pairs.isEmpty)
-        word = Array(processedToken)
-      else
-        word = performMerges(word, pairs)
+    // TODO: Caching
+    var word: Array[String] = Array[String]()
+    // split the word into characters, to be combined into subwords
+    word = processedToken.map(_.toString).toArray
+    val pairs: Array[(String, String)] = getBytePairs(word)
 
-      getTokenPieces(indToken, word, processedToken)
-    } catch {
-      case _: java.util.NoSuchElementException => Array(
-        TokenPiece(
-          indToken.token,
-          indToken.token,
-          specialTokens.unk.id,
-          isWordStart = true,
-          indToken.begin,
-          indToken.end)
-      )
-    }
+    if (pairs.isEmpty)
+      word = Array(processedToken)
+    else
+      word = performMerges(word, pairs)
+
+    getTokenPieces(indToken, word, processedToken)
   }
 
   /**

@@ -87,8 +87,6 @@ modify_date: "2019-05-16"
 
 <div class="grid--container container-aside"><div class="grid">
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='90Om99th56o' -%}<div class="video-descr">"Python's NLU library: 1,000+ Models, 200+ Languages, 1 Line of Code" by: Christian Kasim Loan - 18 June 2021</div></div></div>
-
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/478640529" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">John Snow Labs NLU: Become a Data Science Superhero with One Line of Python code. Christian Kasim Loan - November, 2020</div></div></div>
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='bl64A0nXujg' -%}<div class="video-descr">Making State of the Art Natural Language Processing Easier to Apply. David Talby - 3 Nov 2020</div></div></div>

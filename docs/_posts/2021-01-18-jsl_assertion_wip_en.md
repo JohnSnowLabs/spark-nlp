@@ -16,11 +16,11 @@ use_language_switcher: "Python-Scala-Java"
  
 ## Description
 
-The deep neural network architecture for assertion status detection in Spark NLP is based on a BiLSTM framework, and is a modified version of the architecture proposed by Fancellu et.al. (Fancellu, Lopez, and Webber 2016). Its goal is to classify the assertions made on given medical concepts as being present, absent, or possible in the patient, conditionally present in the patient under certain circumstances, hypothetically present in the patient at some future point, and mentioned in the patient report but associated with someoneelse (Uzuner et al. 2011).
+Deep learning named entity recognition model for assertions. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.
 
 {:.h2_title}
-## Predicted Entities
-`Present`, `Absent`, `Possible`, `Planned`, `Someoneelse`, `Past`, `Family`, `None`, `Hypotetical`.
+## Assertion Status
+``Present``, ``Absent``, ``Possible``, ``Planned``, ``Someoneelse``, `Past`, `Family`, `None`, `Hypotetical`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

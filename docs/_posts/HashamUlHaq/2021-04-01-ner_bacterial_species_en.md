@@ -24,7 +24,7 @@ Detect different types of species of bacteria in text using pretrained NER model
 `SPECIES`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BACTERIAL_SPECIES/){:.button.button-orange}
+[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_bacterial_species_en_3.0.0_3.0_1617260641415.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

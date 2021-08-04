@@ -64,10 +64,10 @@ object NerDLCoNLL2003 extends App {
 
 
   val ner = try {
-    val model = new TensorflowNer(tf, encoder, Verbose.All)
+    val model = new TensorflowNer(tf, encoder, 32, Verbose.All)
     for (epoch <- 0 until 150) {
       model.train(trainDataset.grouped(32), trainDataset.size, Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]().grouped(32),
-        trainDataset.length, 1e-3f, 0.005f, 0.5f, 8, epoch, epoch + 1, outputLogsPath = "")
+        trainDataset.size, 1e-3f, 0.005f, 0.5f, epoch, epoch + 1, outputLogsPath = "")
 
       System.out.println("\n\nQuality on train data")
       model.measure(trainDataset.grouped(32), extended = true, outputLogsPath = "")
@@ -88,11 +88,11 @@ object NerDLCoNLL2003 extends App {
   }
 
   def toTrain(source: Seq[CoNLLDocument], embeddings: WordEmbeddingsReader):
-  Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
+      Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {
 
-    source.flatMap { s =>
+    source.flatMap{s =>
       s.nerTagged.zipWithIndex.map { case (sentence, idx) =>
-        val tokens = sentence.indexedTaggedWords.map { t =>
+        val tokens = sentence.indexedTaggedWords.map {t =>
           val vectorOption = embeddings.lookup(t.word)
           TokenPieceEmbeddings(t.word, t.word, -1, true, vectorOption, Array.fill[Float](wordEmbeddingsDim)(0f), t.begin, t.end)
         }

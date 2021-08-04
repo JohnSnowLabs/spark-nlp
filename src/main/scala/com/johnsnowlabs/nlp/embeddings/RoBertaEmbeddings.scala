@@ -51,7 +51,7 @@ import java.io.File
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala RoBertaEmbeddingsTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
- * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
+ * example shows how to import them.
  *
  * '''Paper Abstract:'''
  *
@@ -172,7 +172,6 @@ class RoBertaEmbeddings(override val uid: String)
 
   /**
    * Holding merges.txt coming from RoBERTa model
-   *
    * @group param
    */
   val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
@@ -315,7 +314,7 @@ class RoBertaEmbeddings(override val uid: String)
     val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
       TokenizedWithSentence.unpack(annotations).toArray
     ).toArray
-
+    
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)

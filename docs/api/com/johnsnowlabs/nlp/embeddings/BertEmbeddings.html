@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertEmbeddings</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
+          <title>Spark NLP 3.1.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertEmbeddings</title>
+          <meta name="description" content="Spark NLP 3.1.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
+          <meta name="keywords" content="Spark NLP 3.1.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -327,9 +327,7 @@
 vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"bert_embeddings"</span>)</pre><p>The default model is <code>&quot;small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb" target="_blank">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">BertEmbeddingsTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p><i>We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
+and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">BertEmbeddingsTestSpec</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p><i>We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
 from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
 representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
 result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create

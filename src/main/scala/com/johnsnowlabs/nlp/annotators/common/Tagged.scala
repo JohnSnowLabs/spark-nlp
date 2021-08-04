@@ -48,18 +48,14 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
           annotation = Some(tagAnnotations.next)
 
         val tag = if (annotation.isDefined && annotation.get.begin == token.begin) {
-          annotation.get.result
+           annotation.get.result
         } else
           emptyTag
         // etract the confidence score belong to the tag
-        val metadata = try {
-          if (annotation.get.metadata.isDefinedAt("confidence"))
-            Map(tag -> annotation.get.metadata("confidence"))
-          else
-            Map(tag -> annotation.get.metadata(tag))
-        } catch {
-          case _: Exception =>
-            Map.empty[String, String]
+        val metadata = try{
+          Map(tag -> annotation.get.metadata(tag))
+        } catch { case _: Exception =>
+          Map.empty[String, String]
         }
 
         IndexedTaggedWord(token.token, tag, token.begin, token.end, metadata = metadata)
@@ -70,8 +66,8 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
-    items.flatMap(item => item.indexedTaggedWords.map { tag =>
-      val metadata = if (tag.confidence.isDefined) {
+    items.flatMap(item => item.indexedTaggedWords.map{ tag =>
+      val metadata =  if (tag.confidence.isDefined) {
         Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten
       } else {
         Map("word" -> tag.word) ++ Map.empty[String, String]

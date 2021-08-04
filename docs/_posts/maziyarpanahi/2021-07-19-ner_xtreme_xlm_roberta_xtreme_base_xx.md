@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Entities in 40 languages - XTREME (ner_xtreme_xlm_roberta_xtreme_base)
+title: Detect Entities in 40 languages - XTREME (xlm_roberta_xtreme_base)
 author: John Snow Labs
 name: ner_xtreme_xlm_roberta_xtreme_base
 date: 2021-07-19

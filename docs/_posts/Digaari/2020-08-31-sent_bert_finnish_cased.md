@@ -34,7 +34,7 @@ These features allow `FinBERT` to outperform not only Multilingual BERT but also
 
 ```python
 ...
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_finnish_cased", "fi") \
+embeddings = BertEmbeddings.pretrained("sent_bert_finnish_cased", "fi") \
       .setInputCols("sentence") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
@@ -44,7 +44,7 @@ result = pipeline_model.transform(spark.createDataFrame([['Vihaan syöpää', 'a
 
 ```scala
 ...
-val embeddings = BertSentenceEmbeddings.pretrained("sent_bert_finnish_cased", "fi")
+val embeddings = BertEmbeddings.pretrained("sent_bert_finnish_cased", "fi")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))

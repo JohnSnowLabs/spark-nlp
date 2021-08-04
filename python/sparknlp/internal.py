@@ -13,9 +13,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""Contains Classes for implementing Spark NLP Annotators.
-"""
-
 from abc import ABC
 
 from pyspark import SparkContext, keyword_only

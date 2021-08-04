@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Deep learning named entity recognition model for assertions. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.
 
-## Predicted Entities
+## Assertion Status
 ``hypothetical``, ``present``, ``absent``, ``possible``, ``conditional``, ``associated_with_someone_else``.
 
 {:.btn-box}
