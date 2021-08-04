@@ -2870,10 +2870,11 @@ class SentenceDetectorParams:
 class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     """Annotator that detects sentence boundaries using any provided approach.
 
-    Each extracted sentence can be returned in an Array or exploded to separate rows,
-    if ``explodeSentences`` is set to ``true``.
+    Each extracted sentence can be returned in an Array or exploded to separate
+    rows, if `explodeSentences` is set to ``True``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2890,7 +2891,8 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     useCustomBoundsOnly
         Only utilize custom bounds in sentence detection, by default False
     explodeSentences
-        whether to explode each sentence into a different row, for better parallelization , by default False
+        whether to explode each sentence into a different row, for better
+        parallelization, by default False
     splitLength
         length at which sentences will be forcibly split
     minLength
@@ -2902,41 +2904,30 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            sentence
-        ])
-
-        data = spark.createDataFrame([["This is my first sentence. This my second. How about a third?"]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(sentence) as sentences").show(truncate=False)
-        +------------------------------------------------------------------+
-        |sentences                                                         |
-        +------------------------------------------------------------------+
-        |[document, 0, 25, This is my first sentence., [sentence -> 0], []]|
-        |[document, 27, 41, This my second., [sentence -> 1], []]          |
-        |[document, 43, 60, How about a third?, [sentence -> 2], []]       |
-        +------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence
+    ... ])
+    >>> data = spark.createDataFrame([["This is my first sentence. This my second. How about a third?"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(sentence) as sentences").show(truncate=False)
+    +------------------------------------------------------------------+
+    |sentences                                                         |
+    +------------------------------------------------------------------+
+    |[document, 0, 25, This is my first sentence., [sentence -> 0], []]|
+    |[document, 27, 41, This my second., [sentence -> 1], []]          |
+    |[document, 43, 60, How about a third?, [sentence -> 2], []]       |
+    +------------------------------------------------------------------+
     """
 
     name = 'SentenceDetector'
@@ -2948,27 +2939,88 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
                         typeConverter=TypeConverters.toBoolean)
 
     def setCustomBounds(self, value):
+        """Sets characters used to explicitly mark sentence bounds, by default
+        [].
+
+        Parameters
+        ----------
+        value : List[str]
+            Characters used to explicitly mark sentence bounds
+        """
         return self._set(customBounds=value)
 
     def setUseAbbreviations(self, value):
+        """Sets whether to apply abbreviations at sentence detection, by default
+        True
+
+        Parameters
+        ----------
+        value : bool
+            Whether to apply abbreviations at sentence detection
+        """
         return self._set(useAbbreviations=value)
 
     def setDetectLists(self, value):
+        """Sets whether detect lists during sentence detection, by default True
+
+        Parameters
+        ----------
+        value : bool
+            Whether detect lists during sentence detection
+        """
         return self._set(detectLists=value)
 
     def setUseCustomBoundsOnly(self, value):
+        """Sets whether to only utilize custom bounds in sentence detection, by
+        default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to only utilize custom bounds
+        """
         return self._set(useCustomBoundsOnly=value)
 
     def setExplodeSentences(self, value):
+        """Sets whether to explode each sentence into a different row, for
+        better parallelization, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to explode each sentence into a different row
+        """
         return self._set(explodeSentences=value)
 
     def setSplitLength(self, value):
+        """Sets length at which sentences will be forcibly split.
+
+        Parameters
+        ----------
+        value : int
+            Length at which sentences will be forcibly split.
+        """
         return self._set(splitLength=value)
 
     def setMinLength(self, value):
+        """Sets minimum allowed length for each sentence, by default 0
+
+        Parameters
+        ----------
+        value : int
+            Minimum allowed length for each sentence
+        """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
+        """Sets the maximum allowed length for each sentence, by default
+        99999
+
+        Parameters
+        ----------
+        value : int
+            Maximum allowed length for each sentence
+        """
         return self._set(maxLength=value)
 
     @keyword_only
@@ -11247,11 +11299,11 @@ class DistilBertEmbeddings(AnnotatorModel,
     Notes
     -----
 
-    - DistilBERT doesn't have ``:obj:token_type_ids``, you don't need to
+    - DistilBERT doesn't have ``token_type_ids``, you don't need to
       indicate which token belongs to which segment. Just separate your segments
-      with the separation token ``:obj:tokenizer.sep_token`` (or ``:obj:[SEP]``).
+      with the separation token ``tokenizer.sep_token`` (or ``[SEP]``).
     - DistilBERT doesn't have options to select the input positions
-      (``:obj:position_ids`` input). This could be added if necessary though,
+      (``position_ids`` input). This could be added if necessary though,
       just let us know if you need this option.
 
     References
@@ -11418,45 +11470,35 @@ class RoBertaEmbeddings(AnnotatorModel,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
                         HasBatchedAnnotate):
-    """The RoBERTa model was proposed in `RoBERTa: A Robustly Optimized BERT Pretraining Approach <https://arxiv.org/abs/1907.11692>`__
-    by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.
-    It is based on Google's BERT model released in 2018.
+    """Creates word embeddings using RoBERTa.
 
-    It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
+    The RoBERTa model was proposed in `RoBERTa: A Robustly Optimized BERT
+    Pretraining Approach` by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du,
+    Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin
+    Stoyanov. It is based on Google's BERT model released in 2018.
+
+    It builds on BERT and modifies key hyperparameters, removing the
+    next-sentence pretraining objective and training with much larger
+    mini-batches and learning rates.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
+    >>> embeddings = RoBertaEmbeddings.pretrained() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("embeddings")
 
-        embeddings = RoBertaEmbeddings.pretrained() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("embeddings")
+    The default model is ``"roberta_base"``, if no name is provided. For
+    available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
+    Models from the HuggingFace 🤗 Transformers library are also compatible with
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    the `Transformers Page
+    <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
 
-    The default model is ``"roberta_base"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
-
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
-    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
-
-    **Paper Abstract:**
-
-    *Language model pretraining has led to significant performance gains but careful comparison between different
-    approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes,
-    and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication
-    study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and
-    training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every
-    model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results
-    highlight the importance of previously overlooked design choices, and raise questions about the source of recently
-    reported improvements. We release our models and code.*
-
-    Tips:
-      - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
-      - RoBERTa doesn't have :obj:``token_type_ids``, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:``tokenizer.sep_token`` (or :obj:``</s>``)
-
-    The original code can be found `````here````` https://github.com/pytorch/fairseq/tree/master/examples/roberta.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -11478,59 +11520,78 @@ class RoBertaEmbeddings(AnnotatorModel,
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 
+    Notes
+    -----
+    - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as
+      a tokenizer (same as GPT-2) and uses a different pretraining scheme.
+    - RoBERTa doesn't have ``token_type_ids``, you don't need to indicate
+      which token belongs to which segment. Just separate your segments with
+      the separation token ``tokenizer.sep_token`` (or ``</s>``)
+
+    References
+    ----------
+    `RoBERTa: A Robustly Optimized BERT
+    Pretraining Approach <https://arxiv.org/abs/1907.11692>`__
+
+    **Paper Abstract:**
+
+    *Language model pretraining has led to significant performance gains but
+    careful comparison between different approaches is challenging. Training is
+    computationally expensive, often done on private datasets of different
+    sizes, and, as we will show, hyperparameter choices have significant impact
+    on the final results. We present a replication study of BERT pretraining
+    (Devlin et al., 2019) that carefully measures the impact of many key
+    hyperparameters and training data size. We find that BERT was significantly
+    undertrained, and can match or exceed the performance of every model
+    published after it. Our best model achieves state-of-the-art results on
+    GLUE, RACE and SQuAD. These results highlight the importance of previously
+    overlooked design choices, and raise questions about the source of recently
+    reported improvements. We release our models and code.*
+
+    Source of the original code: `RoBERTa: A Robustly Optimized BERT Pretraining
+    Approach on GitHub
+    <https://github.com/pytorch/fairseq/tree/master/examples/roberta>`__.
+
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        embeddings = RoBertaEmbeddings.pretrained() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("embeddings") \\
-            .setCaseSensitive(True)
-
-        embeddingsFinisher = EmbeddingsFinisher() \\
-            .setInputCols(["embeddings"]) \\
-            .setOutputCols("finished_embeddings") \\
-            .setOutputAsVector(True) \\
-            .setCleanAnnotations(False)
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              tokenizer,
-              embeddings,
-              embeddingsFinisher
-            ])
-
-        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
-        +--------------------------------------------------------------------------------+
-        |                                                                          result|
-        +--------------------------------------------------------------------------------+
-        |[0.18792399764060974,-0.14591649174690247,0.20547787845134735,0.1468472778797...|
-        |[0.22845706343650818,0.18073144555091858,0.09725798666477203,-0.0417917296290...|
-        |[0.07037967443466187,-0.14801117777824402,-0.03603338822722435,-0.17893412709...|
-        |[-0.08734266459941864,0.2486150562763214,-0.009067727252840996,-0.24408400058...|
-        |[0.22409197688102722,-0.4312366545200348,0.1401449590921402,0.356410235166549...|
-        +--------------------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = RoBertaEmbeddings.pretrained() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("embeddings") \\
+    ...     .setCaseSensitive(True)
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True) \\
+    ...     .setCleanAnnotations(False)
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       tokenizer,
+    ...       embeddings,
+    ...       embeddingsFinisher
+    ...     ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[0.18792399764060974,-0.14591649174690247,0.20547787845134735,0.1468472778797...|
+    |[0.22845706343650818,0.18073144555091858,0.09725798666477203,-0.0417917296290...|
+    |[0.07037967443466187,-0.14801117777824402,-0.03603338822722435,-0.17893412709...|
+    |[-0.08734266459941864,0.2486150562763214,-0.009067727252840996,-0.24408400058...|
+    |[0.22409197688102722,-0.4312366545200348,0.1401449590921402,0.356410235166549...|
+    +--------------------------------------------------------------------------------+
     """
 
     name = "RoBertaEmbeddings"
