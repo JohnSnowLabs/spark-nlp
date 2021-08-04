@@ -3436,17 +3436,17 @@ class SentimentDetectorModel(AnnotatorModel):
 
 
 class ViveknSentimentApproach(AnnotatorApproach):
-    """Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.
-
-    The algorithm is based on the paper
-    `"Fast and accurate sentiment classification using an enhanced Naive Bayes model" <https://arxiv.org/abs/1305.6143>`__.
+    """Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan.
 
     The analyzer requires sentence boundaries to give a score in context.
-    Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
+    Tokenization is needed to make sure tokens are within bounds. Transitivity
+    requirements are also required.
 
-    The training data needs to consist of a column for normalized text and a label column (either ``"positive"`` or ``"negative"``).
+    The training data needs to consist of a column for normalized text and a
+    label column (either ``"positive"`` or ``"negative"``).
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3461,72 +3461,59 @@ class ViveknSentimentApproach(AnnotatorApproach):
         column with the sentiment result of every row. Must be 'positive' or 'negative'
     pruneCorpus
         Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1
-    importantFeatureRatio
-        proportion of feature content to be considered relevant. Defaults to 0.5
-    unimportantFeatureStep
-        proportion to lookahead in unimportant features. Defaults to 0.025
-    featureLimit
-        content feature limit, to boost performance in very dirt text. Default disabled with -1
+
+    References
+    ----------
+    The algorithm is based on the paper `"Fast and accurate sentiment
+    classification using an enhanced Naive Bayes model"
+    <https://arxiv.org/abs/1305.6143>`__.
+
+    https://github.com/vivekn/sentiment/
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        document = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        token = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        normalizer = Normalizer() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("normal")
-
-        vivekn = ViveknSentimentApproach() \\
-            .setInputCols(["document", "normal"]) \\
-            .setSentimentCol("train_sentiment") \\
-            .setOutputCol("result_sentiment")
-
-        finisher = Finisher() \\
-            .setInputCols(["result_sentiment"]) \\
-            .setOutputCols("final_sentiment")
-
-        pipeline = Pipeline().setStages([document, token, normalizer, vivekn, finisher])
-
-        training = spark.createDataFrame([[
-            "I really liked this movie!", "positive"),
-            ("The cast was horrible", "negative"),
-            ("Never going to watch this again or recommend it to anyone", "negative"),
-            ("It's a waste of time", "negative"),
-            ("I loved the protagonist", "positive"),
-            ("The music was really really good", "positive"
-        ]]).toDF("text", "train_sentiment")
-        pipelineModel = pipeline.fit(training)
-
-        data = spark.createDataFrame([[
-            "I recommend this movie",
-            "Dont waste your time!!!"
-        ]]).toDF("text")
-        result = pipelineModel.transform(data)
-
-        result.select("final_sentiment").show(truncate=False)
-        +---------------+
-        |final_sentiment|
-        +---------------+
-        |[positive]     |
-        |[negative]     |
-        +---------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> document = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> token = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> normalizer = Normalizer() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("normal")
+    >>> vivekn = ViveknSentimentApproach() \\
+    ...     .setInputCols(["document", "normal"]) \\
+    ...     .setSentimentCol("train_sentiment") \\
+    ...     .setOutputCol("result_sentiment")
+    >>> finisher = Finisher() \\
+    ...     .setInputCols(["result_sentiment"]) \\
+    ...     .setOutputCols("final_sentiment")
+    >>> pipeline = Pipeline().setStages([document, token, normalizer, vivekn, finisher])
+    >>> training = spark.createDataFrame([
+    ...     ("I really liked this movie!", "positive"),
+    ...     ("The cast was horrible", "negative"),
+    ...     ("Never going to watch this again or recommend it to anyone", "negative"),
+    ...     ("It's a waste of time", "negative"),
+    ...     ("I loved the protagonist", "positive"),
+    ...     ("The music was really really good", "positive")
+    ... ]).toDF("text", "train_sentiment")
+    >>> pipelineModel = pipeline.fit(training)
+    >>> data = spark.createDataFrame([
+    ...     ["I recommend this movie"],
+    ...     ["Dont waste your time!!!"]
+    ... ]).toDF("text")
+    >>> result = pipelineModel.transform(data)
+    >>> result.select("final_sentiment").show(truncate=False)
+    +---------------+
+    |final_sentiment|
+    +---------------+
+    |[positive]     |
+    |[negative]     |
+    +---------------+
     """
     sentimentCol = Param(Params._dummy(),
                          "sentimentCol",
@@ -3560,9 +3547,27 @@ class ViveknSentimentApproach(AnnotatorApproach):
         self._setDefault(pruneCorpus=1, importantFeatureRatio=0.5, unimportantFeatureStep=0.025, featureLimit=-1)
 
     def setSentimentCol(self, value):
+        """Sets column with the sentiment result of every row.
+
+        Must be either 'positive' or 'negative'.
+
+        Parameters
+        ----------
+        value : str
+            Name of the column
+        """
         return self._set(sentimentCol=value)
 
     def setPruneCorpus(self, value):
+        """Sets the removal of unfrequent scenarios from scope, by default 1.
+
+        The higher the better performance.
+
+        Parameters
+        ----------
+        value : int
+            The frequency
+        """
         return self._set(pruneCorpus=value)
 
     def _create_model(self, java_model):
@@ -3570,18 +3575,17 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
 
 class ViveknSentimentModel(AnnotatorModel):
-    """Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.
+    """Sentiment analyser inspired by the algorithm by Vivek Narayanan.
 
-    The algorithm is based on the paper
-    `"Fast and accurate sentiment classification using an enhanced Naive Bayes model" <https://arxiv.org/abs/1305.6143>`__.
-
-    This is the instantiated model of the :class:`.ViveknSentimentApproach`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.ViveknSentimentApproach`. For
+    training your own model, please see the documentation of that class.
 
     The analyzer requires sentence boundaries to give a score in context.
-    Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
+    Tokenization is needed to make sure tokens are within bounds. Transitivity
+    requirements are also required.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3591,15 +3595,15 @@ class ViveknSentimentModel(AnnotatorModel):
 
     Parameters
     ----------
+    None
 
-    importantFeatureRatio
-        proportion of feature content to be considered relevant. Defaults to 0.5
-    unimportantFeatureStep
-        proportion to lookahead in unimportant features. Defaults to 0.025
-    featureLimit
-        content feature limit, to boost performance in very dirt text. Default disabled with -1
+    References
+    ----------
+    The algorithm is based on the paper `"Fast and accurate sentiment
+    classification using an enhanced Naive Bayes model"
+    <https://arxiv.org/abs/1305.6143>`__.
 
-
+    https://github.com/vivekn/sentiment/
     """
     name = "ViveknSentimentModel"
 
