@@ -2123,13 +2123,14 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
 
 class TextMatcher(AnnotatorApproach):
-    """Annotator to match exact phrases (by token) provided in a file against a Document.
+    """Annotator to match exact phrases (by token) provided in a file against a
+    Document.
 
-    A text file of predefined phrases must be provided with ``setEntities``.
-    The text file can als be set directly as an
-    ExternalResource.
+    A text file of predefined phrases must be provided with
+    :meth:`.setEntities`.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2143,63 +2144,52 @@ class TextMatcher(AnnotatorApproach):
     entities
         ExternalResource for entities
     caseSensitive
-        whether to match regardless of case. Defaults true
+        Whether to match regardless of case, by default True
     mergeOverlapping
-        whether to merge overlapping matched chunks. Defaults false
+        Whether to merge overlapping matched chunks, by default False
     entityValue
-        value for the entity metadata field
+        Value for the entity metadata field
     buildFromTokens
-        whether the TextMatcher should take the CHUNK from TOKEN or not
+        Whether the TextMatcher should take the CHUNK from TOKEN or not
 
     Examples
     --------
+    In this example, the entities file is of the form::
 
-    .. code-block:: python
+        ...
+        dolore magna aliqua
+        lorem ipsum dolor. sit
+        laborum
+        ...
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the entities file is of the form
-        #
-        # ...
-        # dolore magna aliqua
-        # lorem ipsum dolor. sit
-        # laborum
-        # ...
-        #
-        # where each line represents an entity phrase to be extracted.
+    where each line represents an entity phrase to be extracted.
 
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        data = spark.createDataFrame([["Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum"]]).toDF("text")
-        entityExtractor = TextMatcher() \\
-            .setInputCols(["document", "token"]) \\
-            .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT) \\
-            .setOutputCol("entity") \\
-            .setCaseSensitive(False) \\
-            .setTokenizer(tokenizer.fit(data))
-
-        pipeline = Pipeline().setStages([documentAssembler, tokenizer, entityExtractor])
-        results = pipeline.fit(data).transform(data)
-
-        results.selectExpr("explode(entity) as result").show(truncate=False)
-        +------------------------------------------------------------------------------------------+
-        |result                                                                                    |
-        +------------------------------------------------------------------------------------------+
-        |[chunk, 6, 24, dolore magna aliqua, [entity -> entity, sentence -> 0, chunk -> 0], []]    |
-        |[chunk, 27, 48, Lorem ipsum dolor. sit, [entity -> entity, sentence -> 0, chunk -> 1], []]|
-        |[chunk, 53, 59, laborum, [entity -> entity, sentence -> 0, chunk -> 2], []]               |
-        +------------------------------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> data = spark.createDataFrame([["Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum"]]).toDF("text")
+    >>> entityExtractor = TextMatcher() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setEntities("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT) \\
+    ...     .setOutputCol("entity") \\
+    ...     .setCaseSensitive(False)
+    >>> pipeline = Pipeline().setStages([documentAssembler, tokenizer, entityExtractor])
+    >>> results = pipeline.fit(data).transform(data)
+    >>> results.selectExpr("explode(entity) as result").show(truncate=False)
+    +------------------------------------------------------------------------------------------+
+    |result                                                                                    |
+    +------------------------------------------------------------------------------------------+
+    |[chunk, 6, 24, dolore magna aliqua, [entity -> entity, sentence -> 0, chunk -> 0], []]    |
+    |[chunk, 27, 48, Lorem ipsum dolor. sit, [entity -> entity, sentence -> 0, chunk -> 1], []]|
+    |[chunk, 53, 59, laborum, [entity -> entity, sentence -> 0, chunk -> 2], []]               |
+    +------------------------------------------------------------------------------------------+
     """
 
     entities = Param(Params._dummy(),
@@ -2237,26 +2227,65 @@ class TextMatcher(AnnotatorApproach):
         return TextMatcherModel(java_model=java_model)
 
     def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Sets the external resource for the entities.
+
+        Parameters
+        ----------
+        path : str
+            Path to the external resource
+        read_as : str, optional
+            How to read the resource, by default ReadAs.TEXT
+        options : dict, optional
+            Options for reading the resource, by default {"format": "text"}
+        """
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
     def setCaseSensitive(self, b):
+        """Sets whether to match regardless of case, by default True.
+
+        Parameters
+        ----------
+        b : bool
+            Whether to match regardless of case
+        """
         return self._set(caseSensitive=b)
 
     def setMergeOverlapping(self, b):
+        """Sets whether to merge overlapping matched chunks, by default False.
+
+        Parameters
+        ----------
+        b : bool
+            Whether to merge overlapping matched chunks
+        """
         return self._set(mergeOverlapping=b)
 
     def setEntityValue(self, b):
+        """Sets value for the entity metadata field.
+
+        Parameters
+        ----------
+        b : str
+            Value for the entity metadata field
+        """
         return self._set(entityValue=b)
 
     def setBuildFromTokens(self, b):
+        """Sets whether the TextMatcher should take the CHUNK from TOKEN or not.
+
+        Parameters
+        ----------
+        b : bool
+            Whether the TextMatcher should take the CHUNK from TOKEN or not
+        """
         return self._set(buildFromTokens=b)
 
 
 class TextMatcherModel(AnnotatorModel):
     """Instantiated model of the TextMatcher.
 
-    This is the instantiated model of the :class:`.TextMatcher`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.TextMatcher`. For training
+    your own model, please see the documentation of that class.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -2268,15 +2297,11 @@ class TextMatcherModel(AnnotatorModel):
     ----------
 
     mergeOverlapping
-        whether to merge overlapping matched chunks. Defaults false
-    searchTrie
-        searchTrie
+        Whether to merge overlapping matched chunks, by default False
     entityValue
-        value for the entity metadata field
+        Value for the entity metadata field
     buildFromTokens
-        whether the TextMatcher should take the CHUNK from TOKEN or not
-
-
+        Whether the TextMatcher should take the CHUNK from TOKEN or not
     """
     name = "TextMatcherModel"
 
@@ -2307,12 +2332,33 @@ class TextMatcherModel(AnnotatorModel):
         )
 
     def setMergeOverlapping(self, b):
+        """Sets whether to merge overlapping matched chunks, by default False.
+
+        Parameters
+        ----------
+        b : bool
+            Whether to merge overlapping matched chunks
+        """
         return self._set(mergeOverlapping=b)
 
     def setEntityValue(self, b):
+        """Sets value for the entity metadata field.
+
+        Parameters
+        ----------
+        b : str
+            Value for the entity metadata field
+        """
         return self._set(entityValue=b)
 
     def setBuildFromTokens(self, b):
+        """Sets whether the TextMatcher should take the CHUNK from TOKEN or not.
+
+        Parameters
+        ----------
+        b : bool
+            Whether the TextMatcher should take the CHUNK from TOKEN or not
+        """
         return self._set(buildFromTokens=b)
 
     @staticmethod
