@@ -241,73 +241,72 @@ class RecursiveTokenizerModel(AnnotatorModel):
 class Tokenizer(AnnotatorApproach):
     """Tokenizes raw text in document type columns into TokenizedSentence .
 
-    This class represents a non fitted tokenizer. Fitting it will cause the internal RuleFactory to construct the rules for tokenizing from the input configuration.
+    This class represents a non fitted tokenizer. Fitting it will cause the
+    internal RuleFactory to construct the rules for tokenizing from the input
+    configuration.
 
-    Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
+    Identifies tokens with tokenization open standards. A few rules will help
+    customizing it if defaults do not fit user needs.
 
-    For extended examples of usage see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
-    =================================================================================== ======================
-    Input Annotation types                                                              Output Annotation type
-    =================================================================================== ======================
-    ``DOCUMENT // A Tokenizer could require only for now a SentenceDetector annotator`` ``TOKEN``
-    =================================================================================== ======================
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT``           ``TOKEN``
+    ====================== ======================
 
     Parameters
     ----------
 
     targetPattern
-        pattern to grab from text as token candidates, by default "\\S+"
+        Pattern to grab from text as token candidates, by default ``\\S+``
     prefixPattern
-        regex with groups and begins with \A to match target prefix, by default "\A([^\s\w\$\.]*)"
+        Regex with groups and begins with ``\\A`` to match target prefix, by
+        default ``\\A([^\\s\\w\\$\\.]*)``
     suffixPattern
-        regex with groups and ends with \z to match target suffix, by default "([^\s\w]?)([^\s\w]*)\z"
+        Regex with groups and ends with ``\\z`` to match target suffix, by
+        default ``([^\\s\\w]?)([^\\s\\w]*)\\z``
     infixPatterns
-        regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults
+        Regex patterns that match tokens within a single target. groups identify
+        different sub-tokens. multiple defaults
     exceptions
         Words that won't be affected by tokenization rules
     exceptionsPath
-        path to file containing list of exceptions
+        Path to file containing list of exceptions
     caseSensitiveExceptions
         Whether to care for case sensitiveness in exceptions, by default True
     contextChars
-        character list used to separate from token boundaries, by default ['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '"', "'"]
+        Character list used to separate from token boundaries, by default ['.',
+        ',', ';', ':', '!', '?', '*', '-', '(', ')', '"', "'"]
     splitPattern
-        character list used to separate from the inside of tokens
+        Pattern to separate from the inside of tokens. Takes priority over
+        splitChars.
     splitChars
-        character list used to separate from the inside of tokens
+        Character list used to separate from the inside of tokens
     minLength
-        Set the minimum allowed legth for each token, by default 0
+        Set the minimum allowed length for each token, by default 0
     maxLength
-        Set the maximum allowed legth for each token, by default 99999
+        Set the maximum allowed length for each token, by default 99999
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        data = spark.createDataFrame([["I'd like to say we didn't expect that. Jane's boyfriend."]]).toDF("text")
-        documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
-        tokenizer = Tokenizer().setInputCols(["document"]).setOutputCol("token").fit(data)
-
-        pipeline = Pipeline().setStages([documentAssembler, tokenizer]).fit(data)
-        result = pipeline.transform(data)
-
-        result.selectExpr("token.result").show(truncate=False)
-        +-----------------------------------------------------------------------+
-        |output                                                                 |
-        +-----------------------------------------------------------------------+
-        |[I'd, like, to, say, we, didn't, expect, that, ., Jane's, boyfriend, .]|
-        +-----------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> data = spark.createDataFrame([["I'd like to say we didn't expect that. Jane's boyfriend."]]).toDF("text")
+    >>> documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+    >>> tokenizer = Tokenizer().setInputCols(["document"]).setOutputCol("token").fit(data)
+    >>> pipeline = Pipeline().setStages([documentAssembler, tokenizer]).fit(data)
+    >>> result = pipeline.transform(data)
+    >>> result.selectExpr("token.result").show(truncate=False)
+    +-----------------------------------------------------------------------+
+    |output                                                                 |
+    +-----------------------------------------------------------------------+
+    |[I'd, like, to, say, we, didn't, expect, that, ., Jane's, boyfriend, .]|
+    +-----------------------------------------------------------------------+
     """
 
     targetPattern = Param(Params._dummy(),
@@ -384,33 +383,110 @@ class Tokenizer(AnnotatorApproach):
         )
 
     def getInfixPatterns(self):
+        """Gets regex patterns that match tokens within a single target. Groups
+        identify different sub-tokens.
+
+        Returns
+        -------
+        List[str]
+            The infix patterns
+        """
         return self.getOrDefault("infixPatterns")
 
     def getSuffixPattern(self):
+        """Gets regex with groups and ends with ``\\z`` to match target suffix.
+
+        Returns
+        -------
+        str
+            The suffix pattern
+        """
         return self.getOrDefault("suffixPattern")
 
     def getPrefixPattern(self):
+        """Gets regex with groups and begins with ``\\A`` to match target
+        prefix.
+
+        Returns
+        -------
+        str
+            The prefix pattern
+        """
         return self.getOrDefault("prefixPattern")
 
     def getContextChars(self):
+        """Gets character list used to separate from token boundaries.
+
+        Returns
+        -------
+        List[str]
+            Character list used to separate from token boundaries
+        """
         return self.getOrDefault("contextChars")
 
     def getSplitChars(self):
+        """Gets character list used to separate from the inside of tokens.
+
+        Returns
+        -------
+        List[str]
+            Character list used to separate from the inside of tokens
+        """
         return self.getOrDefault("splitChars")
 
     def setTargetPattern(self, value):
+        """Sets pattern to grab from text as token candidates, by default
+        ``\\S+``.
+
+        Parameters
+        ----------
+        value : str
+            Pattern to grab from text as token candidates
+        """
         return self._set(targetPattern=value)
 
     def setPrefixPattern(self, value):
+        """Sets regex with groups and begins with ``\\A`` to match target prefix, by
+        default ``\\A([^\\s\\w\\$\\.]*)``.
+
+        Parameters
+        ----------
+        value : str
+            Regex with groups and begins with ``\\A`` to match target prefix
+        """
         return self._set(prefixPattern=value)
 
     def setSuffixPattern(self, value):
+        """Sets regex with groups and ends with ``\\z`` to match target suffix,
+        by default ``([^\\s\\w]?)([^\\s\\w]*)\\z``.
+
+        Parameters
+        ----------
+        value : str
+            Regex with groups and ends with ``\\z`` to match target suffix
+        """
         return self._set(suffixPattern=value)
 
     def setInfixPatterns(self, value):
+        """Sets regex patterns that match tokens within a single target. Groups
+        identify different sub-tokens.
+
+        Parameters
+        ----------
+        value : List[str]
+            Regex patterns that match tokens within a single target
+        """
         return self._set(infixPatterns=value)
 
     def addInfixPattern(self, value):
+        """Adds an additional regex pattern that match tokens within a single
+        target. Groups identify different sub-tokens.
+
+        Parameters
+        ----------
+        value : str
+            Regex pattern that match tokens within a single target
+        """
         try:
             infix_patterns = self.getInfixPatterns()
         except KeyError:
@@ -419,12 +495,33 @@ class Tokenizer(AnnotatorApproach):
         return self._set(infixPatterns=infix_patterns)
 
     def setExceptions(self, value):
+        """Sets words that won't be affected by tokenization rules.
+
+        Parameters
+        ----------
+        value : List[str]
+            Words that won't be affected by tokenization rules
+        """
         return self._set(exceptions=value)
 
     def getExceptions(self):
+        """Gets words that won't be affected by tokenization rules.
+
+        Returns
+        -------
+        List[str]
+            Words that won't be affected by tokenization rules
+        """
         return self.getOrDefault("exceptions")
 
     def addException(self, value):
+        """Adds an additional word that won't be affected by tokenization rules.
+
+        Parameters
+        ----------
+        value : str
+            Additional word that won't be affected by tokenization rules
+        """
         try:
             exception_tokens = self.getExceptions()
         except KeyError:
@@ -433,15 +530,46 @@ class Tokenizer(AnnotatorApproach):
         return self._set(exceptions=exception_tokens)
 
     def setCaseSensitiveExceptions(self, value):
+        """Sets whether to care for case sensitiveness in exceptions, by default
+        True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to care for case sensitiveness in exceptions
+        """
         return self._set(caseSensitiveExceptions=value)
 
     def getCaseSensitiveExceptions(self):
+        """Gets whether to care for case sensitiveness in exceptions.
+
+        Returns
+        -------
+        bool
+            Whether to care for case sensitiveness in exceptions
+        """
         return self.getOrDefault("caseSensitiveExceptions")
 
     def setContextChars(self, value):
+        """Sets character list used to separate from token boundaries, by
+        default ['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '"', "'"].
+
+        Parameters
+        ----------
+        value : List[str]
+            Character list used to separate from token boundaries
+        """
         return self._set(contextChars=value)
 
     def addContextChars(self, value):
+        """Adds an additional character to the list used to separate from token
+        boundaries.
+
+        Parameters
+        ----------
+        value : str
+            Additional context character
+        """
         try:
             context_chars = self.getContextChars()
         except KeyError:
@@ -450,12 +578,34 @@ class Tokenizer(AnnotatorApproach):
         return self._set(contextChars=context_chars)
 
     def setSplitPattern(self, value):
+        """Sets pattern to separate from the inside of tokens. Takes priority
+        over splitChars.
+
+        Parameters
+        ----------
+        value : str
+            Pattern used to separate from the inside of tokens
+        """
         return self._set(splitPattern=value)
 
     def setSplitChars(self, value):
+        """Sets character list used to separate from the inside of tokens.
+
+        Parameters
+        ----------
+        value : List[str]
+            Character list used to separate from the inside of tokens
+        """
         return self._set(splitChars=value)
 
     def addSplitChars(self, value):
+        """Adds an additional character to separate from the inside of tokens.
+
+        Parameters
+        ----------
+        value : str
+            Additional character to separate from the inside of tokens
+        """
         try:
             split_chars = self.getSplitChars()
         except KeyError:
@@ -464,9 +614,23 @@ class Tokenizer(AnnotatorApproach):
         return self._set(splitChars=split_chars)
 
     def setMinLength(self, value):
+        """Sets the minimum allowed legth for each token, by default 0.
+
+        Parameters
+        ----------
+        value : int
+            Minimum allowed legth for each token
+        """
         return self._set(minLength=value)
 
     def setMaxLength(self, value):
+        """Sets the maximum allowed legth for each token, by default 99999.
+
+        Parameters
+        ----------
+        value : int
+            Maximum allowed legth for each token
+        """
         return self._set(maxLength=value)
 
     def _create_model(self, java_model):
@@ -474,9 +638,11 @@ class Tokenizer(AnnotatorApproach):
 
 
 class TokenizerModel(AnnotatorModel):
-    """Tokenizes raw text into word pieces, tokens. Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
+    """Tokenizes raw text into word pieces, tokens. Identifies tokens with
+    tokenization open standards. A few rules will help customizing it if
+    defaults do not fit user needs.
 
-    This class represents an already fitted Tokenizer model.
+    This class represents an already fitted :class:`.Tokenizer`.
 
     See the main class Tokenizer for more examples of usage.
 
@@ -489,14 +655,6 @@ class TokenizerModel(AnnotatorModel):
     Parameters
     ----------
 
-    exceptions
-        Words that won't be affected by tokenization rules
-    caseSensitiveExceptions
-        Whether to care for case sensitiveness in exceptions, by default True
-    targetPattern
-        Pattern to grab from text as token candidates, by default "\\S+"
-    rules
-        Rules structure factory containing pre processed regex rules
     splitPattern
         Character list used to separate from the inside of tokens
     splitChars
@@ -547,12 +705,34 @@ class TokenizerModel(AnnotatorModel):
         )
 
     def setSplitPattern(self, value):
+        """Sets pattern to separate from the inside of tokens. Takes priority
+        over splitChars.
+
+        Parameters
+        ----------
+        value : str
+            Pattern used to separate from the inside of tokens
+        """
         return self._set(splitPattern=value)
 
     def setSplitChars(self, value):
+        """Sets character list used to separate from the inside of tokens.
+
+        Parameters
+        ----------
+        value : List[str]
+            Character list used to separate from the inside of tokens
+        """
         return self._set(splitChars=value)
 
     def addSplitChars(self, value):
+        """Adds an additional character to separate from the inside of tokens.
+
+        Parameters
+        ----------
+        value : str
+            Additional character to separate from the inside of tokens
+        """
         try:
             split_chars = self.getSplitChars()
         except KeyError:
