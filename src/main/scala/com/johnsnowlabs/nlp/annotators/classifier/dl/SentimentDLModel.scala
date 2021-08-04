@@ -110,11 +110,11 @@ class SentimentDLModel(override val uid: String)
    */
   override val outputAnnotatorType: String = CATEGORY
 
-  /** The minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel (Default: `0.6f`)
+  /** The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel (Default: `0.6f`)
    *
    * @group param
    */
-  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel.s")
+  val threshold = new FloatParam(this, "threshold", "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.s")
   /** In case the score is less than threshold, what should be the label (Default: `"neutral"`)
    *
    * @group param

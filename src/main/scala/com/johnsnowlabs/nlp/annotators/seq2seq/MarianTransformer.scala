@@ -51,7 +51,7 @@ import java.io.File
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala MarianTransformerTestSpec]].
  *
- * '''Sources''' :
+ * '''Sources''' :``
  *
  * [[https://marian-nmt.github.io/ MarianNMT at GitHub]]
  *

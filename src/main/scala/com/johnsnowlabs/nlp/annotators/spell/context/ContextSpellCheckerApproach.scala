@@ -1,26 +1,9 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
-
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper, Variables}
+import com.johnsnowlabs.nlp.annotator.SymmetricDeleteApproach
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -89,10 +72,10 @@ object CandidateStrategy {
  * val spellChecker = new ContextSpellCheckerApproach()
  *   .setInputCols("token")
  *   .setOutputCol("corrected")
- *   .setWordMaxDistance(3)
+ *   .setWordMaxDist(3)
  *   .setBatchSize(24)
  *   .setEpochs(8)
- *   .setLanguageModelClasses(1650)  // dependant on vocabulary size
+ *   .setLMClasses(1650)  // dependant on vocabulary size
  *   // .addVocabClass("_NAME_", names) // Extra classes for correction could be added like this
  *
  * val pipeline = new Pipeline().setStages(Array(
@@ -150,7 +133,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val languageModelClasses = new Param[Int](this, "languageModelClasses", "Number of classes to use during factorization of the softmax output in the LM.")
 
   /** @group setParam */
-  def setLanguageModelClasses(k: Int): this.type = set(languageModelClasses, k)
+  def setLMClasses(k: Int): this.type = set(languageModelClasses, k)
 
   /** Maximum distance for the generated candidates for every word (Default: `3`).
    *
@@ -159,7 +142,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val wordMaxDistance = new IntParam(this, "wordMaxDistance", "Maximum distance for the generated candidates for every word.")
 
   /** @group setParam */
-  def setWordMaxDistance(k: Int): this.type = {
+  def setWordMaxDist(k: Int): this.type = {
     require(k >= 1, "Please provided a minumum candidate distance of at least 1.")
     set(wordMaxDistance, k)
   }
@@ -216,7 +199,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val initialRate = new FloatParam(this, "initialRate", "Initial learning rate for the LM.")
 
   /** @group setParam */
-  def setInitialRate(r: Float): this.type = set(initialRate, r)
+  def setInitialLearningRate(r: Float): this.type = set(initialRate, r)
 
   /** Final learning rate for the LM (Default: `0.0005f`).
    *
@@ -225,7 +208,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val finalRate = new FloatParam(this, "finalRate", "Final learning rate for the LM.")
 
   /** @group setParam */
-  def setFinalRate(r: Float): this.type = set(finalRate, r)
+  def setFinalLearningRate(r: Float): this.type = set(finalRate, r)
 
   /** Percentage of datapoints to use for validation (Default: `.1f`).
    *
@@ -252,7 +235,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val compoundCount = new Param[Int](this, "compoundCount", "Min number of times a compound word should appear to be included in vocab.")
 
   /** @group setParam */
-  def setCompoundCount(k: Int): this.type = set(compoundCount, k)
+  def setBlackListMinFreq(k: Int): this.type = set(compoundCount, k)
 
   /** Tradeoff between the cost of a word error and a transition in the language model (Default: `18.0f`).
    *
@@ -270,7 +253,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val classCount = new Param[Double](this, "classCount", "Min number of times the word need to appear in corpus to not be considered of a special class.")
 
   /** @group setParam */
-  def setClassCount(t: Double): this.type = set(classCount, t)
+  def setClassThreshold(t: Double): this.type = set(classCount, t)
 
   /** The path to the file containing the weights for the levenshtein distance.
    *
@@ -279,7 +262,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val weightedDistPath = new Param[String](this, "weightedDistPath", "The path to the file containing the weights for the levenshtein distance.")
 
   /** @group setParam */
-  def setWeightedDistPath(filePath: String): this.type = set(weightedDistPath, filePath)
+  def setWeights(filePath: String): this.type = set(weightedDistPath, filePath)
 
   /** Maximum size for the window used to remember history prior to every correction (Default: `5`).
    *
@@ -331,9 +314,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
   /** Adds a new class of words to correct, based on a vocabulary.
    *
-   * @param usrLabel  Name of the class
+   * @param usrLabel Name of the class
    * @param vocabList Vocabulary as a list
-   * @param userDist  Maximal distance to the word
+   * @param userDist Maximal distance to the word
    * @return
    */
   def addVocabClass(usrLabel: String, vocabList: util.ArrayList[String], userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
@@ -386,16 +369,16 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     model.train(encodeCorpus(train, word2ids, encodedClasses), encodeCorpus(validation, word2ids, encodedClasses),
       getOrDefault(epochs), getOrDefault(batchSize), getOrDefault(initialRate), getOrDefault(finalRate))
 
-    val contextModel = new ContextSpellCheckerModel()
-      .setVocabFreq(vocabulary.toMap)
-      .setVocabIds(word2ids)
-      .setClasses(classes.map { case (k, v) => (word2ids(k), v) })
-      .setVocabTransducer(createTransducer(vocabulary.keys.toList))
-      .setSpecialClassesTransducers(specialClassesTransducers)
-      .setModelIfNotSet(dataset.sparkSession, tf)
-      .setInputCols(getOrDefault(inputCols))
-      .setWordMaxDistance($(wordMaxDistance))
-      .setErrorThreshold($(errorThreshold))
+    val contextModel = new ContextSpellCheckerModel().
+      setVocabFreq(vocabulary.toMap).
+      setVocabIds(word2ids).
+      setClasses(classes.map { case (k, v) => (word2ids(k), v) }.toMap).
+      setVocabTransducer(createTransducer(vocabulary.keys.toList)).
+      setSpecialClassesTransducers(specialClassesTransducers).
+      setModelIfNotSet(dataset.sparkSession, tf).
+      setInputCols(getOrDefault(inputCols)).
+      setWordMaxDist($(wordMaxDistance))
+    setErrorThreshold($(errorThreshold))
 
     if (get(configProtoBytes).isDefined)
       contextModel.setConfigProtoBytes($(configProtoBytes))
@@ -434,7 +417,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     }
 
     require(maxWid < k, "The language model is unbalanced, pick a larger" +
-      s" number of classes using setLanguageModelClasses(), current value is ${getOrDefault(languageModelClasses)}.")
+      s" number of classes using setLMClasses(), current value is ${getOrDefault(languageModelClasses)}.")
 
     logger.info(s"Max num of words per class: $maxWid")
     classes
