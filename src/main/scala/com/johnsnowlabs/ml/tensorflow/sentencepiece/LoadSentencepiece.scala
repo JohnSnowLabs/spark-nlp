@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow.sentencepiece
 
 import java.io.{BufferedOutputStream, File, FileOutputStream}
@@ -16,25 +33,25 @@ object LoadSentencepiece {
 
   private lazy val lib = "_sentencepiece_tokenizer"
 
-  private def resourcePath(os: String, lib: String) = "sp-process/"+os+"/"+lib
+  private def resourcePath(os: String, lib: String) = "sp-process/" + os + "/" + lib
 
   lazy val sentencepiecePaths: Option[String] =
     if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
       val libWithExtension = lib + ".dylib"
       Some(resourcePath("mac", libWithExtension))
     } else if (SystemUtils.IS_OS_WINDOWS) {
-      Some(resourcePath("win", lib))
+      val libWithExtension = lib + ".so"
+      Some(resourcePath("win", libWithExtension))
     } else {
-      // TODO: the only available .so file is compatible with TF 2.4.x - Current TF Java supports TF 2.3.1
       val libWithExtension = lib + ".so"
       Some(resourcePath("linux", libWithExtension))
     }
 
   private def getFileName(path: String) = {
-    "sparknlp_sp_lib"+new File(path).getName.take(5)
+    "sparknlp_sp_lib" + new File(path).getName.take(5)
   }
 
-  /** NOT thread safe. Make sure this runs on DRIVER only*/
+  /** NOT thread safe. Make sure this runs on DRIVER only */
   private def copyResourceToTmp(path: String): File = {
     val stream = ResourceHelper.getResourceStream(path)
     val tmpFolder = System.getProperty("java.io.tmpdir")
@@ -54,7 +71,7 @@ object LoadSentencepiece {
   }
 
   def loadSPToCluster(spark: SparkSession): Unit = {
-    /** NOT thread-safe. DRIVER only*/
+    /** NOT thread-safe. DRIVER only */
     require(!SystemUtils.IS_OS_WINDOWS, "UniversalSentenceEncoder multi-lingual models are not supported on Windows.")
 
     if (!LoadSentencepiece.loadedToCluster && sentencepiecePaths.isDefined) {
