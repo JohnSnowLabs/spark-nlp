@@ -9033,18 +9033,12 @@ class ContextSpellCheckerModel(AnnotatorModel):
 class SentimentDLApproach(AnnotatorApproach):
     """Trains a SentimentDL, an annotator for multi-class sentiment analysis.
 
-    In natural language processing, sentiment analysis is the task of classifying the affective state or subjective view
-    of a text. A common example is if either a product review or tweet can be interpreted positively or negatively.
+    In natural language processing, sentiment analysis is the task of
+    classifying the affective state or subjective view of a text. A common
+    example is if either a product review or tweet can be interpreted positively
+    or negatively.
 
-    For the instantiated/pretrained models, see SentimentDLModel.
-
-    **Notes**:
-
-    * This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-      So positive sentiment can be expressed as either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or ``1``.
-    * UniversalSentenceEncoder,
-      BertSentenceEmbeddings, or
-      SentenceEmbeddings can be used for the ``inputCol``.
+    For the instantiated/pretrained models, see :class:`.SentimentDLModel`.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
 
@@ -9084,55 +9078,49 @@ class SentimentDLApproach(AnnotatorApproach):
     thresholdLabel
         In case the score is less than threshold, what should be the label. Default is neutral, by default "neutral"
 
+    Notes
+    -----
+    - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+      So positive sentiment can be expressed as either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or ``1``.
+    - UniversalSentenceEncoder,
+      BertSentenceEmbeddings, or
+      SentenceEmbeddings can be used for the ``inputCol``.
+
     Examples
     --------
+    In this example, ``sentiment.csv`` is in the form::
 
-    .. code-block:: python
+        text,label
+        This movie is the best movie I have watched ever! In my opinion this movie can win an award.,0
+        This was a terrible movie! The acting was bad really bad!,1
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, `sentiment.csv` is in the form
-        #
-        # text,label
-        # This movie is the best movie I have watched ever! In my opinion this movie can win an award.,0
-        # This was a terrible movie! The acting was bad really bad!,1
-        #
-        # The model can then be trained with
+    The model can then be trained with
 
-        smallCorpus = spark.read.option("header", "True").csv("src/test/resources/classifier/sentiment.csv")
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence_embeddings")
-
-        docClassifier = SentimentDLApproach() \\
-            .setInputCols(["sentence_embeddings"]) \\
-            .setOutputCol("sentiment") \\
-            .setLabelColumn("label") \\
-            .setBatchSize(32) \\
-            .setMaxEpochs(1) \\
-            .setLr(5e-3) \\
-            .setDropout(0.5)
-
-        pipeline = Pipeline() \\
-            .setStages(
-              [
-                documentAssembler,
-                useEmbeddings,
-                docClassifier
-              ]
-            )
-
-        pipelineModel = pipeline.fit(smallCorpus)
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> smallCorpus = spark.read.option("header", "True").csv("src/test/resources/classifier/sentiment.csv")
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> docClassifier = SentimentDLApproach() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCol("sentiment") \\
+    ...     .setLabelColumn("label") \\
+    ...     .setBatchSize(32) \\
+    ...     .setMaxEpochs(1) \\
+    ...     .setLr(5e-3) \\
+    ...     .setDropout(0.5)
+    >>> pipeline = Pipeline().setStages([
+    ...         documentAssembler,
+    ...         useEmbeddings,
+    ...         docClassifier
+    ... ])
+    >>> pipelineModel = pipeline.fit(smallCorpus)
     """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -9291,10 +9279,26 @@ class SentimentDLApproach(AnnotatorApproach):
         return self._set(outputLogsPath=p)
 
     def setThreshold(self, v):
+        """Sets the minimum threshold for the final result otheriwse it will be
+        neutral, by default 0.6.
+
+        Parameters
+        ----------
+        v : float
+            Minimum threshold for the final result
+        """
         self._set(threshold=v)
         return self
 
     def setThresholdLabel(self, p):
+        """Sets what the label should be, if the score is less than threshold,
+        by default "neutral".
+
+        Parameters
+        ----------
+        p : str
+            The label, if the score is less than threshold
+        """
         return self._set(thresholdLabel=p)
 
     @keyword_only
@@ -9315,27 +9319,29 @@ class SentimentDLApproach(AnnotatorApproach):
 class SentimentDLModel(AnnotatorModel, HasStorageRef):
     """SentimentDL, an annotator for multi-class sentiment analysis.
 
-    In natural language processing, sentiment analysis is the task of classifying the affective state or subjective view
-    of a text. A common example is if either a product review or tweet can be interpreted positively or negatively.
+    In natural language processing, sentiment analysis is the task of
+    classifying the affective state or subjective view of a text. A common
+    example is if either a product review or tweet can be interpreted positively
+    or negatively.
 
-    This is the instantiated model of the :class:`.SentimentDLApproach`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.SentimentDLApproach`. For
+    training your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        sentiment = SentimentDLModel.pretrained() \\
-            .setInputCols(["sentence_embeddings"]) \\
-            .setOutputCol("sentiment")
+    >>> sentiment = SentimentDLModel.pretrained() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCol("sentiment")
 
 
-    The default model is ``"sentimentdl_use_imdb"``, if no name is provided. It is english sentiment analysis trained on
-    the IMDB dataset.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
+    The default model is ``"sentimentdl_use_imdb"``, if no name is provided. It
+    is english sentiment analysis trained on the IMDB dataset. For available
+    pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -9357,49 +9363,37 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence_embeddings")
-
-        sentiment = SentimentDLModel.pretrained("sentimentdl_use_twitter") \\
-            .setInputCols(["sentence_embeddings"]) \\
-            .setThreshold(0.7) \\
-            .setOutputCol("sentiment")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            useEmbeddings,
-            sentiment
-        ])
-
-        data = spark.createDataFrame([[
-            "Wow, the new video is awesome!",
-            "bruh what a damn waste of time"
-        ]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.select("text", "sentiment.result").show(truncate=False)
-        +------------------------------+----------+
-        |text                          |result    |
-        +------------------------------+----------+
-        |Wow, the new video is awesome!|[positive]|
-        |bruh what a damn waste of time|[negative]|
-        +------------------------------+----------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> sentiment = SentimentDLModel.pretrained("sentimentdl_use_twitter") \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setThreshold(0.7) \\
+    ...     .setOutputCol("sentiment")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     useEmbeddings,
+    ...     sentiment
+    ... ])
+    >>> data = spark.createDataFrame([
+    ...     ["Wow, the new video is awesome!"],
+    ...     ["bruh what a damn waste of time"]
+    ... ]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("text", "sentiment.result").show(truncate=False)
+    +------------------------------+----------+
+    |text                          |result    |
+    +------------------------------+----------+
+    |Wow, the new video is awesome!|[positive]|
+    |bruh what a damn waste of time|[negative]|
+    +------------------------------+----------+
     """
     name = "SentimentDLModel"
 
@@ -9436,10 +9430,26 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
         return self._set(configProtoBytes=b)
 
     def setThreshold(self, v):
+        """Sets the minimum threshold for the final result otheriwse it will be
+        neutral, by default 0.6.
+
+        Parameters
+        ----------
+        v : float
+            Minimum threshold for the final result
+        """
         self._set(threshold=v)
         return self
 
     def setThresholdLabel(self, p):
+        """Sets what the label should be, if the score is less than threshold,
+        by default "neutral".
+
+        Parameters
+        ----------
+        p : str
+            The label, if the score is less than threshold
+        """
         return self._set(thresholdLabel=p)
 
     @staticmethod
