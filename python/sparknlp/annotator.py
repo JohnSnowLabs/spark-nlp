@@ -3645,9 +3645,6 @@ class NorvigSweetingModel(AnnotatorModel):
     """This annotator retrieves tokens and makes corrections automatically if
     not found in an English dictionary.
 
-    Inspired by Norvig model and `SymSpell
-    <https://github.com/wolfgarbe/SymSpell>`__.
-
     The Symmetric Delete spelling correction algorithm reduces the complexity of
     edit candidate generation and dictionary lookup for a given
     Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
@@ -3681,8 +3678,12 @@ class NorvigSweetingModel(AnnotatorModel):
 
     Parameters
     ----------
-
     None
+
+    References
+    ----------
+    Inspired by Norvig model and `SymSpell
+    <https://github.com/wolfgarbe/SymSpell>`__.
 
     Examples
     --------
@@ -3745,10 +3746,8 @@ class NorvigSweetingModel(AnnotatorModel):
 
 
 class SymmetricDeleteApproach(AnnotatorApproach):
-    """Trains a Symmetric Delete spelling correction algorithm.
-    Retrieves tokens and utilizes distance metrics to compute possible derived words.
-
-    Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+    """Trains a Symmetric Delete spelling correction algorithm. Retrieves tokens
+    and utilizes distance metrics to compute possible derived words.
 
     For instantiated/pretrained models, see :class:`.SymmetricDeleteModel`.
 
@@ -3760,9 +3759,6 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
-    corpus
-        folder or file with text that teaches about the language
     dictionary
         folder or file with text that teaches about the language
     maxEditDistance
@@ -3770,54 +3766,47 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     frequencyThreshold
         minimum frequency of words to be considered from training, by default 0
     deletesThreshold
-        minimum frequency of corrections a word needs to have to be considered from training, by default 0
-    dupsLimit
-        maximum duplicate of characters in a word to consider, by default 2
+        minimum frequency of corrections a word needs to have to be considered
+        from training, by default 0
+
+    References
+    ----------
+    Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
 
     Examples
     --------
+    In this example, the dictionary ``"words.txt"`` has the form of::
 
-    .. code-block:: python
+        ...
+        gummy
+        gummic
+        gummier
+        gummiest
+        gummiferous
+        ...
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the dictionary `"words.txt"` has the form of
-        #
-        # ...
-        # gummy
-        # gummic
-        # gummier
-        # gummiest
-        # gummiferous
-        # ...
-        #
-        # This dictionary is then set to be the basis of the spell checker.
+    This dictionary is then set to be the basis of the spell checker.
 
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        spellChecker = SymmetricDeleteApproach() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("spell") \\
-            .setDictionary("src/test/resources/spell/words.txt")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            spellChecker
-        ])
-
-        pipelineModel = pipeline.fit(trainingData)
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> spellChecker = SymmetricDeleteApproach() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("spell") \\
+    ...     .setDictionary("src/test/resources/spell/words.txt")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     spellChecker
+    ... ])
+    >>> pipelineModel = pipeline.fit(trainingData)
     """
     corpus = Param(Params._dummy(),
                    "corpus",
@@ -3859,6 +3848,19 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         self.dictionary_path = ""
 
     def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Sets folder or file with text that teaches about the language.
+
+        Parameters
+        ----------
+        path : str
+            Path to the resource
+        token_pattern : str, optional
+            Regex patttern to extract tokens, by default "\S+"
+        read_as : str, optional
+            How to read the resource, by default ReadAs.TEXT
+        options : dict, optional
+            Options for reading the resource, by default {"format": "text"}
+        """
         self.dictionary_path = path
         opts = options.copy()
         if "tokenPattern" not in opts:
@@ -3866,12 +3868,36 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(dictionary=ExternalResource(path, read_as, opts))
 
     def setMaxEditDistance(self, v):
+        """Sets max edit distance characters to derive strings from a word, by
+        default 3/
+
+        Parameters
+        ----------
+        v : int
+            Max edit distance characters to derive strings from a word
+        """
         return self._set(maxEditDistance=v)
 
     def setFrequencyThreshold(self, v):
+        """Sets minimum frequency of words to be considered from training, by default 0.
+
+        Parameters
+        ----------
+        v : int
+            Minimum frequency of words to be considered from training
+        """
         return self._set(frequencyThreshold=v)
 
     def setDeletesThreshold(self, v):
+        """Sets minimum frequency of corrections a word needs to have to be
+        considered from training, by default 0.
+
+        Parameters
+        ----------
+        v : int
+            Minimum frequency of corrections a word needs to have to be
+            considered from training
+        """
         return self._set(deletesThreshold=v)
 
     def _create_model(self, java_model):
@@ -3881,24 +3907,23 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 class SymmetricDeleteModel(AnnotatorModel):
     """Symmetric Delete spelling correction algorithm.
 
-    The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-    dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-    (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-
-    Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
+    The Symmetric Delete spelling correction algorithm reduces the complexity of
+    edit candidate generation and dictionary lookup for a given
+    Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
+    standard approach with deletes + transposes + replaces + inserts) and
+    language independent.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        spell = SymmetricDeleteModel.pretrained() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("spell")
+    >>> spell = SymmetricDeleteModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("spell")
 
 
-    The default model is ``"spellcheck_sd"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+    The default model is ``"spellcheck_sd"``, if no name is provided. For
+    available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3909,47 +3934,40 @@ class SymmetricDeleteModel(AnnotatorModel):
     Parameters
     ----------
 
+    None
 
+    References
+    ----------
+    Inspired by `SymSpell <https://github.com/wolfgarbe/SymSpell>`__.
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        spellChecker = SymmetricDeleteModel.pretrained() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("spell")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            spellChecker
-        ])
-
-        data = spark.createDataFrame([["spmetimes i wrrite wordz erong."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-        result.select("spell.result").show(truncate=False)
-        +--------------------------------------+
-        |result                                |
-        +--------------------------------------+
-        |[sometimes, i, write, words, wrong, .]|
-        +--------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> spellChecker = SymmetricDeleteModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("spell")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     spellChecker
+    ... ])
+    >>> data = spark.createDataFrame([["spmetimes i wrrite wordz erong."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("spell.result").show(truncate=False)
+    +--------------------------------------+
+    |result                                |
+    +--------------------------------------+
+    |[sometimes, i, write, words, wrong, .]|
+    +--------------------------------------+
     """
     name = "SymmetricDeleteModel"
 
