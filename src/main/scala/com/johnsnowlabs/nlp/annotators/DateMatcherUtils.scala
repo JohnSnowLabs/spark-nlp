@@ -203,7 +203,7 @@ trait DateMatcherUtils extends Params {
     * Matching strategy is to find first match only, ignore additional matches from then
     * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
     */
-  protected val formalFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val formalFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
 
   if ($(readMonthFirst))
     formalFactory
