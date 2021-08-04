@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Named Entity Recognition - CoNLL03 DistilBERT (ner_conll_bert_base_cased)
+title: Named Entity Recognition - CoNLL03 BERT (ner_conll_bert_base_cased)
 author: John Snow Labs
 name: ner_conll_bert_base_cased
 date: 2021-08-04
