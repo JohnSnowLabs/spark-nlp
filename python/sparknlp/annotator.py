@@ -3039,17 +3039,19 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
 
 
 class SentimentDetector(AnnotatorApproach):
-    """Trains a rule based sentiment detector, which calculates a score based on predefined keywords.
+    """Trains a rule based sentiment detector, which calculates a score based on
+    predefined keywords.
 
-    A dictionary of predefined sentiment keywords must be provided with ``setDictionary``, where each line is a word
-    delimited to its class (either ``positive`` or ``negative``).
-    The dictionary can be set in either in the form of a delimited text file or directly as an
-    ExternalResource.
+    A dictionary of predefined sentiment keywords must be provided with
+    :meth:`.setDictionary`, where each line is a word delimited to its class
+    (either ``positive`` or ``negative``). The dictionary can be set in the form
+    of a delimited text file.
 
-    By default, the sentiment score will be assigned labels ``"positive"`` if the score is ``>= 0``, else ``"negative"``.
-    To retrieve the raw sentiment scores, ``enableScore`` needs to be set to ``true``.
+    By default, the sentiment score will be assigned labels ``"positive"`` if
+    the score is ``>= 0``, else ``"negative"``.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3062,80 +3064,57 @@ class SentimentDetector(AnnotatorApproach):
 
     dictionary
         path for dictionary to sentiment analysis
-    positiveMultiplier
-        multiplier for positive sentiments. Defaults 1.0
-    negativeMultiplier
-        multiplier for negative sentiments. Defaults -1.0
-    incrementMultiplier
-        multiplier for increment sentiments. Defaults 2.0
-    decrementMultiplier
-        multiplier for decrement sentiments. Defaults -2.0
-    reverseMultiplier
-        multiplier for revert sentiments. Defaults -1.0
-    enableScore
-        if true, score will show as the double value, else will output string "positive" or "negative", by default False
 
     Examples
     --------
+    In this example, the dictionary ``default-sentiment-dict.txt`` has the form
+    of::
 
-    .. code-block:: python
+        ...
+        cool,positive
+        superb,positive
+        bad,negative
+        uninspired,negative
+        ...
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the dictionary `default-sentiment-dict.txt` has the form of
-        #
-        # ...
-        # cool,positive
-        # superb,positive
-        # bad,negative
-        # uninspired,negative
-        # ...
-        #
-        # where each sentiment keyword is delimited by `","`.
+    where each sentiment keyword is delimited by ``","``.
 
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        lemmatizer = Lemmatizer() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("lemma") \\
-            .setDictionary("src/test/resources/lemma-corpus-small/lemmas_small.txt", "->", "\t")
-
-        sentimentDetector = SentimentDetector() \\
-            .setInputCols(["lemma", "document"]) \\
-            .setOutputCol("sentimentScore") \\
-            .setDictionary("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ",", ReadAs.TEXT)
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            lemmatizer,
-            sentimentDetector,
-        ])
-
-        data = spark.createDataFrame([[
-            "The staff of the restaurant is nice",
-            "I recommend others to avoid because it is too expensive"
-        ]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("sentimentScore.result").show(truncate=False)
-        +----------+  #  +------+ for enableScore set to True
-        |result    |  #  |result|
-        +----------+  #  +------+
-        |[positive]|  #  |[1.0] |
-        |[negative]|  #  |[-2.0]|
-        +----------+  #  +------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> lemmatizer = Lemmatizer() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("lemma") \\
+    ...     .setDictionary("lemmas_small.txt", "->", "\\t")
+    >>> sentimentDetector = SentimentDetector() \\
+    ...     .setInputCols(["lemma", "document"]) \\
+    ...     .setOutputCol("sentimentScore") \\
+    ...     .setDictionary("default-sentiment-dict.txt", ",", ReadAs.TEXT)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     lemmatizer,
+    ...     sentimentDetector,
+    ... ])
+    >>> data = spark.createDataFrame([
+    ...     ["The staff of the restaurant is nice"],
+    ...     ["I recommend others to avoid because it is too expensive"]
+    ... ]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("sentimentScore.result").show(truncate=False)
+    +----------+
+    |result    |
+    +----------+
+    |[positive]|
+    |[negative]|
+    +----------+
     """
     dictionary = Param(Params._dummy(),
                        "dictionary",
@@ -3179,6 +3158,19 @@ class SentimentDetector(AnnotatorApproach):
                          decrementMultiplier=-2.0, reverseMultiplier=-1.0, enableScore=False)
 
     def setDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={'format': 'text'}):
+        """Sets path for dictionary to sentiment analysis
+
+        Parameters
+        ----------
+        path : str
+            Path to dictionary file
+        delimiter : str
+            Delimiter for entries
+        read_as : sttr, optional
+            How to read the resource, by default ReadAs.TEXT
+        options : dict, optional
+            Options for reading the resource, by default {'format': 'text'}
+        """
         opts = options.copy()
         if "delimiter" not in opts:
             opts["delimiter"] = delimiter
@@ -3189,20 +3181,17 @@ class SentimentDetector(AnnotatorApproach):
 
 
 class SentimentDetectorModel(AnnotatorModel):
-    """Rule based sentiment detector, which calculates a score based on predefined keywords.
+    """Rule based sentiment detector, which calculates a score based on
+    predefined keywords.
 
-    This is the instantiated model of the :class:`.SentimentDetector`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.SentimentDetector`. For
+    training your own model, please see the documentation of that class.
 
-    A dictionary of predefined sentiment keywords must be provided with ``setDictionary``, where each line is a word
-    delimited to its class (either ``positive`` or ``negative``).
-    The dictionary can be set in either in the form of a delimited text file or directly as an
-    ExternalResource.
+    By default, the sentiment score will be assigned labels ``"positive"`` if
+    the score is ``>= 0``, else ``"negative"``.
 
-    By default, the sentiment score will be assigned labels ``"positive"`` if the score is ``>= 0``, else ``"negative"``.
-    To retrieve the raw sentiment scores, ``enableScore`` needs to be set to ``true``.
-
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -3212,11 +3201,7 @@ class SentimentDetectorModel(AnnotatorModel):
 
     Parameters
     ----------
-
-    positiveMultiplier
-        multiplier for positive sentiments. Defaults 1.0
-
-
+    None
     """
     name = "SentimentDetectorModel"
 
