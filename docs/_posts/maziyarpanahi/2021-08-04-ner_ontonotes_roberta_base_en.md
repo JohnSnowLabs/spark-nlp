@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Named Entity Recognition - OntoNotes (ner_ontonotes_roberta_base)
+title: Named Entity Recognition - OntoNotes RoBERTa (ner_ontonotes_roberta_base)
 author: John Snow Labs
 name: ner_ontonotes_roberta_base
 date: 2021-08-04
