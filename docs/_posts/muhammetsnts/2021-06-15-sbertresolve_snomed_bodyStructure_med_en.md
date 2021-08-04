@@ -43,7 +43,7 @@ jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")
 
-snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med", "en", "clinical/models") \
+snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med, "en", "clinical/models) \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("snomed_code")
 
@@ -65,7 +65,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased
      .setInputCols(["ner_chunk"])\
      .setOutputCol("sbert_embeddings")
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med", "en", "clinical/models") \
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med, "en", "clinical/models) \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("snomed_code")
 

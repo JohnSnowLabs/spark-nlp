@@ -30,7 +30,7 @@ BERT-large-uncased model, pretrained on a corpus of messages from Twitter about 
 
 ```python
 ...
-embeddings = BertSentenceEmbeddings.pretrained("sent_covidbert_large_uncased", "en") \
+embeddings = BertEmbeddings.pretrained("sent_covidbert_large_uncased", "en") \
       .setInputCols("sentence") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
@@ -40,7 +40,7 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 
 ```scala
 ...
-val embeddings = BertSentenceEmbeddings.pretrained("sent_covidbert_large_uncased", "en")
+val embeddings = BertEmbeddings.pretrained("sent_covidbert_large_uncased", "en")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))

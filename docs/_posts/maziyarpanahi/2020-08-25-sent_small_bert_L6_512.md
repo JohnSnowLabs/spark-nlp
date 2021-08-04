@@ -30,7 +30,7 @@ This is one of the smaller BERT models referenced in [Well-Read Students Learn B
 
 ```python
 ...
-embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L6_512", "en") \
+embeddings = BertEmbeddings.pretrained("sent_small_bert_L6_512", "en") \
       .setInputCols("sentence") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, embeddings])
@@ -40,7 +40,7 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 
 ```scala
 ...
-val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L6_512", "en")
+val embeddings = BertEmbeddings.pretrained("sent_small_bert_L6_512", "en")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, embeddings))

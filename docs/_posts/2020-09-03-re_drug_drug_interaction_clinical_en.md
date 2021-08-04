@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Relation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships among drug entities.
 
-## Predicted Entities
+## Included Relations
 ``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``.
 
 {:.btn-box}

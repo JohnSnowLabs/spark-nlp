@@ -19,8 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This pipeline detects drugs, dosage, form, frequency, duration, route, and drug strength in text.
 
-## Predicted Entities
-`DRUG`, `STRENGTH`, `DURATION`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
+Predicted entities are 
+`DRUG`, `STRENGTH`,` DURATION`, `FREQUENCY`, `FORM`, `DOSAGE`, `ROUTE`.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange}

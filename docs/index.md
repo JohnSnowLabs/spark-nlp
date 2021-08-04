@@ -314,7 +314,7 @@ data:
           image:
             src: https://www.cnrs.fr/themes/custom/cnrs/logo.svg
             url: https://iscpif.fr/
-            style: "padding: 30px;"
+            style: ""
             is_row: true
         - title: 
           image:
@@ -342,7 +342,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Columbia_University_shield.svg/1184px-Columbia_University_shield.svg.png
+            src: https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Columbia_University_shield.svg/1200px-Columbia_University_shield.svg.png
             url: https://www.columbia.edu/
             style: "padding: 25px;"
             is_row: true

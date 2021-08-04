@@ -16,7 +16,7 @@ use_language_switcher: "Python-Scala-Java"
  
 ## Description
 This model can be used to identify temporal relationships among clinical events.
-## Predicted Entities
+## Included Relations
 `AFTER`, `BEFORE`, `OVERLAP`
 
 {:.btn-box}

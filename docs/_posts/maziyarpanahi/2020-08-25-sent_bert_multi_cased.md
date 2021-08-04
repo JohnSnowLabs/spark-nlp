@@ -30,7 +30,7 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 
 ```python
 ...
-embeddings = BertSentenceEmbeddings.pretrained("sent_bert_multi_cased", "xx") \
+embeddings = BertEmbeddings.pretrained("sent_bert_multi_cased", "xx") \
       .setInputCols("sentence") \
       .setOutputCol("sentence_embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
@@ -40,7 +40,7 @@ result = pipeline_model.transform(spark.createDataFrame([['I hate cancer', "Anti
 
 ```scala
 ...
-val embeddings = BertSentenceEmbeddings.pretrained("sent_bert_multi_cased", "xx")
+val embeddings = BertEmbeddings.pretrained("sent_bert_multi_cased", "xx")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
