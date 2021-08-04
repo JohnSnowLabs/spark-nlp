@@ -756,6 +756,7 @@ class ChunkTokenizer(Tokenizer):
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
+    >>> sparknlp.common import *
     >>> from pyspark.ml import Pipeline
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
@@ -900,8 +901,11 @@ class Token2Chunk(AnnotatorModel):
 
 
 class Stemmer(AnnotatorModel):
-    """Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    """Returns hard-stems out of words with the objective of retrieving the
+    meaningful part of the word.
+
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -912,50 +916,37 @@ class Stemmer(AnnotatorModel):
     Parameters
     ----------
 
-    language
-        stemmer algorithm, by default "english"
+    None
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        stemmer = Stemmer() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("stem")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            tokenizer,
-            stemmer
-        ])
-
-        data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \\
-            .toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("stem.result").show(truncate = False)
-        +-------------------------------------------------------------+
-        |result                                                       |
-        +-------------------------------------------------------------+
-        |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
-        +-------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> stemmer = Stemmer() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("stem")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     stemmer
+    ... ])
+    >>> data = spark.createDataFrame([["Peter Pipers employees are picking pecks of pickled peppers."]]) \\
+    ...     .toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("stem.result").show(truncate = False)
+    +-------------------------------------------------------------+
+    |result                                                       |
+    +-------------------------------------------------------------+
+    |[peter, piper, employe, ar, pick, peck, of, pickl, pepper, .]|
+    +-------------------------------------------------------------+
     """
 
     language = Param(Params._dummy(), "language", "stemmer algorithm", typeConverter=TypeConverters.toString)
@@ -6441,26 +6432,28 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
 
 
 class StopWordsCleaner(AnnotatorModel):
-    """This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer)
-    and drops all the stop words from the input sequences.
+    """This annotator takes a sequence of strings (e.g. the output of a
+    Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words
+    from the input sequences.
 
-    By default, it uses stop words from MLlibs
-    `StopWordsRemover <https://spark.apache.org/docs/latest/ml-features#stopwordsremover>`__.
-    Stop words can also be defined by explicitly setting them with ``setStopWords(value: Array[String])`` or loaded from
-    pretrained models using ``pretrained`` of its companion object.
-
-    .. code-block:: python
-
-        stopWords = StopWordsCleaner.pretrained() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("cleanTokens") \\
-            .setCaseSensitive(False)
-        # will load the default pretrained model ``"stopwords_en"``.
+    By default, it uses stop words from MLlibs `StopWordsRemover
+    <https://spark.apache.org/docs/latest/ml-features#stopwordsremover>`__. Stop
+    words can also be defined by explicitly setting them with
+    :meth:`.setStopWords` or loaded from pretrained models using ``pretrained``
+    of its companion object.
 
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal>`__.
+    >>> stopWords = StopWordsCleaner.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("cleanTokens")
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    This will load the default pretrained model ``"stopwords_en"``.
+
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal>`__.
+
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -6480,54 +6473,41 @@ class StopWordsCleaner(AnnotatorModel):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentenceDetector = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("token")
-
-        stopWords = StopWordsCleaner() \\
-            .setInputCols(["token"]) \\
-            .setOutputCol("cleanTokens") \\
-            .setCaseSensitive(False)
-
-        pipeline = Pipeline().setStages([
-              documentAssembler,
-              sentenceDetector,
-              tokenizer,
-              stopWords
-            ])
-
-        data = spark.createDataFrame([[
-            "This is my first sentence. This is my second.",
-            "This is my third sentence. This is my forth."
-        ]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("cleanTokens.result").show(truncate=False)
-        +-------------------------------+
-        |result                         |
-        +-------------------------------+
-        |[first, sentence, ., second, .]|
-        |[third, sentence, ., forth, .] |
-        +-------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentenceDetector = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> stopWords = StopWordsCleaner() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("cleanTokens") \\
+    ...     .setCaseSensitive(False)
+    >>> pipeline = Pipeline().setStages([
+    ...       documentAssembler,
+    ...       sentenceDetector,
+    ...       tokenizer,
+    ...       stopWords
+    ...     ])
+    >>> data = spark.createDataFrame([
+    ...     ["This is my first sentence. This is my second."],
+    ...     ["This is my third sentence. This is my forth."]
+    ... ]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("cleanTokens.result").show(truncate=False)
+    +-------------------------------+
+    |result                         |
+    +-------------------------------+
+    |[first, sentence, ., second, .]|
+    |[third, sentence, ., forth, .] |
+    +-------------------------------+
     """
 
     name = "StopWordsCleaner"
@@ -6552,22 +6532,50 @@ class StopWordsCleaner(AnnotatorModel):
                    "is true", typeConverter=TypeConverters.toString)
 
     def setStopWords(self, value):
+        """Sets the words to be filtered out, by default english stopwords from
+        Spark ML.
+
+        Parameters
+        ----------
+        value : List[str]
+            The words to be filtered out
+        """
         return self._set(stopWords=value)
 
     def setCaseSensitive(self, value):
+        """Sets whether to do a case sensitive comparison, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to do a case sensitive comparison
+        """
         return self._set(caseSensitive=value)
 
     def setLocale(self, value):
+        """Sets locale of the input. Ignored when case sensitive, by default
+        locale of the JVM
+
+        Parameters
+        ----------
+        value : str
+            Locale of the input
+        """
         return self._set(locale=value)
 
     def loadDefaultStopWords(language="english"):
-        from pyspark.ml.wrapper import _jvm
+        """Loads the default stop words for the given language.
 
+        Supported languages: danish, dutch, english, finnish, french, german,
+        hungarian, italian, norwegian, portuguese, russian, spanish, swedish,
+        turkish
+
+        Parameters
+        ----------
+        language : str, optional
+            Language stopwords to load, by default "english"
         """
-        Loads the default stop words for the given language.
-        Supported languages: danish, dutch, english, finnish, french, german, hungarian,
-        italian, norwegian, portuguese, russian, spanish, swedish, turkish
-        """
+        from pyspark.ml.wrapper import _jvm
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
 
