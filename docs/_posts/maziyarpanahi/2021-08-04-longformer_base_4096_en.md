@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 [Longformer](https://arxiv.org/abs/2004.05150) is a transformer model for long documents. 
 
-`longformer-base-4096` is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents. It supports sequences of length up to 4,096. 
+`longformer_base_4096` is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents. It supports sequences of length up to 4,096. 
  
 Longformer uses a combination of a sliding window (local) attention and global attention. Global attention is user-configured based on the task to allow the model to learn task-specific representations.
 
