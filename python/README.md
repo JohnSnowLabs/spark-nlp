@@ -24,7 +24,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Apache Spark Support](#apache-spark-support)
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
-- [Using Spark NLP](#usage)  
+- [Using Spark NLP](#usage)
   - [Spark Packages](#spark-packages)
   - [Scala](#scala)
     - [Maven](#maven)
@@ -42,10 +42,9 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
-- [Offline](#offline)  
-- [Examples](#examples)  
+- [Offline](#offline)
+- [Examples](#examples)
 - [FAQ](#faq)
-- [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 - [Contributing](#contributing)
 
@@ -395,7 +394,7 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>3.2.0/version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
@@ -704,9 +703,9 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    3.1. Install New -> PyPI -> `spark-nlp` -> Install
+   3.1. Install New -> PyPI -> `spark-nlp` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0` -> Install
+   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -796,7 +795,7 @@ You can use `.config()` during SparkSession creation to set Spark NLP configurat
 ```python
 from pyspark.sql import SparkSession
 
-spark = spark = SparkSession.builder \
+spark = SparkSession.builder \
         .master("local[*]") \        
         .config("spark.driver.memory", "16G") \
         .config("spark.driver.maxResultSize", "0") \
@@ -905,7 +904,7 @@ annotation.select("entities.result").show(false)
 
 Spark NLP offers more than `710+ pre-trained models` in `192 languages`.
 
-**Some of the selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
+**Some selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
 **Quick online example:**
 
@@ -964,9 +963,9 @@ Example of using pretrained Models and Pipelines in offline:
 # instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
-french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
-      .setInputCols("document", "token")\
-      .setOutputCol("pos")
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
+  .setInputCols("document", "token")
+  .setOutputCol("pos")
 
 # example for pipelines
 # instead of using PretrainedPipeline

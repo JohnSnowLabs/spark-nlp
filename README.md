@@ -45,7 +45,6 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Offline](#offline)  
 - [Examples](#examples)  
 - [FAQ](#faq)
-- [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 - [Contributing](#contributing)
 
@@ -395,7 +394,7 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>3.2.0/version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
@@ -796,7 +795,7 @@ You can use `.config()` during SparkSession creation to set Spark NLP configurat
 ```python
 from pyspark.sql import SparkSession
 
-spark = spark = SparkSession.builder \
+spark = SparkSession.builder \
         .master("local[*]") \        
         .config("spark.driver.memory", "16G") \
         .config("spark.driver.maxResultSize", "0") \
@@ -905,7 +904,7 @@ annotation.select("entities.result").show(false)
 
 Spark NLP offers more than `710+ pre-trained models` in `192 languages`.
 
-**Some of the selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
+**Some selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
 **Quick online example:**
 
