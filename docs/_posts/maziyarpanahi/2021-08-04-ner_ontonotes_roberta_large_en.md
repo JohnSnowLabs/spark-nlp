@@ -118,6 +118,10 @@ ner_df = nlu.load('en.ner.ner_ontonotes_roberta_large').predict(text, output_lev
 |Output Labels:|[ner]|
 |Language:|en|
 
+## Data Source
+
+[https://catalog.ldc.upenn.edu/LDC2013T19](https://catalog.ldc.upenn.edu/LDC2013T19)
+
 ## Benchmarking
 
 ```bash
