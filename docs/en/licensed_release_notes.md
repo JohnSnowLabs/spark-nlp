@@ -7,7 +7,122 @@ key: docs-licensed-release-notes
 modify_date: 2021-07-14
 ---
 
-# Release Notes Spark NLP Healthcare
+
+## 3.1.3
+We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
+This release comes with new features, new models, bug fixes, and examples.
+
+#### Highlights
++ New Relation Extraction model and a Pretrained pipeline for extracting and linking ADEs
++ New Entity Resolver model for SNOMED codes
++ ChunkConverter Annotator
++ BugFix: getAnchorDateMonth method in DateNormalizer.
++ BugFix: character map in MedicalNerModel fine-tuning.
+
+##### New Relation Extraction model and a Pretrained pipeline for extracting and linking ADEs
+
+We are releasing a new Relation Extraction Model for ADEs. This model is trained using Bert Word embeddings (`biobert_pubmed_base_cased`), and is capable of linking ADEs and Drugs.
+
+*Example*:
+
+```python
+re_model = RelationExtractionModel()\
+        .pretrained("re_ade_biobert", "en", 'clinical/models')\
+        .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
+        .setOutputCol("relations")\
+        .setMaxSyntacticDistance(3)\ #default: 0 
+        .setPredictionThreshold(0.5)\ #default: 0.5 
+        .setRelationPairs(["ade-drug", "drug-ade"]) # Possible relation pairs. Default: All Relations.
+
+nlp_pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model])
+
+light_pipeline = LightPipeline(nlp_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
+
+text ="""Been taking Lipitor for 15 years , have experienced sever fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""
+
+annotations = light_pipeline.fullAnnotate(text)
+```
+
+We also have a new pipeline comprising of all models related to ADE(Adversal Drug Event) as part of this release. This pipeline includes classification, NER, assertion and relation extraction models. Users can now use this pipeline to get classification result, ADE and Drug entities, assertion status for ADE entities, and relations between ADE and Drug entities.
+
+Example:
+
+```python
+    pretrained_ade_pipeline = PretrainedPipeline('explain_clinical_doc_ade', 'en', 'clinical/models')
+    
+    result = pretrained_ade_pipeline.fullAnnotate("""Been taking Lipitor for 15 years , have experienced sever fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps""")[0]
+```
+
+*Results*:
+
+```bash
+Class: True
+
+NER_Assertion:
+|    | chunk                   | entitiy    | assertion   |
+|----|-------------------------|------------|-------------|
+| 0  | Lipitor                 | DRUG       | -           |
+| 1  | sever fatigue           | ADE        | Conditional |
+| 2  | voltaren                | DRUG       | -           |
+| 3  | cramps                  | ADE        | Conditional |
+
+Relations:
+|    | chunk1                        | entitiy1   | chunk2      | entity2 | relation |
+|----|-------------------------------|------------|-------------|---------|----------|
+| 0  | sever fatigue                 | ADE        | Lipitor     | DRUG    |        1 |
+| 1  | cramps                        | ADE        | Lipitor     | DRUG    |        0 |
+| 2  | sever fatigue                 | ADE        | voltaren    | DRUG    |        0 |
+| 3  | cramps                        | ADE        | voltaren    | DRUG    |        1 |
+
+```
+##### New Entity Resolver model for SNOMED codes
+
+We are releasing a new SentenceEntityResolver model for SNOMED codes. This model also includes AUX SNOMED concepts and can find codes for Morph Abnormality, Procedure, Substance, Physical Object, and Body Structure entities. In the metadata, the `all_k_aux_labels` can be divided to get further information: `ground truth`, `concept`, and `aux` . In the example shared below the ground truth is `Atherosclerosis`, concept is `Observation`, and aux is `Morph Abnormality`.
+
+*Example*:
+
+```python
+snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models") \
+     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+     .setOutputCol("snomed_code")\
+     .setDistanceFunction("EUCLIDEAN")
+
+snomed_pipelineModel = PipelineModel(
+    stages = [
+        documentAssembler,
+        sbert_embedder,
+        snomed_resolver])
+
+snomed_lp = LightPipeline(snomed_pipelineModel)
+result = snomed_lp.fullAnnotate("atherosclerosis")
+
+```
+
+*Results*:
+
+```bash
+|    | chunks          | code     | resolutions                                                                                                                                                                                                                                                                                                                                                                                                                    | all_codes                                                                                                                                                                                          | all_k_aux_labels                                      | all_distances                                                                                                                                   |
+|---:|:----------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|
+|  0 | atherosclerosis | 38716007 | [atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis, atherosclerosis artery, coronary atherosclerosis, coronary atherosclerosis, coronary atherosclerosis, coronary atherosclerosis, coronary atherosclerosis, arteriosclerosis, carotid atherosclerosis, cardiovascular arteriosclerosis, aortic atherosclerosis, aortic atherosclerosis, atherosclerotic ischemic disease] | [38716007, 155382007, 155414001, 195251000, 266318005, 194848007, 441574008, 443502000, 41702007, 266231003, 155316000, 194841001, 28960008, 300920004, 39468009, 155415000, 195252007, 129573006] | 'Atherosclerosis', 'Observation', 'Morph Abnormality' | [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0280, 0.0451, 0.0451, 0.0451, 0.0451, 0.0451, 0.0462, 0.0477, 0.0466, 0.0490, 0.0490, 0.0485 |
+```
+
+
+##### ChunkConverter Annotator
+
+Allows to use RegexMather chunks as NER chunks and feed the output to the downstream annotators like RE or Deidentification.
+
+```python
+document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
+
+sentence_detector = SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
+
+regex_matcher = RegexMatcher()\
+    .setInputCols("sentence")\
+    .setOutputCol("regex")\
+    .setExternalRules(path="../src/test/resources/regex-matcher/rules.txt",delimiter=",")
+
+chunkConverter = ChunkConverter().setInputCols("regex").setOutputCol("chunk")
+```
 
 
 ## 3.1.2
@@ -53,9 +168,9 @@ ner_tagger = MedicalNerApproach()\
   .setTagsMapping("B-PER,B-VIP", "I-PER,I-VIP")
 ```
 
-In this case, the new tags `B-VIP` and `I-VIP` will replace the already trained tags 'B-PER' and 'I-PER'. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.
+In this case, the new tags `B-VIP` and `I-VIP` will replace the already trained tags `B-PER` and `I-PER`. Unmapped old tags will remain in use and unmapped new tags will be allocated to new outpout nodes, if any.
 
-Jupyter Notebook: [Finetuning Medical NER Model Notebook] (https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)
+Jupyter Notebook: [Finetuning Medical NER Model Notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.5.Resume_MedicalNer_Model_Training.ipynb)
 
 ##### More builtin graphs for MedicalNerApproach
 
@@ -64,8 +179,8 @@ Seventy new TensorFlow graphs have been added to the library of available graphs
 
 ##### DateNormalizer
 
-New annotator that normalize dates to the format YYYY/MM/DD.
-This annotator identifies dates in chunk annotations, and transform these dates to the format YYYY/MM/DD.
+New annotator that normalize dates to the format `YYYY/MM/DD`.
+This annotator identifies dates in chunk annotations, and transform these dates to the format `YYYY/MM/DD`.
 Both the input and output formats for the annotator are `chunk`.
 
 Example:
@@ -187,8 +302,7 @@ Example how to use the custom transformer.
 
 ##### Java Workshop Examples
 
-Add Java examples in the workshop repository.
-https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare
+Add Java examples in the [workshop repository](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/java/healthcare).
 
 ##### Deprecated Compatibility class in Python
 
@@ -345,6 +459,7 @@ We trained new sBert models in TF2 and fined tuned on MedNLI, NLI and UMLS datas
 + `sbert_jsl_tiny_umls_uncased`
 
 #### JSL SBert Model Speed Benchmark
+
 | JSL SBert Model| Base Model | Is Cased | Train Datasets | Inference speed (100 rows) |
 |-|-|-|-|-|
 | sbiobert_jsl_cased | biobert_v1.1_pubmed | Cased | medNLI, allNLI| 274,53 |
@@ -516,12 +631,12 @@ reDeidentification = ReIdentification()
 #### New Deidentification Pretrained Pipelines
 We developed a `clinical_deidentification` pretrained pipeline that can be used to deidentify PHI information from medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate `AGE`, `CONTACT`, `DATE`, `ID`, `LOCATION`, `NAME`, `PROFESSION`, `CITY`, `COUNTRY`, `DOCTOR`, `HOSPITAL`, `IDNUM`, `MEDICALRECORD`, `ORGANIZATION`, `PATIENT`, `PHONE`, `PROFESSION`,  `STREET`, `USERNAME`, `ZIP`, `ACCOUNT`, `LICENSE`, `VIN`, `SSN`, `DLN`, `PLATE`, `IPADDR` entities. 
 
-Models Hub Page : https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html
+Models Hub Page : [clinical_deidentification](https://nlp.johnsnowlabs.com/2021/05/27/clinical_deidentification_en.html)
 
 There is also a lightweight version of the same pipeline trained with memory efficient `glove_100d`embeddings.
 Here are the model names:
-- clinical_deidentification
-- clinical_deidentification_glove
+- `clinical_deidentification`
+- `clinical_deidentification_glove`
 
 *Example:*
 
@@ -539,7 +654,7 @@ val deid_pipeline = PretrainedPipeline("clinical_deidentification","en","clinica
 
 val result = deid_pipeline.annotate("Record date : 2093-01-13, David Hale, M.D. IP: 203.120.223.13. The driver's license no:A334455B. the SSN:324598674 and e-mail: hale@gmail.com. Name : Hendrickson, Ora MR. # 719435 Date : 01/13/93. PCP : Oliveira, 25 years-old. Record date : 2079-11-09, Patient's VIN : 1HGBH41JXMN109286.")
 ```
-Result:
+*Result*:
 ```bash
 {'sentence': ['Record date : 2093-01-13, David Hale, M.D.',
    'IP: 203.120.223.13.',
@@ -681,7 +796,7 @@ This will result in `oncology_ner_20210605_141701.log` filename being used, in w
 #### New Notebooks
 
 + A [new notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.4.Biomedical_NER_SparkNLP_paper_reproduce.ipynb)  to reproduce our peer-reviewed NER paper (https://arxiv.org/abs/2011.06315)
-+ New databricks [case study notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/case_studies). In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.
++ New databricks [case study notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks/python/healthcare_case_studies). In these notebooks, we showed the examples of how to work with oncology notes dataset and OCR on databricks for both DBr and community edition versions.
 
 
 ### 3.0.3

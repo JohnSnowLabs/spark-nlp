@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Classify open-domain, fact-based questions into sub categories of the following broad semantic categories: Abbreviation, Description, Entities, Human Beings, Locations or Numeric Values.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``ENTY_animal``, ``ENTY_body``, ``ENTY_color``, ``ENTY_cremat``, ``ENTY_currency``, ``ENTY_dismed``, ``ENTY_event``, ``ENTY_food``, ``ENTY_instru``, ``ENTY_lang``, ``ENTY_letter``, ``ENTY_other``, ``ENTY_plant``, ``ENTY_product``, ``ENTY_religion``,  ``ENTY_sport``, ``ENTY_substance``, ``ENTY_symbol``, ``ENTY_techmeth``, ``ENTY_termeq``, ``ENTY_veh``, ``ENTY_word``, ``DESC_def``, ``DESC_desc``, ``DESC_manner``, ``DESC_reason``, ``HUM_gr``, ``HUM_ind``, ``HUM_title``, ``HUM_desc``,  ``LOC_city``, ``LOC_country``, ``LOC_mount``, ``LOC_other``, ``LOC_state``,  ``NUM_code``, ``NUM_count``, ``NUM_date``, ``NUM_dist``, ``NUM_money``, ``NUM_ord``, ``NUM_other``, ``NUM_period``, ``NUM_perc``, ``NUM_speed``, ``NUM_temp``, ``NUM_volsize``, ``NUM_weight``,  ``ABBR_abb``,  ``ABBR_exp``. 
 
 {:.btn-box}

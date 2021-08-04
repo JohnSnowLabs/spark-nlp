@@ -112,7 +112,7 @@ object LoadSentencepiece {
       val fp = spProcFile.toString
 
       if (new File(fp).exists()) {
-        TensorFlow.loadLibrary(fp.replace("\\", "/"))
+        TensorFlow.loadLibrary(fp)
       }
     }
   }

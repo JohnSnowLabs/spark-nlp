@@ -185,7 +185,6 @@ class UniversalSentenceEncoderTestSpec extends FlatSpec {
       .pretrained("tfhub_use_multi", "xx")
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
-      .setLoadSP(true)
 
     val pipeline = new RecursivePipeline()
       .setStages(Array(

@@ -14,6 +14,9 @@ modify_date: "2020-04-08"
 
 Improve table detection and table recognition.
 
+More details please read in [Extract Tabular Data from PDF in Spark OCR](https://medium.com/spark-nlp/extract-tabular-data-from-pdf-in-spark-ocr-b02136bc0fcb)
+
+
 #### New Features
 
 * Added new method to [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) which support 
