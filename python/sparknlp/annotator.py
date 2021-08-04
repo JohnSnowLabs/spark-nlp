@@ -7245,41 +7245,24 @@ class NerOverwriter(AnnotatorModel):
 
 
 class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef):
-    """The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
+    """The Universal Sentence Encoder encodes text into high dimensional vectors
+    that can be used for text classification, semantic similarity, clustering
+    and other natural language tasks.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
-
-        useEmbeddings = UniversalSentenceEncoder.pretrained() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("sentence_embeddings")
+    >>> useEmbeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("sentence_embeddings")
 
 
-    The default model is ``"tfhub_use"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+    The default model is ``"tfhub_use"``, if no name is provided. For available
+    pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
-
-    **Sources:**
-
-    `Universal Sentence Encoder <https://arxiv.org/abs/1803.11175>`__
-
-    https://tfhub.dev/google/universal-sentence-encoder/2
-
-    **Paper abstract:**
-
-    *We present models for encoding sentences into embedding vectors that specifically target transfer learning to other
-    NLP tasks. The models are efficient and result in accurate performance on diverse transfer tasks. Two variants of the
-    encoding models allow for trade-offs between accuracy and compute resources. For both variants, we investigate and
-    report the relationship between model complexity, resource consumption, the availability of transfer task training
-    data, and task performance. Comparisons are made with baselines that use word level transfer learning via pretrained
-    word embeddings as well as baselines do not use any transfer learning. We find that transfer learning using sentence
-    embeddings tends to outperform word level transfer. With transfer learning via sentence embeddings, we observe
-    surprisingly good performance with minimal amounts of supervised training data for a transfer task. We obtain
-    encouraging results on Word Embedding Association Tests (WEAT) targeted at detecting model bias. Our pre-trained
-    sentence encoding models are made freely available for download and on TF Hub.*
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ====================== =======================
     Input Annotation types Output Annotation type
@@ -7297,54 +7280,66 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 
+    References
+    ----------
+    `Universal Sentence Encoder <https://arxiv.org/abs/1803.11175>`__
+
+    https://tfhub.dev/google/universal-sentence-encoder/2
+
+    **Paper abstract:**
+
+    *We present models for encoding sentences into embedding vectors that
+    specifically target transfer learning to other NLP tasks. The models are
+    efficient and result in accurate performance on diverse transfer tasks. Two
+    variants of the encoding models allow for trade-offs between accuracy and
+    compute resources. For both variants, we investigate and report the
+    relationship between model complexity, resource consumption, the
+    availability of transfer task training data, and task performance.
+    Comparisons are made with baselines that use word level transfer learning
+    via pretrained word embeddings as well as baselines do not use any transfer
+    learning. We find that transfer learning using sentence embeddings tends to
+    outperform word level transfer. With transfer learning via sentence
+    embeddings, we observe surprisingly good performance with minimal amounts of
+    supervised training data for a transfer task. We obtain encouraging results
+    on Word Embedding Association Tests (WEAT) targeted at detecting model bias.
+    Our pre-trained sentence encoding models are made freely available for
+    download and on TF Hub.*
+
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        sentence = SentenceDetector() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("sentence")
-
-        embeddings = UniversalSentenceEncoder.pretrained() \\
-            .setInputCols(["sentence"]) \\
-            .setOutputCol("sentence_embeddings")
-
-        embeddingsFinisher = EmbeddingsFinisher() \\
-            .setInputCols(["sentence_embeddings"]) \\
-            .setOutputCols("finished_embeddings") \\
-            .setOutputAsVector(True) \\
-            .setCleanAnnotations(False)
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              sentence,
-              embeddings,
-              embeddingsFinisher
-            ])
-
-        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
-        +--------------------------------------------------------------------------------+
-        |                                                                          result|
-        +--------------------------------------------------------------------------------+
-        |[0.04616805538535118,0.022307956591248512,-0.044395286589860916,-0.0016493503...|
-        +--------------------------------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> embeddings = UniversalSentenceEncoder.pretrained() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True) \\
+    ...     .setCleanAnnotations(False)
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       sentence,
+    ...       embeddings,
+    ...       embeddingsFinisher
+    ...     ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[0.04616805538535118,0.022307956591248512,-0.044395286589860916,-0.0016493503...|
+    +--------------------------------------------------------------------------------+
     """
 
     name = "UniversalSentenceEncoder"
@@ -7360,8 +7355,14 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
                              TypeConverters.toListString)
 
     def setLoadSP(self, value):
-        """
-        Sets the value of :py:attr:`loadSP`.
+        """Sets whether to load SentencePiece ops file which is required only by
+        multi-lingual models, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to load SentencePiece ops file which is required only by
+            multi-lingual models
         """
         return self._set(loadSP=value)
 
