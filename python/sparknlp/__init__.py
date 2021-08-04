@@ -58,12 +58,31 @@ annotators = annotator
 embeddings = annotator
 
 
-def start(gpu=False, spark23=False, spark24=False, memory="16G", real_time_output=False, output_level=1):
+def start(gpu=False,
+          spark23=False,
+          spark24=False,
+          memory="16G",
+          cache_folder="",
+          log_folder="",
+          cluster_tmp_dir="",
+          real_time_output=False,
+          output_level=1):
     """Starts a PySpark instance with default parameters for Spark NLP.
 
     The default parameters would result in the equivalent of:
 
     .. code-block:: python
+        :param gpu: start Spark NLP with GPU
+        :param spark23: start Spark NLP on Apache Spark 2.3.x
+        :param spark24: start Spark NLP on Apache Spark 2.4.x
+        :param memory: set driver memory for SparkSession
+        :param cache_folder: The location to download and exctract pretrained Models and Pipelines
+        :param log_folder: The location to save logs from annotators during training such as NerDLApproach,
+            ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
+        :param cluster_tmp_dir: The location to use on a cluster for temporarily files
+        :param output_level: int, optional
+            Output level for logs, by default 1
+        :param real_time_output:
         :substitutions:
 
         SparkSession.builder \\
@@ -137,6 +156,13 @@ def start(gpu=False, spark23=False, spark24=False, memory="16G", real_time_outpu
         else:
             builder.config("spark.jars.packages", spark_nlp_config.maven_spark)
 
+        if cache_folder != '':
+            builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
+        if log_folder != '':
+            builder.config("spark.jsl.settings.annotator.log_folder", log_folder)
+        if cluster_tmp_dir != '':
+            builder.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
+
         return builder.getOrCreate()
 
     def start_with_realtime_output():
@@ -156,6 +182,13 @@ def start(gpu=False, spark23=False, spark24=False, memory="16G", real_time_outpu
                     spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark)
                 else:
                     spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark)
+
+                if cache_folder != '':
+                    spark_conf.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
+                if log_folder != '':
+                    spark_conf.config("spark.jsl.settings.annotator.log_folder", log_folder)
+                if cluster_tmp_dir != '':
+                    spark_conf.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
 
                 # Make the py4j JVM stdout and stderr available without buffering
                 popen_kwargs = {
