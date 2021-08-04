@@ -31,7 +31,10 @@ This model is trained to generate contextual sentence embeddings of input senten
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-sbiobert_embeddings = BertSentenceEmbeddings         .pretrained("sbert_jsl_mini_umls_uncased","en","clinical/models")         .setInputCols(["sentence"])         .setOutputCol("sbert_embeddings")
+sbiobert_embeddings = BertSentenceEmbeddings\
+         .pretrained("sbert_jsl_mini_umls_uncased","en","clinical/models")\
+         .setInputCols(["sentence"])\
+         .setOutputCol("sbert_embeddings")
 ```
 ```scala
 val sbiobert_embeddings = BertSentenceEmbeddings
