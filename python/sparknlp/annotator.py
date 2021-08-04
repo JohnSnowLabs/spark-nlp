@@ -10902,22 +10902,28 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
 
 class WordSegmenterApproach(AnnotatorApproach):
-    """Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.
+    """Trains a WordSegmenter which tokenizes non-english or non-whitespace
+    separated texts.
 
-    Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
-    Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
-    impossible. The WordSegmenter is trained to understand these languages and split them into semantically correct parts.
+    Many languages are not whitespace separated and their sentences are a
+    concatenation of many symbols, like Korean, Japanese or Chinese. Without
+    understanding the language, splitting the words into their corresponding
+    tokens is impossible. The WordSegmenter is trained to understand these
+    languages and split them into semantically correct parts.
 
     For instantiated/pretrained models, see :class:`.WordSegmenterModel`.
 
-    To train your own model, a training dataset consisting of
-    `Part-Of-Speech tags <https://en.wikipedia.org/wiki/Part-of-speech_tagging>`__ is required. The data has to be loaded
-    into a dataframe, where the column is an Annotation of type ``"POS"``. This can be
-    set with ``setPosColumn``.
+    To train your own model, a training dataset consisting of `Part-Of-Speech
+    tags <https://en.wikipedia.org/wiki/Part-of-speech_tagging>`__ is required.
+    The data has to be loaded into a dataframe, where the column is an
+    Annotation of type ``POS``. This can be set with :meth:`.setPosColumn`.
 
-    **Tip**: The helper class :class:`.POS` might be useful to read training data into data frames.
+    **Tip**:
+    The helper class :class:`.POS` might be useful to read training data into
+    data frames.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -10939,43 +10945,34 @@ class WordSegmenterApproach(AnnotatorApproach):
 
     Examples
     --------
+    In this example, ``"chinese_train.utf8"`` is in the form of::
 
-    .. code-block:: python
+        十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
 
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, `"chinese_train.utf8"` is in the form of
-        #
-        # 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
-        #
-        # and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
+    and is loaded with the `POS` class to create a dataframe of ``POS`` type
+    Annotations.
 
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        wordSegmenter = WordSegmenterApproach() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token") \\
-            .setPosColumn("tags") \\
-            .setNIterations(5)
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            wordSegmenter
-        ])
-
-        trainingDataSet = POS().readDataset(
-            spark,
-            "src/test/resources/word-segmenter/chinese_train.utf8"
-        )
-
-        pipelineModel = pipeline.fit(trainingDataSet)
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> wordSegmenter = WordSegmenterApproach() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token") \\
+    ...     .setPosColumn("tags") \\
+    ...     .setNIterations(5)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     wordSegmenter
+    ... ])
+    >>> trainingDataSet = POS().readDataset(
+    ...     spark,
+    ...     "src/test/resources/word-segmenter/chinese_train.utf8"
+    ... )
+    >>> pipelineModel = pipeline.fit(trainingDataSet)
     """
     name = "WordSegmenterApproach"
 
@@ -11008,24 +11005,80 @@ class WordSegmenterApproach(AnnotatorApproach):
         )
 
     def setPosColumn(self, value):
+        """Sets column name for array of POS tags that match tokens.
+
+        Parameters
+        ----------
+        value : str
+            Name of the column
+        """
         return self._set(posCol=value)
 
     def setNIterations(self, value):
+        """Sets number of iterations in training, converges to better accuracy,
+        by default 5.
+
+        Parameters
+        ----------
+        value : int
+            Number of iterations
+        """
         return self._set(nIterations=value)
 
     def setFrequencyThreshold(self, value):
+        """Sets how many times at least a tag on a word to be marked as
+        frequent, by default 5.
+
+        Parameters
+        ----------
+        value : int
+            Frequency threshold to be marked as frequent
+        """
         return self._set(frequencyThreshold=value)
 
     def setAmbiguityThreshold(self, value):
+        """Sets the percentage of total amount of words are covered to be
+        marked as frequent, by default 0.97.
+
+        Parameters
+        ----------
+        value : float
+            Percentage of total amount of words are covered to be
+            marked as frequent
+        """
         return self._set(ambiguityThreshold=value)
 
     def getNIterations(self):
+        """Gets number of iterations in training, converges to better accuracy.
+
+        Returns
+        -------
+        int
+            Number of iterations
+        """
         return self.getOrDefault(self.nIterations)
 
     def getFrequencyThreshold(self):
+        """Sets How many times at least a tag on a word to be marked as
+        frequent.
+
+        Returns
+        -------
+        int
+            Frequency threshold to be marked as frequent
+        """
         return self.getOrDefault(self.frequencyThreshold)
 
     def getAmbiguityThreshold(self):
+        """Sets How much percentage of total amount of words are covered to be
+        marked as frequent.
+
+        Returns
+        -------
+        float
+            Percentage of total amount of words are covered to be
+            marked as frequent
+        """
         return self.getOrDefault(self.ambiguityThreshold)
 
     def _create_model(self, java_model):
@@ -11033,29 +11086,31 @@ class WordSegmenterApproach(AnnotatorApproach):
 
 
 class WordSegmenterModel(AnnotatorModel):
-    """WordSegmenter which tokenizes non-english or non-whitespace separated texts.
+    """WordSegmenter which tokenizes non-english or non-whitespace separated
+    texts.
 
-    Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
-    Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
-    impossible. The WordSegmenter is trained to understand these languages and plit them into semantically correct parts.
+    Many languages are not whitespace separated and their sentences are a
+    concatenation of many symbols, like Korean, Japanese or Chinese. Without
+    understanding the language, splitting the words into their corresponding
+    tokens is impossible. The WordSegmenter is trained to understand these
+    languages and plit them into semantically correct parts.
 
-    This is the instantiated model of the :class:`.WordSegmenterApproach`.
-    For training your own model, please see the documentation of that class.
+    This is the instantiated model of the :class:`.WordSegmenterApproach`. For
+    training your own model, please see the documentation of that class.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
+    >>> wordSegmenter = WordSegmenterModel.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("words_segmented")
 
-        wordSegmenter = WordSegmenterModel.pretrained() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("words_segmented")
+    The default model is ``"wordseg_pku"``, default language is ``"zh"``, if no
+    values are provided. For available pretrained models please see the `Models
+    Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
 
-
-    The default model is ``"wordseg_pku"``, default language is ``"zh"``, if no values are provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
-
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -11065,44 +11120,32 @@ class WordSegmenterModel(AnnotatorModel):
 
     Parameters
     ----------
-
-
+    None
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        wordSegmenter = WordSegmenterModel.pretrained() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        pipeline = Pipeline().setStages([
-            documentAssembler,
-            wordSegmenter
-        ])
-
-        data = spark.createDataFrame([["然而，這樣的處理也衍生了一些問題。"]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.select("token.result").show(truncate=False)
-        +--------------------------------------------------------+
-        |result                                                  |
-        +--------------------------------------------------------+
-        |[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。    ]|
-        +--------------------------------------------------------+
-
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> wordSegmenter = WordSegmenterModel.pretrained() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     wordSegmenter
+    ... ])
+    >>> data = spark.createDataFrame([["然而，這樣的處理也衍生了一些問題。"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("token.result").show(truncate=False)
+    +--------------------------------------------------------+
+    |result                                                  |
+    +--------------------------------------------------------+
+    |[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。      ]|
+    +--------------------------------------------------------+
     """
     name = "WordSegmenterModel"
 
