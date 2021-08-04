@@ -45,7 +45,7 @@ tokenizer = Tokenizer() \
 
 embeddings = LongformerEmbeddings\
       .pretrained("longformer_large_4096")\
-      .setInputCols(["token", inputCol])\
+      .setInputCols(['document', 'token'])\
       .setOutputCol("embeddings")\
       .setCaseSensitive(True)\
       .setMaxSentenceLength(4096)
@@ -59,7 +59,7 @@ ner_converter = NerConverter() \
     .setOutputCol('entities')
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
     embeddings,
     ner_model,
