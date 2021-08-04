@@ -1,2 +1,10 @@
-docs/en/graph.md
-docs/en/graph.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_generic_augmented_en.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_subentity_augmented_en.md
+docs/_posts/muhammetsnts/2021-05-27-clinical_deidentification_en.md
+docs/_posts/murat-gunay/2021-06-01-ner_deid_generic_augmented_en.md
+docs/_posts/murat-gunay/2021-06-01-ner_deid_subentity_augmented_en.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_generic_augmented_en.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_subentity_augmented_en.md
+docs/_posts/muhammetsnts/2021-05-27-clinical_deidentification_en.md
+docs/_posts/murat-gunay/2021-06-01-ner_deid_generic_augmented_en.md
+docs/_posts/murat-gunay/2021-06-01-ner_deid_subentity_augmented_en.md
