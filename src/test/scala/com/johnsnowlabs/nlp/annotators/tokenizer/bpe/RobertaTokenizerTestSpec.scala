@@ -165,15 +165,6 @@ class RobertaTokenizerTestSpec extends FlatSpec {
     }
   }
 
-  "RobertaTokenizer" should "handle unknown byte encodings" taggedAs FastTest in {
-    val text = "I unambigouosly \u8216"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val tokenized = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenized)
-    assert(encoded.last.pieceId == vocab("<unk>"))
-  }
-
   //  "RobertaTokenizer" should "encode 2" taggedAs FastTest in {
   //    val text = "Rare Hendrix song draft sells for almost $17,000"
   ////    val sentence = Sentence(text, 0, text.length - 1, 0)

@@ -4,76 +4,35 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-/** Converts `TOKEN` type Annotations to `CHUNK` type.
- *
- * This can be useful if a entities have been already extracted as `TOKEN` and following annotators require `CHUNK` types.
- *
- * ==Example==
- * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.{Token2Chunk, Tokenizer}
- *
- * import org.apache.spark.ml.Pipeline
- *
- * val documentAssembler = new DocumentAssembler()
- *   .setInputCol("text")
- *   .setOutputCol("document")
- *
- * val tokenizer = new Tokenizer()
- *   .setInputCols("document")
- *   .setOutputCol("token")
- *
- * val token2chunk = new Token2Chunk()
- *   .setInputCols("token")
- *   .setOutputCol("chunk")
- *
- * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   tokenizer,
- *   token2chunk
- * ))
- *
- * val data = Seq("One Two Three Four").toDF("text")
- * val result = pipeline.fit(data).transform(data)
- *
- * result.selectExpr("explode(chunk) as result").show(false)
- * +------------------------------------------+
- * |result                                    |
- * +------------------------------------------+
- * |[chunk, 0, 2, One, [sentence -> 0], []]   |
- * |[chunk, 4, 6, Two, [sentence -> 0], []]   |
- * |[chunk, 8, 12, Three, [sentence -> 0], []]|
- * |[chunk, 14, 17, Four, [sentence -> 0], []]|
- * +------------------------------------------+
- * }}}
- *
- * @groupname anno Annotator types
- * @groupdesc anno Required input and expected output annotator types
- * @groupname Ungrouped Members
- * @groupname param Parameters
- * @groupname setParam Parameter setters
- * @groupname getParam Parameter getters
- * @groupname Ungrouped Members
- * @groupprio param  1
- * @groupprio anno  2
- * @groupprio Ungrouped 3
- * @groupprio setParam  4
- * @groupprio getParam  5
- * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
- * */
+/**
+  *
+  * @groupname anno Annotator types
+  * @groupdesc anno Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  *
+  **/
 class Token2Chunk(override val uid: String) extends AnnotatorModel[Token2Chunk] with HasSimpleAnnotate[Token2Chunk] {
 
 
   /** Output Annotator Type : CHUNK
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    **/
   override val outputAnnotatorType: AnnotatorType = CHUNK
   /** Input Annotator Type : TOKEN
-   *
-   * @group anno
-   * */
+    *
+    * @group anno
+    **/
   override val inputAnnotatorTypes: Array[String] = Array(TOKEN)
 
   def this() = this(Identifiable.randomUID("TOKEN2CHUNK"))

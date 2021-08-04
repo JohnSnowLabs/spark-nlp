@@ -154,17 +154,15 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
   /**
    * Converts Tensorflow tags output to 2-dimensional Array with shape: (Batch, Sentence Length).
    *
-   * @param predictedTags  2-dimensional tensor in plain array
-   * @param allTags        All original tags
+   * @param predictedTags 2-dimensional tensor in plain array
+   * @param allTags All original tags
    * @param sentenceLength Every sentence length (number of words).
    * @return List of tags for each sentence
    */
   def convertBatchTags(predictedTags: Array[String],
                        allTags: Array[String],
                        sentenceLength: Array[Int],
-                       prob: Option[Seq[Array[Float]]],
-                       includeAllConfidenceScores: Boolean
-                      ): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+                       prob: Option[Seq[Array[Float]]]): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val sentences = sentenceLength.length
     val maxSentenceLength = predictedTags.length / sentences
@@ -172,23 +170,13 @@ class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
     Range(0, sentences).map { i =>
       Range(0, sentenceLength(i)).map { j => {
         val index = i * maxSentenceLength + j
-        val metaWithProb: Option[Array[Map[String, String]]] = if (prob.isDefined) {
-          if (includeAllConfidenceScores) {
+        val metaWithProb: Option[Array[Map[String, String]]] = {
+          if(prob.isDefined)
             Some(allTags
               .zipWithIndex
-              .map {
-                case (t, i) => Map(
-                  t -> prob
-                    .map(_ (index))
-                    .getOrElse(Array.empty[String])
-                    .lift(i)
-                    .getOrElse(0.0f)
-                    .toString)
-              })
-          } else {
-            Some(Array(Map("confidence" -> prob.map(_ (index)).getOrElse(Array.empty[String]).lift(0).getOrElse(0.0f).toString)))
-          }
-        } else None
+              .map {case (t, i) => Map(t -> prob.map(_ (index)).getOrElse(Array.empty[String]).lift(i).getOrElse(0.0f).toString)})
+          else None
+        }
 
         (predictedTags(index), metaWithProb)
       }
@@ -224,11 +212,11 @@ object NerBatch {
 
 /**
  *
- * @param tags          list of unique tags
- * @param chars         list of unique characters
- * @param emptyVector   list of embeddings
+ * @param tags list of unique tags
+ * @param chars list of unique characters
+ * @param emptyVector list of embeddings
  * @param embeddingsDim dimension of embeddings
- * @param defaultTag    the default tag
+ * @param defaultTag the default tag
  */
 case class DatasetEncoderParams
 (

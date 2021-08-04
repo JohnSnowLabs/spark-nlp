@@ -48,7 +48,7 @@ import java.io.File
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala DistilBertEmbeddingsTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
- * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
+ * example shows how to import them.
  *
  * The DistilBERT model was proposed in the paper
  * [[https://arxiv.org/abs/1910.01108 DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter]].
@@ -68,9 +68,9 @@ import java.io.File
  * study.''
  *
  * Tips:
- *   - DistilBERT doesn't have `:obj:token_type_ids`, you don't need to indicate which token belongs to which segment. Just
- *     separate your segments with the separation token `:obj:tokenizer.sep_token` (or `:obj:[SEP]`).
- *   - DistilBERT doesn't have options to select the input positions (`:obj:position_ids` input). This could be added if
+ *   - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just
+ *     separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
+ *   - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input). This could be added if
  *     necessary though, just let us know if you need this option.
  *
  * ==Example==
@@ -199,7 +199,6 @@ class DistilBertEmbeddings(override val uid: String)
 
   /**
    * It contains TF model signatures for the laded saved model
-   *
    * @group param
    * */
   val signatures = new MapFeature[String, String](model = this, name = "signatures")

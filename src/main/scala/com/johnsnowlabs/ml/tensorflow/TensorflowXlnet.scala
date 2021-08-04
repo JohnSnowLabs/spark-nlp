@@ -18,7 +18,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -33,17 +32,17 @@ import scala.collection.JavaConverters._
  * XLNet-Large     = [[https://storage.googleapis.com/xlnet/released_models/cased_L-24_H-1024_A-16.zip]]    | 24-layer, 1024-hidden, 16-heads
  * XLNet-Base    = [[https://storage.googleapis.com/xlnet/released_models/cased_L-12_H-768_A-12.zip]]   |  12-layer, 768-hidden, 12-heads. This model is trained on full data (different from the one in the paper).
  *
+ * @param uid required internal uid for saving annotator
  *
- * '''Sources :'''
+ *            '''Sources :'''
  *
- * [[ https://arxiv.org/abs/1906.08237]]
+ *            [[ https://arxiv.org/abs/1906.08237]]
  *
- * [[ https://github.com/zihangdai/xlnet]]
+ *            [[ https://github.com/zihangdai/xlnet]]
  *
- * '''Paper abstract: '''
+ *            '''Paper abstract: '''
  *
- * With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves better performance than pretraining approaches based on autoregressive language modeling. However, relying on corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore, XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically, under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.
- *
+ *            With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves better performance than pretraining approaches based on autoregressive language modeling. However, relying on corrupting the input with masks, BERT neglects dependency between the masked positions and suffers from a pretrain-finetune discrepancy. In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation. Furthermore, XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically, under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
  * @groupname Ungrouped Members
@@ -60,17 +59,17 @@ import scala.collection.JavaConverters._
  */
 class TensorflowXlnet(val tensorflow: TensorflowWrapper,
                       val spp: SentencePieceWrapper,
-                      configProtoBytes: Option[Array[Byte]] = None,
-                      signatures: Option[Map[String, String]] = None
+                      configProtoBytes: Option[Array[Byte]] = None
                      ) extends Serializable {
 
-  val _tfXlnetSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
-
   // keys representing the input and output tensors of the XLNet model
-  private val SentenceStartTokenId = spp.getSppModel.pieceToId("<cls>")
-  private val SentenceEndTokenId = spp.getSppModel.pieceToId("<sep>")
-  private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>")
-  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  private val tokenIdsKey = "input_ids"
+  private val maskIdsKey = "input_mask"
+  private val segmentIdsKey = "segment_ids"
+  private val outputSequenceKey = "module/seq_out"
+
+  private val tokenSEPCLSIds = Array(4, 3)
+  private val sentencePieceDelimiterId = 17
 
   def getSpecialTokens(token: String): Array[Int] = {
     spp.getSppModel.encodeAsIds(token)
@@ -80,14 +79,14 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val maxSentenceLength =
       Array(
         maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) => wpTokSentence.tokens.length }.max).min
+        sentences.map{ case(wpTokSentence, _) => wpTokSentence.tokens.length}.max).min
 
     sentences
-      .map { case (wpTokSentence, _) =>
+      .map{ case(wpTokSentence, _) =>
         val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
 
-        tokenPieceIds.take(maxSentenceLength) ++ Array(SentenceEndTokenId, SentenceStartTokenId) ++ padding
+        tokenPieceIds.take(maxSentenceLength) ++ tokenSEPCLSIds ++ padding
       }
   }
 
@@ -99,36 +98,36 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val sequencesLength = batch.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max
 
-    val tokenBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
-    val maskBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
-    val segmentBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
+    val tokenBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
+    val maskBuffers = tensors.createFloatBuffer(batch.length*maxSentenceLength)
+    val segmentBuffers = tensors.createIntBuffer(batch.length*maxSentenceLength)
 
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+    batch.zipWithIndex.foreach { case(tokenIds, idx) =>
       val offset = idx * maxSentenceLength
       val diff = maxSentenceLength - tokenIds.length
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
 
-      val padding = Array.fill(diff)(SentencePadTokenId)
+      val padding = Array.fill(diff)(0)
       val newTokenIds = tokenIds ++ padding
 
       tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
+      maskBuffers.offset(offset).write(newTokenIds.map(x=> if (x == 0) 0f else 1f))
     }
 
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val maskTensors = tensors.createFloatBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
 
     runner
-      .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
-      .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"), maskTensors)
-      .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"), segmentTensors)
-      .fetch(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
+      .feed(tokenIdsKey, tokenTensors)
+      .feed(maskIdsKey, maskTensors)
+      .feed(segmentIdsKey, segmentTensors)
+      .fetch(outputSequenceKey)
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -168,15 +167,15 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
       val vectors = tag(batchedInputsIds)
 
       /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map { case (sentence, tokenVectors) =>
+      batch.zip(vectors).map{case (sentence, tokenVectors) =>
         val tokenLength = sentence._1.tokens.length
         /*All wordpiece embeddings*/
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
+        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap{
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
             val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
+              p => p.begin == tokenWithEmbeddings.begin).map{
               token =>
                 val originalTokenWithEmbedding = TokenPieceEmbeddings(
                   TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
@@ -199,7 +198,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
   }
 
   def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = SentencePieceDelimiterId)
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId)
 
     val sentecneTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)

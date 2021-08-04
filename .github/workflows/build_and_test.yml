@@ -11,7 +11,7 @@ on:
 
 jobs:
   spark24:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: macos-latest
     name: Build and Test on Apache Spark 2.4.x
 
@@ -45,7 +45,7 @@ jobs:
           python3.7 -m run-tests
 
   spark23:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: macos-latest
     name: Build and Test on Apache Spark 2.3.x
 
@@ -79,7 +79,7 @@ jobs:
           python3.7 -m run-tests
 
   spark30:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     runs-on: macos-latest
     name: Build and Test on Apache Spark 3.0.x
 

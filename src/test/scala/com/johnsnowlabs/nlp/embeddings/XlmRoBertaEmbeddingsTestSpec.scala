@@ -137,18 +137,18 @@ class XlmRoBertaEmbeddingsTestSpec extends FlatSpec {
     val pipelineModel = pipeline.fit(ddd)
     pipelineModel.transform(ddd).show()
 
-    Benchmark.time("Time to save XlmRoBertaEmbeddings pipeline model") {
-      pipelineModel.write.overwrite().save("./tmp_xlmroberta_pipeline")
+    Benchmark.time("Time to save RoBertaEmbeddings pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_roberta_pipeline")
     }
 
-    Benchmark.time("Time to save XlmRoBertaEmbeddings model") {
-      pipelineModel.stages.last.asInstanceOf[XlmRoBertaEmbeddings].write.overwrite().save("./tmp_xlmroberta_model")
+    Benchmark.time("Time to save RoBertaEmbeddings model") {
+      pipelineModel.stages.last.asInstanceOf[RoBertaEmbeddings].write.overwrite().save("./tmp_roberta_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_roberta_pipeline")
     loadedPipelineModel.transform(ddd).show()
 
-    val loadedDistilBertModel = XlmRoBertaEmbeddings.load("./tmp_xlmroberta_model")
+    val loadedDistilBertModel = RoBertaEmbeddings.load("./tmp_roberta_model")
     loadedDistilBertModel.getDimension
 
   }
