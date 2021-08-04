@@ -195,8 +195,6 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     // e.g. Map(it -> Set((.*) anni fa))
     val processedSourceLanguageInfo: Map[String, Set[String]] = _processSourceLanguageInfo(text, sourceLanguage)
 
-    println(processedSourceLanguageInfo.mkString("\n"))
-
     // if multiple source languages match we default to english as further processing is not possible
     if(processedSourceLanguageInfo.size != 1)
       Map(English-> Set())
@@ -446,12 +444,10 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
 
     for(m <- sortedMatches) {
       sortedMatches.map(key =>
-      {
-        //println(s"m: $m | key: $key ==> m.contains(key) | ${m.contains(key)}")
-        if(m.contains(key) && m.length > key.length) acc = acc.filterNot(_ == key)
-      })
+          if(m.contains(key) && m.length > key.length)
+            acc = acc.filterNot(_ == key))
     }
-    //println(s"RES: ${acc.mkString("|")}")
+
     acc
   }
 
@@ -461,9 +457,6 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       case "multi" => _regularizeMultiDateMatches(sortedMatches)
     }
   }
-  // TODO Policy can be
-  // - keep first longest match like today
-  // - keep distinct longest matches -> to be coded (here an inclusion test must be performed)
 
   /**
     * Translate the text from source language to destination language.
@@ -481,11 +474,10 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
 
     val sortedMatches: List[String] = sourceLanguageInfo.values.flatten.toList.sortWith(_.length > _.length)
 
-    // Date Matcher takes 1 match, multi date n = 2 matches
+    // Date Matcher takes 1 match, multi date n = 2 matches (default)
     val _sortedMatches = preprocessSortedByLengthMatches(sortedMatches, getPolicy)
 
     val _sourceLanguageInfo: Map[String, Set[String]] = Map(key -> _sortedMatches.toSet)
-    println(s"_sourceLanguageInfo: ${_sourceLanguageInfo.mkString("|")}")
 
     val predicates = Array(
       !_sourceLanguageInfo.keySet.head.isEmpty,
@@ -525,7 +517,6 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       else
         _text
 
-    println(translated)
     translated
   }
 }

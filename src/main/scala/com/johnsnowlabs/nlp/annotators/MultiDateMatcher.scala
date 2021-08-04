@@ -137,7 +137,7 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {
-    if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativeFuturePattern))
+    if("(.*)\\s*in\\s*[0-9](.*)".r.findFirstMatchIn(text).isDefined)
       relativeFutureFactory.findMatch(text.toLowerCase()).map(possibleDate =>
         relativeDateFutureContentParse(possibleDate))
     else
@@ -145,7 +145,7 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def extractRelativeDatePast(text: String): Seq[MatchedDateTime] = {
-    if(!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
+    if("(.*)\\s*[0-9]\\s*(.*)\\s*(ago)(.*)".r.findFirstMatchIn(text).isDefined)
       relativePastFactory.findMatch(text.toLowerCase()).map(possibleDate =>
         relativeDatePastContentParse(possibleDate)
       )
