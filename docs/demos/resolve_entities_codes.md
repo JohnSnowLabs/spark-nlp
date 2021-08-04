@@ -49,7 +49,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
         - title: Sentence Entity Resolver for ICD10-CM coding
-          hide: yes
           id: icd10-cm_coding
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding.svg
@@ -64,7 +63,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: Sentence Entity Resolver for RxNorm
-          hide: yes
           id: rxnorm_coding
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_RxNorm.svg

@@ -104,7 +104,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
         - title: Extract entities from visual documents 
-          hide: yes
           id: extract_entities_from_visual_documents  
           image: 
               src: /assets/images/Extract_entities_from_visual_documents.svg
