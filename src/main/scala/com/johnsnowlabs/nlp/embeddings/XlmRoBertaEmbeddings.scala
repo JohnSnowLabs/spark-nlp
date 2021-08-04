@@ -50,7 +50,7 @@ import java.io.File
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala XlmRoBertaEmbeddingsTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
- * example shows how to import them.
+ * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
  *
  * '''Paper Abstract:'''
  *
@@ -68,10 +68,10 @@ import java.io.File
  *
  * '''Tips:'''
  *   - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
- * not require '''lang''' parameter to understand which language is used, and should be able to determine the correct
- * language from the input ids.
+ *     not require '''lang''' parameter to understand which language is used, and should be able to determine the correct
+ *     language from the input ids.
  *   - This implementation is the same as RoBERTa. Refer to the [[RoBertaEmbeddings]] for usage examples
- * as well as the information relative to the inputs and outputs.
+ *     as well as the information relative to the inputs and outputs.
  *
  * ==Example==
  * {{{
@@ -151,18 +151,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("XLM_ROBERTA_EMBEDDINGS"))
 
-  def sentenceStartTokenId: Int = {
-    0
-  }
-
-  def sentenceEndTokenId: Int = {
-    2
-  }
-
-  def padTokenId: Int = {
-    1
-  }
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
@@ -220,9 +208,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
             tensorflowWrapper,
             spp,
             $(batchSize),
-            sentenceStartTokenId,
-            sentenceEndTokenId,
-            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )

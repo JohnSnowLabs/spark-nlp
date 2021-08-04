@@ -86,7 +86,7 @@ import java.io.File
  *   .setOutputCol("sentence_embeddings")
  *
  * val embeddingsFinisher = new EmbeddingsFinisher()
- *   .setInputCols("embeddings")
+ *   .setInputCols("sentence_embeddings")
  *   .setOutputCols("finished_embeddings")
  *   .setOutputAsVector(true)
  *   .setCleanAnnotations(false)
@@ -137,22 +137,22 @@ class UniversalSentenceEncoder(override val uid: String)
   /** Output annotator type : SENTENCE_EMBEDDINGS
    *
    * @group anno
-   **/
+   * */
   override val outputAnnotatorType: AnnotatorType = SENTENCE_EMBEDDINGS
   /** Input annotator type : DOCUMENT
    *
    * @group anno
-   **/
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
   /** Number of embedding dimensions (Default: `512`)
    *
    * @group param
-   **/
+   * */
   override val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
-   **/
+   * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models (Default: `false`).
@@ -176,14 +176,14 @@ class UniversalSentenceEncoder(override val uid: String)
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models.
    *
    * @group getParam
-   **/
+   * */
 
   def getLoadSP: Boolean = $(loadSP)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group setParam
-   **/
+   * */
   def setConfigProtoBytes(
                            bytes: Array[Int]
                          ): UniversalSentenceEncoder.this.type = set(this.configProtoBytes, bytes)
@@ -191,7 +191,7 @@ class UniversalSentenceEncoder(override val uid: String)
   /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group getParam
-   **/
+   * */
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
@@ -262,8 +262,11 @@ trait ReadablePretrainedUSEModel
 
   /** Java compliant-overrides */
   override def pretrained(): UniversalSentenceEncoder = super.pretrained()
+
   override def pretrained(name: String): UniversalSentenceEncoder = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): UniversalSentenceEncoder = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder =
     super.pretrained(name, lang, remoteLoc)
 }
