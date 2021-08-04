@@ -5854,10 +5854,9 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     For instantiated/pretrained models, see :class:`.WordEmbeddingsModel`.
 
-    A custom token lookup dictionary for embeddings can be set with ``setStoragePath``.
-    Each line of the provided file needs to have a token, followed by their vector representation, delimited by a spaces.
-
-    .. code-block:: python
+    A custom token lookup dictionary for embeddings can be set with
+    :meth:`.setStoragePath`. Each line of the provided file needs to have a
+    token, followed by their vector representation, delimited by a spaces::
 
         ...
         are 0.39658191506190343 0.630968081620067 0.5393722253731201 0.8428180123359783
@@ -5867,11 +5866,15 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
         ...
 
 
-    If a token is not found in the dictionary, then the result will be a zero vector of the same dimension.
-    Statistics about the rate of converted tokens, can be retrieved with WordEmbeddingsModel.withCoverageColumn
-    and WordEmbeddingsModel.overallCoverage.
+    If a token is not found in the dictionary, then the result will be a zero
+    vector of the same dimension. Statistics about the rate of converted tokens,
+    can be retrieved with :meth:`WordEmbeddingsModel.withCoverageColumn()
+    <sparknlp.annotator.WordEmbeddingsModel.withCoverageColumn>` and
+    :meth:`WordEmbeddingsModel.overallCoverage()
+    <sparknlp.annotator.WordEmbeddingsModel.overallCoverage>`.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -5883,56 +5886,48 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     ----------
 
     writeBufferSize
-        buffer size limit before dumping to disk storage while writing, by default 10000
+        Buffer size limit before dumping to disk storage while writing, by
+        default 10000
     readCacheSize
-        cache size for items retrieved from storage. Increase for performance but higher memory consumption
+        Cache size for items retrieved from storage. Increase for performance
+        but higher memory consumption
 
     Examples
     --------
+    In this example, the file ``random_embeddings_dim4.txt`` has the form of the
+    content above.
 
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-        # In this example, the file `random_embeddings_dim4.txt` has the form of the content above.
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        embeddings = WordEmbeddings() \\
-            .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT) \\
-            .setStorageRe("glove_4d") \\
-            .setDimension(4) \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("embeddings")
-
-        embeddingsFinisher = EmbeddingsFinisher() \\
-            .setInputCols(["embeddings"]) \\
-            .setOutputCols("finished_embeddings") \\
-            .setOutputAsVector(True) \\
-            .setCleanAnnotations(False)
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              tokenizer,
-              embeddings,
-              embeddingsFinisher
-            ])
-
-        data = spark.createDataFrame([["The patient was diagnosed with diabetes."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(finished_embeddings) as result").show(truncate=False)
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = WordEmbeddings() \\
+    ...     .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT) \\
+    ...     .setStorageRef("glove_4d") \\
+    ...     .setDimension(4) \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True) \\
+    ...     .setCleanAnnotations(False)
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       tokenizer,
+    ...       embeddings,
+    ...       embeddingsFinisher
+    ...     ])
+    >>> data = spark.createDataFrame([["The patient was diagnosed with diabetes."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(truncate=False)
         +----------------------------------------------------------------------------------+
         |result                                                                            |
         +----------------------------------------------------------------------------------+
@@ -5944,7 +5939,6 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
         |[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |
         |[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |
         +----------------------------------------------------------------------------------+
-
     """
 
     name = "WordEmbeddings"
@@ -5960,9 +5954,25 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
                           typeConverter=TypeConverters.toInt)
 
     def setWriteBufferSize(self, v):
+        """Sets buffer size limit before dumping to disk storage while writing,
+        by default 10000.
+
+        Parameters
+        ----------
+        v : int
+            Buffer size limit
+        """
         return self._set(writeBufferSize=v)
 
     def setReadCacheSize(self, v):
+        """Sets cache size for items retrieved from storage. Increase for
+        performance but higher memory consumption.
+
+        Parameters
+        ----------
+        v : int
+            Cache size for items retrieved from storage
+        """
         return self._set(readCacheSize=v)
 
     @keyword_only
@@ -5981,47 +5991,18 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageModel):
     """Word Embeddings lookup annotator that maps tokens to vectors
 
-    This is the instantiated model of WordEmbeddings.
+    This is the instantiated model of :class:`.WordEmbeddings`.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    .. code-block:: python
+    >>> embeddings = WordEmbeddingsModel.pretrained() \\
+    ...       .setInputCols(["document", "token"]) \\
+    ...       .setOutputCol("embeddings")
 
-        embeddings = WordEmbeddingsModel.pretrained() \\
-              .setInputCols(["document", "token"]) \\
-              .setOutputCol("embeddings")
-
-
-    The default model is ``"glove_100d"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
-
-    There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:
-      - ``withCoverageColumn(dataset, embeddingsCol, outputCol)``:
-        Adds a custom column with word coverage stats for the embedded field:
-        (``coveredWords``, ``totalWords``, ``coveragePercentage``). This creates a new column with statistics for each row.
-
-    .. code-block:: python
-
-              wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, "embeddings", "cov_embeddings")
-              wordsCoverage.select("text","cov_embeddings").show(truncate=False)
-              +-------------------+--------------+
-              |text               |cov_embeddings|
-              +-------------------+--------------+
-              |This is a sentence.|[5, 5, 1.0]   |
-              +-------------------+--------------+
-
-
-      - ``overallCoverage(dataset, embeddingsCol)``:
-        Calculates overall word coverage for the whole data in the embedded field.
-        This returns a single coverage object considering all rows in the field.
-
-    .. code-block:: python
-
-              wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,"embeddings").percentage
-              1.0
-
-
+    The default model is ``"glove_100d"``, if no name is provided. For available
+    pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
 
@@ -6037,50 +6018,51 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     dimension
         Number of embedding dimensions
     readCacheSize
-        cache size for items retrieved from storage. Increase for performance but higher memory consumption
+        Cache size for items retrieved from storage. Increase for performance
+        but higher memory consumption
+
+    Notes
+    -----
+    There are also two convenient functions to retrieve the embeddings coverage
+    with respect to the transformed dataset:
+
+    - :meth:`.withCoverageColumn`: Adds a custom
+      column with word coverage stats for the embedded field. This creates
+      a new column with statistics for each row.
+    - :meth:`.overallCoverage`: Calculates overall word
+      coverage for the whole data in the embedded field. This returns a single
+      coverage object considering all rows in the field.
 
     Examples
     --------
-
-    .. code-block:: python
-
-        import sparknlp
-        from sparknlp.base import *
-        from sparknlp.common import *
-        from sparknlp.annotator import *
-        from sparknlp.training import *
-        from pyspark.ml import Pipeline
-
-        documentAssembler = DocumentAssembler() \\
-            .setInputCol("text") \\
-            .setOutputCol("document")
-
-        tokenizer = Tokenizer() \\
-            .setInputCols(["document"]) \\
-            .setOutputCol("token")
-
-        embeddings = WordEmbeddingsModel.pretrained() \\
-            .setInputCols(["document", "token"]) \\
-            .setOutputCol("embeddings")
-
-        embeddingsFinisher = EmbeddingsFinisher() \\
-            .setInputCols(["embeddings"]) \\
-            .setOutputCols("finished_embeddings") \\
-            .setOutputAsVector(True) \\
-            .setCleanAnnotations(False)
-
-        pipeline = Pipeline() \\
-            .setStages([
-              documentAssembler,
-              tokenizer,
-              embeddings,
-              embeddingsFinisher
-            ])
-
-        data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
-        result = pipeline.fit(data).transform(data)
-
-        result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = WordEmbeddingsModel.pretrained() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True) \\
+    ...     .setCleanAnnotations(False)
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       tokenizer,
+    ...       embeddings,
+    ...       embeddingsFinisher
+    ...     ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
         +--------------------------------------------------------------------------------+
         |                                                                          result|
         +--------------------------------------------------------------------------------+
@@ -6090,7 +6072,6 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|
         |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|
         +--------------------------------------------------------------------------------+
-
     """
 
     name = "WordEmbeddingsModel"
@@ -6102,6 +6083,14 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
                           typeConverter=TypeConverters.toInt)
 
     def setReadCacheSize(self, v):
+        """Sets cache size for items retrieved from storage. Increase for
+        performance but higher memory consumption.
+
+        Parameters
+        ----------
+        v : int
+            Cache size for items retrieved from storage
+        """
         return self._set(readCacheSize=v)
 
     @keyword_only
@@ -6113,12 +6102,64 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
 
     @staticmethod
     def overallCoverage(dataset, embeddings_col):
+        """Calculates overall word coverage for the whole data in the embedded
+        field.
+
+        This returns a single coverage object considering all rows in the
+        field.
+
+        Parameters
+        ----------
+        dataset : :class:`pyspark.sql.DataFrame`
+            The dataset with embeddings column
+        embeddings_col : str
+            Name of the embeddings column
+
+        Returns
+        -------
+        :class:`.CoverageResult`
+            CoverateResult object with extracted information
+
+        Examples
+        --------
+        >>> wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(
+        ...     resultDF,"embeddings"
+        ... ).percentage
+        1.0
+        """
         from sparknlp.internal import _EmbeddingsOverallCoverage
         from sparknlp.common import CoverageResult
         return CoverageResult(_EmbeddingsOverallCoverage(dataset, embeddings_col).apply())
 
     @staticmethod
     def withCoverageColumn(dataset, embeddings_col, output_col='coverage'):
+        """Adds a custom column with word coverage stats for the embedded field.
+        This creates a new column with statistics for each row.
+
+        Parameters
+        ----------
+        dataset : :class:`pyspark.sql.DataFrame`
+            The dataset with embeddings column
+        embeddings_col : str
+            Name of the embeddings column
+        output_col : str, optional
+            Name for the resulting column, by default 'coverage'
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            Dataframe with calculated coverage
+
+        Examples
+        --------
+        >>> wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, "embeddings", "cov_embeddings")
+        >>> wordsCoverage.select("text","cov_embeddings").show(truncate=False)
+        +-------------------+--------------+
+        |text               |cov_embeddings|
+        +-------------------+--------------+
+        |This is a sentence.|[5, 5, 1.0]   |
+        +-------------------+--------------+
+        """
         from sparknlp.internal import _EmbeddingsCoverageColumn
         from pyspark.sql import DataFrame
         return DataFrame(_EmbeddingsCoverageColumn(dataset, embeddings_col, output_col).apply(), dataset.sql_ctx)
@@ -6147,6 +6188,17 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
 
     @staticmethod
     def loadStorage(path, spark, storage_ref):
+        """Loads the model from storage.
+
+        Parameters
+        ----------
+        path : str
+            Path to the model
+        spark : :class:`pyspark.sql.SparkSession`
+            The current SparkSession
+        storage_ref : str
+            Identifiers for the model parameters
+        """
         HasStorageModel.loadStorages(path, spark, storage_ref, WordEmbeddingsModel.databases)
 
 
