@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 `DistilBERT Model` with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.
 
 
-**distilbert_base_token_classifier_conll03** is a fine-tuned BERT model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
+**distilbert_base_token_classifier_conll03** is a fine-tuned DistilBERT model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
 
 We used [TFDistilBertForTokenClassification](https://huggingface.co/transformers/model_doc/distilbert.html#tfdistilbertfortokenclassification) to train this model and used `DistilBertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
