@@ -8,10 +8,18 @@ modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
 ---
 
-## ImageSignatureDetector
+## ImageHandwrittenDetector
 
-`ImageSignatureDetector` is a DL model for detect signature on the image.
+`ImageHandwrittenDetector` is a DL model for detect handwritten text on the image.
 It based on Cascade Region-based CNN network.
+
+Detector support following labels:
+ - 'signature'
+ - 'date'
+ - 'name'
+ - 'title'
+ - 'address'
+ - 'others'
 
 
 #### Input Columns
@@ -27,7 +35,8 @@ It based on Cascade Region-based CNN network.
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | scoreThreshold | float | 0.5 | Score threshold for output regions.|
-
+| outputLabels | Array[String]| | White list for output labels.|
+| labels | Array[String] | | List of labels |
 
 #### Output Columns
 
@@ -56,7 +65,7 @@ val df = spark.read
   .asImage("image")
 
 // Define transformer for detect signature
-val signature_detector = ImageSignatureDetector
+val signature_detector = ImageHandwrittenDetector
   .pretrained("image_signature_detector_gsa0628", "en", "public/ocr/models")
   .setInputCol("image")
   .setOutputCol("signature_regions")
@@ -94,7 +103,7 @@ binary_to_image = BinaryToImage() \
     .setOutputCol("image")
 
 # Define transformer for detect signature
-signature_detector = ImageSignatureDetector \
+signature_detector = ImageHandwrittenDetector \
   .pretrained("image_signature_detector_gsa0628", "en", "public/ocr/models") \
   .setInputCol("image") \
   .setOutputCol("signature_regions")
