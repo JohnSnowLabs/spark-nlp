@@ -51,13 +51,13 @@ class CoNLL(ExtendedJavaWrapper):
     Parameters
     ----------
     documentCol : str, optional
-        Name of the :class:`DocumentAssembler` column, by default 'document'
+        Name of the :class:`.DocumentAssembler` column, by default 'document'
     sentenceCol : str, optional
-        Name of the :class:`SentenceDetector` column, by default 'sentence'
+        Name of the :class:`.SentenceDetector` column, by default 'sentence'
     tokenCol : str, optional
-        Name of the :class:`Tokenizer` column, by default 'token'
+        Name of the :class:`.Tokenizer` column, by default 'token'
     posCol : str, optional
-        Name of the :class:`PerceptronApproach` column, by default 'pos'
+        Name of the :class:`.PerceptronModel` column, by default 'pos'
     conllLabelIndex : int, optional
         Index of the label column in the dataset, by default 3
     conllPosIndex : int, optional

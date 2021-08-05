@@ -43,7 +43,9 @@ class LightPipeline:
     amounts of data. This means, we do not input a Spark Dataframe, but a
     string or an Array of strings instead, to be annotated. To create Light
     Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
-    It’s transform() stage is converted into annotate() instead.
+
+    It’s :meth:`.transform` has now an alternative :meth:`.annotate`, which
+    directly outputs the results.
 
     Parameters
     ----------
@@ -51,6 +53,11 @@ class LightPipeline:
         The PipelineModel containing Spark NLP Annotators
     parse_embeddings : bool, optional
         Whether to parse embeddings, by default False
+
+    Notes
+    -----
+    Use :meth:`.fullAnnotate` to also output the result as
+    :class:`.Annotation`, with metadata.
 
     Examples
     --------
@@ -66,7 +73,6 @@ class LightPipeline:
         'stems': ['we', 'ar', 'veri', 'happi', 'about', 'spark', 'nlp'],
         'token': ['We', 'are', 'very', 'happy', 'about', 'Spark', 'NLP']
     }
-
     """
 
     def __init__(self, pipelineModel, parse_embeddings=False):
@@ -88,7 +94,7 @@ class LightPipeline:
         return annotations
 
     def fullAnnotate(self, target):
-        """Annotates the data provided into Annotations.
+        """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
 
@@ -99,8 +105,25 @@ class LightPipeline:
 
         Returns
         -------
-        list or str
+        List[Annotation]
             The result of the annotation
+
+        Examples
+        --------
+        >>> from sparknlp.pretrained import PretrainedPipeline
+        >>> explain_document_pipeline = PretrainedPipeline("explain_document_dl")
+        >>> result = explain_document_pipeline.fullAnnotate('U.N. official Ekeus heads for Baghdad.')
+        >>> result[0].keys()
+        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])
+        >>> result[0]["ner"]
+        [Annotation(named_entity, 0, 2, B-ORG, {'word': 'U.N'}),
+        Annotation(named_entity, 3, 3, O, {'word': '.'}),
+        Annotation(named_entity, 5, 12, O, {'word': 'official'}),
+        Annotation(named_entity, 14, 18, B-PER, {'word': 'Ekeus'}),
+        Annotation(named_entity, 20, 24, O, {'word': 'heads'}),
+        Annotation(named_entity, 26, 28, O, {'word': 'for'}),
+        Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
+        Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
         result = []
         if type(target) is str:
@@ -124,8 +147,18 @@ class LightPipeline:
 
         Returns
         -------
-        list or str
+        List[dict] or dict
             The result of the annotation
+
+        Examples
+        --------
+        >>> from sparknlp.pretrained import PretrainedPipeline
+        >>> explain_document_pipeline = PretrainedPipeline("explain_document_dl")
+        >>> result = explain_document_pipeline.annotate('U.N. official Ekeus heads for Baghdad.')
+        >>> result.keys()
+        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])
+        >>> result["ner"]
+        ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
