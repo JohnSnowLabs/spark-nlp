@@ -57,7 +57,7 @@ tokenClassifier = BertForTokenClassification \
       .pretrained('bert_token_classifier_spanish_ner', 'es') \
       .setInputCols(['token', 'document']) \
       .setOutputCol("'ner') \
-      .setCaseSensitive(False) \
+      .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
 # since output column is IOB/IOB2 style, NerConverter can extract entities
@@ -87,7 +87,7 @@ val tokenizer = Tokenizer()
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_spanish_ner", "es")
       .setInputCols("document", "token")
       .setOutputCol("ner")
-      .setCaseSensitive(false)
+      .setCaseSensitive(true)
       .setMaxSentenceLength(512)
 
 // since output column is IOB/IOB2 style, NerConverter can extract entities
