@@ -27,16 +27,14 @@ from pyspark.sql import SparkSession, DataFrame
 class CoNLL(ExtendedJavaWrapper):
     """Instantiates the class to read a CoNLL dataset.
 
-    The dataset should be in the format of
-    `CoNLL 2003 <https://www.clips.uantwerpen.be/conll2003/ner/>`_ and needs to
-    be specified with :meth:`.readDataset`,
-    which will create a dataframe with the data.
+    The dataset should be in the format of `CoNLL 2003
+    <https://www.clips.uantwerpen.be/conll2003/ner/>`_ and needs to be specified
+    with :meth:`.readDataset`, which will create a dataframe with the data.
 
-    Can be used to train a :class:`NerDLApproach <sparknlp.annotator.NerDLApproach>`.
+    Can be used to train a :class:`NerDLApproach
+    <sparknlp.annotator.NerDLApproach>`.
 
-    **Input File Format**
-
-    .. code-block:: none
+    **Input File Format**::
 
         -DOCSTART- -X- -X- O
 
@@ -75,7 +73,6 @@ class CoNLL(ExtendedJavaWrapper):
 
     Examples
     --------
-
     >>> from sparknlp.training import CoNLL
     >>> trainingData = CoNLL().readDataset(spark, "src/test/resources/conll2003/eng.train")
     >>> trainingData.selectExpr(
@@ -144,17 +141,14 @@ class CoNLL(ExtendedJavaWrapper):
 class CoNLLU(ExtendedJavaWrapper):
     """Instantiates the class to read a CoNLL-U dataset.
 
-    The dataset should be in the format of
-    `CoNLL-U <https://universaldependencies.org/format.html>`_ and needs to be
-    specified with :meth:`.readDataset`, which will create a dataframe with the
-    data.
+    The dataset should be in the format of `CoNLL-U
+    <https://universaldependencies.org/format.html>`_ and needs to be specified
+    with :meth:`.readDataset`, which will create a dataframe with the data.
 
-    Can be used to train a
-    :class:`DependencyParserApproach <sparknlp.annotator.DependencyParserApproach>`
+    Can be used to train a :class:`DependencyParserApproach
+    <sparknlp.annotator.DependencyParserApproach>`
 
-    **Input File Format**
-
-    .. code-block:: none
+    **Input File Format**::
 
         -DOCSTART- -X- -X- O
 
@@ -170,7 +164,6 @@ class CoNLLU(ExtendedJavaWrapper):
 
     Examples
     --------
-
     >>> from sparknlp.training import CoNLLU
     >>> conlluFile = "src/test/resources/conllu/en.test.conllu"
     >>> conllDataSet = CoNLLU(False).readDataset(spark, conlluFile)
@@ -216,14 +209,13 @@ class CoNLLU(ExtendedJavaWrapper):
 
 
 class POS(ExtendedJavaWrapper):
-    """Helper class for creating DataFrames for training a part-of-speech tagger.
+    """Helper class for creating DataFrames for training a part-of-speech
+    tagger.
 
     The dataset needs to consist of sentences on each line, where each word is
     delimited with its respective tag.
 
-    **Input File Format**
-
-    .. code-block:: none
+    **Input File Format**::
 
         A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
 
@@ -231,13 +223,13 @@ class POS(ExtendedJavaWrapper):
     The sentence can then be parsed with :meth:`.readDataset` into a column with
     annotations of type ``POS``.
 
-    Can be used to train a
-    :class:`PerceptronApproach <sparknlp.annotator.PerceptronApproach>`.
+    Can be used to train a :class:`PerceptronApproach
+    <sparknlp.annotator.PerceptronApproach>`.
 
     Examples
     --------
-
-    In this example, the file ``test-training.txt`` has the content of the sentence above.
+    In this example, the file ``test-training.txt`` has the content of the
+    sentence above.
 
     >>> from sparknlp.training import POS
     >>> pos = POS()
@@ -266,7 +258,6 @@ class POS(ExtendedJavaWrapper):
     |[pos, 83, 84, CD, [word -> 29], []]          |
     |[pos, 81, 81, ., [word -> .], []]            |
     +---------------------------------------------+
-
     """
 
     def __init__(self):
@@ -304,17 +295,17 @@ class POS(ExtendedJavaWrapper):
 
 
 class PubTator(ExtendedJavaWrapper):
-    """The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.
+    """The PubTator format includes medical papers’ titles, abstracts, and
+    tagged chunks.
 
-    For more information see `PubTator Docs <http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783>`_
+    For more information see `PubTator Docs
+    <http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783>`_
     and `MedMentions Docs <http://github.com/chanzuckerberg/MedMentions>`_.
 
     :meth:`.readDataset` is used to create a Spark DataFrame from a PubTator
     text file.
 
-    **Input File Format**
-
-    .. code-block:: none
+    **Input File Format**::
 
         25763772	0	5	DCTN4	T116,T123	C4308010
         25763772	23	63	chronic Pseudomonas aeruginosa infection	T047	C0854135
@@ -324,7 +315,6 @@ class PubTator(ExtendedJavaWrapper):
 
     Examples
     --------
-
     >>> from sparknlp.training import PubTator
     >>> pubTatorFile = "./src/test/resources/corpus_pubtator_sample.txt"
     >>> pubTatorDataSet = PubTator().readDataset(spark, pubTatorFile)

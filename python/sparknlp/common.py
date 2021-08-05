@@ -273,6 +273,15 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage
 class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
 
     def saveStorage(self, path, spark):
+        """Saves the current model to storage.
+
+        Parameters
+        ----------
+        path : str
+            Path for saving the model.
+        spark : :class:`pyspark.sql.SparkSession`
+            The current SparkSession
+        """
         self._transfer_params_to_java()
         self._java_obj.saveStorage(path, spark._jsparkSession, False)
 

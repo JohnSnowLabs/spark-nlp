@@ -196,7 +196,6 @@ class RecursivePipeline(Pipeline, JavaEstimator):
 
     Examples
     --------
-
     >>> from sparknlp.annotator import *
     >>> from sparknlp.base import *
     >>> recursivePipeline = RecursivePipeline(stages=[
@@ -206,7 +205,6 @@ class RecursivePipeline(Pipeline, JavaEstimator):
     ...     lemmatizer,
     ...     finisher
     ... ])
-
     """
     @keyword_only
     def __init__(self, *args, **kwargs):
@@ -251,7 +249,7 @@ class RecursivePipelineModel(PipelineModel):
 
     Behaves the same as a Spark PipelineModel does. Not intended to be
     initialized by itself. To create a RecursivePipelineModel please fit data to
-    a :class:`RecursivePipeline <sparknlp.base.RecursivePipeline>`.
+    a :class:`.RecursivePipeline`.
     """
     def __init__(self, pipeline_model):
         super(PipelineModel, self).__init__()
@@ -283,10 +281,10 @@ class DocumentAssembler(AnnotatorTransformer):
     """Prepares data into a format that is processable by Spark NLP.
 
     This is the entry point for every Spark NLP pipeline. The
-    ``DocumentAssembler`` can read either a ``String`` column or an
-    ``Array[String]``. Additionally, setCleanupMode can be used to pre-process
-    the text (Default: ``disabled``). For possible options please refer the
-    parameters section.
+    `DocumentAssembler` can read either a ``String`` column or an
+    ``Array[String]``. Additionally, :meth:`.setCleanupMode` can be used to
+    pre-process the text (Default: ``disabled``). For possible options please
+    refer the parameters section.
 
     For more extended examples on document pre-processing see the
     `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
@@ -299,7 +297,6 @@ class DocumentAssembler(AnnotatorTransformer):
 
     Parameters
     ----------
-
     inputCol
         Input column name
     outputCol
@@ -318,7 +315,6 @@ class DocumentAssembler(AnnotatorTransformer):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from pyspark.ml import Pipeline
@@ -344,7 +340,6 @@ class DocumentAssembler(AnnotatorTransformer):
     |    |    |    |-- value: string (valueContainsNull = True)
     |    |    |-- embeddings: array (nullable = True)
     |    |    |    |-- element: float (containsNull = False)
-
     """
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
@@ -448,14 +443,12 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
 
     Parameters
     ----------
-
     preservePosition
         Whether to preserve the actual position of the tokens or reduce them to
         one space
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -504,7 +497,6 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
     +---------------------------------------------------------------------------------------------------------------------------+
     |[[document, 0, 80, Spark NLP opensource text processing library advanced natural language processing, [sentence -> 0], []]]|
     +---------------------------------------------------------------------------------------------------------------------------+
-
     """
 
     name = "TokenAssembler"
@@ -550,7 +542,6 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
 
     Parameters
     ----------
-
     chunkCol
         Column that contains the string. Must be part of DOCUMENT
     startCol
@@ -567,7 +558,6 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.common import *
@@ -691,12 +681,10 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
 
     Parameters
     ----------
-
     None
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.pretrained import PretrainedPipeline
@@ -754,7 +742,6 @@ class Finisher(AnnotatorTransformer):
 
     Parameters
     ----------
-
     inputCols
         Input annotations
     outputCols
@@ -775,7 +762,6 @@ class Finisher(AnnotatorTransformer):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -947,7 +933,6 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
     Parameters
     ----------
-
     inputCols
         Names of input annotation columns containing embeddings
     outputCols
@@ -960,7 +945,6 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
     Examples
     --------
-
     First extract embeddings.
 
     >>> import sparknlp
@@ -1014,7 +998,6 @@ class EmbeddingsFinisher(AnnotatorTransformer):
     |[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|
     |[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|
     +--------------------------------------------------------------------------------+
-
     """
 
     inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
