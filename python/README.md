@@ -2,7 +2,7 @@
 
 [![build](https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg)](https://github.com/JohnSnowLabs/spark-nlp/actions) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.12/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.12) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **1100+** pretrained **pipelines** and **models** in more than **192+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Word Segmentation, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class Text Classification, Multi-class Sentiment Analysis, Machine Translation (+180 languages), Summarization and Question Answering **(Google T5)**, and many more [NLP tasks](#features).
+Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **3700++** pretrained **pipelines** and **models** in more than **200+** languages. It supports state-of-the-art transformers such as **BERT**, **DistilBERT**, **RoBERTa**, **XLM-RoBERTa**, **Longformer**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Word Segmentation, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class Text Classification, Multi-class Sentiment Analysis, BERT for Token Classification, DistilBERT for Token Classification, Machine Translation (**Marian MT** +180 languages), Summarization and Question Answering **(Google T5)**, and many more [NLP tasks](#features).
 
 ## Project's website
 
@@ -24,7 +24,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Apache Spark Support](#apache-spark-support)
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
-- [Using Spark NLP](#usage)
+- [Using Spark NLP](#usage)  
   - [Spark Packages](#spark-packages)
   - [Scala](#scala)
     - [Maven](#maven)
@@ -42,8 +42,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
-- [Offline](#offline)
-- [Examples](#examples)
+- [Offline](#offline)  
+- [Examples](#examples)  
 - [FAQ](#faq)
 - [Citation](#citation)
 - [Contributing](#contributing)
@@ -69,15 +69,16 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Sentiment Detection (ML models)
 - Spell Checker (ML and DL models)
 - Word Embeddings (GloVe and Word2Vec)
-- BERT Embeddings (TF Hub models)
+- BERT Embeddings (TF Hub & HF models)
 - DistilBERT Embeddings (HuggingFace models)
 - RoBERTa Embeddings (HuggingFace models)
 - XLM-RoBERTa Embeddings (HuggingFace models)
-- ALBERT Embeddings (TF Hub models)
+- Longformer Embeddings (HuggingFace models)
+- ALBERT Embeddings (TF Hub & HF models)
 - XLNet Embeddings
 - ELMO Embeddings (TF Hub models)
 - Universal Sentence Encoder (TF Hub models)
-- BERT Sentence Embeddings (42 TF Hub models)
+- BERT Sentence Embeddings (TF Hub & HF models)
 - Sentence Embeddings
 - Chunk Embeddings
 - Unsupervised keywords extraction
@@ -85,6 +86,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Multi-class Sentiment analysis (Deep learning)
 - Multi-label Sentiment analysis (Deep learning)
 - Multi-class Text Classification (Deep learning)
+- BERT for Token Classification
+- DistilBERT for Token Classification
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Named entity recognition (Deep learning)
@@ -703,9 +706,9 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-   3.1. Install New -> PyPI -> `spark-nlp` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp` -> Install
 
-   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -851,8 +854,6 @@ NOTE: If this is an existing cluster, after adding new configs or changing exist
 
 ### Pipelines
 
-Spark NLP offers more than `450+ pre-trained pipelines` in `192 languages`.
-
 **Quick example:**
 
 ```scala
@@ -901,8 +902,6 @@ annotation.select("entities.result").show(false)
 #### Please check out our Models Hub for the full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/models) with examples, demos, benchmarks, and more
 
 ### Models
-
-Spark NLP offers more than `710+ pre-trained models` in `192 languages`.
 
 **Some selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
@@ -963,9 +962,9 @@ Example of using pretrained Models and Pipelines in offline:
 # instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
-french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-  .setInputCols("document", "token")
-  .setOutputCol("pos")
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
 
 # example for pipelines
 # instead of using PretrainedPipeline
