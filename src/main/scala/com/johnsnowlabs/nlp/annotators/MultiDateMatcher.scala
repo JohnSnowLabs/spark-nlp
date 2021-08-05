@@ -2,9 +2,11 @@ package com.johnsnowlabs.nlp.annotators
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
-
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import org.apache.commons.lang.time.DateUtils
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
+import scala.collection.mutable.ListBuffer
 
 /**
   * Matches standard date formats into a provided format.
@@ -154,9 +156,33 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def extractFormalDate(text: String): Seq[MatchedDateTime] = {
-    formalFactory.findMatch(text).map { possibleDate =>
+    val allFormalDateMatches = formalFactory.findMatch(text).map { possibleDate =>
       formalDateContentParse(possibleDate)
     }
+
+    regularizeFormalDateMatches(allFormalDateMatches)
+  }
+
+  private def regularizeFormalDateMatches: Seq[MatchedDateTime] => Seq[MatchedDateTime] = allFormalDateMatches => {
+    def truncatedExists(e: Calendar, candidate: Calendar) = {
+      DateUtils.truncate(e, Calendar.MONTH).equals(candidate)
+    }
+
+    val indexedMatches: Seq[(MatchedDateTime, Int)] = allFormalDateMatches.zipWithIndex
+    val indexesToRemove = new ListBuffer[Int]()
+
+    for (e <- indexedMatches) {
+      val candidates = indexedMatches.filterNot(_._2 == e._2)
+      val accTempIdx: Seq[Int] =
+        for (candidate <- candidates
+             // if true, the candidate is the truncated match of the existing match
+             if truncatedExists(e._1.calendar, candidate._1.calendar)
+             ) yield candidate._2
+      accTempIdx.foreach(indexesToRemove.append(_))
+    }
+
+    val regularized = indexedMatches.filterNot { case (_, i) => indexesToRemove.contains(i) }.map(_._1)
+    regularized
   }
 
   private def extractRelaxedDate(text: String): Seq[MatchedDateTime] = {
@@ -235,6 +261,6 @@ class MultiDateMatcher(override val uid: String)
 
 }
 /**
- * This is the companion object of [[MultiDateMatcher]]. Please refer to that class for the documentation.
- */
+  * This is the companion object of [[MultiDateMatcher]]. Please refer to that class for the documentation.
+  */
 object MultiDateMatcher extends DefaultParamsReadable[MultiDateMatcher]

@@ -4,6 +4,7 @@ import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 import java.io.{FileNotFoundException, IOException}
+import scala.collection.mutable.ListBuffer
 import scala.io.Source
 import scala.util.matching.Regex
 
@@ -196,9 +197,10 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
     val processedSourceLanguageInfo: Map[String, Set[String]] = _processSourceLanguageInfo(text, sourceLanguage)
 
     // if multiple source languages match we default to english as further processing is not possible
-    if(processedSourceLanguageInfo.size != 1)
+    if(processedSourceLanguageInfo.size != 1) {
+      // nothing to translate has matched
       Map(English-> Set())
-    else {
+    } else {
       processedSourceLanguageInfo
     }
   }
