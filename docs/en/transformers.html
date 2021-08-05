@@ -522,184 +522,7 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Transformers"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
-
-  <p>These are the <a href="https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)">Transformers</a> that are available in Spark NLP. The created embeddings can be combined with
-DL based <a href="https://nlp.johnsnowlabs.com/docs/en/annotators">Annotators</a>, such as the <code class="language-plaintext highlighter-rouge">ClassifierDL</code> and <code class="language-plaintext highlighter-rouge">NerDL</code> to achieve state-of-the-art results in a wide range of language tasks.</p>
-
-  <h2 id="import-transformers-into-spark-nlp">Import Transformers into Spark NLP</h2>
-
-  <h2 id="overview">Overview</h2>
-
-  <p>Spark NLP 🚀  3.1.0 is out! We have extended support for HuggingFace 🤗  exported models in equivalent Spark NLP annotators. Starting this release, you can easily use <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊</p>
-
-  <h2 id="compatibility">Compatibility</h2>
-
-  <p><strong>Spark NLP</strong>: The equivalent annotator in Spark NLP
-<strong>TF Hub</strong>: Models from <a href="https://tfhub.dev/">TF Hub</a>
-<strong>HuggingFace</strong>: Models from <a href="https://huggingface.co/models">HuggingFace</a>
-<strong>Model Architecture</strong>: Which architecture is compatible with that annotator
-<strong>Flags</strong>:</p>
-  <ul>
-    <li>Fully supported ✅</li>
-    <li>Partially supported (requires workarounds) ✔️</li>
-    <li>Under development ❎</li>
-    <li>Not supported ❌</li>
-  </ul>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: left">Spark NLP</th>
-        <th style="text-align: left">TF Hub</th>
-        <th style="text-align: left">HuggingFace</th>
-        <th style="text-align: left">Model Architecture</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">BertEmbeddings</td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
-      </tr>
-      <tr>
-        <td style="text-align: left">BertSentenceEmbeddings</td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">BERT - Small BERT - ELECTRA</td>
-      </tr>
-      <tr>
-        <td style="text-align: left">DistilBertEmbeddings</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">DistilBERT</td>
-      </tr>
-      <tr>
-        <td style="text-align: left">RoBertaEmbeddings</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">RoBERTa - DistilRoBERTa</td>
-      </tr>
-      <tr>
-        <td style="text-align: left">XlmRoBertaEmbeddings</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">XLM-RoBERTa</td>
-      </tr>
-      <tr>
-        <td style="text-align: left">AlbertEmbeddings</td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left"> </td>
-      </tr>
-      <tr>
-        <td style="text-align: left">XlnetEmbeddings</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left">✅</td>
-        <td style="text-align: left"> </td>
-      </tr>
-      <tr>
-        <td style="text-align: left">ElmoEmbeddings</td>
-        <td style="text-align: left">❎</td>
-        <td style="text-align: left">❎</td>
-        <td style="text-align: left"> </td>
-      </tr>
-      <tr>
-        <td style="text-align: left">UniversalSentenceEncoder</td>
-        <td style="text-align: left">❎</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left"> </td>
-      </tr>
-      <tr>
-        <td style="text-align: left">T5Transformer</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left">❌</td>
-        <td style="text-align: left"> </td>
-      </tr>
-      <tr>
-        <td style="text-align: left">MarianTransformer</td>
-        <td style="text-align: left"> </td>
-        <td style="text-align: left">❌</td>
-        <td style="text-align: left"> </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2 id="notebooks">Notebooks</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: left">Spark NLP</th>
-        <th style="text-align: left">HuggingFace Notebooks</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">BertEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb">HuggingFace in Spark NLP - BERT</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">BertSentenceEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">HuggingFace in Spark NLP - BERT Sentence</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">DistilBertEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">HuggingFace in Spark NLP - DistilBERT</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">RoBertaEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb">HuggingFace in Spark NLP - RoBERTa</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">XlmRoBertaEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">HuggingFace in Spark NLP - XLM-RoBERTa</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">AlbertEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ALBERT.ipynb">HuggingFace in Spark NLP - ALBERT</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">XlnetEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark_NLP%20-%20XLNet.ipynb">HuggingFace in Spark NLP - XLNet</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: left">Spark NLP</th>
-        <th style="text-align: left">TF Hub Notebooks</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: left">BertEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb">TF Hub in Spark NLP - BERT</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">BertSentenceEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">TF Hub in Spark NLP - BERT Sentence</a></td>
-      </tr>
-      <tr>
-        <td style="text-align: left">AlbertEmbeddings</td>
-        <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb">TF Hub in Spark NLP - ALBERT</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2 id="limitations">Limitations</h2>
-
-  <ul>
-    <li>If you are importing models from HuggingFace as Embeddings they must be for <code class="language-plaintext highlighter-rouge">Fill-Mask</code> task. Meaning you cannot use a model in BertEmbeddings if they were trained or fine-tuned on token/text classification tasks in HuggingFace. They have a different architecture.</li>
-    <li>There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: `Required array size too large. (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)</li>
-  </ul>
-
-</div>
-
-<script> jQuery(document).ready(function () {
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><script> jQuery(document).ready(function () {
     $(".model-button").click(function () {
         $(this).closest(".tabs-box").find(".model-button").removeClass('code-selector-un-active').addClass("code-selector-active");
 
@@ -2597,8 +2420,13 @@ answering, natural language inference, sentiment analysis, and document ranking.
 
 </div>
 
+<h2 id="import-transformers-into-spark-nlp">Import Transformers into Spark NLP</h2>
+
+<p>Please visit this discussion to learn how to import external Transformers models from HuggingFace and TF Hub into Spark NLP 🚀:</p>
+
+<p><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a></p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-07-20T00:00:00+00:00">Jul 20, 2021</time>
+      <time itemprop="dateModified" datetime="2021-08-05T00:00:00+00:00">Aug 05, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
