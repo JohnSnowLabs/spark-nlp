@@ -522,10 +522,20 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Object detection"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="imagesignaturedetector">ImageSignatureDetector</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="imagehandwrittendetector">ImageHandwrittenDetector</h2>
 
-<p><code class="language-plaintext highlighter-rouge">ImageSignatureDetector</code> is a DL model for detect signature on the image.
+<p><code class="language-plaintext highlighter-rouge">ImageHandwrittenDetector</code> is a DL model for detect handwritten text on the image.
 It based on Cascade Region-based CNN network.</p>
+
+<p>Detector support following labels:</p>
+<ul>
+  <li>‘signature’</li>
+  <li>‘date’</li>
+  <li>‘name’</li>
+  <li>‘title’</li>
+  <li>‘address’</li>
+  <li>‘others’</li>
+</ul>
 
 <h4 id="input-columns">Input Columns</h4>
 
@@ -565,6 +575,18 @@ It based on Cascade Region-based CNN network.</p>
       <td>float</td>
       <td>0.5</td>
       <td>Score threshold for output regions.</td>
+    </tr>
+    <tr>
+      <td>outputLabels</td>
+      <td>Array[String]</td>
+      <td> </td>
+      <td>White list for output labels.</td>
+    </tr>
+    <tr>
+      <td>labels</td>
+      <td>Array[String]</td>
+      <td> </td>
+      <td>List of labels</td>
     </tr>
   </tbody>
 </table>
@@ -610,7 +632,7 @@ It based on Cascade Region-based CNN network.</p>
   <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
 
 <span class="c1">// Define transformer for detect signature</span>
-<span class="k">val</span> <span class="nv">signature_detector</span> <span class="k">=</span> <span class="nc">ImageSignatureDetector</span>
+<span class="k">val</span> <span class="nv">signature_detector</span> <span class="k">=</span> <span class="nc">ImageHandwrittenDetector</span>
   <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"image_signature_detector_gsa0628"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"public/ocr/models"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"signature_regions"</span><span class="o">)</span>
@@ -647,7 +669,7 @@ It based on Cascade Region-based CNN network.</p>
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
 
 <span class="c1"># Define transformer for detect signature
-</span><span class="n">signature_detector</span> <span class="o">=</span> <span class="n">ImageSignatureDetector</span> \
+</span><span class="n">signature_detector</span> <span class="o">=</span> <span class="n">ImageHandwrittenDetector</span> \
   <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"image_signature_detector_gsa0628"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"public/ocr/models"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"signature_regions"</span><span class="p">)</span>

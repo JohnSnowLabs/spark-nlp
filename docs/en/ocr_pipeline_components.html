@@ -2827,7 +2827,8 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 
 <h3 id="imagescaler">ImageScaler</h3>
 
-<p><code class="language-plaintext highlighter-rouge">ImageScaler</code> scales image by provided scale factor.</p>
+<p><code class="language-plaintext highlighter-rouge">ImageScaler</code> scales image by provided scale factor or needed output size.
+It supports keeping original ratio of image by padding the image in case fixed output size.</p>
 
 <h4 id="input-columns-16">Input Columns</h4>
 
@@ -2867,6 +2868,24 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
       <td>double</td>
       <td>1.0</td>
       <td>scale factor</td>
+    </tr>
+    <tr>
+      <td>keepRatio</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Keep original ratio of image</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>int</td>
+      <td>0</td>
+      <td>Output width of image</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td>int</td>
+      <td>0</td>
+      <td>Outpu height of imgae</td>
     </tr>
   </tbody>
 </table>
@@ -4108,7 +4127,7 @@ It support removing:</p>
 
 <h3 id="imagedrawregions">ImageDrawRegions</h3>
 
-<p><code class="language-plaintext highlighter-rouge">ImageDrawRegions</code> draw regions to image.</p>
+<p><code class="language-plaintext highlighter-rouge">ImageDrawRegions</code> draw regions with label and score to the image.</p>
 
 <h4 id="input-columns-25">Input Columns</h4>
 
@@ -4154,6 +4173,12 @@ It support removing:</p>
       <td>Int</td>
       <td>4</td>
       <td>Line width for draw rectangles</td>
+    </tr>
+    <tr>
+      <td>fontSize</td>
+      <td>Int</td>
+      <td>12</td>
+      <td>Font size for render labels and score</td>
     </tr>
   </tbody>
 </table>
