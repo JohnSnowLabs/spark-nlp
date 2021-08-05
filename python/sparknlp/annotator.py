@@ -13,7 +13,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""Module containing all available Annotators of Spark NLP and their base classes.
+"""Module containing all available Annotators of Spark NLP and their base
+classes.
 """
 
 import sys
@@ -68,7 +69,8 @@ class RecursiveTokenizer(AnnotatorApproach):
     - ``infixes``: Strings that will be split when found at the middle of token.
     - ``whitelist``: Whitelist of strings not to split
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -78,7 +80,6 @@ class RecursiveTokenizer(AnnotatorApproach):
 
     Parameters
     ----------
-
     prefixes
         Strings to be considered independent tokens when found at the beginning
         of a word, by default ["'", '"', '(', '[', '\\n']
@@ -226,7 +227,6 @@ class RecursiveTokenizerModel(AnnotatorModel):
 
     Parameters
     ----------
-
     None
     """
     name = 'RecursiveTokenizerModel'
@@ -259,7 +259,6 @@ class Tokenizer(AnnotatorApproach):
 
     Parameters
     ----------
-
     targetPattern
         Pattern to grab from text as token candidates, by default ``\\S+``
     prefixPattern
@@ -654,13 +653,10 @@ class TokenizerModel(AnnotatorModel):
 
     Parameters
     ----------
-
     splitPattern
         Character list used to separate from the inside of tokens
     splitChars
         Character list used to separate from the inside of tokens
-
-
     """
     name = "TokenizerModel"
 
@@ -779,7 +775,6 @@ class RegexTokenizer(AnnotatorModel):
 
     Parameters
     ----------
-
     minLength
         Set the minimum allowed legth for each token, by default 1
     maxLength
@@ -927,12 +922,10 @@ class ChunkTokenizer(Tokenizer):
 
     Parameters
     ----------
-
     None
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -973,7 +966,6 @@ class ChunkTokenizer(Tokenizer):
     |[world, Michael, work at Benezar]              |[world, Michael, work, at, Benezar]                |
     |[engineer from Farendell, last year, last week]|[engineer, from, Farendell, last, year, last, week]|
     +-----------------------------------------------+---------------------------------------------------+
-
     """
     name = 'ChunkTokenizer'
 
@@ -999,9 +991,7 @@ class ChunkTokenizerModel(TokenizerModel):
 
     Parameters
     ----------
-
     None
-
     """
     name = 'ChunkTokenizerModel'
 
@@ -1027,7 +1017,6 @@ class Token2Chunk(AnnotatorModel):
 
     Parameters
     ----------
-
     None
 
     Examples
@@ -1053,14 +1042,14 @@ class Token2Chunk(AnnotatorModel):
     >>> data = spark.createDataFrame([["One Two Three Four"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.selectExpr("explode(chunk) as result").show(truncate=False)
-        +------------------------------------------+
-        |result                                    |
-        +------------------------------------------+
-        |[chunk, 0, 2, One, [sentence -> 0], []]   |
-        |[chunk, 4, 6, Two, [sentence -> 0], []]   |
-        |[chunk, 8, 12, Three, [sentence -> 0], []]|
-        |[chunk, 14, 17, Four, [sentence -> 0], []]|
-        +------------------------------------------+
+    +------------------------------------------+
+    |result                                    |
+    +------------------------------------------+
+    |[chunk, 0, 2, One, [sentence -> 0], []]   |
+    |[chunk, 4, 6, Two, [sentence -> 0], []]   |
+    |[chunk, 8, 12, Three, [sentence -> 0], []]|
+    |[chunk, 14, 17, Four, [sentence -> 0], []]|
+    +------------------------------------------+
     """
     name = "Token2Chunk"
 
@@ -1083,7 +1072,6 @@ class Stemmer(AnnotatorModel):
 
     Parameters
     ----------
-
     None
 
     Examples
@@ -1165,13 +1153,11 @@ class Chunker(AnnotatorModel):
 
     Parameters
     ----------
-
     regexParsers
         An array of grammar based chunk parsers
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -1211,7 +1197,6 @@ class Chunker(AnnotatorModel):
     |[chunk, 35, 39, pecks, [sentence -> 0, chunk -> 2], []]      |
     |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
     +-------------------------------------------------------------+
-
     """
 
     regexParsers = Param(Params._dummy(),
@@ -1265,7 +1250,6 @@ class DocumentNormalizer(AnnotatorModel):
 
     Parameters
     ----------
-
     action
         action to perform before applying regex patterns on text, by default
         "clean"
@@ -1283,7 +1267,6 @@ class DocumentNormalizer(AnnotatorModel):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -1445,7 +1428,6 @@ class Normalizer(AnnotatorApproach):
 
     Parameters
     ----------
-
     cleanupPatterns
         Normalization regex patterns which match will be removed from token, by default ['[^\\pL+]']
     lowercase
@@ -1611,7 +1593,6 @@ class NormalizerModel(AnnotatorModel):
 
     Parameters
     ----------
-
     cleanupPatterns
         normalization regex patterns which match will be removed from token
     lowercase
@@ -1662,7 +1643,6 @@ class RegexMatcher(AnnotatorApproach):
 
     Parameters
     ----------
-
     strategy
         Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE, by default
         "MATCH_ALL"
@@ -1801,13 +1781,11 @@ class Lemmatizer(AnnotatorApproach):
 
     Parameters
     ----------
-
     dictionary
         lemmatizer external dictionary.
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -1934,7 +1912,6 @@ class LemmatizerModel(AnnotatorModel):
 
     Parameters
     ----------
-
     None
 
     Examples
@@ -2135,7 +2112,6 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     Parameters
     ----------
-
     dateFormat
         Desired format for dates extracted, by default yyyy/MM/dd.
     readMonthFirst
@@ -2155,7 +2131,6 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -2227,7 +2202,6 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
     Parameters
     ----------
-
     dateFormat
         Desired format for dates extracted, by default yyyy/MM/dd.
     readMonthFirst
@@ -2247,7 +2221,6 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -2308,7 +2281,6 @@ class TextMatcher(AnnotatorApproach):
 
     Parameters
     ----------
-
     entities
         ExternalResource for entities
     caseSensitive
@@ -2463,7 +2435,6 @@ class TextMatcherModel(AnnotatorModel):
 
     Parameters
     ----------
-
     mergeOverlapping
         Whether to merge overlapping matched chunks, by default False
     entityValue
@@ -2569,7 +2540,6 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 
     Parameters
     ----------
-
     entities
         ExternalResource for entities
     caseSensitive
@@ -2581,7 +2551,6 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 
     Examples
     --------
-
     In this example, the entities file is of the form::
 
         ...
@@ -2617,7 +2586,6 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
     |[chunk, 6, 24, dolore magna aliqua, [sentence -> 0, chunk -> 0], []]|
     |[chunk, 53, 59, laborum, [sentence -> 0, chunk -> 1], []]           |
     +--------------------------------------------------------------------+
-
     """
 
     entities = Param(Params._dummy(),
@@ -2711,15 +2679,12 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
 
     Parameters
     ----------
-
     caseSensitive
         Whether to ignore case in index lookups
     mergeOverlapping
         Whether to merge overlapping matched chunks, by default False
     searchTrie
         SearchTrie
-
-
     """
     name = "BigTextMatcherModel"
     databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
@@ -2789,6 +2754,17 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
 
     @staticmethod
     def loadStorage(path, spark, storage_ref):
+        """Loads the model from storage.
+
+        Parameters
+        ----------
+        path : str
+            Path to the model
+        spark : :class:`pyspark.sql.SparkSession`
+            The current SparkSession
+        storage_ref : str
+            Identifiers for the model parameters
+        """
         HasStorageModel.loadStorages(path, spark, storage_ref, BigTextMatcherModel.databases)
 
 
@@ -2831,7 +2807,6 @@ class PerceptronApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     posCol
         Column name for Array of POS tags that match tokens
     nIterations
@@ -2961,7 +2936,6 @@ class PerceptronModel(AnnotatorModel):
 
     Parameters
     ----------
-
     None
 
     Examples
@@ -3266,7 +3240,6 @@ class SentimentDetector(AnnotatorApproach):
 
     Parameters
     ----------
-
     dictionary
         path for dictionary to sentiment analysis
 
@@ -3444,7 +3417,6 @@ class ViveknSentimentApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     sentimentCol
         column with the sentiment result of every row. Must be 'positive' or 'negative'
     pruneCorpus
@@ -3651,9 +3623,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
     with :meth:`.setDictionary` in the form of a text file, where each word is
     parsed by a regex pattern.
 
-    Inspired by Norvig model and `SymSpell
-    <https://github.com/wolfgarbe/SymSpell>`__.
-
     For instantiated/pretrained models, see :class:`.NorvigSweetingModel`.
 
     For extended examples of usage, see the `Spark NLP Workshop
@@ -3667,7 +3636,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     dictionary
         Dictionary needs 'tokenPattern' regex in dictionary for separating words
     caseSensitive
@@ -3682,7 +3650,8 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
         Increase performance at cost of accuracy. Faster but less accurate.
     frequencyPriority
-        Applies frequency over hamming in intersections, when false hamming takes priority, by default True
+        Applies frequency over hamming in intersections, when false hamming
+        takes priority, by default True
     wordSizeIgnore
         Minimum size of word before ignoring, by default 3
     dupsLimit
@@ -3693,6 +3662,11 @@ class NorvigSweetingApproach(AnnotatorApproach):
         Hamming intersections to attempt, by default 10
     vowelSwapLimit
         Vowel swap attempts, by default 6
+
+    References
+    ----------
+    Inspired by Norvig model and `SymSpell
+    <https://github.com/wolfgarbe/SymSpell>`__.
 
     Examples
     --------
@@ -4151,7 +4125,6 @@ class SymmetricDeleteModel(AnnotatorModel):
 
     Parameters
     ----------
-
     None
 
     References
@@ -4338,7 +4311,6 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
 
     Parameters
     ----------
-
     labelColumn
         Column with label per each token
     entities
@@ -4356,7 +4328,8 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     c0
         c0 params defining decay speed for gradient, by default 2250000
     lossEps
-        If Epoch relative improvement less than eps then training is stopped, by default 0.001
+        If Epoch relative improvement less than eps then training is stopped, by
+        default 0.001
     minW
         Features with less weights then this param value will be filtered
     includeConfidence
@@ -4548,7 +4521,6 @@ class NerCrfModel(AnnotatorModel):
 
     Parameters
     ----------
-
     includeConfidence
         Whether to include confidence scores in annotation metadata, by default
         False
@@ -4678,7 +4650,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     Parameters
     ----------
-
     labelColumn
         Column with label per each token
     entities
@@ -4694,7 +4665,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     lr
         Learning Rate, by default 0.001
     po
-        Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch), by default 0.005
+        Learning rate decay coefficient. Real Learning Rage = lr / (1 + po *
+        epoch), by default 0.005
     batchSize
         Batch size, by default 8
     dropout
@@ -4704,23 +4676,30 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     useContrib
-        whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy
+        whether to use contrib LSTM Cells. Not compatible with Windows. Might
+        slightly improve accuracy
     validationSplit
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default 0.0
+        Choose the proportion of training dataset to be validated against the
+        model on each Epoch. The value should be between 0.0 and 1.0 and by
+        default it is 0.0 and off, by default 0.0
     evaluationLogExtended
         Whether logs for validation to be extended, by default False.
     testDataset
-        Path to test dataset. If set used to calculate statistic on it during training.
+        Path to test dataset. If set used to calculate statistic on it during
+        training.
     includeConfidence
-        whether to include confidence scores in annotation metadata, by default False
+        whether to include confidence scores in annotation metadata, by default
+        False
     includeAllConfidenceScores
-        whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False
+        whether to include all confidence scores in annotation metadata or just
+        the score of the predicted tag, by default False
     enableOutputLogs
         Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
         Folder path to save training logs
     enableMemoryOptimizer
-        Whether to optimize for large datasets or not. Enabling this option can slow down training, by default False
+        Whether to optimize for large datasets or not. Enabling this option can
+        slow down training, by default False
 
     Examples
     --------
@@ -4883,7 +4862,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self
 
     def setBatchSize(self, v):
-        """Sets batch size, by default 64
+        """Sets batch size, by default 64.
 
         Parameters
         ----------
@@ -4973,7 +4952,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(includeAllConfidenceScores=value)
 
     def setEnableOutputLogs(self, value):
-        """Sets whether to use stdout in addition to Spark logs, by default False
+        """Sets whether to use stdout in addition to Spark logs, by default
+        False.
 
         Parameters
         ----------
@@ -5065,7 +5045,6 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     configProtoBytes
@@ -5226,7 +5205,6 @@ class NerConverter(AnnotatorModel):
 
     Parameters
     ----------
-
     whiteList
         If defined, list of entities to process. The rest will be ignored. Do
         not include IOB prefix on labels
@@ -5305,12 +5283,12 @@ class DependencyParserApproach(AnnotatorApproach):
 
     The required training data can be set in two different ways (only one can be
     chosen for a particular model):
-      - Dependency treebank in the
-        `Penn Treebank format <http://www.nltk.org/nltk_data/>`__ set with
-        ``setDependencyTreeBank``
-      - Dataset in the
-        `CoNLL-U format <https://universaldependencies.org/format.html>`__ set
-        with ``setConllU``
+    - Dependency treebank in the
+      `Penn Treebank format <http://www.nltk.org/nltk_data/>`__ set with
+      ``setDependencyTreeBank``
+    - Dataset in the
+      `CoNLL-U format <https://universaldependencies.org/format.html>`__ set
+      with ``setConllU``
 
     Apart from that, no additional training data is needed.
 
@@ -5322,7 +5300,6 @@ class DependencyParserApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     dependencyTreeBank
         Dependency treebank source files
     conllU
@@ -5333,7 +5310,6 @@ class DependencyParserApproach(AnnotatorApproach):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -5467,13 +5443,11 @@ class DependencyParserModel(AnnotatorModel):
 
     Parameters
     ----------
-
     perceptron
         Dependency parsing perceptron features
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -5589,7 +5563,6 @@ class TypedDependencyParserApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     conll2009
         Path to file with CoNLL 2009 format
     conllU
@@ -5884,7 +5857,6 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
 
     Parameters
     ----------
-
     writeBufferSize
         Buffer size limit before dumping to disk storage while writing, by
         default 10000
@@ -5928,17 +5900,17 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     >>> data = spark.createDataFrame([["The patient was diagnosed with diabetes."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.selectExpr("explode(finished_embeddings) as result").show(truncate=False)
-        +----------------------------------------------------------------------------------+
-        |result                                                                            |
-        +----------------------------------------------------------------------------------+
-        |[0.9439099431037903,0.4707513153553009,0.806300163269043,0.16176554560661316]     |
-        |[0.7966810464859009,0.5551124811172485,0.8861005902290344,0.28284206986427307]    |
-        |[0.025029370561242104,0.35177749395370483,0.052506182342767715,0.1887107789516449]|
-        |[0.08617766946554184,0.8399239182472229,0.5395117998123169,0.7864698767662048]    |
-        |[0.6599600911140442,0.16109347343444824,0.6041093468666077,0.8913561105728149]    |
-        |[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |
-        |[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |
-        +----------------------------------------------------------------------------------+
+    +----------------------------------------------------------------------------------+
+    |result                                                                            |
+    +----------------------------------------------------------------------------------+
+    |[0.9439099431037903,0.4707513153553009,0.806300163269043,0.16176554560661316]     |
+    |[0.7966810464859009,0.5551124811172485,0.8861005902290344,0.28284206986427307]    |
+    |[0.025029370561242104,0.35177749395370483,0.052506182342767715,0.1887107789516449]|
+    |[0.08617766946554184,0.8399239182472229,0.5395117998123169,0.7864698767662048]    |
+    |[0.6599600911140442,0.16109347343444824,0.6041093468666077,0.8913561105728149]    |
+    |[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |
+    |[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |
+    +----------------------------------------------------------------------------------+
     """
 
     name = "WordEmbeddings"
@@ -6014,7 +5986,6 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
 
     Parameters
     ----------
-
     dimension
         Number of embedding dimensions
     readCacheSize
@@ -6063,15 +6034,15 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
-        +--------------------------------------------------------------------------------+
-        |                                                                          result|
-        +--------------------------------------------------------------------------------+
-        |[-0.570580005645752,0.44183000922203064,0.7010200023651123,-0.417129993438720...|
-        |[-0.542639970779419,0.4147599935531616,1.0321999788284302,-0.4024400115013122...|
-        |[-0.2708599865436554,0.04400600120425224,-0.020260000601410866,-0.17395000159...|
-        |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|
-        |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|
-        +--------------------------------------------------------------------------------+
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[-0.570580005645752,0.44183000922203064,0.7010200023651123,-0.417129993438720...|
+    |[-0.542639970779419,0.4147599935531616,1.0321999788284302,-0.4024400115013122...|
+    |[-0.2708599865436554,0.04400600120425224,-0.020260000601410866,-0.17395000159...|
+    |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|
+    |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|
+    +--------------------------------------------------------------------------------+
     """
 
     name = "WordEmbeddingsModel"
@@ -6240,7 +6211,6 @@ class BertEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch , by default 8
     dimension
@@ -6254,27 +6224,30 @@ class BertEmbeddings(AnnotatorModel,
 
     References
     ----------
-
     `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding <https://arxiv.org/abs/1810.04805>`__
 
     https://github.com/google-research/bert
 
     **Paper abstract**
 
-    *We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
-    from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
-    representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
-    result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
-    state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
-    substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
-    obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
-    to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
-    question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
-    absolute improvement).*
+    *We introduce a new language representation model called BERT, which stands
+    for Bidirectional Encoder Representations from Transformers. Unlike recent
+    language representation models, BERT is designed to pre-train deep
+    bidirectional representations from unlabeled text by jointly conditioning on
+    both left and right context in all layers. As a result, the pre-trained BERT
+    model can be fine-tuned with just one additional output layer to create
+    state-of-the-art models for a wide range of tasks, such as question
+    answering and language inference, without substantial task-specific
+    architecture modifications. BERT is conceptually simple and empirically
+    powerful. It obtains new state-of-the-art results on eleven natural language
+    processing tasks, including pushing the GLUE score to 80.5% (7.7% point
+    absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute
+    improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point
+    absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute
+    improvement).*
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -6434,43 +6407,47 @@ class BertSentenceEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     caseSensitive
-        Whether to ignore case in tokens for embeddings matching, by default False
+        Whether to ignore case in tokens for embeddings matching, by default
+        False
     dimension
         Number of embedding dimensions, by default 768
     maxSentenceLength
         Max sentence length to process, by default 128
     isLong
-        Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.
+        Use Long type instead of Int type for inputs buffer - Some Bert models
+        require Long instead of Int.
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 
     References
     ----------
-
     `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding <https://arxiv.org/abs/1810.04805>`__
 
     https://github.com/google-research/bert
 
     **Paper abstract**
 
-    *We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations
-    from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional
-    representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a
-    result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create
-    state-of-the-art models for a wide range of tasks, such as question answering and language inference, without
-    substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It
-    obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score
-    to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1
-    question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point
-    absolute improvement).*
+    *We introduce a new language representation model called BERT, which stands
+    for Bidirectional Encoder Representations from Transformers. Unlike recent
+    language representation models, BERT is designed to pre-train deep
+    bidirectional representations from unlabeled text by jointly conditioning on
+    both left and right context in all layers. As a result, the pre-trained BERT
+    model can be fine-tuned with just one additional output layer to create
+    state-of-the-art models for a wide range of tasks, such as question
+    answering and language inference, without substantial task-specific
+    architecture modifications. BERT is conceptually simple and empirically
+    powerful. It obtains new state-of-the-art results on eleven natural language
+    processing tasks, including pushing the GLUE score to 80.5% (7.7% point
+    absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute
+    improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point
+    absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute
+    improvement).*
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -6631,7 +6608,6 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
 
     Parameters
     ----------
-
     dimension
         Number of embedding dimensions
     poolingStrategy
@@ -6640,7 +6616,6 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
 
     Notes
     -----
-
     If you choose document as your input for Tokenizer,
     WordEmbeddings/BertEmbeddings, and SentenceEmbeddings then it averages/sums
     all the embeddings into one array of embeddings. However, if you choose
@@ -6759,13 +6734,13 @@ class StopWordsCleaner(AnnotatorModel):
 
     Parameters
     ----------
-
     stopWords
         The words to be filtered out, by default english stopwords from Spark ML
     caseSensitive
-        whether to do a case sensitive, by default False
+        Whether to do a case sensitive, by default False
     locale
-        locale of the input. ignored when case sensitive, by default locale of the JVM
+        Locale of the input. ignored when case sensitive, by default locale of
+        the JVM
 
     Examples
     --------
@@ -6920,7 +6895,6 @@ class NGramGenerator(AnnotatorModel):
 
     Parameters
     ----------
-
     n
         Number elements per n-gram (>=1), by default 2
     enableCumulative
@@ -6930,7 +6904,6 @@ class NGramGenerator(AnnotatorModel):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -7037,7 +7010,6 @@ class ChunkEmbeddings(AnnotatorModel):
 
     Parameters
     ----------
-
     poolingStrategy
         Choose how you would like to aggregate Word Embeddings to Chunk
         Embeddings, by default AVERAGE.
@@ -7048,7 +7020,6 @@ class ChunkEmbeddings(AnnotatorModel):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -7102,7 +7073,6 @@ class ChunkEmbeddings(AnnotatorModel):
     |word_embeddings|a sentence|[0.17417, 0.095253006, -0.0530925, -0.218465, 0.714395, 0.79860497, 0.0129999...|
     |word_embeddings|sentence .|[0.139705, 0.177955, 0.1887775, -0.45545, 0.20030999, 0.461557, -0.07891501, ...|
     +---------------+----------+--------------------------------------------------------------------------------+
-
     """
 
     name = "ChunkEmbeddings"
@@ -7170,7 +7140,6 @@ class NerOverwriter(AnnotatorModel):
 
     Parameters
     ----------
-
     stopWords
         The words to be overwritten
     newResult
@@ -7316,11 +7285,11 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
     Parameters
     ----------
-
     dimension
         Number of embedding dimensions
     loadSP
-        Whether to load SentencePiece ops file which is required only by multi-lingual models, by default False
+        Whether to load SentencePiece ops file which is required only by
+        multi-lingual models, by default False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 
@@ -7516,7 +7485,6 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     Parameters
     ----------
-
     batchSize
         Batch size. Large values allows faster processing but requires more
         memory, by default 32
@@ -7532,7 +7500,6 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     References
     ----------
-
     https://tfhub.dev/google/elmo/3
 
     `Deep contextualized word representations <https://arxiv.org/abs/1802.05365>`__
@@ -7553,7 +7520,6 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -7620,7 +7586,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
         return self._set(configProtoBytes=b)
 
     def setBatchSize(self, value):
-        """Sets batch size, by default 32
+        """Sets batch size, by default 32.
 
         Parameters
         ----------
@@ -7878,7 +7844,7 @@ class ClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setBatchSize(self, v):
-        """Sets batch size, by default 64
+        """Sets batch size, by default 64.
 
         Parameters
         ----------
@@ -7995,7 +7961,6 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     Parameters
     ----------
-
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     classes
@@ -8003,7 +7968,6 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -8132,7 +8096,8 @@ class AlbertEmbeddings(AnnotatorModel,
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    the `Transformers Page
+    <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8142,13 +8107,13 @@ class AlbertEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     dimension
         Number of embedding dimensions, by default 768
     caseSensitive
-        Whether to ignore case in tokens for embeddings matching, by default False
+        Whether to ignore case in tokens for embeddings matching, by default
+        False
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
@@ -8156,14 +8121,13 @@ class AlbertEmbeddings(AnnotatorModel,
 
     Notes
     -----
-
     ALBERT uses repeating layers which results in a small memory footprint,
-    however the computational cost remains similar to a BERT-like architecture with
-    the same number of hidden layers as it has to iterate through the same number of (repeating) layers.
+    however the computational cost remains similar to a BERT-like architecture
+    with the same number of hidden layers as it has to iterate through the same
+    number of (repeating) layers.
 
     References
     ----------
-
     `ALBERT: A LITE BERT FOR SELF-SUPERVISED LEARNING OF LANGUAGE REPRESENTATIONS <https://arxiv.org/pdf/1909.11942.pdf>`__
 
     https://github.com/google-research/ALBERT
@@ -8172,19 +8136,21 @@ class AlbertEmbeddings(AnnotatorModel,
 
     **Paper abstract:**
 
-    *Increasing model size when pretraining natural language representations often results in improved performance on
-    downstream tasks. However, at some point further model increases become harder due to GPU/TPU memory limitations and
-    longer training times. To address these problems, we present two parameter reduction techniques to lower memory
-    consumption and increase the training speed of BERT (Devlin et al., 2019). Comprehensive empirical evidence shows
-    that our proposed methods lead to models that scale much better compared to
-    the original BERT. We also use a self-supervised loss that focuses on modeling
-    inter-sentence coherence, and show it consistently helps downstream tasks with
-    multi-sentence inputs. As a result, our best model establishes new state-of-the-art
-    results on the GLUE, RACE, and SQuAD benchmarks while having fewer parameters compared to BERT-large.*
+    *Increasing model size when pretraining natural language representations
+    often results in improved performance on downstream tasks. However, at some
+    point further model increases become harder due to GPU/TPU memory
+    limitations and longer training times. To address these problems, we present
+    two parameter reduction techniques to lower memory consumption and increase
+    the training speed of BERT (Devlin et al., 2019). Comprehensive empirical
+    evidence shows that our proposed methods lead to models that scale much
+    better compared to the original BERT. We also use a self-supervised loss
+    that focuses on modeling inter-sentence coherence, and show it consistently
+    helps downstream tasks with multi-sentence inputs. As a result, our best
+    model establishes new state-of-the-art results on the GLUE, RACE, and SQuAD
+    benchmarks while having fewer parameters compared to BERT-large.*
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -8361,13 +8327,13 @@ class XlnetEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     dimension
         Number of embedding dimensions, by default 768
     caseSensitive
-        Whether to ignore case in tokens for embeddings matching, by default True
+        Whether to ignore case in tokens for embeddings matching, by default
+        True
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
@@ -8562,7 +8528,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     languageModelClasses
         Number of classes to use during factorization of the softmax output in
         the LM.
@@ -8611,13 +8576,11 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     References
     ----------
-
     For an in-depth explanation of the module see the article
     `Applying Context Aware Spell Checking in Spark NLP <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -8769,7 +8732,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(maxCandidates=candidates)
 
     def setCaseStrategy(self, strategy):
-        """Sets what case combinations to try when generating candidates
+        """Sets what case combinations to try when generating candidates.
 
         Possible values are:
 
@@ -8835,7 +8798,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(finalRate=rate)
 
     def setValidationFraction(self, fraction):
-        """Sets percentage of datapoints to use for validation
+        """Sets percentage of datapoints to use for validation.
 
         Parameters
         ----------
@@ -8881,8 +8844,8 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(classCount=count)
 
     def setTradeoff(self, alpha):
-        """Sets tradeoff between the cost of a word error and a transition in the
-        language model.
+        """Sets tradeoff between the cost of a word error and a transition in
+        the language model.
 
         Parameters
         ----------
@@ -8917,8 +8880,8 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(weightedDistPath=path)
 
     def setMaxWindowLen(self, length):
-        """Sets the maximum size for the window used to remember history prior to
-        every correction.
+        """Sets the maximum size for the window used to remember history prior
+        to every correction.
 
         Parameters
         ----------
@@ -9017,7 +8980,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     Parameters
     ----------
-
     wordMaxDistance
         Maximum distance for the generated candidates for every word.
     maxCandidates
@@ -9027,11 +8989,14 @@ class ContextSpellCheckerModel(AnnotatorModel):
     errorThreshold
         Threshold perplexity for a word to be considered as an error.
     tradeoff
-        Tradeoff between the cost of a word error and a transition in the language model.
+        Tradeoff between the cost of a word error and a transition in the
+        language model.
     weightedDistPath
-        The path to the file containing the weights for the levenshtein distance.
+        The path to the file containing the weights for the levenshtein
+        distance.
     maxWindowLen
-        Maximum size for the window used to remember history prior to every correction.
+        Maximum size for the window used to remember history prior to every
+        correction.
     gamma
         Controls the influence of individual word frequency in the decision.
     correctSymbols
@@ -9044,14 +9009,13 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     References
     -------------
-
-    For an in-depth explanation of the module see the article
-    `Applying Context Aware Spell Checking in Spark NLP <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
+    For an in-depth explanation of the module see the article `Applying Context
+    Aware Spell Checking in Spark NLP
+    <https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc>`__.
 
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -9080,7 +9044,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
     +--------------------------------------------------------------------------------+
     |[It, was, a, cold, ,, dreary, day, and, the, country, was, white, with, snow, .]|
     +--------------------------------------------------------------------------------+
-
     """
     name = "ContextSpellCheckerModel"
 
@@ -9344,7 +9307,6 @@ class SentimentDLApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     lr
         Learning Rate, by default 0.005
     batchSize
@@ -9356,7 +9318,9 @@ class SentimentDLApproach(AnnotatorApproach):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     validationSplit
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+        Choose the proportion of training dataset to be validated against the
+        model on each Epoch. The value should be between 0.0 and 1.0 and by
+        default it is 0.0 and off.
     enableOutputLogs
         Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
@@ -9368,17 +9332,20 @@ class SentimentDLApproach(AnnotatorApproach):
     randomSeed
         Random seed
     threshold
-        The minimum threshold for the final result otheriwse it will be neutral, by default 0.6
+        The minimum threshold for the final result otheriwse it will be neutral,
+        by default 0.6
     thresholdLabel
-        In case the score is less than threshold, what should be the label. Default is neutral, by default "neutral"
+        In case the score is less than threshold, what should be the label.
+        Default is neutral, by default "neutral"
 
     Notes
     -----
-    - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-      So positive sentiment can be expressed as either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or ``1``.
-    - UniversalSentenceEncoder,
-      BertSentenceEmbeddings, or
-      SentenceEmbeddings can be used for the ``inputCol``.
+    - This annotator accepts a label column of a single item in either type of
+      String, Int, Float, or Double. So positive sentiment can be expressed as
+      either ``"positive"`` or ``0``, negative sentiment as ``"negative"`` or
+      ``1``.
+    - UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings
+      can be used for the ``inputCol``.
 
     Examples
     --------
@@ -9505,7 +9472,7 @@ class SentimentDLApproach(AnnotatorApproach):
         return self
 
     def setBatchSize(self, v):
-        """Sets batch size, by default 64
+        """Sets batch size, by default 64.
 
         Parameters
         ----------
@@ -9516,7 +9483,7 @@ class SentimentDLApproach(AnnotatorApproach):
         return self
 
     def setDropout(self, v):
-        """Sets dropout coefficient, by default 0.5
+        """Sets dropout coefficient, by default 0.5.
 
         Parameters
         ----------
@@ -9527,7 +9494,7 @@ class SentimentDLApproach(AnnotatorApproach):
         return self
 
     def setMaxEpochs(self, epochs):
-        """Sets maximum number of epochs to train, by default 30
+        """Sets maximum number of epochs to train, by default 30.
 
         Parameters
         ----------
@@ -9553,7 +9520,8 @@ class SentimentDLApproach(AnnotatorApproach):
         return self
 
     def setEnableOutputLogs(self, value):
-        """Sets whether to use stdout in addition to Spark logs, by default False
+        """Sets whether to use stdout in addition to Spark logs, by default
+        False.
 
         Parameters
         ----------
@@ -9563,7 +9531,7 @@ class SentimentDLApproach(AnnotatorApproach):
         return self._set(enableOutputLogs=value)
 
     def setOutputLogsPath(self, p):
-        """Sets folder path to save training logs
+        """Sets folder path to save training logs.
 
         Parameters
         ----------
@@ -9645,15 +9613,16 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
 
     Parameters
     ----------
-
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     threshold
-        The minimum threshold for the final result otheriwse it will be neutral, by default 0.6
+        The minimum threshold for the final result otheriwse it will be neutral,
+        by default 0.6
     thresholdLabel
-        In case the score is less than threshold, what should be the label. Default is neutral, by default "neutral"
+        In case the score is less than threshold, what should be the label.
+        Default is neutral, by default "neutral"
     classes
-        get the tags used to trained this SentimentDLModel
+        Tags used to trained this SentimentDLModel
 
     Examples
     --------
@@ -9802,7 +9771,6 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
 
     Parameters
     ----------
-
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     threshold
@@ -9819,7 +9787,6 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -9981,7 +9948,6 @@ class MultiClassifierDLApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     lr
         Learning Rate, by default 0.001
     batchSize
@@ -9991,7 +9957,9 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     validationSplit
-        Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default 0.0
+        Choose the proportion of training dataset to be validated against the
+        model on each Epoch. The value should be between 0.0 and 1.0 and by
+        default it is 0.0 and off, by default 0.0
     enableOutputLogs
         Whether to use stdout in addition to Spark logs, by default False
     outputLogsPath
@@ -10151,7 +10119,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setBatchSize(self, v):
-        """Sets batch size, by default 64
+        """Sets batch size, by default 64.
 
         Parameters
         ----------
@@ -10287,7 +10255,6 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     Parameters
     ----------
-
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     threshold
@@ -10297,7 +10264,6 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -10434,7 +10400,6 @@ class YakeModel(AnnotatorModel):
 
     Parameters
     ----------
-
     minNGrams
         Minimum N-grams a keyword should have, by default 2
     maxNGrams
@@ -10446,7 +10411,8 @@ class YakeModel(AnnotatorModel):
     nKeywords
         Number of Keywords to extract, by default 30
     stopWords
-        the words to be filtered out, by default english stop words from Spark ML
+        the words to be filtered out, by default english stop words from Spark
+        ML
 
     References
     ----------
@@ -10671,11 +10637,11 @@ class SentenceDetectorDLModel(AnnotatorModel):
 
     Parameters
     ----------
-
     modelArchitecture
         Model architecture (CNN)
     explodeSentences
-        whether to explode each sentence into a different row, for better parallelization. Defaults to false.
+        whether to explode each sentence into a different row, for better
+        parallelization. Defaults to false.
 
     Examples
     --------
@@ -10806,7 +10772,6 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     modelArchitecture
         Model architecture (CNN)
     impossiblePenultimates
@@ -11001,15 +10966,17 @@ class WordSegmenterApproach(AnnotatorApproach):
 
     Parameters
     ----------
-
     posCol
         column of Array of POS tags that match tokens
     nIterations
-        Number of iterations in training, converges to better accuracy, by default 5
+        Number of iterations in training, converges to better accuracy, by
+        default 5
     frequencyThreshold
-        How many times at least a tag on a word to be marked as frequent, by default 5
+        How many times at least a tag on a word to be marked as frequent, by
+        default 5
     ambiguityThreshold
-        How much percentage of total amount of words are covered to be marked as frequent, by default 0.97
+        How much percentage of total amount of words are covered to be marked as
+        frequent, by default 0.97
 
     Examples
     --------
@@ -11282,7 +11249,6 @@ class T5Transformer(AnnotatorModel):
 
     Parameters
     ----------
-
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     task
@@ -11602,7 +11568,6 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     configProtoBytes
@@ -11610,19 +11575,19 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     langId
         Transformer's task, e.g. "summarize>", by default ""
     maxInputLength
-        Controls the maximum length for encoder inputs (source language texts), by default 40
+        Controls the maximum length for encoder inputs (source language texts),
+        by default 40
     maxOutputLength
-        Controls the maximum length for decoder outputs (target language texts), by default 40
+        Controls the maximum length for decoder outputs (target language texts),
+        by default 40
 
     Notes
     -----
-
     This is a very computationally expensive module especially on larger
     sequence. The use of an accelerator such as GPU is recommended.
 
     References
     ----------
-
     `MarianNMT at GitHub <https://marian-nmt.github.io/>`__
 
     `Marian: Fast Neural Machine Translation in C++  <https://www.aclweb.org/anthology/P18-4020/>`__
@@ -11638,7 +11603,6 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -11821,13 +11785,13 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     dimension
         Number of embedding dimensions, by default 768
     caseSensitive
-        Whether to ignore case in tokens for embeddings matching, by default False
+        Whether to ignore case in tokens for embeddings matching, by default
+        False
     maxSentenceLength
         Max sentence length to process, by default 128
     configProtoBytes
@@ -11835,7 +11799,6 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     Notes
     -----
-
     - DistilBERT doesn't have ``token_type_ids``, you don't need to
       indicate which token belongs to which segment. Just separate your segments
       with the separation token ``tokenizer.sep_token`` (or ``[SEP]``).
@@ -11845,7 +11808,6 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     References
     ----------
-
     The DistilBERT model was proposed in the paper
     `DistilBERT, a distilled version of BERT: smaller, faster, cheaper and
     lighter <https://arxiv.org/abs/1910.01108>`__.
@@ -11873,7 +11835,6 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -12045,13 +12006,13 @@ class RoBertaEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     dimension
         Number of embedding dimensions, by default 768
     caseSensitive
-        Whether to ignore case in tokens for embeddings matching, by default True
+        Whether to ignore case in tokens for embeddings matching, by default
+        True
     maxSentenceLength
         Max sentence length to process, by default 128
     configProtoBytes
@@ -12259,7 +12220,6 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
     Parameters
     ----------
-
     batchSize
         Size of every batch, by default 8
     dimension
