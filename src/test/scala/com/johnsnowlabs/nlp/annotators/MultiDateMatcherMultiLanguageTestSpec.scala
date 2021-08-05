@@ -60,6 +60,53 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
     localDate.format(formatter)
   }
 
+  "a DateMatcher" should "be catching multiple unformatted english dates using the same factory2" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "We met on the 13/5/2018 and then on the 18/5/2020.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations(0).result == "05/13/2018")
+    assert(annotations(1).result == "05/18/2020")
+  }
+
+//  "a DateMatcher" should "be catching multiple unformatted english dates using the same factory" taggedAs FastTest in {
+//
+//    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+//      "I see you next Friday after the next Thursday.")
+//
+//    val dateMatcher = new MultiDateMatcher()
+//      .setInputCols("document")
+//      .setOutputCol("date")
+//      .setFormat("MM/dd/yyyy")
+//
+//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+//
+//    val annotated = pipeline.fit(data).transform(data)
+//
+//    val annotations: Seq[Annotation] =
+//      Annotation.getAnnotations(
+//        annotated.select("date").collect().head,
+//        "date")
+//
+//    println(annotations.mkString("|"))
+//    assert(annotations(0).result == getTwoDaysAgoDate)
+//    assert(annotations(1).result == getNextWeekDate)
+//  }
+
   "a DateMatcher" should "be catching multiple unformatted english dates" taggedAs FastTest in {
 
     val data: Dataset[Row] = DataBuilder.basicDataBuild(
