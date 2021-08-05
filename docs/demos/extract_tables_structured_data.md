@@ -61,17 +61,16 @@ data:
             type: blue_btn
             url:   
         - title: Classify visual documents
-          hide: yes
           id: classify_visual_documents
           image: 
               src: /assets/images/Classify_visual_documents.svg
           image2: 
               src: /assets/images/Classify_visual_documents_f.svg
-          excerpt: Classify documents using text and layout data
+          excerpt: Classify documents using text and layout data with the new features offered by Spark OCR.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/ocr/CLASSIFY_DOCUMENT/ 
+            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFY/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb
@@ -90,4 +89,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
+        - title: Detect tables and extract text 
+          id: detect_tables_extract_text 
+          image: 
+              src: /assets/images/Detect_sentences_in_text.svg
+          image2: 
+              src: /assets/images/Detect_sentences_in_text_f.svg
+          excerpt: Detect tables and extract text in scanned documents & images with the new features offered by Spark OCR
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/IMAGE_TABLE_DETECTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
+        - title: Extract entities from visual documents 
+          id: extract_entities_from_visual_documents  
+          image: 
+              src: /assets/images/Extract_entities_from_visual_documents.svg
+          image2: 
+              src: /assets/images/Extract_entities_from_visual_documents_c.svg
+          excerpt: Exract entities form any visual document by using pretrained models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb
 ---
