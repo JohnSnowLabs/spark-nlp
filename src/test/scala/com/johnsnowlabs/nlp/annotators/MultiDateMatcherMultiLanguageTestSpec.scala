@@ -211,4 +211,311 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
 
   /** FRENCH **/
 
+  "a DateMatcher" should "be catching multiple formatted french dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Nous nous sommes rencontrés le 13/05/2018 puis le 18/05/2020.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains("05/13/2018") && results.contains("05/18/2020"))
+  }
+
+  "a DateMatcher" should "be catching -2 d and +1w unformatted french dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Nous nous sommes rencontrés il y a 2 jours " +
+        "et il m'a dit qu'il nous rendrait visite la semaine prochaine.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getTwoDaysAgoDate()) && results.contains(getNextWeekDate()))
+  }
+
+  "a DateMatcher" should "be catching -1 d and +2w unformatted french dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Je l'ai rencontré hier et il m'a dit qu'il nous rendrait visite dans 2 semaines.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("fr")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
+  }
+
+  /** PORTUGUESE **/
+
+  "a DateMatcher" should "be catching multiple formatted portuguese dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Encontramo-nos no dia 13/05/2018 e depois no dia 18/05/2020.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("pt")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains("05/13/2018") && results.contains("05/18/2020"))
+  }
+
+  "a DateMatcher" should "be catching -2 d and +1w unformatted portuguese dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Nós nos conhecemos há 2 dias e ele me disse que nos visitaria na próxima semana.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("pt")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getTwoDaysAgoDate()) && results.contains(getNextWeekDate()))
+  }
+
+  "a DateMatcher" should "be catching -1 d and +2w unformatted portuguese dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Eu o conheci ontem e ele me disse que nos visitaria em 2 semanas.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("pt")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
+  }
+
+  /** SPANISH **/
+
+  "a DateMatcher" should "be catching multiple formatted spanish dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Nos conocimos el 13/05/2018 y luego el 18/05/2020.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("es")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains("05/13/2018") && results.contains("05/18/2020"))
+  }
+
+  "a DateMatcher" should "be catching -2d and +1w unformatted spanish dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Nos conocimos hace 2 días y me dijeron que nos visitaría la semana que viene.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("es")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getTwoDaysAgoDate()) && results.contains(getNextWeekDate()))
+  }
+
+  "a DateMatcher" should "be catching -1d and +2w unformatted spanish dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Lo conocí ayer y me dijo que nos visitará dentro de 2 semanas.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("es")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
+  }
+
+  /** GERMAN **/
+
+  "a DateMatcher" should "be catching multiple formatted german dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Wir trafen uns am 13/05/2018 und dann am 18/05/2020 .")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains("05/13/2018") && results.contains("05/18/2020"))
+  }
+
+  "a DateMatcher" should "be catching -2d and +1w unformatted german dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Wir haben uns vor 2 tagen kennengelernt und sie sagten mir, dass sie uns nächste woche besuchen würden.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getTwoDaysAgoDate()) && results.contains(getNextWeekDate()))
+  }
+
+  "a DateMatcher" should "be catching -1d and +2w unformatted german dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "Ich habe ihn gestern getroffen und er hat mir gesagt, dass er uns in 2 wochen besuchen wird.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+      .setSourceLanguage("de")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations: Seq[Annotation] =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    val results: Set[String] = annotations.map(_.result).toSet
+
+    assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
+  }
+
 }
