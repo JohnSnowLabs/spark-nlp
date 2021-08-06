@@ -48,13 +48,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: Sentence Entity Resolver for ICD10-CM coding
+        - title: Resolve Symptoms to ICD10-CM Codes
           id: icd10-cm_coding
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding.svg
           image2: 
               src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding_c.svg
-          excerpt: This model maps clinical entities and concepts to ICD10 CM codes using sentence biobert embeddings.
+          excerpt: This demo shows how symptoms can be automatically mapped to ICD10 CM codes using sentence resolvers.
           actions:
           - text: Live Demo
             type: normal
@@ -62,13 +62,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: Sentence Entity Resolver for RxNorm
+        - title: Resolve Drugs to RxNorm Codes
           id: rxnorm_coding
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_RxNorm.svg
           image2: 
               src: /assets/images/Sentence_Entity_Resolver_for_RxNorm_c.svg
-          excerpt: This model maps extracted medical entities to RxNorm codes using sentence embeddings, and has faster load time, with a speedup of about 6X when compared to previous versions.
+          excerpt: This demo shows how drugs can be automatically mapped to RxNorm codes using sentence based resolvers. 
           actions:
           - text: Live Demo
             type: normal
