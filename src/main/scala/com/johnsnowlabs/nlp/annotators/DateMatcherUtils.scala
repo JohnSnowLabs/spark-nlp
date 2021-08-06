@@ -56,7 +56,7 @@ trait DateMatcherUtils extends Params {
   private val relativeDate = "(?i)(next|last)\\s(week|month|year)".r
   private val relativeDateFuture = "(?i)(in)\\s+(\\d+)\\s+(second|seconds|minute|minutes|hour|hours|day|days|week|weeks|month|months|year|years)".r
   private val relativeDatePast = "(?i)(\\d+)\\s+(day|days|week|month|year|weeks|months|years)\\s+(ago)".r
-  private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|day before yesterday|day after tomorrow|day before|day after)".r
+  private val relativeDay = "(?i)(today|tomorrow|yesterday|past tomorrow|[^a-zA-Z0-9]day before yesterday|[^a-zA-Z0-9]day after tomorrow|[^a-zA-Z0-9]day before|[^a-zA-Z0-9]day after)".r
   private val relativeExactDay = "(?i)(next|last|past)\\s(mon|tue|wed|thu|fri)".r
 
   /** standard time representations e.g. 05:42:16 or 5am */
@@ -247,7 +247,7 @@ trait DateMatcherUtils extends Params {
     .addRule(relativeDay, "relative days")
 
   /** Searches for exactly provided days of the week. Always relative from current time at processing */
-  protected val relativeExactFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val relativeExactFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
     .addRule(relativeExactDay, "relative precise dates")
 
   /**
@@ -357,16 +357,16 @@ trait DateMatcherUtils extends Params {
       case "yesterday" =>
         calendar.add(Calendar.DAY_OF_MONTH, -1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
-      case "day after" =>
+      case " day after" =>
         calendar.add(Calendar.DAY_OF_MONTH, 1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
-      case "day before" =>
+      case " day before" =>
         calendar.add(Calendar.DAY_OF_MONTH, -1)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
-      case "day after tomorrow" =>
+      case " day after tomorrow" =>
         calendar.add(Calendar.DAY_OF_MONTH, 2)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
-      case "day before yesterday" =>
+      case " day before yesterday" =>
         calendar.add(Calendar.DAY_OF_MONTH, -2)
         MatchedDateTime(calendar, tyDate.start, tyDate.end)
       case _ => MatchedDateTime(calendar, tyDate.start, tyDate.end)
