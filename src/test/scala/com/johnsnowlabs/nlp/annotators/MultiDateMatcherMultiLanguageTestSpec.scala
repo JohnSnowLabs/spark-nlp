@@ -21,49 +21,72 @@ import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
-import org.joda.time.LocalDateTime
-import org.joda.time.format.DateTimeFormat
 import org.scalatest._
 
-import java.text.DateFormat
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
+import java.time.{DayOfWeek, LocalDate}
 
 
 class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
 
-  private def getOneDayAgoDate() = {
-    val DateFormat = "MM/dd/yyyy"
+  private def getOneDayAgoDate(pattern: String = "MM/dd/yyyy") = {
     val localDate = LocalDate.now.minusDays(1L)
-    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formatter = DateTimeFormatter.ofPattern(pattern)
     localDate.format(formatter)
   }
 
-  private def getTwoDaysAgoDate() = {
-    val DateFormat = "MM/dd/yyyy"
+  private def getTwoDaysAgoDate(pattern: String = "MM/dd/yyyy") = {
     val localDate = LocalDate.now.minusDays(2L)
-    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formatter = DateTimeFormatter.ofPattern(pattern)
     localDate.format(formatter)
   }
 
-  private def getNextWeekDate() = {
-    val DateFormat = "MM/dd/yyyy"
+  private def getNextWeekDate(pattern: String = "MM/dd/yyyy") = {
     val localDate = LocalDate.now.plusWeeks(1L)
-    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formatter = DateTimeFormatter.ofPattern(pattern)
     localDate.format(formatter)
   }
 
-  private def getInTwoWeeksDate() = {
-    val DateFormat = "MM/dd/yyyy"
+  private def getInTwoWeeksDate(pattern: String = "MM/dd/yyyy") = {
     val localDate = LocalDate.now.plusWeeks(2L)
-    val formatter = DateTimeFormatter.ofPattern(DateFormat)
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    localDate.format(formatter)
+  }
+
+  private def getNextWeekOfDay(dof: DayOfWeek, pattern: String = "MM/dd/yyyy") = {
+    val localDate = LocalDate.now.`with`(TemporalAdjusters.next(dof))
+    val formatter = DateTimeFormatter.ofPattern(pattern)
     localDate.format(formatter)
   }
 
   "a DateMatcher" should "be catching multiple unformatted english dates using the same factory2" taggedAs FastTest in {
 
-    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+    val data = DataBuilder.basicDataBuild(
       "We met on the 13/5/2018 and then on the 18/5/2020.")
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setFormat("MM/dd/yyyy")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    val annotated = pipeline.fit(data).transform(data)
+
+    val annotations =
+      Annotation.getAnnotations(
+        annotated.select("date").collect().head,
+        "date")
+
+    assert(annotations(0).result == "05/13/2018")
+    assert(annotations(1).result == "05/18/2020")
+  }
+
+  "a DateMatcher" should "be catching multiple unformatted future english dates" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild(
+      "I see you next Friday after the next Thursday.")
 
     val dateMatcher = new MultiDateMatcher()
       .setInputCols("document")
@@ -79,33 +102,12 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
         annotated.select("date").collect().head,
         "date")
 
-    assert(annotations(0).result == "05/13/2018")
-    assert(annotations(1).result == "05/18/2020")
-  }
+    val results: Set[String] = annotations.map(_.result).toSet
 
-//  "a DateMatcher" should "be catching multiple unformatted english dates using the same factory" taggedAs FastTest in {
-//
-//    val data: Dataset[Row] = DataBuilder.basicDataBuild(
-//      "I see you next Friday after the next Thursday.")
-//
-//    val dateMatcher = new MultiDateMatcher()
-//      .setInputCols("document")
-//      .setOutputCol("date")
-//      .setFormat("MM/dd/yyyy")
-//
-//    val pipeline = new Pipeline().setStages(Array(dateMatcher))
-//
-//    val annotated = pipeline.fit(data).transform(data)
-//
-//    val annotations: Seq[Annotation] =
-//      Annotation.getAnnotations(
-//        annotated.select("date").collect().head,
-//        "date")
-//
-//    println(annotations.mkString("|"))
-//    assert(annotations(0).result == getTwoDaysAgoDate)
-//    assert(annotations(1).result == getNextWeekDate)
-//  }
+    assert(results.contains(getNextWeekOfDay(DayOfWeek.THURSDAY))
+      && results.contains(getNextWeekOfDay(DayOfWeek.FRIDAY))
+    )
+  }
 
   "a DateMatcher" should "be catching multiple unformatted english dates" taggedAs FastTest in {
 
@@ -126,8 +128,8 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
         annotated.select("date").collect().head,
         "date")
 
-    assert(annotations(0).result == getTwoDaysAgoDate)
-    assert(annotations(1).result == getNextWeekDate)
+    assert(annotations(0).result == getTwoDaysAgoDate())
+    assert(annotations(1).result == getNextWeekDate())
   }
 
   /** ITALIAN **/
@@ -179,7 +181,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
 
     val results: Set[String] = annotations.map(_.result).toSet
 
-    assert(results.contains(getTwoDaysAgoDate) && results.contains(getNextWeekDate()))
+    assert(results.contains(getTwoDaysAgoDate()) && results.contains(getNextWeekDate()))
   }
 
   "a DateMatcher" should "be catching -1 d and +2w unformatted italian dates" taggedAs FastTest in {
@@ -204,7 +206,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
 
     val results: Set[String] = annotations.map(_.result).toSet
 
-    assert(results.contains(getOneDayAgoDate) && results.contains(getInTwoWeeksDate()))
+    assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
   }
 
   /** FRENCH **/

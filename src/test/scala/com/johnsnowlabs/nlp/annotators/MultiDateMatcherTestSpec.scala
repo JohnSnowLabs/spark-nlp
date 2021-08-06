@@ -99,7 +99,7 @@ class MultiDateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     ("next year", Some(nextCalendar(Calendar.YEAR))),
     //NS: "3 days from now",
     //NS: "three weeks ago",
-    ("day after", Some(tomorrowCalendar)),
+    (" day after", Some(tomorrowCalendar)),
     ("the day before", Some(yesterdayCalendar)),
     //"the monday after",
     //"the monday before"

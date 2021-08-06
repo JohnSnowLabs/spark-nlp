@@ -209,17 +209,16 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
     if(!"in\\s+[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
-      relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-        relativeDateContentParse(possibleDate)
-      )
+      relativeFactory.findMatchFirstOnly(text.toLowerCase)
+        .map(possibleDate => relativeDateContentParse(possibleDate)
+        )
     else
       None
   }
 
   private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
-    tyFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-      tomorrowYesterdayContentParse(possibleDate)
-    )
+    tyFactory.findMatchFirstOnly(text.toLowerCase())
+      .map(possibleDate => tomorrowYesterdayContentParse(possibleDate))
   }
 
   private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {

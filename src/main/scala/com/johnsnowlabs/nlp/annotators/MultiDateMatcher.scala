@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.annotators
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.commons.lang.time.DateUtils
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -232,13 +232,14 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def extractTomorrowYesterday(text: String): Seq[MatchedDateTime] = {
-    tyFactory.findMatch(text).map (possibleDate =>
-      tomorrowYesterdayContentParse(possibleDate)
-    )
+    tyFactory.findMatch(text)
+      .map(possibleDate =>
+        tomorrowYesterdayContentParse(possibleDate)
+      )
   }
 
   private def extractRelativeExactDay(text: String): Seq[MatchedDateTime] = {
-    relativeExactFactory.findMatch(text).map(possibleDate =>
+    relativeExactFactory.findMatch(text.toLowerCase).map(possibleDate =>
       relativeExactContentParse(possibleDate)
     )
   }
@@ -249,13 +250,14 @@ class MultiDateMatcher(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val simpleDateFormat = new SimpleDateFormat(getFormat)
     annotations.flatMap( annotation =>
-      extractDate(annotation.result).map(matchedDate => Annotation(
-        outputAnnotatorType,
-        matchedDate.start,
-        matchedDate.end - 1,
-        simpleDateFormat.format(matchedDate.calendar.getTime),
-        annotation.metadata
-      ))
+      extractDate(annotation.result)
+        .map(matchedDate => Annotation(
+          outputAnnotatorType,
+          matchedDate.start,
+          matchedDate.end - 1,
+          simpleDateFormat.format(matchedDate.calendar.getTime),
+          annotation.metadata
+        ))
     )
   }
 
