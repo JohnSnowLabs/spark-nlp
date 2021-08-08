@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -166,6 +166,10 @@
                         <a class="trait" href="HasEmbeddingsProperties.html" title=""></a>
                         <a href="HasEmbeddingsProperties.html" title="">HasEmbeddingsProperties</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="LongformerEmbeddings$.html" title="This is the companion object of LongformerEmbeddings."></a>
+                        <a class="class" href="LongformerEmbeddings.html" title="Longformer is a transformer model for long documents."></a>
+                        <a href="LongformerEmbeddings.html" title="Longformer is a transformer model for long documents.">LongformerEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="PoolingStrategy$.html" title=""></a>
                         <a href="PoolingStrategy$.html" title="">PoolingStrategy</a>
@@ -189,6 +193,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadElmoTensorflowModel.html" title=""></a>
                         <a href="ReadElmoTensorflowModel.html" title="">ReadElmoTensorflowModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadLongformerTensorflowModel.html" title=""></a>
+                        <a href="ReadLongformerTensorflowModel.html" title="">ReadLongformerTensorflowModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadRobertaTensorflowModel.html" title=""></a>
@@ -225,6 +233,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedElmoModel.html" title=""></a>
                         <a href="ReadablePretrainedElmoModel.html" title="">ReadablePretrainedElmoModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedLongformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedLongformerModel.html" title="">ReadablePretrainedLongformerModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedRobertaModel.html" title=""></a>
@@ -326,7 +338,7 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> useEmbeddings = UniversalSentenceEncoder.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"sentence_embeddings"</span>)</pre><p>The default model is <code>&quot;tfhub_use&quot;</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
+For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala" target="_blank">UniversalSentenceEncoderTestSpec</a>.</p><p><b>Sources:</b></p><p><a href="https://arxiv.org/abs/1803.11175" target="_blank">Universal Sentence Encoder</a></p><p><a href="https://tfhub.dev/google/universal-sentence-encoder/2" target="_blank">https://tfhub.dev/google/universal-sentence-encoder/2</a></p><p><b>Paper abstract:</b></p><p><i>We present models for encoding sentences into embedding vectors that specifically target transfer learning to other
 NLP tasks. The models are efficient and result in accurate performance on diverse transfer tasks. Two variants of the
 encoding models allow for trade-offs between accuracy and compute resources. For both variants, we investigate and

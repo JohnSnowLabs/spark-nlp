@@ -27,8 +27,6 @@ import scala.collection.immutable.HashSet
 import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
 
-/** Created by danilo 16/04/2018 */
-
 /** Symmetric Delete spelling correction algorithm.
  *
  * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and

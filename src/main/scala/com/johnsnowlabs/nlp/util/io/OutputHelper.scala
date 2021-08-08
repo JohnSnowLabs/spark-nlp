@@ -1,43 +1,56 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.util.io
 
-import java.io.{File, FileWriter, PrintWriter}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
+import org.apache.hadoop.fs.Path
 
-import com.johnsnowlabs.util.ConfigHelper
-import org.apache.hadoop.fs.{FileSystem, Path}
+import java.io.{File, FileWriter, PrintWriter}
 import scala.language.existentials
 
 
 object OutputHelper {
 
-  lazy private val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+  private lazy val fileSystem = ConfigHelper.getFileSystem
 
-  lazy private val homeDirectory = if (fs.getScheme.equals("dbfs")) System.getProperty("user.home") else fs.getHomeDirectory
+  private def logsFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
 
-  private def logsFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs")
-
-
-  lazy private val isDBFS = fs.getScheme.equals("dbfs")
+  lazy private val isDBFS = fileSystem.getScheme.equals("dbfs")
 
   def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
-
     val targetFolder = if (outputLogsPath.isEmpty) logsFolder else outputLogsPath
 
     if (isDBFS) {
       if (!new File(targetFolder).exists()) new File(targetFolder).mkdirs()
-    }else{
-      if (!fs.exists(new Path(targetFolder))) fs.mkdirs(new Path(targetFolder))
+    } else {
+      if (!fileSystem.exists(new Path(targetFolder))) fileSystem.mkdirs(new Path(targetFolder))
     }
 
     val targetPath = new Path(targetFolder, uuid + ".log")
 
-    if (fs.getScheme.equals("file") || fs.getScheme.equals("dbfs")) {
+    if (fileSystem.getScheme.equals("file") || fileSystem.getScheme.equals("dbfs")) {
       val fo = new File(targetPath.toUri.getRawPath)
       val writer = new FileWriter(fo, true)
       writer.append(content + System.lineSeparator())
       writer.close()
     } else {
-      fs.createNewFile(targetPath)
-      val fo = fs.append(targetPath)
+      fileSystem.createNewFile(targetPath)
+      val fo = fileSystem.append(targetPath)
       val writer = new PrintWriter(fo, true)
       writer.append(content + System.lineSeparator())
       writer.close()
