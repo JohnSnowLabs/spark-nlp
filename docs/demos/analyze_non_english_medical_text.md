@@ -117,5 +117,19 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: 
+        - title: Detect professions and occupations in Spanish texts
+          id: detect_professions_occupations_Spanish_texts 
+          image: 
+              src: /assets/images/Classify-documents.svg
+          image2: 
+              src: /assets/images/Classify-documents-w.svg
+          excerpt: Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: httpshttps://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
+          - text: Colab Netbook
+            type: blue_btn
+            url:
         
 ---
