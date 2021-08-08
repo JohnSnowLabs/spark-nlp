@@ -106,7 +106,7 @@ tokenizer = Tokenizer() \
 tokenClassifier = BertForTokenClassification \
       .pretrained('bert_token_classifier_parsbert_peymaner', 'fa') \
       .setInputCols(['token', 'document']) \
-      .setOutputCol("'ner') \
+      .setOutputCol('ner') \
       .setCaseSensitive(False) \
       .setMaxSentenceLength(512)
 
@@ -122,7 +122,7 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame([['My name is John!']]).toDF("دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد.")
+example = spark.createDataFrame([["دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد."]]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -147,7 +147,7 @@ val ner_converter = NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["My name is John!"].toDS.toDF("دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد.")
+val example = Seq.empty["دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

@@ -87,7 +87,7 @@ tokenizer = Tokenizer() \
 tokenClassifier = DistilBertForTokenClassification \
       .pretrained('distilbert_token_classifier_persian_ner', 'fa') \
       .setInputCols(['token', 'document']) \
-      .setOutputCol("'ner') \
+      .setOutputCol('ner') \
       .setCaseSensitive(False) \
       .setMaxSentenceLength(512)
 
@@ -103,7 +103,7 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame([['My name is John!']]).toDF("این سریال به صورت رسمی در تاریخ دهم می ۲۰۱۱ توسط شبکه فاکس برای پخش رزرو شد.")
+example = spark.createDataFrame([["این سریال به صورت رسمی در تاریخ دهم می ۲۰۱۱ توسط شبکه فاکس برای پخش رزرو شد."]]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -128,7 +128,7 @@ val ner_converter = NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["My name is John!"].toDS.toDF("این سریال به صورت رسمی در تاریخ دهم می ۲۰۱۱ توسط شبکه فاکس برای پخش رزرو شد.")
+val example = Seq.empty["این سریال به صورت رسمی در تاریخ دهم می ۲۰۱۱ توسط شبکه فاکس برای پخش رزرو شد."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

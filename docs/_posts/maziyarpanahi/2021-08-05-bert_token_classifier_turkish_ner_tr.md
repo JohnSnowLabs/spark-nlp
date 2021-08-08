@@ -54,7 +54,7 @@ tokenizer = Tokenizer() \
 tokenClassifier = BertForTokenClassification \
       .pretrained('bert_token_classifier_turkish_ner', 'tr') \
       .setInputCols(['token', 'document']) \
-      .setOutputCol("'ner') \
+      .setOutputCol('ner') \
       .setCaseSensitive(False) \
       .setMaxSentenceLength(512)
 
@@ -70,7 +70,7 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame([['My name is John!']]).toDF("İstanbul Türkiye'nin kuzeybatısında, Marmara kıyısı ve Boğaziçi boyunca, Haliç'i de çevreleyecek şekilde kurulmuştur.")
+example = spark.createDataFrame([["İstanbul Türkiye'nin kuzeybatısında, Marmara kıyısı ve Boğaziçi boyunca, Haliç'i de çevreleyecek şekilde kurulmuştur."]]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -95,7 +95,7 @@ val ner_converter = NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["My name is John!"].toDS.toDF("İstanbul Türkiye'nin kuzeybatısında, Marmara kıyısı ve Boğaziçi boyunca, Haliç'i de çevreleyecek şekilde kurulmuştur.")
+val example = Seq.empty["İstanbul Türkiye'nin kuzeybatısında, Marmara kıyısı ve Boğaziçi boyunca, Haliç'i de çevreleyecek şekilde kurulmuştur."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

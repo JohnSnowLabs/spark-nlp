@@ -54,7 +54,7 @@ tokenizer = Tokenizer() \
 tokenClassifier = BertForTokenClassification \
       .pretrained('bert_token_classifier_swedish_ner', 'sv') \
       .setInputCols(['token', 'document']) \
-      .setOutputCol("'ner') \
+      .setOutputCol('ner') \
       .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
@@ -70,7 +70,7 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame([['My name is John!']]).toDF("Engelbert tar Volvon till Tele2 Arena för att titta på Djurgården som spelar fotboll i VM klockan två på kvällen.")
+example = spark.createDataFrame([["Engelbert tar Volvon till Tele2 Arena för att titta på Djurgården som spelar fotboll i VM klockan två på kvällen."]]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -95,7 +95,7 @@ val ner_converter = NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["My name is John!"].toDS.toDF("Engelbert tar Volvon till Tele2 Arena för att titta på Djurgården som spelar fotboll i VM klockan två på kvällen.")
+val example = Seq.empty["Engelbert tar Volvon till Tele2 Arena för att titta på Djurgården som spelar fotboll i VM klockan två på kvällen."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

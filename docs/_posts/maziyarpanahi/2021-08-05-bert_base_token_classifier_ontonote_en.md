@@ -51,7 +51,7 @@ tokenizer = Tokenizer() \
 tokenClassifier = BertForTokenClassification \
       .pretrained('bert_base_token_classifier_ontonote', 'en') \
       .setInputCols(['token', 'document']) \
-      .setOutputCol("'ner') \
+      .setOutputCol('ner') \
       .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 

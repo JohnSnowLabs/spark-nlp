@@ -51,7 +51,7 @@ tokenizer = Tokenizer() \
 tokenClassifier = DistilBertForTokenClassification \
       .pretrained('distilbert_base_token_classifier_conll03', 'en') \
       .setInputCols(['token', 'document']) \
-      .setOutputCol("'ner') \
+      .setOutputCol('ner') \
       .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
