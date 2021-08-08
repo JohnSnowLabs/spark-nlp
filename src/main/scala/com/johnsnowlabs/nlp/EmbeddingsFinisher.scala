@@ -1,5 +1,23 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.util.FinisherUtil
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.linalg.SQLDataTypes.VectorType
 import org.apache.spark.ml.linalg.Vectors
@@ -112,91 +130,105 @@ class EmbeddingsFinisher(override val uid: String)
     with DefaultParamsWritable {
 
   /**
-    * Name of input annotation cols containing embeddings
-    * @group param
-    */
+   * Name of input annotation cols containing embeddings
+   *
+   * @group param
+   */
   val inputCols: StringArrayParam =
     new StringArrayParam(this, "inputCols", "Name of input annotation cols containing embeddings")
 
   /**
-    * Name of EmbeddingsFinisher output cols
-    * @group param
-    */
+   * Name of EmbeddingsFinisher output cols
+   *
+   * @group param
+   */
   val outputCols: StringArrayParam =
     new StringArrayParam(this, "outputCols", "Name of EmbeddingsFinisher output cols")
 
   /**
-    * Whether to remove all the existing annotation columns (Default: `true`)
-    * @group param
-    */
+   * Whether to remove all the existing annotation columns (Default: `true`)
+   *
+   * @group param
+   */
   val cleanAnnotations: BooleanParam =
     new BooleanParam(this, "cleanAnnotations", "Whether to remove all the existing annotation columns (Default: `true`)")
 
   /**
-    * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
-    * @group param
-    */
+   * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
+   *
+   * @group param
+   */
   val outputAsVector: BooleanParam =
     new BooleanParam(this, "outputAsVector", "If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)")
 
   /**
-    * Name of input annotation cols containing embeddings
-    * @group setParam
-    */
+   * Name of input annotation cols containing embeddings
+   *
+   * @group setParam
+   */
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
 
   /**
-    * Name of input annotation cols containing embeddings
-    * @group setParam
-    */
+   * Name of input annotation cols containing embeddings
+   *
+   * @group setParam
+   */
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
 
   /**
-    * Name of EmbeddingsFinisher output cols
-    * @group setParam
-    */
+   * Name of EmbeddingsFinisher output cols
+   *
+   * @group setParam
+   */
   def setOutputCols(value: Array[String]): this.type = set(outputCols, value)
 
   /**
-    * Name of EmbeddingsFinisher output cols
-    * @group setParam
-    */
+   * Name of EmbeddingsFinisher output cols
+   *
+   * @group setParam
+   */
   def setOutputCols(value: String*): this.type = setOutputCols(value.toArray)
 
   /**
-    * Whether to remove all the existing annotation columns (Default: `true`)
-    * @group setParam
-    */
+   * Whether to remove all the existing annotation columns (Default: `true`)
+   *
+   * @group setParam
+   */
   def setCleanAnnotations(value: Boolean): this.type = set(cleanAnnotations, value)
 
   /**
-    * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
-    * @group setParam
-    */
+   * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
+   *
+   * @group setParam
+   */
   def setOutputAsVector(value: Boolean): this.type = set(outputAsVector, value)
 
   /**
-    * Name of input annotation cols containing embeddings
-    * @group getParam
-    */
+   * Name of input annotation cols containing embeddings
+   *
+   * @group getParam
+   */
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
 
   /**
-    * Name of EmbeddingsFinisher output cols
-    * @group getParam
-    */
+   * Name of EmbeddingsFinisher output cols
+   *
+   * @group getParam
+   */
   def getInputCols: Array[String] = $(inputCols)
 
   /**
-    * Whether to remove all the existing annotation columns (Default: `true`)
-    * @group getParam
-    */
+   * Whether to remove all the existing annotation columns (Default: `true`)
+   *
+   * @group getParam
+   */
   def getCleanAnnotations: Boolean = $(cleanAnnotations)
 
   /**
-    * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
-    * @group getParam
-    */
+   * If enabled it will output the embeddings as Vectors instead of arrays (Default: `false`)
+   *
+   * @group getParam
+   */
   def getOutputAsVector: Boolean = $(outputAsVector)
 
   setDefault(
@@ -220,35 +252,18 @@ class EmbeddingsFinisher(override val uid: String)
     getInputCols.foreach {
       annotationColumn =>
 
-        /**
-          * Check if the inputCols exist
-          */
-        require(getInputCols.forall(schema.fieldNames.contains),
-          s"pipeline annotator stages incomplete. " +
-            s"expected: ${getInputCols.mkString(", ")}, " +
-            s"found: ${schema.fields.filter(_.dataType == ArrayType(Annotation.dataType)).map(_.name).mkString(", ")}, " +
-            s"among available: ${schema.fieldNames.mkString(", ")}")
+        FinisherUtil.checkIfInputColsExist(getInputCols, schema)
+        FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
 
         /**
-          * Check if the annotationColumn is(are) Spark NLP annotations
-          */
-        require(schema(annotationColumn).dataType == ArrayType(Annotation.dataType),
-          s"column [$annotationColumn] must be an NLP Annotation column")
-
-        /**
-          * Check if the annotationColumn has embeddings
-          * It must be at least of one these annotators: WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings
-          */
+         * Check if the annotationColumn has embeddings
+         * It must be at least of one these annotators: WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings
+         */
         require(embeddingsAnnotators.contains(schema(annotationColumn).metadata.getString("annotatorType")),
           s"column [$annotationColumn] must be a type of either WordEmbeddings, BertEmbeddings, ChunkEmbeddings, or SentenceEmbeddings")
 
     }
-    val metadataFields =  getOutputCols.flatMap(outputCol => {
-      if ($(outputAsVector))
-        Some(StructField(outputCol + "_metadata", MapType(StringType, StringType), nullable = false))
-      else
-        None
-    })
+    val metadataFields = FinisherUtil.getMetadataFields(getOutputCols, $(outputAsVector))
 
     val outputFields = schema.fields ++
       getOutputCols.map(outputCol => {
@@ -258,9 +273,8 @@ class EmbeddingsFinisher(override val uid: String)
           StructField(outputCol, ArrayType(FloatType), nullable = false)
       }) ++ metadataFields
 
-    val cleanFields = if ($(cleanAnnotations)) outputFields.filterNot(f =>
-      f.dataType == ArrayType(Annotation.dataType)
-    ) else outputFields
+    val cleanFields = FinisherUtil.getCleanFields($(cleanAnnotations), outputFields)
+
     StructType(cleanFields)
   }
 
@@ -292,14 +306,11 @@ class EmbeddingsFinisher(override val uid: String)
       }
     }
 
-    if ($(cleanAnnotations)) flattened.drop(
-      flattened.schema.fields
-        .filter(_.dataType == ArrayType(Annotation.dataType))
-        .map(_.name):_*)
-    else flattened.toDF()
+    FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())
   }
 
 }
+
 /**
  * This is the companion object of [[EmbeddingsFinisher]]. Please refer to that class for the documentation.
  */

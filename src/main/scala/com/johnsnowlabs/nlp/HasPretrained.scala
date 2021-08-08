@@ -25,7 +25,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, MLReader}
 trait HasPretrained[M <: PipelineStage] {
 
   /** Only MLReader types can use this interface */
-  this: { def read: MLReader[M] } =>
+  this: {def read: MLReader[M]} =>
 
   val defaultModelName: Option[String]
 

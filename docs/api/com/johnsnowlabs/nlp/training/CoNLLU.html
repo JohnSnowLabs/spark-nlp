@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLLU</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLLU" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.training.CoNLLU" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLLU</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLLU" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.training.CoNLLU" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,8 +151,8 @@
                         <a href="CoNLLHelper$.html" title="">CoNLLHelper</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">CoNLLU</a>
+                        <a class="class" href="" title="Instantiates the class to read a CoNLL-U dataset."></a>
+                        <a href="" title="Instantiates the class to read a CoNLL-U dataset.">CoNLLU</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="CoNLLUCols$.html" title=""></a>
@@ -167,8 +167,8 @@
                         <a href="POS.html" title="Helper class for creating DataFrames for training a part-of-speech tagger.">POS</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="PubTator.html" title=""></a>
-                        <a href="PubTator.html" title="">PubTator</a>
+                        <a class="class" href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks."></a>
+                        <a href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.">PubTator</a>
                       </li>
               </ul>
             </div>
@@ -197,7 +197,18 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Instantiates the class to read a CoNLL-U dataset.</p><p>The dataset should be in the format of <a href="https://universaldependencies.org/format.html" target="_blank">CoNLL-U</a>
+and needs to be specified with <code>readDataset</code>, which will create a dataframe with the data.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.training.CoNLLU
+
+<span class="kw">val</span> conlluFile = <span class="lit">"src/test/resources/conllu/en.test.conllu"</span>
+<span class="kw">val</span> conllDataSet = CoNLLU(<span class="kw">false</span>).readDataset(ResourceHelper.spark, conlluFile)
+conllDataSet.selectExpr(<span class="lit">"text"</span>, <span class="lit">"form.result as form"</span>, <span class="lit">"upos.result as upos"</span>, <span class="lit">"xpos.result as xpos"</span>, <span class="lit">"lemma.result as lemma"</span>)
+  .show(<span class="num">1</span>, <span class="kw">false</span>)
++---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+|text                                   |form                                          |upos                                         |xpos                          |lemma                                       |
++---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+|What <span class="kw">if</span> Google Morphed Into GoogleOS?  |[What, <span class="kw">if</span>, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, <span class="kw">if</span>, Google, morph, into, GoogleOS, ?]|
++---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+</pre></div><dl class="paramcmts block"><dt class="param">explodeSentences</dt><dd class="cmt"><p>Whether to split each sentence into a separate row</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -247,7 +258,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.johnsnowlabs.nlp.training.CoNLLU#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.training.CoNLLU#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(explodeSentences:Boolean):com.johnsnowlabs.nlp.training.CoNLLU"></a><a id="&lt;init&gt;:CoNLLU"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/training/CoNLLU.html#&lt;init&gt;(explodeSentences:Boolean):com.johnsnowlabs.nlp.training.CoNLLU" title="Permalink">
@@ -262,7 +273,7 @@
         <span class="name">CoNLLU</span><span class="params">(<span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">explodeSentences</dt><dd class="cmt"><p>Whether to split each sentence into a separate row</p></dd></dl></div>
     </li></ol>
             </div>
 

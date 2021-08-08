@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcher</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcher" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcher" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcher</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcher" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -418,6 +418,10 @@
                         <a class="object" href="EnglishStemmer$.html" title=""></a>
                         <a href="EnglishStemmer$.html" title="">EnglishStemmer</a>
                       </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="GraphExtraction.html" title=""></a>
+                        <a href="GraphExtraction.html" title="">GraphExtraction</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="Lemmatizer$.html" title="This is the companion object of Lemmatizer."></a>
                         <a class="class" href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word."></a>
                         <a href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word.">Lemmatizer</a>
@@ -441,6 +445,10 @@
                         <a class="object" href="NormalizerModel$.html" title=""></a>
                         <a class="class" href="NormalizerModel.html" title="Instantiated Model of the Normalizer."></a>
                         <a href="NormalizerModel.html" title="Instantiated Model of the Normalizer.">NormalizerModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="PretrainedAnnotations$.html" title=""></a>
+                        <a href="PretrainedAnnotations$.html" title="">PretrainedAnnotations</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedLemmatizer.html" title=""></a>
@@ -541,7 +549,7 @@ To extract multiple dates from a document, please use the <a href="MultiDateMatc
 <span class="lit">"Fri, 21 Nov 1997"</span>, <span class="lit">"Jan 21, ‘97"</span>, <span class="lit">"Sun"</span>, <span class="lit">"Nov 21"</span>, <span class="lit">"jan 1st"</span>, <span class="lit">"next thursday"</span>,
 <span class="lit">"last wednesday"</span>, <span class="lit">"today"</span>, <span class="lit">"tomorrow"</span>, <span class="lit">"yesterday"</span>, <span class="lit">"next week"</span>, <span class="lit">"next month"</span>,
 <span class="lit">"next year"</span>, <span class="lit">"day after"</span>, <span class="lit">"the day before"</span>, <span class="lit">"0600h"</span>, <span class="lit">"06:00 hours"</span>, <span class="lit">"6pm"</span>, <span class="lit">"5:30 a.m."</span>,
-<span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb" target="_blank">Spark NLP Workshop</a>
+<span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala" target="_blank">DateMatcherTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.DateMatcher

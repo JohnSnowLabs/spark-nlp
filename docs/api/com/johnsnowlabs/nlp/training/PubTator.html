@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.training.PubTator</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.training.PubTator" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.training.PubTator" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.training.PubTator</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.training.PubTator" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.training.PubTator" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -151,8 +151,8 @@
                         <a href="CoNLLHelper$.html" title="">CoNLLHelper</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="CoNLLU.html" title=""></a>
-                        <a href="CoNLLU.html" title="">CoNLLU</a>
+                        <a class="class" href="CoNLLU.html" title="Instantiates the class to read a CoNLL-U dataset."></a>
+                        <a href="CoNLLU.html" title="Instantiates the class to read a CoNLL-U dataset.">CoNLLU</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="CoNLLUCols$.html" title=""></a>
@@ -167,8 +167,8 @@
                         <a href="POS.html" title="Helper class for creating DataFrames for training a part-of-speech tagger.">POS</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">PubTator</a>
+                        <a class="class" href="" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks."></a>
+                        <a href="" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.">PubTator</a>
                       </li>
               </ul>
             </div>
@@ -197,7 +197,17 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.</p><p>For more information see <a href="http://bioportal.bioontology.org/ontologies/EDAM?p=classes&amp;conceptid=format_3783" target="_blank">PubTator Docs</a>
+and <a href="http://github.com/chanzuckerberg/MedMentions" target="_blank">MedMentions Docs</a>.</p><p><code>readDataset</code> is used to create a Spark DataFrame from a PubTator text file.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.training.PubTator
+
+<span class="kw">val</span> pubTatorFile = <span class="lit">"./src/test/resources/corpus_pubtator_sample.txt"</span>
+<span class="kw">val</span> pubTatorDataSet = PubTator().readDataset(ResourceHelper.spark, pubTatorFile)
+pubTatorDataSet.show(<span class="num">1</span>)
++--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+|  doc_id|      finished_token|        finished_pos|        finished_ner|finished_token_metadata|finished_pos_metadata|finished_label_metadata|
++--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+|<span class="num">25763772</span>|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, <span class="num">0</span>], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|
++--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>

@@ -37,8 +37,10 @@ docs-en:
         url:    /models
       - title:  Training
         url:    /docs/en/training
-      - title: Scaladoc
+      - title: Scala API (Scaladoc)
         url: /api/
+      - title: Python API (Sphinx)
+        url: /api/python/  
       - title: Spark NLP Display
         url: /docs/en/display
       - title:  Developers

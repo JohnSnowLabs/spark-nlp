@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.util.ConfigHelper</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.util.ConfigHelper" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.util.ConfigHelper" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.util.ConfigHelper</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.util.ConfigHelper" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.util.ConfigHelper" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -483,26 +483,10 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.util.ConfigHelper#getConfigValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getConfigValue(path:String):Option[String]"></a><a id="getConfigValue(String):Option[String]"></a>
-      <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#getConfigValue(path:String):Option[String]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getConfigValue</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.util.ConfigHelper#getConfigValueOrElse" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getConfigValueOrElse(path:String,defaultValue:=&gt;String):String"></a><a id="getConfigValueOrElse(String,⇒String):String"></a>
+      <a id="getConfigValueOrElse(property:String,defaultValue:String):String"></a><a id="getConfigValueOrElse(String,String):String"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#getConfigValueOrElse(path:String,defaultValue:=&gt;String):String" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#getConfigValueOrElse(property:String,defaultValue:String):String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -511,14 +495,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getConfigValueOrElse</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="defaultValue">defaultValue: ⇒ <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">getConfigValueOrElse</span><span class="params">(<span name="property">property: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="defaultValue">defaultValue: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       
-    </li><li name="com.johnsnowlabs.util.ConfigHelper#hasPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="hasPath(path:String):Boolean"></a><a id="hasPath(String):Boolean"></a>
+    </li><li name="com.johnsnowlabs.util.ConfigHelper#getFileSystem" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getFileSystem:org.apache.hadoop.fs.FileSystem"></a><a id="getFileSystem:FileSystem"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#hasPath(path:String):Boolean" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#getFileSystem:org.apache.hadoop.fs.FileSystem" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -527,7 +511,23 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hasPath</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">getFileSystem</span><span class="result">: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.util.ConfigHelper#getHadoopTmpDir" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getHadoopTmpDir:String"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#getHadoopTmpDir:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getHadoopTmpDir</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       
@@ -728,7 +728,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">serializationMode</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">serializationMode</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       
       
@@ -781,9 +781,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.util.ConfigHelper#useBroadcast" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="useBroadcast:Boolean"></a>
+      <a id="useBroadcast:String"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#useBroadcast:Boolean" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/ConfigHelper$.html#useBroadcast:String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -792,7 +792,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">useBroadcast</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">useBroadcast</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       
       

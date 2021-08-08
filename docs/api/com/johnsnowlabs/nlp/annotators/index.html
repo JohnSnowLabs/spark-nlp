@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -418,6 +418,10 @@
                         <a class="object" href="EnglishStemmer$.html" title=""></a>
                         <a href="EnglishStemmer$.html" title="">EnglishStemmer</a>
                       </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="GraphExtraction.html" title=""></a>
+                        <a href="GraphExtraction.html" title="">GraphExtraction</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="Lemmatizer$.html" title="This is the companion object of Lemmatizer."></a>
                         <a class="class" href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word."></a>
                         <a href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word.">Lemmatizer</a>
@@ -441,6 +445,10 @@
                         <a class="object" href="NormalizerModel$.html" title=""></a>
                         <a class="class" href="NormalizerModel.html" title="Instantiated Model of the Normalizer."></a>
                         <a href="NormalizerModel.html" title="Instantiated Model of the Normalizer.">NormalizerModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="PretrainedAnnotations$.html" title=""></a>
+                        <a href="PretrainedAnnotations$.html" title="">PretrainedAnnotations</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedLemmatizer.html" title=""></a>
@@ -770,7 +778,7 @@ This example sentence will result in the form:</p><pre><span class="lit">"Peter 
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"pos"</span>)
   .setOutputCol(<span class="lit">"chunk"</span>)
   .setRegexParsers(<span class="std">Array</span>(<span class="lit">"&lt;NNP&gt;+"</span>, <span class="lit">"&lt;NNS&gt;+"</span>))</pre><p>When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
-<code>&quot;&lt;NNP&gt;+&quot;</code> means 1 or more nouns in succession. Additional patterns can also be set with <code>addRegexParsers</code>.</p><p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
+<code>&quot;&lt;NNP&gt;+&quot;</code> means 1 or more nouns in succession. Additional patterns can also be set with <code>addRegexParsers</code>.</p><p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
 and the  <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala" target="_blank">ChunkerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.{Chunker, Tokenizer}
@@ -842,7 +850,7 @@ To extract multiple dates from a document, please use the <a href="MultiDateMatc
 <span class="lit">"Fri, 21 Nov 1997"</span>, <span class="lit">"Jan 21, ‘97"</span>, <span class="lit">"Sun"</span>, <span class="lit">"Nov 21"</span>, <span class="lit">"jan 1st"</span>, <span class="lit">"next thursday"</span>,
 <span class="lit">"last wednesday"</span>, <span class="lit">"today"</span>, <span class="lit">"tomorrow"</span>, <span class="lit">"yesterday"</span>, <span class="lit">"next week"</span>, <span class="lit">"next month"</span>,
 <span class="lit">"next year"</span>, <span class="lit">"day after"</span>, <span class="lit">"the day before"</span>, <span class="lit">"0600h"</span>, <span class="lit">"06:00 hours"</span>, <span class="lit">"6pm"</span>, <span class="lit">"5:30 a.m."</span>,
-<span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb" target="_blank">Spark NLP Workshop</a>
+<span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala" target="_blank">DateMatcherTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.DateMatcher
@@ -959,6 +967,22 @@ result.selectExpr(<span class="lit">"normalizedDocument.result"</span>).show(tru
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the <span class="num">1500</span>s, when an unknown printer took a galley of <span class="kw">type</span> and scrambled it to make a <span class="kw">type</span> specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the <span class="num">1960</span>s <span class="kw">with</span> the release of letraset sheets containing lorem ipsum passages, and more recently <span class="kw">with</span> desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.GraphExtraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GraphExtractionextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.GraphExtraction]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.GraphExtraction]"></a><a id="GraphExtraction:GraphExtraction"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/GraphExtraction.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="GraphExtraction.html"><span class="name">GraphExtraction</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LemmatizerextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.LemmatizerModel]"></a><a id="Lemmatizer:Lemmatizer"></a>
       <span class="permalink">
@@ -1065,7 +1089,7 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
 <span class="lit">"Fri, 21 Nov 1997"</span>, <span class="lit">"Jan 21, ‘97"</span>, <span class="lit">"Sun"</span>, <span class="lit">"Nov 21"</span>, <span class="lit">"jan 1st"</span>, <span class="lit">"next thursday"</span>,
 <span class="lit">"last wednesday"</span>, <span class="lit">"today"</span>, <span class="lit">"tomorrow"</span>, <span class="lit">"yesterday"</span>, <span class="lit">"next week"</span>, <span class="lit">"next month"</span>,
 <span class="lit">"next year"</span>, <span class="lit">"day after"</span>, <span class="lit">"the day before"</span>, <span class="lit">"0600h"</span>, <span class="lit">"06:00 hours"</span>, <span class="lit">"6pm"</span>, <span class="lit">"5:30 a.m."</span>,
-<span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb" target="_blank">Spark NLP Workshop</a>
+<span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcherTestSpec.scala" target="_blank">MultiDateMatcherTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.MultiDateMatcher
@@ -1968,6 +1992,22 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
       </span>
       <span class="symbol">
         <a title="" href="NormalizerModel$.html"><span class="name">NormalizerModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="NormalizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.NormalizerModel">NormalizerModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.PretrainedAnnotations" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="PretrainedAnnotations"></a><a id="PretrainedAnnotations:PretrainedAnnotations"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/PretrainedAnnotations$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="PretrainedAnnotations$.html"><span class="name">PretrainedAnnotations</span></a>
       </span>
       
       
