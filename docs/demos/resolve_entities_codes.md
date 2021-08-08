@@ -48,33 +48,31 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: ICD10-CM coding 
-          hide: yes
+        - title: Resolve Symptoms to ICD10-CM Codes
           id: icd10-cm_coding
           image: 
-              src: /assets/images/Detect_risk_factors.svg
+              src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding.svg
           image2: 
-              src: /assets/images/Detect_risk_factors_f.svg
-          excerpt: Automatically detect the pre and post op diagnosis, signs and symptoms or other findings in your healthcare records and automatically link them to the corresponding ICD10-CM code using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Sentence_Entity_Resolver_for_ICD10-CM_coding_c.svg
+          excerpt: This demo shows how symptoms can be automatically mapped to ICD10 CM codes using sentence resolvers.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: RxNORM coding
-          hide: yes
+        - title: Resolve Drugs to RxNorm Codes
           id: rxnorm_coding
           image: 
-              src: /assets/images/Detect_drugs_and_prescriptions.svg
+              src: /assets/images/Sentence_Entity_Resolver_for_RxNorm.svg
           image2: 
-              src: /assets/images/Detect_drugs_and_prescriptions_f.svg
-          excerpt: Automatically detect the drugs and treatments names mentioned in your prescription or healthcare records and link them to the corresponding RxNORM codes using Spark NLP for Healthcare out of the box.
+              src: /assets/images/Sentence_Entity_Resolver_for_RxNorm_c.svg
+          excerpt: This demo shows how drugs can be automatically mapped to RxNorm codes using sentence based resolvers. 
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM
+            url: https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb

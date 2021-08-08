@@ -8,7 +8,47 @@ modify_date: "2020-04-08"
 ---
 
 
+## 3.6.0
+
+Release date: 05-08-2021
+
+#### Overview
+
+Handwritten detection and improve visualization.
+
+
+#### New Features
+
+* Added [ImageHandwrittenDetector](ocr_object_detection#imagehandwrittendetector) for detect 'signature', 'date', 'name',
+ 'title', 'address' and others handwritten text.
+* Added rendering labels and scores in [ImageDrawRegions](ocr_pipeline_components#imagedrawregions).
+* Added possibility to scale image to fixed size in [ImageScaler](ocr_pipeline_components#imagescaler)
+ with keeping original ratio.
+
+
+#### Enhancements
+
+* Support new version of pip for installing python package
+* Added support string labels for detectors
+* Added an auto inferencing of the input shape for detector models
+* New license validator
+
+
+#### Bugfixes
+
+* Fixed display BGR images in display functions
+
+
+#### New and updated notebooks
+
+* [Image Signature Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageSignatureDetection.ipynb)
+* [Image Handwritten Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageHandwrittenDetection.ipynb)
+* [Image Scaler example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageScaler.ipynb)
+
+
 ## 3.5.0
+
+Release date: 15-07-2021
 
 #### Overview
 
@@ -38,6 +78,8 @@ borderless tables and combined tables.
 
 ## 3.4.0
 
+Release date: 30-06-2021
+
 #### Overview
 
 Signature Detection in image-based documents.
@@ -46,7 +88,7 @@ More details please read in [Signature Detection in Spark OCR](https://medium.co
 
 #### New Features
 
-* [ImageSignatureDetector](ocr_object_detection#imagesignaturedetector) is a DL model for detect signature on the image.
+* [ImageSignatureDetector](ocr_object_detection#imagehandwrittendetector) is a DL model for detect signature on the image.
 
 
 #### New notebooks
@@ -55,6 +97,8 @@ More details please read in [Signature Detection in Spark OCR](https://medium.co
 
 
 ## 3.3.0
+
+Release date: 14-06-2021
 
 #### Overview
 
@@ -80,6 +124,8 @@ More details please read in [Table Detection & Extraction in Spark OCR](https://
 
 
 ## 3.2.0
+
+Release date: 28-05-2021
 
 #### Overview
 
@@ -112,6 +158,8 @@ including form understanding and receipt understanding.
 
 ## 3.1.0
 
+Release date: 16-04-2021
+
 #### Overview
 
 Image processing on GPU. It is in 3..5 times faster than on CPU.
@@ -139,6 +187,8 @@ More details please read in [GPU image preprocessing in Spark OCR](https://mediu
 
 
 ## 3.0.0
+
+Release date: 02-04-2021
 
 #### Overview
 
@@ -178,6 +228,8 @@ Spark OCR started to support Tensorflow models. First model is [VisualDocumentCl
 
 ## 1.11.0
 
+Release date: 25-02-2021
+
 #### Overview
 
 Support German, French, Spanish and Russian languages.
@@ -206,6 +258,8 @@ Improving [PositionsFinder](ocr_pipeline_components#positionsfinder) and ImageTo
 
 
 ## 1.10.0
+
+Release date: 20-01-2021
 
 #### Overview
 
