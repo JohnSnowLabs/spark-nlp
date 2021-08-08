@@ -29,14 +29,14 @@ docs-en:
         url:    /docs/en/annotators
       - title:  Transformers
         url:    /docs/en/transformers
-      - title:  Helpers
-        url:    /docs/en/auxiliary
+      - title:  Training
+        url:    /docs/en/training        
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
         url:    /models
-      - title:  Training
-        url:    /docs/en/training
+      - title:  Helpers
+        url:    /docs/en/auxiliary
       - title: Scala API (Scaladoc)
         url: /api/
       - title: Python API (Sphinx)
