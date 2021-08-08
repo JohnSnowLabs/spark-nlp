@@ -1,9 +1,27 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
+
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -92,15 +110,16 @@ case class CoNLLDocument(text: String,
  *  |    |    |    |-- element: float (containsNull = false)
  * }}}
  *
- * @param documentCol Name of the `DOCUMENT` Annotator type column
- * @param sentenceCol Name of the Sentences of `DOCUMENT` Annotator type column
- * @param tokenCol Name of the `TOKEN` Annotator type column
- * @param posCol Name of the `POS` Annotator type column
- * @param conllLabelIndex Index of the column for NER Label in the dataset
- * @param conllPosIndex Index of the column for the POS tags in the dataset
- * @param conllTextCol Index of the column for the text in the dataset
- * @param labelCol Name of the `NAMED_ENTITY` Annotator type column
+ * @param documentCol      Name of the `DOCUMENT` Annotator type column
+ * @param sentenceCol      Name of the Sentences of `DOCUMENT` Annotator type column
+ * @param tokenCol         Name of the `TOKEN` Annotator type column
+ * @param posCol           Name of the `POS` Annotator type column
+ * @param conllLabelIndex  Index of the column for NER Label in the dataset
+ * @param conllPosIndex    Index of the column for the POS tags in the dataset
+ * @param conllTextCol     Index of the column for the text in the dataset
+ * @param labelCol         Name of the `NAMED_ENTITY` Annotator type column
  * @param explodeSentences Whether to explode each sentence to a separate row
+ * @param delimiter        Delimiter used to separate columns inside CoNLL file
  */
 case class CoNLL(documentCol: String = "document",
                  sentenceCol: String = "sentence",
@@ -110,7 +129,8 @@ case class CoNLL(documentCol: String = "document",
                  conllPosIndex: Int = 1,
                  conllTextCol: String = "text",
                  labelCol: String = "label",
-                 explodeSentences: Boolean = true
+                 explodeSentences: Boolean = true,
+                 delimiter: String = " "
                 ) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
@@ -159,8 +179,8 @@ case class CoNLL(documentCol: String = "document",
     }
 
     val docs = lines
-      .flatMap{line =>
-        val items = line.trim.split(" ")
+      .flatMap { line =>
+        val items = line.trim.split(delimiter)
         if (items.nonEmpty && items(0) == "-DOCSTART-") {
           addSentence()
           closeDocument
@@ -175,7 +195,7 @@ case class CoNLL(documentCol: String = "document",
             None
         } else if (items.length > conllLabelIndex) {
           if (doc.nonEmpty && !doc.endsWith(System.lineSeparator()))
-            doc.append(" ")
+            doc.append(delimiter)
 
           val begin = doc.length
           doc.append(items(0))
@@ -196,7 +216,7 @@ case class CoNLL(documentCol: String = "document",
 
     val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
 
-    (docs ++ last).map{case(text, textSentences) =>
+    (docs ++ last).map { case (text, textSentences) =>
       val (ner, pos) = textSentences.unzip
       CoNLLDocument(text, ner, pos)
     }
@@ -212,17 +232,18 @@ case class CoNLL(documentCol: String = "document",
   }
 
   def packSentence(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val indexedSentences = sentences.zipWithIndex.map{case (sentence, index) =>
+    val indexedSentences = sentences.zipWithIndex.map { case (sentence, index) =>
       val start = sentence.indexedTaggedWords.map(t => t.begin).min
       val end = sentence.indexedTaggedWords.map(t => t.end).max
       val sentenceText = text.substring(start, end + 1)
-      new Sentence(sentenceText, start, end, index)}
+      new Sentence(sentenceText, start, end, index)
+    }
 
     SentenceSplit.pack(indexedSentences)
   }
 
   def packTokenized(text: String, sentences: Seq[TaggedSentence]): Seq[Annotation] = {
-    val tokenizedSentences = sentences.zipWithIndex.map{case (sentence, index) =>
+    val tokenizedSentences = sentences.zipWithIndex.map { case (sentence, index) =>
       val tokens = sentence.indexedTaggedWords.map(t =>
         IndexedToken(t.word, t.begin, t.end)
       )
@@ -237,7 +258,7 @@ case class CoNLL(documentCol: String = "document",
     PosTagged.pack(sentences)
   }
 
-  val annotationType = ArrayType(Annotation.dataType)
+  val annotationType: ArrayType = ArrayType(Annotation.dataType)
 
   def getAnnotationType(column: String, annotatorType: String, addMetadata: Boolean = true): StructField = {
     if (!addMetadata)
