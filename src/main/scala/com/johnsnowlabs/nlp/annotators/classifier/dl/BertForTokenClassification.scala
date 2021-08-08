@@ -113,7 +113,7 @@ class BertForTokenClassification(override val uid: String)
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.ENTITY
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
