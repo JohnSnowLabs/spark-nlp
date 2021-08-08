@@ -76,6 +76,7 @@ class DistilBertEmbeddingsTestSpec extends FlatSpec {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    println(training_data.count())
 
     val embeddings = DistilBertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
