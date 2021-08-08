@@ -70,6 +70,8 @@ class CoNLL(ExtendedJavaWrapper):
         Name of the label column, by default 'label'
     explodeSentences : bool, optional
         Whether to explode sentences to separate rows, by default True
+    delimiter: str, optional
+        Delimiter used to separate columns inside CoNLL file
 
     Examples
     --------
@@ -90,6 +92,7 @@ class CoNLL(ExtendedJavaWrapper):
     |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |
     +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
     """
+
     def __init__(self,
                  documentCol='document',
                  sentenceCol='sentence',
@@ -100,6 +103,7 @@ class CoNLL(ExtendedJavaWrapper):
                  textCol='text',
                  labelCol='label',
                  explodeSentences=True,
+                 delimiter=' '
                  ):
         super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL",
                                     documentCol,
@@ -110,7 +114,8 @@ class CoNLL(ExtendedJavaWrapper):
                                     conllPosIndex,
                                     textCol,
                                     labelCol,
-                                    explodeSentences)
+                                    explodeSentences,
+                                    delimiter)
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
         # ToDo Replace with std pyspark
@@ -182,9 +187,9 @@ class CoNLLU(ExtendedJavaWrapper):
     |What if Google Morphed Into GoogleOS?  |[What, if, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, if, Google, morph, into, GoogleOS, ?]|
     +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
     """
+
     def __init__(self, explodeSentences=True):
         super(CoNLLU, self).__init__("com.johnsnowlabs.nlp.training.CoNLLU", explodeSentences)
-
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT):
         """Reads the dataset from an external resource.
@@ -263,6 +268,7 @@ class POS(ExtendedJavaWrapper):
     +---------------------------------------------+
 
     """
+
     def __init__(self):
         super(POS, self).__init__("com.johnsnowlabs.nlp.training.POS")
 
@@ -329,6 +335,7 @@ class PubTator(ExtendedJavaWrapper):
     |25763772|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, 0], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|
     +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
     """
+
     def __init__(self):
         super(PubTator, self).__init__("com.johnsnowlabs.nlp.training.PubTator")
 
