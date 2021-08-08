@@ -148,7 +148,7 @@ class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowW
                 val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
                 val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
                 Annotation(
-                  annotatorType = AnnotatorType.ENTITY,
+                  annotatorType = AnnotatorType.NAMED_ENTITY,
                   begin = token.begin,
                   end = token.end,
                   result = label,
