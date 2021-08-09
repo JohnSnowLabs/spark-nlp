@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter
 
 class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
 
-  /** ITALIAN **/
+  /** ITALIAN * */
 
   "a DateMatcher" should "be catching formatted italian dates" taggedAs FastTest in {
 
@@ -350,7 +350,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
-  /** FRENCH **/
+  /** FRENCH * */
 
   "a DateMatcher" should "be catching formatted french dates" taggedAs FastTest in {
 
@@ -670,7 +670,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
-  /** PORTUGUESE **/
+  /** PORTUGUESE * */
 
   "a DateMatcher" should "be catching formatted portuguese dates" taggedAs FastTest in {
 
@@ -968,7 +968,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
-  /** SPANISH **/
+  /** SPANISH * */
 
   "a DateMatcher" should "be catching formatted spanish dates" taggedAs FastTest in {
 
@@ -1266,7 +1266,7 @@ class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehavior
     assert(annotations.head.result == formattedDateString)
   }
 
-  /** GERMAN **/
+  /** GERMAN * */
 
   "a DateMatcher" should "be catching formatted german dates" taggedAs FastTest in {
 

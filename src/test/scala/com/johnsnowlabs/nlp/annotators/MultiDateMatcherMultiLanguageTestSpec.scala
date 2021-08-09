@@ -132,7 +132,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
     assert(annotations(1).result == getNextWeekDate())
   }
 
-  /** ITALIAN **/
+  /** ITALIAN * */
 
   "a DateMatcher" should "be catching multiple formatted italian dates" taggedAs FastTest in {
 
@@ -209,7 +209,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
     assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
   }
 
-  /** FRENCH **/
+  /** FRENCH * */
 
   "a DateMatcher" should "be catching multiple formatted french dates" taggedAs FastTest in {
 
@@ -287,7 +287,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
     assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
   }
 
-  /** PORTUGUESE **/
+  /** PORTUGUESE * */
 
   "a DateMatcher" should "be catching multiple formatted portuguese dates" taggedAs FastTest in {
 
@@ -364,7 +364,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
     assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
   }
 
-  /** SPANISH **/
+  /** SPANISH * */
 
   "a DateMatcher" should "be catching multiple formatted spanish dates" taggedAs FastTest in {
 
@@ -441,7 +441,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBeh
     assert(results.contains(getOneDayAgoDate()) && results.contains(getInTwoWeeksDate()))
   }
 
-  /** GERMAN **/
+  /** GERMAN * */
 
   "a DateMatcher" should "be catching multiple formatted german dates" taggedAs FastTest in {
 
