@@ -129,7 +129,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
 
     val _text =
-      if(translationPreds.forall(_.equals(true)))
+      if (translationPreds.forall(_.equals(true)))
         new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
       else
         text
@@ -191,7 +191,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDateFuture(text: String): Option[MatchedDateTime] = {
-    if("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
+    if ("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
       relativeFutureFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDateFutureContentParse(possibleDate))
     else
@@ -199,7 +199,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDatePast(text: String): Option[MatchedDateTime] = {
-    if(!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
+    if (!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
       relativePastFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
         relativeDatePastContentParse(possibleDate)
       )
@@ -208,7 +208,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
-    if(!"in\\s+[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
+    if (!"in\\s+[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
       relativeFactory.findMatchFirstOnly(text.toLowerCase)
         .map(possibleDate => relativeDateContentParse(possibleDate)
         )

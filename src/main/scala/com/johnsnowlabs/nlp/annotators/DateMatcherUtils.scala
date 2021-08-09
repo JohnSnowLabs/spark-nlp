@@ -26,12 +26,12 @@ import scala.util.matching.Regex
 trait DateMatcherUtils extends Params {
 
   /**
-    * Container of a parsed date with identified bounds
-    *
-    * @param calendar [[Calendar]] holding parsed date
-    * @param start    start bound of detected match
-    * @param end      end bound of detected match
-    */
+   * Container of a parsed date with identified bounds
+   *
+   * @param calendar [[Calendar]] holding parsed date
+   * @param start    start bound of detected match
+   * @param end      end bound of detected match
+   */
   private[annotators] case class MatchedDateTime(calendar: Calendar, start: Int, end: Int)
 
   /** Standard formal dates, e.g. 05/17/2014 or 17/05/2014 or 2014/05/17 */
@@ -70,10 +70,10 @@ trait DateMatcherUtils extends Params {
   protected val defaultYearWhenMissing: Int = Calendar.getInstance.get(Calendar.YEAR)
 
   /**
-    * Output format of parsed date (Default: `"yyyy/MM/dd"`)
-    *
-    * @group param
-    * */
+   * Output format of parsed date (Default: `"yyyy/MM/dd"`)
+   *
+   * @group param
+   * */
   val dateFormat: Param[String] = new Param(this, "dateFormat", "Output format of parsed date")
 
   /** @group getParam */
@@ -83,11 +83,11 @@ trait DateMatcherUtils extends Params {
   def setFormat(value: String): this.type = set(dateFormat, value)
 
   /**
-    * Add an anchor year for the relative dates such as a day after tomorrow (Default: `-1`).
-    * If it is not set, the by default it will use the current year. Example: 2021
-    *
-    * @group param
-    * */
+   * Add an anchor year for the relative dates such as a day after tomorrow (Default: `-1`).
+   * If it is not set, the by default it will use the current year. Example: 2021
+   *
+   * @group param
+   * */
   val anchorDateYear: Param[Int] = new IntParam(
     this,
     "anchorDateYear",
@@ -104,11 +104,11 @@ trait DateMatcherUtils extends Params {
   def getAnchorDateYear: Int = $(anchorDateYear)
 
   /**
-    * Add an anchor month for the relative dates such as a day after tomorrow (Default: `-1`).
-    * By default it will use the current month. Month values start from `1`, so `1` stands for January.
-    *
-    * @group param
-    */
+   * Add an anchor month for the relative dates such as a day after tomorrow (Default: `-1`).
+   * By default it will use the current month. Month values start from `1`, so `1` stands for January.
+   *
+   * @group param
+   */
   val anchorDateMonth: Param[Int] = new IntParam(
     this,
     "anchorDateMonth",
@@ -126,11 +126,11 @@ trait DateMatcherUtils extends Params {
   def getAnchorDateMonth: Int = $(anchorDateMonth) + 1
 
   /**
-    * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).
-    * By default it will use the current day. The first day of the month has value 1.
-    *
-    * @group param
-    */
+   * Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`).
+   * By default it will use the current day. The first day of the month has value 1.
+   *
+   * @group param
+   */
   val anchorDateDay: Param[Int] = new IntParam(
     this,
     "anchorDateDay",
@@ -147,9 +147,10 @@ trait DateMatcherUtils extends Params {
   def getAnchorDateDay: Int = $(anchorDateDay)
 
   /**
-    * Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: `true`)
-    * @group param
-    */
+   * Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: `true`)
+   *
+   * @group param
+   */
   val readMonthFirst: BooleanParam = new BooleanParam(this, "readMonthFirst", "Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY")
 
   /** @group setParam */
@@ -159,9 +160,10 @@ trait DateMatcherUtils extends Params {
   def getReadMonthFirst: Boolean = $(readMonthFirst)
 
   /**
-    * Which day to set when it is missing from parsed input (Default: `1`)
-    * @group param
-    */
+   * Which day to set when it is missing from parsed input (Default: `1`)
+   *
+   * @group param
+   */
   val defaultDayWhenMissing: IntParam = new IntParam(this, "defaultDayWhenMissing", "Which day to set when it is missing from parsed input")
 
   /** @group setParam */
@@ -171,21 +173,21 @@ trait DateMatcherUtils extends Params {
   def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
 
   /** Source language for explicit translation
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   * */
   val sourceLanguage: Param[String] = new Param(this, "sourceLanguage", "source language for explicit translation")
 
   /** To get to use or not the multi-language translation.
-    *
-    * @group getParam
-    **/
+   *
+   * @group getParam
+   * */
   def getSourceLanguage: String = $(sourceLanguage)
 
   /** To set or not the source language for explicit translation.
-    *
-    * @group setParam
-    **/
+   *
+   * @group setParam
+   * */
   def setSourceLanguage(value: String): this.type = set(sourceLanguage, value)
 
   setDefault(
@@ -199,10 +201,10 @@ trait DateMatcherUtils extends Params {
   )
 
   /**
-    * Searches formal date by ordered rules
-    * Matching strategy is to find first match only, ignore additional matches from then
-    * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
-    */
+   * Searches formal date by ordered rules
+   * Matching strategy is to find first match only, ignore additional matches from then
+   * Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
+   */
   protected val formalFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
 
   if ($(readMonthFirst))
@@ -219,20 +221,20 @@ trait DateMatcherUtils extends Params {
       .addRule(formalDateShort, "formal date short version")
 
   /**
-    * Searches relaxed dates by ordered rules by more exhaustive to less
-    * Strategy used is to match first only. any other matches discarded
-    * Auto completes short versions of months. Any two digit year is considered to be XX century
-    */
+   * Searches relaxed dates by ordered rules by more exhaustive to less
+   * Strategy used is to match first only. any other matches discarded
+   * Auto completes short versions of months. Any two digit year is considered to be XX century
+   */
   protected val relaxedFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
     .addRule(relaxedYear, "relaxed year")
 
   /**
-    * extracts relative dates. Strategy is to get only first match.
-    * Will always assume relative day from current time at processing
-    * ToDo: Support relative dates from input date
-    */
+   * extracts relative dates. Strategy is to get only first match.
+   * Will always assume relative day from current time at processing
+   * ToDo: Support relative dates from input date
+   */
   protected val relativeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(relativeDate, "relative dates")
 
@@ -251,12 +253,12 @@ trait DateMatcherUtils extends Params {
     .addRule(relativeExactDay, "relative precise dates")
 
   /**
-    * Searches for times of the day
-    * dateTime If any dates found previously, keep it as part of the final result
-    * text target document
-    *
-    * @return a final possible date if any found
-    */
+   * Searches for times of the day
+   * dateTime If any dates found previously, keep it as part of the final result
+   * text target document
+   *
+   * @return a final possible date if any found
+   */
   protected val timeFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
     .addRule(clockTime, "standard time extraction")
     .addRule(altTime, "alternative time format")
@@ -317,7 +319,7 @@ trait DateMatcherUtils extends Params {
 
     val relativeDatePast = date.content
     val calendar = calculateAnchorCalendar()
-    val amount =  - relativeDatePast.group(1).toInt
+    val amount = -relativeDatePast.group(1).toInt
 
     relativeDatePast.group(2) match {
       case "day" | "days" => calendar.add(Calendar.DAY_OF_MONTH, amount)
