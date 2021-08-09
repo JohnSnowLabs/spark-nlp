@@ -113,8 +113,8 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     ("next year", Some(nextCalendar(Calendar.YEAR))),
     //NS: "3 days from now",
     //NS: "three weeks ago",
-    ("day after", Some(tomorrowCalendar)),
-    ("day after tomorrow", Some(afterTomorrowCalendar)),
+    (" day after", Some(tomorrowCalendar)),
+    (" day after tomorrow", Some(afterTomorrowCalendar)),
     ("the day before", Some(yesterdayCalendar)),
     ("the day before yesterday", Some(beforeYesterdayCalendar)),
     //"the monday after",
@@ -179,7 +179,7 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
     val expectedDates = Seq(
       Annotation(DATE, 0, 9, "2014/01/23", Map("sentence" -> "0")),
-      Annotation(DATE, 10, 18, "2020/01/12", Map("sentence" -> "0"))
+      Annotation(DATE, 9, 18, "2020/01/12", Map("sentence" -> "0"))
     )
 
     val date = new DateMatcher()

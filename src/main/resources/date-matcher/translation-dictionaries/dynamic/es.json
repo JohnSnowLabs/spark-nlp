@@ -1,0 +1,233 @@
+{
+    "name": "es",
+    "date_order": "DMY",
+    "january": [
+        "ene",
+        "enero"
+    ],
+    "february": [
+        "feb",
+        "febrero"
+    ],
+    "march": [
+        "mar",
+        "marzo"
+    ],
+    "april": [
+        "abr",
+        "abril"
+    ],
+    "may": [
+        "may",
+        "mayo"
+    ],
+    "june": [
+        "jun",
+        "junio"
+    ],
+    "july": [
+        "jul",
+        "julio"
+    ],
+    "august": [
+        "ago",
+        "agosto"
+    ],
+    "september": [
+        "sept",
+        "septiembre"
+    ],
+    "october": [
+        "oct",
+        "octubre"
+    ],
+    "november": [
+        "nov",
+        "noviembre"
+    ],
+    "december": [
+        "dic",
+        "diciembre"
+    ],
+    "monday": [
+        "lun",
+        "lunes"
+    ],
+    "tuesday": [
+        "mar",
+        "martes"
+    ],
+    "wednesday": [
+        "mié",
+        "miércoles"
+    ],
+    "thursday": [
+        "jue",
+        "jueves"
+    ],
+    "friday": [
+        "vie",
+        "viernes"
+    ],
+    "saturday": [
+        "sáb",
+        "sábado"
+    ],
+    "sunday": [
+        "dom",
+        "domingo"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "a",
+        "año"
+    ],
+    "month": [
+        "m",
+        "mes"
+    ],
+    "week": [
+        "sem",
+        "semana"
+    ],
+    "day": [
+        "d",
+        "día"
+    ],
+    "hour": [
+        "h",
+        "hora"
+    ],
+    "minute": [
+        "min",
+        "minuto"
+    ],
+    "second": [
+        "s",
+        "segundo"
+    ],
+    "0 day ago": [
+        "hoy"
+    ],
+    "0 hour ago": [
+        "esta hora"
+    ],
+    "0 minute ago": [
+        "este minuto"
+    ],
+    "0 month ago": [
+        "este mes"
+    ],
+    "0 second ago": [
+        "ahora"
+    ],
+    "0 week ago": [
+        "esta semana"
+    ],
+    "0 year ago": [
+        "este año"
+    ],
+    "1 day ago": [
+        "ayer"
+    ],
+    "1 month ago": [
+        "el mes pasado"
+    ],
+    "1 week ago": [
+        "la semana pasada"
+    ],
+    "1 year ago": [
+        "el año pasado"
+    ],
+    "in 1 day": [
+        "mañana"
+    ],
+    "in 1 month": [
+        "el próximo mes",
+        "el mes que viene"
+    ],
+    "in 1 week": [
+        "la próxima semana",
+        "la semana que viene"
+    ],
+    "in 1 year": [
+        "el próximo año",
+        "el año que viene"
+    ],
+    "#K# day ago": [
+        "hace #V# día",
+        "hace #V# días"
+    ],
+    "#K# hour ago": [
+        "hace #V# h",
+        "hace #V# hora",
+        "hace #V# horas"
+    ],
+    "#K# minute ago": [
+        "hace #V# min",
+        "hace #V# minuto",
+        "hace #V# minutos"
+    ],
+    "#K# month ago": [
+        "hace #V# m",
+        "hace #V# mes",
+        "hace #V# meses"
+    ],
+    "#K# second ago": [
+        "hace #V# s",
+        "hace #V# segundo",
+        "hace #V# segundos"
+    ],
+    "#K# week ago": [
+        "hace #V# sem",
+        "hace #V# semana",
+        "hace #V# semanas"
+    ],
+    "#K# year ago": [
+        "hace #V# a",
+        "hace #V# año",
+        "hace #V# años"
+    ],
+    "in #K# day": [
+        "dentro de #V# día",
+        "dentro de #V# días",
+        "en #V# días"
+    ],
+    "in #K# hour": [
+        "dentro de #V# h",
+        "dentro de #V# hora",
+        "dentro de #V# horas",
+        "en #V# horas"
+    ],
+    "in #K# minute": [
+        "dentro de #V# min",
+        "dentro de #V# minuto",
+        "dentro de #V# minutos"
+    ],
+    "in #K# month": [
+        "dentro de #V# m",
+        "dentro de #V# mes",
+        "dentro de #V# meses"
+    ],
+    "in #K# second": [
+        "dentro de #V# s",
+        "dentro de #V# segundo",
+        "dentro de #V# segundos"
+    ],
+    "in #K# week": [
+        "dentro de #V# sem",
+        "dentro de #V# semana",
+        "dentro de #V# semanas"
+    ],
+    "in #K# year": [
+        "dentro de #V# a",
+        "dentro de #V# año",
+        "dentro de #V# años"
+    ]
+
+}

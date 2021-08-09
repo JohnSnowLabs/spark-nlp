@@ -1668,6 +1668,11 @@ class DateMatcherUtils(Params):
                           typeConverter=TypeConverters.toInt
                           )
 
+    sourceLanguage = Param(Params._dummy(),
+                           "sourceLanguage",
+                           "source language for explicit translation",
+                           typeConverter=TypeConverters.toString)
+
     def setFormat(self, value):
         return self._set(dateFormat=value)
 
@@ -1686,6 +1691,9 @@ class DateMatcherUtils(Params):
 
     def setAnchorDateDay(self, value):
         return self._set(anchorDateDay=value)
+
+    def setSourceLanguage(self, value):
+        return self._set(sourceLanguage=value)
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
