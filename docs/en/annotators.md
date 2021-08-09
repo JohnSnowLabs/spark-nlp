@@ -53,8 +53,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="ContextSpellChecker" summary="Implements a deep-learning based Noisy Channel Model Spell Algorithm."%}
 {% include templates/anno_table_entry.md path="" name="DateMatcher" summary="Matches standard date formats into a provided format."%}
 {% include templates/anno_table_entry.md path="" name="DependencyParser" summary="Unlabeled parser that finds a grammatical relation between two words in a sentence."%}
-{% include templates/anno_table_entry.md path="" name="DistilBertForTokenClassification" summary="DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
-e.g. for Named-Entity-Recognition (NER) tasks."%}
+{% include templates/anno_table_entry.md path="" name="DistilBertForTokenClassification" summary="DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="" name="Doc2Chunk" summary="Converts `DOCUMENT` type annotations into `CHUNK` type with the contents of a `chunkCol`."%}
 {% include templates/anno_table_entry.md path="" name="DocumentAssembler" summary="Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
