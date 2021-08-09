@@ -23,9 +23,7 @@ CHUNK
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 # This is a continuation of the example of the NerDLModel. See that class
 # on how to extract the entities.
