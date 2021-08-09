@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.tensorflow.Graph
 
 import scala.collection.JavaConverters._
@@ -153,6 +154,10 @@ class TensorflowSentenceDetectorDL (
     }
     println(f"Training completed.")
     logMessage(f"Training completed.", uuid)
+
+    if (outputLogsPath.isDefined) {
+      OutputHelper.exportLogFileToS3()
+    }
   }
 
   protected def internalPredict(

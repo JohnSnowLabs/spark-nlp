@@ -1,6 +1,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 
@@ -134,6 +135,10 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
+    }
+
+    if (enableOutputLogs) {
+      OutputHelper.exportLogFileToS3()
     }
   }
 

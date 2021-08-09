@@ -46,6 +46,14 @@ object ConfigHelper {
   val secretAccessKey: String = awsCredentials + ".secret_access_key"
   val awsProfileName: String = awsCredentials + ".aws_profile_name"
 
+  // Stores info for AWS S3 logging output when training models
+  val awsLogCredentials = "spark.jsl.settings.log.credentials"
+  val logAccessKeyId: String = awsLogCredentials + ".access_key_id"
+  val logSecretAccessKey: String = awsLogCredentials + ".secret_access_key"
+  val logAwsProfileName: String = awsLogCredentials + ".aws_profile_name"
+  val logS3BucketKey = "spark.jsl.settings.log.s3_bucket"
+  val logAwsRegion = "spark.jsl.settings.log.aws.region"
+
   val s3SocketTimeout = "spark.jsl.settings.pretrained.s3_socket_timeout"
 
   val storageTmpDir = "spark.jsl.settings.storage.cluster_tmp_dir"

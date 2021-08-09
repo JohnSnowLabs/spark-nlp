@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.johnsnowlabs.util
 
 import org.apache.hadoop.fs.FileSystem
@@ -33,22 +32,26 @@ object ConfigLoader {
   private lazy val configData: Map[String, String] = {
 
     getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
-      getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
-      getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
-      getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
-      getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
-      getConfigInfo(ConfigHelper.accessKeyId, "") ++
-      getConfigInfo(ConfigHelper.secretAccessKey, "") ++
-      getConfigInfo(ConfigHelper.awsProfileName, "") ++
-      getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
-      getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
-      getConfigInfo(ConfigHelper.serializationMode, "object") ++
-      getConfigInfo(ConfigHelper.useBroadcast, "true")
-
+    getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
+    getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
+    getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
+    getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
+    getConfigInfo(ConfigHelper.accessKeyId, "") ++
+    getConfigInfo(ConfigHelper.secretAccessKey, "") ++
+    getConfigInfo(ConfigHelper.awsProfileName, "") ++
+    getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
+    getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
+    getConfigInfo(ConfigHelper.serializationMode, "object") ++
+    getConfigInfo(ConfigHelper.useBroadcast, "true") ++
+    getConfigInfo(ConfigHelper.logAccessKeyId, "") ++
+    getConfigInfo(ConfigHelper.logSecretAccessKey, "") ++
+    getConfigInfo(ConfigHelper.logAwsProfileName, "") ++
+    getConfigInfo(ConfigHelper.logS3BucketKey, "") ++
+    getConfigInfo(ConfigHelper.logAwsRegion, "")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
-    if (property == ConfigHelper.storageTmpDir) {
+    if (property== ConfigHelper.storageTmpDir) {
       val path = ConfigHelper.getConfigValueOrElse(property, defaultValue)
       val tmpLocation = path + "/" + UUID.randomUUID().toString.takeRight(12) + "_cdx"
       Map(property -> tmpLocation)
@@ -90,6 +93,16 @@ object ConfigLoader {
     val hasSecretAccessKey = getConfigStringValue(ConfigHelper.secretAccessKey) != ""
     val hasAwsProfileName = getConfigStringValue(ConfigHelper.awsProfileName) != ""
     if (hasAwsProfileName || hasAccessKeyId || hasSecretAccessKey) true else false
+  }
+
+  def hasFullAwsCredentials: Boolean = {
+    val hasAccessKeyId = getConfigStringValue(ConfigHelper.logAccessKeyId) != ""
+    val hasSecretAccessKey = getConfigStringValue(ConfigHelper.logSecretAccessKey) != ""
+    val hasAwsProfileName = getConfigStringValue(ConfigHelper.logAwsProfileName) != ""
+    val hasAwsRegion= getConfigStringValue(ConfigHelper.logAwsRegion) != ""
+    val hasAwsBucket= getConfigStringValue(ConfigHelper.logS3BucketKey) != ""
+    if ((hasAwsProfileName && hasAwsRegion &&  hasAwsBucket) ||
+      (hasAccessKeyId && hasSecretAccessKey && hasAwsRegion && hasAwsBucket)) true else false
   }
 
 }
