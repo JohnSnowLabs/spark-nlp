@@ -10789,7 +10789,7 @@ class GraphExtraction(AnnotatorModel):
     rootTokens = Param(Params._dummy(),
                        "rootTokens",
                        "Tokens to be consider as root to start traversing the paths. Use it along with explodeEntities",
-                       typeConverter=TypeConverters.toBoolean)
+                       typeConverter=TypeConverters.toListString)
 
     maxSentenceSize = Param(Params._dummy(),
                             "maxSentenceSize",
