@@ -250,7 +250,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
     }
 
     if (enableOutputLogs) {
-      OutputHelper.processLogFile()
+      OutputHelper.exportLogFileToS3()
     }
   }
 

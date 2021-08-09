@@ -121,7 +121,7 @@ class TensorflowClassifier(
     }
 
     if (enableOutputLogs) {
-      OutputHelper.processLogFile()
+      OutputHelper.exportLogFileToS3()
     }
   }
 

@@ -138,7 +138,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     }
 
     if (enableOutputLogs) {
-      OutputHelper.processLogFile()
+      OutputHelper.exportLogFileToS3()
     }
   }
 

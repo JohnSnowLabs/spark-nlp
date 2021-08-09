@@ -56,7 +56,7 @@ object OutputHelper {
     }
   }
 
-  def processLogFile(): Unit = {
+  def exportLogFileToS3(): Unit = {
     try {
       if (isDBFS) {
         val charset = StandardCharsets.ISO_8859_1
