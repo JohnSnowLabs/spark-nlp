@@ -48,7 +48,7 @@ as a Spark dataframe. :class:`sparknlp.training.CoNLL` reads a plain text file a
 >>> training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
 
 CoNLLU Dataset
-=============
+==============
 
 In order to train a :class:`DependencyParserApproach <sparknlp.annotator.DependencyParserApproach>` annotator, we need to get
 `CoNLL-U <https://universaldependencies.org/format.html>`_ format data

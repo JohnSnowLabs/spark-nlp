@@ -73,19 +73,19 @@ class AnnotatorProperties(Params):
 
     def setLazyAnnotator(self, value):
         """Sets whether Annotator should be evaluated lazily in a
-        RecursivePipeline
+        RecursivePipeline.
 
         Parameters
         ----------
         value : bool
             Whether Annotator should be evaluated lazily in a
-        RecursivePipeline
+            RecursivePipeline
         """
         return self._set(lazyAnnotator=value)
 
     def getLazyAnnotator(self):
         """Gets whether Annotator should be evaluated lazily in a
-        RecursivePipeline
+        RecursivePipeline.
         """
         self.getOrDefault(self.lazyAnnotator)
 
@@ -136,7 +136,7 @@ class HasStorageRef:
                        TypeConverters.toString)
 
     def setStorageRef(self, value):
-        """Sets unique reference name for identification
+        """Sets unique reference name for identification.
 
         Parameters
         ----------
@@ -146,7 +146,7 @@ class HasStorageRef:
         return self._set(storageRef=value)
 
     def getStorageRef(self):
-        """Gets unique reference name for identification
+        """Gets unique reference name for identification.
 
         Returns
         -------
@@ -161,7 +161,7 @@ class HasBatchedAnnotate:
     batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
 
     def setBatchSize(self, v):
-        """Sets batch size
+        """Sets batch size.
 
         Parameters
         ----------
@@ -171,7 +171,7 @@ class HasBatchedAnnotate:
         return self._set(batchSize=v)
 
     def getBatchSize(self):
-        """Gets current batch size
+        """Gets current batch size.
 
         Returns
         -------
@@ -188,7 +188,7 @@ class HasCaseSensitiveProperties:
                           typeConverter=TypeConverters.toBoolean)
 
     def setCaseSensitive(self, value):
-        """Sets whether to ignore case in tokens for embeddings matching
+        """Sets whether to ignore case in tokens for embeddings matching.
 
         Parameters
         ----------
@@ -198,7 +198,7 @@ class HasCaseSensitiveProperties:
         return self._set(caseSensitive=value)
 
     def getCaseSensitive(self):
-        """Gets whether to ignore case in tokens for embeddings matching
+        """Gets whether to ignore case in tokens for embeddings matching.
 
         Returns
         -------
@@ -216,7 +216,7 @@ class HasExcludableStorage:
                            typeConverter=TypeConverters.toBoolean)
 
     def setIncludeStorage(self, value):
-        """Sets whether to include indexed storage in trained model
+        """Sets whether to include indexed storage in trained model.
 
         Parameters
         ----------
@@ -226,7 +226,7 @@ class HasExcludableStorage:
         return self._set(includeStorage=value)
 
     def getIncludeStorage(self):
-        """Gets whether to include indexed storage in trained model
+        """Gets whether to include indexed storage in trained model.
 
         Returns
         -------
@@ -244,7 +244,7 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage
                         typeConverter=TypeConverters.identity)
 
     def setStoragePath(self, path, read_as):
-        """Sets path to file
+        """Sets path to file.
 
         Parameters
         ----------
@@ -260,7 +260,7 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage
         return self._set(storagePath=ExternalResource(path, read_as, {}))
 
     def getStoragePath(self):
-        """Gets path to file
+        """Gets path to file.
 
         Returns
         -------
