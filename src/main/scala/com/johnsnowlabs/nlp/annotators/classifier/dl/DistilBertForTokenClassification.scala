@@ -37,7 +37,7 @@ import java.io.File
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val embeddings = DistilBertForTokenClassification.pretrained()
+ * val labels = DistilBertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
@@ -146,6 +146,7 @@ class DistilBertForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
+  /** @group getParam */
   def getLabels: Map[String, Int] = $$(labels)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`

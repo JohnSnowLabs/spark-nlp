@@ -35,10 +35,10 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
  *
  * val embeddings = WordEmbeddingsModel.pretrained()
  *   .setInputCols("sentence", "token")
- *   .setOutputCol("bert")
+ *   .setOutputCol("embeddings")
  *
  * val nerTagger = NerDLModel.pretrained()
- *   .setInputCols("sentence", "token", "bert")
+ *   .setInputCols("sentence", "token", "embeddings")
  *   .setOutputCol("ner")
  *
  * val pipeline = new Pipeline().setStages(Array(
