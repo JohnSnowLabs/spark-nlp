@@ -43,19 +43,25 @@ There are two types of Annotators:
 {:.table-model-big}
 |Annotator|Description|Version |
 |---|---|---|
+{% include templates/anno_table_entry.md path="" name="BertForTokenClassification" summary="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="" name="BigTextMatcher" summary="Annotator to match exact phrases (by token) provided in a file against a Document."%}
 {% include templates/anno_table_entry.md path="" name="Chunk2Doc" summary="Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do further analysis on a `CHUNK` result."%}
 {% include templates/anno_table_entry.md path="" name="ChunkEmbeddings" summary="This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs."%}
+{% include templates/anno_table_entry.md path="" name="ChunkTokenizer" summary="Tokenizes and flattens extracted NER chunks."%}
 {% include templates/anno_table_entry.md path="" name="Chunker" summary="This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document."%}
 {% include templates/anno_table_entry.md path="" name="ClassifierDL" summary="ClassifierDL for generic Multi-class Text Classification."%}
 {% include templates/anno_table_entry.md path="" name="ContextSpellChecker" summary="Implements a deep-learning based Noisy Channel Model Spell Algorithm."%}
 {% include templates/anno_table_entry.md path="" name="DateMatcher" summary="Matches standard date formats into a provided format."%}
 {% include templates/anno_table_entry.md path="" name="DependencyParser" summary="Unlabeled parser that finds a grammatical relation between two words in a sentence."%}
+{% include templates/anno_table_entry.md path="" name="DistilBertForTokenClassification" summary="DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
+e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="" name="Doc2Chunk" summary="Converts `DOCUMENT` type annotations into `CHUNK` type with the contents of a `chunkCol`."%}
 {% include templates/anno_table_entry.md path="" name="DocumentAssembler" summary="Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
 {% include templates/anno_table_entry.md path="" name="EmbeddingsFinisher" summary="Extracts embeddings from Annotations into a more easily usable form."%}
 {% include templates/anno_table_entry.md path="" name="Finisher" summary="Converts annotation results into a format that easier to use. It is useful to extract the results from Spark NLP Pipelines."%}
+{% include templates/anno_table_entry.md path="" name="GraphExtraction" summary="Extracts a dependency graph between entities."%}
+{% include templates/anno_table_entry.md path="" name="GraphFinisher" summary="Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF."%}
 {% include templates/anno_table_entry.md path="" name="LanguageDetectorDL" summary="Language Identification and Detection by using CNN and RNN architectures in TensorFlow."%}
 {% include templates/anno_table_entry.md path="" name="Lemmatizer" summary="Finds lemmas out of words with the objective of returning a base dictionary word."%}
 {% include templates/anno_table_entry.md path="" name="MultiClassifierDL" summary="Multi-label Text Classification."%}
@@ -100,6 +106,7 @@ Additionally, these transformers are available to generate embeddings.
 {% include templates/anno_table_entry.md path="./transformers" name="BertSentenceEmbeddings" summary="Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DistilBertEmbeddings" summary="DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base."%}
 {% include templates/anno_table_entry.md path="./transformers" name="ElmoEmbeddings" summary="Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark."%}
+{% include templates/anno_table_entry.md path="./transformers" name="LongformerEmbeddings" summary="Longformer is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MarianTransformer" summary="Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies."%}
 {% include templates/anno_table_entry.md path="./transformers" name="RoBertaEmbeddings" summary="RoBERTa: A Robustly Optimized BERT Pretraining Approach"%}
 {% include templates/anno_table_entry.md path="./transformers" name="T5Transformer" summary="T5 reconsiders all NLP tasks into a unified text-to-text-format where the input and output are always text strings, in contrast to BERT-style models that can only output either a class label or a span of the input."%}
