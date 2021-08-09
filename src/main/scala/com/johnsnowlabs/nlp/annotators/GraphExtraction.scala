@@ -32,69 +32,235 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.immutable.Map
 
+/**
+ * Extracts a dependency graph between entities.
+ *
+ * The GraphExtraction class takes e.g. extracted entities from a
+ * [[com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel NerDLModel]] and creates a dependency tree which describes how
+ * the entities relate to each other. For that a triple store format is used. Nodes represent the entities and the
+ * edges represent the relations between those entities. The graph can then be used to find relevant relationships
+ * between words.
+ *
+ * Both the [[com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel DependencyParserModel]] and
+ * [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel TypedDependencyParserModel]] need to be
+ * present in the pipeline. The dependency are taken implicitly from these two Annotators.
+ *
+ * To transform the resulting graph into a more generic form such as RDF, see the
+ * [[com.johnsnowlabs.nlp.GraphFinisher GraphFinisher]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+ * import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+ * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+ * import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+ * import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
+ * import org.apache.spark.ml.Pipeline
+ * import com.johnsnowlabs.nlp.annotators.GraphExtraction
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val sentence = new SentenceDetector()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols("sentence")
+ *   .setOutputCol("token")
+ *
+ * val embeddings = WordEmbeddingsModel.pretrained()
+ *   .setInputCols("sentence", "token")
+ *   .setOutputCol("embeddings")
+ *
+ * val nerTagger = NerDLModel.pretrained()
+ *   .setInputCols("sentence", "token", "embeddings")
+ *   .setOutputCol("ner")
+ *
+ * val posTagger = PerceptronModel.pretrained()
+ *   .setInputCols("sentence", "token")
+ *   .setOutputCol("pos")
+ *
+ * val dependencyParser = DependencyParserModel.pretrained()
+ *   .setInputCols("sentence", "pos", "token")
+ *   .setOutputCol("dependency")
+ *
+ * val typedDependencyParser = TypedDependencyParserModel.pretrained()
+ *   .setInputCols("dependency", "pos", "token")
+ *   .setOutputCol("dependency_type")
+ *
+ * val graph_extraction = new GraphExtraction()
+ *   .setInputCols("document", "token", "ner")
+ *   .setOutputCol("graph")
+ *   .setRelationshipTypes(Array("prefer-LOC"))
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   sentence,
+ *   tokenizer,
+ *   embeddings,
+ *   nerTagger,
+ *   posTagger,
+ *   dependencyParser,
+ *   typedDependencyParser,
+ *   graph_extraction
+ * ))
+ *
+ * val data = Seq("You and John prefer the morning flight through Denver").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.select("graph").show(false)
+ * +-----------------------------------------------------------------------------------------------------------------+
+ * |graph                                                                                                            |
+ * +-----------------------------------------------------------------------------------------------------------------+
+ * |[[node, 13, 18, prefer, [relationship -> prefer,LOC, path1 -> prefer,nsubj,morning,flat,flight,flat,Denver], []]]|
+ * +-----------------------------------------------------------------------------------------------------------------+
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.GraphFinisher GraphFinisher]] to output the paths in a more generic format, like RDF
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtraction]
   with HasSimpleAnnotate[GraphExtraction] {
 
   def this() = this(Identifiable.randomUID("GRAPH_EXTRACTOR"))
 
-  protected val relationshipTypes = new StringArrayParam(this, "relationshipTypes",
+  /**
+   * Find paths between a pair of token and entity (Default: `Array()`)
+   * @group param
+   */
+  val relationshipTypes = new StringArrayParam(this, "relationshipTypes",
     "Find paths between a pair of token and entity")
 
-  protected val entityTypes = new StringArrayParam(this, "entityTypes",
+  /**
+   * Find paths between a pair of entities (Default: `Array()`)
+   * @group param
+   */
+  val entityTypes = new StringArrayParam(this, "entityTypes",
     "Find paths between a pair of entities")
 
-  protected val explodeEntities = new BooleanParam(this, "explodeEntities",
+  /**
+   * When set to true find paths between entities (Default: `false`)
+   * @group param
+   */
+  val explodeEntities = new BooleanParam(this, "explodeEntities",
     "When set to true find paths between entities")
 
-  protected val rootTokens = new StringArrayParam(this, "rootTokens",
+  /**
+   * Tokens to be consider as root to start traversing the paths (Default: `Array()`). Use it along with `explodeEntities`
+   * @group param
+   */
+  val rootTokens = new StringArrayParam(this, "rootTokens",
     "Tokens to be consider as root to start traversing the paths. Use it along with explodeEntities")
 
-  protected val maxSentenceSize = new IntParam(this, "maxSentenceSize",
+  /**
+   * Maximum sentence size that the annotator will process (Default: `1000`). Above this, the sentence is skipped
+   * @group param
+   */
+  val maxSentenceSize = new IntParam(this, "maxSentenceSize",
     "Maximum sentence size that the annotator will process. Above this, the sentence is skipped")
 
-  protected val minSentenceSize = new IntParam(this, "minSentenceSize",
+  /**
+   * Minimum sentence size that the annotator will process (Default: `2`). Below this, the sentence is skipped
+   * @group param
+   */
+  val minSentenceSize = new IntParam(this, "minSentenceSize",
     "Minimum sentence size that the annotator will process. Below this, the sentence is skipped")
 
-  protected val mergeEntities = new BooleanParam(this, "mergeEntities",
+  /**
+   * Merge same neighboring entities as a single token (Default: `false`)
+   * @group param
+   */
+  val mergeEntities = new BooleanParam(this, "mergeEntities",
     "Merge same neighboring entities as a single token")
 
-  protected val includeEdges = new BooleanParam(this, "includeEdges",
+  /**
+   * Whether to include edges when building paths (Default: `true`)
+   * @group param
+   */
+  val includeEdges = new BooleanParam(this, "includeEdges",
     "Whether to include edges when building paths")
 
-  protected val delimiter = new Param[String](this, "delimiter",
+  /**
+   * Delimiter symbol used for path output (Default: `","`)
+   * @group param
+   */
+  val delimiter = new Param[String](this, "delimiter",
     "Delimiter symbol used for path output")
 
-  protected val posModel = new StringArrayParam(this, "posModel",
+  /**
+   * Coordinates (name, lang, remoteLoc) to a pretrained POS model (Default: `Array()`)
+   * @group param
+   */
+  val posModel = new StringArrayParam(this, "posModel",
     "Coordinates (name, lang, remoteLoc) to a pretrained POS model")
 
-  protected val dependencyParserModel = new StringArrayParam(this, "dependencyParserModel",
+  /**
+   * Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser model (Default: `Array()`)
+   * @group param
+   */
+  val dependencyParserModel = new StringArrayParam(this, "dependencyParserModel",
     "Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser model")
 
-  protected val typedDependencyParserModel = new StringArrayParam(this, "typedDependencyParserModel",
+  /**
+   * Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model (Default: `Array()`)
+   * @group param
+   */
+  val typedDependencyParserModel = new StringArrayParam(this, "typedDependencyParserModel",
     "Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model")
 
+  /** @group setParam */
   def setRelationshipTypes(value: Array[String]): this.type = set(relationshipTypes, value)
 
+  /** @group setParam */
   def setEntityTypes(value: Array[String]): this.type = set(entityTypes, value)
 
+  /** @group setParam */
   def setExplodeEntities(value: Boolean): this.type = set(explodeEntities, value)
 
+  /** @group setParam */
   def setRootTokens(value: Array[String]): this.type = set(rootTokens, value)
 
+  /** @group setParam */
   def setMaxSentenceSize(value: Int): this.type = set(maxSentenceSize, value)
 
+  /** @group setParam */
   def setMinSentenceSize(value: Int): this.type = set(minSentenceSize, value)
 
+  /** @group setParam */
   def setMergeEntities(value: Boolean): this.type = set(mergeEntities, value)
 
+  /** @group setParam */
   def setIncludeEdges(value: Boolean): this.type = set(includeEdges, value)
 
+  /** @group setParam */
   def setDelimiter(value: String): this.type = set(delimiter, value)
 
+  /** @group setParam */
   def setPosModel(value: Array[String]): this.type = set(posModel, value)
 
+  /** @group setParam */
   def setDependencyParserModel(value: Array[String]): this.type = set(dependencyParserModel, value)
 
+  /** @group setParam */
   def setTypedDependencyParserModel(value: Array[String]): this.type = set(typedDependencyParserModel, value)
 
   setDefault(entityTypes -> Array(), explodeEntities -> false, maxSentenceSize -> 1000, minSentenceSize -> 2,
@@ -373,8 +539,16 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   private case class AnnotationsInfo(tokens: Seq[Annotation], nerEntities: Seq[Annotation],
                                      dependencyData: Seq[DependencyInfo])
 
+  /**
+   * Output annotator types: NODE
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = NODE
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
 
+  /**
+   * Input annotator types: DOCUMENT, TOKEN, NAMED_ENTITY
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
 }
