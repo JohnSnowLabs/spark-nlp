@@ -1107,6 +1107,45 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
 
 class GraphFinisher(AnnotatorTransformer):
+    """Helper class to convert the knowledge graph from GraphExtraction into a
+    generic format, such as RDF.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``NONE``               ``NONE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    inputCol
+        Name of input annotation column
+    outputCol
+        Name of finisher output column
+    cleanAnnotations
+        Whether to remove all the existing annotation columns, by default True
+    outputAsArray
+        Whether to generate an Array with the results, by default True
+
+    Examples
+    --------
+    This is a continuation of the example of
+    :class:`.GraphExtraction`. To see how the graph is extracted, see the
+    documentation of that class.
+
+    >>> graphFinisher = GraphFinisher() \\
+    ...     .setInputCol("graph") \\
+    ...     .setOutputCol("graph_finished")
+    ...     .setOutputAsArray(False)
+    >>> finishedResult = graphFinisher.transform(result)
+    >>> finishedResult.select("text", "graph_finished").show(truncate=False)
+    +-----------------------------------------------------+-----------------------------------------------------------------------+
+    |text                                                 |graph_finished                                                         |
+    +-----------------------------------------------------+-----------------------------------------------------------------------+
+    |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
+    +-----------------------------------------------------+-----------------------------------------------------------------------+
+    """
     inputCol = Param(Params._dummy(), "inputCol", "Name of input annotation col", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "Name of finisher output col", typeConverter=TypeConverters.toString)
     cleanAnnotations = Param(Params._dummy(),
@@ -1132,14 +1171,43 @@ class GraphFinisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCol(self, value):
+        """Sets name of input annotation column.
+
+        Parameters
+        ----------
+        value : str
+            Name of input annotation column.
+        """
         return self._set(inputCol=value)
 
     def setOutputCol(self, value):
+        """Sets name of finisher output column.
+
+        Parameters
+        ----------
+        value : str
+            Name of finisher output column.
+        """
         return self._set(outputCol=value)
 
     def setCleanAnnotations(self, value):
+        """Sets whether to remove all the existing annotation columns, by
+        default True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to remove all the existing annotation columns, by default True.
+        """
         return self._set(cleanAnnotations=value)
 
     def setOutputAsArray(self, value):
+        """Sets whether to generate an Array with the results, by default True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to generate an Array with the results, by default True.
+        """
         return self._set(outputAsArray=value)
 
