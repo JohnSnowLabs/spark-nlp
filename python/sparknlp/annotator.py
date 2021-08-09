@@ -158,7 +158,7 @@ class RecursiveTokenizer(AnnotatorApproach):
     def setSuffixes(self, s):
         """Sets strings to be considered independent tokens when found at the
         end of a word, by default ['.', ':', '%', ',', ';', '?', "'", '"', ')',
-        ']', '\\n', '!', "'s"]
+        ']', '\\n', '!', "'s"].
 
         Parameters
         ----------
@@ -170,7 +170,7 @@ class RecursiveTokenizer(AnnotatorApproach):
 
     def setInfixes(self, i):
         """Sets strings to be considered independent tokens when found in the
-        middle of a word, by default ['\\n', '(', ')']
+        middle of a word, by default ['\\n', '(', ')'].
 
         Parameters
         ----------
@@ -189,7 +189,7 @@ class RecursiveTokenizer(AnnotatorApproach):
         """Sets strings to be considered as single tokens, by default ["it\'s",
         "that\'s", "there\'s", "he\'s", "she\'s", "what\'s", "let\'s", "who\'s",
         "It\'s", "That\'s", "There\'s", "He\'s", "She\'s", "What\'s", "Let\'s",
-        "Who\'s"]
+        "Who\'s"].
 
         Parameters
         ----------
@@ -1537,7 +1537,7 @@ class Normalizer(AnnotatorApproach):
 
     def setSlangDictionary(self, path, delimiter, read_as=ReadAs.TEXT, options={"format": "text"}):
         """Sets slang dictionary is a delimited text. Needs 'delimiter' in
-        options
+        options.
 
         Parameters
         ----------
@@ -2618,7 +2618,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return TextMatcherModel(java_model=java_model)
 
     def setEntities(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
-        """Sets ExternalResource for entities
+        """Sets ExternalResource for entities.
 
         Parameters
         ----------
@@ -2632,7 +2632,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return self._set(entities=ExternalResource(path, read_as, options.copy()))
 
     def setCaseSensitive(self, b):
-        """Sets whether to ignore case in index lookups, by default True
+        """Sets whether to ignore case in index lookups, by default True.
 
         Parameters
         ----------
@@ -2642,7 +2642,7 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return self._set(caseSensitive=b)
 
     def setMergeOverlapping(self, b):
-        """Sets whether to merge overlapping matched chunks, by default False
+        """Sets whether to merge overlapping matched chunks, by default False.
 
         Parameters
         ----------
@@ -2653,7 +2653,8 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
         return self._set(mergeOverlapping=b)
 
     def setTokenizer(self, tokenizer_model):
-        """Sets TokenizerModel to use to tokenize input file for building a Trie
+        """Sets TokenizerModel to use to tokenize input file for building a
+        Trie.
 
         Parameters
         ----------
@@ -2711,7 +2712,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
         )
 
     def setMergeOverlapping(self, b):
-        """Sets whether to merge overlapping matched chunks, by default False
+        """Sets whether to merge overlapping matched chunks, by default False.
 
         Parameters
         ----------
@@ -2721,7 +2722,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
         return self._set(mergeOverlapping=b)
 
     def setCaseSensitive(self, v):
-        """Sets whether to ignore case in index lookups
+        """Sets whether to ignore case in index lookups.
 
         Parameters
         ----------
@@ -4061,7 +4062,7 @@ class SymmetricDeleteApproach(AnnotatorApproach):
 
     def setMaxEditDistance(self, v):
         """Sets max edit distance characters to derive strings from a word, by
-        default 3/
+        default 3.
 
         Parameters
         ----------
@@ -4071,7 +4072,8 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         return self._set(maxEditDistance=v)
 
     def setFrequencyThreshold(self, v):
-        """Sets minimum frequency of words to be considered from training, by default 0.
+        """Sets minimum frequency of words to be considered from training, by
+        default 0.
 
         Parameters
         ----------
@@ -4209,7 +4211,7 @@ class NerApproach(Params):
     randomSeed = Param(Params._dummy(), "randomSeed", "Random seed", TypeConverters.toInt)
 
     def setLabelColumn(self, value):
-        """Sets name of column for data labels
+        """Sets name of column for data labels.
 
         Parameters
         ----------
@@ -4239,7 +4241,7 @@ class NerApproach(Params):
         return self._set(minEpochs=epochs)
 
     def setMaxEpochs(self, epochs):
-        """Sets maximum number of epochs to train
+        """Sets maximum number of epochs to train.
 
         Parameters
         ----------
@@ -4249,7 +4251,7 @@ class NerApproach(Params):
         return self._set(maxEpochs=epochs)
 
     def setVerbose(self, verboseValue):
-        """Sets level of verbosity during training
+        """Sets level of verbosity during training.
 
         Parameters
         ----------
@@ -4259,7 +4261,7 @@ class NerApproach(Params):
         return self._set(verbose=verboseValue)
 
     def setRandomSeed(self, seed):
-        """Sets random seed for shuffling
+        """Sets random seed for shuffling.
 
         Parameters
         ----------
@@ -4838,7 +4840,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(useContrib=v)
 
     def setLr(self, v):
-        """Sets Learning Rate, by default 0.001
+        """Sets Learning Rate, by default 0.001.
 
         Parameters
         ----------
@@ -4873,7 +4875,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self
 
     def setDropout(self, v):
-        """Sets dropout coefficient, by default 0.5
+        """Sets dropout coefficient, by default 0.5.
 
         Parameters
         ----------
@@ -4974,7 +4976,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(enableMemoryOptimizer=value)
 
     def setOutputLogsPath(self, p):
-        """Sets folder path to save training logs
+        """Sets folder path to save training logs.
 
         Parameters
         ----------
@@ -6826,7 +6828,7 @@ class StopWordsCleaner(AnnotatorModel):
 
     def setLocale(self, value):
         """Sets locale of the input. Ignored when case sensitive, by default
-        locale of the JVM
+        locale of the JVM.
 
         Parameters
         ----------
@@ -10069,7 +10071,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
                       "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
 
     def setVerbose(self, v):
-        """Sets level of verbosity during training
+        """Sets level of verbosity during training.
 
         Parameters
         ----------
@@ -10079,7 +10081,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(verbose=v)
 
     def setRandomSeed(self, seed):
-        """Sets random seed for shuffling
+        """Sets random seed for shuffling.
 
         Parameters
         ----------
@@ -10089,7 +10091,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(randomSeed=seed)
 
     def setLabelColumn(self, v):
-        """Sets name of column for data labels
+        """Sets name of column for data labels.
 
         Parameters
         ----------
@@ -10109,7 +10111,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(configProtoBytes=v)
 
     def setLr(self, v):
-        """Sets Learning Rate, by default 0.001
+        """Sets Learning Rate, by default 0.001.
 
         Parameters
         ----------
@@ -10131,7 +10133,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setMaxEpochs(self, v):
-        """Sets maximum number of epochs to train, by default 10
+        """Sets maximum number of epochs to train, by default 10.
 
         Parameters
         ----------
@@ -10157,7 +10159,8 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self
 
     def setEnableOutputLogs(self, v):
-        """Sets whether to use stdout in addition to Spark logs, by default False
+        """Sets whether to use stdout in addition to Spark logs, by default
+        False.
 
         Parameters
         ----------
@@ -10167,7 +10170,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
         return self._set(enableOutputLogs=v)
 
     def setOutputLogsPath(self, v):
-        """Sets folder path to save training logs
+        """Sets folder path to save training logs.
 
         Parameters
         ----------
@@ -10895,7 +10898,7 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
         return self._set(epochsNumber=epochs_number)
 
     def setOutputLogsPath(self, output_logs_path):
-        """Sets folder path to save training logs
+        """Sets folder path to save training logs.
 
         Parameters
         ----------
@@ -10906,7 +10909,7 @@ class SentenceDetectorDLApproach(AnnotatorApproach):
 
     def setImpossiblePenultimates(self, impossible_penultimates):
         """Sets impossible penultimates - list of strings which a sentence can't
-        end with
+        end with.
 
         Parameters
         ----------
@@ -11664,7 +11667,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         return self._set(configProtoBytes=b)
 
     def setLangId(self, value):
-        """Sets transformer's task, e.g. "summarize>", by default ""
+        """Sets transformer's task, e.g. "summarize>", by default "".
 
         Parameters
         ----------
@@ -11674,8 +11677,8 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
         return self._set(langId=value)
 
     def setMaxInputLength(self, value):
-        """Sets the maximum length for encoder inputs (source language texts), by
-        default 40
+        """Sets the maximum length for encoder inputs (source language texts),
+        by default 40.
 
         Parameters
         ----------
@@ -11686,7 +11689,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
     def setMaxOutputLength(self, value):
         """Sets the maximum length for decoder outputs (target language texts),
-        by default 40
+        by default 40.
 
         Parameters
         ----------

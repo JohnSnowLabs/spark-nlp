@@ -445,7 +445,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(metadataCol=value)
 
     def setCleanupMode(self, value):
-        """Sets how to cleanup the document , by default disabled.
+        """Sets how to cleanup the document, by default disabled.
         Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
         each, each_full, delete_full``
 
@@ -689,7 +689,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(failOnMissing=value)
 
     def setLowerCase(self, value):
-        """Sets whether to lower case for matching case
+        """Sets whether to lower case for matching case.
 
         Parameters
         ----------
@@ -910,7 +910,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(cleanAnnotations=value)
 
     def setIncludeMetadata(self, value):
-        """Sets whether to include annotation metadata
+        """Sets whether to include annotation metadata.
 
         Parameters
         ----------
@@ -920,7 +920,8 @@ class Finisher(AnnotatorTransformer):
         return self._set(includeMetadata=value)
 
     def setOutputAsArray(self, value):
-        """Sets whether to generate an array with the results instead of a string
+        """Sets whether to generate an array with the results instead of a
+        string.
 
         Parameters
         ----------
@@ -930,7 +931,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(outputAsArray=value)
 
     def setParseEmbeddingsVectors(self, value):
-        """Sets whether to include embeddings vectors in the process
+        """Sets whether to include embeddings vectors in the process.
 
         Parameters
         ----------
@@ -1054,7 +1055,7 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
-        """Sets name of input annotation columns containing embeddings
+        """Sets name of input annotation columns containing embeddings.
 
         Parameters
         ----------
@@ -1068,7 +1069,7 @@ class EmbeddingsFinisher(AnnotatorTransformer):
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
-        """Sets names of finished output columns
+        """Sets names of finished output columns.
 
         Parameters
         ----------
@@ -1095,7 +1096,7 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
     def setOutputAsVector(self, value):
         """Sets whether to output the embeddings as Vectors instead of arrays,
-        by default False
+        by default False.
 
         Parameters
         ----------
