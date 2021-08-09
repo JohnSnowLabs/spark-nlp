@@ -6200,11 +6200,12 @@ class BertEmbeddings(AnnotatorModel,
     For available pretrained models please see the
     `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8099,8 +8100,8 @@ class AlbertEmbeddings(AnnotatorModel,
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page
-    <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -8319,8 +8320,8 @@ class XlnetEmbeddings(AnnotatorModel,
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page
-    <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -11776,10 +11777,12 @@ class DistilBertEmbeddings(AnnotatorModel,
     For available pretrained models please see the
     `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb>`__.
+    For extended examples of usage, see the `Spark NLP Workshop
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -11998,8 +12001,8 @@ class RoBertaEmbeddings(AnnotatorModel,
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page
-    <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
 
     ====================== ======================
@@ -12213,8 +12216,8 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
-    the `Transformers Page
-    <https://nlp.johnsnowlabs.com/docs/en/transformers#import-transformers-into-spark-nlp>`_.
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -12749,8 +12752,9 @@ class BertForTokenClassification(AnnotatorModel,
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
     Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. The Spark NLP Workshop example shows how to import them
-    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -12763,12 +12767,12 @@ class BertForTokenClassification(AnnotatorModel,
     batchSize
         Batch size. Large values allows faster processing but requires more
         memory, by default 8
-    caseSensitive
+        caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
         True
-    configProtoBytes
+        configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
-    maxSentenceLength
+        maxSentenceLength
         Max sentence length to process, by default 128
 
     Examples
@@ -12788,17 +12792,20 @@ class BertForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    ...     documentAssembler,
-    ...     tokenizer,
-    ...     tokenClassifier
+    >>> ...     documentAssembler,
+    >>> ...     tokenizer,
+    >>> ...     tokenClassifier
     ... ])
-    >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
+    >>> data = spark.createDataFrame([["John Lenon was born in London and lived
+    >>> in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result                                                                              |
+    |result
+    |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
+    O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
     name = "BERT_FOR_TOKEN_CLASSIFICATION"
@@ -12854,7 +12861,7 @@ class BertForTokenClassification(AnnotatorModel,
         ----------
         folder : str
             Folder of the saved model
-        spark_session : pyspark.sql.SparkSession
+            spark_session : pyspark.sql.SparkSession
             The current SparkSession
 
         Returns
@@ -12875,9 +12882,9 @@ class BertForTokenClassification(AnnotatorModel,
         name : str, optional
             Name of the pretrained model, by default
             "bert_base_token_classifier_conll03"
-        lang : str, optional
+            lang : str, optional
             Language of the pretrained model, by default "en"
-        remote_loc : str, optional
+            remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
 
@@ -12911,8 +12918,9 @@ class DistilBertForTokenClassification(AnnotatorModel,
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
     Models from the HuggingFace 🤗 Transformers library are also compatible with
-    Spark NLP 🚀. The Spark NLP Workshop example shows how to import them
-    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -13076,8 +13084,9 @@ class LongformerEmbeddings(AnnotatorModel,
     <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
     Models from the HuggingFace 🤗 Transformers library are compatible with
-    Spark NLP 🚀. The Spark NLP Workshop example shows how to import them
-    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
 
     ====================== ======================
     Input Annotation types Output Annotation type
