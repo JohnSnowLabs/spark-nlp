@@ -43,7 +43,22 @@ import scala.collection.immutable.Map
  *
  * Both the [[com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel DependencyParserModel]] and
  * [[com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel TypedDependencyParserModel]] need to be
- * present in the pipeline. The dependency are taken implicitly from these two Annotators.
+ * present in the pipeline. There are two ways to set them:
+ *
+ *   1. Both Annotators are present in the pipeline already. The dependencies are taken implicitly from these two
+ *      Annotators.
+ *   1. Setting `setMergeEntities` to `true` will download the default pretrained models for those two Annotators
+ *      automatically. The specific models can also be set with `setDependencyParserModel` and
+ *      `setTypedDependencyParserModel`:
+ *      {{{
+ *            val graph_extraction = new GraphExtraction()
+ *              .setInputCols("document", "token", "ner")
+ *              .setOutputCol("graph")
+ *              .setRelationshipTypes(Array("prefer-LOC"))
+ *              .setMergeEntities(true)
+ *            //.setDependencyParserModel(Array("dependency_conllu", "en",  "public/models"))
+ *            //.setTypedDependencyParserModel(Array("dependency_typed_conllu", "en",  "public/models"))
+ *      }}}
  *
  * To transform the resulting graph into a more generic form such as RDF, see the
  * [[com.johnsnowlabs.nlp.GraphFinisher GraphFinisher]].
