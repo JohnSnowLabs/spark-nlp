@@ -12889,6 +12889,76 @@ class BertForTokenClassification(AnnotatorModel,
 class DistilBertForTokenClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
                                        HasBatchedAnnotate):
+    """DistilBertForTokenClassification can load Bert Models with a token
+    classification head on top (a linear layer on top of the hidden-states
+    output) e.g. for Named-Entity-Recognition (NER) tasks.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> labels = DistilBertForTokenClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label")
+
+    The default model is ``"distilbert_base_token_classifier_conll03"``, if no
+    name is provided.
+
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
+    Models from the HuggingFace 🤗 Transformers library are also compatible with
+    Spark NLP 🚀. The Spark NLP Workshop example shows how to import them
+    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
+    ====================== ======================
+
+    Parameters
+    ----------
+    batchSize
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        True
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    maxSentenceLength
+        Max sentence length to process, by default 128
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> tokenClassifier = DistilBertForTokenClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label") \\
+    ...     .setCaseSensitive(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
+    ... ])
+    >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("label.result").show(truncate=False)
+    +------------------------------------------------------------------------------------+
+    |result                                                                              |
+    +------------------------------------------------------------------------------------+
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
+    +------------------------------------------------------------------------------------+
+    """
     name = "DISTILBERT_FOR_TOKEN_CLASSIFICATION"
 
     maxSentenceLength = Param(Params._dummy(),
@@ -12902,9 +12972,23 @@ class DistilBertForTokenClassification(AnnotatorModel,
                              TypeConverters.toListString)
 
     def setConfigProtoBytes(self, b):
+        """Sets configProto from tensorflow, serialized into byte array.
+
+        Parameters
+        ----------
+        b : List[str]
+            ConfigProto from tensorflow, serialized into byte array
+        """
         return self._set(configProtoBytes=b)
 
     def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process, by default 128.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
         return self._set(maxSentenceLength=value)
 
     @keyword_only
@@ -12922,12 +13006,44 @@ class DistilBertForTokenClassification(AnnotatorModel,
 
     @staticmethod
     def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        DistilBertForTokenClassification
+            The restored model
+        """
         from sparknlp.internal import _DistilBertTokenClassifierLoader
         jModel = _DistilBertTokenClassifierLoader(folder, spark_session._jsparkSession)._java_obj
         return DistilBertForTokenClassification(java_model=jModel)
 
     @staticmethod
     def pretrained(name="distilbert_base_token_classifier_conll03", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default
+            "distilbert_base_token_classifier_conll03"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        DistilBertForTokenClassification
+            The restored model
+        """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DistilBertForTokenClassification, name, lang, remote_loc)
 
