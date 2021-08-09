@@ -3,6 +3,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 
 import scala.collection.mutable
 import scala.util.Random
@@ -117,6 +118,10 @@ class TensorflowClassifier(
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
+    }
+
+    if (enableOutputLogs) {
+      OutputHelper.exportLogFileToS3()
     }
   }
 

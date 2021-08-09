@@ -47,7 +47,9 @@ case class ResourceMetadata
 
 
   lazy val key: String = {
-    s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}"
+    if (language.isEmpty && libVersion.isEmpty && sparkVersion.isEmpty) {
+      name
+    } else s"${name}_${s(language)}_${v(libVersion)}_${v(sparkVersion)}_${t(time)}"
   }
 
   lazy val fileName: String = {
