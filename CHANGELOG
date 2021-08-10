@@ -1,4 +1,26 @@
 ========
+3.2.0
+========
+
+----------------
+Major features and improvements
+----------------
+
+* **NEW:** Introducing **LongformerEmbeddings** annotator
+* **NEW:** Introducing **BertForTokenClassification** annotator
+* **NEW:** Introducing **DistilBertForTokenClassification** annotator
+* **NEW:** Introducing **GraphExctraction** and **GraphFinisher** annotators.
+* **NEW:** Introducing support for multilingual **DateMatcher** and **MultiDateMatcher** annotators. These two annotators will support **English**, **French**, **Italian**, **Spanish**, **German**, and **Portuguese** languages
+* **NEW:** Introducing new **Python APIs** and fully documented **Pydoc**
+* **NEW:** Introducing new **Spark NLP configurations** via spark.conf() by deprecating `application.conf` usage
+* Add support for S3 to `log_folder` Spark NLP config and `outputLogsPath` param in `NerDLApproach`, `ClassifierDlApproach`, `MultiClassifierDlApproach`, and `SentimentDlApproach` annotators
+* Added examples to all Spark NLP Scaladoc
+* Added examples to all Spark NLP Pydoc
+* Welcoming new Databricks runtimes to our Spark NLP family:
+  * Databricks 8.4 ML & GPU
+* Fix printing a wrong version return in sparknlp.version()
+
+========
 3.1.3
 ========
 

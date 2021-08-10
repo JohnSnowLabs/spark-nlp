@@ -2,7 +2,6 @@ package com.johnsnowlabs.ml.tensorflow
 
 import org.tensorflow.ndarray.buffer._
 import org.tensorflow.ndarray.{Shape, StdArrays}
-import org.tensorflow.types.family.TType
 import org.tensorflow.types._
 import org.tensorflow.Tensor
 

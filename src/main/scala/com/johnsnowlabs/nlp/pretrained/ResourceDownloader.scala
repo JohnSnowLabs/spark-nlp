@@ -17,9 +17,8 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{BertForTokenClassification, ClassifierDLModel, DistilBertForTokenClassification, MultiClassifierDLModel, SentimentDLModel}
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -35,11 +34,13 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, DistilBertEmbeddings, ElmoEmbeddings, RoBertaEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlmRoBertaEmbeddings, XlnetEmbeddings}
+import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
+import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
+import com.johnsnowlabs.util._
+import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
@@ -48,10 +49,6 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
-import com.amazonaws.AmazonClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
-import org.apache.hadoop.fs.FileSystem
 
 
 trait ResourceDownloader {
@@ -70,65 +67,21 @@ trait ResourceDownloader {
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
 
-  val fs: FileSystem = ResourceDownloader.fs
+  val fileSystem: FileSystem = ResourceDownloader.fileSystem
 
 }
 
 object ResourceDownloader {
 
-  val fs: FileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+  val fileSystem: FileSystem = ConfigHelper.getFileSystem
 
-  def s3Bucket: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
+  def s3Bucket: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3BucketKey)
 
-  def s3BucketCommunity: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com")
+  def s3BucketCommunity: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCommunityS3BucketKey)
 
-  def s3Path: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
+  def s3Path: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3PathKey)
 
-  def cacheFolder: String = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
-
-  def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
-    val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-    val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-    val awsProfile = ConfigHelper.getConfigValue(ConfigHelper.awsProfileName)
-    if (awsProfile.isDefined) {
-      return Some(new ProfileCredentialsProvider(awsProfile.get).getCredentials)
-    }
-    if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-      fetchcredentials()
-    }
-    else
-      Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
-  }
-  else {
-    fetchcredentials()
-  }
-
-  private def fetchcredentials(): Option[AWSCredentials] = {
-    try {
-      //check if default profile name works if not try 
-      Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
-    } catch {
-      case _: Exception =>
-        try {
-
-          Some(new DefaultAWSCredentialsProviderChain().getCredentials)
-        } catch {
-          case _: AmazonClientException =>
-            if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-
-              val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-              val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-
-              Some(new BasicAWSCredentials(key, secret))
-            } else {
-              Some(new AnonymousAWSCredentials())
-            }
-          case e: Exception => throw e
-
-        }
-    }
-
-  }
+  def cacheFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCacheFolder)
 
   val publicLoc = "public/models"
 
@@ -143,16 +96,16 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
-  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
-  var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
+  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
+  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
+  var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
 
   /**
    * Reset the cache and recreate ResourceDownloader S3 credentials
    */
   def resetResourceDownloader(): Unit = {
     cache.empty
-    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
   }
 
   /**
@@ -490,7 +443,10 @@ object PythonResourceDownloader {
     "WordSegmenterModel" -> WordSegmenterModel,
     "DistilBertEmbeddings" -> DistilBertEmbeddings,
     "RoBertaEmbeddings" -> RoBertaEmbeddings,
-    "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings
+    "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings,
+    "BertForTokenClassification" -> BertForTokenClassification,
+    "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
+    "LongformerEmbeddings" -> LongformerEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

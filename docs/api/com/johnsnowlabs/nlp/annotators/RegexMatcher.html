@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -407,6 +407,14 @@
                         <a href="DateMatcher.html" title="Matches standard date formats into a provided format Reads from different forms of date and time expressions and converts them to a provided date format.">DateMatcher</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="DateMatcherTranslator.html" title=""></a>
+                        <a href="DateMatcherTranslator.html" title="">DateMatcherTranslator</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="DateMatcherTranslatorPolicy.html" title=""></a>
+                        <a href="DateMatcherTranslatorPolicy.html" title="">DateMatcherTranslatorPolicy</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="DateMatcherUtils.html" title=""></a>
                         <a href="DateMatcherUtils.html" title="">DateMatcherUtils</a>
                       </li><li class="current-entities indented4">
@@ -417,6 +425,10 @@
                         <span class="separator"></span>
                         <a class="object" href="EnglishStemmer$.html" title=""></a>
                         <a href="EnglishStemmer$.html" title="">EnglishStemmer</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="GraphExtraction.html" title="Extracts a dependency graph between entities."></a>
+                        <a href="GraphExtraction.html" title="Extracts a dependency graph between entities.">GraphExtraction</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Lemmatizer$.html" title="This is the companion object of Lemmatizer."></a>
                         <a class="class" href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word."></a>
@@ -430,6 +442,10 @@
                         <a class="class" href="MultiDateMatcher.html" title="Matches standard date formats into a provided format."></a>
                         <a href="MultiDateMatcher.html" title="Matches standard date formats into a provided format.">MultiDateMatcher</a>
                       </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="MultiDatePolicy$.html" title=""></a>
+                        <a href="MultiDatePolicy$.html" title="">MultiDatePolicy</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="NGramGenerator$.html" title=""></a>
                         <a class="class" href="NGramGenerator.html" title="A feature transformer that converts the input array of strings (annotatorType TOKEN) into an array of n-grams (annotatorType CHUNK)."></a>
                         <a href="NGramGenerator.html" title="A feature transformer that converts the input array of strings (annotatorType TOKEN) into an array of n-grams (annotatorType CHUNK).">NGramGenerator</a>
@@ -441,6 +457,10 @@
                         <a class="object" href="NormalizerModel$.html" title=""></a>
                         <a class="class" href="NormalizerModel.html" title="Instantiated Model of the Normalizer."></a>
                         <a href="NormalizerModel.html" title="Instantiated Model of the Normalizer.">NormalizerModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="PretrainedAnnotations$.html" title=""></a>
+                        <a href="PretrainedAnnotations$.html" title="">PretrainedAnnotations</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedLemmatizer.html" title=""></a>
@@ -477,6 +497,10 @@
                         <span class="separator"></span>
                         <a class="class" href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern."></a>
                         <a href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern.">RegexTokenizer</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="SingleDatePolicy$.html" title=""></a>
+                        <a href="SingleDatePolicy$.html" title="">SingleDatePolicy</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Stemmer$.html" title="This is the companion object of Stemmer."></a>
                         <a class="class" href="Stemmer.html" title="Returns hard-stems out of words with the objective of retrieving the meaningful part of the word."></a>
@@ -2171,7 +2195,8 @@ Possible values are:</p><ul><li>MATCH_ALL brings one-to-many results</li><li>MAT
         <span class="name">validate</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

@@ -42,31 +42,46 @@ unittest.TextTestRunner().run(YakeModelTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
+unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 # Should be locally tested
+# print("Running ElmoEmbeddingsTestSpec")
 # unittest.TextTestRunner().run(ElmoEmbeddingsTestSpec())
+# print("Running AlbertEmbeddingsTestSpec")
 # unittest.TextTestRunner().run(AlbertEmbeddingsTestSpec())
+# print("Running XlnetEmbeddingsTestSpec")
 # unittest.TextTestRunner().run(XlnetEmbeddingsTestSpec())
+# print("Running UniversalSentenceEncoderTestSpec")
 # unittest.TextTestRunner().run(UniversalSentenceEncoderTestSpec())
+# print("Running ClassifierDLTestSpec")
 # unittest.TextTestRunner().run(ClassifierDLTestSpec())
+# print("Running MultiClassifierDLTestSpec")
 # unittest.TextTestRunner().run(MultiClassifierDLTestSpec())
+# print("Running SentimentDLTestSpec")
 # unittest.TextTestRunner().run(SentimentDLTestSpec())
+# print("Running RecursiveTestSpec")
 # unittest.TextTestRunner().run(RecursiveTestSpec())
+# print("Running T5TransformerQATestSpec")
 # unittest.TextTestRunner().run(T5TransformerQATestSpec())
+# print("Running T5TransformerSummaryTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryTestSpec())
+# print("Running T5TransformerSummaryWithSamplingTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingTestSpec())
+# print("Running T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec())
+# print("Running T5TransformerSummaryWithSamplingAndTemperatureTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTemperatureTestSpec())
+# print("Running T5TransformerSummaryWithSamplingAndTopPTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithSamplingAndTopPTestSpec())
+# print("Running T5TransformerSummaryWithRepetitionPenaltyTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
-
 
 # Misc tests
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 
-#Functions tests
+# Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
 

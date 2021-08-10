@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcherUtils</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcherUtils</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcherUtils" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -407,6 +407,14 @@
                         <a href="DateMatcher.html" title="Matches standard date formats into a provided format Reads from different forms of date and time expressions and converts them to a provided date format.">DateMatcher</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="DateMatcherTranslator.html" title=""></a>
+                        <a href="DateMatcherTranslator.html" title="">DateMatcherTranslator</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="DateMatcherTranslatorPolicy.html" title=""></a>
+                        <a href="DateMatcherTranslatorPolicy.html" title="">DateMatcherTranslatorPolicy</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="" title=""></a>
                         <a href="" title="">DateMatcherUtils</a>
                       </li><li class="current-entities indented4">
@@ -417,6 +425,10 @@
                         <span class="separator"></span>
                         <a class="object" href="EnglishStemmer$.html" title=""></a>
                         <a href="EnglishStemmer$.html" title="">EnglishStemmer</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="GraphExtraction.html" title="Extracts a dependency graph between entities."></a>
+                        <a href="GraphExtraction.html" title="Extracts a dependency graph between entities.">GraphExtraction</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Lemmatizer$.html" title="This is the companion object of Lemmatizer."></a>
                         <a class="class" href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word."></a>
@@ -430,6 +442,10 @@
                         <a class="class" href="MultiDateMatcher.html" title="Matches standard date formats into a provided format."></a>
                         <a href="MultiDateMatcher.html" title="Matches standard date formats into a provided format.">MultiDateMatcher</a>
                       </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="MultiDatePolicy$.html" title=""></a>
+                        <a href="MultiDatePolicy$.html" title="">MultiDatePolicy</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="NGramGenerator$.html" title=""></a>
                         <a class="class" href="NGramGenerator.html" title="A feature transformer that converts the input array of strings (annotatorType TOKEN) into an array of n-grams (annotatorType CHUNK)."></a>
                         <a href="NGramGenerator.html" title="A feature transformer that converts the input array of strings (annotatorType TOKEN) into an array of n-grams (annotatorType CHUNK).">NGramGenerator</a>
@@ -441,6 +457,10 @@
                         <a class="object" href="NormalizerModel$.html" title=""></a>
                         <a class="class" href="NormalizerModel.html" title="Instantiated Model of the Normalizer."></a>
                         <a href="NormalizerModel.html" title="Instantiated Model of the Normalizer.">NormalizerModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="PretrainedAnnotations$.html" title=""></a>
+                        <a href="PretrainedAnnotations$.html" title="">PretrainedAnnotations</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedLemmatizer.html" title=""></a>
@@ -477,6 +497,10 @@
                         <span class="separator"></span>
                         <a class="class" href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern."></a>
                         <a href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern.">RegexTokenizer</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="SingleDatePolicy$.html" title=""></a>
+                        <a href="SingleDatePolicy$.html" title="">SingleDatePolicy</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Stemmer$.html" title="This is the companion object of Stemmer."></a>
                         <a class="class" href="Stemmer.html" title="Returns hard-stems out of words with the objective of retrieving the meaningful part of the word."></a>
@@ -900,7 +924,8 @@ If it is not set, the by default it will use the current year. Example: 2021
         <span class="name">defaultDayWhenMissing</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Which day to set when it is missing from parsed input (Default: <code>1</code>)</p>
+      <p class="shortcomment cmt">Which day to set when it is missing from parsed input (Default: <code>1</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#defaultMonthWhenMissing" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultMonthWhenMissing:Int"></a>
       <span class="permalink">
@@ -1267,6 +1292,22 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
       </span>
       
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getSourceLanguage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getSourceLanguage:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#getSourceLanguage:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSourceLanguage</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">To get to use or not the multi-language translation.</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1451,7 +1492,8 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
         <span class="name">readMonthFirst</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: <code>true</code>)</p>
+      <p class="shortcomment cmt">Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: <code>true</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativeDateContentParse" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="relativeDateContentParse(date:com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch):DateMatcherUtils.this.MatchedDateTime"></a><a id="relativeDateContentParse(RuleMatch):MatchedDateTime"></a>
       <span class="permalink">
@@ -1465,6 +1507,38 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
       </span>
       <span class="symbol">
         <span class="name">relativeDateContentParse</span><span class="params">(<span name="date">date: <a href="../util/regex/RuleFactory$$RuleMatch.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch">RuleMatch</a></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils.MatchedDateTime">MatchedDateTime</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativeDateFutureContentParse" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="relativeDateFutureContentParse(date:com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch):DateMatcherUtils.this.MatchedDateTime"></a><a id="relativeDateFutureContentParse(RuleMatch):MatchedDateTime"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#relativeDateFutureContentParse(date:com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch):DateMatcherUtils.this.MatchedDateTime" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relativeDateFutureContentParse</span><span class="params">(<span name="date">date: <a href="../util/regex/RuleFactory$$RuleMatch.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch">RuleMatch</a></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils.MatchedDateTime">MatchedDateTime</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativeDatePastContentParse" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="relativeDatePastContentParse(date:com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch):DateMatcherUtils.this.MatchedDateTime"></a><a id="relativeDatePastContentParse(RuleMatch):MatchedDateTime"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#relativeDatePastContentParse(date:com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch):DateMatcherUtils.this.MatchedDateTime" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relativeDatePastContentParse</span><span class="params">(<span name="date">date: <a href="../util/regex/RuleFactory$$RuleMatch.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch">RuleMatch</a></span>)</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils.MatchedDateTime">MatchedDateTime</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
@@ -1519,6 +1593,70 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
 Will always assume relative day from current time at processing
 ToDo: Support relative dates from input date
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativeFutureFactory" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="relativeFutureFactory:com.johnsnowlabs.nlp.util.regex.RuleFactory"></a><a id="relativeFutureFactory:RuleFactory"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#relativeFutureFactory:com.johnsnowlabs.nlp.util.regex.RuleFactory" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relativeFutureFactory</span><span class="result">: <a href="../util/regex/RuleFactory.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory">RuleFactory</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativeFuturePattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="relativeFuturePattern:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#relativeFuturePattern:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relativeFuturePattern</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativePastFactory" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="relativePastFactory:com.johnsnowlabs.nlp.util.regex.RuleFactory"></a><a id="relativePastFactory:RuleFactory"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#relativePastFactory:com.johnsnowlabs.nlp.util.regex.RuleFactory" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relativePastFactory</span><span class="result">: <a href="../util/regex/RuleFactory.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory">RuleFactory</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relativePastPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="relativePastPattern:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#relativePastPattern:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">relativePastPattern</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Used for past relative date matches</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#relaxedFactory" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="relaxedFactory:com.johnsnowlabs.nlp.util.regex.RuleFactory"></a><a id="relaxedFactory:RuleFactory"></a>
       <span class="permalink">
@@ -1715,6 +1853,22 @@ Auto completes short versions of months. Any two digit year is considered to be 
       </span>
       
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setSourceLanguage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setSourceLanguage(value:String):DateMatcherUtils.this.type"></a><a id="setSourceLanguage(String):DateMatcherUtils.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#setSourceLanguage(value:String):DateMatcherUtils.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSourceLanguage</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">To set or not the source language for explicit translation.</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#shortMonths" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="shortMonths:Seq[String]"></a>
       <span class="permalink">
@@ -1731,6 +1885,23 @@ Auto completes short versions of months. Any two digit year is considered to be 
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#sourceLanguage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="sourceLanguage:org.apache.spark.ml.param.Param[String]"></a><a id="sourceLanguage:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherUtils.html#sourceLanguage:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sourceLanguage</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Source language for explicit translation
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

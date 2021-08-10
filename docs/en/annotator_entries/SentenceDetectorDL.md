@@ -35,9 +35,7 @@ DOCUMENT
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 # In this example, the normal `SentenceDetector` is compared to the `SentenceDetectorDLModel`. In a pipeline,
 # `SentenceDetectorDLModel` can be used as a replacement for the `SentenceDetector`.
@@ -180,9 +178,7 @@ DOCUMENT
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 # The training process needs data, where each data point is a sentence.
 # In this example the `train.txt` file has the form of
