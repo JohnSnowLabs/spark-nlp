@@ -1995,6 +1995,11 @@ class DateMatcherUtils(Params):
                           typeConverter=TypeConverters.toInt
                           )
 
+    sourceLanguage = Param(Params._dummy(),
+                           "sourceLanguage",
+                           "source language for explicit translation",
+                           typeConverter=TypeConverters.toString)
+
     def setFormat(self, value):
         """Sets desired format for extracted dates, by default yyyy/MM/dd.
 
@@ -2060,6 +2065,10 @@ class DateMatcherUtils(Params):
         """
         normalizedMonth = value - 1
         return self._set(anchorDateMonth=normalizedMonth)
+
+    def setSourceLanguage(self, value):
+        return self._set(sourceLanguage=value)
+
 
     def setAnchorDateDay(self, value):
         """Sets an anchor day of the day for the relative dates such as a day
@@ -12545,7 +12554,7 @@ class GraphExtraction(AnnotatorModel):
     rootTokens = Param(Params._dummy(),
                        "rootTokens",
                        "Tokens to be consider as root to start traversing the paths. Use it along with explodeEntities",
-                       typeConverter=TypeConverters.toBoolean)
+                       typeConverter=TypeConverters.toListString)
 
     maxSentenceSize = Param(Params._dummy(),
                             "maxSentenceSize",

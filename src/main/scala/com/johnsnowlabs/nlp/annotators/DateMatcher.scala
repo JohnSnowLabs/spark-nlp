@@ -17,11 +17,11 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 /**
  * Matches standard date formats into a provided format
@@ -124,13 +124,25 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    * @return a possible date-time match
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
-    val possibleDate = extractFormalDate(text)
-      .orElse(extractRelaxedDate(text))
-      .orElse(extractRelativeDate(text))
-      .orElse(extractTomorrowYesterday(text))
-      .orElse(extractRelativeExactDay(text))
 
-    possibleDate.orElse(setTimeIfAny(possibleDate, text))
+    val sourceLanguage = getSourceLanguage
+    val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
+
+    val _text =
+      if (translationPreds.forall(_.equals(true)))
+        new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
+      else
+        text
+
+    val possibleDate = extractFormalDate(_text)
+      .orElse(extractRelativeDatePast(_text))
+      .orElse(extractRelativeDateFuture(_text))
+      .orElse(extractRelaxedDate(_text))
+      .orElse(extractRelativeDate(_text))
+      .orElse(extractTomorrowYesterday(_text))
+      .orElse(extractRelativeExactDay(_text))
+
+    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
   }
 
 
@@ -178,16 +190,35 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     } else None
   }
 
+  private def extractRelativeDateFuture(text: String): Option[MatchedDateTime] = {
+    if ("in\\s[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
+      relativeFutureFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
+        relativeDateFutureContentParse(possibleDate))
+    else
+      None
+  }
+
+  private def extractRelativeDatePast(text: String): Option[MatchedDateTime] = {
+    if (!"(.*)\\s+(in)\\s+[0-9]".r.findFirstMatchIn(text).isDefined && text.contains(relativePastPattern))
+      relativePastFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
+        relativeDatePastContentParse(possibleDate)
+      )
+    else
+      None
+  }
+
   private def extractRelativeDate(text: String): Option[MatchedDateTime] = {
-    relativeFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-      relativeDateContentParse(possibleDate)
-    )
+    if (!"in\\s+[0-9]".r.findFirstMatchIn(text).isDefined && !text.contains(relativePastPattern))
+      relativeFactory.findMatchFirstOnly(text.toLowerCase)
+        .map(possibleDate => relativeDateContentParse(possibleDate)
+        )
+    else
+      None
   }
 
   private def extractTomorrowYesterday(text: String): Option[MatchedDateTime] = {
-    tyFactory.findMatchFirstOnly(text.toLowerCase()).map(possibleDate =>
-      tomorrowYesterdayContentParse(possibleDate)
-    )
+    tyFactory.findMatchFirstOnly(text.toLowerCase())
+      .map(possibleDate => tomorrowYesterdayContentParse(possibleDate))
   }
 
   private def extractRelativeExactDay(text: String): Option[MatchedDateTime] = {
