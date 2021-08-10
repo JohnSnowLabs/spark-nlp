@@ -36,9 +36,7 @@ DEPENDENCY
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -189,9 +187,7 @@ DEPENDENCY
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -224,7 +220,7 @@ pipeline = Pipeline().setStages([
 ])
 
 # Additional training data is not needed, the dependency parser relies on the dependency tree bank / CoNLL-U only.
-emptyDataSet = .empty[String].toDF("text")
+emptyDataSet = spark.createDataFrame([[""]]).toDF("text")
 pipelineModel = pipeline.fit(emptyDataSet)
 
 {%- endcapture -%}
