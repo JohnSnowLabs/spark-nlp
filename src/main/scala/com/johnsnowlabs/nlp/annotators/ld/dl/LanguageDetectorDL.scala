@@ -56,33 +56,34 @@ import scala.collection.immutable.ListMap
  *
  * ==Example==
  * {{{
- * import spark.implicits._
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
- * import org.apache.spark.ml.Pipeline
+ * Import spark.implicits._
+ * Import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * Import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+ * Import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
+ * Import org.apache.spark.ml.Pipeline
  *
- * val documentAssembler = new DocumentAssembler()
+ * Val documentAssembler = new DocumentAssembler()
  *   .setInputCol("text")
  *   .setOutputCol("document")
  *
- * val languageDetector = LanguageDetectorDL.pretrained()
+ * Val languageDetector = LanguageDetectorDL.pretrained()
  *   .setInputCols("document")
  *   .setOutputCol("language")
  *
- * val pipeline = new Pipeline()
+ * Val pipeline = new Pipeline()
  *   .setStages(Array(
  *     documentAssembler,
  *     languageDetector
  *   ))
  *
- * val data = Seq(
+ * Val data = Seq(
  *   "Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.",
  *   "Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.",
  *   "Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala."
  * ).toDF("text")
- * val result = pipeline.fit(data).transform(data)
+ * Val result = pipeline.fit(data).transform(data)
  *
- * result.select("language.result").show(false)
+ * Result.select("language.result").show(false)
  * +------+
  * |result|
  * +------+

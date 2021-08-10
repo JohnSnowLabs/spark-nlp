@@ -56,22 +56,25 @@ import scala.collection.JavaConverters._
  * @param tensorflowWrapper    XlmRoberta Model wrapper with TensorFlowWrapper
  * @param spp                  XlmRoberta SentencePiece model with SentencePieceWrapper
  * @param batchSize            size of batch
+ * @param sentenceStartTokenId piece id for starting sequence '''<s>'''
+ * @param sentenceEndTokenId   piece id for ending sequence '''</s>'''
+ * @param padTokenId           piece id for padding '''<pad>'''
  * @param configProtoBytes     Configuration for TensorFlow session
  */
 
 class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
                            val spp: SentencePieceWrapper,
                            batchSize: Int,
+                           sentenceStartTokenId: Int,
+                           sentenceEndTokenId: Int,
+                           padTokenId: Int,
                            configProtoBytes: Option[Array[Byte]] = None,
                            signatures: Option[Map[String, String]] = None
                           ) extends Serializable {
 
   val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  private val SentenceStartTokenId = spp.getSppModel.pieceToId("<s>")
-  private val SentenceEndTokenId = spp.getSppModel.pieceToId("</s>")
-  private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>")
-  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  private val SentencePieceDelimiterId = 13
 
   def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
@@ -82,9 +85,9 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
     sentences
       .map { case (wpTokSentence, _) =>
         val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(padTokenId)
 
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(SentenceEndTokenId) ++ padding
+        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(sentenceEndTokenId) ++ padding
       }
   }
 
@@ -107,11 +110,11 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
         val offset = idx * maxSentenceLength
         val diff = maxSentenceLength - tokenIds.length
 
-        val padding = Array.fill(diff)(SentencePadTokenId)
+        val padding = Array.fill(diff)(padTokenId)
         val newTokenIds = tokenIds ++ padding
 
         tokenBuffers.offset(offset).write(newTokenIds)
-        maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
+        maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == padTokenId) 0 else 1))
       }
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
@@ -192,7 +195,7 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
   }
 
   def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdFromZero = true)
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, 6, pieceIdFromZero = true)
 
     val sentecneTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)

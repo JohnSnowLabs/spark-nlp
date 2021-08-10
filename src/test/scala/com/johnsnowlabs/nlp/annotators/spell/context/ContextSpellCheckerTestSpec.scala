@@ -1,20 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
@@ -25,7 +8,6 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
-
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
 import org.scalatest._
@@ -41,7 +23,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
   trait distFile extends WeightedLevenshtein {
-    val weights: Map[String, Map[String, Float]] = loadWeights("src/test/resources/dist.psv")
+    val weights = loadWeights("src/test/resources/dist.psv")
   }
   // This test fails in GitHub Actions
   "Spell Checker" should "provide appropriate scores - sentence level" taggedAs SlowTest in {
@@ -49,7 +31,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     def time[R](block: => R): R = {
       val t0 = System.nanoTime()
-      val result = block // call-by-name
+      val result = block    // call-by-name
       val t1 = System.nanoTime()
       println("Elapsed time: " + (t1 - t0) + "ns")
       result
@@ -77,7 +59,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     val results = time {
       pipeline.transform(data).
         select("checked").
-        mapAnnotationsCol[Option[String]]("checked", "checked", "language", (x: Seq[Annotation]) => x.head.metadata.get("cost")).
+        mapAnnotationsCol[Option[String]]("checked", "checked","language", (x:Seq[Annotation]) => x.head.metadata.get("cost")).
         collect.map(_.getString(0).toDouble)
     }
 
@@ -109,7 +91,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       val sc = spark.sparkContext.objectFile[SpecialClassParser](dataPathObject).collect().head
       assert(sc.transducer != null)
       sc match {
-        case vp: VocabParser => assert(vp.vocab != null)
+        case vp:VocabParser => assert(vp.vocab != null)
         case _ =>
       }
 
@@ -125,7 +107,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       new MedicationClass("./src/test/resources/spell/meds.txt"),
       new DateToken)
 
-    specialClasses.foreach { specialClass =>
+    specialClasses.foreach{ specialClass =>
 
       val path = "special_class.ser"
       val f = new File(path)
@@ -144,7 +126,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       val deserialized = in.readObject.asInstanceOf[SpecialClassParser]
       assert(deserialized.transducer != null)
       deserialized match {
-        case vp: VocabParser =>
+        case vp:VocabParser =>
           assert(vp.vocab != null)
         case _ =>
       }
@@ -237,7 +219,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setOutputCol("checked")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
-    pipeline.transform(data).select("checked").show(truncate = false)
+    pipeline.transform(data).select("checked").show(truncate=false)
 
   }
 
@@ -292,7 +274,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
       .setUseNewLines(true)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
-    pipeline.transform(data).select("checked").show(truncate = false)
+    pipeline.transform(data).select("checked").show(truncate=false)
 
   }
 

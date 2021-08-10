@@ -59,7 +59,6 @@ class NerConverterTest extends FlatSpec {
     val ner = NerDLModel.pretrained()
       .setInputCols("sentence", "cleaned", "embeddings")
       .setOutputCol("ner")
-      .setIncludeConfidence(true)
 
     val converter = new NerConverter()
       .setInputCols("sentence", "cleaned", "ner")
@@ -127,7 +126,6 @@ class NerConverterTest extends FlatSpec {
       .setInputCols("sentence", "token_normalized", "embeddings")
       .setOutputCol("ner")
       .setIncludeConfidence(true)
-      .setIncludeAllConfidenceScores(true)
 
     val converter = new NerConverter()
       .setInputCols("sentence", "token_normalized", "ner")
