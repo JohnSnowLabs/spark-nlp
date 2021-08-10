@@ -79,7 +79,7 @@ object NerDLModelPythonReader {
     val encoder = new NerDatasetEncoder(settings)
     val (tf, _) = TensorflowWrapper.read(folder, zipped = false, useBundle, tags)
 
-    new TensorflowNer(tf, encoder, 32, verbose)
+    new TensorflowNer(tf, encoder, verbose)
   }
 
   def read(

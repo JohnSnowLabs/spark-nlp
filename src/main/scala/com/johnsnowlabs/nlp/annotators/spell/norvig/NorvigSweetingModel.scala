@@ -113,7 +113,7 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
    *
    * @group param
    */
-  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "Number of words in the dictionary")
+  protected val wordCount: MapFeature[String, Long] = new MapFeature(this, "wordCount")
 
   /** @group getParam */
   protected def getWordCount: Map[String, Long] = $$(wordCount)

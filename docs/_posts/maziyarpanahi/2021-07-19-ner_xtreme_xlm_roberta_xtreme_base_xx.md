@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Entities in 40 languages - XTREME (xlm_roberta_xtreme_base)
+title: Detect Entities in 40 languages - XTREME (ner_xtreme_xlm_roberta_xtreme_base)
 author: John Snow Labs
 name: ner_xtreme_xlm_roberta_xtreme_base
 date: 2021-07-19
@@ -73,7 +73,7 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame([['My name is John!']]).toDF("text")
+example = spark.createDataFrame(pd.DataFrame({'text': ['My name is John!']}))
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -98,10 +98,7 @@ val ner_converter = NerConverter()
     .setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner_model, ner_converter))
-
-val example = Seq.empty["My name is John!"].toDS.toDF("text")
-
-val result = pipeline.fit(example).transform(example)
+val result = pipeline.fit(Seq.empty["My name is John!"].toDS.toDF("text")).transform(data)
 ```
 
 {:.nlu-block}
