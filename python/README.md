@@ -24,7 +24,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Apache Spark Support](#apache-spark-support)
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
-- [Using Spark NLP](#usage)
+- [Using Spark NLP](#usage)  
   - [Spark Packages](#spark-packages)
   - [Scala](#scala)
     - [Maven](#maven)
@@ -42,8 +42,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
-- [Offline](#offline)
-- [Examples](#examples)
+- [Offline](#offline)  
+- [Examples](#examples)  
 - [FAQ](#faq)
 - [Citation](#citation)
 - [Contributing](#contributing)
@@ -156,7 +156,7 @@ result = pipeline.annotate(text)
 # What's in the pipeline
 list(result.keys())
 Output: ['entities', 'stem', 'checked', 'lemma', 'document',
-         'pos', 'token', 'ner', 'embeddings', 'sentence']
+'pos', 'token', 'ner', 'embeddings', 'sentence']
 
 # Check the results
 result['entities']
@@ -709,9 +709,9 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-   3.1. Install New -> PyPI -> `spark-nlp==3.1.3` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp==3.2.0` -> Install
 
-   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -801,16 +801,16 @@ You can use `.config()` during SparkSession creation to set Spark NLP configurat
 ```python
 from pyspark.sql import SparkSession
 
-spark = SparkSession.builder
-  .master("local[*]")
-  .config("spark.driver.memory", "16G")
-  .config("spark.driver.maxResultSize", "0")
-  .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-  .config("spark.kryoserializer.buffer.max", "2000m")
-  .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
-  .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
-  .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0")
-  .getOrCreate()
+spark = SparkSession.builder \
+        .master("local[*]") \        
+        .config("spark.driver.memory", "16G") \
+        .config("spark.driver.maxResultSize", "0") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000m") \
+        .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained") \
+        .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0") \
+        .getOrCreate()
 ```
 
 **spark-shell:**
@@ -866,8 +866,8 @@ import com.johnsnowlabs.nlp.SparkNLP
 SparkNLP.version()
 
 val testData = spark.createDataFrame(Seq(
-  (1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
-  (2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
+(1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
+(2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
 )).toDF("id", "text")
 
 val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
@@ -930,8 +930,8 @@ val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang="it")
 
 ```scala
 val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-        .setInputCols("document", "token")
-        .setOutputCol("pos")
+      .setInputCols("document", "token")
+      .setOutputCol("pos")
 ```
 
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
@@ -946,14 +946,14 @@ Spark NLP library and all the pre-trained models/pipelines can be used entirely 
 Example of `SparkSession` with Fat JAR to have Spark NLP offline:
 
 ```python
-spark = SparkSession.builder
-  .appName("Spark NLP")
-  .master("local[*]")
-  .config("spark.driver.memory","16G")
-  .config("spark.driver.maxResultSize", "0")
-  .config("spark.kryoserializer.buffer.max", "2000M")
-  .config("spark.jars", "/tmp/spark-nlp-assembly-3.2.0.jar")
-  .getOrCreate()
+spark = SparkSession.builder \
+    .appName("Spark NLP")\
+    .master("local[*]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "0") \    
+    .config("spark.kryoserializer.buffer.max", "2000M")\
+    .config("spark.jars", "/tmp/spark-nlp-assembly-3.2.0.jar")\
+    .getOrCreate()
 ```
 
 - You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
@@ -965,9 +965,9 @@ Example of using pretrained Models and Pipelines in offline:
 # instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
-french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-  .setInputCols("document", "token")
-  .setOutputCol("pos")
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
 
 # example for pipelines
 # instead of using PretrainedPipeline
