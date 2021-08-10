@@ -55,14 +55,14 @@ object ResourceHelper {
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
     val path = new Path(resource)
-    val fs: FileSystem = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
-    if (!fs.exists(path))
+    val fileSystem: FileSystem = FileSystem.get(path.toUri, spark.sparkContext.hadoopConfiguration)
+    if (!fileSystem.exists(path))
       throw new FileNotFoundException(s"file or folder: $resource not found")
     val pipe: Seq[InputStream] = {
       /** Check whether it exists in file system */
-      val files = fs.listFiles(path, true)
+      val files = fileSystem.listFiles(path, true)
       val buffer = ArrayBuffer.empty[InputStream]
-      while (files.hasNext) buffer.append(fs.open(files.next().getPath))
+      while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
       buffer
     }
     val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
@@ -71,19 +71,19 @@ object ResourceHelper {
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
     def copyToLocal(prefix: String = "sparknlp_tmp_"): String = {
-      if (fs.getScheme == "file")
+      if (fileSystem.getScheme == "file")
         return resource
 
-      val files = fs.listFiles(path, false)
+      val files = fileSystem.listFiles(path, false)
       val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
 
-      if (fs.getScheme == "hdfs") {
+      if (fileSystem.getScheme == "hdfs") {
         while (files.hasNext) {
-          fs.copyToLocalFile(files.next.getPath, dst)
+          fileSystem.copyToLocalFile(files.next.getPath, dst)
         }
       } else {
         while (files.hasNext) {
-          fs.copyFromLocalFile(files.next.getPath, dst)
+          fileSystem.copyFromLocalFile(files.next.getPath, dst)
         }
       }
 
@@ -479,9 +479,8 @@ object ResourceHelper {
   }
 
   def listLocalFiles(path: String): List[File] = {
-    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    if (fs.getScheme == "dbfs" || fs.getScheme == "hdfs") {
-      //return fs.listStatus(new Path(path)).map(_.getPath().toString).map(new File(_)).toList
+    val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+    if (fileSystem.getScheme == "dbfs" || fileSystem.getScheme == "hdfs") {
       val filesPath = Option(new File(path.replace("file:", "")).listFiles())
       val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
       return files.toList

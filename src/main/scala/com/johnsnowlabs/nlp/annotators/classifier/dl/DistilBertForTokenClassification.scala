@@ -284,7 +284,7 @@ class DistilBertForTokenClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert_classification", BertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert_classification", DistilBertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
