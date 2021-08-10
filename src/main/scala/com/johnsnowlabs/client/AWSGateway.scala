@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.client
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
@@ -21,9 +38,9 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, awsProfile: Strin
     credentialsType match {
       case "default" =>
         if (ConfigLoader.hasAwsCredentials) {
-        buildAwsCredentials()
+          buildAwsCredentials()
         } else {
-        fetchCredentials()
+          fetchCredentials()
         }
       case "proprietary" => if (ConfigLoader.hasFullAwsCredentials) buildAwsCredentials() else None
       case _ => Some(new AnonymousAWSCredentials())
@@ -129,10 +146,10 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, awsProfile: Strin
   }
 
   def copyFileToS3(bucket: String, s3FilePath: String, sourceFilePath: String): PutObjectResult = {
-     val result = new Path(sourceFilePath)
-     println(s"In copyFileToS3 result: ${result.toUri.getRawPath}")
-     val sourceFile = new File("file://" + sourceFilePath)
-     client.putObject(bucket, s3FilePath, sourceFile)
+    val result = new Path(sourceFilePath)
+    println(s"In copyFileToS3 result: ${result.toUri.getRawPath}")
+    val sourceFile = new File("file://" + sourceFilePath)
+    client.putObject(bucket, s3FilePath, sourceFile)
   }
 
   def copyInputStreamToS3(bucket: String, s3FilePath: String, sourceFilePath: String) = {
@@ -141,6 +158,8 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, awsProfile: Strin
     client.putObject(bucket, s3FilePath, inputStream, new ObjectMetadata())
   }
 
-  override def close(): Unit = { client.shutdown() }
+  override def close(): Unit = {
+    client.shutdown()
+  }
 
 }

@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -35,7 +52,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     batch.map { sentence =>
       if (sentence.length >= maxSentenceLength) {
         sentence.take(maxSentenceLength)
-      }else {
+      } else {
         val diff = maxSentenceLength - sentence.length
         sentence ++ Array.fill(diff)(Array.fill(dimension)(0.0f))
       }
@@ -60,13 +77,13 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
 
     val encodedLabels = encoder.encodeTagsMultiLabel(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
     val trainingDataset = Random.shuffle(zippedInputsLabels)
 
-    val sample: Int = (trainingDataset.length*validationSplit).toInt
+    val sample: Int = (trainingDataset.length * validationSplit).toInt
 
     val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
@@ -89,7 +106,9 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
       var acc = 0f
       val learningRate = lr / (1 + 0.2 * epoch)
 
-      val shuffledBatch = if(shuffleEpoch){ Random.shuffle(trainDatasetSeq.toSeq).toArray } else trainDatasetSeq
+      val shuffledBatch = if (shuffleEpoch) {
+        Random.shuffle(trainDatasetSeq.toSeq).toArray
+      } else trainDatasetSeq
 
       for (batch <- shuffledBatch.grouped(batchSize)) {
         val tensors = new TensorResources()
@@ -126,12 +145,12 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
 
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample)
-        val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches")
+        val endTime = (System.nanoTime() - time) / 1e9
+        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches")
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_loss: ${validationAccuracy(0)} - val_acc: ${validationAccuracy(1)} - val_f1: ${validationAccuracy(2)} - val_tpr: ${validationAccuracy(3)} - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
-      }else{
-        val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
+      } else {
+        val endTime = (System.nanoTime() - time) / 1e9
+        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
@@ -164,7 +183,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     tensors.clearTensors()
 
     tagsName.flatMap { score =>
-      val labels = score.filter(x=>x._2 >= threshold).map(x=>x._1)
+      val labels = score.filter(x => x._2 >= threshold).map(x => x._1)
       val documentBegin = docs.head._2.head.begin
       val documentEnd = docs.last._2.last.end
       labels.map { label =>
