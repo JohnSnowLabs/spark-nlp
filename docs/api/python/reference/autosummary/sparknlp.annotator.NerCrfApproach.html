@@ -735,19 +735,22 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NerCrfApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code>, <a class="reference internal" href="sparknlp.annotator.NerApproach.html#sparknlp.annotator.NerApproach" title="sparknlp.annotator.NerApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NerApproach</span></code></a></p>
 <p>Algorithm for training a Named Entity Recognition Model</p>
-<p>For instantiated/pretrained models, see NerCrfModel.</p>
-<p>This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
-algorithm. The training data should be a labeled Spark Dataset, e.g. CoNLL 2003 IOB with
-<code class="docutils literal notranslate"><span class="pre">Annotation</span></code> type columns. The data should have columns of type <code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN,</span> <span class="pre">POS,</span> <span class="pre">WORD_EMBEDDINGS</span></code> and an
-additional label column of annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>.
-Excluding the label, this can be done with for example</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="sparknlp.annotator.NerCrfModel.html#sparknlp.annotator.NerCrfModel" title="sparknlp.annotator.NerCrfModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerCrfModel</span></code></a>.</p>
+<p>This Named Entity recognition annotator allows for a generic model to be
+trained by utilizing a CRF machine learning algorithm. The training data
+should be a labeled Spark Dataset, e.g. <a class="reference internal" href="sparknlp.training.CoNLL.html#sparknlp.training.CoNLL" title="sparknlp.training.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> 2003 IOB with
+<cite>Annotation</cite> type columns. The data should have columns of type
+<code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN,</span> <span class="pre">POS,</span> <span class="pre">WORD_EMBEDDINGS</span></code> and an additional label column of
+annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>.</p>
+<p>Excluding the label, this can be done with for example:</p>
 <ul class="simple">
-<li><p>a SentenceDetector,</p></li>
-<li><p>a Tokenizer,</p></li>
-<li><p>a PerceptronModel and</p></li>
-<li><p>a WordEmbeddingsModel.</p></li>
+<li><p>a <a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a>,</p></li>
+<li><p>a <a class="reference internal" href="sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer" title="sparknlp.annotator.Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a>,</p></li>
+<li><p>a <a class="reference internal" href="sparknlp.annotator.PerceptronModel.html#sparknlp.annotator.PerceptronModel" title="sparknlp.annotator.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a> and</p></li>
+<li><p>a <a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html#sparknlp.annotator.WordEmbeddingsModel" title="sparknlp.annotator.WordEmbeddingsModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a>.</p></li>
 </ul>
-<p>Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.</p>
+<p>Optionally the user can provide an entity dictionary file with
+<a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setExternalFeatures" title="sparknlp.annotator.NerCrfApproach.setExternalFeatures"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setExternalFeatures()</span></code></a> for better accuracy.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -784,11 +787,13 @@ Excluding the label, this can be done with for example</p>
 </dd>
 <dt><strong>c0</strong></dt><dd><p>c0 params defining decay speed for gradient, by default 2250000</p>
 </dd>
-<dt><strong>lossEps</strong></dt><dd><p>If Epoch relative improvement less than eps then training is stopped, by default 0.001</p>
+<dt><strong>lossEps</strong></dt><dd><p>If Epoch relative improvement less than eps then training is stopped, by
+default 0.001</p>
 </dd>
 <dt><strong>minW</strong></dt><dd><p>Features with less weights then this param value will be filtered</p>
 </dd>
-<dt><strong>includeConfidence</strong></dt><dd><p>external features is a delimited text. needs ‘delimiter’ in options, by default False</p>
+<dt><strong>includeConfidence</strong></dt><dd><p>Whether to include confidence scores in annotation metadata, by default
+False</p>
 </dd>
 <dt><strong>externalFeatures</strong></dt><dd><p>Additional dictionaries paths to use as a features</p>
 </dd>
@@ -796,43 +801,39 @@ Excluding the label, this can be done with for example</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.</span>
-<span class="c1"># If a custom dataset is used, these need to be defined.</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerCrfApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setMinEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setC0</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setL2</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">nerTagger</span>
-<span class="p">])</span>
-
-<span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
-<span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
-
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+</pre></div>
+</div>
+<p>This CoNLL dataset already includes the sentence, token, pos and label
+column with their respective annotator types. If a custom dataset is used,
+these need to be defined.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerCrfApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMinEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setC0</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setL2</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -867,25 +868,25 @@ Excluding the label, this can be done with for example</p>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getInputCols" title="sparknlp.annotator.NerCrfApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLabelColumn</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getLabelColumn" title="sparknlp.annotator.NerCrfApproach.getLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLabelColumn</span></code></a>()</p></td>
+<td><p>Gets column for label per each token.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getLazyAnnotator" title="sparknlp.annotator.NerCrfApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getOrDefault" title="sparknlp.annotator.NerCrfApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getOutputCol" title="sparknlp.annotator.NerCrfApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getParam" title="sparknlp.annotator.NerCrfApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.getParamValue" title="sparknlp.annotator.NerCrfApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.hasDefault" title="sparknlp.annotator.NerCrfApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -911,53 +912,53 @@ Excluding the label, this can be done with for example</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.set" title="sparknlp.annotator.NerCrfApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setC0</span></code>(c0value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setC0" title="sparknlp.annotator.NerCrfApproach.setC0"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setC0</span></code></a>(c0value)</p></td>
+<td><p>Sets c0 params defining decay speed for gradient, by default 2250000.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code>(tags)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setEntities" title="sparknlp.annotator.NerCrfApproach.setEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code></a>(tags)</p></td>
+<td><p>Sets entities to recognize.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExternalFeatures</span></code>(path, delimiter[, …])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setExternalFeatures" title="sparknlp.annotator.NerCrfApproach.setExternalFeatures"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExternalFeatures</span></code></a>(path, delimiter[, …])</p></td>
+<td><p>Sets Additional dictionaries paths to use as a features.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code>(b)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setIncludeConfidence" title="sparknlp.annotator.NerCrfApproach.setIncludeConfidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code></a>(b)</p></td>
+<td><p>Sets whether to include confidence scores in annotation metadata, by default False.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setInputCols" title="sparknlp.annotator.NerCrfApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setL2</span></code>(l2value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setL2" title="sparknlp.annotator.NerCrfApproach.setL2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setL2</span></code></a>(l2value)</p></td>
+<td><p>Sets L2 regularization coefficient, by default 1.0.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setLabelColumn" title="sparknlp.annotator.NerCrfApproach.setLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code></a>(value)</p></td>
+<td><p>Sets name of column for data labels.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setLazyAnnotator" title="sparknlp.annotator.NerCrfApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLossEps</span></code>(eps)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setLossEps" title="sparknlp.annotator.NerCrfApproach.setLossEps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLossEps</span></code></a>(eps)</p></td>
+<td><p>Sets If Epoch relative improvement less than eps then training is stopped, by default 0.001.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code>(epochs)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setMaxEpochs" title="sparknlp.annotator.NerCrfApproach.setMaxEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code></a>(epochs)</p></td>
+<td><p>Sets maximum number of epochs to train.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code>(epochs)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setMinEpochs" title="sparknlp.annotator.NerCrfApproach.setMinEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code></a>(epochs)</p></td>
+<td><p>Sets minimum number of epochs to train.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinW</span></code>(w)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setMinW" title="sparknlp.annotator.NerCrfApproach.setMinW"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinW</span></code></a>(w)</p></td>
+<td><p>Sets minimum weight value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setOutputCol" title="sparknlp.annotator.NerCrfApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setParamValue" title="sparknlp.annotator.NerCrfApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code>(seed)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setRandomSeed" title="sparknlp.annotator.NerCrfApproach.setRandomSeed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code></a>(seed)</p></td>
+<td><p>Sets random seed for shuffling.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code>(verboseValue)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.setVerbose" title="sparknlp.annotator.NerCrfApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
+<td><p>Sets level of verbosity during training.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerCrfApproach.write" title="sparknlp.annotator.NerCrfApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1127,14 +1128,28 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.getLabelColumn">
+<span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.getLabelColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets column for label per each token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>Column with label per each token</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1147,13 +1162,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1215,13 +1244,104 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setC0">
+<span class="sig-name descname"><span class="pre">setC0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c0value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach.setC0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setC0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets c0 params defining decay speed for gradient, by default 2250000.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>c0value</strong><span class="classifier">int</span></dt><dd><p>c0 params defining decay speed for gradient</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setEntities">
+<span class="sig-name descname"><span class="pre">setEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets entities to recognize.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">List[str]</span></dt><dd><p>List of entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setExternalFeatures">
+<span class="sig-name descname"><span class="pre">setExternalFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'text'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach.setExternalFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setExternalFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Additional dictionaries paths to use as a features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to the source files</p>
+</dd>
+<dt><strong>delimiter</strong><span class="classifier">str</span></dt><dd><p>Delimiter for the dictionary file. Can also be set it <cite>options</cite>.</p>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the file, by default ReadAs.TEXT</p>
+</dd>
+<dt><strong>options</strong><span class="classifier">dict, optional</span></dt><dd><p>Options to read the resource, by default {“format”: “text”}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setIncludeConfidence">
+<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setIncludeConfidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to include confidence scores in annotation metadata, by
+default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>b</strong><span class="classifier">bool</span></dt><dd><p>Whether to include the confidence value in the output.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setL2">
+<span class="sig-name descname"><span class="pre">setL2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l2value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach.setL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setL2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets L2 regularization coefficient, by default 1.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>l2value</strong><span class="classifier">float</span></dt><dd><p>L2 regularization coefficient</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setLabelColumn">
+<span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setLabelColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets name of column for data labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Column for data labels</p>
 </dd>
 </dl>
 </dd>
@@ -1231,14 +1351,72 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setLossEps">
+<span class="sig-name descname"><span class="pre">setLossEps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach.setLossEps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setLossEps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets If Epoch relative improvement less than eps then training is
+stopped, by default 0.001.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>eps</strong><span class="classifier">float</span></dt><dd><p>The threshold</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setMaxEpochs">
+<span class="sig-name descname"><span class="pre">setMaxEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setMaxEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets maximum number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Maximum number of epochs to train</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setMinEpochs">
+<span class="sig-name descname"><span class="pre">setMinEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setMinEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minimum number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Minimum number of epochs to train</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setMinW">
+<span class="sig-name descname"><span class="pre">setMinW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerCrfApproach.setMinW"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setMinW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minimum weight value.</p>
+<p>Features with less weights then this param value will be filtered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">float</span></dt><dd><p>Minimum weight value</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1247,11 +1425,53 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setRandomSeed">
+<span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setRandomSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets random seed for shuffling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>seed</strong><span class="classifier">int</span></dt><dd><p>Random seed for shuffling</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerCrfApproach.setVerbose">
+<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verboseValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerCrfApproach.setVerbose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets level of verbosity during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>verboseValue</strong><span class="classifier">int</span></dt><dd><p>Level of verbosity</p>
 </dd>
 </dl>
 </dd>

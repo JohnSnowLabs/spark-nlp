@@ -734,14 +734,16 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">PerceptronApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#PerceptronApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
-<p>Trains an averaged Perceptron model to tag words part-of-speech.
-Sets a POS tag to each word within a sentence.</p>
-<p>For pretrained models please see the PerceptronModel.</p>
-<p>The training data needs to be in a Spark DataFrame, where the column needs to consist of
-Annotations of type <code class="docutils literal notranslate"><span class="pre">POS</span></code>. The <code class="docutils literal notranslate"><span class="pre">Annotation</span></code> needs to have member <code class="docutils literal notranslate"><span class="pre">result</span></code>
-set to the POS tag and have a <code class="docutils literal notranslate"><span class="pre">&quot;word&quot;</span></code> mapping to its word inside of member <code class="docutils literal notranslate"><span class="pre">metadata</span></code>.
-This DataFrame for training can easily created by the helper class POS.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">datasetPath</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(tags) as tags&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<p>Trains an averaged Perceptron model to tag words part-of-speech. Sets a
+POS tag to each word within a sentence.</p>
+<p>For pretrained models please see the <a class="reference internal" href="sparknlp.annotator.PerceptronModel.html#sparknlp.annotator.PerceptronModel" title="sparknlp.annotator.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a>.</p>
+<p>The training data needs to be in a Spark DataFrame, where the column needs
+to consist of Annotations of type <code class="docutils literal notranslate"><span class="pre">POS</span></code>. The <cite>Annotation</cite> needs to have
+member <code class="docutils literal notranslate"><span class="pre">result</span></code> set to the POS tag and have a <code class="docutils literal notranslate"><span class="pre">&quot;word&quot;</span></code> mapping to its
+word inside of member <code class="docutils literal notranslate"><span class="pre">metadata</span></code>. This DataFrame for training can easily
+created by the helper class <a class="reference internal" href="sparknlp.training.POS.html#sparknlp.training.POS" title="sparknlp.training.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">datasetPath</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(tags) as tags&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+---------------------------------------------+</span>
 <span class="go">|tags                                         |</span>
 <span class="go">+---------------------------------------------+</span>
@@ -775,58 +777,50 @@ This DataFrame for training can easily created by the helper class POS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>posCol</strong></dt><dd><p>column of Array of POS tags that match tokens</p>
+<dt><strong>posCol</strong></dt><dd><p>Column name for Array of POS tags that match tokens</p>
 </dd>
-<dt><strong>nIterations</strong></dt><dd><p>Number of iterations in training, converges to better accuracy, by default 5</p>
+<dt><strong>nIterations</strong></dt><dd><p>Number of iterations in training, converges to better accuracy, by
+default 5</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">datasetPath</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/anc-pos-corpus-small/test-training.txt&quot;</span>
-<span class="n">trainingPerceptronDF</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">datasetPath</span><span class="p">)</span>
-
-<span class="n">trainedPos</span> <span class="o">=</span> <span class="n">PerceptronApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setPosColumn</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingPerceptronDF</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">sentence</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">trainedPos</span>
-<span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;To be or not to be, is this the question?&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;pos.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+--------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                            <span class="o">|</span>
-<span class="o">+--------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">NNP</span><span class="p">,</span> <span class="n">NNP</span><span class="p">,</span> <span class="n">CD</span><span class="p">,</span> <span class="n">JJ</span><span class="p">,</span> <span class="n">NNP</span><span class="p">,</span> <span class="n">NNP</span><span class="p">,</span> <span class="p">,,</span> <span class="n">MD</span><span class="p">,</span> <span class="n">VB</span><span class="p">,</span> <span class="n">DT</span><span class="p">,</span> <span class="n">CD</span><span class="p">,</span> <span class="o">.</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+--------------------------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datasetPath</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/anc-pos-corpus-small/test-training.txt&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingPerceptronDF</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">datasetPath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainedPos</span> <span class="o">=</span> <span class="n">PerceptronApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setPosColumn</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingPerceptronDF</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">trainedPos</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;To be or not to be, is this the question?&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;pos.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+--------------------------------------------------+</span>
+<span class="go">|result                                            |</span>
+<span class="go">+--------------------------------------------------+</span>
+<span class="go">|[NNP, NNP, CD, JJ, NNP, NNP, ,, MD, VB, DT, CD, .]|</span>
+<span class="go">+--------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -861,25 +855,25 @@ This DataFrame for training can easily created by the helper class POS.</p>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getInputCols" title="sparknlp.annotator.PerceptronApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getLazyAnnotator" title="sparknlp.annotator.PerceptronApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNIterations</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getNIterations" title="sparknlp.annotator.PerceptronApproach.getNIterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNIterations</span></code></a>()</p></td>
+<td><p>Gets number of iterations in training, by default 5.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getOrDefault" title="sparknlp.annotator.PerceptronApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getOutputCol" title="sparknlp.annotator.PerceptronApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getParam" title="sparknlp.annotator.PerceptronApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.getParamValue" title="sparknlp.annotator.PerceptronApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.hasDefault" title="sparknlp.annotator.PerceptronApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -906,22 +900,22 @@ This DataFrame for training can easily created by the helper class POS.</p>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.setInputCols" title="sparknlp.annotator.PerceptronApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIterations</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.setIterations" title="sparknlp.annotator.PerceptronApproach.setIterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIterations</span></code></a>(value)</p></td>
+<td><p>Sets number of iterations in training, by default 5.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.setLazyAnnotator" title="sparknlp.annotator.PerceptronApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.setOutputCol" title="sparknlp.annotator.PerceptronApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.setParamValue" title="sparknlp.annotator.PerceptronApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosColumn</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.setPosColumn" title="sparknlp.annotator.PerceptronApproach.setPosColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosColumn</span></code></a>(value)</p></td>
+<td><p>Sets column name for Array of POS tags that match tokens.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.PerceptronApproach.write" title="sparknlp.annotator.PerceptronApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1061,14 +1055,28 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.getNIterations">
+<span class="sig-name descname"><span class="pre">getNIterations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#PerceptronApproach.getNIterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.getNIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets number of iterations in training, by default 5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>Number of iterations in training</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1081,13 +1089,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1151,11 +1173,25 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.setIterations">
+<span class="sig-name descname"><span class="pre">setIterations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#PerceptronApproach.setIterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.setIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of iterations in training, by default 5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of iterations in training</p>
 </dd>
 </dl>
 </dd>
@@ -1165,14 +1201,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1181,11 +1217,39 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.PerceptronApproach.setPosColumn">
+<span class="sig-name descname"><span class="pre">setPosColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#PerceptronApproach.setPosColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.PerceptronApproach.setPosColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column name for Array of POS tags that match tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of column for Array of POS tags</p>
 </dd>
 </dl>
 </dd>

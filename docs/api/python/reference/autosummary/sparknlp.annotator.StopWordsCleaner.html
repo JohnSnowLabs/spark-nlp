@@ -734,19 +734,19 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">StopWordsCleaner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.StopWordsCleaner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#StopWordsCleaner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
-<p>This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer)
-and drops all the stop words from the input sequences.</p>
-<p>By default, it uses stop words from MLlibs
-<a class="reference external" href="https://spark.apache.org/docs/latest/ml-features#stopwordsremover">StopWordsRemover</a>.
-Stop words can also be defined by explicitly setting them with <code class="docutils literal notranslate"><span class="pre">setStopWords(value:</span> <span class="pre">Array[String])</span></code> or loaded from
-pretrained models using <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of its companion object.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stopWords</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;cleanTokens&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="c1"># will load the default pretrained model ``&quot;stopwords_en&quot;``.</span>
+<p>This annotator takes a sequence of strings (e.g. the output of a
+Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words
+from the input sequences.</p>
+<p>By default, it uses stop words from MLlibs <a class="reference external" href="https://spark.apache.org/docs/latest/ml-features#stopwordsremover">StopWordsRemover</a>. Stop
+words can also be defined by explicitly setting them with
+<a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setStopWords" title="sparknlp.annotator.StopWordsCleaner.setStopWords"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setStopWords()</span></code></a> or loaded from pretrained models using <code class="docutils literal notranslate"><span class="pre">pretrained</span></code>
+of its companion object.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stopWords</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;cleanTokens&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>This will load the default pretrained model <code class="docutils literal notranslate"><span class="pre">&quot;stopwords_en&quot;</span></code>.</p>
 <p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal">Models Hub</a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
@@ -770,58 +770,50 @@ pretrained models using <code class="docutils literal notranslate"><span class="
 <dd class="field-odd"><dl class="simple">
 <dt><strong>stopWords</strong></dt><dd><p>The words to be filtered out, by default english stopwords from Spark ML</p>
 </dd>
-<dt><strong>caseSensitive</strong></dt><dd><p>whether to do a case sensitive, by default False</p>
+<dt><strong>caseSensitive</strong></dt><dd><p>Whether to do a case sensitive, by default False</p>
 </dd>
-<dt><strong>locale</strong></dt><dd><p>locale of the input. ignored when case sensitive, by default locale of the JVM</p>
+<dt><strong>locale</strong></dt><dd><p>Locale of the input. ignored when case sensitive, by default locale of
+the JVM</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">stopWords</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;cleanTokens&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-      <span class="n">documentAssembler</span><span class="p">,</span>
-      <span class="n">sentenceDetector</span><span class="p">,</span>
-      <span class="n">tokenizer</span><span class="p">,</span>
-      <span class="n">stopWords</span>
-    <span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s2">&quot;This is my first sentence. This is my second.&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;This is my third sentence. This is my forth.&quot;</span>
-<span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;cleanTokens.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+-------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                         <span class="o">|</span>
-<span class="o">+-------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="o">.</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">.</span><span class="p">]</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">third</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="o">.</span><span class="p">,</span> <span class="n">forth</span><span class="p">,</span> <span class="o">.</span><span class="p">]</span> <span class="o">|</span>
-<span class="o">+-------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stopWords</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;cleanTokens&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>      <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">sentenceDetector</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">stopWords</span>
+<span class="gp">... </span>    <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;This is my first sentence. This is my second.&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;This is my third sentence. This is my forth.&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;cleanTokens.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-------------------------------+</span>
+<span class="go">|result                         |</span>
+<span class="go">+-------------------------------+</span>
+<span class="go">|[first, sentence, ., second, .]|</span>
+<span class="go">|[third, sentence, ., forth, .] |</span>
+<span class="go">+-------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -850,22 +842,22 @@ pretrained models using <code class="docutils literal notranslate"><span class="
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.getInputCols" title="sparknlp.annotator.StopWordsCleaner.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.getLazyAnnotator" title="sparknlp.annotator.StopWordsCleaner.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.getOrDefault" title="sparknlp.annotator.StopWordsCleaner.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.getOutputCol" title="sparknlp.annotator.StopWordsCleaner.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.getParam" title="sparknlp.annotator.StopWordsCleaner.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.getParamValue" title="sparknlp.annotator.StopWordsCleaner.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.hasDefault" title="sparknlp.annotator.StopWordsCleaner.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -882,8 +874,8 @@ pretrained models using <code class="docutils literal notranslate"><span class="
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.load" title="sparknlp.annotator.StopWordsCleaner.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
 <td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadDefaultStopWords</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.loadDefaultStopWords" title="sparknlp.annotator.StopWordsCleaner.loadDefaultStopWords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadDefaultStopWords</span></code></a>()</p></td>
+<td><p>Loads the default stop words for the given language.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.pretrained" title="sparknlp.annotator.StopWordsCleaner.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
 <td><p>Downloads and loads a pretrained model.</p></td>
@@ -897,29 +889,29 @@ pretrained models using <code class="docutils literal notranslate"><span class="
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.set" title="sparknlp.annotator.StopWordsCleaner.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setCaseSensitive" title="sparknlp.annotator.StopWordsCleaner.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
+<td><p>Sets whether to do a case sensitive comparison, by default False.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setInputCols" title="sparknlp.annotator.StopWordsCleaner.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setLazyAnnotator" title="sparknlp.annotator.StopWordsCleaner.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLocale</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setLocale" title="sparknlp.annotator.StopWordsCleaner.setLocale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLocale</span></code></a>(value)</p></td>
+<td><p>Sets locale of the input.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setOutputCol" title="sparknlp.annotator.StopWordsCleaner.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setParamValue" title="sparknlp.annotator.StopWordsCleaner.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStopWords</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.setStopWords" title="sparknlp.annotator.StopWordsCleaner.setStopWords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStopWords</span></code></a>(value)</p></td>
+<td><p>Sets the words to be filtered out, by default english stopwords from Spark ML.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.StopWordsCleaner.transform" title="sparknlp.annotator.StopWordsCleaner.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1024,14 +1016,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1044,13 +1036,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1085,6 +1091,23 @@ a default value.</p>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.loadDefaultStopWords">
+<span class="sig-name descname"><span class="pre">loadDefaultStopWords</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#StopWordsCleaner.loadDefaultStopWords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.loadDefaultStopWords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the default stop words for the given language.</p>
+<p>Supported languages: danish, dutch, english, finnish, french, german,
+hungarian, italian, norwegian, portuguese, russian, spanish, swedish,
+turkish</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>language</strong><span class="classifier">str, optional</span></dt><dd><p>Language stopwords to load, by default “english”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.params">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.params" title="Permalink to this definition">¶</a></dt>
@@ -1100,17 +1123,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “stopwords_en”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>StopWordsCleaner</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1136,13 +1160,27 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setCaseSensitive">
+<span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#StopWordsCleaner.setCaseSensitive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to do a case sensitive comparison, by default False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to do a case sensitive comparison</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1152,14 +1190,29 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setLocale">
+<span class="sig-name descname"><span class="pre">setLocale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#StopWordsCleaner.setLocale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setLocale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets locale of the input. Ignored when case sensitive, by default
+locale of the JVM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Locale of the input</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1168,11 +1221,40 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.StopWordsCleaner.setStopWords">
+<span class="sig-name descname"><span class="pre">setStopWords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#StopWordsCleaner.setStopWords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.StopWordsCleaner.setStopWords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the words to be filtered out, by default english stopwords from
+Spark ML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>The words to be filtered out</p>
 </dd>
 </dl>
 </dd>

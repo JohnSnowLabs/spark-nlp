@@ -781,22 +781,25 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.set" title="sparknlp.annotator.DateMatcherUtils.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateDay</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.setAnchorDateDay" title="sparknlp.annotator.DateMatcherUtils.setAnchorDateDay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateDay</span></code></a>(value)</p></td>
+<td><p>Sets an anchor day of the day for the relative dates such as a day after tomorrow.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateMonth</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.setAnchorDateMonth" title="sparknlp.annotator.DateMatcherUtils.setAnchorDateMonth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateMonth</span></code></a>(value)</p></td>
+<td><p>Sets an anchor month for the relative dates such as a day after tomorrow.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateYear</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.setAnchorDateYear" title="sparknlp.annotator.DateMatcherUtils.setAnchorDateYear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateYear</span></code></a>(value)</p></td>
+<td><p>Sets an anchor year for the relative dates such as a day after tomorrow.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDefaultDayWhenMissing</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.setDefaultDayWhenMissing" title="sparknlp.annotator.DateMatcherUtils.setDefaultDayWhenMissing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDefaultDayWhenMissing</span></code></a>(value)</p></td>
+<td><p>Sets which day to set when it is missing from parsed input, by default 1.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFormat</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.setFormat" title="sparknlp.annotator.DateMatcherUtils.setFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFormat</span></code></a>(value)</p></td>
+<td><p>Sets desired format for extracted dates, by default yyyy/MM/dd.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReadMonthFirst</span></code>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DateMatcherUtils.setReadMonthFirst" title="sparknlp.annotator.DateMatcherUtils.setReadMonthFirst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReadMonthFirst</span></code></a>(value)</p></td>
+<td><p>Sets whether to parse the date in mm/dd/yyyy format instead of dd/mm/yyyy, by default True.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSourceLanguage</span></code>(value)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -827,6 +830,9 @@
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">readMonthFirst</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sourceLanguage</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -939,6 +945,103 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.set">
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.setAnchorDateDay">
+<span class="sig-name descname"><span class="pre">setAnchorDateDay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DateMatcherUtils.setAnchorDateDay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.setAnchorDateDay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an anchor day of the day for the relative dates such as a day
+after tomorrow. If not set it will use the current day.</p>
+<p>Example: 11</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor day for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.setAnchorDateMonth">
+<span class="sig-name descname"><span class="pre">setAnchorDateMonth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DateMatcherUtils.setAnchorDateMonth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.setAnchorDateMonth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an anchor month for the relative dates such as a day after
+tomorrow. If not set it will use the current month.</p>
+<p>Example: 1 which means January</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor month for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.setAnchorDateYear">
+<span class="sig-name descname"><span class="pre">setAnchorDateYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DateMatcherUtils.setAnchorDateYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.setAnchorDateYear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an anchor year for the relative dates such as a day after
+tomorrow. If not set it will use the current year.</p>
+<p>Example: 2021</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor year for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.setDefaultDayWhenMissing">
+<span class="sig-name descname"><span class="pre">setDefaultDayWhenMissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DateMatcherUtils.setDefaultDayWhenMissing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.setDefaultDayWhenMissing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets which day to set when it is missing from parsed input,
+by default 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>[description]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.setFormat">
+<span class="sig-name descname"><span class="pre">setFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DateMatcherUtils.setFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.setFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets desired format for extracted dates, by default yyyy/MM/dd.</p>
+<p>Not all of the date information needs to be included. For example
+<code class="docutils literal notranslate"><span class="pre">&quot;YYYY&quot;</span></code> is also a valid input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Desired format for dates extracted.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DateMatcherUtils.setReadMonthFirst">
+<span class="sig-name descname"><span class="pre">setReadMonthFirst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DateMatcherUtils.setReadMonthFirst"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DateMatcherUtils.setReadMonthFirst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to parse the date in mm/dd/yyyy format instead of
+dd/mm/yyyy, by default True.</p>
+<p>For example July 5th 2015, would be parsed as 07/05/2015 instead of
+05/07/2015.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to parse the date in mm/dd/yyyy format instead of
+dd/mm/yyyy.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">

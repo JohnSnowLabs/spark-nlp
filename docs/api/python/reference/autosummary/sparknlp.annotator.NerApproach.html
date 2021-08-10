@@ -760,8 +760,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.extractParamMap" title="sparknlp.annotator.NerApproach.extractParamMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractParamMap</span></code></a>([extra])</p></td>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLabelColumn</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.getLabelColumn" title="sparknlp.annotator.NerApproach.getLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLabelColumn</span></code></a>()</p></td>
+<td><p>Gets column for label per each token.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.getOrDefault" title="sparknlp.annotator.NerApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
@@ -784,23 +784,23 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.set" title="sparknlp.annotator.NerApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code>(tags)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.setEntities" title="sparknlp.annotator.NerApproach.setEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code></a>(tags)</p></td>
+<td><p>Sets entities to recognize.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.setLabelColumn" title="sparknlp.annotator.NerApproach.setLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code></a>(value)</p></td>
+<td><p>Sets name of column for data labels.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code>(epochs)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.setMaxEpochs" title="sparknlp.annotator.NerApproach.setMaxEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code></a>(epochs)</p></td>
+<td><p>Sets maximum number of epochs to train.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code>(epochs)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.setMinEpochs" title="sparknlp.annotator.NerApproach.setMinEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code></a>(epochs)</p></td>
+<td><p>Sets minimum number of epochs to train.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code>(seed)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.setRandomSeed" title="sparknlp.annotator.NerApproach.setRandomSeed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code></a>(seed)</p></td>
+<td><p>Sets random seed for shuffling.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code>(verboseValue)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerApproach.setVerbose" title="sparknlp.annotator.NerApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
+<td><p>Sets level of verbosity during training.</p></td>
 </tr>
 </tbody>
 </table>
@@ -892,6 +892,20 @@ user-supplied values &lt; extra.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.getLabelColumn">
+<span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.getLabelColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.getLabelColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets column for label per each token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>Column with label per each token</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.getOrDefault">
 <span class="sig-name descname"><span class="pre">getOrDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerApproach.getOrDefault" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the value of a param in the user-supplied param map or its
@@ -942,6 +956,90 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.set">
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerApproach.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.setEntities">
+<span class="sig-name descname"><span class="pre">setEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.setEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.setEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets entities to recognize.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">List[str]</span></dt><dd><p>List of entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.setLabelColumn">
+<span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.setLabelColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.setLabelColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets name of column for data labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Column for data labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.setMaxEpochs">
+<span class="sig-name descname"><span class="pre">setMaxEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.setMaxEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.setMaxEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets maximum number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Maximum number of epochs to train</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.setMinEpochs">
+<span class="sig-name descname"><span class="pre">setMinEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.setMinEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.setMinEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minimum number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Minimum number of epochs to train</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.setRandomSeed">
+<span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.setRandomSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.setRandomSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets random seed for shuffling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>seed</strong><span class="classifier">int</span></dt><dd><p>Random seed for shuffling</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerApproach.setVerbose">
+<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verboseValue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerApproach.setVerbose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerApproach.setVerbose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets level of verbosity during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>verboseValue</strong><span class="classifier">int</span></dt><dd><p>Level of verbosity</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">

@@ -734,17 +734,21 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NerDLApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code>, <a class="reference internal" href="sparknlp.annotator.NerApproach.html#sparknlp.annotator.NerApproach" title="sparknlp.annotator.NerApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.NerApproach</span></code></a></p>
-<p>This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.</p>
-<p>The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.</p>
-<p>For instantiated/pretrained models, see NerDLModel.</p>
-<p>The training data should be a labeled Spark Dataset, in the format of CoNLL
-2003 IOB with <code class="docutils literal notranslate"><span class="pre">Annotation</span></code> type columns. The data should have columns of type <code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN,</span> <span class="pre">WORD_EMBEDDINGS</span></code> and an
-additional label column of annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>.
-Excluding the label, this can be done with for example</p>
+<p>This Named Entity recognition annotator allows to train generic NER model
+based on Neural Networks.</p>
+<p>The architecture of the neural network is a Char CNNs - BiLSTM - CRF that
+achieves state-of-the-art in most datasets.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel" title="sparknlp.annotator.NerDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code></a>.</p>
+<p>The training data should be a labeled Spark Dataset, in the format of
+<a class="reference internal" href="sparknlp.training.CoNLL.html#sparknlp.training.CoNLL" title="sparknlp.training.CoNLL"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoNLL</span></code></a> 2003 IOB with <cite>Annotation</cite> type columns. The data should
+have columns of type <code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN,</span> <span class="pre">WORD_EMBEDDINGS</span></code> and an additional
+label column of annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>.</p>
+<p>Excluding the label, this can be done with for example:</p>
 <ul class="simple">
 <li><p>a SentenceDetector,</p></li>
 <li><p>a Tokenizer and</p></li>
-<li><p>a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings for BERT based embeddings).</p></li>
+<li><p>a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings
+for BERT based embeddings).</p></li>
 </ul>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner">Spark NLP Workshop</a>.</p>
 <table class="table">
@@ -780,7 +784,8 @@ Excluding the label, this can be done with for example</p>
 </dd>
 <dt><strong>lr</strong></dt><dd><p>Learning Rate, by default 0.001</p>
 </dd>
-<dt><strong>po</strong></dt><dd><p>Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch), by default 0.005</p>
+<dt><strong>po</strong></dt><dd><p>Learning rate decay coefficient. Real Learning Rage = lr / (1 + po *
+epoch), by default 0.005</p>
 </dd>
 <dt><strong>batchSize</strong></dt><dd><p>Batch size, by default 8</p>
 </dd>
@@ -790,74 +795,78 @@ Excluding the label, this can be done with for example</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
-<dt><strong>useContrib</strong></dt><dd><p>whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy</p>
+<dt><strong>useContrib</strong></dt><dd><p>whether to use contrib LSTM Cells. Not compatible with Windows. Might
+slightly improve accuracy</p>
 </dd>
-<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default 0.0</p>
+<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the
+model on each Epoch. The value should be between 0.0 and 1.0 and by
+default it is 0.0 and off, by default 0.0</p>
 </dd>
-<dt><strong>evaluationLogExtended</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off, by default False</p>
+<dt><strong>evaluationLogExtended</strong></dt><dd><p>Whether logs for validation to be extended, by default False.</p>
 </dd>
-<dt><strong>testDataset</strong></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during training.</p>
+<dt><strong>testDataset</strong></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during
+training.</p>
 </dd>
-<dt><strong>includeConfidence</strong></dt><dd><p>whether to include confidence scores in annotation metadata, by default False</p>
+<dt><strong>includeConfidence</strong></dt><dd><p>whether to include confidence scores in annotation metadata, by default
+False</p>
 </dd>
-<dt><strong>includeAllConfidenceScores</strong></dt><dd><p>whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False</p>
+<dt><strong>includeAllConfidenceScores</strong></dt><dd><p>whether to include all confidence scores in annotation metadata or just
+the score of the predicted tag, by default False</p>
 </dd>
 <dt><strong>enableOutputLogs</strong></dt><dd><p>Whether to use stdout in addition to Spark logs, by default False</p>
 </dd>
 <dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs</p>
 </dd>
-<dt><strong>enableMemoryOptimizer</strong></dt><dd><p>Whether to optimize for large datasets or not. Enabling this option can slow down training, by default False</p>
+<dt><strong>enableMemoryOptimizer</strong></dt><dd><p>Whether to optimize for large datasets or not. Enabling this option can
+slow down training, by default False</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="c1"># First extract the prerequisites for the NerDLApproach</span>
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
-
-<span class="c1"># Then the training can start</span>
-<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">sentence</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">nerTagger</span>
-<span class="p">])</span>
-
-<span class="c1"># We use the text and labels from the CoNLL dataset</span>
-<span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
-<span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
-
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+</pre></div>
+</div>
+<p>First extract the prerequisites for the NerDLApproach</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then the training can start</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>We use the text and labels from the CoNLL dataset</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -892,25 +901,25 @@ Excluding the label, this can be done with for example</p>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getInputCols" title="sparknlp.annotator.NerDLApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLabelColumn</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getLabelColumn" title="sparknlp.annotator.NerDLApproach.getLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLabelColumn</span></code></a>()</p></td>
+<td><p>Gets column for label per each token.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getLazyAnnotator" title="sparknlp.annotator.NerDLApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getOrDefault" title="sparknlp.annotator.NerDLApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getOutputCol" title="sparknlp.annotator.NerDLApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getParam" title="sparknlp.annotator.NerDLApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.getParamValue" title="sparknlp.annotator.NerDLApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.hasDefault" title="sparknlp.annotator.NerDLApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -936,80 +945,80 @@ Excluding the label, this can be done with for example</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.set" title="sparknlp.annotator.NerDLApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setBatchSize" title="sparknlp.annotator.NerDLApproach.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
+<td><p>Sets batch size, by default 64.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setConfigProtoBytes" title="sparknlp.annotator.NerDLApproach.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDropout</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setDropout" title="sparknlp.annotator.NerDLApproach.setDropout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDropout</span></code></a>(v)</p></td>
+<td><p>Sets dropout coefficient, by default 0.5.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableMemoryOptimizer</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer" title="sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableMemoryOptimizer</span></code></a>(value)</p></td>
+<td><p>Sets Whether to optimize for large datasets or not, by default False.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableOutputLogs</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEnableOutputLogs" title="sparknlp.annotator.NerDLApproach.setEnableOutputLogs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableOutputLogs</span></code></a>(value)</p></td>
+<td><p>Sets whether to use stdout in addition to Spark logs, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code>(tags)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEntities" title="sparknlp.annotator.NerDLApproach.setEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code></a>(tags)</p></td>
+<td><p>Sets entities to recognize.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEvaluationLogExtended</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEvaluationLogExtended" title="sparknlp.annotator.NerDLApproach.setEvaluationLogExtended"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEvaluationLogExtended</span></code></a>(v)</p></td>
+<td><p>Sets whether logs for validation to be extended, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFolder</span></code>(p)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setGraphFolder" title="sparknlp.annotator.NerDLApproach.setGraphFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFolder</span></code></a>(p)</p></td>
+<td><p>Sets folder path that contain external graph files.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeAllConfidenceScores</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores" title="sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeAllConfidenceScores</span></code></a>(value)</p></td>
+<td><p>Sets whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setIncludeConfidence" title="sparknlp.annotator.NerDLApproach.setIncludeConfidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code></a>(value)</p></td>
+<td><p>Sets whether to include confidence scores in annotation metadata, by default False.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="sparknlp.annotator.NerDLApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLabelColumn" title="sparknlp.annotator.NerDLApproach.setLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code></a>(value)</p></td>
+<td><p>Sets name of column for data labels.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLazyAnnotator" title="sparknlp.annotator.NerDLApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLr</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLr" title="sparknlp.annotator.NerDLApproach.setLr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLr</span></code></a>(v)</p></td>
+<td><p>Sets Learning Rate, by default 0.001.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code>(epochs)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setMaxEpochs" title="sparknlp.annotator.NerDLApproach.setMaxEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code></a>(epochs)</p></td>
+<td><p>Sets maximum number of epochs to train.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code>(epochs)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setMinEpochs" title="sparknlp.annotator.NerDLApproach.setMinEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code></a>(epochs)</p></td>
+<td><p>Sets minimum number of epochs to train.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setOutputCol" title="sparknlp.annotator.NerDLApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code>(p)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setOutputLogsPath" title="sparknlp.annotator.NerDLApproach.setOutputLogsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code></a>(p)</p></td>
+<td><p>Sets folder path to save training logs.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setParamValue" title="sparknlp.annotator.NerDLApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPo</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setPo" title="sparknlp.annotator.NerDLApproach.setPo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPo</span></code></a>(v)</p></td>
+<td><p>Sets Learning rate decay coefficient, by default 0.005.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code>(seed)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setRandomSeed" title="sparknlp.annotator.NerDLApproach.setRandomSeed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code></a>(seed)</p></td>
+<td><p>Sets random seed for shuffling.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code>(path[, read_as, options])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="sparknlp.annotator.NerDLApproach.setTestDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code></a>(path[, read_as, options])</p></td>
+<td><p>Sets Path to test dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseContrib</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="sparknlp.annotator.NerDLApproach.setUseContrib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseContrib</span></code></a>(v)</p></td>
+<td><p>Sets whether to use contrib LSTM Cells.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="sparknlp.annotator.NerDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
+<td><p>Sets the proportion of training dataset to be validated against the model on each Epoch, by default it is 0.0 and off.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code>(verboseValue)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="sparknlp.annotator.NerDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
+<td><p>Sets level of verbosity during training.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.write" title="sparknlp.annotator.NerDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1206,14 +1215,28 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getLabelColumn">
+<span class="sig-name descname"><span class="pre">getLabelColumn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getLabelColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets column for label per each token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>Column with label per each token</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1226,13 +1249,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1294,9 +1331,23 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setBatchSize">
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setBatchSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets batch size, by default 64.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">int</span></dt><dd><p>Batch size</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1308,13 +1359,145 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setDropout">
+<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setDropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets dropout coefficient, by default 0.5.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Dropout coefficient</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer">
+<span class="sig-name descname"><span class="pre">setEnableMemoryOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEnableMemoryOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Whether to optimize for large datasets or not, by default False.
+Enabling this option can slow down training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to optimize for large datasets</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEnableOutputLogs">
+<span class="sig-name descname"><span class="pre">setEnableOutputLogs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEnableOutputLogs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEnableOutputLogs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to use stdout in addition to Spark logs, by default
+False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to use stdout in addition to Spark logs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEntities">
+<span class="sig-name descname"><span class="pre">setEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets entities to recognize.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tags</strong><span class="classifier">List[str]</span></dt><dd><p>List of entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setEvaluationLogExtended">
+<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setEvaluationLogExtended" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether logs for validation to be extended, by default False.
+Displays time and evaluation of each label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Whether logs for validation to be extended</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setGraphFolder">
+<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setGraphFolder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets folder path that contain external graph files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Folder path that contain external graph files</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores">
+<span class="sig-name descname"><span class="pre">setIncludeAllConfidenceScores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setIncludeAllConfidenceScores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to include all confidence scores in annotation metadata
+or just the score of the predicted tag, by default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to include all confidence scores in annotation metadata or
+just the score of the predicted tag</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setIncludeConfidence">
+<span class="sig-name descname"><span class="pre">setIncludeConfidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setIncludeConfidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setIncludeConfidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to include confidence scores in annotation metadata, by
+default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to include the confidence value in the output.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setLabelColumn">
+<span class="sig-name descname"><span class="pre">setLabelColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLabelColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets name of column for data labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Column for data labels</p>
 </dd>
 </dl>
 </dd>
@@ -1324,14 +1507,56 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setLr">
+<span class="sig-name descname"><span class="pre">setLr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setLr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setLr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Learning Rate, by default 0.001.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Learning Rate</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setMaxEpochs">
+<span class="sig-name descname"><span class="pre">setMaxEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setMaxEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets maximum number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Maximum number of epochs to train</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setMinEpochs">
+<span class="sig-name descname"><span class="pre">setMinEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setMinEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minimum number of epochs to train.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>epochs</strong><span class="classifier">int</span></dt><dd><p>Minimum number of epochs to train</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1340,11 +1565,138 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setOutputLogsPath">
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setOutputLogsPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets folder path to save training logs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>Folder path to save training logs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setPo">
+<span class="sig-name descname"><span class="pre">setPo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setPo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setPo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Learning rate decay coefficient, by default 0.005.</p>
+<p>Real Learning Rage is lr / (1 + po * epoch).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Learning rate decay coefficient</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setRandomSeed">
+<span class="sig-name descname"><span class="pre">setRandomSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setRandomSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets random seed for shuffling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>seed</strong><span class="classifier">int</span></dt><dd><p>Random seed for shuffling</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setTestDataset">
+<span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SPARK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'parquet'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Path to test dataset. If set used to calculate statistic on it
+during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to test dataset</p>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the resource, by default ReadAs.SPARK</p>
+</dd>
+<dt><strong>options</strong><span class="classifier">dict, optional</span></dt><dd><p>Options for reading the resource, by default {“format”: “parquet”}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setUseContrib">
+<span class="sig-name descname"><span class="pre">setUseContrib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseContrib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to use contrib LSTM Cells. Not compatible with Windows.
+Might slightly improve accuracy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">bool</span></dt><dd><p>Whether to use contrib LSTM Cells</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><dl class="simple">
+<dt>Exception</dt><dd><p>Windows not supported to use contrib</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setValidationSplit">
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the proportion of training dataset to be validated against the
+model on each Epoch, by default it is 0.0 and off. The value should be
+between 0.0 and 1.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Proportion of training dataset to be validated</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setVerbose">
+<span class="sig-name descname"><span class="pre">setVerbose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verboseValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets level of verbosity during training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>verboseValue</strong><span class="classifier">int</span></dt><dd><p>Level of verbosity</p>
 </dd>
 </dl>
 </dd>

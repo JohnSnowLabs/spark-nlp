@@ -730,7 +730,8 @@
                 
   <div class="section" id="module-sparknlp.annotator">
 <span id="sparknlp-annotator"></span><h1>sparknlp.annotator<a class="headerlink" href="#module-sparknlp.annotator" title="Permalink to this headline">¶</a></h1>
-<p>Module containing all available Annotators of Spark NLP and their base classes.</p>
+<p>Module containing all available Annotators of Spark NLP and their base
+classes.</p>
 <p class="rubric">Classes</p>
 <table class="longtable table autosummary">
 <colgroup>
@@ -745,7 +746,7 @@
 <td><p>Token-level embeddings using BERT.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.BertForTokenClassification.html#sparknlp.annotator.BertForTokenClassification" title="sparknlp.annotator.BertForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BertForTokenClassification</span></code></a></p></td>
-<td><p></p></td>
+<td><p>BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.BertSentenceEmbeddings.html#sparknlp.annotator.BertSentenceEmbeddings" title="sparknlp.annotator.BertSentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BertSentenceEmbeddings</span></code></a></p></td>
 <td><p>Sentence-level embeddings using BERT.</p></td>
@@ -796,7 +797,7 @@
 <td><p>DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html#sparknlp.annotator.DistilBertForTokenClassification" title="sparknlp.annotator.DistilBertForTokenClassification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DistilBertForTokenClassification</span></code></a></p></td>
-<td><p></p></td>
+<td><p>DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.DocumentNormalizer.html#sparknlp.annotator.DocumentNormalizer" title="sparknlp.annotator.DocumentNormalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DocumentNormalizer</span></code></a></p></td>
 <td><p>Annotator which normalizes raw text from tagged text, e.g.</p></td>
@@ -805,7 +806,7 @@
 <td><p>Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction" title="sparknlp.annotator.GraphExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphExtraction</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Extracts a dependency graph between entities.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.LanguageDetectorDL.html#sparknlp.annotator.LanguageDetectorDL" title="sparknlp.annotator.LanguageDetectorDL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LanguageDetectorDL</span></code></a></p></td>
 <td><p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p></td>
@@ -817,7 +818,7 @@
 <td><p>Instantiated Model of the Lemmatizer.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html#sparknlp.annotator.LongformerEmbeddings" title="sparknlp.annotator.LongformerEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LongformerEmbeddings</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Longformer is a transformer model for long documents.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.MarianTransformer.html#sparknlp.annotator.MarianTransformer" title="sparknlp.annotator.MarianTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MarianTransformer</span></code></a></p></td>
 <td><p>MarianTransformer: Fast Neural Machine Translation</p></td>
@@ -832,7 +833,7 @@
 <td><p>Matches standard date formats into a provided format.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.NGramGenerator.html#sparknlp.annotator.NGramGenerator" title="sparknlp.annotator.NGramGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NGramGenerator</span></code></a></p></td>
-<td><p>A feature transformer that converts the input array of strings (annotatorType TOKEN) into an array of n-grams (annotatorType CHUNK).</p></td>
+<td><p>A feature transformer that converts the input array of strings (annotatorType <code class="docutils literal notranslate"><span class="pre">TOKEN</span></code>) into an array of n-grams (annotatorType <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code>).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.NerApproach.html#sparknlp.annotator.NerApproach" title="sparknlp.annotator.NerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerApproach</span></code></a></p></td>
 <td><p>Base class for Ner*Approach Annotators</p></td>
@@ -889,7 +890,7 @@
 <td><p>A tokenizer that splits text by a regex pattern.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html#sparknlp.annotator.RoBertaEmbeddings" title="sparknlp.annotator.RoBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RoBertaEmbeddings</span></code></a></p></td>
-<td><p>The RoBERTa model was proposed in <a class="reference external" href="https://arxiv.org/abs/1907.11692">RoBERTa: A Robustly Optimized BERT Pretraining Approach</a> by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.</p></td>
+<td><p>Creates word embeddings using RoBERTa.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a></p></td>
 <td><p>Annotator that detects sentence boundaries using any provided approach.</p></td>
@@ -904,7 +905,7 @@
 <td><p>Base class for SentenceDetector parameters</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.SentenceEmbeddings.html#sparknlp.annotator.SentenceEmbeddings" title="sparknlp.annotator.SentenceEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentenceEmbeddings</span></code></a></p></td>
-<td><p>Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols).</p></td>
+<td><p>Converts the results from WordEmbeddings, BertEmbeddings, or other word embeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.SentimentDLApproach.html#sparknlp.annotator.SentimentDLApproach" title="sparknlp.annotator.SentimentDLApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SentimentDLApproach</span></code></a></p></td>
 <td><p>Trains a SentimentDL, an annotator for multi-class sentiment analysis.</p></td>
@@ -958,10 +959,10 @@
 <td><p>The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.ViveknSentimentApproach.html#sparknlp.annotator.ViveknSentimentApproach" title="sparknlp.annotator.ViveknSentimentApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ViveknSentimentApproach</span></code></a></p></td>
-<td><p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan <a class="reference external" href="https://github.com/vivekn/sentiment/">https://github.com/vivekn/sentiment/</a>.</p></td>
+<td><p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.ViveknSentimentModel.html#sparknlp.annotator.ViveknSentimentModel" title="sparknlp.annotator.ViveknSentimentModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ViveknSentimentModel</span></code></a></p></td>
-<td><p>Sentiment analyser inspired by the algorithm by Vivek Narayanan <a class="reference external" href="https://github.com/vivekn/sentiment/">https://github.com/vivekn/sentiment/</a>.</p></td>
+<td><p>Sentiment analyser inspired by the algorithm by Vivek Narayanan.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html#sparknlp.annotator.WordEmbeddings" title="sparknlp.annotator.WordEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordEmbeddings</span></code></a></p></td>
 <td><p>Word Embeddings lookup annotator that maps tokens to vectors.</p></td>
@@ -976,7 +977,7 @@
 <td><p>WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.annotator.XlmRoBertaEmbeddings.html#sparknlp.annotator.XlmRoBertaEmbeddings" title="sparknlp.annotator.XlmRoBertaEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlmRoBertaEmbeddings</span></code></a></p></td>
-<td><p>The XLM-RoBERTa model was proposed in <a class="reference external" href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov.</p></td>
+<td><p>The XLM-RoBERTa model was proposed in <cite>Unsupervised Cross-lingual Representation Learning at Scale</cite> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html#sparknlp.annotator.XlnetEmbeddings" title="sparknlp.annotator.XlnetEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XlnetEmbeddings</span></code></a></p></td>
 <td><p>XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for Language Understanding</p></td>

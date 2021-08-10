@@ -167,16 +167,14 @@
 <div class="viewcode-block" id="CoNLL"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL">[docs]</a><span class="k">class</span> <span class="nc">CoNLL</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Instantiates the class to read a CoNLL dataset.</span>
 
-<span class="sd">    The dataset should be in the format of</span>
-<span class="sd">    `CoNLL 2003 &lt;https://www.clips.uantwerpen.be/conll2003/ner/&gt;`_ and needs to</span>
-<span class="sd">    be specified with :meth:`.readDataset`,</span>
-<span class="sd">    which will create a dataframe with the data.</span>
+<span class="sd">    The dataset should be in the format of `CoNLL 2003</span>
+<span class="sd">    &lt;https://www.clips.uantwerpen.be/conll2003/ner/&gt;`_ and needs to be specified</span>
+<span class="sd">    with :meth:`.readDataset`, which will create a dataframe with the data.</span>
 
-<span class="sd">    Can be used to train a :class:`NerDLApproach &lt;sparknlp.annotator.NerDLApproach&gt;`.</span>
+<span class="sd">    Can be used to train a :class:`NerDLApproach</span>
+<span class="sd">    &lt;sparknlp.annotator.NerDLApproach&gt;`.</span>
 
-<span class="sd">    **Input File Format**</span>
-
-<span class="sd">    .. code-block:: none</span>
+<span class="sd">    **Input File Format**::</span>
 
 <span class="sd">        -DOCSTART- -X- -X- O</span>
 
@@ -193,13 +191,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    documentCol : str, optional</span>
-<span class="sd">        Name of the :class:`DocumentAssembler` column, by default &#39;document&#39;</span>
+<span class="sd">        Name of the :class:`.DocumentAssembler` column, by default &#39;document&#39;</span>
 <span class="sd">    sentenceCol : str, optional</span>
-<span class="sd">        Name of the :class:`SentenceDetector` column, by default &#39;sentence&#39;</span>
+<span class="sd">        Name of the :class:`.SentenceDetector` column, by default &#39;sentence&#39;</span>
 <span class="sd">    tokenCol : str, optional</span>
-<span class="sd">        Name of the :class:`Tokenizer` column, by default &#39;token&#39;</span>
+<span class="sd">        Name of the :class:`.Tokenizer` column, by default &#39;token&#39;</span>
 <span class="sd">    posCol : str, optional</span>
-<span class="sd">        Name of the :class:`PerceptronApproach` column, by default &#39;pos&#39;</span>
+<span class="sd">        Name of the :class:`.PerceptronModel` column, by default &#39;pos&#39;</span>
 <span class="sd">    conllLabelIndex : int, optional</span>
 <span class="sd">        Index of the label column in the dataset, by default 3</span>
 <span class="sd">    conllPosIndex : int, optional</span>
@@ -210,10 +208,11 @@
 <span class="sd">        Name of the label column, by default &#39;label&#39;</span>
 <span class="sd">    explodeSentences : bool, optional</span>
 <span class="sd">        Whether to explode sentences to separate rows, by default True</span>
+<span class="sd">    delimiter: str, optional</span>
+<span class="sd">        Delimiter used to separate columns inside CoNLL file</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import CoNLL</span>
 <span class="sd">    &gt;&gt;&gt; trainingData = CoNLL().readDataset(spark, &quot;src/test/resources/conll2003/eng.train&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; trainingData.selectExpr(</span>
@@ -230,6 +229,7 @@
 <span class="sd">    |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |</span>
 <span class="sd">    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">documentCol</span><span class="o">=</span><span class="s1">&#39;document&#39;</span><span class="p">,</span>
                  <span class="n">sentenceCol</span><span class="o">=</span><span class="s1">&#39;sentence&#39;</span><span class="p">,</span>
@@ -240,6 +240,7 @@
                  <span class="n">textCol</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
                  <span class="n">labelCol</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span>
                  <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span>
                  <span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CoNLL</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CoNLL&quot;</span><span class="p">,</span>
                                     <span class="n">documentCol</span><span class="p">,</span>
@@ -250,7 +251,8 @@
                                     <span class="n">conllPosIndex</span><span class="p">,</span>
                                     <span class="n">textCol</span><span class="p">,</span>
                                     <span class="n">labelCol</span><span class="p">,</span>
-                                    <span class="n">explodeSentences</span><span class="p">)</span>
+                                    <span class="n">explodeSentences</span><span class="p">,</span>
+                                    <span class="n">delimiter</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CoNLL.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">):</span>
         <span class="c1"># ToDo Replace with std pyspark</span>
@@ -279,17 +281,14 @@
 <div class="viewcode-block" id="CoNLLU"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLLU.html#sparknlp.training.CoNLLU">[docs]</a><span class="k">class</span> <span class="nc">CoNLLU</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Instantiates the class to read a CoNLL-U dataset.</span>
 
-<span class="sd">    The dataset should be in the format of</span>
-<span class="sd">    `CoNLL-U &lt;https://universaldependencies.org/format.html&gt;`_ and needs to be</span>
-<span class="sd">    specified with :meth:`.readDataset`, which will create a dataframe with the</span>
-<span class="sd">    data.</span>
+<span class="sd">    The dataset should be in the format of `CoNLL-U</span>
+<span class="sd">    &lt;https://universaldependencies.org/format.html&gt;`_ and needs to be specified</span>
+<span class="sd">    with :meth:`.readDataset`, which will create a dataframe with the data.</span>
 
-<span class="sd">    Can be used to train a</span>
-<span class="sd">    :class:`DependencyParserApproach &lt;sparknlp.annotator.DependencyParserApproach&gt;`</span>
+<span class="sd">    Can be used to train a :class:`DependencyParserApproach</span>
+<span class="sd">    &lt;sparknlp.annotator.DependencyParserApproach&gt;`</span>
 
-<span class="sd">    **Input File Format**</span>
-
-<span class="sd">    .. code-block:: none</span>
+<span class="sd">    **Input File Format**::</span>
 
 <span class="sd">        -DOCSTART- -X- -X- O</span>
 
@@ -305,7 +304,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import CoNLLU</span>
 <span class="sd">    &gt;&gt;&gt; conlluFile = &quot;src/test/resources/conllu/en.test.conllu&quot;</span>
 <span class="sd">    &gt;&gt;&gt; conllDataSet = CoNLLU(False).readDataset(spark, conlluFile)</span>
@@ -322,9 +320,9 @@
 <span class="sd">    |What if Google Morphed Into GoogleOS?  |[What, if, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, if, Google, morph, into, GoogleOS, ?]|</span>
 <span class="sd">    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CoNLLU</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CoNLLU&quot;</span><span class="p">,</span> <span class="n">explodeSentences</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="CoNLLU.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLLU.html#sparknlp.training.CoNLLU.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reads the dataset from an external resource.</span>
@@ -351,14 +349,13 @@
 
 
 <div class="viewcode-block" id="POS"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.POS.html#sparknlp.training.POS">[docs]</a><span class="k">class</span> <span class="nc">POS</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Helper class for creating DataFrames for training a part-of-speech tagger.</span>
+    <span class="sd">&quot;&quot;&quot;Helper class for creating DataFrames for training a part-of-speech</span>
+<span class="sd">    tagger.</span>
 
 <span class="sd">    The dataset needs to consist of sentences on each line, where each word is</span>
 <span class="sd">    delimited with its respective tag.</span>
 
-<span class="sd">    **Input File Format**</span>
-
-<span class="sd">    .. code-block:: none</span>
+<span class="sd">    **Input File Format**::</span>
 
 <span class="sd">        A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN</span>
 
@@ -366,13 +363,13 @@
 <span class="sd">    The sentence can then be parsed with :meth:`.readDataset` into a column with</span>
 <span class="sd">    annotations of type ``POS``.</span>
 
-<span class="sd">    Can be used to train a</span>
-<span class="sd">    :class:`PerceptronApproach &lt;sparknlp.annotator.PerceptronApproach&gt;`.</span>
+<span class="sd">    Can be used to train a :class:`PerceptronApproach</span>
+<span class="sd">    &lt;sparknlp.annotator.PerceptronApproach&gt;`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
-<span class="sd">    In this example, the file ``test-training.txt`` has the content of the sentence above.</span>
+<span class="sd">    In this example, the file ``test-training.txt`` has the content of the</span>
+<span class="sd">    sentence above.</span>
 
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import POS</span>
 <span class="sd">    &gt;&gt;&gt; pos = POS()</span>
@@ -401,8 +398,8 @@
 <span class="sd">    |[pos, 83, 84, CD, [word -&gt; 29], []]          |</span>
 <span class="sd">    |[pos, 81, 81, ., [word -&gt; .], []]            |</span>
 <span class="sd">    +---------------------------------------------+</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">POS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.POS&quot;</span><span class="p">)</span>
 
@@ -438,17 +435,17 @@
 
 
 <div class="viewcode-block" id="PubTator"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.PubTator.html#sparknlp.training.PubTator">[docs]</a><span class="k">class</span> <span class="nc">PubTator</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.</span>
+    <span class="sd">&quot;&quot;&quot;The PubTator format includes medical papers’ titles, abstracts, and</span>
+<span class="sd">    tagged chunks.</span>
 
-<span class="sd">    For more information see `PubTator Docs &lt;http://bioportal.bioontology.org/ontologies/EDAM?p=classes&amp;conceptid=format_3783&gt;`_</span>
+<span class="sd">    For more information see `PubTator Docs</span>
+<span class="sd">    &lt;http://bioportal.bioontology.org/ontologies/EDAM?p=classes&amp;conceptid=format_3783&gt;`_</span>
 <span class="sd">    and `MedMentions Docs &lt;http://github.com/chanzuckerberg/MedMentions&gt;`_.</span>
 
 <span class="sd">    :meth:`.readDataset` is used to create a Spark DataFrame from a PubTator</span>
 <span class="sd">    text file.</span>
 
-<span class="sd">    **Input File Format**</span>
-
-<span class="sd">    .. code-block:: none</span>
+<span class="sd">    **Input File Format**::</span>
 
 <span class="sd">        25763772	0	5	DCTN4	T116,T123	C4308010</span>
 <span class="sd">        25763772	23	63	chronic Pseudomonas aeruginosa infection	T047	C0854135</span>
@@ -458,7 +455,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import PubTator</span>
 <span class="sd">    &gt;&gt;&gt; pubTatorFile = &quot;./src/test/resources/corpus_pubtator_sample.txt&quot;</span>
 <span class="sd">    &gt;&gt;&gt; pubTatorDataSet = PubTator().readDataset(spark, pubTatorFile)</span>
@@ -469,6 +465,7 @@
 <span class="sd">    |25763772|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, 0], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|</span>
 <span class="sd">    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PubTator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.PubTator&quot;</span><span class="p">)</span>
 

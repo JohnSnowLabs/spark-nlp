@@ -734,8 +734,9 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">ChunkTokenizerModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.ChunkTokenizerModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ChunkTokenizerModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="sparknlp.annotator.TokenizerModel.html#sparknlp.annotator.TokenizerModel" title="sparknlp.annotator.TokenizerModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.TokenizerModel</span></code></a></p>
-<p>Instantiated model of the ChunkTokenizer.
-For usage and examples see the documentation of the main class.</p>
+<p>Instantiated model of the ChunkTokenizer.</p>
+<p>This is the instantiated model of the <a class="reference internal" href="sparknlp.annotator.ChunkTokenizer.html#sparknlp.annotator.ChunkTokenizer" title="sparknlp.annotator.ChunkTokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChunkTokenizer</span></code></a>.
+For training your own model, please see the documentation of that class.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -769,8 +770,8 @@ For usage and examples see the documentation of the main class.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([classname, java_model])</p></td>
 <td><p>Initialize this instance with a Java model object.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addSplitChars</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.addSplitChars" title="sparknlp.annotator.ChunkTokenizerModel.addSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addSplitChars</span></code></a>(value)</p></td>
+<td><p>Adds an additional character to separate from the inside of tokens.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.clear" title="sparknlp.annotator.ChunkTokenizerModel.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>(param)</p></td>
 <td><p>Clears a param from the param map if it has been explicitly set.</p></td>
@@ -788,22 +789,22 @@ For usage and examples see the documentation of the main class.</p>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.getInputCols" title="sparknlp.annotator.ChunkTokenizerModel.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.getLazyAnnotator" title="sparknlp.annotator.ChunkTokenizerModel.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.getOrDefault" title="sparknlp.annotator.ChunkTokenizerModel.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.getOutputCol" title="sparknlp.annotator.ChunkTokenizerModel.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.getParam" title="sparknlp.annotator.ChunkTokenizerModel.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.getParamValue" title="sparknlp.annotator.ChunkTokenizerModel.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.hasDefault" title="sparknlp.annotator.ChunkTokenizerModel.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -833,25 +834,25 @@ For usage and examples see the documentation of the main class.</p>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.setInputCols" title="sparknlp.annotator.ChunkTokenizerModel.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.setLazyAnnotator" title="sparknlp.annotator.ChunkTokenizerModel.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.setOutputCol" title="sparknlp.annotator.ChunkTokenizerModel.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.setParamValue" title="sparknlp.annotator.ChunkTokenizerModel.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitChars</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.setSplitChars" title="sparknlp.annotator.ChunkTokenizerModel.setSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitChars</span></code></a>(value)</p></td>
+<td><p>Sets character list used to separate from the inside of tokens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitPattern</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.setSplitPattern" title="sparknlp.annotator.ChunkTokenizerModel.setSplitPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitPattern</span></code></a>(value)</p></td>
+<td><p>Sets pattern to separate from the inside of tokens.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizerModel.transform" title="sparknlp.annotator.ChunkTokenizerModel.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -906,6 +907,20 @@ For usage and examples see the documentation of the main class.</p>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.addSplitChars">
+<span class="sig-name descname"><span class="pre">addSplitChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.addSplitChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an additional character to separate from the inside of tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Additional character to separate from the inside of tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.clear">
 <span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.clear" title="Permalink to this definition">¶</a></dt>
@@ -965,14 +980,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -985,13 +1000,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1041,17 +1070,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “token_rules”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>TokenizerModel</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1079,11 +1109,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1093,14 +1123,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1109,11 +1139,54 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.setSplitChars">
+<span class="sig-name descname"><span class="pre">setSplitChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.setSplitChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets character list used to separate from the inside of tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Character list used to separate from the inside of tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizerModel.setSplitPattern">
+<span class="sig-name descname"><span class="pre">setSplitPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizerModel.setSplitPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets pattern to separate from the inside of tokens. Takes priority
+over splitChars.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Pattern used to separate from the inside of tokens</p>
 </dd>
 </dl>
 </dd>

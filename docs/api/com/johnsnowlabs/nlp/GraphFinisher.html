@@ -279,8 +279,8 @@
                         <a href="Finisher.html" title="Converts annotation results into a format that easier to use.">Finisher</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">GraphFinisher</a>
+                        <a class="class" href="" title="Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF."></a>
+                        <a href="" title="Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.">GraphFinisher</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasBatchedAnnotate.html" title=""></a>
@@ -339,8 +339,8 @@
                         <a href="ParamsAndFeaturesWritable.html" title="">ParamsAndFeaturesWritable</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="RawAnnotator.html" title="Created by jose on 25/01/18."></a>
-                        <a href="RawAnnotator.html" title="Created by jose on 25/01/18.">RawAnnotator</a>
+                        <a class="trait" href="RawAnnotator.html" title=""></a>
+                        <a href="RawAnnotator.html" title="">RawAnnotator</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="RecursivePipeline.html" title=""></a>
@@ -389,7 +389,22 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.</p><h4>Example</h4><p>This is a continuation of the example of
+<a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>. To see how the graph is extracted, see the
+documentation of that class.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.GraphFinisher
+
+<span class="kw">val</span> graphFinisher = <span class="kw">new</span> GraphFinisher()
+  .setInputCol(<span class="lit">"graph"</span>)
+  .setOutputCol(<span class="lit">"graph_finished"</span>)
+  .setOutputAsArray(<span class="kw">false</span>)
+
+<span class="kw">val</span> finishedResult = graphFinisher.transform(result)
+finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_finished"</span>).show(<span class="kw">false</span>)
++-----------------------------------------------------+-----------------------------------------------------------------------+
+|text                                                 |graph_finished                                                         |
++-----------------------------------------------------+-----------------------------------------------------------------------+
+|You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
++-----------------------------------------------------+-----------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="annotators/GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a> to extract the graph.</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -455,7 +470,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.GraphFinisher#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.GraphFinisher#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.GraphFinisher"></a><a id="&lt;init&gt;:GraphFinisher"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/GraphFinisher.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.GraphFinisher" title="Permalink">
@@ -470,7 +485,7 @@
         <span class="name">GraphFinisher</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>required uid for storing annotator to disk</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -576,7 +591,8 @@
         <span class="name">cleanAnnotations</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to remove annotation columns (Default: <code>true</code>)</p>
+      <p class="shortcomment cmt">Whether to remove annotation columns (Default: <code>true</code>)
+</p>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):GraphFinisher.this.type"></a>
       <span class="permalink">
@@ -897,7 +913,8 @@
         <span class="name">getInputCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Name of EmbeddingsFinisher output cols</p>
+      <p class="shortcomment cmt">Name of EmbeddingsFinisher output cols
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -929,7 +946,8 @@
         <span class="name">getOutputCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <p class="shortcomment cmt">Name of input annotation col</p>
+      <p class="shortcomment cmt">Name of input annotation col
+</p>
     </li><li name="org.apache.spark.ml.param.Params#getParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getParam(paramName:String):org.apache.spark.ml.param.Param[Any]"></a><a id="getParam(String):Param[Any]"></a>
       <span class="permalink">
@@ -1012,7 +1030,8 @@
         <span class="name">includeMetadata</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Annotation metadata format (Default: <code>false</code>)</p>
+      <p class="shortcomment cmt">Annotation metadata format (Default: <code>false</code>)
+</p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">
@@ -1060,7 +1079,8 @@
         <span class="name">inputCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Name of input annotation cols</p>
+      <p class="shortcomment cmt">Name of input annotation cols
+</p>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -1386,7 +1406,8 @@
         <span class="name">outputAsArray</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Finisher generates an Array with the results instead of string (Default: <code>true</code>)</p>
+      <p class="shortcomment cmt">Finisher generates an Array with the results instead of string (Default: <code>true</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.GraphFinisher#outputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1402,7 +1423,8 @@
         <span class="name">outputCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Name of finisher output cols</p>
+      <p class="shortcomment cmt">Name of finisher output cols
+</p>
     </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a><a id="params:Array[Param[_]]"></a>
       <span class="permalink">
@@ -1482,7 +1504,8 @@
         <span class="name">setCleanAnnotations</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Whether to remove annotation columns (Default: <code>true</code>)</p>
+      <p class="shortcomment cmt">Whether to remove annotation columns (Default: <code>true</code>)
+</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):GraphFinisher.this.type"></a>
       <span class="permalink">
@@ -1530,7 +1553,8 @@
         <span class="name">setIncludeMetadata</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Annotation metadata format (Default: <code>false</code>)</p>
+      <p class="shortcomment cmt">Annotation metadata format (Default: <code>false</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.GraphFinisher#setInputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setInputCol(value:String):GraphFinisher.this.type"></a><a id="setInputCol(String):GraphFinisher.this.type"></a>
       <span class="permalink">
@@ -1546,7 +1570,8 @@
         <span class="name">setInputCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Name of input annotation col</p>
+      <p class="shortcomment cmt">Name of input annotation col
+</p>
     </li><li name="com.johnsnowlabs.nlp.GraphFinisher#setOutputAsArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setOutputAsArray(value:Boolean):GraphFinisher.this.type"></a><a id="setOutputAsArray(Boolean):GraphFinisher.this.type"></a>
       <span class="permalink">
@@ -1562,7 +1587,8 @@
         <span class="name">setOutputAsArray</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Finisher generates an Array with the results instead of string (Default: <code>true</code>)</p>
+      <p class="shortcomment cmt">Finisher generates an Array with the results instead of string (Default: <code>true</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.GraphFinisher#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setOutputCol(value:String):GraphFinisher.this.type"></a><a id="setOutputCol(String):GraphFinisher.this.type"></a>
       <span class="permalink">
@@ -1578,7 +1604,8 @@
         <span class="name">setOutputCol</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Name of finisher output col</p>
+      <p class="shortcomment cmt">Name of finisher output col
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -1825,17 +1852,17 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="getParam">
-              <h3>getParam</h3>
-              
-            </div><div class="group" name="param">
-              <h3>param</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

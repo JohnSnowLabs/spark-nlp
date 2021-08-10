@@ -765,6 +765,7 @@ The result is then flattened, resulting in a single array.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sparknlp</span><span class="o">.</span><span class="n">common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
@@ -813,17 +814,17 @@ The result is then flattened, resulting in a single array.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addContextChars</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.addContextChars" title="sparknlp.annotator.ChunkTokenizer.addContextChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addContextChars</span></code></a>(value)</p></td>
+<td><p>Adds an additional character to the list used to separate from token boundaries.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addException</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.addException" title="sparknlp.annotator.ChunkTokenizer.addException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addException</span></code></a>(value)</p></td>
+<td><p>Adds an additional word that won’t be affected by tokenization rules.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addInfixPattern</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.addInfixPattern" title="sparknlp.annotator.ChunkTokenizer.addInfixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addInfixPattern</span></code></a>(value)</p></td>
+<td><p>Adds an additional regex pattern that match tokens within a single target.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addSplitChars</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.addSplitChars" title="sparknlp.annotator.ChunkTokenizer.addSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addSplitChars</span></code></a>(value)</p></td>
+<td><p>Adds an additional character to separate from the inside of tokens.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.clear" title="sparknlp.annotator.ChunkTokenizer.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>(param)</p></td>
 <td><p>Clears a param from the param map if it has been explicitly set.</p></td>
@@ -846,44 +847,44 @@ The result is then flattened, resulting in a single array.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.fitMultiple" title="sparknlp.annotator.ChunkTokenizer.fitMultiple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitMultiple</span></code></a>(dataset, paramMaps)</p></td>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitiveExceptions</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getCaseSensitiveExceptions" title="sparknlp.annotator.ChunkTokenizer.getCaseSensitiveExceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitiveExceptions</span></code></a>()</p></td>
+<td><p>Gets whether to care for case sensitiveness in exceptions.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getContextChars</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getContextChars" title="sparknlp.annotator.ChunkTokenizer.getContextChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getContextChars</span></code></a>()</p></td>
+<td><p>Gets character list used to separate from token boundaries.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getExceptions</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getExceptions" title="sparknlp.annotator.ChunkTokenizer.getExceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getExceptions</span></code></a>()</p></td>
+<td><p>Gets words that won’t be affected by tokenization rules.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInfixPatterns</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getInfixPatterns" title="sparknlp.annotator.ChunkTokenizer.getInfixPatterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInfixPatterns</span></code></a>()</p></td>
+<td><p>Gets regex patterns that match tokens within a single target.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getInputCols" title="sparknlp.annotator.ChunkTokenizer.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getLazyAnnotator" title="sparknlp.annotator.ChunkTokenizer.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getOrDefault" title="sparknlp.annotator.ChunkTokenizer.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getOutputCol" title="sparknlp.annotator.ChunkTokenizer.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getParam" title="sparknlp.annotator.ChunkTokenizer.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getParamValue" title="sparknlp.annotator.ChunkTokenizer.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getPrefixPattern</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getPrefixPattern" title="sparknlp.annotator.ChunkTokenizer.getPrefixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getPrefixPattern</span></code></a>()</p></td>
+<td><p>Gets regex with groups and begins with <code class="docutils literal notranslate"><span class="pre">\A</span></code> to match target prefix.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSplitChars</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getSplitChars" title="sparknlp.annotator.ChunkTokenizer.getSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSplitChars</span></code></a>()</p></td>
+<td><p>Gets character list used to separate from the inside of tokens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSuffixPattern</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.getSuffixPattern" title="sparknlp.annotator.ChunkTokenizer.getSuffixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getSuffixPattern</span></code></a>()</p></td>
+<td><p>Gets regex with groups and ends with <code class="docutils literal notranslate"><span class="pre">\z</span></code> to match target suffix.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.hasDefault" title="sparknlp.annotator.ChunkTokenizer.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -909,50 +910,50 @@ The result is then flattened, resulting in a single array.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.set" title="sparknlp.annotator.ChunkTokenizer.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitiveExceptions</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setCaseSensitiveExceptions" title="sparknlp.annotator.ChunkTokenizer.setCaseSensitiveExceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitiveExceptions</span></code></a>(value)</p></td>
+<td><p>Sets whether to care for case sensitiveness in exceptions, by default True.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setContextChars</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setContextChars" title="sparknlp.annotator.ChunkTokenizer.setContextChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setContextChars</span></code></a>(value)</p></td>
+<td><p>Sets character list used to separate from token boundaries, by default [‘.’, ‘,’, ‘;’, ‘:’, ‘!’, ‘?’, ‘*’, ‘-‘, ‘(‘, ‘)’, ‘”’, “’”].</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExceptions</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setExceptions" title="sparknlp.annotator.ChunkTokenizer.setExceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExceptions</span></code></a>(value)</p></td>
+<td><p>Sets words that won’t be affected by tokenization rules.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInfixPatterns</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setInfixPatterns" title="sparknlp.annotator.ChunkTokenizer.setInfixPatterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInfixPatterns</span></code></a>(value)</p></td>
+<td><p>Sets regex patterns that match tokens within a single target.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setInputCols" title="sparknlp.annotator.ChunkTokenizer.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setLazyAnnotator" title="sparknlp.annotator.ChunkTokenizer.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxLength</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setMaxLength" title="sparknlp.annotator.ChunkTokenizer.setMaxLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxLength</span></code></a>(value)</p></td>
+<td><p>Sets the maximum allowed legth for each token, by default 99999.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinLength</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setMinLength" title="sparknlp.annotator.ChunkTokenizer.setMinLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinLength</span></code></a>(value)</p></td>
+<td><p>Sets the minimum allowed legth for each token, by default 0.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setOutputCol" title="sparknlp.annotator.ChunkTokenizer.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setParamValue" title="sparknlp.annotator.ChunkTokenizer.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPrefixPattern</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setPrefixPattern" title="sparknlp.annotator.ChunkTokenizer.setPrefixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPrefixPattern</span></code></a>(value)</p></td>
+<td><p>Sets regex with groups and begins with <code class="docutils literal notranslate"><span class="pre">\A</span></code> to match target prefix, by default <code class="docutils literal notranslate"><span class="pre">\A([^\s\w\$\.]*)</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitChars</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setSplitChars" title="sparknlp.annotator.ChunkTokenizer.setSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitChars</span></code></a>(value)</p></td>
+<td><p>Sets character list used to separate from the inside of tokens.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitPattern</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setSplitPattern" title="sparknlp.annotator.ChunkTokenizer.setSplitPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitPattern</span></code></a>(value)</p></td>
+<td><p>Sets pattern to separate from the inside of tokens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSuffixPattern</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setSuffixPattern" title="sparknlp.annotator.ChunkTokenizer.setSuffixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSuffixPattern</span></code></a>(value)</p></td>
+<td><p>Sets regex with groups and ends with <code class="docutils literal notranslate"><span class="pre">\z</span></code> to match target suffix, by default <code class="docutils literal notranslate"><span class="pre">([^\s\w]?)([^\s\w]*)\z</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTargetPattern</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.setTargetPattern" title="sparknlp.annotator.ChunkTokenizer.setTargetPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTargetPattern</span></code></a>(value)</p></td>
+<td><p>Sets pattern to grab from text as token candidates, by default <code class="docutils literal notranslate"><span class="pre">\S+</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ChunkTokenizer.write" title="sparknlp.annotator.ChunkTokenizer.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1022,6 +1023,64 @@ The result is then flattened, resulting in a single array.</p>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.addContextChars">
+<span class="sig-name descname"><span class="pre">addContextChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.addContextChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an additional character to the list used to separate from token
+boundaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Additional context character</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.addException">
+<span class="sig-name descname"><span class="pre">addException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.addException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an additional word that won’t be affected by tokenization rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Additional word that won’t be affected by tokenization rules</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.addInfixPattern">
+<span class="sig-name descname"><span class="pre">addInfixPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.addInfixPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an additional regex pattern that match tokens within a single
+target. Groups identify different sub-tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Regex pattern that match tokens within a single target</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.addSplitChars">
+<span class="sig-name descname"><span class="pre">addSplitChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.addSplitChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an additional character to separate from the inside of tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Additional character to separate from the inside of tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.clear">
 <span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.clear" title="Permalink to this definition">¶</a></dt>
@@ -1123,16 +1182,73 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getCaseSensitiveExceptions">
+<span class="sig-name descname"><span class="pre">getCaseSensitiveExceptions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getCaseSensitiveExceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets whether to care for case sensitiveness in exceptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>bool</dt><dd><p>Whether to care for case sensitiveness in exceptions</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getContextChars">
+<span class="sig-name descname"><span class="pre">getContextChars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getContextChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets character list used to separate from token boundaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>List[str]</dt><dd><p>Character list used to separate from token boundaries</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getExceptions">
+<span class="sig-name descname"><span class="pre">getExceptions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getExceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets words that won’t be affected by tokenization rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>List[str]</dt><dd><p>Words that won’t be affected by tokenization rules</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getInfixPatterns">
+<span class="sig-name descname"><span class="pre">getInfixPatterns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getInfixPatterns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets regex patterns that match tokens within a single target. Groups
+identify different sub-tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>List[str]</dt><dd><p>The infix patterns</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1145,13 +1261,70 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getPrefixPattern">
+<span class="sig-name descname"><span class="pre">getPrefixPattern</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getPrefixPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets regex with groups and begins with <code class="docutils literal notranslate"><span class="pre">\A</span></code> to match target
+prefix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>The prefix pattern</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getSplitChars">
+<span class="sig-name descname"><span class="pre">getSplitChars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getSplitChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets character list used to separate from the inside of tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>List[str]</dt><dd><p>Character list used to separate from the inside of tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.getSuffixPattern">
+<span class="sig-name descname"><span class="pre">getSuffixPattern</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.getSuffixPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets regex with groups and ends with <code class="docutils literal notranslate"><span class="pre">\z</span></code> to match target suffix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>The suffix pattern</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1213,13 +1386,72 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setCaseSensitiveExceptions">
+<span class="sig-name descname"><span class="pre">setCaseSensitiveExceptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setCaseSensitiveExceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to care for case sensitiveness in exceptions, by default
+True.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to care for case sensitiveness in exceptions</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setContextChars">
+<span class="sig-name descname"><span class="pre">setContextChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setContextChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets character list used to separate from token boundaries, by
+default [‘.’, ‘,’, ‘;’, ‘:’, ‘!’, ‘?’, ‘*’, ‘-‘, ‘(‘, ‘)’, ‘”’, “’”].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Character list used to separate from token boundaries</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setExceptions">
+<span class="sig-name descname"><span class="pre">setExceptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setExceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets words that won’t be affected by tokenization rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Words that won’t be affected by tokenization rules</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setInfixPatterns">
+<span class="sig-name descname"><span class="pre">setInfixPatterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setInfixPatterns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets regex patterns that match tokens within a single target. Groups
+identify different sub-tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Regex patterns that match tokens within a single target</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1229,14 +1461,42 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setMaxLength">
+<span class="sig-name descname"><span class="pre">setMaxLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setMaxLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the maximum allowed legth for each token, by default 99999.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum allowed legth for each token</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setMinLength">
+<span class="sig-name descname"><span class="pre">setMinLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setMinLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the minimum allowed legth for each token, by default 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum allowed legth for each token</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1245,11 +1505,99 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setPrefixPattern">
+<span class="sig-name descname"><span class="pre">setPrefixPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setPrefixPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets regex with groups and begins with <code class="docutils literal notranslate"><span class="pre">\A</span></code> to match target prefix, by
+default <code class="docutils literal notranslate"><span class="pre">\A([^\s\w\$\.]*)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Regex with groups and begins with <code class="docutils literal notranslate"><span class="pre">\A</span></code> to match target prefix</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setSplitChars">
+<span class="sig-name descname"><span class="pre">setSplitChars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setSplitChars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets character list used to separate from the inside of tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Character list used to separate from the inside of tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setSplitPattern">
+<span class="sig-name descname"><span class="pre">setSplitPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setSplitPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets pattern to separate from the inside of tokens. Takes priority
+over splitChars.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Pattern used to separate from the inside of tokens</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setSuffixPattern">
+<span class="sig-name descname"><span class="pre">setSuffixPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setSuffixPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets regex with groups and ends with <code class="docutils literal notranslate"><span class="pre">\z</span></code> to match target suffix,
+by default <code class="docutils literal notranslate"><span class="pre">([^\s\w]?)([^\s\w]*)\z</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Regex with groups and ends with <code class="docutils literal notranslate"><span class="pre">\z</span></code> to match target suffix</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ChunkTokenizer.setTargetPattern">
+<span class="sig-name descname"><span class="pre">setTargetPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ChunkTokenizer.setTargetPattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets pattern to grab from text as token candidates, by default
+<code class="docutils literal notranslate"><span class="pre">\S+</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Pattern to grab from text as token candidates</p>
 </dd>
 </dl>
 </dd>

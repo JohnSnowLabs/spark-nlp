@@ -183,7 +183,9 @@
 <span class="sd">    amounts of data. This means, we do not input a Spark Dataframe, but a</span>
 <span class="sd">    string or an Array of strings instead, to be annotated. To create Light</span>
 <span class="sd">    Pipelines, you need to input an already trained (fit) Spark ML Pipeline.</span>
-<span class="sd">    It’s transform() stage is converted into annotate() instead.</span>
+
+<span class="sd">    It’s :meth:`.transform` has now an alternative :meth:`.annotate`, which</span>
+<span class="sd">    directly outputs the results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -191,6 +193,11 @@
 <span class="sd">        The PipelineModel containing Spark NLP Annotators</span>
 <span class="sd">    parse_embeddings : bool, optional</span>
 <span class="sd">        Whether to parse embeddings, by default False</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Use :meth:`.fullAnnotate` to also output the result as</span>
+<span class="sd">    :class:`.Annotation`, with metadata.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -206,7 +213,6 @@
 <span class="sd">        &#39;stems&#39;: [&#39;we&#39;, &#39;ar&#39;, &#39;veri&#39;, &#39;happi&#39;, &#39;about&#39;, &#39;spark&#39;, &#39;nlp&#39;],</span>
 <span class="sd">        &#39;token&#39;: [&#39;We&#39;, &#39;are&#39;, &#39;very&#39;, &#39;happy&#39;, &#39;about&#39;, &#39;Spark&#39;, &#39;NLP&#39;]</span>
 <span class="sd">    }</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -228,7 +234,7 @@
         <span class="k">return</span> <span class="n">annotations</span>
 
 <div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.LightPipeline.html#sparknlp.base.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Annotates the data provided into Annotations.</span>
+        <span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -239,8 +245,25 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        list or str</span>
+<span class="sd">        List[Annotation]</span>
 <span class="sd">            The result of the annotation</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">        &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; result = explain_document_pipeline.fullAnnotate(&#39;U.N. official Ekeus heads for Baghdad.&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; result[0].keys()</span>
+<span class="sd">        dict_keys([&#39;entities&#39;, &#39;stem&#39;, &#39;checked&#39;, &#39;lemma&#39;, &#39;document&#39;, &#39;pos&#39;, &#39;token&#39;, &#39;ner&#39;, &#39;embeddings&#39;, &#39;sentence&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; result[0][&quot;ner&quot;]</span>
+<span class="sd">        [Annotation(named_entity, 0, 2, B-ORG, {&#39;word&#39;: &#39;U.N&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 3, 3, O, {&#39;word&#39;: &#39;.&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 5, 12, O, {&#39;word&#39;: &#39;official&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 14, 18, B-PER, {&#39;word&#39;: &#39;Ekeus&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 20, 24, O, {&#39;word&#39;: &#39;heads&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 26, 28, O, {&#39;word&#39;: &#39;for&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
+<span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
@@ -264,8 +287,18 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        list or str</span>
+<span class="sd">        List[dict] or dict</span>
 <span class="sd">            The result of the annotation</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">        &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; result = explain_document_pipeline.annotate(&#39;U.N. official Ekeus heads for Baghdad.&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; result.keys()</span>
+<span class="sd">        dict_keys([&#39;entities&#39;, &#39;stem&#39;, &#39;checked&#39;, &#39;lemma&#39;, &#39;document&#39;, &#39;pos&#39;, &#39;token&#39;, &#39;ner&#39;, &#39;embeddings&#39;, &#39;sentence&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; result[&quot;ner&quot;]</span>
+<span class="sd">        [&#39;B-ORG&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-PER&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-LOC&#39;, &#39;O&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
@@ -297,7 +330,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LightPipeline.setIgnoreUnsupported"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.LightPipeline.html#sparknlp.base.LightPipeline.setIgnoreUnsupported">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to ignore unsupported AnnotatorModels.</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to ignore unsupported AnnotatorModels.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -313,7 +346,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="LightPipeline.getIgnoreUnsupported"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.LightPipeline.html#sparknlp.base.LightPipeline.getIgnoreUnsupported">[docs]</a>    <span class="k">def</span> <span class="nf">getIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get whether to ignore unsupported AnnotatorModels.</span>
+        <span class="sd">&quot;&quot;&quot;Gets whether to ignore unsupported AnnotatorModels.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -336,7 +369,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; recursivePipeline = RecursivePipeline(stages=[</span>
@@ -346,7 +378,6 @@
 <span class="sd">    ...     lemmatizer,</span>
 <span class="sd">    ...     finisher</span>
 <span class="sd">    ... ])</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -391,7 +422,7 @@
 
 <span class="sd">    Behaves the same as a Spark PipelineModel does. Not intended to be</span>
 <span class="sd">    initialized by itself. To create a RecursivePipelineModel please fit data to</span>
-<span class="sd">    a :class:`RecursivePipeline &lt;sparknlp.base.RecursivePipeline&gt;`.</span>
+<span class="sd">    a :class:`.RecursivePipeline`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_model</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PipelineModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -423,10 +454,10 @@
     <span class="sd">&quot;&quot;&quot;Prepares data into a format that is processable by Spark NLP.</span>
 
 <span class="sd">    This is the entry point for every Spark NLP pipeline. The</span>
-<span class="sd">    ``DocumentAssembler`` can read either a ``String`` column or an</span>
-<span class="sd">    ``Array[String]``. Additionally, setCleanupMode can be used to pre-process</span>
-<span class="sd">    the text (Default: ``disabled``). For possible options please refer the</span>
-<span class="sd">    parameters section.</span>
+<span class="sd">    `DocumentAssembler` can read either a ``String`` column or an</span>
+<span class="sd">    ``Array[String]``. Additionally, :meth:`.setCleanupMode` can be used to</span>
+<span class="sd">    pre-process the text (Default: ``disabled``). For possible options please</span>
+<span class="sd">    refer the parameters section.</span>
 
 <span class="sd">    For more extended examples on document pre-processing see the</span>
 <span class="sd">    `Spark NLP Workshop &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb&gt;`__.</span>
@@ -439,7 +470,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    inputCol</span>
 <span class="sd">        Input column name</span>
 <span class="sd">    outputCol</span>
@@ -458,7 +488,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
@@ -484,7 +513,6 @@
 <span class="sd">    |    |    |    |-- value: string (valueContainsNull = True)</span>
 <span class="sd">    |    |    |-- embeddings: array (nullable = True)</span>
 <span class="sd">    |    |    |    |-- element: float (containsNull = False)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;input column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
@@ -506,7 +534,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DocumentAssembler.setInputCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler.setInputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set input column name.</span>
+        <span class="sd">&quot;&quot;&quot;Sets input column name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -516,7 +544,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentAssembler.setOutputCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set output column name.</span>
+        <span class="sd">&quot;&quot;&quot;Sets output column name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -526,7 +554,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentAssembler.setIdCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler.setIdCol">[docs]</a>    <span class="k">def</span> <span class="nf">setIdCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set name of string type column for row id.</span>
+        <span class="sd">&quot;&quot;&quot;Sets name of string type column for row id.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -536,7 +564,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">idCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentAssembler.setMetadataCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler.setMetadataCol">[docs]</a>    <span class="k">def</span> <span class="nf">setMetadataCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set name for Map type column with metadata information.</span>
+        <span class="sd">&quot;&quot;&quot;Sets name for Map type column with metadata information.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -546,7 +574,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">metadataCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentAssembler.setCalculationsCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler.setCalculationsCol">[docs]</a>    <span class="k">def</span> <span class="nf">setCalculationsCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set name of float vector map column to use for embeddings and other</span>
+        <span class="sd">&quot;&quot;&quot;Sets name of float vector map column to use for embeddings and other</span>
 <span class="sd">        representations.</span>
 
 <span class="sd">        Parameters</span>
@@ -557,7 +585,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">metadataCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentAssembler.setCleanupMode"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler.setCleanupMode">[docs]</a>    <span class="k">def</span> <span class="nf">setCleanupMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set how to cleanup the document , by default disabled.</span>
+        <span class="sd">&quot;&quot;&quot;Sets how to cleanup the document, by default disabled.</span>
 <span class="sd">        Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,</span>
 <span class="sd">        each, each_full, delete_full``</span>
 
@@ -588,14 +616,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    preservePosition</span>
 <span class="sd">        Whether to preserve the actual position of the tokens or reduce them to</span>
 <span class="sd">        one space</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
@@ -644,7 +670,6 @@
 <span class="sd">    +---------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    |[[document, 0, 80, Spark NLP opensource text processing library advanced natural language processing, [sentence -&gt; 0], []]]|</span>
 <span class="sd">    +---------------------------------------------------------------------------------------------------------------------------+</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;TokenAssembler&quot;</span>
@@ -660,7 +685,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TokenAssembler.setPreservePosition"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.TokenAssembler.html#sparknlp.base.TokenAssembler.setPreservePosition">[docs]</a>    <span class="k">def</span> <span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to preserve the actual position of the tokens or reduce</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to preserve the actual position of the tokens or reduce</span>
 <span class="sd">        them to one space.</span>
 
 <span class="sd">        Parameters</span>
@@ -690,7 +715,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    chunkCol</span>
 <span class="sd">        Column that contains the string. Must be part of DOCUMENT</span>
 <span class="sd">    startCol</span>
@@ -707,7 +731,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
@@ -755,7 +778,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Doc2Chunk.setChunkCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Doc2Chunk.html#sparknlp.base.Doc2Chunk.setChunkCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set column that contains the string. Must be part of DOCUMENT.</span>
+        <span class="sd">&quot;&quot;&quot;Sets column that contains the string. Must be part of DOCUMENT.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -765,7 +788,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setIsArray"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Doc2Chunk.html#sparknlp.base.Doc2Chunk.setIsArray">[docs]</a>    <span class="k">def</span> <span class="nf">setIsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether the chunkCol is an array of strings.</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether the chunkCol is an array of strings.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -775,7 +798,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">isArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setStartCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Doc2Chunk.html#sparknlp.base.Doc2Chunk.setStartCol">[docs]</a>    <span class="k">def</span> <span class="nf">setStartCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set column that has a reference of where chunk begins.</span>
+        <span class="sd">&quot;&quot;&quot;Sets column that has a reference of where chunk begins.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -785,7 +808,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">startCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setStartColByTokenIndex"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Doc2Chunk.html#sparknlp.base.Doc2Chunk.setStartColByTokenIndex">[docs]</a>    <span class="k">def</span> <span class="nf">setStartColByTokenIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether start column is prepended by whitespace tokens.</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether start column is prepended by whitespace tokens.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -795,7 +818,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">startColByTokenIndex</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setFailOnMissing"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Doc2Chunk.html#sparknlp.base.Doc2Chunk.setFailOnMissing">[docs]</a>    <span class="k">def</span> <span class="nf">setFailOnMissing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to fail the job if a chunk is not found within document.</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to fail the job if a chunk is not found within document.</span>
 <span class="sd">        Return empty otherwise.</span>
 
 <span class="sd">        Parameters</span>
@@ -806,7 +829,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">failOnMissing</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setLowerCase"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Doc2Chunk.html#sparknlp.base.Doc2Chunk.setLowerCase">[docs]</a>    <span class="k">def</span> <span class="nf">setLowerCase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to lower case for matching case</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to lower case for matching case.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -831,12 +854,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    None</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
@@ -894,7 +915,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    inputCols</span>
 <span class="sd">        Input annotations</span>
 <span class="sd">    outputCols</span>
@@ -915,7 +935,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
@@ -975,12 +994,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Finisher.setInputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set column names of input annotations.</span>
+        <span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        *value : List[str]</span>
-<span class="sd">            List of input columns</span>
+<span class="sd">        *value : str</span>
+<span class="sd">            Input columns for the annotator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -988,7 +1007,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Finisher.setOutputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setOutputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set column names of finished output annotations.</span>
+        <span class="sd">&quot;&quot;&quot;Sets column names of finished output annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1001,7 +1020,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Finisher.setValueSplitSymbol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setValueSplitSymbol">[docs]</a>    <span class="k">def</span> <span class="nf">setValueSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set character separating values, by default #.</span>
+        <span class="sd">&quot;&quot;&quot;Sets character separating values, by default #.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1011,7 +1030,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">valueSplitSymbol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setAnnotationSplitSymbol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setAnnotationSplitSymbol">[docs]</a>    <span class="k">def</span> <span class="nf">setAnnotationSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set character separating annotations, by default @.</span>
+        <span class="sd">&quot;&quot;&quot;Sets character separating annotations, by default @.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1021,7 +1040,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">annotationSplitSymbol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setCleanAnnotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setCleanAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to remove annotation columns, by default True.</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to remove annotation columns, by default True.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1031,7 +1050,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanAnnotations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setIncludeMetadata"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setIncludeMetadata">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to include annotation metadata</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to include annotation metadata.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1041,7 +1060,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeMetadata</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setOutputAsArray"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setOutputAsArray">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputAsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to generate an array with the results instead of a string</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to generate an array with the results instead of a</span>
+<span class="sd">        string.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1051,7 +1071,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setParseEmbeddingsVectors"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.Finisher.html#sparknlp.base.Finisher.setParseEmbeddingsVectors">[docs]</a>    <span class="k">def</span> <span class="nf">setParseEmbeddingsVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to include embeddings vectors in the process</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to include embeddings vectors in the process.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1087,7 +1107,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    inputCols</span>
 <span class="sd">        Names of input annotation columns containing embeddings</span>
 <span class="sd">    outputCols</span>
@@ -1100,7 +1119,6 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-
 <span class="sd">    First extract embeddings.</span>
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
@@ -1154,7 +1172,6 @@
 <span class="sd">    |[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|</span>
 <span class="sd">    |[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;name of input annotation cols containing embeddings&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
@@ -1178,12 +1195,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EmbeddingsFinisher.setInputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.EmbeddingsFinisher.html#sparknlp.base.EmbeddingsFinisher.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set name of input annotation columns containing embeddings</span>
+        <span class="sd">&quot;&quot;&quot;Sets name of input annotation columns containing embeddings.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        *value : List[str]</span>
-<span class="sd">            List of input annotation columns</span>
+<span class="sd">        *value : str</span>
+<span class="sd">            Input columns for the annotator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
@@ -1192,12 +1209,12 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="EmbeddingsFinisher.setOutputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.EmbeddingsFinisher.html#sparknlp.base.EmbeddingsFinisher.setOutputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set names of finished output columns</span>
+        <span class="sd">&quot;&quot;&quot;Sets names of finished output columns.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        *value : List[str]</span>
-<span class="sd">            List of input annotation columns</span>
+<span class="sd">            Input columns for the annotator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
@@ -1206,7 +1223,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="EmbeddingsFinisher.setCleanAnnotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.EmbeddingsFinisher.html#sparknlp.base.EmbeddingsFinisher.setCleanAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to remove all the existing annotation columns, by default</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to remove all the existing annotation columns, by default</span>
 <span class="sd">        False.</span>
 
 <span class="sd">        Parameters</span>
@@ -1218,8 +1235,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanAnnotations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EmbeddingsFinisher.setOutputAsVector"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.EmbeddingsFinisher.html#sparknlp.base.EmbeddingsFinisher.setOutputAsVector">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputAsVector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set whether to output the embeddings as Vectors instead of arrays,</span>
-<span class="sd">        by default False</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to output the embeddings as Vectors instead of arrays,</span>
+<span class="sd">        by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1231,6 +1248,45 @@
 
 
 <div class="viewcode-block" id="GraphFinisher"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.GraphFinisher.html#sparknlp.base.GraphFinisher">[docs]</a><span class="k">class</span> <span class="nc">GraphFinisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper class to convert the knowledge graph from GraphExtraction into a</span>
+<span class="sd">    generic format, such as RDF.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``NONE``               ``NONE``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    inputCol</span>
+<span class="sd">        Name of input annotation column</span>
+<span class="sd">    outputCol</span>
+<span class="sd">        Name of finisher output column</span>
+<span class="sd">    cleanAnnotations</span>
+<span class="sd">        Whether to remove all the existing annotation columns, by default True</span>
+<span class="sd">    outputAsArray</span>
+<span class="sd">        Whether to generate an Array with the results, by default True</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    This is a continuation of the example of</span>
+<span class="sd">    :class:`.GraphExtraction`. To see how the graph is extracted, see the</span>
+<span class="sd">    documentation of that class.</span>
+
+<span class="sd">    &gt;&gt;&gt; graphFinisher = GraphFinisher() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;graph&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;graph_finished&quot;)</span>
+<span class="sd">    ...     .setOutputAsArray(False)</span>
+<span class="sd">    &gt;&gt;&gt; finishedResult = graphFinisher.transform(result)</span>
+<span class="sd">    &gt;&gt;&gt; finishedResult.select(&quot;text&quot;, &quot;graph_finished&quot;).show(truncate=False)</span>
+<span class="sd">    +-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+<span class="sd">    |text                                                 |graph_finished                                                         |</span>
+<span class="sd">    +-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+<span class="sd">    |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|</span>
+<span class="sd">    +-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;Name of input annotation col&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;Name of finisher output col&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
     <span class="n">cleanAnnotations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -1255,17 +1311,46 @@
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+<div class="viewcode-block" id="GraphFinisher.setInputCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.GraphFinisher.html#sparknlp.base.GraphFinisher.setInputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets name of input annotation column.</span>
 
-    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of input annotation column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanAnnotations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+<div class="viewcode-block" id="GraphFinisher.setOutputCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.GraphFinisher.html#sparknlp.base.GraphFinisher.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets name of finisher output column.</span>
 
-    <span class="k">def</span> <span class="nf">setOutputAsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of finisher output column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphFinisher.setCleanAnnotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.GraphFinisher.html#sparknlp.base.GraphFinisher.setCleanAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to remove all the existing annotation columns, by</span>
+<span class="sd">        default True.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to remove all the existing annotation columns, by default True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanAnnotations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphFinisher.setOutputAsArray"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.base.GraphFinisher.html#sparknlp.base.GraphFinisher.setOutputAsArray">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputAsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to generate an Array with the results, by default True.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to generate an Array with the results, by default True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
 </pre></div>
 

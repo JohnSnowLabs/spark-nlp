@@ -733,31 +733,70 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations_cols">
 <span class="sig-prename descclassname"><span class="pre">sparknlp.functions.</span></span><span class="sig-name descname"><span class="pre">map_annotations_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pyspark.sql.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">ArrayType(StructType(List(StructField(annotatorType,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(begin,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(end,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(result,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(metadata,</span> <span class="pre">MapType(StringType,</span> <span class="pre">StringType,</span> <span class="pre">true),</span> <span class="pre">false),</span> <span class="pre">StructField(embeddings,</span> <span class="pre">ArrayType(FloatType,</span> <span class="pre">true),</span> <span class="pre">false))),</span> <span class="pre">true)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/functions.html#map_annotations_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_cols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maps a function over a column of <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotation.Annotation</span></code> to create a new column.</p>
+<dd><p>Creates a Spark UDF to map over multiple columns of Annotation results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>dataframe</strong><span class="classifier">DataFrame</span></dt><dd><p>The Spark Dataframe containing output Annotations</p>
+<dt><strong>dataframe</strong><span class="classifier">DataFrame</span></dt><dd><p>Input DataFrame</p>
 </dd>
-<dt><strong>f</strong><span class="classifier">function</span></dt><dd><p>The function to be applied over the results</p>
+<dt><strong>f</strong><span class="classifier">function</span></dt><dd><p>Function to apply to the column</p>
 </dd>
-<dt><strong>columns</strong><span class="classifier">list</span></dt><dd><p>Columns to apply the filter over</p>
+<dt><strong>columns</strong><span class="classifier">list</span></dt><dd><p>Name of the input column</p>
 </dd>
-<dt><strong>output_column</strong><span class="classifier">str</span></dt><dd><p>Name of the output Column</p>
+<dt><strong>output_column</strong><span class="classifier">str</span></dt><dd><p>Name of the output column</p>
 </dd>
-<dt><strong>annotatyon_type</strong><span class="classifier">str</span></dt><dd><p>Annotator Type</p>
+<dt><strong>annotatyon_type</strong><span class="classifier">str</span></dt><dd><p>Annotator type</p>
 </dd>
-<dt><strong>output_type</strong><span class="classifier">DataType, optional</span></dt><dd><p>Output Annotation schema, by default Annotation.arrayType()</p>
+<dt><strong>output_type</strong><span class="classifier">DataType, optional</span></dt><dd><p>Output type, by default Annotation.arrayType()</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></dt><dd><p>Spark DataFrame with new column.</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.functions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">explain_document_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s2">&quot;explain_document_dl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;U.N. official Ekeus heads for Baghdad.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunks_df</span> <span class="o">=</span> <span class="n">map_annotations_cols</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">result</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span>
+<span class="gp">... </span>        <span class="n">Annotation</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span>
+<span class="gp">... </span>    <span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;tags&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;chunk&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunks_df</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(tags)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-------------------------------------------+</span>
+<span class="go">|col                                        |</span>
+<span class="go">+-------------------------------------------+</span>
+<span class="go">|[tag, 0, 2, NNP, [word -&gt; U.N], []]        |</span>
+<span class="go">|[tag, 3, 3, ., [word -&gt; .], []]            |</span>
+<span class="go">|[tag, 5, 12, JJ, [word -&gt; official], []]   |</span>
+<span class="go">|[tag, 14, 18, NNP, [word -&gt; Epeus], []]    |</span>
+<span class="go">|[tag, 20, 24, VBZ, [word -&gt; heads], []]    |</span>
+<span class="go">|[tag, 26, 28, IN, [word -&gt; for], []]       |</span>
+<span class="go">|[tag, 30, 36, NNP, [word -&gt; Baghdad], []]  |</span>
+<span class="go">|[tag, 37, 37, ., [word -&gt; .], []]          |</span>
+<span class="go">|[tag, 0, 2, B-ORG, [word -&gt; U.N], []]      |</span>
+<span class="go">|[tag, 3, 3, O, [word -&gt; .], []]            |</span>
+<span class="go">|[tag, 5, 12, O, [word -&gt; official], []]    |</span>
+<span class="go">|[tag, 14, 18, B-PER, [word -&gt; Ekeus], []]  |</span>
+<span class="go">|[tag, 20, 24, O, [word -&gt; heads], []]      |</span>
+<span class="go">|[tag, 26, 28, O, [word -&gt; for], []]        |</span>
+<span class="go">|[tag, 30, 36, B-LOC, [word -&gt; Baghdad], []]|</span>
+<span class="go">|[tag, 37, 37, O, [word -&gt; .], []]          |</span>
+<span class="go">+-------------------------------------------+</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

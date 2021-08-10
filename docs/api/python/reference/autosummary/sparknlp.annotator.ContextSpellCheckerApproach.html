@@ -734,18 +734,23 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">ContextSpellCheckerApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
-<p>Trains a deep-learning based Noisy Channel Model Spell Algorithm.
-Correction candidates are extracted combining context information and word information.</p>
-<p>For instantiated/pretrained models, see ContextSpellCheckerModel.</p>
-<p>Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
-certain number of errors, <code class="docutils literal notranslate"><span class="pre">ContextSpellChecker</span></code> will rank correction sequences according to three things:</p>
+<p>Trains a deep-learning based Noisy Channel Model Spell Algorithm.</p>
+<p>Correction candidates are extracted combining context information and word
+information.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerModel.html#sparknlp.annotator.ContextSpellCheckerModel" title="sparknlp.annotator.ContextSpellCheckerModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextSpellCheckerModel</span></code></a>.</p>
+<p>Spell Checking is a sequence to sequence mapping problem. Given an input
+sequence, potentially containing a certain number of errors,
+<code class="docutils literal notranslate"><span class="pre">ContextSpellChecker</span></code> will rank correction sequences according to three
+things:</p>
 <ol class="arabic simple">
 <li><p>Different correction candidates for each word — <strong>word level</strong>.</p></li>
-<li><p>The surrounding text of each word, i.e. it’s context — <strong>sentence level</strong>.</p></li>
-<li><p>The relative cost of different correction candidates according to the edit operations at the character level it requires — <strong>subword level</strong>.</p></li>
+<li><p>The surrounding text of each word, i.e. it’s context —
+<strong>sentence level</strong>.</p></li>
+<li><p>The relative cost of different correction candidates according to the
+edit operations at the character level it requires — <strong>subword level</strong>.</p></li>
 </ol>
-<p>For an in-depth explanation of the module see the article <a class="reference external" href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc">Applying Context Aware Spell Checking in Spark NLP</a>.</p>
-<p>For extended examples of usage, see the article <a class="reference external" href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf">Training a Contextual Spell Checker for Italian Language</a>,
+<p>For extended examples of usage, see the article
+<a class="reference external" href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf">Training a Contextual Spell Checker for Italian Language</a>,
 the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -766,13 +771,20 @@ the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>languageModelClasses</strong></dt><dd><p>Number of classes to use during factorization of the softmax output in the LM.</p>
+<dt><strong>languageModelClasses</strong></dt><dd><p>Number of classes to use during factorization of the softmax output in
+the LM.</p>
 </dd>
 <dt><strong>wordMaxDistance</strong></dt><dd><p>Maximum distance for the generated candidates for every word.</p>
 </dd>
 <dt><strong>maxCandidates</strong></dt><dd><p>Maximum number of candidates for every word.</p>
 </dd>
-<dt><strong>caseStrategy</strong></dt><dd><p>What case combinations to try when generating candidates.</p>
+<dt><strong>caseStrategy</strong></dt><dd><p>What case combinations to try when generating candidates, by default 2.
+Possible values are:</p>
+<ul class="simple">
+<li><p>0: All uppercase letters</p></li>
+<li><p>1: First letter capitalized</p></li>
+<li><p>2: All letters</p></li>
+</ul>
 </dd>
 <dt><strong>errorThreshold</strong></dt><dd><p>Threshold perplexity for a word to be considered as an error.</p>
 </dd>
@@ -788,57 +800,60 @@ the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nl
 </dd>
 <dt><strong>minCount</strong></dt><dd><p>Min number of times a token should appear to be included in vocab.</p>
 </dd>
-<dt><strong>compoundCount</strong></dt><dd><p>Min number of times a compound word should appear to be included in vocab.</p>
+<dt><strong>compoundCount</strong></dt><dd><p>Min number of times a compound word should appear to be included in
+vocab.</p>
 </dd>
-<dt><strong>classCount</strong></dt><dd><p>Min number of times the word need to appear in corpus to not be considered of a special class.</p>
+<dt><strong>classCount</strong></dt><dd><p>Min number of times the word need to appear in corpus to not be
+considered of a special class.</p>
 </dd>
-<dt><strong>tradeoff</strong></dt><dd><p>Tradeoff between the cost of a word error and a transition in the language model.</p>
+<dt><strong>tradeoff</strong></dt><dd><p>Tradeoff between the cost of a word error and a transition in the
+language model.</p>
 </dd>
-<dt><strong>weightedDistPath</strong></dt><dd><p>The path to the file containing the weights for the levenshtein distance.</p>
+<dt><strong>weightedDistPath</strong></dt><dd><p>The path to the file containing the weights for the levenshtein
+distance.</p>
 </dd>
-<dt><strong>maxWindowLen</strong></dt><dd><p>Maximum size for the window used to remember history prior to every correction.</p>
+<dt><strong>maxWindowLen</strong></dt><dd><p>Maximum size for the window used to remember history prior to every
+correction.</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<p>For an in-depth explanation of the module see the article
+<a class="reference external" href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc">Applying Context Aware Spell Checking in Spark NLP</a>.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># For this example, we use the first Sherlock Holmes book as the training dataset.</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">spellChecker</span> <span class="o">=</span> <span class="n">ContextSpellCheckerApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;corrected&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setWordMaxDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setEpochs</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setLanguageModelClasses</span><span class="p">(</span><span class="mi">1650</span><span class="p">)</span>  <span class="c1"># dependant on vocabulary size</span>
-    <span class="c1"># .addVocabClass(&quot;_NAME_&quot;, names) # Extra classes for correction could be added like this</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">spellChecker</span>
-<span class="p">])</span>
-
-<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/spell/sherlockholmes.txt&quot;</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">textFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+</pre></div>
+</div>
+<p>For this example, we use the first Sherlock Holmes book as the training dataset.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spellChecker</span> <span class="o">=</span> <span class="n">ContextSpellCheckerApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;corrected&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setWordMaxDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setEpochs</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setLanguageModelClasses</span><span class="p">(</span><span class="mi">1650</span><span class="p">)</span>  <span class="c1"># dependant on vocabulary size</span>
+<span class="gp">... </span>    <span class="c1"># .addVocabClass(&quot;_NAME_&quot;, names) # Extra classes for correction could be added like this</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">spellChecker</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;sherlockholmes.txt&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -851,11 +866,11 @@ the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nl
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addRegexClass</span></code>(label, regex[, userdist])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.addRegexClass" title="sparknlp.annotator.ContextSpellCheckerApproach.addRegexClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addRegexClass</span></code></a>(label, regex[, userdist])</p></td>
+<td><p>Adds a new class of words to correct, based on regex.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">addVocabClass</span></code>(label, vocab[, userdist])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.addVocabClass" title="sparknlp.annotator.ContextSpellCheckerApproach.addVocabClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">addVocabClass</span></code></a>(label, vocab[, userdist])</p></td>
+<td><p>Adds a new class of words to correct, based on a vocabulary.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.clear" title="sparknlp.annotator.ContextSpellCheckerApproach.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>(param)</p></td>
 <td><p>Clears a param from the param map if it has been explicitly set.</p></td>
@@ -879,22 +894,22 @@ the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nl
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.getInputCols" title="sparknlp.annotator.ContextSpellCheckerApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.getLazyAnnotator" title="sparknlp.annotator.ContextSpellCheckerApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.getOrDefault" title="sparknlp.annotator.ContextSpellCheckerApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.getOutputCol" title="sparknlp.annotator.ContextSpellCheckerApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.getParam" title="sparknlp.annotator.ContextSpellCheckerApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.getParamValue" title="sparknlp.annotator.ContextSpellCheckerApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.hasDefault" title="sparknlp.annotator.ContextSpellCheckerApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -920,68 +935,68 @@ the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nl
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.set" title="sparknlp.annotator.ContextSpellCheckerApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code>(size)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setBatchSize" title="sparknlp.annotator.ContextSpellCheckerApproach.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(size)</p></td>
+<td><p>Sets batch size.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseStrategy</span></code>(strategy)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setCaseStrategy" title="sparknlp.annotator.ContextSpellCheckerApproach.setCaseStrategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseStrategy</span></code></a>(strategy)</p></td>
+<td><p>Sets what case combinations to try when generating candidates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setClassCount</span></code>(count)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setClassCount" title="sparknlp.annotator.ContextSpellCheckerApproach.setClassCount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setClassCount</span></code></a>(count)</p></td>
+<td><p>Sets min number of times the word need to appear in corpus to not be considered of a special class.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCompoundCount</span></code>(count)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setCompoundCount" title="sparknlp.annotator.ContextSpellCheckerApproach.setCompoundCount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCompoundCount</span></code></a>(count)</p></td>
+<td><p>Sets min number of times a compound word should appear to be included in vocab.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setConfigProtoBytes" title="sparknlp.annotator.ContextSpellCheckerApproach.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEpochs</span></code>(count)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setEpochs" title="sparknlp.annotator.ContextSpellCheckerApproach.setEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEpochs</span></code></a>(count)</p></td>
+<td><p>Sets number of epochs to train the language model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setErrorThreshold</span></code>(threshold)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setErrorThreshold" title="sparknlp.annotator.ContextSpellCheckerApproach.setErrorThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setErrorThreshold</span></code></a>(threshold)</p></td>
+<td><p>Sets threshold perplexity for a word to be considered as an error.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFinalRate</span></code>(rate)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setFinalRate" title="sparknlp.annotator.ContextSpellCheckerApproach.setFinalRate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFinalRate</span></code></a>(rate)</p></td>
+<td><p>Sets final learning rate for the LM.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInitialRate</span></code>(rate)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setInitialRate" title="sparknlp.annotator.ContextSpellCheckerApproach.setInitialRate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInitialRate</span></code></a>(rate)</p></td>
+<td><p>Sets initial learning rate for the LM.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setInputCols" title="sparknlp.annotator.ContextSpellCheckerApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLanguageModelClasses</span></code>(count)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setLanguageModelClasses" title="sparknlp.annotator.ContextSpellCheckerApproach.setLanguageModelClasses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLanguageModelClasses</span></code></a>(count)</p></td>
+<td><p>Sets number of classes to use during factorization of the softmax output in the Language Model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setLazyAnnotator" title="sparknlp.annotator.ContextSpellCheckerApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxCandidates</span></code>(candidates)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setMaxCandidates" title="sparknlp.annotator.ContextSpellCheckerApproach.setMaxCandidates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxCandidates</span></code></a>(candidates)</p></td>
+<td><p>Sets maximum number of candidates for every word.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxWindowLen</span></code>(length)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setMaxWindowLen" title="sparknlp.annotator.ContextSpellCheckerApproach.setMaxWindowLen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxWindowLen</span></code></a>(length)</p></td>
+<td><p>Sets the maximum size for the window used to remember history prior to every correction.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinCount</span></code>(count)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setMinCount" title="sparknlp.annotator.ContextSpellCheckerApproach.setMinCount"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinCount</span></code></a>(count)</p></td>
+<td><p>Sets min number of times a token should appear to be included in vocab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setOutputCol" title="sparknlp.annotator.ContextSpellCheckerApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setParamValue" title="sparknlp.annotator.ContextSpellCheckerApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTradeoff</span></code>(alpha)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setTradeoff" title="sparknlp.annotator.ContextSpellCheckerApproach.setTradeoff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTradeoff</span></code></a>(alpha)</p></td>
+<td><p>Sets tradeoff between the cost of a word error and a transition in the language model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationFraction</span></code>(fraction)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setValidationFraction" title="sparknlp.annotator.ContextSpellCheckerApproach.setValidationFraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationFraction</span></code></a>(fraction)</p></td>
+<td><p>Sets percentage of datapoints to use for validation.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWeightedDistPath</span></code>(path)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setWeightedDistPath" title="sparknlp.annotator.ContextSpellCheckerApproach.setWeightedDistPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWeightedDistPath</span></code></a>(path)</p></td>
+<td><p>Sets the path to the file containing the weights for the levenshtein distance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWordMaxDistance</span></code>(dist)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.setWordMaxDistance" title="sparknlp.annotator.ContextSpellCheckerApproach.setWordMaxDistance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWordMaxDistance</span></code></a>(dist)</p></td>
+<td><p>Sets maximum distance for the generated candidates for every word.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ContextSpellCheckerApproach.write" title="sparknlp.annotator.ContextSpellCheckerApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1066,6 +1081,42 @@ the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nl
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.addRegexClass">
+<span class="sig-name descname"><span class="pre">addRegexClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.addRegexClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.addRegexClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new class of words to correct, based on regex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Name of the class</p>
+</dd>
+<dt><strong>regex</strong><span class="classifier">str</span></dt><dd><p>Regex to add</p>
+</dd>
+<dt><strong>userdist</strong><span class="classifier">int, optional</span></dt><dd><p>Maximal distance to the word, by default 3</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.addVocabClass">
+<span class="sig-name descname"><span class="pre">addVocabClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vocab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.addVocabClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.addVocabClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new class of words to correct, based on a vocabulary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Name of the class</p>
+</dd>
+<dt><strong>vocab</strong><span class="classifier">List[str]</span></dt><dd><p>Vocabulary as a list</p>
+</dd>
+<dt><strong>userdist</strong><span class="classifier">int, optional</span></dt><dd><p>Maximal distance to the word, by default 3</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.clear">
 <span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.clear" title="Permalink to this definition">¶</a></dt>
@@ -1169,14 +1220,14 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1189,13 +1240,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1257,9 +1322,75 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setBatchSize">
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setBatchSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size</strong><span class="classifier">int</span></dt><dd><p>Batch size</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setCaseStrategy">
+<span class="sig-name descname"><span class="pre">setCaseStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setCaseStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setCaseStrategy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets what case combinations to try when generating candidates.</p>
+<p>Possible values are:</p>
+<ul class="simple">
+<li><p>0: All uppercase letters</p></li>
+<li><p>1: First letter capitalized</p></li>
+<li><p>2: All letters</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>strategy</strong><span class="classifier">int</span></dt><dd><p>Case combinations to try when generating candidates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setClassCount">
+<span class="sig-name descname"><span class="pre">setClassCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setClassCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setClassCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets min number of times the word need to appear in corpus to not be
+considered of a special class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>count</strong><span class="classifier">int</span></dt><dd><p>Min number of times the word need to appear in corpus to not be
+considered of a special class.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setCompoundCount">
+<span class="sig-name descname"><span class="pre">setCompoundCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setCompoundCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setCompoundCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets min number of times a compound word should appear to be included
+in vocab.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>count</strong><span class="classifier">int</span></dt><dd><p>Min number of times a compound word should appear to be included in
+vocab.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1271,13 +1402,84 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setEpochs">
+<span class="sig-name descname"><span class="pre">setEpochs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setEpochs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setEpochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of epochs to train the language model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>count</strong><span class="classifier">int</span></dt><dd><p>Number of epochs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setErrorThreshold">
+<span class="sig-name descname"><span class="pre">setErrorThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setErrorThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setErrorThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets threshold perplexity for a word to be considered as an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>threshold</strong><span class="classifier">float</span></dt><dd><p>Threshold perplexity for a word to be considered as an error</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setFinalRate">
+<span class="sig-name descname"><span class="pre">setFinalRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setFinalRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setFinalRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets final learning rate for the LM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rate</strong><span class="classifier">float</span></dt><dd><p>Final learning rate for the LM</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setInitialRate">
+<span class="sig-name descname"><span class="pre">setInitialRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setInitialRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setInitialRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets initial learning rate for the LM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rate</strong><span class="classifier">float</span></dt><dd><p>Initial learning rate for the LM</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setLanguageModelClasses">
+<span class="sig-name descname"><span class="pre">setLanguageModelClasses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setLanguageModelClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setLanguageModelClasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of classes to use during factorization of the softmax
+output in the Language Model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>count</strong><span class="classifier">int</span></dt><dd><p>Number of classes</p>
 </dd>
 </dl>
 </dd>
@@ -1287,14 +1489,59 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setMaxCandidates">
+<span class="sig-name descname"><span class="pre">setMaxCandidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setMaxCandidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setMaxCandidates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets maximum number of candidates for every word.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>candidates</strong><span class="classifier">int</span></dt><dd><p>Maximum number of candidates for every word.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setMaxWindowLen">
+<span class="sig-name descname"><span class="pre">setMaxWindowLen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setMaxWindowLen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setMaxWindowLen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the maximum size for the window used to remember history prior
+to every correction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>length</strong><span class="classifier">int</span></dt><dd><p>Maximum size for the window used to remember history prior to
+every correction</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setMinCount">
+<span class="sig-name descname"><span class="pre">setMinCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setMinCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setMinCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets min number of times a token should appear to be included in
+vocab.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>count</strong><span class="classifier">int</span></dt><dd><p>Min number of times a token should appear to be included in vocab</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1303,11 +1550,85 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setTradeoff">
+<span class="sig-name descname"><span class="pre">setTradeoff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setTradeoff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setTradeoff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets tradeoff between the cost of a word error and a transition in
+the language model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>Tradeoff between the cost of a word error and a transition in the
+language model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setValidationFraction">
+<span class="sig-name descname"><span class="pre">setValidationFraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fraction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setValidationFraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setValidationFraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets percentage of datapoints to use for validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fraction</strong><span class="classifier">float</span></dt><dd><p>Percentage of datapoints to use for validation</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setWeightedDistPath">
+<span class="sig-name descname"><span class="pre">setWeightedDistPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setWeightedDistPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setWeightedDistPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the path to the file containing the weights for the levenshtein
+distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to the file containing the weights for the levenshtein
+distance.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ContextSpellCheckerApproach.setWordMaxDistance">
+<span class="sig-name descname"><span class="pre">setWordMaxDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ContextSpellCheckerApproach.setWordMaxDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ContextSpellCheckerApproach.setWordMaxDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets maximum distance for the generated candidates for every word.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dist</strong><span class="classifier">int</span></dt><dd><p>Maximum distance for the generated candidates for every word</p>
 </dd>
 </dl>
 </dd>

@@ -734,12 +734,12 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">ViveknSentimentApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ViveknSentimentApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
-<p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan <a class="reference external" href="https://github.com/vivekn/sentiment/">https://github.com/vivekn/sentiment/</a>.</p>
-<p>The algorithm is based on the paper
-<a class="reference external" href="https://arxiv.org/abs/1305.6143">“Fast and accurate sentiment classification using an enhanced Naive Bayes model”</a>.</p>
+<p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan.</p>
 <p>The analyzer requires sentence boundaries to give a score in context.
-Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.</p>
-<p>The training data needs to consist of a column for normalized text and a label column (either <code class="docutils literal notranslate"><span class="pre">&quot;positive&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;negative&quot;</span></code>).</p>
+Tokenization is needed to make sure tokens are within bounds. Transitivity
+requirements are also required.</p>
+<p>The training data needs to consist of a column for normalized text and a
+label column (either <code class="docutils literal notranslate"><span class="pre">&quot;positive&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;negative&quot;</span></code>).</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -764,69 +764,56 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 </dd>
 <dt><strong>pruneCorpus</strong></dt><dd><p>Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1</p>
 </dd>
-<dt><strong>importantFeatureRatio</strong></dt><dd><p>proportion of feature content to be considered relevant. Defaults to 0.5</p>
-</dd>
-<dt><strong>unimportantFeatureStep</strong></dt><dd><p>proportion to lookahead in unimportant features. Defaults to 0.025</p>
-</dd>
-<dt><strong>featureLimit</strong></dt><dd><p>content feature limit, to boost performance in very dirt text. Default disabled with -1</p>
-</dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<p>The algorithm is based on the paper <a class="reference external" href="https://arxiv.org/abs/1305.6143">“Fast and accurate sentiment
+classification using an enhanced Naive Bayes model”</a>.</p>
+<p><a class="reference external" href="https://github.com/vivekn/sentiment/">https://github.com/vivekn/sentiment/</a></p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">token</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">normalizer</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
-
-<span class="n">vivekn</span> <span class="o">=</span> <span class="n">ViveknSentimentApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setSentimentCol</span><span class="p">(</span><span class="s2">&quot;train_sentiment&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;result_sentiment&quot;</span><span class="p">)</span>
-
-<span class="n">finisher</span> <span class="o">=</span> <span class="n">Finisher</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;result_sentiment&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;final_sentiment&quot;</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">document</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">normalizer</span><span class="p">,</span> <span class="n">vivekn</span><span class="p">,</span> <span class="n">finisher</span><span class="p">])</span>
-
-<span class="n">training</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s2">&quot;I really liked this movie!&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;The cast was horrible&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;Never going to watch this again or recommend it to anyone&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;It&#39;s a waste of time&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;I loved the protagonist&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">&quot;The music was really really good&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span>
-<span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;train_sentiment&quot;</span><span class="p">)</span>
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s2">&quot;I recommend this movie&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Dont waste your time!!!&quot;</span>
-<span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;final_sentiment&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+---------------+</span>
-<span class="o">|</span><span class="n">final_sentiment</span><span class="o">|</span>
-<span class="o">+---------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">positive</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">negative</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">+---------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">token</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalizer</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vivekn</span> <span class="o">=</span> <span class="n">ViveknSentimentApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setSentimentCol</span><span class="p">(</span><span class="s2">&quot;train_sentiment&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;result_sentiment&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">finisher</span> <span class="o">=</span> <span class="n">Finisher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;result_sentiment&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;final_sentiment&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">document</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">normalizer</span><span class="p">,</span> <span class="n">vivekn</span><span class="p">,</span> <span class="n">finisher</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">training</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;I really liked this movie!&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;The cast was horrible&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;Never going to watch this again or recommend it to anyone&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;It&#39;s a waste of time&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;I loved the protagonist&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;The music was really really good&quot;</span><span class="p">,</span> <span class="s2">&quot;positive&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;train_sentiment&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;I recommend this movie&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Dont waste your time!!!&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;final_sentiment&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+---------------+</span>
+<span class="go">|final_sentiment|</span>
+<span class="go">+---------------+</span>
+<span class="go">|[positive]     |</span>
+<span class="go">|[negative]     |</span>
+<span class="go">+---------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -861,22 +848,22 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.getInputCols" title="sparknlp.annotator.ViveknSentimentApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.getLazyAnnotator" title="sparknlp.annotator.ViveknSentimentApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.getOrDefault" title="sparknlp.annotator.ViveknSentimentApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.getOutputCol" title="sparknlp.annotator.ViveknSentimentApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.getParam" title="sparknlp.annotator.ViveknSentimentApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.getParamValue" title="sparknlp.annotator.ViveknSentimentApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.hasDefault" title="sparknlp.annotator.ViveknSentimentApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -903,22 +890,22 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.setInputCols" title="sparknlp.annotator.ViveknSentimentApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.setLazyAnnotator" title="sparknlp.annotator.ViveknSentimentApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.setOutputCol" title="sparknlp.annotator.ViveknSentimentApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.setParamValue" title="sparknlp.annotator.ViveknSentimentApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPruneCorpus</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.setPruneCorpus" title="sparknlp.annotator.ViveknSentimentApproach.setPruneCorpus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPruneCorpus</span></code></a>(value)</p></td>
+<td><p>Sets the removal of unfrequent scenarios from scope, by default 1.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSentimentCol</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.setSentimentCol" title="sparknlp.annotator.ViveknSentimentApproach.setSentimentCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSentimentCol</span></code></a>(value)</p></td>
+<td><p>Sets column with the sentiment result of every row.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.ViveknSentimentApproach.write" title="sparknlp.annotator.ViveknSentimentApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1067,14 +1054,14 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1087,13 +1074,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1157,11 +1158,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1171,14 +1172,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1187,11 +1188,55 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.setPruneCorpus">
+<span class="sig-name descname"><span class="pre">setPruneCorpus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ViveknSentimentApproach.setPruneCorpus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.setPruneCorpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the removal of unfrequent scenarios from scope, by default 1.</p>
+<p>The higher the better performance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The frequency</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ViveknSentimentApproach.setSentimentCol">
+<span class="sig-name descname"><span class="pre">setSentimentCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#ViveknSentimentApproach.setSentimentCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ViveknSentimentApproach.setSentimentCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column with the sentiment result of every row.</p>
+<p>Must be either ‘positive’ or ‘negative’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the column</p>
 </dd>
 </dl>
 </dd>

@@ -734,15 +734,13 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">SentenceDetectorDLApproach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLApproach'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
-<p>Trains an annotator that detects sentence boundaries using a deep learning approach.</p>
-<p>For pretrained models see SentenceDetectorDLModel.</p>
-<p>Currently, only the CNN model is supported for training, but in the future the architecture of the model can
-be set with <code class="docutils literal notranslate"><span class="pre">setModelArchitecture</span></code>.</p>
-<p>The default model <code class="docutils literal notranslate"><span class="pre">&quot;cnn&quot;</span></code> is based on the paper
-<a class="reference external" href="https://konvens.org/proceedings/2019/papers/KONVENS2019_paper_41.pdf">Deep-EOS: General-Purpose Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter, Sajawel Ahmed)</a>
-using a CNN architecture. We also modified the original implementation a little bit to cover broken sentences and some impossible end of line chars.</p>
-<p>Each extracted sentence can be returned in an Array or exploded to separate rows,
-if <code class="docutils literal notranslate"><span class="pre">explodeSentences</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<p>Trains an annotator that detects sentence boundaries using a deep
+learning approach.</p>
+<p>Currently, only the CNN model is supported for training, but in the future
+the architecture of the model can be set with <a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setModel" title="sparknlp.annotator.SentenceDetectorDLApproach.setModel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setModel()</span></code></a>.</p>
+<p>For pretrained models see <a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLModel.html#sparknlp.annotator.SentenceDetectorDLModel" title="sparknlp.annotator.SentenceDetectorDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetectorDLModel</span></code></a>.</p>
+<p>Each extracted sentence can be returned in an Array or exploded to separate
+rows, if <code class="docutils literal notranslate"><span class="pre">explodeSentences</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -764,51 +762,54 @@ if <code class="docutils literal notranslate"><span class="pre">explodeSentences
 <dd class="field-odd"><dl class="simple">
 <dt><strong>modelArchitecture</strong></dt><dd><p>Model architecture (CNN)</p>
 </dd>
-<dt><strong>impossiblePenultimates</strong></dt><dd><p>Impossible penultimates - list of strings which a sentence can’t end with</p>
+<dt><strong>impossiblePenultimates</strong></dt><dd><p>Impossible penultimates - list of strings which a sentence can’t end
+with</p>
 </dd>
-<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each</p>
+<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the
+model on each</p>
 </dd>
 <dt><strong>epochsNumber</strong></dt><dd><p>Number of epochs for the optimization process</p>
 </dd>
-<dt><strong>outputLogsPath</strong></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no logs are generated</p>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no
+logs are generated</p>
 </dd>
-<dt><strong>explodeSentences</strong></dt><dd><p>whether to explode each sentence into a different row, for better parallelization. Defaults to false.</p>
+<dt><strong>explodeSentences</strong></dt><dd><p>Whether to explode each sentence into a different row, for better
+parallelization. Defaults to False.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<p>The default model <code class="docutils literal notranslate"><span class="pre">&quot;cnn&quot;</span></code> is based on the paper <a class="reference external" href="https://konvens.org/proceedings/2019/papers/KONVENS2019_paper_41.pdf">Deep-EOS: General-Purpose
+Neural Networks for Sentence Boundary Detection (2020, Stefan Schweter,
+Sajawel Ahmed)</a>
+using a CNN architecture. We also modified the original implementation a
+little bit to cover broken sentences and some impossible end of line chars.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># The training process needs data, where each data point is a sentence.</span>
-<span class="c1"># In this example the `train.txt` file has the form of</span>
-<span class="c1">#</span>
-<span class="c1"># ...</span>
-<span class="c1"># Slightly more moderate language would make our present situation – namely the lack of progress – a little easier.</span>
-<span class="c1"># His political successors now have great responsibilities to history and to the heritage of values bequeathed to them by Nelson Mandela.</span>
-<span class="c1"># ...</span>
-<span class="c1">#</span>
-<span class="c1"># where each line is one sentence.</span>
-<span class="c1"># Training can then be started like so:</span>
-
-<span class="n">trainingData</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;train.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">])</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+<p>The training process needs data, where each data point is a sentence.
+In this example the <code class="docutils literal notranslate"><span class="pre">train.txt</span></code> file has the form of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>...
+Slightly more moderate language would make our present situation – namely the lack of progress – a little easier.
+His political successors now have great responsibilities to history and to the heritage of values bequeathed to them by Nelson Mandela.
+...
+</pre></div>
+</div>
+<p>where each line is one sentence.</p>
+<p>Training can then be started like so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;train.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -843,22 +844,22 @@ if <code class="docutils literal notranslate"><span class="pre">explodeSentences
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.getInputCols" title="sparknlp.annotator.SentenceDetectorDLApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.getLazyAnnotator" title="sparknlp.annotator.SentenceDetectorDLApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.getOrDefault" title="sparknlp.annotator.SentenceDetectorDLApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.getOutputCol" title="sparknlp.annotator.SentenceDetectorDLApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.getParam" title="sparknlp.annotator.SentenceDetectorDLApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.getParamValue" title="sparknlp.annotator.SentenceDetectorDLApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.hasDefault" title="sparknlp.annotator.SentenceDetectorDLApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -884,35 +885,35 @@ if <code class="docutils literal notranslate"><span class="pre">explodeSentences
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.set" title="sparknlp.annotator.SentenceDetectorDLApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEpochsNumber</span></code>(epochs_number)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setEpochsNumber" title="sparknlp.annotator.SentenceDetectorDLApproach.setEpochsNumber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEpochsNumber</span></code></a>(epochs_number)</p></td>
+<td><p>Sets number of epochs to train.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExplodeSentences</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setExplodeSentences" title="sparknlp.annotator.SentenceDetectorDLApproach.setExplodeSentences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExplodeSentences</span></code></a>(value)</p></td>
+<td><p>Sets whether to explode each sentence into a different row, for better parallelization, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setImpossiblePenultimates</span></code>(…)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setImpossiblePenultimates" title="sparknlp.annotator.SentenceDetectorDLApproach.setImpossiblePenultimates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setImpossiblePenultimates</span></code></a>(…)</p></td>
+<td><p>Sets impossible penultimates - list of strings which a sentence can’t end with.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setInputCols" title="sparknlp.annotator.SentenceDetectorDLApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setLazyAnnotator" title="sparknlp.annotator.SentenceDetectorDLApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setModel</span></code>(model_architecture)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setModel" title="sparknlp.annotator.SentenceDetectorDLApproach.setModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setModel</span></code></a>(model_architecture)</p></td>
+<td><p>Sets the Model architecture.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setOutputCol" title="sparknlp.annotator.SentenceDetectorDLApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code>(output_logs_path)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setOutputLogsPath" title="sparknlp.annotator.SentenceDetectorDLApproach.setOutputLogsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code></a>(output_logs_path)</p></td>
+<td><p>Sets folder path to save training logs.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setParamValue" title="sparknlp.annotator.SentenceDetectorDLApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code>(validation_split)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.setValidationSplit" title="sparknlp.annotator.SentenceDetectorDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(validation_split)</p></td>
+<td><p>Sets the proportion of training dataset to be validated against the model on each Epoch, by default it is 0.0 and off.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.SentenceDetectorDLApproach.write" title="sparknlp.annotator.SentenceDetectorDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1067,14 +1068,14 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1087,13 +1088,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1155,13 +1170,57 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setEpochsNumber">
+<span class="sig-name descname"><span class="pre">setEpochsNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach.setEpochsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setEpochsNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of epochs to train.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>epochs_number</strong><span class="classifier">int</span></dt><dd><p>Number of epochs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setExplodeSentences">
+<span class="sig-name descname"><span class="pre">setExplodeSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach.setExplodeSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setExplodeSentences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to explode each sentence into a different row, for
+better parallelization, by default False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to explode each sentence into a different row</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setImpossiblePenultimates">
+<span class="sig-name descname"><span class="pre">setImpossiblePenultimates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">impossible_penultimates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach.setImpossiblePenultimates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setImpossiblePenultimates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets impossible penultimates - list of strings which a sentence can’t
+end with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>impossible_penultimates</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings which a sentence can’t end with</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1171,14 +1230,28 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setModel">
+<span class="sig-name descname"><span class="pre">setModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_architecture</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach.setModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Model architecture. Currently only <code class="docutils literal notranslate"><span class="pre">&quot;cnn&quot;</span></code> is available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>model_architecture</strong><span class="classifier">str</span></dt><dd><p>Model architecture</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1187,11 +1260,55 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setOutputLogsPath">
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_logs_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setOutputLogsPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets folder path to save training logs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_logs_path</strong><span class="classifier">str</span></dt><dd><p>Folder path to save training logs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.SentenceDetectorDLApproach.setValidationSplit">
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_split</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#SentenceDetectorDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.SentenceDetectorDLApproach.setValidationSplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the proportion of training dataset to be validated against the
+model on each Epoch, by default it is 0.0 and off. The value should be
+between 0.0 and 1.0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>validation_split</strong><span class="classifier">float</span></dt><dd><p>Proportion of training dataset to be validated</p>
 </dd>
 </dl>
 </dd>

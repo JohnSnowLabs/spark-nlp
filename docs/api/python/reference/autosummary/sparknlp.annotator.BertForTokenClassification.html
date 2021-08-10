@@ -734,6 +734,87 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">BertForTokenClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#BertForTokenClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasCaseSensitiveProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasBatchedAnnotate</span></code></p>
+<p>BertForTokenClassification can load Bert Models with a token
+classification head on top (a linear layer on top of the hidden-states
+output) e.g. for Named-Entity-Recognition (NER) tasks.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.pretrained" title="sparknlp.annotator.BertForTokenClassification.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;bert_base_token_classifier_conll03&quot;</span></code>, if no name is
+provided.</p>
+<p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+<p>Models from the HuggingFace 🤗 Transformers library are also compatible with
+Spark NLP 🚀. To see which models are compatible and how to import them see
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>batchSize</strong></dt><dd><p>Batch size. Large values allows faster processing but requires more
+memory, by default 8
+caseSensitive
+Whether to ignore case in tokens for embeddings matching, by default
+True
+configProtoBytes
+ConfigProto from tensorflow, serialized into byte array.
+maxSentenceLength
+Max sentence length to process, by default 128</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>     <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>     <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>     <span class="n">tokenClassifier</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;John Lenon was born in London and lived</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="ow">in</span> <span class="n">Paris</span><span class="o">.</span> <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Sarah</span> <span class="ow">and</span> <span class="n">I</span> <span class="n">live</span> <span class="ow">in</span> <span class="n">London</span><span class="s2">&quot;]]).toDF(&quot;</span><span class="n">text</span><span class="s2">&quot;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------------------------------------------------------------------------------------+</span>
+<span class="go">|result</span>
+<span class="go">|</span>
+<span class="go">+------------------------------------------------------------------------------------+</span>
+<span class="go">|[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,</span>
+<span class="go">O, B-LOC]|</span>
+<span class="go">+------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
 <colgroup>
@@ -760,28 +841,28 @@
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getBatchSize" title="sparknlp.annotator.BertForTokenClassification.getBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBatchSize</span></code></a>()</p></td>
-<td><p>Get current batch size</p></td>
+<td><p>Gets current batch size.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getCaseSensitive" title="sparknlp.annotator.BertForTokenClassification.getCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitive</span></code></a>()</p></td>
-<td><p>Get whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Gets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getInputCols" title="sparknlp.annotator.BertForTokenClassification.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getLazyAnnotator" title="sparknlp.annotator.BertForTokenClassification.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getOrDefault" title="sparknlp.annotator.BertForTokenClassification.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getOutputCol" title="sparknlp.annotator.BertForTokenClassification.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getParam" title="sparknlp.annotator.BertForTokenClassification.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.getParamValue" title="sparknlp.annotator.BertForTokenClassification.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.hasDefault" title="sparknlp.annotator.BertForTokenClassification.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -798,11 +879,11 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.load" title="sparknlp.annotator.BertForTokenClassification.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
 <td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code>(folder, spark_session)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.loadSavedModel" title="sparknlp.annotator.BertForTokenClassification.loadSavedModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code></a>(folder, spark_session)</p></td>
+<td><p>Loads a locally saved model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code>([name, lang, remote_loc])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.pretrained" title="sparknlp.annotator.BertForTokenClassification.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
+<td><p>Downloads and loads a pretrained model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.read" title="sparknlp.annotator.BertForTokenClassification.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
 <td><p>Returns an MLReader instance for this class.</p></td>
@@ -814,28 +895,28 @@
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setBatchSize" title="sparknlp.annotator.BertForTokenClassification.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
-<td><p>Set batch size</p></td>
+<td><p>Sets batch size.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setCaseSensitive" title="sparknlp.annotator.BertForTokenClassification.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
-<td><p>Set whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Sets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code>(b)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setConfigProtoBytes" title="sparknlp.annotator.BertForTokenClassification.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setInputCols" title="sparknlp.annotator.BertForTokenClassification.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setLazyAnnotator" title="sparknlp.annotator.BertForTokenClassification.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setMaxSentenceLength" title="sparknlp.annotator.BertForTokenClassification.setMaxSentenceLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code></a>(value)</p></td>
+<td><p>Sets max sentence length to process, by default 128.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setOutputCol" title="sparknlp.annotator.BertForTokenClassification.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.BertForTokenClassification.setParamValue" title="sparknlp.annotator.BertForTokenClassification.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
@@ -946,7 +1027,7 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getBatchSize">
 <span class="sig-name descname"><span class="pre">getBatchSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getBatchSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current batch size</p>
+<dd><p>Gets current batch size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -960,7 +1041,7 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getCaseSensitive">
 <span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Gets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -974,14 +1055,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -994,13 +1075,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1035,12 +1130,60 @@ a default value.</p>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.loadSavedModel">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#BertForTokenClassification.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.loadSavedModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a locally saved model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>folder</strong><span class="classifier">str</span></dt><dd><p>Folder of the saved model
+spark_session : pyspark.sql.SparkSession
+The current SparkSession</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>BertForTokenClassification</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.params">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.pretrained">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bert_base_token_classifier_conll03'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#BertForTokenClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.pretrained" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
+“bert_base_token_classifier_conll03”
+lang : str, optional
+Language of the pretrained model, by default “en”
+remote_loc : str, optional
+Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>BertForTokenClassification</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1064,7 +1207,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setBatchSize">
 <span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setBatchSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set batch size</p>
+<dd><p>Sets batch size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1078,7 +1221,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setCaseSensitive">
 <span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Sets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1090,13 +1233,27 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setConfigProtoBytes">
+<span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#BertForTokenClassification.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1106,14 +1263,28 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setMaxSentenceLength">
+<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#BertForTokenClassification.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setMaxSentenceLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets max sentence length to process, by default 128.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Max sentence length to process</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1122,11 +1293,25 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.BertForTokenClassification.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.BertForTokenClassification.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
 </dl>
 </dd>

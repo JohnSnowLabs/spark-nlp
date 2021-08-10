@@ -747,11 +747,38 @@
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></dt><dd><p>The filtered Dataframe</p>
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Transformed DataFrame</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.functions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">explain_document_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s2">&quot;explain_document_dl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;U.N. official Ekeus heads for Baghdad.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;pos.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------+</span>
+<span class="go">|result                            |</span>
+<span class="go">+----------------------------------+</span>
+<span class="go">|[NNP, ., JJ, NNP, VBZ, IN, NNP, .]|</span>
+<span class="go">+----------------------------------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">explode_annotations_col</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;pos.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+------+</span>
+<span class="go">|result|</span>
+<span class="go">+------+</span>
+<span class="go">|   NNP|</span>
+<span class="go">|     .|</span>
+<span class="go">|    JJ|</span>
+<span class="go">|   NNP|</span>
+<span class="go">|   VBZ|</span>
+<span class="go">|    IN|</span>
+<span class="go">|   NNP|</span>
+<span class="go">|     .|</span>
+<span class="go">+------+</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

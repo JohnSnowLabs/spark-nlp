@@ -736,14 +736,17 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html#sparknlp.annotator.DateMatcherUtils" title="sparknlp.annotator.DateMatcherUtils"><code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotator.DateMatcherUtils</span></code></a></p>
 <p>Matches standard date formats into a provided format.</p>
 <p>Reads the following kind of dates:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;1978-01-28&quot;, &quot;1984/04/02,1/02/1980&quot;, &quot;2/28/79&quot;, &quot;The 31st of April in the year 2008&quot;,
-&quot;Fri, 21 Nov 1997&quot;, &quot;Jan 21, ‘97&quot;, &quot;Sun&quot;, &quot;Nov 21&quot;, &quot;jan 1st&quot;, &quot;next thursday&quot;,
-&quot;last wednesday&quot;, &quot;today&quot;, &quot;tomorrow&quot;, &quot;yesterday&quot;, &quot;next week&quot;, &quot;next month&quot;,
-&quot;next year&quot;, &quot;day after&quot;, &quot;the day before&quot;, &quot;0600h&quot;, &quot;06:00 hours&quot;, &quot;6pm&quot;, &quot;5:30 a.m.&quot;,
-&quot;at 5&quot;, &quot;12:59&quot;, &quot;23:59&quot;, &quot;1988/11/23 6pm&quot;, &quot;next week at 7.30&quot;, &quot;5 am tomorrow&quot;
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&quot;1978-01-28&quot;, &quot;1984/04/02,1/02/1980&quot;, &quot;2/28/79&quot;,
+&quot;The 31st of April in the year 2008&quot;, &quot;Fri, 21 Nov 1997&quot;, &quot;Jan 21,
+‘97&quot;, &quot;Sun&quot;, &quot;Nov 21&quot;, &quot;jan 1st&quot;, &quot;next thursday&quot;, &quot;last wednesday&quot;,
+&quot;today&quot;, &quot;tomorrow&quot;, &quot;yesterday&quot;, &quot;next week&quot;, &quot;next month&quot;,
+&quot;next year&quot;, &quot;day after&quot;, &quot;the day before&quot;, &quot;0600h&quot;, &quot;06:00 hours&quot;,
+&quot;6pm&quot;, &quot;5:30 a.m.&quot;, &quot;at 5&quot;, &quot;12:59&quot;, &quot;23:59&quot;, &quot;1988/11/23 6pm&quot;,
+&quot;next week at 7.30&quot;, &quot;5 am tomorrow&quot;
 </pre></div>
 </div>
-<p>For example <code class="docutils literal notranslate"><span class="pre">&quot;The</span> <span class="pre">31st</span> <span class="pre">of</span> <span class="pre">April</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">year</span> <span class="pre">2008&quot;</span></code> will be converted into <code class="docutils literal notranslate"><span class="pre">2008/04/31</span></code>.</p>
+<p>For example <code class="docutils literal notranslate"><span class="pre">&quot;The</span> <span class="pre">31st</span> <span class="pre">of</span> <span class="pre">April</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">year</span> <span class="pre">2008&quot;</span></code> will be converted into
+<code class="docutils literal notranslate"><span class="pre">2008/04/31</span></code>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -764,59 +767,54 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>dateFormat</strong></dt><dd><p>desired format for dates extracted</p>
+<dt><strong>dateFormat</strong></dt><dd><p>Desired format for dates extracted, by default yyyy/MM/dd.</p>
 </dd>
-<dt><strong>readMonthFirst</strong></dt><dd><p>Whether to parse july 07/05/2015 or as 05/07/2015</p>
+<dt><strong>readMonthFirst</strong></dt><dd><p>Whether to parse the date in mm/dd/yyyy format instead of dd/mm/yyyy,
+by default True.</p>
 </dd>
-<dt><strong>defaultDayWhenMissing</strong></dt><dd><p>which day to set when it is missing from parsed input</p>
+<dt><strong>defaultDayWhenMissing</strong></dt><dd><p>Which day to set when it is missing from parsed input, by default 1.</p>
 </dd>
-<dt><strong>anchorDateYear</strong></dt><dd><p>Add an anchor year for the relative dates such as a day after tomorrow. If not set it
-will use the current year. Example: 2021</p>
+<dt><strong>anchorDateYear</strong></dt><dd><p>Add an anchor year for the relative dates such as a day after tomorrow.
+If not set it will use the current year. Example: 2021</p>
 </dd>
-<dt><strong>anchorDateMonth</strong></dt><dd><p>Add an anchor month for the relative dates such as a day after tomorrow. If not set it
-will use the current month. Example: 1 which means January</p>
+<dt><strong>anchorDateMonth</strong></dt><dd><p>Add an anchor month for the relative dates such as a day after tomorrow.
+If not set it will use the current month. Example: 1 which means January</p>
 </dd>
-<dt><strong>anchorDateDay</strong></dt><dd><p>Add an anchor day of the day for the relative dates such as a day after tomorrow. If not
-set it will use the current day. Example: 11</p>
+<dt><strong>anchorDateDay</strong></dt><dd><p>Add an anchor day of the day for the relative dates such as a day after
+tomorrow. If not set it will use the current day. Example: 11</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">date</span> <span class="o">=</span> <span class="n">MultiDateMatcher</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setAnchorDateYear</span><span class="p">(</span><span class="mi">2020</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setAnchorDateMonth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setAnchorDateDay</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">date</span>
-<span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;I saw him yesterday and he told me that he will visit us next week&quot;</span><span class="p">]])</span> \
-    <span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(date) as dates&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+-----------------------------------------------+</span>
-<span class="o">|</span><span class="n">dates</span>                                          <span class="o">|</span>
-<span class="o">+-----------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">date</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">2020</span><span class="o">/</span><span class="mi">01</span><span class="o">/</span><span class="mi">18</span><span class="p">,</span> <span class="p">[</span><span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[]]</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">date</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">2020</span><span class="o">/</span><span class="mi">01</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="p">[</span><span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[]]</span><span class="o">|</span>
-<span class="o">+-----------------------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">date</span> <span class="o">=</span> <span class="n">MultiDateMatcher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setAnchorDateYear</span><span class="p">(</span><span class="mi">2020</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setAnchorDateMonth</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setAnchorDateDay</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setDateFormat</span><span class="p">(</span><span class="s2">&quot;yyyy/MM/dd&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">date</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;I saw him yesterday and he told me that he will visit us next week&quot;</span><span class="p">]])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(date) as dates&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----------------------------------------------+</span>
+<span class="go">|dates                                          |</span>
+<span class="go">+-----------------------------------------------+</span>
+<span class="go">|[date, 57, 65, 2020/01/18, [sentence -&gt; 0], []]|</span>
+<span class="go">|[date, 10, 18, 2020/01/10, [sentence -&gt; 0], []]|</span>
+<span class="go">+-----------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -845,22 +843,22 @@ set it will use the current day. Example: 11</p>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.getInputCols" title="sparknlp.annotator.MultiDateMatcher.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.getLazyAnnotator" title="sparknlp.annotator.MultiDateMatcher.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.getOrDefault" title="sparknlp.annotator.MultiDateMatcher.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.getOutputCol" title="sparknlp.annotator.MultiDateMatcher.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.getParam" title="sparknlp.annotator.MultiDateMatcher.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.getParamValue" title="sparknlp.annotator.MultiDateMatcher.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.hasDefault" title="sparknlp.annotator.MultiDateMatcher.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -886,43 +884,46 @@ set it will use the current day. Example: 11</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.set" title="sparknlp.annotator.MultiDateMatcher.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateDay</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setAnchorDateDay" title="sparknlp.annotator.MultiDateMatcher.setAnchorDateDay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateDay</span></code></a>(value)</p></td>
+<td><p>Sets an anchor day of the day for the relative dates such as a day after tomorrow.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateMonth</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setAnchorDateMonth" title="sparknlp.annotator.MultiDateMatcher.setAnchorDateMonth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateMonth</span></code></a>(value)</p></td>
+<td><p>Sets an anchor month for the relative dates such as a day after tomorrow.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateYear</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setAnchorDateYear" title="sparknlp.annotator.MultiDateMatcher.setAnchorDateYear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAnchorDateYear</span></code></a>(value)</p></td>
+<td><p>Sets an anchor year for the relative dates such as a day after tomorrow.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDefaultDayWhenMissing</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setDefaultDayWhenMissing" title="sparknlp.annotator.MultiDateMatcher.setDefaultDayWhenMissing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDefaultDayWhenMissing</span></code></a>(value)</p></td>
+<td><p>Sets which day to set when it is missing from parsed input, by default 1.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFormat</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setFormat" title="sparknlp.annotator.MultiDateMatcher.setFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFormat</span></code></a>(value)</p></td>
+<td><p>Sets desired format for extracted dates, by default yyyy/MM/dd.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setInputCols" title="sparknlp.annotator.MultiDateMatcher.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setLazyAnnotator" title="sparknlp.annotator.MultiDateMatcher.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setOutputCol" title="sparknlp.annotator.MultiDateMatcher.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setParamValue" title="sparknlp.annotator.MultiDateMatcher.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReadMonthFirst</span></code>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.setReadMonthFirst" title="sparknlp.annotator.MultiDateMatcher.setReadMonthFirst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReadMonthFirst</span></code></a>(value)</p></td>
+<td><p>Sets whether to parse the date in mm/dd/yyyy format instead of dd/mm/yyyy, by default True.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSourceLanguage</span></code>(value)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.transform" title="sparknlp.annotator.MultiDateMatcher.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.transform" title="sparknlp.annotator.MultiDateMatcher.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.write" title="sparknlp.annotator.MultiDateMatcher.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiDateMatcher.write" title="sparknlp.annotator.MultiDateMatcher.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -968,6 +969,9 @@ set it will use the current day. Example: 11</p>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">readMonthFirst</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sourceLanguage</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1031,14 +1035,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1051,13 +1055,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1119,13 +1137,92 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setAnchorDateDay">
+<span class="sig-name descname"><span class="pre">setAnchorDateDay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setAnchorDateDay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an anchor day of the day for the relative dates such as a day
+after tomorrow. If not set it will use the current day.</p>
+<p>Example: 11</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor day for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setAnchorDateMonth">
+<span class="sig-name descname"><span class="pre">setAnchorDateMonth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setAnchorDateMonth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an anchor month for the relative dates such as a day after
+tomorrow. If not set it will use the current month.</p>
+<p>Example: 1 which means January</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor month for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setAnchorDateYear">
+<span class="sig-name descname"><span class="pre">setAnchorDateYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setAnchorDateYear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an anchor year for the relative dates such as a day after
+tomorrow. If not set it will use the current year.</p>
+<p>Example: 2021</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor year for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setDefaultDayWhenMissing">
+<span class="sig-name descname"><span class="pre">setDefaultDayWhenMissing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setDefaultDayWhenMissing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets which day to set when it is missing from parsed input,
+by default 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>[description]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setFormat">
+<span class="sig-name descname"><span class="pre">setFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets desired format for extracted dates, by default yyyy/MM/dd.</p>
+<p>Not all of the date information needs to be included. For example
+<code class="docutils literal notranslate"><span class="pre">&quot;YYYY&quot;</span></code> is also a valid input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Desired format for dates extracted.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1135,14 +1232,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1151,11 +1248,43 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiDateMatcher.setReadMonthFirst">
+<span class="sig-name descname"><span class="pre">setReadMonthFirst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiDateMatcher.setReadMonthFirst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to parse the date in mm/dd/yyyy format instead of
+dd/mm/yyyy, by default True.</p>
+<p>For example July 5th 2015, would be parsed as 07/05/2015 instead of
+05/07/2015.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to parse the date in mm/dd/yyyy format instead of
+dd/mm/yyyy.</p>
 </dd>
 </dl>
 </dd>

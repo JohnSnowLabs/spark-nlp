@@ -735,24 +735,21 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.training.</span></span><span class="sig-name descname"><span class="pre">CoNLLU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explodeSentences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/training.html#CoNLLU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.CoNLLU" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.ExtendedJavaWrapper</span></code></p>
 <p>Instantiates the class to read a CoNLL-U dataset.</p>
-<p>The dataset should be in the format of
-<a class="reference external" href="https://universaldependencies.org/format.html">CoNLL-U</a> and needs to be
-specified with <a class="reference internal" href="#sparknlp.training.CoNLLU.readDataset" title="sparknlp.training.CoNLLU.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a>, which will create a dataframe with the
-data.</p>
-<p>Can be used to train a
-<a class="reference internal" href="sparknlp.annotator.DependencyParserApproach.html#sparknlp.annotator.DependencyParserApproach" title="sparknlp.annotator.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a></p>
-<p><strong>Input File Format</strong></p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-DOCSTART- -X- -X- O
+<p>The dataset should be in the format of <a class="reference external" href="https://universaldependencies.org/format.html">CoNLL-U</a> and needs to be specified
+with <a class="reference internal" href="#sparknlp.training.CoNLLU.readDataset" title="sparknlp.training.CoNLLU.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a>, which will create a dataframe with the data.</p>
+<p>Can be used to train a <a class="reference internal" href="sparknlp.annotator.DependencyParserApproach.html#sparknlp.annotator.DependencyParserApproach" title="sparknlp.annotator.DependencyParserApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserApproach</span></code></a></p>
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
-EU NNP B-NP B-ORG
-rejects VBZ B-VP O
-German JJ B-NP B-MISC
-call NN I-NP O
-to TO B-VP O
-boycott VB I-VP O
-British JJ B-NP B-MISC
-lamb NN I-NP O
-. . O O
+<span class="n">EU</span> <span class="n">NNP</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span>
+<span class="n">rejects</span> <span class="n">VBZ</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">German</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">call</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="n">to</span> <span class="n">TO</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">boycott</span> <span class="n">VB</span> <span class="n">I</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">British</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">lamb</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="o">.</span> <span class="o">.</span> <span class="n">O</span> <span class="n">O</span>
 </pre></div>
 </div>
 <p class="rubric">Examples</p>

@@ -735,31 +735,37 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">MultiClassifierDLModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MultiClassifierDLModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasStorageRef</span></code></p>
 <p>MultiClassifierDL for Multi-label Text Classification.</p>
-<p>MultiClassifierDL Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes.
-The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art
-UniversalSentenceEncoder,
-BertSentenceEmbeddings, or
-SentenceEmbeddings.</p>
-<p>This is the instantiated model of the MultiClassifierDLApproach.
+<p>MultiClassifierDL Bidirectional GRU with Convolution model we have built
+inside TensorFlow and supports up to 100 classes.</p>
+<p>In machine learning, multi-label classification and the strongly related
+problem of multi-output classification are variants of the classification
+problem where multiple labels may be assigned to each instance. Multi-label
+classification is a generalization of multiclass classification, which is
+the single-label problem of categorizing instances into precisely one of
+more than two classes; in the multi-label problem there is no constraint on
+how many of the classes the instance can be assigned to. Formally,
+multi-label classification is the problem of finding a model that maps
+inputs x to binary vectors y (assigning a value of 0 or 1 for each element
+(label) in y).</p>
+<p>The input to <code class="docutils literal notranslate"><span class="pre">MultiClassifierDL</span></code> are Sentence Embeddings such as the
+state-of-the-art <a class="reference internal" href="sparknlp.annotator.UniversalSentenceEncoder.html#sparknlp.annotator.UniversalSentenceEncoder" title="sparknlp.annotator.UniversalSentenceEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniversalSentenceEncoder</span></code></a>,
+<a class="reference internal" href="sparknlp.annotator.BertSentenceEmbeddings.html#sparknlp.annotator.BertSentenceEmbeddings" title="sparknlp.annotator.BertSentenceEmbeddings"><code class="xref py py-class docutils literal notranslate"><span class="pre">BertSentenceEmbeddings</span></code></a>, <a class="reference internal" href="sparknlp.annotator.SentenceEmbeddings.html#sparknlp.annotator.SentenceEmbeddings" title="sparknlp.annotator.SentenceEmbeddings"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceEmbeddings</span></code></a> or other
+sentence embeddings.</p>
+<p>This is the instantiated model of the <a class="reference internal" href="sparknlp.annotator.MultiClassifierDLApproach.html#sparknlp.annotator.MultiClassifierDLApproach" title="sparknlp.annotator.MultiClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiClassifierDLApproach</span></code></a>.
 For training your own model, please see the documentation of that class.</p>
-<p>Pretrained models can be loaded with <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of the companion object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">multiClassifier</span> <span class="o">=</span> <span class="n">MultiClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">)</span>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.pretrained" title="sparknlp.annotator.MultiClassifierDLModel.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">multiClassifier</span> <span class="o">=</span> <span class="n">MultiClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;multiclassifierdl_use_toxic&quot;</span></code>, if no name is provided. It uses embeddings from the
-UniversalSentenceEncoder and classifies toxic comments.
-The data is based on the
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;multiclassifierdl_use_toxic&quot;</span></code>, if no name is
+provided. It uses embeddings from the UniversalSentenceEncoder and
+classifies toxic comments.</p>
+<p>The data is based on the
 <a class="reference external" href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview">Jigsaw Toxic Comment Classification Challenge</a>.
 For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
-<p>In machine learning, multi-label classification and the strongly related problem of multi-output classification are
-variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
-classification is a generalization of multiclass classification, which is the single-label problem of categorizing
-instances into precisely one of more than two classes; in the multi-label problem there is no constraint on how many
-of the classes the instance can be assigned to.
-Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
-(assigning a value of 0 or 1 for each element (label) in y).</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -784,51 +790,43 @@ Formally, multi-label classification is the problem of finding a model that maps
 </dd>
 <dt><strong>threshold</strong></dt><dd><p>The minimum threshold for each label to be accepted, by default 0.5</p>
 </dd>
-<dt><strong>classes</strong></dt><dd><p>get the tags used to trained this MultiClassifierDLModel</p>
+<dt><strong>classes</strong></dt><dd><p>Get the tags used to trained this MultiClassifierDLModel</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
-
-documentAssembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;document&quot;)
-
-useEmbeddings = UniversalSentenceEncoder.pretrained() \
-    .setInputCols([&quot;document&quot;]) \
-    .setOutputCol(&quot;sentence_embeddings&quot;)
-
-multiClassifierDl = MultiClassifierDLModel.pretrained() \
-    .setInputCols([&quot;sentence_embeddings&quot;]) \
-    .setOutputCol(&quot;classifications&quot;)
-
-pipeline = Pipeline() \
-    .setStages([
-      documentAssembler,
-      useEmbeddings,
-      multiClassifierDl
-    ])
-
-data = spark.createDataFrame([[
-    &quot;This is pretty good stuff!&quot;,
-    &quot;Wtf kind of crap is this&quot;
-]]).toDF(&quot;text&quot;)
-result = pipeline.fit(data).transform(data)
-
-result.select(&quot;text&quot;, &quot;classifications.result&quot;).show(truncate=False)
-+--------------------------+----------------+
-|text                      |result          |
-+--------------------------+----------------+
-|This is pretty good stuff!|[]              |
-|Wtf kind of crap is this  |[toxic, obscene]|
-+--------------------------+----------------+
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">useEmbeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multiClassifierDl</span> <span class="o">=</span> <span class="n">MultiClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;classifications&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>        <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">useEmbeddings</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">multiClassifierDl</span>
+<span class="gp">... </span>    <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;This is pretty good stuff!&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Wtf kind of crap is this&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;classifications.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+--------------------------+----------------+</span>
+<span class="go">|text                      |result          |</span>
+<span class="go">+--------------------------+----------------+</span>
+<span class="go">|This is pretty good stuff!|[]              |</span>
+<span class="go">|Wtf kind of crap is this  |[toxic, obscene]|</span>
+<span class="go">+--------------------------+----------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -857,25 +855,25 @@ result.select(&quot;text&quot;, &quot;classifications.result&quot;).show(truncat
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getInputCols" title="sparknlp.annotator.MultiClassifierDLModel.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getLazyAnnotator" title="sparknlp.annotator.MultiClassifierDLModel.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getOrDefault" title="sparknlp.annotator.MultiClassifierDLModel.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getOutputCol" title="sparknlp.annotator.MultiClassifierDLModel.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getParam" title="sparknlp.annotator.MultiClassifierDLModel.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getParamValue" title="sparknlp.annotator.MultiClassifierDLModel.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.getStorageRef" title="sparknlp.annotator.MultiClassifierDLModel.getStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getStorageRef</span></code></a>()</p></td>
-<td><p>Get unique reference name for identification</p></td>
+<td><p>Gets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.hasDefault" title="sparknlp.annotator.MultiClassifierDLModel.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -905,28 +903,28 @@ result.select(&quot;text&quot;, &quot;classifications.result&quot;).show(truncat
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setConfigProtoBytes" title="sparknlp.annotator.MultiClassifierDLModel.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setInputCols" title="sparknlp.annotator.MultiClassifierDLModel.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setLazyAnnotator" title="sparknlp.annotator.MultiClassifierDLModel.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setOutputCol" title="sparknlp.annotator.MultiClassifierDLModel.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setParamValue" title="sparknlp.annotator.MultiClassifierDLModel.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setStorageRef" title="sparknlp.annotator.MultiClassifierDLModel.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
-<td><p>Set unique reference name for identification</p></td>
+<td><p>Sets unique reference name for identification.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setThreshold</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.setThreshold" title="sparknlp.annotator.MultiClassifierDLModel.setThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setThreshold</span></code></a>(v)</p></td>
+<td><p>Sets minimum threshold for each label to be accepted, by default 0.5.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MultiClassifierDLModel.transform" title="sparknlp.annotator.MultiClassifierDLModel.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1034,14 +1032,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1054,7 +1052,7 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1064,9 +1062,23 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.getStorageRef">
 <span class="sig-name descname"><span class="pre">getStorageRef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.getStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unique reference name for identification</p>
+<dd><p>Gets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1124,17 +1136,19 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
+“multiclassifierdl_use_toxic”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>MultiClassifierDLModel</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1162,7 +1176,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MultiClassifierDLModel.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1176,11 +1190,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1190,14 +1204,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1206,7 +1220,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1218,13 +1232,41 @@ RecursivePipeline</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setStorageRef">
 <span class="sig-name descname"><span class="pre">setStorageRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set unique reference name for identification</p>
+<dd><p>Sets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Unique reference name for identification</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MultiClassifierDLModel.setThreshold">
+<span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MultiClassifierDLModel.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MultiClassifierDLModel.setThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minimum threshold for each label to be accepted, by default 0.5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>The minimum threshold for each label to be accepted, by default 0.5</p>
 </dd>
 </dl>
 </dd>

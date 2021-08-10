@@ -734,42 +734,24 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">DistilBertEmbeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DistilBertEmbeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasEmbeddingsProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasCaseSensitiveProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasStorageRef</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasBatchedAnnotate</span></code></p>
-<p>DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40% less parameters than
-<code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code>, runs 60% faster while preserving over 95% of BERT’s performances as measured on the GLUE language understanding benchmark.</p>
-<p>Pretrained models can be loaded with <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of the companion object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<p>DistilBERT is a small, fast, cheap and light Transformer model trained by
+distilling BERT base. It has 40% less parameters than <code class="docutils literal notranslate"><span class="pre">bert-base-uncased</span></code>,
+runs 60% faster while preserving over 95% of BERT’s performances as measured
+on the GLUE language understanding benchmark.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.pretrained" title="sparknlp.annotator.DistilBertEmbeddings.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;distilbert_base_cased&quot;</span></code>, if no name is provided.
-For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the
+<a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">Spark NLP Workshop</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p>
-<p>The DistilBERT model was proposed in the paper
-<a class="reference external" href="https://arxiv.org/abs/1910.01108">DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter</a>.</p>
-<p><strong>Paper Abstract:</strong></p>
-<p><em>As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP),
-operating these large models in on-the-edge and/or under constrained computational training or inference budgets
-remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation
-model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger
-counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage
-knowledge distillation during the pretraining phase and show that it is possible to reduce the size of a BERT model by
-40%, while retaining 97% of its language understanding capabilities and being 60% faster. To leverage the inductive
-biases learned by larger models during pretraining, we introduce a triple loss combining language modeling,
-distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we
-demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device
-study.</em></p>
-<dl class="simple">
-<dt>Tips:</dt><dd><ul class="simple">
-<li><p>DistilBERT doesn’t have <code class="docutils literal notranslate"><span class="pre">:obj:token_type_ids</span></code>, you don’t need to indicate which token belongs to which segment. Just
-separate your segments with the separation token <code class="docutils literal notranslate"><span class="pre">:obj:tokenizer.sep_token</span></code> (or <code class="docutils literal notranslate"><span class="pre">:obj:[SEP]</span></code>).</p></li>
-<li><p>DistilBERT doesn’t have options to select the input positions (<code class="docutils literal notranslate"><span class="pre">:obj:position_ids</span></code> input). This could be added if
-necessary though, just let us know if you need this option.</p></li>
-</ul>
-</dd>
-</dl>
+Models from the HuggingFace 🤗 Transformers library are also compatible with
+Spark NLP 🚀. To see which models are compatible and how to import them see
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -793,7 +775,8 @@ necessary though, just let us know if you need this option.</p></li>
 </dd>
 <dt><strong>dimension</strong></dt><dd><p>Number of embedding dimensions, by default 768</p>
 </dd>
-<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case in tokens for embeddings matching, by default False</p>
+<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case in tokens for embeddings matching, by default
+False</p>
 </dd>
 <dt><strong>maxSentenceLength</strong></dt><dd><p>Max sentence length to process, by default 128</p>
 </dd>
@@ -802,54 +785,77 @@ necessary though, just let us know if you need this option.</p></li>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>DistilBERT doesn’t have <code class="docutils literal notranslate"><span class="pre">token_type_ids</span></code>, you don’t need to
+indicate which token belongs to which segment. Just separate your segments
+with the separation token <code class="docutils literal notranslate"><span class="pre">tokenizer.sep_token</span></code> (or <code class="docutils literal notranslate"><span class="pre">[SEP]</span></code>).</p></li>
+<li><p>DistilBERT doesn’t have options to select the input positions
+(<code class="docutils literal notranslate"><span class="pre">position_ids</span></code> input). This could be added if necessary though,
+just let us know if you need this option.</p></li>
+</ul>
+<p class="rubric">References</p>
+<p>The DistilBERT model was proposed in the paper
+<a class="reference external" href="https://arxiv.org/abs/1910.01108">DistilBERT, a distilled version of BERT: smaller, faster, cheaper and
+lighter</a>.</p>
+<p><strong>Paper Abstract:</strong></p>
+<p><em>As Transfer Learning from large-scale pre-trained models becomes more
+prevalent  in Natural Language Processing (NLP), operating these
+large models in on-the- edge and/or under constrained computational
+training or inference budgets  remains challenging. In this work, we
+propose a method to pre-train a smaller  general-purpose language
+representation model, called DistilBERT, which can  then be
+fine-tuned with good performances on a wide range of tasks like its
+larger counterparts. While most prior work investigated the use of
+distillation  for building task-specific models, we leverage
+knowledge distillation during  the pretraining phase and show that it
+is possible to reduce the size of a BERT  model by 40%, while
+retaining 97% of its language understanding capabilities  and being
+60% faster. To leverage the inductive biases learned by larger
+models  during pretraining, we introduce a triple loss combining
+language modeling,  distillation and cosine-distance losses. Our
+smaller, faster and lighter model  is cheaper to pre-train and we
+demonstrate its capabilities for on-device  computations in a
+proof-of-concept experiment and a comparative on-device study.</em></p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;finished_embeddings&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-      <span class="n">documentAssembler</span><span class="p">,</span>
-      <span class="n">tokenizer</span><span class="p">,</span>
-      <span class="n">embeddings</span><span class="p">,</span>
-      <span class="n">embeddingsFinisher</span>
-    <span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;This is a sentence.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(finished_embeddings) as result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
-<span class="o">+--------------------------------------------------------------------------------+</span>
-<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.1127224713563919</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1982710212469101</span><span class="p">,</span><span class="mf">0.5360898375511169</span><span class="p">,</span><span class="o">-</span><span class="mf">0.272536993026733</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.35534414649009705</span><span class="p">,</span><span class="mf">0.13215228915214539</span><span class="p">,</span><span class="mf">0.40981462597846985</span><span class="p">,</span><span class="mf">0.14036104083061</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.328085333108902</span><span class="p">,</span><span class="o">-</span><span class="mf">0.06269335001707077</span><span class="p">,</span><span class="o">-</span><span class="mf">0.017595693469047546</span><span class="p">,</span><span class="o">-</span><span class="mf">0.024373905733</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.15617232024669647</span><span class="p">,</span><span class="mf">0.2967822253704071</span><span class="p">,</span><span class="mf">0.22324979305267334</span><span class="p">,</span><span class="o">-</span><span class="mf">0.04568954557180</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.45411425828933716</span><span class="p">,</span><span class="mf">0.01173491682857275</span><span class="p">,</span><span class="mf">0.190129816532135</span><span class="p">,</span><span class="mf">0.1178255230188369</span><span class="o">...|</span>
-<span class="o">+--------------------------------------------------------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;finished_embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>      <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">embeddingsFinisher</span>
+<span class="gp">... </span>    <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;This is a sentence.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(finished_embeddings) as result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="go">+--------------------------------------------------------------------------------+</span>
+<span class="go">|                                                                          result|</span>
+<span class="go">+--------------------------------------------------------------------------------+</span>
+<span class="go">|[0.1127224713563919,-0.1982710212469101,0.5360898375511169,-0.272536993026733...|</span>
+<span class="go">|[0.35534414649009705,0.13215228915214539,0.40981462597846985,0.14036104083061...|</span>
+<span class="go">|[0.328085333108902,-0.06269335001707077,-0.017595693469047546,-0.024373905733...|</span>
+<span class="go">|[0.15617232024669647,0.2967822253704071,0.22324979305267334,-0.04568954557180...|</span>
+<span class="go">|[0.45411425828933716,0.01173491682857275,0.190129816532135,0.1178255230188369...|</span>
+<span class="go">+--------------------------------------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -878,34 +884,34 @@ necessary though, just let us know if you need this option.</p></li>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getBatchSize" title="sparknlp.annotator.DistilBertEmbeddings.getBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBatchSize</span></code></a>()</p></td>
-<td><p>Get current batch size</p></td>
+<td><p>Gets current batch size.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getCaseSensitive" title="sparknlp.annotator.DistilBertEmbeddings.getCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitive</span></code></a>()</p></td>
-<td><p>Get whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Gets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getDimension" title="sparknlp.annotator.DistilBertEmbeddings.getDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getDimension</span></code></a>()</p></td>
-<td><p>Get embeddings dimension.</p></td>
+<td><p>Gets embeddings dimension.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getInputCols" title="sparknlp.annotator.DistilBertEmbeddings.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getLazyAnnotator" title="sparknlp.annotator.DistilBertEmbeddings.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getOrDefault" title="sparknlp.annotator.DistilBertEmbeddings.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getOutputCol" title="sparknlp.annotator.DistilBertEmbeddings.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getParam" title="sparknlp.annotator.DistilBertEmbeddings.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getParamValue" title="sparknlp.annotator.DistilBertEmbeddings.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.getStorageRef" title="sparknlp.annotator.DistilBertEmbeddings.getStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getStorageRef</span></code></a>()</p></td>
-<td><p>Get unique reference name for identification</p></td>
+<td><p>Gets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.hasDefault" title="sparknlp.annotator.DistilBertEmbeddings.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -938,37 +944,37 @@ necessary though, just let us know if you need this option.</p></li>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setBatchSize" title="sparknlp.annotator.DistilBertEmbeddings.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
-<td><p>Set batch size</p></td>
+<td><p>Sets batch size.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setCaseSensitive" title="sparknlp.annotator.DistilBertEmbeddings.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
-<td><p>Set whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Sets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setConfigProtoBytes" title="sparknlp.annotator.DistilBertEmbeddings.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setDimension" title="sparknlp.annotator.DistilBertEmbeddings.setDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDimension</span></code></a>(value)</p></td>
-<td><p>Set embeddings dimension.</p></td>
+<td><p>Sets embeddings dimension.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setInputCols" title="sparknlp.annotator.DistilBertEmbeddings.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setLazyAnnotator" title="sparknlp.annotator.DistilBertEmbeddings.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setMaxSentenceLength" title="sparknlp.annotator.DistilBertEmbeddings.setMaxSentenceLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code></a>(value)</p></td>
-<td><p>Set max sentence length to process</p></td>
+<td><p>Sets max sentence length to process.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setOutputCol" title="sparknlp.annotator.DistilBertEmbeddings.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setParamValue" title="sparknlp.annotator.DistilBertEmbeddings.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.setStorageRef" title="sparknlp.annotator.DistilBertEmbeddings.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
-<td><p>Set unique reference name for identification</p></td>
+<td><p>Sets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.DistilBertEmbeddings.transform" title="sparknlp.annotator.DistilBertEmbeddings.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1082,7 +1088,7 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getBatchSize">
 <span class="sig-name descname"><span class="pre">getBatchSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getBatchSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current batch size</p>
+<dd><p>Gets current batch size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1096,7 +1102,7 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getCaseSensitive">
 <span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Gets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1110,20 +1116,20 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getDimension">
 <span class="sig-name descname"><span class="pre">getDimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getDimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get embeddings dimension.</p>
+<dd><p>Gets embeddings dimension.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1136,7 +1142,7 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1146,9 +1152,23 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.getStorageRef">
 <span class="sig-name descname"><span class="pre">getStorageRef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.getStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unique reference name for identification</p>
+<dd><p>Gets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1206,7 +1226,7 @@ a default value.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>DistilBertEmbeddings</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1228,17 +1248,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “distilbert_base_cased”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>DistilBertEmbeddings</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1266,7 +1287,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setBatchSize">
 <span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setBatchSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set batch size</p>
+<dd><p>Sets batch size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1280,7 +1301,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setCaseSensitive">
 <span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Sets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1294,7 +1315,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DistilBertEmbeddings.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1308,7 +1329,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setDimension">
 <span class="sig-name descname"><span class="pre">setDimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setDimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set embeddings dimension.</p>
+<dd><p>Sets embeddings dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1322,11 +1343,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1336,14 +1357,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1352,7 +1373,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setMaxSentenceLength">
 <span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#DistilBertEmbeddings.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setMaxSentenceLength" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set max sentence length to process</p>
+<dd><p>Sets max sentence length to process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1366,7 +1387,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1378,9 +1399,23 @@ RecursivePipeline</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.DistilBertEmbeddings.setStorageRef">
 <span class="sig-name descname"><span class="pre">setStorageRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.DistilBertEmbeddings.setStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set unique reference name for identification</p>
+<dd><p>Sets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">

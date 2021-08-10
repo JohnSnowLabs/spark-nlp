@@ -624,10 +624,10 @@ The strings specified with <code>setStopWords</code> will have new entities assi
 
 <span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
-  .setOutputCol(<span class="lit">"bert"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
 
 <span class="kw">val</span> nerTagger = NerDLModel.pretrained()
-  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"bert"</span>)
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
   .setOutputCol(<span class="lit">"ner"</span>)
 
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(

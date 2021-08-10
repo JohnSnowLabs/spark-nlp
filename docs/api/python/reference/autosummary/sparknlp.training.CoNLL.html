@@ -732,38 +732,36 @@
 <h1>sparknlp.training.CoNLL<a class="headerlink" href="#sparknlp-training-conll" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.training.CoNLL">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.training.</span></span><span class="sig-name descname"><span class="pre">CoNLL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'document'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentenceCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sentence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pos'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllLabelIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllPosIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explodeSentences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/training.html#CoNLL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.CoNLL" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.training.</span></span><span class="sig-name descname"><span class="pre">CoNLL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'document'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentenceCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sentence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pos'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllLabelIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllPosIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explodeSentences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/training.html#CoNLL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.CoNLL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.ExtendedJavaWrapper</span></code></p>
 <p>Instantiates the class to read a CoNLL dataset.</p>
-<p>The dataset should be in the format of
-<a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> and needs to
-be specified with <a class="reference internal" href="#sparknlp.training.CoNLL.readDataset" title="sparknlp.training.CoNLL.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a>,
-which will create a dataframe with the data.</p>
+<p>The dataset should be in the format of <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> and needs to be specified
+with <a class="reference internal" href="#sparknlp.training.CoNLL.readDataset" title="sparknlp.training.CoNLL.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a>, which will create a dataframe with the data.</p>
 <p>Can be used to train a <a class="reference internal" href="sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach" title="sparknlp.annotator.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a>.</p>
-<p><strong>Input File Format</strong></p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-DOCSTART- -X- -X- O
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
 
-EU NNP B-NP B-ORG
-rejects VBZ B-VP O
-German JJ B-NP B-MISC
-call NN I-NP O
-to TO B-VP O
-boycott VB I-VP O
-British JJ B-NP B-MISC
-lamb NN I-NP O
-. . O O
+<span class="n">EU</span> <span class="n">NNP</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span>
+<span class="n">rejects</span> <span class="n">VBZ</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">German</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">call</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="n">to</span> <span class="n">TO</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">boycott</span> <span class="n">VB</span> <span class="n">I</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">British</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">lamb</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="o">.</span> <span class="o">.</span> <span class="n">O</span> <span class="n">O</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>documentCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentAssembler</span></code> column, by default ‘document’</p>
+<dt><strong>documentCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler" title="sparknlp.base.DocumentAssembler"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentAssembler</span></code></a> column, by default ‘document’</p>
 </dd>
-<dt><strong>sentenceCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code> column, by default ‘sentence’</p>
+<dt><strong>sentenceCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a> column, by default ‘sentence’</p>
 </dd>
-<dt><strong>tokenCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code> column, by default ‘token’</p>
+<dt><strong>tokenCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer" title="sparknlp.annotator.Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a> column, by default ‘token’</p>
 </dd>
-<dt><strong>posCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code> column, by default ‘pos’</p>
+<dt><strong>posCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.annotator.PerceptronModel.html#sparknlp.annotator.PerceptronModel" title="sparknlp.annotator.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a> column, by default ‘pos’</p>
 </dd>
 <dt><strong>conllLabelIndex</strong><span class="classifier">int, optional</span></dt><dd><p>Index of the label column in the dataset, by default 3</p>
 </dd>
@@ -774,6 +772,8 @@ lamb NN I-NP O
 <dt><strong>labelCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the label column, by default ‘label’</p>
 </dd>
 <dt><strong>explodeSentences</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to explode sentences to separate rows, by default True</p>
+</dd>
+<dt><strong>delimiter: str, optional</strong></dt><dd><p>Delimiter used to separate columns inside CoNLL file</p>
 </dd>
 </dl>
 </dd>
