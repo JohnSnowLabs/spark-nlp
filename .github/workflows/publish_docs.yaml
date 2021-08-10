@@ -1,11 +1,6 @@
 name: Publish APIs
 
 on:
-  push:
-    branches:
-      - 'main'
-      - '*release*'
-      - 'master'
   pull_request:
     branches:
       - 'main'
