@@ -2,9 +2,9 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name:= getPackageName(is_spark23, is_spark24, is_gpu)
+name := getPackageName(is_spark23, is_spark24, is_gpu)
 
-organization:= "com.johnsnowlabs.nlp"
+organization := "com.johnsnowlabs.nlp"
 
 version := "3.2.0"
 
@@ -18,7 +18,7 @@ scalacOptions ++= Seq(
   "-language:implicitConversions"
 )
 
-scalacOptions in (Compile, doc) ++= Seq(
+scalacOptions in(Compile, doc) ++= Seq(
   "-groups",
   "-doc-title",
   "Spark NLP " + version.value + " ScalaDoc",
@@ -29,7 +29,7 @@ scalacOptions in (Compile, doc) ++= Seq(
 
 target in Compile in doc := baseDirectory.value / "docs/api"
 
-licenses  += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 resolvers in ThisBuild := m2Resolvers
 
@@ -53,7 +53,7 @@ bintrayPackageLabels := Seq("nlp", "nlu",
 
 bintrayRepository := "spark-nlp"
 
-bintrayOrganization:= Some("johnsnowlabs")
+bintrayOrganization := Some("johnsnowlabs")
 
 sonatypeProfileName := "com.johnsnowlabs"
 
@@ -64,28 +64,28 @@ publishTo := Some(
     Opts.resolver.sonatypeStaging
 )
 
-homepage:= Some(url("https://nlp.johnsnowlabs.com"))
+homepage := Some(url("https://nlp.johnsnowlabs.com"))
 
-scmInfo:= Some(
+scmInfo := Some(
   ScmInfo(
     url("https://github.com/JohnSnowLabs/spark-nlp"),
     "scm:git@github.com:JohnSnowLabs/spark-nlp.git"
   )
 )
 
-developers in ThisBuild:= List(
-  Developer(id="saifjsl", name="Saif Addin", email="saif@johnsnowlabs.com", url=url("https://github.com/saifjsl")),
-  Developer(id="maziyarpanahi", name="Maziyar Panahi", email="maziyar@johnsnowlabs.com", url=url("https://github.com/maziyarpanahi")),
-  Developer(id="albertoandreottiATgmail", name="Alberto Andreotti", email="alberto@pacific.ai", url=url("https://github.com/albertoandreottiATgmail")),
-  Developer(id="danilojsl", name="Danilo Burbano", email="danilo@johnsnowlabs.com", url=url("https://github.com/danilojsl")),
-  Developer(id="rohit13k", name="Rohit Kumar", email="rohit@johnsnowlabs.com", url=url("https://github.com/rohit13k")),
-  Developer(id="aleksei-ai", name="Aleksei Alekseev", email="aleksei@pacific.ai", url=url("https://github.com/aleksei-ai")),
-  Developer(id="showy", name="Eduardo Muñoz", email="eduardo@johnsnowlabs.com", url=url("https://github.com/showy")),
-  Developer(id="C-K-Loan", name="Christian Kasim Loan", email="christian@johnsnowlabs.com", url=url("https://github.com/C-K-Loan")),
-  Developer(id="wolliq", name="Stefano Lori", email="stefano@johnsnowlabs.com", url=url("https://github.com/wolliq")),
-  Developer(id="vankov", name="Ivan Vankov", email="ivan@johnsnowlabs.com", url=url("https://github.com/vankov")),
-  Developer(id="alinapetukhova", name="Alina Petukhova", email="alina@johnsnowlabs.com", url=url("https://github.com/alinapetukhova")),
-  Developer(id="hatrungduc", name="Devin Ha", email="trung@johnsnowlabs.com", url=url("https://github.com/hatrungduc"))
+developers in ThisBuild := List(
+  Developer(id = "saifjsl", name = "Saif Addin", email = "saif@johnsnowlabs.com", url = url("https://github.com/saifjsl")),
+  Developer(id = "maziyarpanahi", name = "Maziyar Panahi", email = "maziyar@johnsnowlabs.com", url = url("https://github.com/maziyarpanahi")),
+  Developer(id = "albertoandreottiATgmail", name = "Alberto Andreotti", email = "alberto@pacific.ai", url = url("https://github.com/albertoandreottiATgmail")),
+  Developer(id = "danilojsl", name = "Danilo Burbano", email = "danilo@johnsnowlabs.com", url = url("https://github.com/danilojsl")),
+  Developer(id = "rohit13k", name = "Rohit Kumar", email = "rohit@johnsnowlabs.com", url = url("https://github.com/rohit13k")),
+  Developer(id = "aleksei-ai", name = "Aleksei Alekseev", email = "aleksei@pacific.ai", url = url("https://github.com/aleksei-ai")),
+  Developer(id = "showy", name = "Eduardo Muñoz", email = "eduardo@johnsnowlabs.com", url = url("https://github.com/showy")),
+  Developer(id = "C-K-Loan", name = "Christian Kasim Loan", email = "christian@johnsnowlabs.com", url = url("https://github.com/C-K-Loan")),
+  Developer(id = "wolliq", name = "Stefano Lori", email = "stefano@johnsnowlabs.com", url = url("https://github.com/wolliq")),
+  Developer(id = "vankov", name = "Ivan Vankov", email = "ivan@johnsnowlabs.com", url = url("https://github.com/vankov")),
+  Developer(id = "alinapetukhova", name = "Alina Petukhova", email = "alina@johnsnowlabs.com", url = url("https://github.com/alinapetukhova")),
+  Developer(id = "hatrungduc", name = "Devin Ha", email = "trung@johnsnowlabs.com", url = url("https://github.com/hatrungduc"))
 )
 
 lazy val analyticsDependencies = Seq(
@@ -104,7 +104,7 @@ lazy val utilDependencies = Seq(
     exclude("com.fasterxml.jackson.core", "jackson-annotations")
     exclude("com.fasterxml.jackson.core", "jackson-databind")
     exclude("com.fasterxml.jackson.core", "jackson-core")
-    exclude("commons-configuration","commons-configuration"),
+    exclude("commons-configuration", "commons-configuration"),
   liblevenshtein
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
@@ -119,7 +119,7 @@ lazy val typedDependencyParserDependencies = Seq(
 )
 
 val tensorflowDependencies: Seq[sbt.ModuleID] =
-  if(is_gpu.equals("true"))
+  if (is_gpu.equals("true"))
     Seq(tensorflowGPU)
   else
     Seq(tensorflowCPU)
@@ -133,20 +133,22 @@ lazy val root = (project in file("."))
       analyticsDependencies ++
         testDependencies ++
         utilDependencies ++
-        tensorflowDependencies++
+        tensorflowDependencies ++
         typedDependencyParserDependencies,
     // TODO potentially improve this?
-    mavenProps := {sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else "" }
+    mavenProps := {
+      sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
+    }
   )
 
 assemblyMergeStrategy in assembly := {
-  case PathList("META-INF", "versions", "9", "module-info.class")  => MergeStrategy.discard
-  case PathList("apache.commons.lang3", _ @ _*)  => MergeStrategy.discard
-  case PathList("org.apache.hadoop", _ @ _*)  => MergeStrategy.first
-  case PathList("com.amazonaws", _ @ _*)  => MergeStrategy.last
+  case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
+  case PathList("apache.commons.lang3", _@_*) => MergeStrategy.discard
+  case PathList("org.apache.hadoop", _@_*) => MergeStrategy.first
+  case PathList("com.amazonaws", _@_*) => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
-  case PathList("META-INF", "io.netty.versions.properties")  => MergeStrategy.first
-  case PathList("org", "tensorflow", _ @ _*)  => MergeStrategy.first
+  case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
+  case PathList("org", "tensorflow", _@_*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
@@ -171,6 +173,7 @@ parallelExecution in FastTest := false
 inConfig(SlowTest)(Defaults.testTasks)
 testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
 parallelExecution in SlowTest := false
+
 /** Test tagging end */
 
 /** Enable for debugging */
@@ -179,23 +182,23 @@ testOptions in Test += Tests.Argument("-oF")
 /** Disables tests in assembly */
 test in assembly := {}
 
-/** Publish test artifact **/
+/** Publish test artifact * */
 publishArtifact in Test := true
 
-/** Copies the assembled jar to the pyspark/lib dir **/
+/** Copies the assembled jar to the pyspark/lib dir * */
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
 lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
 
 copyAssembledJar := {
   val jarFilePath = (assemblyOutputPath in assembly).value
-  val newJarFilePath = baseDirectory( _ / "python" / "lib" /  "sparknlp.jar").value
+  val newJarFilePath = baseDirectory(_ / "python" / "lib" / "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
 
 copyAssembledJarForPyPi := {
   val jarFilePath = (assemblyOutputPath in assembly).value
-  val newJarFilePath = baseDirectory( _ / "python" / "sparknlp" / "lib"  / "sparknlp.jar").value
+  val newJarFilePath = baseDirectory(_ / "python" / "sparknlp" / "lib" / "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
