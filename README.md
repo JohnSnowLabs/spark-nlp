@@ -214,14 +214,17 @@ Spark NLP 3.2.0 has been tested and is compatible with the following runtimes:
 - 8.2 ML
 - 8.3
 - 8.3 ML
+- 8.4
+- 8.4 ML
 
 **GPU:**
 
 - 8.1 ML & GPU
 - 8.2 ML & GPU
 - 8.3 ML & GPU
+- 8.4 ML & GPU
 
-NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.1 ML with GPU, 8.2 ML with GPU, and 8.3 ML with GPU.
+NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
 
 ## EMR Support
 
@@ -786,8 +789,8 @@ You can change the following Spark NLP configurations via Spark Configuration:
 | Property Name   |   Default  | Meaning | Since Version |
 |-----------------|------------|---------|---------------|
 |`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory
-|`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark
-|`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory. NOTE: `S3` is not supported as it doesn't support appened operation.
+|`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS.
+|`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory.
 
 ### How to set Spark NLP Configuration
 
