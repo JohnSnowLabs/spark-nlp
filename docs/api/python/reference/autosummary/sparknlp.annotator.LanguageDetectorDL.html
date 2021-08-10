@@ -734,21 +734,24 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">LanguageDetectorDL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#LanguageDetectorDL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasStorageRef</span></code></p>
-<p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p>
-<p><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL</span></code> is an annotator that detects the language of documents or sentences depending on the inputCols.
-The models are trained on large datasets such as Wikipedia and Tatoeba.
-Depending on the language (how similar the characters are), the LanguageDetectorDL works
-best with text longer than 140 characters.
-The output is a language code in <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_Wikipedias">Wiki Code style</a>.</p>
-<p>Pretrained models can be loaded with <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of the companion object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Val</span> <span class="n">languageDetector</span> <span class="o">=</span> <span class="n">LanguageDetectorDL</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;language&quot;</span><span class="p">)</span>
+<p>Language Identification and Detection by using CNN and RNN architectures
+in TensorFlow.</p>
+<p><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL</span></code> is an annotator that detects the language of
+documents or sentences depending on the inputCols. The models are trained on
+large datasets such as Wikipedia and Tatoeba. Depending on the language
+(how similar the characters are), the LanguageDetectorDL works best with
+text longer than 140 characters. The output is a language code in
+<a class="reference external" href="https://en.wikipedia.org/wiki/List_of_Wikipedias">Wiki Code style</a>.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.pretrained" title="sparknlp.annotator.LanguageDetectorDL.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">languageDetector</span> <span class="o">=</span> <span class="n">LanguageDetectorDL</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;language&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;ld_wiki_tatoeba_cnn_21&quot;</span></code>, default language is <code class="docutils literal notranslate"><span class="pre">&quot;xx&quot;</span></code> (meaning multi-lingual),
-if no values are provided.
-For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Language+Detection">Models Hub</a>.</p>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;ld_wiki_tatoeba_cnn_21&quot;</span></code>, default language is
+<code class="docutils literal notranslate"><span class="pre">&quot;xx&quot;</span></code> (meaning multi-lingual), if no values are provided.</p>
+<p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Language+Detection">Models Hub</a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -771,54 +774,50 @@ For available pretrained models please see the <a class="reference external" hre
 <dd class="field-odd"><dl class="simple">
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
-<dt><strong>threshold</strong></dt><dd><p>The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel, by default 0.5</p>
+<dt><strong>threshold</strong></dt><dd><p>The minimum threshold for the final result otheriwse it will be either
+neutral or the value set in thresholdLabel, by default 0.5</p>
 </dd>
-<dt><strong>thresholdLabel</strong></dt><dd><p>In case the score is less than threshold, what should be the label. Default is neutral, by default Unknown</p>
+<dt><strong>thresholdLabel</strong></dt><dd><p>In case the score is less than threshold, what should be the label, by
+default Unknown</p>
 </dd>
-<dt><strong>coalesceSentences</strong></dt><dd><p>If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false, by default True</p>
+<dt><strong>coalesceSentences</strong></dt><dd><p>If sets to true the output of all sentences will be averaged to one
+output instead of one output per sentence, by default True.</p>
 </dd>
-<dt><strong>languages</strong></dt><dd><p>get the languages used to trained the model</p>
+<dt><strong>languages</strong></dt><dd><p>The languages used to trained the model</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">languageDetector</span> <span class="o">=</span> <span class="n">LanguageDetectorDL</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;language&quot;</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-      <span class="n">documentAssembler</span><span class="p">,</span>
-      <span class="n">languageDetector</span>
-    <span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s2">&quot;Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala.&quot;</span>
-<span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;language.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+------+</span>
-<span class="o">|</span><span class="n">result</span><span class="o">|</span>
-<span class="o">+------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">en</span><span class="p">]</span>  <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">fr</span><span class="p">]</span>  <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">de</span><span class="p">]</span>  <span class="o">|</span>
-<span class="o">+------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">languageDetector</span> <span class="o">=</span> <span class="n">LanguageDetectorDL</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;language&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>      <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">languageDetector</span>
+<span class="gp">... </span>    <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Spark NLP is an open-source text processing library for advanced natural language processing for the Python, Java and Scala programming languages.&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Spark NLP est une bibliothèque de traitement de texte open source pour le traitement avancé du langage naturel pour les langages de programmation Python, Java et Scala.&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;Spark NLP ist eine Open-Source-Textverarbeitungsbibliothek für fortgeschrittene natürliche Sprachverarbeitung für die Programmiersprachen Python, Java und Scala.&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;language.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------+</span>
+<span class="go">|result|</span>
+<span class="go">+------+</span>
+<span class="go">|[en]  |</span>
+<span class="go">|[fr]  |</span>
+<span class="go">|[de]  |</span>
+<span class="go">+------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -847,25 +846,25 @@ For available pretrained models please see the <a class="reference external" hre
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getInputCols" title="sparknlp.annotator.LanguageDetectorDL.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getLazyAnnotator" title="sparknlp.annotator.LanguageDetectorDL.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getOrDefault" title="sparknlp.annotator.LanguageDetectorDL.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getOutputCol" title="sparknlp.annotator.LanguageDetectorDL.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getParam" title="sparknlp.annotator.LanguageDetectorDL.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getParamValue" title="sparknlp.annotator.LanguageDetectorDL.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.getStorageRef" title="sparknlp.annotator.LanguageDetectorDL.getStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getStorageRef</span></code></a>()</p></td>
-<td><p>Get unique reference name for identification</p></td>
+<td><p>Gets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.hasDefault" title="sparknlp.annotator.LanguageDetectorDL.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -894,35 +893,35 @@ For available pretrained models please see the <a class="reference external" hre
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.set" title="sparknlp.annotator.LanguageDetectorDL.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCoalesceSentences</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setCoalesceSentences" title="sparknlp.annotator.LanguageDetectorDL.setCoalesceSentences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCoalesceSentences</span></code></a>(value)</p></td>
+<td><p>Sets if the output of all sentences will be averaged to one output instead of one output per sentence, by default True.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setConfigProtoBytes" title="sparknlp.annotator.LanguageDetectorDL.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setInputCols" title="sparknlp.annotator.LanguageDetectorDL.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setLazyAnnotator" title="sparknlp.annotator.LanguageDetectorDL.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setOutputCol" title="sparknlp.annotator.LanguageDetectorDL.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setParamValue" title="sparknlp.annotator.LanguageDetectorDL.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setStorageRef" title="sparknlp.annotator.LanguageDetectorDL.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
-<td><p>Set unique reference name for identification</p></td>
+<td><p>Sets unique reference name for identification.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setThreshold</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setThreshold" title="sparknlp.annotator.LanguageDetectorDL.setThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setThreshold</span></code></a>(v)</p></td>
+<td><p>Sets the minimum threshold for the final result otherwise it will be either neutral or the value set in thresholdLabel, by default 0.5.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setThresholdLabel</span></code>(p)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.setThresholdLabel" title="sparknlp.annotator.LanguageDetectorDL.setThresholdLabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setThresholdLabel</span></code></a>(p)</p></td>
+<td><p>Sets what should be the label in case the score is less than threshold, by default Unknown.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LanguageDetectorDL.transform" title="sparknlp.annotator.LanguageDetectorDL.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1036,14 +1035,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1056,7 +1055,7 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1066,9 +1065,23 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.getStorageRef">
 <span class="sig-name descname"><span class="pre">getStorageRef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.getStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unique reference name for identification</p>
+<dd><p>Gets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1126,17 +1139,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “ld_wiki_tatoeba_cnn_21”</p>
 </dd>
-<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “xx”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>LanguageDetectorDL</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1162,9 +1176,24 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setCoalesceSentences">
+<span class="sig-name descname"><span class="pre">setCoalesceSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#LanguageDetectorDL.setCoalesceSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setCoalesceSentences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets if the output of all sentences will be averaged to one output
+instead of one output per sentence, by default True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>If the output of all sentences will be averaged to one output</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#LanguageDetectorDL.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1178,11 +1207,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1192,14 +1221,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1208,7 +1237,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1220,13 +1249,57 @@ RecursivePipeline</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setStorageRef">
 <span class="sig-name descname"><span class="pre">setStorageRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set unique reference name for identification</p>
+<dd><p>Sets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Unique reference name for identification</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setThreshold">
+<span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#LanguageDetectorDL.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the minimum threshold for the final result otherwise it will be
+either neutral or the value set in thresholdLabel, by default 0.5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">float</span></dt><dd><p>Minimum threshold for the final result</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.LanguageDetectorDL.setThresholdLabel">
+<span class="sig-name descname"><span class="pre">setThresholdLabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#LanguageDetectorDL.setThresholdLabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.LanguageDetectorDL.setThresholdLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets what should be the label in case the score is less than
+threshold, by default Unknown.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>The replacement label.</p>
 </dd>
 </dl>
 </dd>

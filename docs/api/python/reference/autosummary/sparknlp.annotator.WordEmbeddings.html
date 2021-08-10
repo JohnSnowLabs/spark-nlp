@@ -735,10 +735,11 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">WordEmbeddings</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordEmbeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasEmbeddingsProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasStorage</span></code></p>
 <p>Word Embeddings lookup annotator that maps tokens to vectors.</p>
-<p>For instantiated/pretrained models, see WordEmbeddingsModel.</p>
-<p>A custom token lookup dictionary for embeddings can be set with <code class="docutils literal notranslate"><span class="pre">setStoragePath</span></code>.
-Each line of the provided file needs to have a token, followed by their vector representation, delimited by a spaces.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html#sparknlp.annotator.WordEmbeddingsModel" title="sparknlp.annotator.WordEmbeddingsModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code></a>.</p>
+<p>A custom token lookup dictionary for embeddings can be set with
+<a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setStoragePath" title="sparknlp.annotator.WordEmbeddings.setStoragePath"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setStoragePath()</span></code></a>. Each line of the provided file needs to have a
+token, followed by their vector representation, delimited by a spaces:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
 <span class="n">are</span> <span class="mf">0.39658191506190343</span> <span class="mf">0.630968081620067</span> <span class="mf">0.5393722253731201</span> <span class="mf">0.8428180123359783</span>
 <span class="n">were</span> <span class="mf">0.7535235923631415</span> <span class="mf">0.9699218875629833</span> <span class="mf">0.10397182122983872</span> <span class="mf">0.11833962569383116</span>
 <span class="n">stress</span> <span class="mf">0.0492683418305907</span> <span class="mf">0.9415954572751959</span> <span class="mf">0.47624463167525755</span> <span class="mf">0.16790967216778263</span>
@@ -746,9 +747,10 @@ Each line of the provided file needs to have a token, followed by their vector r
 <span class="o">...</span>
 </pre></div>
 </div>
-<p>If a token is not found in the dictionary, then the result will be a zero vector of the same dimension.
-Statistics about the rate of converted tokens, can be retrieved with WordEmbeddingsModel.withCoverageColumn
-and WordEmbeddingsModel.overallCoverage.</p>
+<p>If a token is not found in the dictionary, then the result will be a zero
+vector of the same dimension. Statistics about the rate of converted tokens,
+can be retrieved with <a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html#sparknlp.annotator.WordEmbeddingsModel.withCoverageColumn" title="sparknlp.annotator.WordEmbeddingsModel.withCoverageColumn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">WordEmbeddingsModel.withCoverageColumn()</span></code></a> and
+<a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html#sparknlp.annotator.WordEmbeddingsModel.overallCoverage" title="sparknlp.annotator.WordEmbeddingsModel.overallCoverage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">WordEmbeddingsModel.overallCoverage()</span></code></a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -769,66 +771,60 @@ and WordEmbeddingsModel.overallCoverage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>writeBufferSize</strong></dt><dd><p>buffer size limit before dumping to disk storage while writing, by default 10000</p>
+<dt><strong>writeBufferSize</strong></dt><dd><p>Buffer size limit before dumping to disk storage while writing, by
+default 10000</p>
 </dd>
-<dt><strong>readCacheSize</strong></dt><dd><p>cache size for items retrieved from storage. Increase for performance but higher memory consumption</p>
+<dt><strong>readCacheSize</strong></dt><dd><p>Cache size for items retrieved from storage. Increase for performance
+but higher memory consumption</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the file `random_embeddings_dim4.txt` has the form of the content above.</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddings</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setStoragePath</span><span class="p">(</span><span class="s2">&quot;src/test/resources/random_embeddings_dim4.txt&quot;</span><span class="p">,</span> <span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setStorageRe</span><span class="p">(</span><span class="s2">&quot;glove_4d&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setDimension</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
-
-<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;finished_embeddings&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-      <span class="n">documentAssembler</span><span class="p">,</span>
-      <span class="n">tokenizer</span><span class="p">,</span>
-      <span class="n">embeddings</span><span class="p">,</span>
-      <span class="n">embeddingsFinisher</span>
-    <span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;The patient was diagnosed with diabetes.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(finished_embeddings) as result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+----------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                            <span class="o">|</span>
-<span class="o">+----------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.9439099431037903</span><span class="p">,</span><span class="mf">0.4707513153553009</span><span class="p">,</span><span class="mf">0.806300163269043</span><span class="p">,</span><span class="mf">0.16176554560661316</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.7966810464859009</span><span class="p">,</span><span class="mf">0.5551124811172485</span><span class="p">,</span><span class="mf">0.8861005902290344</span><span class="p">,</span><span class="mf">0.28284206986427307</span><span class="p">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.025029370561242104</span><span class="p">,</span><span class="mf">0.35177749395370483</span><span class="p">,</span><span class="mf">0.052506182342767715</span><span class="p">,</span><span class="mf">0.1887107789516449</span><span class="p">]</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.08617766946554184</span><span class="p">,</span><span class="mf">0.8399239182472229</span><span class="p">,</span><span class="mf">0.5395117998123169</span><span class="p">,</span><span class="mf">0.7864698767662048</span><span class="p">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.6599600911140442</span><span class="p">,</span><span class="mf">0.16109347343444824</span><span class="p">,</span><span class="mf">0.6041093468666077</span><span class="p">,</span><span class="mf">0.8913561105728149</span><span class="p">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.5955275893211365</span><span class="p">,</span><span class="mf">0.01899011991918087</span><span class="p">,</span><span class="mf">0.4397728443145752</span><span class="p">,</span><span class="mf">0.8911281824111938</span><span class="p">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.9840458631515503</span><span class="p">,</span><span class="mf">0.7599489092826843</span><span class="p">,</span><span class="mf">0.9417727589607239</span><span class="p">,</span><span class="mf">0.8624503016471863</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">+----------------------------------------------------------------------------------+</span>
+<p>In this example, the file <code class="docutils literal notranslate"><span class="pre">random_embeddings_dim4.txt</span></code> has the form of the
+content above.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddings</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStoragePath</span><span class="p">(</span><span class="s2">&quot;src/test/resources/random_embeddings_dim4.txt&quot;</span><span class="p">,</span> <span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStorageRef</span><span class="p">(</span><span class="s2">&quot;glove_4d&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setDimension</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;finished_embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>      <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">embeddingsFinisher</span>
+<span class="gp">... </span>    <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;The patient was diagnosed with diabetes.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(finished_embeddings) as result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------------------------------------+</span>
+<span class="go">|result                                                                            |</span>
+<span class="go">+----------------------------------------------------------------------------------+</span>
+<span class="go">|[0.9439099431037903,0.4707513153553009,0.806300163269043,0.16176554560661316]     |</span>
+<span class="go">|[0.7966810464859009,0.5551124811172485,0.8861005902290344,0.28284206986427307]    |</span>
+<span class="go">|[0.025029370561242104,0.35177749395370483,0.052506182342767715,0.1887107789516449]|</span>
+<span class="go">|[0.08617766946554184,0.8399239182472229,0.5395117998123169,0.7864698767662048]    |</span>
+<span class="go">|[0.6599600911140442,0.16109347343444824,0.6041093468666077,0.8913561105728149]    |</span>
+<span class="go">|[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |</span>
+<span class="go">|[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |</span>
+<span class="go">+----------------------------------------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -863,37 +859,37 @@ and WordEmbeddingsModel.overallCoverage.</p>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getCaseSensitive" title="sparknlp.annotator.WordEmbeddings.getCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitive</span></code></a>()</p></td>
-<td><p>Get whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Gets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getDimension" title="sparknlp.annotator.WordEmbeddings.getDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getDimension</span></code></a>()</p></td>
-<td><p>Get embeddings dimension.</p></td>
+<td><p>Gets embeddings dimension.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getIncludeStorage" title="sparknlp.annotator.WordEmbeddings.getIncludeStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getIncludeStorage</span></code></a>()</p></td>
-<td><p>Get whether to include indexed storage in trained model</p></td>
+<td><p>Gets whether to include indexed storage in trained model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getInputCols" title="sparknlp.annotator.WordEmbeddings.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getLazyAnnotator" title="sparknlp.annotator.WordEmbeddings.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getOrDefault" title="sparknlp.annotator.WordEmbeddings.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getOutputCol" title="sparknlp.annotator.WordEmbeddings.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getParam" title="sparknlp.annotator.WordEmbeddings.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getParamValue" title="sparknlp.annotator.WordEmbeddings.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getStoragePath" title="sparknlp.annotator.WordEmbeddings.getStoragePath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getStoragePath</span></code></a>()</p></td>
-<td><p>Get path to file</p></td>
+<td><p>Gets path to file.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.getStorageRef" title="sparknlp.annotator.WordEmbeddings.getStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getStorageRef</span></code></a>()</p></td>
-<td><p>Get unique reference name for identification</p></td>
+<td><p>Gets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.hasDefault" title="sparknlp.annotator.WordEmbeddings.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -920,37 +916,37 @@ and WordEmbeddingsModel.overallCoverage.</p>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setCaseSensitive" title="sparknlp.annotator.WordEmbeddings.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
-<td><p>Set whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Sets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setDimension" title="sparknlp.annotator.WordEmbeddings.setDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDimension</span></code></a>(value)</p></td>
-<td><p>Set embeddings dimension.</p></td>
+<td><p>Sets embeddings dimension.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setIncludeStorage" title="sparknlp.annotator.WordEmbeddings.setIncludeStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeStorage</span></code></a>(value)</p></td>
-<td><p>Set whether to include indexed storage in trained model</p></td>
+<td><p>Sets whether to include indexed storage in trained model.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setInputCols" title="sparknlp.annotator.WordEmbeddings.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setLazyAnnotator" title="sparknlp.annotator.WordEmbeddings.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setOutputCol" title="sparknlp.annotator.WordEmbeddings.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setParamValue" title="sparknlp.annotator.WordEmbeddings.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReadCacheSize</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setReadCacheSize" title="sparknlp.annotator.WordEmbeddings.setReadCacheSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReadCacheSize</span></code></a>(v)</p></td>
+<td><p>Sets cache size for items retrieved from storage.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setStoragePath" title="sparknlp.annotator.WordEmbeddings.setStoragePath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStoragePath</span></code></a>(path, read_as)</p></td>
-<td><p>Set path to file</p></td>
+<td><p>Sets path to file.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setStorageRef" title="sparknlp.annotator.WordEmbeddings.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
-<td><p>Set unique reference name for identification</p></td>
+<td><p>Sets unique reference name for identification.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWriteBufferSize</span></code>(v)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.setWriteBufferSize" title="sparknlp.annotator.WordEmbeddings.setWriteBufferSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWriteBufferSize</span></code></a>(v)</p></td>
+<td><p>Sets buffer size limit before dumping to disk storage while writing, by default 10000.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordEmbeddings.write" title="sparknlp.annotator.WordEmbeddings.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1108,7 +1104,7 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getCaseSensitive">
 <span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Gets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1122,13 +1118,13 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getDimension">
 <span class="sig-name descname"><span class="pre">getDimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getDimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get embeddings dimension.</p>
+<dd><p>Gets embeddings dimension.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getIncludeStorage">
 <span class="sig-name descname"><span class="pre">getIncludeStorage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getIncludeStorage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether to include indexed storage in trained model</p>
+<dd><p>Gets whether to include indexed storage in trained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1142,14 +1138,14 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1162,7 +1158,7 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1172,9 +1168,23 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getStoragePath">
 <span class="sig-name descname"><span class="pre">getStoragePath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getStoragePath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get path to file</p>
+<dd><p>Gets path to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1188,7 +1198,7 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.getStorageRef">
 <span class="sig-name descname"><span class="pre">getStorageRef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.getStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unique reference name for identification</p>
+<dd><p>Gets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1260,7 +1270,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setCaseSensitive">
 <span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Sets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1274,7 +1284,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setDimension">
 <span class="sig-name descname"><span class="pre">setDimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setDimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set embeddings dimension.</p>
+<dd><p>Sets embeddings dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1288,7 +1298,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setIncludeStorage">
 <span class="sig-name descname"><span class="pre">setIncludeStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setIncludeStorage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to include indexed storage in trained model</p>
+<dd><p>Sets whether to include indexed storage in trained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1302,11 +1312,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1316,14 +1326,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1332,7 +1342,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1344,9 +1354,38 @@ RecursivePipeline</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setReadCacheSize">
+<span class="sig-name descname"><span class="pre">setReadCacheSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordEmbeddings.setReadCacheSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setReadCacheSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets cache size for items retrieved from storage. Increase for
+performance but higher memory consumption.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">int</span></dt><dd><p>Cache size for items retrieved from storage</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setStoragePath">
 <span class="sig-name descname"><span class="pre">setStoragePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setStoragePath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set path to file</p>
+<dd><p>Sets path to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1364,11 +1403,26 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setStorageRef">
 <span class="sig-name descname"><span class="pre">setStorageRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set unique reference name for identification</p>
+<dd><p>Sets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Unique reference name for identification</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordEmbeddings.setWriteBufferSize">
+<span class="sig-name descname"><span class="pre">setWriteBufferSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordEmbeddings.setWriteBufferSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordEmbeddings.setWriteBufferSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets buffer size limit before dumping to disk storage while writing,
+by default 10000.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">int</span></dt><dd><p>Buffer size limit</p>
 </dd>
 </dl>
 </dd>

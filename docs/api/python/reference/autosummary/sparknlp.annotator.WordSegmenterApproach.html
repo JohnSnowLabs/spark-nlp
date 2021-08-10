@@ -734,16 +734,21 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">WordSegmenterApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
-<p>Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p>
-<p>Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
-Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
-impossible. The WordSegmenter is trained to understand these languages and split them into semantically correct parts.</p>
-<p>For instantiated/pretrained models, see WordSegmenterModel.</p>
-<p>To train your own model, a training dataset consisting of
-<a class="reference external" href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Part-Of-Speech tags</a> is required. The data has to be loaded
-into a dataframe, where the column is an Annotation of type <code class="docutils literal notranslate"><span class="pre">&quot;POS&quot;</span></code>. This can be
-set with <code class="docutils literal notranslate"><span class="pre">setPosColumn</span></code>.</p>
-<p><strong>Tip</strong>: The helper class POS might be useful to read training data into data frames.</p>
+<p>Trains a WordSegmenter which tokenizes non-english or non-whitespace
+separated texts.</p>
+<p>Many languages are not whitespace separated and their sentences are a
+concatenation of many symbols, like Korean, Japanese or Chinese. Without
+understanding the language, splitting the words into their corresponding
+tokens is impossible. The WordSegmenter is trained to understand these
+languages and split them into semantically correct parts.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="sparknlp.annotator.WordSegmenterModel.html#sparknlp.annotator.WordSegmenterModel" title="sparknlp.annotator.WordSegmenterModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordSegmenterModel</span></code></a>.</p>
+<p>To train your own model, a training dataset consisting of <a class="reference external" href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Part-Of-Speech
+tags</a> is required.
+The data has to be loaded into a dataframe, where the column is an
+Annotation of type <code class="docutils literal notranslate"><span class="pre">POS</span></code>. This can be set with <a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setPosColumn" title="sparknlp.annotator.WordSegmenterApproach.setPosColumn"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setPosColumn()</span></code></a>.</p>
+<p><strong>Tip</strong>:
+The helper class <a class="reference internal" href="sparknlp.training.POS.html#sparknlp.training.POS" title="sparknlp.training.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> might be useful to read training data into
+data frames.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -766,49 +771,46 @@ set with <code class="docutils literal notranslate"><span class="pre">setPosColu
 <dd class="field-odd"><dl class="simple">
 <dt><strong>posCol</strong></dt><dd><p>column of Array of POS tags that match tokens</p>
 </dd>
-<dt><strong>nIterations</strong></dt><dd><p>Number of iterations in training, converges to better accuracy, by default 5</p>
+<dt><strong>nIterations</strong></dt><dd><p>Number of iterations in training, converges to better accuracy, by
+default 5</p>
 </dd>
-<dt><strong>frequencyThreshold</strong></dt><dd><p>How many times at least a tag on a word to be marked as frequent, by default 5</p>
+<dt><strong>frequencyThreshold</strong></dt><dd><p>How many times at least a tag on a word to be marked as frequent, by
+default 5</p>
 </dd>
-<dt><strong>ambiguityThreshold</strong></dt><dd><p>How much percentage of total amount of words are covered to be marked as frequent, by default 0.97</p>
+<dt><strong>ambiguityThreshold</strong></dt><dd><p>How much percentage of total amount of words are covered to be marked as
+frequent, by default 0.97</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, `&quot;chinese_train.utf8&quot;` is in the form of</span>
-<span class="c1">#</span>
-<span class="c1"># 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR</span>
-<span class="c1">#</span>
-<span class="c1"># and is loaded with the `POS` class to create a dataframe of `&quot;POS&quot;` type Annotations.</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">wordSegmenter</span> <span class="o">=</span> <span class="n">WordSegmenterApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setPosColumn</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setNIterations</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">wordSegmenter</span>
-<span class="p">])</span>
-
-<span class="n">trainingDataSet</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span>
-    <span class="n">spark</span><span class="p">,</span>
-    <span class="s2">&quot;src/test/resources/word-segmenter/chinese_train.utf8&quot;</span>
-<span class="p">)</span>
-
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingDataSet</span><span class="p">)</span>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">&quot;chinese_train.utf8&quot;</span></code> is in the form of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">十</span><span class="o">|</span><span class="n">LL</span> <span class="n">四</span><span class="o">|</span><span class="n">RR</span> <span class="n">不</span><span class="o">|</span><span class="n">LL</span> <span class="n">是</span><span class="o">|</span><span class="n">RR</span> <span class="n">四</span><span class="o">|</span><span class="n">LL</span> <span class="n">十</span><span class="o">|</span><span class="n">RR</span>
+</pre></div>
+</div>
+<p>and is loaded with the <cite>POS</cite> class to create a dataframe of <code class="docutils literal notranslate"><span class="pre">POS</span></code> type
+Annotations.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wordSegmenter</span> <span class="o">=</span> <span class="n">WordSegmenterApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setPosColumn</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setNIterations</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">wordSegmenter</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingDataSet</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">spark</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;src/test/resources/word-segmenter/chinese_train.utf8&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingDataSet</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -842,32 +844,32 @@ set with <code class="docutils literal notranslate"><span class="pre">setPosColu
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.fitMultiple" title="sparknlp.annotator.WordSegmenterApproach.fitMultiple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitMultiple</span></code></a>(dataset, paramMaps)</p></td>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getAmbiguityThreshold</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getAmbiguityThreshold" title="sparknlp.annotator.WordSegmenterApproach.getAmbiguityThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getAmbiguityThreshold</span></code></a>()</p></td>
+<td><p>Sets How much percentage of total amount of words are covered to be marked as frequent.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getFrequencyThreshold</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getFrequencyThreshold" title="sparknlp.annotator.WordSegmenterApproach.getFrequencyThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getFrequencyThreshold</span></code></a>()</p></td>
+<td><p>Sets How many times at least a tag on a word to be marked as frequent.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getInputCols" title="sparknlp.annotator.WordSegmenterApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getLazyAnnotator" title="sparknlp.annotator.WordSegmenterApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNIterations</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getNIterations" title="sparknlp.annotator.WordSegmenterApproach.getNIterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getNIterations</span></code></a>()</p></td>
+<td><p>Gets number of iterations in training, converges to better accuracy.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getOrDefault" title="sparknlp.annotator.WordSegmenterApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getOutputCol" title="sparknlp.annotator.WordSegmenterApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getParam" title="sparknlp.annotator.WordSegmenterApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.getParamValue" title="sparknlp.annotator.WordSegmenterApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.hasDefault" title="sparknlp.annotator.WordSegmenterApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -893,29 +895,29 @@ set with <code class="docutils literal notranslate"><span class="pre">setPosColu
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.set" title="sparknlp.annotator.WordSegmenterApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAmbiguityThreshold</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setAmbiguityThreshold" title="sparknlp.annotator.WordSegmenterApproach.setAmbiguityThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setAmbiguityThreshold</span></code></a>(value)</p></td>
+<td><p>Sets the percentage of total amount of words are covered to be marked as frequent, by default 0.97.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFrequencyThreshold</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setFrequencyThreshold" title="sparknlp.annotator.WordSegmenterApproach.setFrequencyThreshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFrequencyThreshold</span></code></a>(value)</p></td>
+<td><p>Sets how many times at least a tag on a word to be marked as frequent, by default 5.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setInputCols" title="sparknlp.annotator.WordSegmenterApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setLazyAnnotator" title="sparknlp.annotator.WordSegmenterApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNIterations</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setNIterations" title="sparknlp.annotator.WordSegmenterApproach.setNIterations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNIterations</span></code></a>(value)</p></td>
+<td><p>Sets number of iterations in training, converges to better accuracy, by default 5.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setOutputCol" title="sparknlp.annotator.WordSegmenterApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setParamValue" title="sparknlp.annotator.WordSegmenterApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosColumn</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.setPosColumn" title="sparknlp.annotator.WordSegmenterApproach.setPosColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosColumn</span></code></a>(value)</p></td>
+<td><p>Sets column name for array of POS tags that match tokens.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.WordSegmenterApproach.write" title="sparknlp.annotator.WordSegmenterApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1062,16 +1064,61 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getAmbiguityThreshold">
+<span class="sig-name descname"><span class="pre">getAmbiguityThreshold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.getAmbiguityThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getAmbiguityThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets How much percentage of total amount of words are covered to be
+marked as frequent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>float</dt><dd><p>Percentage of total amount of words are covered to be
+marked as frequent</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getFrequencyThreshold">
+<span class="sig-name descname"><span class="pre">getFrequencyThreshold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.getFrequencyThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getFrequencyThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets How many times at least a tag on a word to be marked as
+frequent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>Frequency threshold to be marked as frequent</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getNIterations">
+<span class="sig-name descname"><span class="pre">getNIterations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.getNIterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getNIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets number of iterations in training, converges to better accuracy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>Number of iterations</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1084,13 +1131,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1152,13 +1213,44 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setAmbiguityThreshold">
+<span class="sig-name descname"><span class="pre">setAmbiguityThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.setAmbiguityThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setAmbiguityThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the percentage of total amount of words are covered to be
+marked as frequent, by default 0.97.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Percentage of total amount of words are covered to be
+marked as frequent</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setFrequencyThreshold">
+<span class="sig-name descname"><span class="pre">setFrequencyThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.setFrequencyThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setFrequencyThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets how many times at least a tag on a word to be marked as
+frequent, by default 5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Frequency threshold to be marked as frequent</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1168,14 +1260,29 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setNIterations">
+<span class="sig-name descname"><span class="pre">setNIterations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.setNIterations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setNIterations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets number of iterations in training, converges to better accuracy,
+by default 5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of iterations</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1184,11 +1291,39 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.WordSegmenterApproach.setPosColumn">
+<span class="sig-name descname"><span class="pre">setPosColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#WordSegmenterApproach.setPosColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.WordSegmenterApproach.setPosColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column name for array of POS tags that match tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the column</p>
 </dd>
 </dl>
 </dd>

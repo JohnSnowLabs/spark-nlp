@@ -735,8 +735,10 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NerOverwriter</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerOverwriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerOverwriter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
 <p>Overwrites entities of specified strings.</p>
-<p>The input for this Annotator have to be entities that are already extracted, Annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>.
-The strings specified with <code class="docutils literal notranslate"><span class="pre">setStopWords</span></code> will have new entities assigned to, specified with <code class="docutils literal notranslate"><span class="pre">setNewResult</span></code>.</p>
+<p>The input for this Annotator have to be entities that are already extracted,
+Annotator type <code class="docutils literal notranslate"><span class="pre">NAMED_ENTITY</span></code>. The strings specified with
+<a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setStopWords" title="sparknlp.annotator.NerOverwriter.setStopWords"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setStopWords()</span></code></a> will have new entities assigned to, specified with
+<a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setNewResult" title="sparknlp.annotator.NerOverwriter.setNewResult"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setNewResult()</span></code></a>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -764,87 +766,79 @@ The strings specified with <code class="docutils literal notranslate"><span clas
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="c1"># First extract the prerequisite Entities</span>
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;bert&quot;</span><span class="p">)</span>
-
-<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;bert&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">sentence</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">nerTagger</span>
-<span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;Spark NLP Crosses Five Million Downloads, John Snow Labs Announces.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(ner)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="c1"># +------------------------------------------------------+</span>
-<span class="c1"># |col                                                   |</span>
-<span class="c1"># +------------------------------------------------------+</span>
-<span class="c1"># |[named_entity, 0, 4, B-ORG, [word -&gt; Spark], []]      |</span>
-<span class="c1"># |[named_entity, 6, 8, I-ORG, [word -&gt; NLP], []]        |</span>
-<span class="c1"># |[named_entity, 10, 16, O, [word -&gt; Crosses], []]      |</span>
-<span class="c1"># |[named_entity, 18, 21, O, [word -&gt; Five], []]         |</span>
-<span class="c1"># |[named_entity, 23, 29, O, [word -&gt; Million], []]      |</span>
-<span class="c1"># |[named_entity, 31, 39, O, [word -&gt; Downloads], []]    |</span>
-<span class="c1"># |[named_entity, 40, 40, O, [word -&gt; ,], []]            |</span>
-<span class="c1"># |[named_entity, 42, 45, B-ORG, [word -&gt; John], []]     |</span>
-<span class="c1"># |[named_entity, 47, 50, I-ORG, [word -&gt; Snow], []]     |</span>
-<span class="c1"># |[named_entity, 52, 55, I-ORG, [word -&gt; Labs], []]     |</span>
-<span class="c1"># |[named_entity, 57, 65, I-ORG, [word -&gt; Announces], []]|</span>
-<span class="c1"># |[named_entity, 66, 66, O, [word -&gt; .], []]            |</span>
-<span class="c1"># +------------------------------------------------------+</span>
-
-<span class="c1"># The recognized entities can then be overwritten</span>
-<span class="n">nerOverwriter</span> <span class="o">=</span> <span class="n">NerOverwriter</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;ner&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_overwritten&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setStopWords</span><span class="p">([</span><span class="s2">&quot;Million&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setNewResult</span><span class="p">(</span><span class="s2">&quot;B-CARDINAL&quot;</span><span class="p">)</span>
-
-<span class="n">nerOverwriter</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(ner_overwritten)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+---------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">col</span>                                                      <span class="o">|</span>
-<span class="o">+---------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Spark</span><span class="p">],</span> <span class="p">[]]</span>         <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">NLP</span><span class="p">],</span> <span class="p">[]]</span>           <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Crosses</span><span class="p">],</span> <span class="p">[]]</span>         <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Five</span><span class="p">],</span> <span class="p">[]]</span>            <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">CARDINAL</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Million</span><span class="p">],</span> <span class="p">[]]</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Downloads</span><span class="p">],</span> <span class="p">[]]</span>       <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="p">,],</span> <span class="p">[]]</span>               <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">John</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Snow</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Labs</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Announces</span><span class="p">],</span> <span class="p">[]]</span>   <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="o">.</span><span class="p">],</span> <span class="p">[]]</span>               <span class="o">|</span>
-<span class="o">+---------------------------------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+</pre></div>
+</div>
+<p>First extract the prerequisite Entities</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;bert&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;bert&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;Spark NLP Crosses Five Million Downloads, John Snow Labs Announces.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(ner)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------------------------------------------------------+</span>
+<span class="go">|col                                                   |</span>
+<span class="go">+------------------------------------------------------+</span>
+<span class="go">|[named_entity, 0, 4, B-ORG, [word -&gt; Spark], []]      |</span>
+<span class="go">|[named_entity, 6, 8, I-ORG, [word -&gt; NLP], []]        |</span>
+<span class="go">|[named_entity, 10, 16, O, [word -&gt; Crosses], []]      |</span>
+<span class="go">|[named_entity, 18, 21, O, [word -&gt; Five], []]         |</span>
+<span class="go">|[named_entity, 23, 29, O, [word -&gt; Million], []]      |</span>
+<span class="go">|[named_entity, 31, 39, O, [word -&gt; Downloads], []]    |</span>
+<span class="go">|[named_entity, 40, 40, O, [word -&gt; ,], []]            |</span>
+<span class="go">|[named_entity, 42, 45, B-ORG, [word -&gt; John], []]     |</span>
+<span class="go">|[named_entity, 47, 50, I-ORG, [word -&gt; Snow], []]     |</span>
+<span class="go">|[named_entity, 52, 55, I-ORG, [word -&gt; Labs], []]     |</span>
+<span class="go">|[named_entity, 57, 65, I-ORG, [word -&gt; Announces], []]|</span>
+<span class="go">|[named_entity, 66, 66, O, [word -&gt; .], []]            |</span>
+<span class="go">+------------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>The recognized entities can then be overwritten</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nerOverwriter</span> <span class="o">=</span> <span class="n">NerOverwriter</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;ner&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_overwritten&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStopWords</span><span class="p">([</span><span class="s2">&quot;Million&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setNewResult</span><span class="p">(</span><span class="s2">&quot;B-CARDINAL&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerOverwriter</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(ner_overwritten)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+---------------------------------------------------------+</span>
+<span class="go">|col                                                      |</span>
+<span class="go">+---------------------------------------------------------+</span>
+<span class="go">|[named_entity, 0, 4, B-ORG, [word -&gt; Spark], []]         |</span>
+<span class="go">|[named_entity, 6, 8, I-ORG, [word -&gt; NLP], []]           |</span>
+<span class="go">|[named_entity, 10, 16, O, [word -&gt; Crosses], []]         |</span>
+<span class="go">|[named_entity, 18, 21, O, [word -&gt; Five], []]            |</span>
+<span class="go">|[named_entity, 23, 29, B-CARDINAL, [word -&gt; Million], []]|</span>
+<span class="go">|[named_entity, 31, 39, O, [word -&gt; Downloads], []]       |</span>
+<span class="go">|[named_entity, 40, 40, O, [word -&gt; ,], []]               |</span>
+<span class="go">|[named_entity, 42, 45, B-ORG, [word -&gt; John], []]        |</span>
+<span class="go">|[named_entity, 47, 50, I-ORG, [word -&gt; Snow], []]        |</span>
+<span class="go">|[named_entity, 52, 55, I-ORG, [word -&gt; Labs], []]        |</span>
+<span class="go">|[named_entity, 57, 65, I-ORG, [word -&gt; Announces], []]   |</span>
+<span class="go">|[named_entity, 66, 66, O, [word -&gt; .], []]               |</span>
+<span class="go">+---------------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -873,22 +867,22 @@ The strings specified with <code class="docutils literal notranslate"><span clas
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.getInputCols" title="sparknlp.annotator.NerOverwriter.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.getLazyAnnotator" title="sparknlp.annotator.NerOverwriter.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.getOrDefault" title="sparknlp.annotator.NerOverwriter.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.getOutputCol" title="sparknlp.annotator.NerOverwriter.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.getParam" title="sparknlp.annotator.NerOverwriter.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.getParamValue" title="sparknlp.annotator.NerOverwriter.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.hasDefault" title="sparknlp.annotator.NerOverwriter.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -915,25 +909,25 @@ The strings specified with <code class="docutils literal notranslate"><span clas
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setInputCols" title="sparknlp.annotator.NerOverwriter.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setLazyAnnotator" title="sparknlp.annotator.NerOverwriter.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNewResult</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setNewResult" title="sparknlp.annotator.NerOverwriter.setNewResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNewResult</span></code></a>(value)</p></td>
+<td><p>Sets new NER class to apply to those stopwords, by default I-OVERWRITE.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setOutputCol" title="sparknlp.annotator.NerOverwriter.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setParamValue" title="sparknlp.annotator.NerOverwriter.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStopWords</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.setStopWords" title="sparknlp.annotator.NerOverwriter.setStopWords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStopWords</span></code></a>(value)</p></td>
+<td><p>Sets the words to be overwritten.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerOverwriter.transform" title="sparknlp.annotator.NerOverwriter.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1035,14 +1029,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1055,13 +1049,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1125,11 +1133,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1139,14 +1147,29 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.setNewResult">
+<span class="sig-name descname"><span class="pre">setNewResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerOverwriter.setNewResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.setNewResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets new NER class to apply to those stopwords, by default
+I-OVERWRITE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>NER class to apply the stopwords to</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1155,11 +1178,39 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerOverwriter.setStopWords">
+<span class="sig-name descname"><span class="pre">setStopWords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerOverwriter.setStopWords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerOverwriter.setStopWords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the words to be overwritten.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>The words to be overwritten</p>
 </dd>
 </dl>
 </dd>

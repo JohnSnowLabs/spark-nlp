@@ -736,10 +736,10 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.AnnotatorTransformer</span></code></p>
 <p>Prepares data into a format that is processable by Spark NLP.</p>
 <p>This is the entry point for every Spark NLP pipeline. The
-<code class="docutils literal notranslate"><span class="pre">DocumentAssembler</span></code> can read either a <code class="docutils literal notranslate"><span class="pre">String</span></code> column or an
-<code class="docutils literal notranslate"><span class="pre">Array[String]</span></code>. Additionally, setCleanupMode can be used to pre-process
-the text (Default: <code class="docutils literal notranslate"><span class="pre">disabled</span></code>). For possible options please refer the
-parameters section.</p>
+<cite>DocumentAssembler</cite> can read either a <code class="docutils literal notranslate"><span class="pre">String</span></code> column or an
+<code class="docutils literal notranslate"><span class="pre">Array[String]</span></code>. Additionally, <a class="reference internal" href="#sparknlp.base.DocumentAssembler.setCleanupMode" title="sparknlp.base.DocumentAssembler.setCleanupMode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setCleanupMode()</span></code></a> can be used to
+pre-process the text (Default: <code class="docutils literal notranslate"><span class="pre">disabled</span></code>). For possible options please
+refer the parameters section.</p>
 <p>For more extended examples on document pre-processing see the
 <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
@@ -838,8 +838,8 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.getParam" title="sparknlp.base.DocumentAssembler.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.getParamValue" title="sparknlp.base.DocumentAssembler.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.hasDefault" title="sparknlp.base.DocumentAssembler.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -866,25 +866,25 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setCalculationsCol" title="sparknlp.base.DocumentAssembler.setCalculationsCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCalculationsCol</span></code></a>(value)</p></td>
-<td><p>Set name of float vector map column to use for embeddings and other representations.</p></td>
+<td><p>Sets name of float vector map column to use for embeddings and other representations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setCleanupMode" title="sparknlp.base.DocumentAssembler.setCleanupMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCleanupMode</span></code></a>(value)</p></td>
-<td><p>Set how to cleanup the document , by default disabled.</p></td>
+<td><p>Sets how to cleanup the document, by default disabled.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setIdCol" title="sparknlp.base.DocumentAssembler.setIdCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIdCol</span></code></a>(value)</p></td>
-<td><p>Set name of string type column for row id.</p></td>
+<td><p>Sets name of string type column for row id.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setInputCol" title="sparknlp.base.DocumentAssembler.setInputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCol</span></code></a>(value)</p></td>
-<td><p>Set input column name.</p></td>
+<td><p>Sets input column name.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setMetadataCol" title="sparknlp.base.DocumentAssembler.setMetadataCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMetadataCol</span></code></a>(value)</p></td>
-<td><p>Set name for Map type column with metadata information.</p></td>
+<td><p>Sets name for Map type column with metadata information.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setOutputCol" title="sparknlp.base.DocumentAssembler.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name.</p></td>
+<td><p>Sets output column name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.DocumentAssembler.setParamValue" title="sparknlp.base.DocumentAssembler.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
@@ -1003,6 +1003,20 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.DocumentAssembler.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.hasDefault">
 <span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.DocumentAssembler.hasDefault" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks whether a param has a default value.</p>
@@ -1063,7 +1077,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setCalculationsCol">
 <span class="sig-name descname"><span class="pre">setCalculationsCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#DocumentAssembler.setCalculationsCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setCalculationsCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set name of float vector map column to use for embeddings and other
+<dd><p>Sets name of float vector map column to use for embeddings and other
 representations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1078,7 +1092,7 @@ representations.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setCleanupMode">
 <span class="sig-name descname"><span class="pre">setCleanupMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#DocumentAssembler.setCleanupMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setCleanupMode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set how to cleanup the document , by default disabled.
+<dd><p>Sets how to cleanup the document, by default disabled.
 Possible values: <code class="docutils literal notranslate"><span class="pre">disabled,</span> <span class="pre">inplace,</span> <span class="pre">inplace_full,</span> <span class="pre">shrink,</span> <span class="pre">shrink_full,</span>
 <span class="pre">each,</span> <span class="pre">each_full,</span> <span class="pre">delete_full</span></code></p>
 <dl class="field-list simple">
@@ -1094,7 +1108,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setIdCol">
 <span class="sig-name descname"><span class="pre">setIdCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#DocumentAssembler.setIdCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setIdCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set name of string type column for row id.</p>
+<dd><p>Sets name of string type column for row id.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1108,7 +1122,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setInputCol">
 <span class="sig-name descname"><span class="pre">setInputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#DocumentAssembler.setInputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setInputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set input column name.</p>
+<dd><p>Sets input column name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1122,7 +1136,7 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setMetadataCol">
 <span class="sig-name descname"><span class="pre">setMetadataCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#DocumentAssembler.setMetadataCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setMetadataCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set name for Map type column with metadata information.</p>
+<dd><p>Sets name for Map type column with metadata information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1136,11 +1150,25 @@ Possible values: <code class="docutils literal notranslate"><span class="pre">di
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#DocumentAssembler.setOutputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name.</p>
+<dd><p>Sets output column name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the Output Column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.DocumentAssembler.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.DocumentAssembler.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
 </dd>
 </dl>
 </dd>

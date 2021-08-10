@@ -734,44 +734,26 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">XlmRoBertaEmbeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaEmbeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasEmbeddingsProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasCaseSensitiveProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasStorageRef</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasBatchedAnnotate</span></code></p>
-<p>The XLM-RoBERTa model was proposed in <a class="reference external" href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a>
-by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
-Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based on Facebook’s
-RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl
-data.</p>
-<p>Pretrained models can be loaded with <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of the companion object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<p>The XLM-RoBERTa model was proposed in <cite>Unsupervised Cross-lingual
+Representation Learning at Scale</cite> by Alexis Conneau, Kartikay Khandelwal,
+Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard
+Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov.</p>
+<p>It is based on Facebook’s RoBERTa model released in 2019. It is a large
+multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.pretrained" title="sparknlp.annotator.XlmRoBertaEmbeddings.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;xlm_roberta_base&quot;</span></code>, default language is <code class="docutils literal notranslate"><span class="pre">&quot;xx&quot;</span></code> (meaning multi-lingual), if no values are provided.
-For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;xlm_roberta_base&quot;</span></code>, default language is <code class="docutils literal notranslate"><span class="pre">&quot;xx&quot;</span></code>
+(meaning multi-lingual), if no values are provided. For available pretrained
+models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">Spark NLP Workshop</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p>
-<p><strong>Paper Abstract:</strong></p>
-<p><em>This paper shows that pretraining multilingual language models at scale leads to significant performance gains for a
-wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one hundred
-languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly
-outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on
-XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on
-low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model. We
-also present a detailed empirical evaluation of the key factors that are required to achieve these gains, including the
-trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high and low resource
-languages at scale. Finally, we show, for the first time, the possibility of multilingual modeling without sacrificing
-per-language performance; XLM-Ris very competitive with strong monolingual models on the GLUE and XNLI benchmarks. We
-will make XLM-R code, data, and models publicly available.</em></p>
-<dl class="simple">
-<dt><strong>Tips:</strong></dt><dd><ul class="simple">
-<li><p>XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM multilingual models, it does
-not require <strong>lang</strong> parameter to understand which language is used, and should be able to determine the correct
-language from the input ids.</p></li>
-<li><p>This implementation is the same as RoBERTa. Refer to the RoBertaEmbeddings for usage examples
-as well as the information relative to the inputs and outputs.</p></li>
-</ul>
-</dd>
-</dl>
+Models from the HuggingFace 🤗 Transformers library are also compatible with
+Spark NLP 🚀. To see which models are compatible and how to import them see
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -795,7 +777,8 @@ as well as the information relative to the inputs and outputs.</p></li>
 </dd>
 <dt><strong>dimension</strong></dt><dd><p>Number of embedding dimensions, by default 768</p>
 </dd>
-<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case in tokens for embeddings matching, by default True</p>
+<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case in tokens for embeddings matching, by default
+True</p>
 </dd>
 <dt><strong>maxSentenceLength</strong></dt><dd><p>Max sentence length to process, by default 128</p>
 </dd>
@@ -804,54 +787,76 @@ as well as the information relative to the inputs and outputs.</p></li>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>XLM-RoBERTa is a multilingual model trained on 100 different languages.
+Unlike some XLM multilingual models, it does not require <strong>lang</strong>
+parameter to understand which language is used, and should be able to
+determine the correct language from the input ids.</p></li>
+<li><p>This implementation is the same as RoBERTa. Refer to
+<a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html#sparknlp.annotator.RoBertaEmbeddings" title="sparknlp.annotator.RoBertaEmbeddings"><code class="xref py py-class docutils literal notranslate"><span class="pre">RoBertaEmbeddings</span></code></a> for usage examples as well as the information
+relative to the inputs and outputs.</p></li>
+</ul>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual
+Representation Learning at Scale</a></p>
+<p><strong>Paper Abstract:</strong></p>
+<p><em>This paper shows that pretraining multilingual language models at scale
+leads to significant performance gains for a wide range of cross-lingual
+transfer tasks. We train a Transformer-based masked language model on one
+hundred languages, using more than two terabytes of filtered CommonCrawl
+data. Our model, dubbed XLM-R, significantly outperforms multilingual BERT
+(mBERT) on a variety of cross-lingual benchmarks, including +13.8% average
+accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1
+score on NER. XLM-R performs particularly well on low-resource languages,
+improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the
+previous XLM model. We also present a detailed empirical evaluation of the
+key factors that are required to achieve these gains, including the
+trade-offs between (1) positive transfer and capacity dilution and (2) the
+performance of high and low resource languages at scale. Finally, we show,
+for the first time, the possibility of multilingual modeling without
+sacrificing per-language performance; XLM-Ris very competitive with strong
+monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code,
+data, and models publicly available.</em></p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;finished_embeddings&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-      <span class="n">documentAssembler</span><span class="p">,</span>
-      <span class="n">tokenizer</span><span class="p">,</span>
-      <span class="n">embeddings</span><span class="p">,</span>
-      <span class="n">embeddingsFinisher</span>
-    <span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;This is a sentence.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(finished_embeddings) as result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
-<span class="o">+--------------------------------------------------------------------------------+</span>
-<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="o">-</span><span class="mf">0.05969233065843582</span><span class="p">,</span><span class="o">-</span><span class="mf">0.030789051204919815</span><span class="p">,</span><span class="mf">0.04443822056055069</span><span class="p">,</span><span class="mf">0.09564960747</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="o">-</span><span class="mf">0.038839809596538544</span><span class="p">,</span><span class="mf">0.011712731793522835</span><span class="p">,</span><span class="mf">0.019954433664679527</span><span class="p">,</span><span class="mf">0.0667808502</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="o">-</span><span class="mf">0.03952755779027939</span><span class="p">,</span><span class="o">-</span><span class="mf">0.03455188870429993</span><span class="p">,</span><span class="mf">0.019103847444057465</span><span class="p">,</span><span class="mf">0.04311436787</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="o">-</span><span class="mf">0.09579929709434509</span><span class="p">,</span><span class="mf">0.02494969218969345</span><span class="p">,</span><span class="o">-</span><span class="mf">0.014753809198737144</span><span class="p">,</span><span class="mf">0.10259044915</span><span class="o">...|</span>
-<span class="o">|</span><span class="p">[</span><span class="mf">0.004710011184215546</span><span class="p">,</span><span class="o">-</span><span class="mf">0.022148698568344116</span><span class="p">,</span><span class="mf">0.011723337695002556</span><span class="p">,</span><span class="o">-</span><span class="mf">0.013356896</span><span class="o">...|</span>
-<span class="o">+--------------------------------------------------------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;finished_embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>      <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">embeddingsFinisher</span>
+<span class="gp">... </span>    <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;This is a sentence.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(finished_embeddings) as result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="go">+--------------------------------------------------------------------------------+</span>
+<span class="go">|                                                                          result|</span>
+<span class="go">+--------------------------------------------------------------------------------+</span>
+<span class="go">|[-0.05969233065843582,-0.030789051204919815,0.04443822056055069,0.09564960747...|</span>
+<span class="go">|[-0.038839809596538544,0.011712731793522835,0.019954433664679527,0.0667808502...|</span>
+<span class="go">|[-0.03952755779027939,-0.03455188870429993,0.019103847444057465,0.04311436787...|</span>
+<span class="go">|[-0.09579929709434509,0.02494969218969345,-0.014753809198737144,0.10259044915...|</span>
+<span class="go">|[0.004710011184215546,-0.022148698568344116,0.011723337695002556,-0.013356896...|</span>
+<span class="go">+--------------------------------------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -880,34 +885,34 @@ as well as the information relative to the inputs and outputs.</p></li>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getBatchSize" title="sparknlp.annotator.XlmRoBertaEmbeddings.getBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBatchSize</span></code></a>()</p></td>
-<td><p>Get current batch size</p></td>
+<td><p>Gets current batch size.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getCaseSensitive" title="sparknlp.annotator.XlmRoBertaEmbeddings.getCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitive</span></code></a>()</p></td>
-<td><p>Get whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Gets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getDimension" title="sparknlp.annotator.XlmRoBertaEmbeddings.getDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getDimension</span></code></a>()</p></td>
-<td><p>Get embeddings dimension.</p></td>
+<td><p>Gets embeddings dimension.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getInputCols" title="sparknlp.annotator.XlmRoBertaEmbeddings.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getLazyAnnotator" title="sparknlp.annotator.XlmRoBertaEmbeddings.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getOrDefault" title="sparknlp.annotator.XlmRoBertaEmbeddings.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getOutputCol" title="sparknlp.annotator.XlmRoBertaEmbeddings.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getParam" title="sparknlp.annotator.XlmRoBertaEmbeddings.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getParamValue" title="sparknlp.annotator.XlmRoBertaEmbeddings.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getStorageRef" title="sparknlp.annotator.XlmRoBertaEmbeddings.getStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getStorageRef</span></code></a>()</p></td>
-<td><p>Get unique reference name for identification</p></td>
+<td><p>Gets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.hasDefault" title="sparknlp.annotator.XlmRoBertaEmbeddings.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -940,37 +945,37 @@ as well as the information relative to the inputs and outputs.</p></li>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setBatchSize" title="sparknlp.annotator.XlmRoBertaEmbeddings.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
-<td><p>Set batch size</p></td>
+<td><p>Sets batch size.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setCaseSensitive" title="sparknlp.annotator.XlmRoBertaEmbeddings.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
-<td><p>Set whether to ignore case in tokens for embeddings matching</p></td>
+<td><p>Sets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setConfigProtoBytes" title="sparknlp.annotator.XlmRoBertaEmbeddings.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setDimension" title="sparknlp.annotator.XlmRoBertaEmbeddings.setDimension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDimension</span></code></a>(value)</p></td>
-<td><p>Set embeddings dimension.</p></td>
+<td><p>Sets embeddings dimension.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setInputCols" title="sparknlp.annotator.XlmRoBertaEmbeddings.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setLazyAnnotator" title="sparknlp.annotator.XlmRoBertaEmbeddings.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setMaxSentenceLength" title="sparknlp.annotator.XlmRoBertaEmbeddings.setMaxSentenceLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code></a>(value)</p></td>
-<td><p>Set max sentence length to process</p></td>
+<td><p>Sets max sentence length to process.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setOutputCol" title="sparknlp.annotator.XlmRoBertaEmbeddings.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setParamValue" title="sparknlp.annotator.XlmRoBertaEmbeddings.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setStorageRef" title="sparknlp.annotator.XlmRoBertaEmbeddings.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
-<td><p>Set unique reference name for identification</p></td>
+<td><p>Sets unique reference name for identification.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaEmbeddings.transform" title="sparknlp.annotator.XlmRoBertaEmbeddings.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1084,7 +1089,7 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getBatchSize">
 <span class="sig-name descname"><span class="pre">getBatchSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getBatchSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current batch size</p>
+<dd><p>Gets current batch size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1098,7 +1103,7 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getCaseSensitive">
 <span class="sig-name descname"><span class="pre">getCaseSensitive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Gets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1112,20 +1117,20 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getDimension">
 <span class="sig-name descname"><span class="pre">getDimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getDimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get embeddings dimension.</p>
+<dd><p>Gets embeddings dimension.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1138,7 +1143,7 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1148,9 +1153,23 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.getStorageRef">
 <span class="sig-name descname"><span class="pre">getStorageRef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.getStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get unique reference name for identification</p>
+<dd><p>Gets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1208,7 +1227,7 @@ a default value.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>XlmRoBertaEmbeddings</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1230,17 +1249,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “xlm_roberta_base”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>XlmRoBertaEmbeddings</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1268,7 +1288,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setBatchSize">
 <span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setBatchSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set batch size</p>
+<dd><p>Sets batch size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1282,7 +1302,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setCaseSensitive">
 <span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to ignore case in tokens for embeddings matching</p>
+<dd><p>Sets whether to ignore case in tokens for embeddings matching.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1296,7 +1316,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaEmbeddings.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1310,7 +1330,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setDimension">
 <span class="sig-name descname"><span class="pre">setDimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setDimension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set embeddings dimension.</p>
+<dd><p>Sets embeddings dimension.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1324,11 +1344,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1338,14 +1358,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1354,7 +1374,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setMaxSentenceLength">
 <span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaEmbeddings.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setMaxSentenceLength" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set max sentence length to process</p>
+<dd><p>Sets max sentence length to process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1368,7 +1388,7 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1380,9 +1400,23 @@ RecursivePipeline</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaEmbeddings.setStorageRef">
 <span class="sig-name descname"><span class="pre">setStorageRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaEmbeddings.setStorageRef" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set unique reference name for identification</p>
+<dd><p>Sets unique reference name for identification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">

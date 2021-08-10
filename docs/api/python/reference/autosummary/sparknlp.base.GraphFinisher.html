@@ -734,6 +734,55 @@
 <dt class="sig sig-object py" id="sparknlp.base.GraphFinisher">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.base.</span></span><span class="sig-name descname"><span class="pre">GraphFinisher</span></span><a class="reference internal" href="../../modules/sparknlp/base.html#GraphFinisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.GraphFinisher" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.AnnotatorTransformer</span></code></p>
+<p>Helper class to convert the knowledge graph from GraphExtraction into a
+generic format, such as RDF.</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NONE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NONE</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>inputCol</strong></dt><dd><p>Name of input annotation column</p>
+</dd>
+<dt><strong>outputCol</strong></dt><dd><p>Name of finisher output column</p>
+</dd>
+<dt><strong>cleanAnnotations</strong></dt><dd><p>Whether to remove all the existing annotation columns, by default True</p>
+</dd>
+<dt><strong>outputAsArray</strong></dt><dd><p>Whether to generate an Array with the results, by default True</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>This is a continuation of the example of
+<a class="reference internal" href="sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction" title="sparknlp.annotator.GraphExtraction"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphExtraction</span></code></a>. To see how the graph is extracted, see the
+documentation of that class.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graphFinisher</span> <span class="o">=</span> <span class="n">GraphFinisher</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;graph_finished&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputAsArray</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">finishedResult</span> <span class="o">=</span> <span class="n">graphFinisher</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">finishedResult</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;graph_finished&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+<span class="go">|text                                                 |graph_finished                                                         |</span>
+<span class="go">+-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+<span class="go">|You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|</span>
+<span class="go">+-----------------------------------------------------+-----------------------------------------------------------------------+</span>
+</pre></div>
+</div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
 <colgroup>
@@ -765,8 +814,8 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.getParam" title="sparknlp.base.GraphFinisher.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.getParamValue" title="sparknlp.base.GraphFinisher.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.hasDefault" title="sparknlp.base.GraphFinisher.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -792,20 +841,20 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.set" title="sparknlp.base.GraphFinisher.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCleanAnnotations</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.setCleanAnnotations" title="sparknlp.base.GraphFinisher.setCleanAnnotations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCleanAnnotations</span></code></a>(value)</p></td>
+<td><p>Sets whether to remove all the existing annotation columns, by default True.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCol</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.setInputCol" title="sparknlp.base.GraphFinisher.setInputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCol</span></code></a>(value)</p></td>
+<td><p>Sets name of input annotation column.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputAsArray</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.setOutputAsArray" title="sparknlp.base.GraphFinisher.setOutputAsArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputAsArray</span></code></a>(value)</p></td>
+<td><p>Sets whether to generate an Array with the results, by default True.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.setOutputCol" title="sparknlp.base.GraphFinisher.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<td><p>Sets name of finisher output column.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.GraphFinisher.setParamValue" title="sparknlp.base.GraphFinisher.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
@@ -918,6 +967,20 @@ default value. Raises an error if neither is set.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.GraphFinisher.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.hasDefault">
 <span class="sig-name descname"><span class="pre">hasDefault</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.GraphFinisher.hasDefault" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks whether a param has a default value.</p>
@@ -973,6 +1036,77 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.set">
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.GraphFinisher.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.setCleanAnnotations">
+<span class="sig-name descname"><span class="pre">setCleanAnnotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#GraphFinisher.setCleanAnnotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.GraphFinisher.setCleanAnnotations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to remove all the existing annotation columns, by
+default True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to remove all the existing annotation columns, by default True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.setInputCol">
+<span class="sig-name descname"><span class="pre">setInputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#GraphFinisher.setInputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.GraphFinisher.setInputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets name of input annotation column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of input annotation column.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.setOutputAsArray">
+<span class="sig-name descname"><span class="pre">setOutputAsArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#GraphFinisher.setOutputAsArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.GraphFinisher.setOutputAsArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to generate an Array with the results, by default True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to generate an Array with the results, by default True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.setOutputCol">
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#GraphFinisher.setOutputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.GraphFinisher.setOutputCol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets name of finisher output column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of finisher output column.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.GraphFinisher.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.base.GraphFinisher.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

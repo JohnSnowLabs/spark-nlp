@@ -169,13 +169,39 @@
 <span class="sd">    ----------</span>
 <span class="sd">    f : function</span>
 <span class="sd">        The function to be applied over the results</span>
-<span class="sd">    output_type : DataType</span>
+<span class="sd">    output_type : :class:`pyspark.sql.types.DataType`</span>
 <span class="sd">        Output type of the data</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`UserDefinedFunction`</span>
+<span class="sd">    :func:`pyspark.sql.functions.udf`</span>
 <span class="sd">        Spark UserDefinedFunction (udf)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">    &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;U.N. official Ekeus heads for Baghdad.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = explain_document_pipeline.transform(data)</span>
+
+<span class="sd">    The array type must be provided in order to tell Spark the expected output</span>
+<span class="sd">    type of our column. We are using an Annotation array here.</span>
+
+<span class="sd">    &gt;&gt;&gt; from sparknlp.functions import *</span>
+<span class="sd">    &gt;&gt;&gt; def nnp_tokens(annotations: List[Row]):</span>
+<span class="sd">    ...     return list(</span>
+<span class="sd">    ...         filter(lambda annotation: annotation.result == &#39;NNP&#39;, annotations)</span>
+<span class="sd">    ...     )</span>
+<span class="sd">    &gt;&gt;&gt; result.select(</span>
+<span class="sd">    ...     map_annotations(nnp_tokens, Annotation.arrayType())(&#39;pos&#39;).alias(&quot;nnp&quot;)</span>
+<span class="sd">    ... ).selectExpr(&quot;explode(nnp) as nnp&quot;).show(truncate=False)</span>
+<span class="sd">    +-----------------------------------------+</span>
+<span class="sd">    |nnp                                      |</span>
+<span class="sd">    +-----------------------------------------+</span>
+<span class="sd">    |[pos, 0, 2, NNP, [word -&gt; U.N], []]      |</span>
+<span class="sd">    |[pos, 14, 18, NNP, [word -&gt; Epeus], []]  |</span>
+<span class="sd">    |[pos, 30, 36, NNP, [word -&gt; Baghdad], []]|</span>
+<span class="sd">    +-----------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">udf</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">content</span><span class="p">:</span> <span class="p">[</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">toRow</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">f</span><span class="p">([</span><span class="n">Annotation</span><span class="o">.</span><span class="n">fromRow</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">content</span><span class="p">])],</span>
@@ -189,12 +215,12 @@
 <span class="sd">    ----------</span>
 <span class="sd">    f : function</span>
 <span class="sd">        The function to be applied over the results</span>
-<span class="sd">    output_type : DataType</span>
+<span class="sd">    output_type : :class:`pyspark.sql.types.DataType`</span>
 <span class="sd">        Output type of the data</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`UserDefinedFunction`</span>
+<span class="sd">    :func:`pyspark.sql.functions.udf`</span>
 <span class="sd">        Spark UserDefinedFunction (udf)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">udf</span><span class="p">(</span>
@@ -203,8 +229,8 @@
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="map_annotations_strict"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.functions.map_annotations_strict.html#sparknlp.functions.map_annotations_strict">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_strict</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s results, for which the return type is explicitly defined as</span>
-<span class="sd">    a :func:`Annotation.dataType`.</span>
+    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s results, for which the</span>
+<span class="sd">    return type is explicitly defined as a `Annotation.dataType()`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -213,8 +239,29 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`UserDefinedFunction`</span>
+<span class="sd">    :func:`pyspark.sql.functions.udf`</span>
 <span class="sd">        Spark UserDefinedFunction (udf)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">    &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;U.N. official Ekeus heads for Baghdad.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = explain_document_pipeline.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; def nnp_tokens(annotations):</span>
+<span class="sd">    ...     return list(</span>
+<span class="sd">    ...         filter(lambda annotation: annotation.result == &#39;NNP&#39;, annotations)</span>
+<span class="sd">    ...     )</span>
+<span class="sd">    &gt;&gt;&gt; result.select(</span>
+<span class="sd">    ...     map_annotations_strict(nnp_tokens)(&#39;pos&#39;).alias(&quot;nnp&quot;)</span>
+<span class="sd">    ... ).selectExpr(&quot;explode(nnp) as nnp&quot;).show(truncate=False)</span>
+<span class="sd">    +-----------------------------------------+</span>
+<span class="sd">    |nnp                                      |</span>
+<span class="sd">    +-----------------------------------------+</span>
+<span class="sd">    |[pos, 0, 2, NNP, [word -&gt; U.N], []]      |</span>
+<span class="sd">    |[pos, 14, 18, NNP, [word -&gt; Epeus], []]  |</span>
+<span class="sd">    |[pos, 30, 36, NNP, [word -&gt; Baghdad], []]|</span>
+<span class="sd">    +-----------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">udf</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">content</span><span class="p">:</span> <span class="p">[</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">toRow</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">f</span><span class="p">([</span><span class="n">Annotation</span><span class="o">.</span><span class="n">fromRow</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">content</span><span class="p">])],</span>
@@ -224,49 +271,125 @@
 
 <div class="viewcode-block" id="map_annotations_col"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.functions.map_annotations_col.html#sparknlp.functions.map_annotations_col">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_col</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">annotatyon_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                         <span class="n">output_type</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">arrayType</span><span class="p">()):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s array results, for which the return type is explicitly defined as</span>
-<span class="sd">    a :class:`Annotation`.</span>
+    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over a column of Annotation results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    dataframe : DataFrame</span>
+<span class="sd">        Input DataFrame</span>
 <span class="sd">    f : function</span>
-<span class="sd">        The function to be applied over the results</span>
-<span class="sd">    output_type : DataType</span>
-<span class="sd">        Output type of the data</span>
+<span class="sd">        Function to apply to the column</span>
+<span class="sd">    column : str</span>
+<span class="sd">        Name of the input column</span>
+<span class="sd">    output_column : str</span>
+<span class="sd">        Name of the output column</span>
+<span class="sd">    annotatyon_type : str</span>
+<span class="sd">        Annotator type</span>
+<span class="sd">    output_type : DataType, optional</span>
+<span class="sd">        Output type, by default Annotation.arrayType()</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`UserDefinedFunction`</span>
-<span class="sd">        Spark UserDefinedFunction (udf)</span>
+<span class="sd">    :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">        Transformed DataFrame</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.functions import *</span>
+<span class="sd">    &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;U.N. official Ekeus heads for Baghdad.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = explain_document_pipeline.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; chunks_df = map_annotations_col(</span>
+<span class="sd">    ...     result,</span>
+<span class="sd">    ...     lambda x: [</span>
+<span class="sd">    ...         Annotation(&quot;chunk&quot;, a.begin, a.end, a.result, a.metadata, a.embeddings)</span>
+<span class="sd">    ...         for a in x</span>
+<span class="sd">    ...     ],</span>
+<span class="sd">    ...     &quot;pos&quot;,</span>
+<span class="sd">    ...     &quot;pos_chunk&quot;,</span>
+<span class="sd">    ...     &quot;chunk&quot;,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; chunks_df.selectExpr(&quot;explode(pos_chunk)&quot;).show()</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |                 col|</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |[chunk, 0, 2, NNP...|</span>
+<span class="sd">    |[chunk, 3, 3, ., ...|</span>
+<span class="sd">    |[chunk, 5, 12, JJ...|</span>
+<span class="sd">    |[chunk, 14, 18, N...|</span>
+<span class="sd">    |[chunk, 20, 24, V...|</span>
+<span class="sd">    |[chunk, 26, 28, I...|</span>
+<span class="sd">    |[chunk, 30, 36, N...|</span>
+<span class="sd">    |[chunk, 37, 37, ....|</span>
+<span class="sd">    +--------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">output_column</span><span class="p">,</span> <span class="n">map_annotations</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)(</span><span class="n">column</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">output_column</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;annotatorType&#39;</span><span class="p">:</span> <span class="n">annotatyon_type</span><span class="p">}))</span></div>
 
 <div class="viewcode-block" id="map_annotations_cols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.functions.map_annotations_cols.html#sparknlp.functions.map_annotations_cols">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_cols</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">output_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">annotatyon_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                         <span class="n">output_type</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">arrayType</span><span class="p">()):</span>
-    <span class="sd">&quot;&quot;&quot;Maps a function over a column of :class:`sparknlp.annotation.Annotation` to create a new column.</span>
+    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over multiple columns of Annotation results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    dataframe : DataFrame</span>
-<span class="sd">        The Spark Dataframe containing output Annotations</span>
+<span class="sd">        Input DataFrame</span>
 <span class="sd">    f : function</span>
-<span class="sd">        The function to be applied over the results</span>
+<span class="sd">        Function to apply to the column</span>
 <span class="sd">    columns : list</span>
-<span class="sd">        Columns to apply the filter over</span>
+<span class="sd">        Name of the input column</span>
 <span class="sd">    output_column : str</span>
-<span class="sd">        Name of the output Column</span>
+<span class="sd">        Name of the output column</span>
 <span class="sd">    annotatyon_type : str</span>
-<span class="sd">        Annotator Type</span>
+<span class="sd">        Annotator type</span>
 <span class="sd">    output_type : DataType, optional</span>
-<span class="sd">        Output Annotation schema, by default Annotation.arrayType()</span>
+<span class="sd">        Output type, by default Annotation.arrayType()</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`DataFrame`</span>
-<span class="sd">        Spark DataFrame with new column.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">        Transformed DataFrame</span>
 
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.functions import *</span>
+<span class="sd">    &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;U.N. official Ekeus heads for Baghdad.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = explain_document_pipeline.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; chunks_df = map_annotations_cols(</span>
+<span class="sd">    ...     result,</span>
+<span class="sd">    ...     lambda x: [</span>
+<span class="sd">    ...         Annotation(&quot;tag&quot;, a.begin, a.end, a.result, a.metadata, a.embeddings)</span>
+<span class="sd">    ...         for a in x</span>
+<span class="sd">    ...     ],</span>
+<span class="sd">    ...     [&quot;pos&quot;, &quot;ner&quot;],</span>
+<span class="sd">    ...     &quot;tags&quot;,</span>
+<span class="sd">    ...     &quot;chunk&quot;</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; chunks_df.selectExpr(&quot;explode(tags)&quot;).show(truncate=False)</span>
+<span class="sd">    +-------------------------------------------+</span>
+<span class="sd">    |col                                        |</span>
+<span class="sd">    +-------------------------------------------+</span>
+<span class="sd">    |[tag, 0, 2, NNP, [word -&gt; U.N], []]        |</span>
+<span class="sd">    |[tag, 3, 3, ., [word -&gt; .], []]            |</span>
+<span class="sd">    |[tag, 5, 12, JJ, [word -&gt; official], []]   |</span>
+<span class="sd">    |[tag, 14, 18, NNP, [word -&gt; Epeus], []]    |</span>
+<span class="sd">    |[tag, 20, 24, VBZ, [word -&gt; heads], []]    |</span>
+<span class="sd">    |[tag, 26, 28, IN, [word -&gt; for], []]       |</span>
+<span class="sd">    |[tag, 30, 36, NNP, [word -&gt; Baghdad], []]  |</span>
+<span class="sd">    |[tag, 37, 37, ., [word -&gt; .], []]          |</span>
+<span class="sd">    |[tag, 0, 2, B-ORG, [word -&gt; U.N], []]      |</span>
+<span class="sd">    |[tag, 3, 3, O, [word -&gt; .], []]            |</span>
+<span class="sd">    |[tag, 5, 12, O, [word -&gt; official], []]    |</span>
+<span class="sd">    |[tag, 14, 18, B-PER, [word -&gt; Ekeus], []]  |</span>
+<span class="sd">    |[tag, 20, 24, O, [word -&gt; heads], []]      |</span>
+<span class="sd">    |[tag, 26, 28, O, [word -&gt; for], []]        |</span>
+<span class="sd">    |[tag, 30, 36, B-LOC, [word -&gt; Baghdad], []]|</span>
+<span class="sd">    |[tag, 37, 37, O, [word -&gt; .], []]          |</span>
+<span class="sd">    +-------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">output_column</span><span class="p">,</span> <span class="n">map_annotations_array</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)(</span><span class="n">array</span><span class="p">(</span><span class="o">*</span><span class="n">columns</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">output_column</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;annotatorType&#39;</span><span class="p">:</span> <span class="n">annotatyon_type</span><span class="p">}))</span></div>
 
@@ -276,15 +399,37 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
+<span class="sd">    dataframe : DataFrame</span>
+<span class="sd">        Input DataFrame</span>
 <span class="sd">    f : function</span>
-<span class="sd">        The function to be applied over the results.</span>
+<span class="sd">        Filter function</span>
 <span class="sd">    column : str</span>
-<span class="sd">        Name of the column.</span>
+<span class="sd">        Name of the column</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`DataFrame`</span>
-<span class="sd">        The filtered Dataframe</span>
+<span class="sd">    :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">        Filtered DataFrame</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.functions import *</span>
+<span class="sd">    &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;U.N. official Ekeus heads for Baghdad.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = explain_document_pipeline.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; def filter_pos(annotation: Annotation):</span>
+<span class="sd">    ...     return annotation.result == &quot;NNP&quot;</span>
+<span class="sd">    &gt;&gt;&gt; filter_by_annotations_col(</span>
+<span class="sd">    ...     explode_annotations_col(result, &quot;pos&quot;, &quot;pos&quot;), filter_pos, &quot;pos&quot;</span>
+<span class="sd">    ... ).select(&quot;pos&quot;).show(truncate=False)</span>
+<span class="sd">    +-----------------------------------------+</span>
+<span class="sd">    |pos                                      |</span>
+<span class="sd">    +-----------------------------------------+</span>
+<span class="sd">    |[pos, 0, 2, NNP, [word -&gt; U.N], []]      |</span>
+<span class="sd">    |[pos, 14, 18, NNP, [word -&gt; Epeus], []]  |</span>
+<span class="sd">    |[pos, 30, 36, NNP, [word -&gt; Baghdad], []]|</span>
+<span class="sd">    +-----------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">this_udf</span> <span class="o">=</span> <span class="n">udf</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">content</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">content</span><span class="p">),</span>
@@ -307,8 +452,35 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`DataFrame`</span>
-<span class="sd">        The filtered Dataframe</span>
+<span class="sd">    :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">        Transformed DataFrame</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.functions import *</span>
+<span class="sd">    &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;U.N. official Ekeus heads for Baghdad.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = explain_document_pipeline.transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;pos.result&quot;).show(truncate=False)</span>
+<span class="sd">    +----------------------------------+</span>
+<span class="sd">    |result                            |</span>
+<span class="sd">    +----------------------------------+</span>
+<span class="sd">    |[NNP, ., JJ, NNP, VBZ, IN, NNP, .]|</span>
+<span class="sd">    +----------------------------------+</span>
+<span class="sd">    &gt;&gt;&gt; explode_annotations_col(result, &quot;pos&quot;, &quot;pos&quot;).select(&quot;pos.result&quot;).show()</span>
+<span class="sd">    +------+</span>
+<span class="sd">    |result|</span>
+<span class="sd">    +------+</span>
+<span class="sd">    |   NNP|</span>
+<span class="sd">    |     .|</span>
+<span class="sd">    |    JJ|</span>
+<span class="sd">    |   NNP|</span>
+<span class="sd">    |   VBZ|</span>
+<span class="sd">    |    IN|</span>
+<span class="sd">    |   NNP|</span>
+<span class="sd">    |     .|</span>
+<span class="sd">    +------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">explode</span>
     <span class="k">return</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">output_column</span><span class="p">,</span> <span class="n">explode</span><span class="p">(</span><span class="n">column</span><span class="p">))</span></div>

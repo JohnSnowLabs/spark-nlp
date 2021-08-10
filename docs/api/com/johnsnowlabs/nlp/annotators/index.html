@@ -407,6 +407,14 @@
                         <a href="DateMatcher.html" title="Matches standard date formats into a provided format Reads from different forms of date and time expressions and converts them to a provided date format.">DateMatcher</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="DateMatcherTranslator.html" title=""></a>
+                        <a href="DateMatcherTranslator.html" title="">DateMatcherTranslator</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="DateMatcherTranslatorPolicy.html" title=""></a>
+                        <a href="DateMatcherTranslatorPolicy.html" title="">DateMatcherTranslatorPolicy</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="trait" href="DateMatcherUtils.html" title=""></a>
                         <a href="DateMatcherUtils.html" title="">DateMatcherUtils</a>
                       </li><li class="current-entities indented4">
@@ -419,8 +427,8 @@
                         <a href="EnglishStemmer$.html" title="">EnglishStemmer</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="GraphExtraction.html" title=""></a>
-                        <a href="GraphExtraction.html" title="">GraphExtraction</a>
+                        <a class="class" href="GraphExtraction.html" title="Extracts a dependency graph between entities."></a>
+                        <a href="GraphExtraction.html" title="Extracts a dependency graph between entities.">GraphExtraction</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Lemmatizer$.html" title="This is the companion object of Lemmatizer."></a>
                         <a class="class" href="Lemmatizer.html" title="Class to find lemmas out of words with the objective of returning a base dictionary word."></a>
@@ -433,6 +441,10 @@
                         <a class="object" href="MultiDateMatcher$.html" title="This is the companion object of MultiDateMatcher."></a>
                         <a class="class" href="MultiDateMatcher.html" title="Matches standard date formats into a provided format."></a>
                         <a href="MultiDateMatcher.html" title="Matches standard date formats into a provided format.">MultiDateMatcher</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="MultiDatePolicy$.html" title=""></a>
+                        <a href="MultiDatePolicy$.html" title="">MultiDatePolicy</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="NGramGenerator$.html" title=""></a>
                         <a class="class" href="NGramGenerator.html" title="A feature transformer that converts the input array of strings (annotatorType TOKEN) into an array of n-grams (annotatorType CHUNK)."></a>
@@ -485,6 +497,10 @@
                         <span class="separator"></span>
                         <a class="class" href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern."></a>
                         <a href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern.">RegexTokenizer</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="SingleDatePolicy$.html" title=""></a>
+                        <a href="SingleDatePolicy$.html" title="">SingleDatePolicy</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="Stemmer$.html" title="This is the companion object of Stemmer."></a>
                         <a class="class" href="Stemmer.html" title="Returns hard-stems out of words with the objective of retrieving the meaningful part of the word."></a>
@@ -883,6 +899,38 @@ result.selectExpr(<span class="lit">"date"</span>).show(<span class="kw">false</
 |[[date, <span class="num">0</span>, <span class="num">8</span>, <span class="num">2020</span>/<span class="num">01</span>/<span class="num">18</span>, [sentence -&gt; <span class="num">0</span>], []]]  |
 |[[date, <span class="num">10</span>, <span class="num">18</span>, <span class="num">2020</span>/<span class="num">01</span>/<span class="num">12</span>, [sentence -&gt; <span class="num">0</span>], []]]|
 +-------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="MultiDateMatcher.html" class="extype" name="com.johnsnowlabs.nlp.annotators.MultiDateMatcher">MultiDateMatcher</a> for matching multiple dates in a document</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslator" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DateMatcherTranslatorextendsSerializable"></a><a id="DateMatcherTranslator:DateMatcherTranslator"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherTranslator.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DateMatcherTranslator.html"><span class="name">DateMatcherTranslator</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslatorPolicy" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DateMatcherTranslatorPolicyextendsAnyRef"></a><a id="DateMatcherTranslatorPolicy:DateMatcherTranslatorPolicy"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcherTranslatorPolicy.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DateMatcherTranslatorPolicy.html"><span class="name">DateMatcherTranslatorPolicy</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="DateMatcherUtilsextendsParams"></a><a id="DateMatcherUtils:DateMatcherUtils"></a>
       <span class="permalink">
@@ -967,7 +1015,7 @@ result.selectExpr(<span class="lit">"normalizedDocument.result"</span>).show(tru
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the <span class="num">1500</span>s, when an unknown printer took a galley of <span class="kw">type</span> and scrambled it to make a <span class="kw">type</span> specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the <span class="num">1960</span>s <span class="kw">with</span> the release of letraset sheets containing lorem ipsum passages, and more recently <span class="kw">with</span> desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.GraphExtraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.GraphExtraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="GraphExtractionextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.GraphExtraction]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.GraphExtraction]"></a><a id="GraphExtraction:GraphExtraction"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/GraphExtraction.html" title="Permalink">
@@ -979,10 +1027,95 @@ result.selectExpr(<span class="lit">"normalizedDocument.result"</span>).show(tru
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="GraphExtraction.html"><span class="name">GraphExtraction</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>]</span>
+        <a title="Extracts a dependency graph between entities." href="GraphExtraction.html"><span class="name">GraphExtraction</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="GraphExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.GraphExtraction">GraphExtraction</a>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Extracts a dependency graph between entities.</p><div class="fullcomment"><div class="comment cmt"><p>Extracts a dependency graph between entities.</p><p>The GraphExtraction class takes e.g. extracted entities from a
+<a href="ner/dl/NerDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel">NerDLModel</a> and creates a dependency tree which describes how
+the entities relate to each other. For that a triple store format is used. Nodes represent the entities and the
+edges represent the relations between those entities. The graph can then be used to find relevant relationships
+between words.</p><p>Both the <a href="parser/dep/DependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel">DependencyParserModel</a> and
+<a href="parser/typdep/TypedDependencyParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel">TypedDependencyParserModel</a> need to be
+present in the pipeline. There are two ways to set them:</p><ol class="decimal"><li>Both Annotators are present in the pipeline already. The dependencies are taken implicitly from these two
+     Annotators.</li><li>Setting <code>setMergeEntities</code> to <code>true</code> will download the default pretrained models for those two Annotators
+     automatically. The specific models can also be set with <code>setDependencyParserModel</code> and
+     <code>setTypedDependencyParserModel</code>:</li></ol><pre><span class="kw">val</span> graph_extraction = <span class="kw">new</span> GraphExtraction()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>)
+  .setOutputCol(<span class="lit">"graph"</span>)
+  .setRelationshipTypes(<span class="std">Array</span>(<span class="lit">"prefer-LOC"</span>))
+  .setMergeEntities(<span class="kw">true</span>)
+<span class="cmt">//.setDependencyParserModel(Array("dependency_conllu", "en",  "public/models"))</span>
+<span class="cmt">//.setTypedDependencyParserModel(Array("dependency_typed_conllu", "en",  "public/models"))</span></pre><p>To transform the resulting graph into a more generic form such as RDF, see the
+<a href="../GraphFinisher.html" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.GraphExtraction
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+
+<span class="kw">val</span> nerTagger = NerDLModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+
+<span class="kw">val</span> posTagger = PerceptronModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"pos"</span>)
+
+<span class="kw">val</span> dependencyParser = DependencyParserModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"pos"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"dependency"</span>)
+
+<span class="kw">val</span> typedDependencyParser = TypedDependencyParserModel.pretrained()
+  .setInputCols(<span class="lit">"dependency"</span>, <span class="lit">"pos"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"dependency_type"</span>)
+
+<span class="kw">val</span> graph_extraction = <span class="kw">new</span> GraphExtraction()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>, <span class="lit">"ner"</span>)
+  .setOutputCol(<span class="lit">"graph"</span>)
+  .setRelationshipTypes(<span class="std">Array</span>(<span class="lit">"prefer-LOC"</span>))
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  embeddings,
+  nerTagger,
+  posTagger,
+  dependencyParser,
+  typedDependencyParser,
+  graph_extraction
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"You and John prefer the morning flight through Denver"</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.select(<span class="lit">"graph"</span>).show(<span class="kw">false</span>)
++-----------------------------------------------------------------------------------------------------------------+
+|graph                                                                                                            |
++-----------------------------------------------------------------------------------------------------------------+
+|[[node, <span class="num">13</span>, <span class="num">18</span>, prefer, [relationship -&gt; prefer,LOC, path1 -&gt; prefer,nsubj,morning,flat,flight,flat,Denver], []]]|
++-----------------------------------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../GraphFinisher.html" class="extype" name="com.johnsnowlabs.nlp.GraphFinisher">GraphFinisher</a> to output the paths in a more generic format, like RDF</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.Lemmatizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LemmatizerextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.LemmatizerModel]"></a><a id="Lemmatizer:Lemmatizer"></a>
       <span class="permalink">
@@ -1946,6 +2079,22 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
       
       <p class="shortcomment cmt">This is the companion object of <a href="MultiDateMatcher.html" class="extype" name="com.johnsnowlabs.nlp.annotators.MultiDateMatcher">MultiDateMatcher</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="MultiDateMatcher.html" class="extype" name="com.johnsnowlabs.nlp.annotators.MultiDateMatcher">MultiDateMatcher</a>. Please refer to that class for the documentation.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.MultiDatePolicy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MultiDatePolicy"></a><a id="MultiDatePolicy:MultiDatePolicy"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/MultiDatePolicy$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="MultiDatePolicy$.html"><span class="name">MultiDatePolicy</span></a><span class="result"> extends <a href="DateMatcherTranslatorPolicy.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslatorPolicy">DateMatcherTranslatorPolicy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.NGramGenerator" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="NGramGenerator"></a><a id="NGramGenerator:NGramGenerator"></a>
       <span class="permalink">
@@ -2041,6 +2190,22 @@ result.selectExpr(<span class="lit">"token.result"</span>).show(<span class="kw"
       </span>
       <span class="symbol">
         <a title="" href="RegexMatcherModel$.html"><span class="name">RegexMatcherModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="RegexMatcherModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.RegexMatcherModel">RegexMatcherModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.SingleDatePolicy" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="SingleDatePolicy"></a><a id="SingleDatePolicy:SingleDatePolicy"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/SingleDatePolicy$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="SingleDatePolicy$.html"><span class="name">SingleDatePolicy</span></a><span class="result"> extends <a href="DateMatcherTranslatorPolicy.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherTranslatorPolicy">DateMatcherTranslatorPolicy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

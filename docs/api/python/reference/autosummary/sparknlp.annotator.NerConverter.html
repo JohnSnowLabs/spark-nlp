@@ -734,11 +734,14 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NerConverter</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerConverter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
-<p>Converts a IOB or IOB2 representation of NER to a user-friendly one,
-by associating the tokens of recognized entities and their label. Results in <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code> Annotation type.</p>
-<p>NER chunks can then be filtered by setting a whitelist with <code class="docutils literal notranslate"><span class="pre">setWhiteList</span></code>.
-Chunks with no associated entity (tagged “O”) are filtered.</p>
-<p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)">Inside–outside–beginning (tagging)</a> for more information.</p>
+<p>Converts a IOB or IOB2 representation of NER to a user-friendly one, by
+associating the tokens of recognized entities and their label. Results in
+<code class="docutils literal notranslate"><span class="pre">CHUNK</span></code> Annotation type.</p>
+<p>NER chunks can then be filtered by setting a whitelist with
+<code class="docutils literal notranslate"><span class="pre">setWhiteList</span></code>. Chunks with no associated entity (tagged “O”) are
+filtered.</p>
+<p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)">Inside–outside–beginning (tagging)</a>
+for more information.</p>
 <table class="table">
 <colgroup>
 <col style="width: 60%" />
@@ -758,49 +761,43 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>whiteList</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</p>
+<dt><strong>whiteList</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored. Do
+not include IOB prefix on labels</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># This is a continuation of the example of the NerDLModel. See that class</span>
-<span class="c1"># on how to extract the entities.</span>
-<span class="c1"># The output of the NerDLModel follows the Annotator schema and can be converted like so:</span>
-<span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(ner)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+----------------------------------------------------+</span>
-<span class="o">|</span><span class="n">col</span>                                                 <span class="o">|</span>
-<span class="o">+----------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">U</span><span class="o">.</span><span class="n">N</span><span class="p">],</span> <span class="p">[]]</span>      <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="o">.</span><span class="p">],</span> <span class="p">[]]</span>            <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">official</span><span class="p">],</span> <span class="p">[]]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Ekeus</span><span class="p">],</span> <span class="p">[]]</span>  <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">heads</span><span class="p">],</span> <span class="p">[]]</span>      <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="k">for</span><span class="p">],</span> <span class="p">[]]</span>        <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">Baghdad</span><span class="p">],</span> <span class="p">[]]</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">named_entity</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="p">[</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="o">.</span><span class="p">],</span> <span class="p">[]]</span>          <span class="o">|</span>
-<span class="o">+----------------------------------------------------+</span>
-
-<span class="c1"># After the converter is used:</span>
-<span class="n">converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;entities&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setPreservePosition</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">converter</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(entities)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">col</span>                                                                     <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">U</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="p">[</span><span class="n">entity</span> <span class="o">-&gt;</span> <span class="n">ORG</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[]]</span>      <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="n">Ekeus</span><span class="p">,</span> <span class="p">[</span><span class="n">entity</span> <span class="o">-&gt;</span> <span class="n">PER</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[]]</span>  <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">chunk</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="n">Baghdad</span><span class="p">,</span> <span class="p">[</span><span class="n">entity</span> <span class="o">-&gt;</span> <span class="n">LOC</span><span class="p">,</span> <span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[]]</span><span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------+</span>
+<p>This is a continuation of the example of the <a class="reference internal" href="sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel" title="sparknlp.annotator.NerDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code></a>. See that
+class on how to extract the entities. The output of the NerDLModel follows
+the Annotator schema and can be converted like so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(ner)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+----------------------------------------------------+</span>
+<span class="go">|col                                                 |</span>
+<span class="go">+----------------------------------------------------+</span>
+<span class="go">|[named_entity, 0, 2, B-ORG, [word -&gt; U.N], []]      |</span>
+<span class="go">|[named_entity, 3, 3, O, [word -&gt; .], []]            |</span>
+<span class="go">|[named_entity, 5, 12, O, [word -&gt; official], []]    |</span>
+<span class="go">|[named_entity, 14, 18, B-PER, [word -&gt; Ekeus], []]  |</span>
+<span class="go">|[named_entity, 20, 24, O, [word -&gt; heads], []]      |</span>
+<span class="go">|[named_entity, 26, 28, O, [word -&gt; for], []]        |</span>
+<span class="go">|[named_entity, 30, 36, B-LOC, [word -&gt; Baghdad], []]|</span>
+<span class="go">|[named_entity, 37, 37, O, [word -&gt; .], []]          |</span>
+<span class="go">+----------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>After the converter is used:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;entities&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">converter</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(entities)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------------------------------------------------------------------------+</span>
+<span class="go">|col                                                                     |</span>
+<span class="go">+------------------------------------------------------------------------+</span>
+<span class="go">|[chunk, 0, 2, U.N, [entity -&gt; ORG, sentence -&gt; 0, chunk -&gt; 0], []]      |</span>
+<span class="go">|[chunk, 14, 18, Ekeus, [entity -&gt; PER, sentence -&gt; 0, chunk -&gt; 1], []]  |</span>
+<span class="go">|[chunk, 30, 36, Baghdad, [entity -&gt; LOC, sentence -&gt; 0, chunk -&gt; 2], []]|</span>
+<span class="go">+------------------------------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -829,22 +826,22 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.getInputCols" title="sparknlp.annotator.NerConverter.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.getLazyAnnotator" title="sparknlp.annotator.NerConverter.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.getOrDefault" title="sparknlp.annotator.NerConverter.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.getOutputCol" title="sparknlp.annotator.NerConverter.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.getParam" title="sparknlp.annotator.NerConverter.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.getParamValue" title="sparknlp.annotator.NerConverter.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.hasDefault" title="sparknlp.annotator.NerConverter.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -871,22 +868,22 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.setInputCols" title="sparknlp.annotator.NerConverter.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.setLazyAnnotator" title="sparknlp.annotator.NerConverter.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.setOutputCol" title="sparknlp.annotator.NerConverter.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.setParamValue" title="sparknlp.annotator.NerConverter.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWhiteList</span></code>(entities)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.setWhiteList" title="sparknlp.annotator.NerConverter.setWhiteList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setWhiteList</span></code></a>(entities)</p></td>
+<td><p>Sets list of entities to process.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerConverter.transform" title="sparknlp.annotator.NerConverter.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -985,14 +982,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1005,13 +1002,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1075,11 +1086,11 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.setInputCols">
 <span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dd><p>Sets column names of input annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1089,14 +1100,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1105,11 +1116,40 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NerConverter.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerConverter.setWhiteList">
+<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerConverter.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerConverter.setWhiteList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets list of entities to process. The rest will be ignored.</p>
+<p>Does not include IOB prefix on labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>entities</strong><span class="classifier">List[str]</span></dt><dd><p>If defined, list of entities to process. The rest will be ignored.</p>
 </dd>
 </dl>
 </dd>

@@ -734,14 +734,16 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">NorvigSweetingApproach</span></span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NorvigSweetingApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorApproach</span></code></p>
-<p>Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.</p>
-<p>The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-(than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-A dictionary of correct spellings must be provided with <code class="docutils literal notranslate"><span class="pre">setDictionary</span></code> either in the form of a text file or directly
-as an ExternalResource, where each word is parsed by a regex pattern.</p>
-<p>Inspired by Norvig model and <a class="reference external" href="https://github.com/wolfgarbe/SymSpell">SymSpell</a>.</p>
-<p>For instantiated/pretrained models, see NorvigSweetingModel.</p>
+<p>Trains annotator, that retrieves tokens and makes corrections
+automatically if not found in an English dictionary.</p>
+<p>The Symmetric Delete spelling correction algorithm reduces the complexity of
+edit candidate generation and dictionary lookup for a given
+Damerau-Levenshtein distance. It is six orders of magnitude faster (than the
+standard approach with deletes + transposes + replaces + inserts) and
+language independent. A dictionary of correct spellings must be provided
+with <a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setDictionary" title="sparknlp.annotator.NorvigSweetingApproach.setDictionary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDictionary()</span></code></a> in the form of a text file, where each word is
+parsed by a regex pattern.</p>
+<p>For instantiated/pretrained models, see <a class="reference internal" href="sparknlp.annotator.NorvigSweetingModel.html#sparknlp.annotator.NorvigSweetingModel" title="sparknlp.annotator.NorvigSweetingModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NorvigSweetingModel</span></code></a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Spark NLP Workshop</a>.</p>
 <table class="table">
 <colgroup>
@@ -759,71 +761,72 @@ as an ExternalResource, where each word is parsed by a regex pattern.</p>
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>dictionary</strong></dt><dd><p>Dictionary needs ‘tokenPattern’ regex in dictionary for separating words</p>
 </dd>
-<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case sensitivty, by default False</p>
+<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case sensitivity, by default False</p>
 </dd>
 <dt><strong>doubleVariants</strong></dt><dd><p>Whether to use more expensive spell checker, by default False</p>
+<p>Increase search at cost of performance. Enables extra check for word
+combinations.</p>
 </dd>
 <dt><strong>shortCircuit</strong></dt><dd><p>Whether to use faster mode, by default False</p>
+<p>Increase performance at cost of accuracy. Faster but less accurate.</p>
 </dd>
-<dt><strong>frequencyPriority</strong></dt><dd><p>Applies frequency over hamming in intersections, when false hamming takes priority, by default True</p>
+<dt><strong>frequencyPriority</strong></dt><dd><p>Applies frequency over hamming in intersections, when false hamming
+takes priority, by default True</p>
 </dd>
-<dt><strong>wordSizeIgnore</strong></dt><dd><p>minimum size of word before ignoring, by default 3</p>
+<dt><strong>wordSizeIgnore</strong></dt><dd><p>Minimum size of word before ignoring, by default 3</p>
 </dd>
-<dt><strong>dupsLimit</strong></dt><dd><p>maximum duplicate of characters in a word to consider, by default 2</p>
+<dt><strong>dupsLimit</strong></dt><dd><p>Maximum duplicate of characters in a word to consider, by default 2</p>
 </dd>
-<dt><strong>reductLimit</strong></dt><dd><p>word reductions limit, by default 3</p>
+<dt><strong>reductLimit</strong></dt><dd><p>Word reductions limit, by default 3</p>
 </dd>
-<dt><strong>intersections</strong></dt><dd><p>hamming intersections to attempt, by default 10</p>
+<dt><strong>intersections</strong></dt><dd><p>Hamming intersections to attempt, by default 10</p>
 </dd>
-<dt><strong>vowelSwapLimit</strong></dt><dd><p>vowel swap attempts, by default 6</p>
+<dt><strong>vowelSwapLimit</strong></dt><dd><p>Vowel swap attempts, by default 6</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<p>Inspired by Norvig model and <a class="reference external" href="https://github.com/wolfgarbe/SymSpell">SymSpell</a>.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the dictionary `&quot;words.txt&quot;` has the form of</span>
-<span class="c1">#</span>
-<span class="c1"># ...</span>
-<span class="c1"># gummy</span>
-<span class="c1"># gummic</span>
-<span class="c1"># gummier</span>
-<span class="c1"># gummiest</span>
-<span class="c1"># gummiferous</span>
-<span class="c1"># ...</span>
-<span class="c1">#</span>
-<span class="c1"># This dictionary is then set to be the basis of the spell checker.</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-<span class="n">spellChecker</span> <span class="o">=</span> <span class="n">NorvigSweetingApproach</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;spell&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setDictionary</span><span class="p">(</span><span class="s2">&quot;src/test/resources/spell/words.txt&quot;</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">spellChecker</span>
-<span class="p">])</span>
-
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+</pre></div>
+</div>
+<p>In this example, the dictionary <code class="docutils literal notranslate"><span class="pre">&quot;words.txt&quot;</span></code> has the form of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">gummy</span>
+<span class="n">gummic</span>
+<span class="n">gummier</span>
+<span class="n">gummiest</span>
+<span class="n">gummiferous</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>This dictionary is then set to be the basis of the spell checker.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spellChecker</span> <span class="o">=</span> <span class="n">NorvigSweetingApproach</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;spell&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setDictionary</span><span class="p">(</span><span class="s2">&quot;src/test/resources/spell/words.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">spellChecker</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -858,22 +861,22 @@ as an ExternalResource, where each word is parsed by a regex pattern.</p>
 <td><p>Fits a model to the input dataset for each param map in <cite>paramMaps</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.getInputCols" title="sparknlp.annotator.NorvigSweetingApproach.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.getLazyAnnotator" title="sparknlp.annotator.NorvigSweetingApproach.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.getOrDefault" title="sparknlp.annotator.NorvigSweetingApproach.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.getOutputCol" title="sparknlp.annotator.NorvigSweetingApproach.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.getParam" title="sparknlp.annotator.NorvigSweetingApproach.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.getParamValue" title="sparknlp.annotator.NorvigSweetingApproach.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.hasDefault" title="sparknlp.annotator.NorvigSweetingApproach.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -899,32 +902,32 @@ as an ExternalResource, where each word is parsed by a regex pattern.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.set" title="sparknlp.annotator.NorvigSweetingApproach.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setCaseSensitive" title="sparknlp.annotator.NorvigSweetingApproach.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
+<td><p>Sets whether to ignore case sensitivity, by default False.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDictionary</span></code>(path[, token_pattern, …])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setDictionary" title="sparknlp.annotator.NorvigSweetingApproach.setDictionary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDictionary</span></code></a>(path[, token_pattern, …])</p></td>
+<td><p>Sets dictionary which needs ‘tokenPattern’ regex for separating words.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDoubleVariants</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setDoubleVariants" title="sparknlp.annotator.NorvigSweetingApproach.setDoubleVariants"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDoubleVariants</span></code></a>(value)</p></td>
+<td><p>Sets whether to use more expensive spell checker, by default False.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFrequencyPriority</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setFrequencyPriority" title="sparknlp.annotator.NorvigSweetingApproach.setFrequencyPriority"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setFrequencyPriority</span></code></a>(value)</p></td>
+<td><p>Sets whether to consider frequency over hamming in intersections, when false hamming takes priority, by default True.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setInputCols" title="sparknlp.annotator.NorvigSweetingApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setLazyAnnotator" title="sparknlp.annotator.NorvigSweetingApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setOutputCol" title="sparknlp.annotator.NorvigSweetingApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setParamValue" title="sparknlp.annotator.NorvigSweetingApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setShortCircuit</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.setShortCircuit" title="sparknlp.annotator.NorvigSweetingApproach.setShortCircuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setShortCircuit</span></code></a>(value)</p></td>
+<td><p>Sets whether to use faster mode, by default False.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NorvigSweetingApproach.write" title="sparknlp.annotator.NorvigSweetingApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
@@ -1088,14 +1091,14 @@ using <cite>paramMaps[index]</cite>. <cite>index</cite> values may not be sequen
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1108,13 +1111,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1176,13 +1193,79 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setCaseSensitive">
+<span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NorvigSweetingApproach.setCaseSensitive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setCaseSensitive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to ignore case sensitivity, by default False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to ignore case sensitivity</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setDictionary">
+<span class="sig-name descname"><span class="pre">setDictionary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\S+'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'text'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NorvigSweetingApproach.setDictionary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setDictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets dictionary which needs ‘tokenPattern’ regex for separating
+words.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to the source file</p>
+</dd>
+<dt><strong>token_pattern</strong><span class="classifier">str, optional</span></dt><dd><p>Pattern for token separation, by default <code class="docutils literal notranslate"><span class="pre">\S+</span></code></p>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the file, by default ReadAs.TEXT</p>
+</dd>
+<dt><strong>options</strong><span class="classifier">dict, optional</span></dt><dd><p>Options to read the resource, by default {“format”: “text”}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setDoubleVariants">
+<span class="sig-name descname"><span class="pre">setDoubleVariants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NorvigSweetingApproach.setDoubleVariants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setDoubleVariants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to use more expensive spell checker, by default False.</p>
+<p>Increase search at cost of performance. Enables extra check for word
+combinations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>[description]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setFrequencyPriority">
+<span class="sig-name descname"><span class="pre">setFrequencyPriority</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NorvigSweetingApproach.setFrequencyPriority"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setFrequencyPriority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to consider frequency over hamming in intersections,
+when false hamming takes priority, by default True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to consider frequency over hamming in intersections</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1192,14 +1275,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1208,11 +1291,40 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NorvigSweetingApproach.setShortCircuit">
+<span class="sig-name descname"><span class="pre">setShortCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NorvigSweetingApproach.setShortCircuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NorvigSweetingApproach.setShortCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to use faster mode, by default False.</p>
+<p>Increase performance at cost of accuracy. Faster but less accurate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to use faster mode</p>
 </dd>
 </dl>
 </dd>

@@ -733,17 +733,18 @@
 <dt class="sig sig-object py" id="sparknlp.training.PubTator">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.training.</span></span><span class="sig-name descname"><span class="pre">PubTator</span></span><a class="reference internal" href="../../modules/sparknlp/training.html#PubTator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.PubTator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.ExtendedJavaWrapper</span></code></p>
-<p>The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.</p>
+<p>The PubTator format includes medical papers’ titles, abstracts, and
+tagged chunks.</p>
 <p>For more information see <a class="reference external" href="http://bioportal.bioontology.org/ontologies/EDAM?p=classes&amp;conceptid=format_3783">PubTator Docs</a>
 and <a class="reference external" href="http://github.com/chanzuckerberg/MedMentions">MedMentions Docs</a>.</p>
 <p><a class="reference internal" href="#sparknlp.training.PubTator.readDataset" title="sparknlp.training.PubTator.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a> is used to create a Spark DataFrame from a PubTator
 text file.</p>
-<p><strong>Input File Format</strong></p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>25763772        0       5       DCTN4   T116,T123       C4308010
-25763772        23      63      chronic Pseudomonas aeruginosa infection        T047    C0854135
-25763772        67      82      cystic fibrosis T047    C0010674
-25763772        83      120     Pseudomonas aeruginosa (Pa) infection   T047    C0854135
-25763772        124     139     cystic fibrosis T047    C0010674
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">25763772</span>        <span class="mi">0</span>       <span class="mi">5</span>       <span class="n">DCTN4</span>   <span class="n">T116</span><span class="p">,</span><span class="n">T123</span>       <span class="n">C4308010</span>
+<span class="mi">25763772</span>        <span class="mi">23</span>      <span class="mi">63</span>      <span class="n">chronic</span> <span class="n">Pseudomonas</span> <span class="n">aeruginosa</span> <span class="n">infection</span>        <span class="n">T047</span>    <span class="n">C0854135</span>
+<span class="mi">25763772</span>        <span class="mi">67</span>      <span class="mi">82</span>      <span class="n">cystic</span> <span class="n">fibrosis</span> <span class="n">T047</span>    <span class="n">C0010674</span>
+<span class="mi">25763772</span>        <span class="mi">83</span>      <span class="mi">120</span>     <span class="n">Pseudomonas</span> <span class="n">aeruginosa</span> <span class="p">(</span><span class="n">Pa</span><span class="p">)</span> <span class="n">infection</span>   <span class="n">T047</span>    <span class="n">C0854135</span>
+<span class="mi">25763772</span>        <span class="mi">124</span>     <span class="mi">139</span>     <span class="n">cystic</span> <span class="n">fibrosis</span> <span class="n">T047</span>    <span class="n">C0010674</span>
 </pre></div>
 </div>
 <p class="rubric">Examples</p>

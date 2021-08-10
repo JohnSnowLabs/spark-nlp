@@ -751,13 +751,13 @@
 <td><p>Creates a Spark UDF to map over an Annotator’s array results.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.functions.map_annotations_col.html#sparknlp.functions.map_annotations_col" title="sparknlp.functions.map_annotations_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_col</span></code></a>(dataframe, f, column, …)</p></td>
-<td><p>Creates a Spark UDF to map over an Annotator’s array results, for which the return type is explicitly defined as a <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code>.</p></td>
+<td><p>Creates a Spark UDF to map over a column of Annotation results.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp.functions.map_annotations_cols.html#sparknlp.functions.map_annotations_cols" title="sparknlp.functions.map_annotations_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_cols</span></code></a>(dataframe, f, columns, …)</p></td>
-<td><p>Maps a function over a column of <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.annotation.Annotation</span></code> to create a new column.</p></td>
+<td><p>Creates a Spark UDF to map over multiple columns of Annotation results.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp.functions.map_annotations_strict.html#sparknlp.functions.map_annotations_strict" title="sparknlp.functions.map_annotations_strict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_annotations_strict</span></code></a>(f)</p></td>
-<td><p>Creates a Spark UDF to map over an Annotator’s results, for which the return type is explicitly defined as a <code class="xref py py-func docutils literal notranslate"><span class="pre">Annotation.dataType()</span></code>.</p></td>
+<td><p>Creates a Spark UDF to map over an Annotator’s results, for which the return type is explicitly defined as a <cite>Annotation.dataType()</cite>.</p></td>
 </tr>
 </tbody>
 </table>

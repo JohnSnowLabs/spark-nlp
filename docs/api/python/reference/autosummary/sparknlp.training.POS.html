@@ -734,19 +734,20 @@
 <dt class="sig sig-object py" id="sparknlp.training.POS">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.training.</span></span><span class="sig-name descname"><span class="pre">POS</span></span><a class="reference internal" href="../../modules/sparknlp/training.html#POS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.POS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.ExtendedJavaWrapper</span></code></p>
-<p>Helper class for creating DataFrames for training a part-of-speech tagger.</p>
+<p>Helper class for creating DataFrames for training a part-of-speech
+tagger.</p>
 <p>The dataset needs to consist of sentences on each line, where each word is
 delimited with its respective tag.</p>
-<p><strong>Input File Format</strong></p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">|</span><span class="n">DT</span> <span class="n">few</span><span class="o">|</span><span class="n">JJ</span> <span class="n">months</span><span class="o">|</span><span class="n">NNS</span> <span class="n">ago</span><span class="o">|</span><span class="n">RB</span> <span class="n">you</span><span class="o">|</span><span class="n">PRP</span> <span class="n">received</span><span class="o">|</span><span class="n">VBD</span> <span class="n">a</span><span class="o">|</span><span class="n">DT</span> <span class="n">letter</span><span class="o">|</span><span class="n">NN</span>
 </pre></div>
 </div>
 <p>The sentence can then be parsed with <a class="reference internal" href="#sparknlp.training.POS.readDataset" title="sparknlp.training.POS.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a> into a column with
 annotations of type <code class="docutils literal notranslate"><span class="pre">POS</span></code>.</p>
-<p>Can be used to train a
-<a class="reference internal" href="sparknlp.annotator.PerceptronApproach.html#sparknlp.annotator.PerceptronApproach" title="sparknlp.annotator.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>.</p>
+<p>Can be used to train a <a class="reference internal" href="sparknlp.annotator.PerceptronApproach.html#sparknlp.annotator.PerceptronApproach" title="sparknlp.annotator.PerceptronApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronApproach</span></code></a>.</p>
 <p class="rubric">Examples</p>
-<p>In this example, the file <code class="docutils literal notranslate"><span class="pre">test-training.txt</span></code> has the content of the sentence above.</p>
+<p>In this example, the file <code class="docutils literal notranslate"><span class="pre">test-training.txt</span></code> has the content of the
+sentence above.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">POS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pos</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/anc-pos-corpus-small/test-training.txt&quot;</span>

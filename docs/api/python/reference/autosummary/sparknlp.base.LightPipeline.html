@@ -741,8 +741,9 @@ Spark principles, instead it computes everything locally (but in
 parallel) in order to achieve fast results when dealing with small
 amounts of data. This means, we do not input a Spark Dataframe, but a
 string or an Array of strings instead, to be annotated. To create Light
-Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
-It’s transform() stage is converted into annotate() instead.</p>
+Pipelines, you need to input an already trained (fit) Spark ML Pipeline.</p>
+<p>It’s <a class="reference internal" href="#sparknlp.base.LightPipeline.transform" title="sparknlp.base.LightPipeline.transform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">transform()</span></code></a> has now an alternative <a class="reference internal" href="#sparknlp.base.LightPipeline.annotate" title="sparknlp.base.LightPipeline.annotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">annotate()</span></code></a>, which
+directly outputs the results.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
@@ -753,6 +754,9 @@ It’s transform() stage is converted into annotate() instead.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Use <a class="reference internal" href="#sparknlp.base.LightPipeline.fullAnnotate" title="sparknlp.base.LightPipeline.fullAnnotate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fullAnnotate()</span></code></a> to also output the result as
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code>, with metadata.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">LightPipeline</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">light</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
@@ -782,13 +786,13 @@ It’s transform() stage is converted into annotate() instead.</p>
 <td><p>Annotates the data provided, extracting the results.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.LightPipeline.fullAnnotate" title="sparknlp.base.LightPipeline.fullAnnotate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullAnnotate</span></code></a>(target)</p></td>
-<td><p>Annotates the data provided into Annotations.</p></td>
+<td><p>Annotates the data provided into <cite>Annotation</cite> type results.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.LightPipeline.getIgnoreUnsupported" title="sparknlp.base.LightPipeline.getIgnoreUnsupported"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getIgnoreUnsupported</span></code></a>()</p></td>
-<td><p>Get whether to ignore unsupported AnnotatorModels.</p></td>
+<td><p>Gets whether to ignore unsupported AnnotatorModels.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.LightPipeline.setIgnoreUnsupported" title="sparknlp.base.LightPipeline.setIgnoreUnsupported"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIgnoreUnsupported</span></code></a>(value)</p></td>
-<td><p>Set whether to ignore unsupported AnnotatorModels.</p></td>
+<td><p>Sets whether to ignore unsupported AnnotatorModels.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.base.LightPipeline.transform" title="sparknlp.base.LightPipeline.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataframe)</p></td>
 <td><p>Transforms a dataframe provided with the stages of the LightPipeline.</p></td>
@@ -809,17 +813,27 @@ It’s transform() stage is converted into annotate() instead.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>list or str</dt><dd><p>The result of the annotation</p>
+<dt>List[dict] or dict</dt><dd><p>The result of the annotation</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">explain_document_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s2">&quot;explain_document_dl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;U.N. official Ekeus heads for Baghdad.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;entities&#39;, &#39;stem&#39;, &#39;checked&#39;, &#39;lemma&#39;, &#39;document&#39;, &#39;pos&#39;, &#39;token&#39;, &#39;ner&#39;, &#39;embeddings&#39;, &#39;sentence&#39;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;ner&quot;</span><span class="p">]</span>
+<span class="go">[&#39;B-ORG&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-PER&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-LOC&#39;, &#39;O&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.fullAnnotate">
 <span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.fullAnnotate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Annotates the data provided into Annotations.</p>
+<dd><p>Annotates the data provided into <cite>Annotation</cite> type results.</p>
 <p>The data should be either a list or a str.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -830,17 +844,34 @@ It’s transform() stage is converted into annotate() instead.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>list or str</dt><dd><p>The result of the annotation</p>
+<dt>List[Annotation]</dt><dd><p>The result of the annotation</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">explain_document_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s2">&quot;explain_document_dl&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s1">&#39;U.N. official Ekeus heads for Baghdad.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">dict_keys([&#39;entities&#39;, &#39;stem&#39;, &#39;checked&#39;, &#39;lemma&#39;, &#39;document&#39;, &#39;pos&#39;, &#39;token&#39;, &#39;ner&#39;, &#39;embeddings&#39;, &#39;sentence&#39;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ner&quot;</span><span class="p">]</span>
+<span class="go">[Annotation(named_entity, 0, 2, B-ORG, {&#39;word&#39;: &#39;U.N&#39;}),</span>
+<span class="go">Annotation(named_entity, 3, 3, O, {&#39;word&#39;: &#39;.&#39;}),</span>
+<span class="go">Annotation(named_entity, 5, 12, O, {&#39;word&#39;: &#39;official&#39;}),</span>
+<span class="go">Annotation(named_entity, 14, 18, B-PER, {&#39;word&#39;: &#39;Ekeus&#39;}),</span>
+<span class="go">Annotation(named_entity, 20, 24, O, {&#39;word&#39;: &#39;heads&#39;}),</span>
+<span class="go">Annotation(named_entity, 26, 28, O, {&#39;word&#39;: &#39;for&#39;}),</span>
+<span class="go">Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
+<span class="go">Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.getIgnoreUnsupported">
 <span class="sig-name descname"><span class="pre">getIgnoreUnsupported</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.getIgnoreUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.getIgnoreUnsupported" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether to ignore unsupported AnnotatorModels.</p>
+<dd><p>Gets whether to ignore unsupported AnnotatorModels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -854,7 +885,7 @@ It’s transform() stage is converted into annotate() instead.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.LightPipeline.setIgnoreUnsupported">
 <span class="sig-name descname"><span class="pre">setIgnoreUnsupported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/base.html#LightPipeline.setIgnoreUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.LightPipeline.setIgnoreUnsupported" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether to ignore unsupported AnnotatorModels.</p>
+<dd><p>Sets whether to ignore unsupported AnnotatorModels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">

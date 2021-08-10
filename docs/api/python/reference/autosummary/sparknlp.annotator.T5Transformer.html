@@ -735,43 +735,25 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">T5Transformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
 <p>T5: the Text-To-Text Transfer Transformer</p>
-<p>T5 reconsiders all NLP tasks into a unified text-to-text-format where the input and output are always
-text strings, in contrast to BERT-style models that can only output either a class label or a span of the input.
-The text-to-text framework is able to use the same model, loss function, and hyper-parameters on any NLP task,
-including machine translation, document summarization, question answering, and classification tasks
-(e.g., sentiment analysis). T5 can even apply to regression tasks by training it to predict the string
-representation of a number instead of the number itself.</p>
-<p>Pretrained models can be loaded with <code class="docutils literal notranslate"><span class="pre">pretrained</span></code> of the companion object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setTask</span><span class="p">(</span><span class="s2">&quot;summarize:&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;summaries&quot;</span><span class="p">)</span>
+<p>T5 reconsiders all NLP tasks into a unified text-to-text-format where the
+input and output are always text strings, in contrast to BERT-style models
+that can only output either a class label or a span of the input. The
+text-to-text framework is able to use the same model, loss function, and
+hyper-parameters on any NLP task, including machine translation, document
+summarization, question answering, and classification tasks (e.g., sentiment
+analysis). T5 can even apply to regression tasks by training it to predict
+the string representation of a number instead of the number itself.</p>
+<p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.T5Transformer.pretrained" title="sparknlp.annotator.T5Transformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setTask</span><span class="p">(</span><span class="s2">&quot;summarize:&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;summaries&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;t5_small&quot;</span></code>, if no name is provided.
-For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?q=t5">Models Hub</a>.</p>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;t5_small&quot;</span></code>, if no name is provided. For available
+pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?q=t5">Models Hub</a>.</p>
 <p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb">Spark NLP Workshop</a>.</p>
-<dl class="simple">
-<dt><strong>Sources:</strong></dt><dd><ul class="simple">
-<li><p><a class="reference external" href="https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html">Exploring Transfer Learning with T5: the Text-To-Text Transfer Transformer</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/abs/1910.10683">Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer</a></p></li>
-<li><p><a class="reference external" href="https://github.com/google-research/text-to-text-transfer-transformer">https://github.com/google-research/text-to-text-transfer-transformer</a></p></li>
-</ul>
-</dd>
-</dl>
-<p><strong>Paper Abstract:</strong></p>
-<p><em>Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a downstream
-task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness of transfer
-learning has given rise to a diversity of approaches, methodology, and practice. In this paper, we explore the
-landscape of transfer learning techniques for NLP by introducing a unified framework that converts all text-based
-language problems into a text-to-text format. Our systematic study compares pre-training objectives, architectures,
-unlabeled data sets, transfer approaches, and other factors on dozens of language understanding tasks. By combining
-the insights from our exploration with scale and our new Colossal Clean Crawled Corpus, we achieve state-of-the-art
-results on many benchmarks covering summarization, question answering, text classification, and more. To facilitate
-future work on transfer learning for NLP, we release our data set, pre-trained models, and code.</em></p>
-<p><strong>Note:</strong></p>
-<p>This is a very computationally expensive module especially on larger sequence.
-The use of an accelerator such as GPU is recommended.</p>
 <table class="table">
 <colgroup>
 <col style="width: 50%" />
@@ -788,12 +770,12 @@ The use of an accelerator such as GPU is recommended.</p>
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
-<dt><strong>task</strong></dt><dd><p>Transformer’s task, e.g. summarize&gt;</p>
+<dt><strong>task</strong></dt><dd><p>Transformer’s task, e.g. <code class="docutils literal notranslate"><span class="pre">summarize:</span></code></p>
 </dd>
 <dt><strong>minOutputLength</strong></dt><dd><p>Minimum length of the sequence to be generated</p>
 </dd>
@@ -803,57 +785,79 @@ The use of an accelerator such as GPU is recommended.</p>
 </dd>
 <dt><strong>temperature</strong></dt><dd><p>The value used to module the next token probabilities</p>
 </dd>
-<dt><strong>topK</strong></dt><dd><p>The number of highest probability vocabulary tokens to keep for top-k-filtering</p>
+<dt><strong>topK</strong></dt><dd><p>The number of highest probability vocabulary tokens to keep for
+top-k-filtering</p>
 </dd>
-<dt><strong>topP</strong></dt><dd><p>If set to float &lt; 1, only the most probable tokens with probabilities that add up to <code class="docutils literal notranslate"><span class="pre">top_p</span></code> or higher are kept for generation</p>
+<dt><strong>topP</strong></dt><dd><p>Top cumulative probability for vocabulary tokens</p>
+<p>If set to float &lt; 1, only the most probable tokens with probabilities
+that add up to <code class="docutils literal notranslate"><span class="pre">topP</span></code> or higher are kept for generation.</p>
 </dd>
-<dt><strong>repetitionPenalty</strong></dt><dd><p>The parameter for repetition penalty. 1.0 means no penalty. See <a class="reference external" href="https://arxiv.org/pdf/1909.05858.pdf">this paper</a> for more details</p>
+<dt><strong>repetitionPenalty</strong></dt><dd><p>The parameter for repetition penalty. 1.0 means no penalty.</p>
 </dd>
 <dt><strong>noRepeatNgramSize</strong></dt><dd><p>If set to int &gt; 0, all ngrams of that size can only occur once</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>This is a very computationally expensive module especially on larger
+sequence. The use of an accelerator such as GPU is recommended.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html">Exploring Transfer Learning with T5: the Text-To-Text Transfer
+Transformer</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1910.10683">Exploring the Limits of Transfer Learning with a Unified Text-to-Text
+Transformer</a></p></li>
+<li><p><a class="reference external" href="https://github.com/google-research/text-to-text-transfer-transformer">https://github.com/google-research/text-to-text-transfer-transformer</a></p></li>
+</ul>
+<p><strong>Paper Abstract:</strong></p>
+<p><em>Transfer learning, where a model is first pre-trained on a data-rich task
+before being fine-tuned on a downstream task, has emerged as a powerful
+technique in natural language processing (NLP). The effectiveness of
+transfer learning has given rise to a diversity of approaches, methodology,
+and practice. In this paper, we explore the landscape of transfer learning
+techniques for NLP by introducing a unified framework that converts all
+text-based language problems into a text-to-text format. Our systematic
+study compares pre-training objectives, architectures, unlabeled data sets,
+transfer approaches, and other factors on dozens of language understanding
+tasks. By combining the insights from our exploration with scale and our new
+Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many
+benchmarks covering summarization, question answering, text classification,
+and more. To facilitate future work on transfer learning for NLP, we release
+our data set, pre-trained models, and code.</em></p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>
-
-<span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;t5_small&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setTask</span><span class="p">(</span><span class="s2">&quot;summarize:&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;documents&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;summaries&quot;</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s2">&quot;Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness&quot;</span> <span class="o">+</span>
-      <span class="s2">&quot; of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;that converts all text-based language problems into a text-to-text format. Our systematic study compares &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;of language understanding tasks. By combining the insights from our exploration with scale and our new &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;summarization, question answering, text classification, and more. To facilitate future work on transfer &quot;</span> <span class="o">+</span>
-      <span class="s2">&quot;learning for NLP, we release our data set, pre-trained models, and code.&quot;</span>
-<span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;summaries.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                                                                                                                                                        <span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">transfer</span> <span class="n">learning</span> <span class="n">has</span> <span class="n">emerged</span> <span class="k">as</span> <span class="n">a</span> <span class="n">powerful</span> <span class="n">technique</span> <span class="ow">in</span> <span class="n">natural</span> <span class="n">language</span> <span class="n">processing</span> <span class="p">(</span><span class="n">NLP</span><span class="p">)</span> <span class="n">the</span> <span class="n">effectiveness</span> <span class="n">of</span> <span class="n">transfer</span> <span class="n">learning</span> <span class="n">has</span> <span class="n">given</span> <span class="n">rise</span> <span class="n">to</span> <span class="n">a</span> <span class="n">diversity</span> <span class="n">of</span> <span class="n">approaches</span><span class="p">,</span> <span class="n">methodologies</span><span class="p">,</span> <span class="ow">and</span> <span class="n">practice</span> <span class="o">.</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;t5_small&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setTask</span><span class="p">(</span><span class="s2">&quot;summarize:&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;documents&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;summaries&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
+<span class="gp">... </span>    <span class="s2">&quot;Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness&quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot; of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;that converts all text-based language problems into a text-to-text format. Our systematic study compares &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;of language understanding tasks. By combining the insights from our exploration with scale and our new &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;summarization, question answering, text classification, and more. To facilitate future work on transfer &quot;</span> <span class="o">+</span>
+<span class="gp">... </span>    <span class="s2">&quot;learning for NLP, we release our data set, pre-trained models, and code.&quot;</span>
+<span class="gp">... </span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;summaries.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|result                                                                                                                                                                                                        |</span>
+<span class="go">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, methodologies, and practice .]|</span>
+<span class="go">--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 </pre></div>
 </div>
 <p class="rubric">Methods</p>
@@ -882,22 +886,22 @@ The use of an accelerator such as GPU is recommended.</p>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getInputCols" title="sparknlp.annotator.T5Transformer.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getLazyAnnotator" title="sparknlp.annotator.T5Transformer.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getOrDefault" title="sparknlp.annotator.T5Transformer.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getOutputCol" title="sparknlp.annotator.T5Transformer.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getParam" title="sparknlp.annotator.T5Transformer.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getParamValue" title="sparknlp.annotator.T5Transformer.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.hasDefault" title="sparknlp.annotator.T5Transformer.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -930,49 +934,49 @@ The use of an accelerator such as GPU is recommended.</p>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setConfigProtoBytes" title="sparknlp.annotator.T5Transformer.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Set configProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDoSample</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setDoSample" title="sparknlp.annotator.T5Transformer.setDoSample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDoSample</span></code></a>(value)</p></td>
+<td><p>Sets whether or not to use sampling, use greedy decoding otherwise.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setInputCols" title="sparknlp.annotator.T5Transformer.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setLazyAnnotator" title="sparknlp.annotator.T5Transformer.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxOutputLength</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setMaxOutputLength" title="sparknlp.annotator.T5Transformer.setMaxOutputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxOutputLength</span></code></a>(value)</p></td>
+<td><p>Sets maximum length of output text.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinOutputLength</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setMinOutputLength" title="sparknlp.annotator.T5Transformer.setMinOutputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinOutputLength</span></code></a>(value)</p></td>
+<td><p>Sets minimum length of the sequence to be generated.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNoRepeatNgramSize</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setNoRepeatNgramSize" title="sparknlp.annotator.T5Transformer.setNoRepeatNgramSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setNoRepeatNgramSize</span></code></a>(value)</p></td>
+<td><p>Sets size of n-grams that can only occur once.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setOutputCol" title="sparknlp.annotator.T5Transformer.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setParamValue" title="sparknlp.annotator.T5Transformer.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRepetitionPenalty</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setRepetitionPenalty" title="sparknlp.annotator.T5Transformer.setRepetitionPenalty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRepetitionPenalty</span></code></a>(value)</p></td>
+<td><p>Sets the parameter for repetition penalty.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTask</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setTask" title="sparknlp.annotator.T5Transformer.setTask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTask</span></code></a>(value)</p></td>
+<td><p>Sets the transformer’s task, e.g.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTemperature</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setTemperature" title="sparknlp.annotator.T5Transformer.setTemperature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTemperature</span></code></a>(value)</p></td>
+<td><p>Sets the value used to module the next token probabilities.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTopK</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setTopK" title="sparknlp.annotator.T5Transformer.setTopK"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTopK</span></code></a>(value)</p></td>
+<td><p>Sets the number of highest probability vocabulary tokens to keep for top-k-filtering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTopP</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setTopP" title="sparknlp.annotator.T5Transformer.setTopP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTopP</span></code></a>(value)</p></td>
+<td><p>Sets the top cumulative probability for vocabulary tokens.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.transform" title="sparknlp.annotator.T5Transformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1098,14 +1102,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1118,13 +1122,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1174,7 +1192,7 @@ a default value.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>T5Transformer</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1196,17 +1214,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “???”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “t5_small”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None</p>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt>???</dt><dd><p>The restored model</p>
+<dt>T5Transformer</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -1234,7 +1253,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set configProto from tensorflow, serialized into byte array.</p>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1246,13 +1265,27 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setDoSample">
+<span class="sig-name descname"><span class="pre">setDoSample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setDoSample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setDoSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether or not to use sampling, use greedy decoding otherwise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether or not to use sampling; use greedy decoding otherwise</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1262,14 +1295,57 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setMaxOutputLength">
+<span class="sig-name descname"><span class="pre">setMaxOutputLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setMaxOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setMaxOutputLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets maximum length of output text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum length of output text</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setMinOutputLength">
+<span class="sig-name descname"><span class="pre">setMinOutputLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setMinOutputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setMinOutputLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets minimum length of the sequence to be generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum length of the sequence to be generated</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setNoRepeatNgramSize">
+<span class="sig-name descname"><span class="pre">setNoRepeatNgramSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setNoRepeatNgramSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setNoRepeatNgramSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets size of n-grams that can only occur once.</p>
+<p>If set to int &gt; 0, all ngrams of that size can only occur once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>N-gram size can only occur once</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1278,11 +1354,101 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setRepetitionPenalty">
+<span class="sig-name descname"><span class="pre">setRepetitionPenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setRepetitionPenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setRepetitionPenalty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the parameter for repetition penalty. 1.0 means no penalty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>The repetition penalty</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>See <a class="reference external" href="https://arxiv.org/pdf/1909.05858.pdf">Ctrl: A Conditional Transformer Language Model For Controllable
+Generation</a> for more details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setTask">
+<span class="sig-name descname"><span class="pre">setTask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the transformer’s task, e.g. <code class="docutils literal notranslate"><span class="pre">summarize:</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>The transformer’s task</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setTemperature">
+<span class="sig-name descname"><span class="pre">setTemperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setTemperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setTemperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value used to module the next token probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>The value used to module the next token probabilities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setTopK">
+<span class="sig-name descname"><span class="pre">setTopK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setTopK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setTopK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of highest probability vocabulary tokens to keep for
+top-k-filtering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of highest probability vocabulary tokens to keep</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setTopP">
+<span class="sig-name descname"><span class="pre">setTopP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setTopP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setTopP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the top cumulative probability for vocabulary tokens.</p>
+<p>If set to float &lt; 1, only the most probable tokens with probabilities
+that add up to <code class="docutils literal notranslate"><span class="pre">topP</span></code> or higher are kept for generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Cumulative probability for vocabulary tokens</p>
 </dd>
 </dl>
 </dd>

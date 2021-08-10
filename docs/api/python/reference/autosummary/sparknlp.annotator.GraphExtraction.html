@@ -734,6 +734,139 @@
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">GraphExtraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.GraphExtraction'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
+<p>Extracts a dependency graph between entities.</p>
+<p>The GraphExtraction class takes e.g. extracted entities from a
+<a class="reference internal" href="sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel" title="sparknlp.annotator.NerDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code></a> and creates a dependency tree which describes how the
+entities relate to each other. For that a triple store format is used. Nodes
+represent the entities and the edges represent the relations between those
+entities. The graph can then be used to find relevant relationships between
+words.</p>
+<p>Both the <a class="reference internal" href="sparknlp.annotator.DependencyParserModel.html#sparknlp.annotator.DependencyParserModel" title="sparknlp.annotator.DependencyParserModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DependencyParserModel</span></code></a> and
+<a class="reference internal" href="sparknlp.annotator.TypedDependencyParserModel.html#sparknlp.annotator.TypedDependencyParserModel" title="sparknlp.annotator.TypedDependencyParserModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypedDependencyParserModel</span></code></a> need to be
+present in the pipeline. There are two ways to set them:</p>
+<ol class="arabic">
+<li><p>Both Annotators are present in the pipeline already. The dependencies are
+taken implicitly from these two Annotators.</p></li>
+<li><p>Setting <a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMergeEntities" title="sparknlp.annotator.GraphExtraction.setMergeEntities"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setMergeEntities()</span></code></a> to <code class="docutils literal notranslate"><span class="pre">True</span></code> will download the
+default pretrained models for those two Annotators automatically. The
+specific models can also be set with <a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setDependencyParserModel" title="sparknlp.annotator.GraphExtraction.setDependencyParserModel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setDependencyParserModel()</span></code></a>
+and <a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel" title="sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setTypedDependencyParserModel()</span></code></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph_extraction</span> <span class="o">=</span> <span class="n">GraphExtraction</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRelationshipTypes</span><span class="p">([</span><span class="s2">&quot;prefer-LOC&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMergeEntities</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1">#.setDependencyParserModel([&quot;dependency_conllu&quot;, &quot;en&quot;,  &quot;public/models&quot;])</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1">#.setTypedDependencyParserModel([&quot;dependency_typed_conllu&quot;, &quot;en&quot;,  &quot;public/models&quot;])</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT,</span> <span class="pre">TOKEN,</span> <span class="pre">NAMED_ENTITY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NODE</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>relationshipTypes</strong></dt><dd><p>Paths to find between a pair of token and entity</p>
+</dd>
+<dt><strong>entityTypes</strong></dt><dd><p>Paths to find between a pair of entities</p>
+</dd>
+<dt><strong>explodeEntities</strong></dt><dd><p>When set to true find paths between entities</p>
+</dd>
+<dt><strong>rootTokens</strong></dt><dd><p>Tokens to be consider as root to start traversing the paths. Use it
+along with explodeEntities</p>
+</dd>
+<dt><strong>maxSentenceSize</strong></dt><dd><p>Maximum sentence size that the annotator will process, by default 1000.
+Above this, the sentence is skipped</p>
+</dd>
+<dt><strong>minSentenceSize</strong></dt><dd><p>Minimum sentence size that the annotator will process, by default 2.
+Below this, the sentence is skipped.</p>
+</dd>
+<dt><strong>mergeEntities</strong></dt><dd><p>Merge same neighboring entities as a single token</p>
+</dd>
+<dt><strong>includeEdges</strong></dt><dd><p>Whether to include edges when building paths</p>
+</dd>
+<dt><strong>delimiter</strong></dt><dd><p>Delimiter symbol used for path output</p>
+</dd>
+<dt><strong>posModel</strong></dt><dd><p>Coordinates (name, lang, remoteLoc) to a pretrained POS model</p>
+</dd>
+<dt><strong>dependencyParserModel</strong></dt><dd><p>Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser
+model</p>
+</dd>
+<dt><strong>typedDependencyParserModel</strong></dt><dd><p>Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency
+Parser model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependencyParser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependency&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">typedDependencyParser</span> <span class="o">=</span> <span class="n">TypedDependencyParserModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;dependency&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependency_type&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph_extraction</span> <span class="o">=</span> <span class="n">GraphExtraction</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setRelationshipTypes</span><span class="p">([</span><span class="s2">&quot;prefer-LOC&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentence</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">nerTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">posTagger</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">dependencyParser</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">typedDependencyParser</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">graph_extraction</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;You and John prefer the morning flight through Denver&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;graph&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+-----------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|graph                                                                                                            |</span>
+<span class="go">+-----------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[[node, 13, 18, prefer, [relationship -&gt; prefer,LOC, path1 -&gt; prefer,nsubj,morning,flat,flight,flat,Denver], []]]|</span>
+<span class="go">+-----------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
 <colgroup>
@@ -760,22 +893,22 @@
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.getInputCols" title="sparknlp.annotator.GraphExtraction.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
-<td><p>Get current column names of input annotations.</p></td>
+<td><p>Gets current column names of input annotations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.getLazyAnnotator" title="sparknlp.annotator.GraphExtraction.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
-<td><p>Get whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.getOrDefault" title="sparknlp.annotator.GraphExtraction.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.getOutputCol" title="sparknlp.annotator.GraphExtraction.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
-<td><p>Get output column name of annotations.</p></td>
+<td><p>Gets output column name of annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.getParam" title="sparknlp.annotator.GraphExtraction.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.getParamValue" title="sparknlp.annotator.GraphExtraction.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<td><p>Gets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.hasDefault" title="sparknlp.annotator.GraphExtraction.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
@@ -801,56 +934,56 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.set" title="sparknlp.annotator.GraphExtraction.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDelimiter</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setDelimiter" title="sparknlp.annotator.GraphExtraction.setDelimiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDelimiter</span></code></a>(value)</p></td>
+<td><p>Sets delimiter symbol used for path output.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDependencyParserModel</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setDependencyParserModel" title="sparknlp.annotator.GraphExtraction.setDependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDependencyParserModel</span></code></a>(value)</p></td>
+<td><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained Dependency Parser model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntityTypes</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setEntityTypes" title="sparknlp.annotator.GraphExtraction.setEntityTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntityTypes</span></code></a>(value)</p></td>
+<td><p>Sets paths to find between a pair of entities.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExplodeEntities</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setExplodeEntities" title="sparknlp.annotator.GraphExtraction.setExplodeEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExplodeEntities</span></code></a>(value)</p></td>
+<td><p>Sets whether to find paths between entities.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeEdges</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setIncludeEdges" title="sparknlp.annotator.GraphExtraction.setIncludeEdges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeEdges</span></code></a>(value)</p></td>
+<td><p>Sets whether to include edges when building paths.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setInputCols" title="sparknlp.annotator.GraphExtraction.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
-<td><p>Set column names of input annotations.</p></td>
+<td><p>Sets column names of input annotations.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setLazyAnnotator" title="sparknlp.annotator.GraphExtraction.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
-<td><p>Set whether Annotator should be evaluated lazily in a RecursivePipeline</p></td>
+<td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceSize</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMaxSentenceSize" title="sparknlp.annotator.GraphExtraction.setMaxSentenceSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceSize</span></code></a>(value)</p></td>
+<td><p>Sets Maximum sentence size that the annotator will process, by default 1000.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMergeEntities</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMergeEntities" title="sparknlp.annotator.GraphExtraction.setMergeEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMergeEntities</span></code></a>(value)</p></td>
+<td><p>Sets whether to kerge same neighboring entities as a single token.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinSentenceSize</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMinSentenceSize" title="sparknlp.annotator.GraphExtraction.setMinSentenceSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinSentenceSize</span></code></a>(value)</p></td>
+<td><p>Sets Minimum sentence size that the annotator will process, by default 2.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setOutputCol" title="sparknlp.annotator.GraphExtraction.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
-<td><p>Set output column name of annotations.</p></td>
+<td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code>(paramName)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setParamValue" title="sparknlp.annotator.GraphExtraction.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<td><p>Sets the value of a parameter.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosModel</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setPosModel" title="sparknlp.annotator.GraphExtraction.setPosModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosModel</span></code></a>(value)</p></td>
+<td><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained POS model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRelationshipTypes</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setRelationshipTypes" title="sparknlp.annotator.GraphExtraction.setRelationshipTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRelationshipTypes</span></code></a>(value)</p></td>
+<td><p>Sets paths to find between a pair of token and entity.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRootTokens</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setRootTokens" title="sparknlp.annotator.GraphExtraction.setRootTokens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRootTokens</span></code></a>(value)</p></td>
+<td><p>Sets tokens to be considered as the root to start traversing the paths.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTypedDependencyParserModel</span></code>(value)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel" title="sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTypedDependencyParserModel</span></code></a>(value)</p></td>
+<td><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.transform" title="sparknlp.annotator.GraphExtraction.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -982,14 +1115,14 @@ user-supplied values &lt; extra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.getInputCols">
 <span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.getInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get current column names of input annotations.</p>
+<dd><p>Gets current column names of input annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.getLazyAnnotator">
 <span class="sig-name descname"><span class="pre">getLazyAnnotator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.getLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Gets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1002,13 +1135,27 @@ default value. Raises an error if neither is set.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.getOutputCol">
 <span class="sig-name descname"><span class="pre">getOutputCol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.getOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get output column name of annotations.</p>
+<dd><p>Gets output column name of annotations.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.getParam">
 <span class="sig-name descname"><span class="pre">getParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.getParam" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a param by its name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.getParamValue">
+<span class="sig-name descname"><span class="pre">getParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.getParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1070,13 +1217,85 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setInputCols">
-<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setInputCols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set column names of input annotations.</p>
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setDelimiter">
+<span class="sig-name descname"><span class="pre">setDelimiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setDelimiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setDelimiter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets delimiter symbol used for path output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>*value</strong><span class="classifier">List[str]</span></dt><dd><p>List of input columns</p>
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Delimiter symbol used for path output</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setDependencyParserModel">
+<span class="sig-name descname"><span class="pre">setDependencyParserModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setDependencyParserModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setDependencyParserModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained Dependency
+Parser model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Coordinates (name, lang, remoteLoc) to a pretrained Dependency
+Parser model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setEntityTypes">
+<span class="sig-name descname"><span class="pre">setEntityTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setEntityTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setEntityTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets paths to find between a pair of entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Paths to find between a pair of entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setExplodeEntities">
+<span class="sig-name descname"><span class="pre">setExplodeEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setExplodeEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setExplodeEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to find paths between entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to find paths between entities.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setIncludeEdges">
+<span class="sig-name descname"><span class="pre">setIncludeEdges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setIncludeEdges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setIncludeEdges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to include edges when building paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to include edges when building paths</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setInputCols">
+<span class="sig-name descname"><span class="pre">setInputCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setInputCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets column names of input annotations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>*value</strong><span class="classifier">str</span></dt><dd><p>Input columns for the annotator</p>
 </dd>
 </dl>
 </dd>
@@ -1086,14 +1305,60 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setLazyAnnotator">
 <span class="sig-name descname"><span class="pre">setLazyAnnotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setLazyAnnotator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set whether Annotator should be evaluated lazily in a
-RecursivePipeline</p>
+<dd><p>Sets whether Annotator should be evaluated lazily in a
+RecursivePipeline.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether Annotator should be evaluated lazily in a
+RecursivePipeline</p>
 </dd>
-<dt><strong>RecursivePipeline</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setMaxSentenceSize">
+<span class="sig-name descname"><span class="pre">setMaxSentenceSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setMaxSentenceSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setMaxSentenceSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Maximum sentence size that the annotator will process, by
+default 1000.</p>
+<p>Above this, the sentence is skipped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum sentence size that the annotator will process</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setMergeEntities">
+<span class="sig-name descname"><span class="pre">setMergeEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setMergeEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setMergeEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to kerge same neighboring entities as a single token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to kerge same neighboring entities as a single token.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setMinSentenceSize">
+<span class="sig-name descname"><span class="pre">setMinSentenceSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setMinSentenceSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setMinSentenceSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Minimum sentence size that the annotator will process, by
+default 2.</p>
+<p>Below this, the sentence is skipped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum sentence size that the annotator will process</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1102,11 +1367,84 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setOutputCol">
 <span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setOutputCol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set output column name of annotations.</p>
+<dd><p>Sets output column name of annotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of output column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setParamValue">
+<span class="sig-name descname"><span class="pre">setParamValue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paramName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setParamValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paramName</strong><span class="classifier">str</span></dt><dd><p>Name of the parameter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setPosModel">
+<span class="sig-name descname"><span class="pre">setPosModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setPosModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setPosModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained POS model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Coordinates (name, lang, remoteLoc) to a pretrained POS model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setRelationshipTypes">
+<span class="sig-name descname"><span class="pre">setRelationshipTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setRelationshipTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setRelationshipTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets paths to find between a pair of token and entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Paths to find between a pair of token and entity</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setRootTokens">
+<span class="sig-name descname"><span class="pre">setRootTokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setRootTokens"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setRootTokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets tokens to be considered as the root to start traversing the paths.</p>
+<p>Use it along with explodeEntities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Sets Tokens to be consider as root to start traversing the paths.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel">
+<span class="sig-name descname"><span class="pre">setTypedDependencyParserModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setTypedDependencyParserModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained Typed
+Dependency Parser model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[str]</span></dt><dd><p>Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency
+Parser model</p>
 </dd>
 </dl>
 </dd>
