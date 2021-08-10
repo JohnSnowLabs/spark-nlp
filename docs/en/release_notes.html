@@ -522,7 +522,512 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="313">3.1.3</h3>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="320">3.2.0</h3>
+
+<h4 id="john-snow-labs-spark-nlp-320-new-longformer-embeddings-bert-and-distilbert-for-token-classification-graphexctraction-spark-nlp-configurations-new-state-of-the-art-multilingual-ner-models-and-lots-more">John Snow Labs Spark-NLP 3.2.0: New Longformer embeddings, BERT and DistilBERT for Token Classification, GraphExctraction, Spark NLP Configurations, new state-of-the-art multilingual NER models, and lots more!</h4>
+
+<p>Overview</p>
+
+<p>We are very excited to release Spark NLP 🚀 3.2.0! This is a big release with new Longformer models for long documents, BertForTokenClassification &amp; DistilBertForTokenClassification for existing or fine-tuned models on HuggingFace, GraphExctraction &amp; GraphFinisher to find relevant relationships between words, support for multilingual Date Matching, new Pydoc for Python APIs, and so many more!</p>
+
+<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
+
+<p>Major features and improvements</p>
+
+<ul>
+  <li><strong>NEW:</strong> Introducing <strong>LongformerEmbeddings</strong> annotator. <code class="language-plaintext highlighter-rouge">Longformer</code> is a transformer model for long documents. Longformer is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents. It supports sequences of length up to 4,096.</li>
+</ul>
+
+<p>We have trained two NER models based on Longformer Base and Large embeddings:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Accuracy</th>
+      <th style="text-align: left">F1 Test</th>
+      <th style="text-align: left">F1 Dev</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ner_conll_longformer_base_4096</td>
+      <td style="text-align: left">94.75%</td>
+      <td style="text-align: left">90.09</td>
+      <td style="text-align: left">94.22</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ner_conll_longformer_large_4096</td>
+      <td style="text-align: left">95.79%</td>
+      <td style="text-align: left">91.25</td>
+      <td style="text-align: left">94.82</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>NEW:</strong> Introducing <strong>BertForTokenClassification</strong> annotator. <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code> can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFBertForTokenClassification</code> in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing <strong>DistilBertForTokenClassification</strong> annotator. <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code> can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code> or <code class="language-plaintext highlighter-rouge">TFDistilBertForTokenClassification</code> in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing <strong>GraphExctraction</strong> and <strong>GraphFinisher</strong> annotators to extract a dependency graph between entities. The <strong>GraphExtraction</strong> class takes e.g. extracted entities from a <code class="language-plaintext highlighter-rouge">NerDLModel</code> and creates a dependency tree that describes how the entities relate to each other. For that, a triple store format is used. Nodes represent the entities and the edges represent the relations between those entities. The graph can then be used to find relevant relationships between words</li>
+  <li><strong>NEW:</strong> Introducing support for multilingual <strong>DateMatcher</strong> and <strong>MultiDateMatcher</strong> annotators. These two annotators will support <strong>English</strong>, <strong>French</strong>, <strong>Italian</strong>, <strong>Spanish</strong>, <strong>German</strong>, and <strong>Portuguese</strong> languages</li>
+  <li><strong>NEW:</strong> Introducing new <strong>Python APIs</strong> and fully documented <strong>Pydoc</strong></li>
+  <li><strong>NEW:</strong> Introducing new <strong>Spark NLP configurations</strong> via spark.conf() by deprecating <code class="language-plaintext highlighter-rouge">application.conf</code> usage. You can easily change Spark NLP configurations in SparkSession. For more examples please visti <a href="https://github.com/JohnSnowLabs/spark-nlp#spark-nlp-configuration">Spark NLP Configuration</a></li>
+  <li>Add support for Amazon S3 to <code class="language-plaintext highlighter-rouge">log_folder</code> Spark NLP config and <code class="language-plaintext highlighter-rouge">outputLogsPath</code> param in <code class="language-plaintext highlighter-rouge">NerDLApproach</code>, <code class="language-plaintext highlighter-rouge">ClassifierDlApproach</code>, <code class="language-plaintext highlighter-rouge">MultiClassifierDlApproach</code>, and <code class="language-plaintext highlighter-rouge">SentimentDlApproach</code> annotators</li>
+  <li>Added examples to all Spark NLP Scaladoc</li>
+  <li>Added examples to all Spark NLP Pydoc</li>
+  <li>Welcoming new Databricks runtimes to our Spark NLP family:
+    <ul>
+      <li>Databricks 8.4 ML &amp; GPU</li>
+    </ul>
+  </li>
+  <li>Fix printing a wrong version return in sparknlp.version()</li>
+</ul>
+
+<p>Models and Pipelines</p>
+
+<p>Spark NLP 3.2.0 comes with new LongformerEmbeddings, BertForTokenClassification, and DistilBertForTokenClassification annotators.</p>
+
+<h4 id="new-longformer-models">New Longformer Models</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">LongformerEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/longformer_base_4096_en.html">longformer_base_4096</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">LongformerEmbeddings</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/longformer_large_4096_en.html">longformer_large_4096</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="featured-nerdl-models">Featured NerDL Models</h4>
+
+<p>New NER models for <strong>CoNLL</strong> (4 entities) and <strong>OntoNotes</strong> (18 entities) trained by using <strong>BERT</strong>, <strong>RoBERTa</strong>, <strong>DistilBERT</strong>, <strong>XLM-RoBERTa</strong>, and <strong>Longformer</strong> Embeddings:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_roberta_base_en.html">ner_ontonotes_roberta_base</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_roberta_large_en.html">ner_ontonotes_roberta_large</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_distilbert_base_cased_en.html">ner_ontonotes_distilbert_base_cased</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_bert_base_cased_en.html">ner_conll_bert_base_cased</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_distilbert_base_cased_en.html">ner_conll_distilbert_base_cased</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_roberta_base_en.html">ner_conll_roberta_base</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_roberta_large_en.html">ner_conll_roberta_large</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_xlm_roberta_base_en.html">ner_conll_xlm_roberta_base</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_longformer_base_4096_en.html">ner_conll_longformer_base_4096</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NerDLModel</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_longformer_large_4096_en.html">ner_conll_longformer_large_4096</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="bert-and-distilbert-for-token-classification">BERT and DistilBERT for Token Classification</h4>
+
+<p>New BERT and DistilBERT fine-tuned for the Named Entity Recognition (NER) in <strong>English</strong>, <strong>Persian</strong>, <strong>Spanish</strong>, <strong>Swedish</strong>, and <strong>Turkish</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Model</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Build</th>
+      <th style="text-align: left">Lang</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_base_token_classifier_conll03_en.html">bert_base_token_classifier_conll03</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_large_token_classifier_conll03_en.html">bert_large_token_classifier_conll03</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_base_token_classifier_ontonote_en.html">bert_base_token_classifier_ontonote</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_large_token_classifier_ontonote_en.html">bert_large_token_classifier_ontonote</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_parsbert_armanner_fa.html">bert_token_classifier_parsbert_armanner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fa</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_parsbert_ner_fa.html">bert_token_classifier_parsbert_ner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fa</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_parsbert_peymaner_fa.html">bert_token_classifier_parsbert_peymaner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fa</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_turkish_ner_tr.html">bert_token_classifier_turkish_ner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tr</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_spanish_ner_es.html">bert_token_classifier_spanish_ner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">es</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_swedish_ner_sv.html">bert_token_classifier_swedish_ner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">sv</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/08/bert_base_token_classifier_few_nerd_en.html">bert_base_token_classifier_few_nerd</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/08/distilbert_base_token_classifier_few_nerd_en.html">distilbert_base_token_classifier_few_nerd</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/distilbert_base_token_classifier_conll03_en.html">distilbert_base_token_classifier_conll03</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/distilbert_base_token_classifier_ontonotes_en.html">distilbert_base_token_classifier_ontonotes</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">en</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://nlp.johnsnowlabs.com/2021/08/05/distilbert_token_classifier_persian_ner_fa.html">distilbert_token_classifier_persian_ner</a></td>
+      <td style="text-align: left">3.2.0</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">fa</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The complete list of all 3700+ models &amp; pipelines in 200+ languages is available on <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+
+<h4 id="new-notebooks">New Notebooks</h4>
+
+<p>Import hundreds of models in different languages to Spark NLP</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Spark NLP</th>
+      <th style="text-align: left">HuggingFace Notebooks</th>
+      <th style="text-align: left">Colab</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">LongformerEmbeddings</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb">HuggingFace in Spark NLP - Longformer</a></td>
+      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb">HuggingFace in Spark NLP - BertForTokenClassification</a></td>
+      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">DistilBertForTokenClassification</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb">HuggingFace in Spark NLP - DistilBertForTokenClassification</a></td>
+      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can visit <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers in Spark NLP</a> for more info</p>
+
+<p>New Multilingual DateMatcher and MultiDateMatcher</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Spark NLP</th>
+      <th style="text-align: left">Jupyter Notebooks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">MultiDateMatcher</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/MultiDateMatcherMultiLanguage_en.ipynb">Date Matcehr in English</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MultiDateMatcher</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/french/MultiDateMatcherMultiLanguage_fr.ipynb">Date Matcehr in French</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MultiDateMatcher</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/german/MultiDateMatcherMultiLanguage_de.ipynb">Date Matcehr in German</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MultiDateMatcher</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/italian/MultiDateMatcherMultiLanguage_it.ipynb">Date Matcehr in Italian</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MultiDateMatcher</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/portuguese/MultiDateMatcherMultiLanguage_pt.ipynb">Date Matcehr in Portuguese</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MultiDateMatcher</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/spanish/MultiDateMatcherMultiLanguage_es.ipynb">Date Matcehr in Spanish</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">GraphExtraction</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/graph-extraction/graph_extraction_intro.ipynb">Graph Extraction Intro</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">GraphExtraction</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/graph-extraction/graph_extraction.ipynb">Graph Extraction</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">GraphExtraction</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/graph-extraction/graph_extraction_explode_entities.ipynb">Graph Extraction Explode Entities</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Documentation</p>
+
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">TF Hub &amp; HuggingFace to Spark NLP</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/models">Models Hub</a> with new models</li>
+  <li><a href="https://medium.com/spark-nlp">Spark NLP publications</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/demo">Spark NLP in Action</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/docs/en/quickstart">Spark NLP documentation</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/api">Spark NLP Scala APIs</a></li>
+  <li><a href="https://nlp.johnsnowlabs.com/api/python">Spark NLP Python APIs</a></li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Spark NLP Workshop</a> notebooks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public">Spark NLP training certification notebooks</a> for Google Colab and Databricks</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-display">Spark NLP Display</a> for visualization of different types of annotations</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp/discussions">Discussions</a> Engage with other community members, share ideas, and show off how you use Spark NLP!</li>
+</ul>
+
+<p>Installation</p>
+
+<p><strong>Python</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#PyPI</span>
+
+pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.2.0
+</code></pre></div></div>
+
+<p><strong>Spark Packages</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x (Scala 2.12 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.0
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.0
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.0
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x (Scala 2.11 only):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.0
+</code></pre></div></div>
+
+<p><strong>GPU</strong></p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:3.2.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.0
+</code></pre></div></div>
+
+<p><strong>Maven</strong></p>
+
+<p><strong>spark-nlp</strong> on Apache Spark 3.0.x and 3.1.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.4.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark24_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp</strong> on Apache Spark 2.3.x:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>spark-nlp-gpu:</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu-spark23_2.11<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.2.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>FAT JARs</strong></p>
+
+<ul>
+  <li>
+    <p>CPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-assembly-3.2.0.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-assembly-3.2.0.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark24-assembly-3.2.0.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark24-assembly-3.2.0.jar</p>
+  </li>
+  <li>
+    <p>CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark23-assembly-3.2.0.jar</p>
+  </li>
+  <li>
+    <p>GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark23-assembly-3.2.0.jar</p>
+  </li>
+</ul>
+
+<h3 id="313">3.1.3</h3>
 
 <h4 id="john-snow-labs-spark-nlp-313-tf-hub-support-new-multilingual-ner-models-for-40-languages-state-of-the-art-multilingual-sentence-embeddings-for-100-languages-and-bug-fixes">John Snow Labs Spark-NLP 3.1.3: TF Hub support, new multilingual NER models for 40 languages, state-of-the-art multilingual sentence embeddings for 100+ languages, and bug fixes!</h4>
 
@@ -8750,7 +9255,7 @@ conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs sp
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Workshop</a></li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-08-08T00:00:00+00:00">Aug 08, 2021</time>
+      <time itemprop="dateModified" datetime="2021-08-10T00:00:00+00:00">Aug 10, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
