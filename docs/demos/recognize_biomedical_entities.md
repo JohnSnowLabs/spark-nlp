@@ -101,19 +101,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BACTERIAL_SPECIES/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb
-        - title: Detect Genomic Variant Information
-          id: detect_genomic_variant_information 
-          image: 
-              src: /assets/images/Detect_Genomic_Variant_Information.svg
-          image2: 
-              src: /assets/images/Detect_Genomic_Variant_Information_c.svg
-          excerpt: This model extracts genetic variant information from the medical text.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_GEN_VAR/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_NER.ipynb 
 ---

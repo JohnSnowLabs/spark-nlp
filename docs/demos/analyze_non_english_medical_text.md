@@ -88,48 +88,6 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DIAG_PROC_ES/
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC_ES.ipynb
-        - title: HPO coding - Spanish
-          id: hpo_coding_spanish
-          image: 
-              src: /assets/images/HPO_coding_Spanish.svg
-          image2: 
-              src: /assets/images/HPO_coding_Spanish_f.svg
-          excerpt: Entity Resolver for Human Phenotype Ontology in Spanish
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_HPO_ES/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb
-        - title: Named Entity Recognition for (Brazilian) Portuguese Legal Texts
-          id: named_entity_recognition_for_portuguese_legal_texts
-          image: 
-              src: /assets/images/Named_Entity_Recognition_for_Portuguese_Legal_Texts.svg
-          image2: 
-              src: /assets/images/Named_Entity_Recognition_for_Portuguese_Legal_Texts_f.svg
-          excerpt: Recognize Organization, Jurisprudence, Legislation, Person, Location, and Time in legal texts (Brazilian Portuguese) using pre-trained Spark NLP model with Bert Embeddings
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_LENER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: 
-        - title: Detect professions and occupations in Spanish texts
-          id: detect_professions_occupations_Spanish_texts 
-          image: 
-              src: /assets/images/Classify-documents.svg
-          image2: 
-              src: /assets/images/Classify-documents-w.svg
-          excerpt: Automatically identify professions and occupations entities in Spanish texts using our pretrained Spark NLP for Healthcare model. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: httpshttps://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
-          - text: Colab Netbook
-            type: blue_btn
-            url:
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DIAG_PROC_ES.ipynb       
         
 ---
