@@ -51,8 +51,6 @@ class ClassifierDLTestSpec extends FlatSpec {
       .setLr(5e-3f)
       .setDropout(0.5f)
       .setRandomSeed(44)
-      .setEnableOutputLogs(true)
-      .setOutputLogsPath("/Users/maziyar/Downloads")
 
     val pipeline = new Pipeline()
       .setStages(
