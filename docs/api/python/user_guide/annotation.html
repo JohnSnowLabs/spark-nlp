@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annotation &#8212; Spark NLP 3.2.0 documentation</title>
+    
+  <link href="../static/css/theme.css" rel="stylesheet" />
+  <link href="../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
+    <script src="../static/jquery.js"></script>
+    <script src="../static/underscore.js"></script>
+    <script src="../static/doctools.js"></script>
+    <script src="../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Annotators" href="annotators.html" />
+    <link rel="prev" title="User Guide" href="index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../static/logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Annotation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="annotators.html">
+   Annotators
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="custom_pipelines.html">
+   Setting up your own pipeline
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pretrained_pipelines.html">
+   Pretrained Pipelines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="training.html">
+   Loading datasets for training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="light_pipelines.html">
+   Light Pipelines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="helpers.html">
+   Helper Functions
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="annotation">
+<h1>Annotation<a class="headerlink" href="#annotation" title="Permalink to this headline">¶</a></h1>
+<p>The basic result of a Spark NLP operation is an annotation. It’s structure includes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">annotatorType</span></code>: the type of annotator that generated the current annotation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">begin</span></code>: the begin of the matched content relative to raw-text</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end</span></code>: the end of the matched content relative to raw-text</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result</span></code>: the main output of the annotation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metadata</span></code>: content of matched result and additional information</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">embeddings</span></code>: (new in 2.0) contains vector mappings if required</p></li>
+</ul>
+<p>This object is automatically generated by annotators after a transform process.
+No manual work is required. However, it is important to clearly understand the structure of an annotation to be able too efficiently use it.</p>
+<p>For example, the annotation could look like this (using <a class="reference internal" href="pretrained_pipelines.html#pretrained-pipelines"><span class="std std-ref">Pretrained Pipelines</span></a>):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">explain_document_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s2">&quot;explain_document_ml&quot;</span><span class="p">)</span>
+<span class="go">explain_document_ml download started this may take some time.</span>
+<span class="go">Approx size to download 9.1 MB</span>
+<span class="go">[OK!]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;We are very happy about Spark NLP&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">explain_document_pipeline</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(pos)&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+---------------------------------------+</span>
+<span class="go">|col                                    |</span>
+<span class="go">+---------------------------------------+</span>
+<span class="go">|[pos, 0, 1, PRP, [word -&gt; We], []]     |</span>
+<span class="go">|[pos, 3, 5, VBP, [word -&gt; are], []]    |</span>
+<span class="go">|[pos, 7, 10, RB, [word -&gt; very], []]   |</span>
+<span class="go">|[pos, 12, 16, JJ, [word -&gt; happy], []] |</span>
+<span class="go">|[pos, 18, 22, IN, [word -&gt; about], []] |</span>
+<span class="go">|[pos, 24, 28, NNP, [word -&gt; Spark], []]|</span>
+<span class="go">|[pos, 30, 32, NNP, [word -&gt; NLP], []]  |</span>
+<span class="go">+---------------------------------------+</span>
+</pre></div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">User Guide</a>
+    <a class='right-next' id="next-link" href="annotators.html" title="next page">Annotators</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, John Snow Labs.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

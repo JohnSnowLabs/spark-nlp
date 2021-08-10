@@ -41,24 +41,52 @@ class AnnotatorProperties(Params):
                           )
 
     def setInputCols(self, *value):
+        """Sets column names of input annotations.
+
+        Parameters
+        ----------
+        *value : str
+            Input columns for the annotator
+        """
         if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value[0])
         else:
             return self._set(inputCols=list(value))
 
     def getInputCols(self):
+        """Gets current column names of input annotations."""
         self.getOrDefault(self.inputCols)
 
     def setOutputCol(self, value):
+        """Sets output column name of annotations.
+
+        Parameters
+        ----------
+        value : str
+            Name of output column
+        """
         return self._set(outputCol=value)
 
     def getOutputCol(self):
+        """Gets output column name of annotations."""
         self.getOrDefault(self.outputCol)
 
     def setLazyAnnotator(self, value):
+        """Sets whether Annotator should be evaluated lazily in a
+        RecursivePipeline.
+
+        Parameters
+        ----------
+        value : bool
+            Whether Annotator should be evaluated lazily in a
+            RecursivePipeline
+        """
         return self._set(lazyAnnotator=value)
 
     def getLazyAnnotator(self):
+        """Gets whether Annotator should be evaluated lazily in a
+        RecursivePipeline.
+        """
         self.getOrDefault(self.lazyAnnotator)
 
 
@@ -87,9 +115,17 @@ class HasEmbeddingsProperties(Params):
                       typeConverter=TypeConverters.toInt)
 
     def setDimension(self, value):
+        """Sets embeddings dimension.
+
+        Parameters
+        ----------
+        value : int
+            Embeddings dimension
+        """
         return self._set(dimension=value)
 
     def getDimension(self):
+        """Gets embeddings dimension."""
         return self.getOrDefault(self.dimension)
 
 
@@ -100,9 +136,23 @@ class HasStorageRef:
                        TypeConverters.toString)
 
     def setStorageRef(self, value):
+        """Sets unique reference name for identification.
+
+        Parameters
+        ----------
+        value : str
+            Unique reference name for identification
+        """
         return self._set(storageRef=value)
 
     def getStorageRef(self):
+        """Gets unique reference name for identification.
+
+        Returns
+        -------
+        str
+            Unique reference name for identification
+        """
         return self.getOrDefault("storageRef")
 
 
@@ -111,9 +161,23 @@ class HasBatchedAnnotate:
     batchSize = Param(Params._dummy(), "batchSize", "Size of every batch", TypeConverters.toInt)
 
     def setBatchSize(self, v):
+        """Sets batch size.
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
         return self._set(batchSize=v)
 
     def getBatchSize(self):
+        """Gets current batch size.
+
+        Returns
+        -------
+        int
+            Current batch size
+        """
         return self.getOrDefault("batchSize")
 
 
@@ -124,9 +188,23 @@ class HasCaseSensitiveProperties:
                           typeConverter=TypeConverters.toBoolean)
 
     def setCaseSensitive(self, value):
+        """Sets whether to ignore case in tokens for embeddings matching.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to ignore case in tokens for embeddings matching
+        """
         return self._set(caseSensitive=value)
 
     def getCaseSensitive(self):
+        """Gets whether to ignore case in tokens for embeddings matching.
+
+        Returns
+        -------
+        bool
+            Whether to ignore case in tokens for embeddings matching
+        """
         return self.getOrDefault(self.caseSensitive)
 
 
@@ -138,9 +216,23 @@ class HasExcludableStorage:
                            typeConverter=TypeConverters.toBoolean)
 
     def setIncludeStorage(self, value):
+        """Sets whether to include indexed storage in trained model.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to include indexed storage in trained model
+        """
         return self._set(includeStorage=value)
 
     def getIncludeStorage(self):
+        """Gets whether to include indexed storage in trained model.
+
+        Returns
+        -------
+        bool
+            Whether to include indexed storage in trained model
+        """
         return self.getOrDefault("includeStorage")
 
 
@@ -152,15 +244,44 @@ class HasStorage(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage
                         typeConverter=TypeConverters.identity)
 
     def setStoragePath(self, path, read_as):
+        """Sets path to file.
+
+        Parameters
+        ----------
+        path : str
+            Path to file
+        read_as : str
+            How to interpret the file
+
+        Notes
+        -----
+        See :class:`ReadAs <sparknlp.common.ReadAs>` for reading options.
+        """
         return self._set(storagePath=ExternalResource(path, read_as, {}))
 
     def getStoragePath(self):
+        """Gets path to file.
+
+        Returns
+        -------
+        str
+            path to file
+        """
         return self.getOrDefault("storagePath")
 
 
 class HasStorageModel(HasStorageRef, HasCaseSensitiveProperties, HasExcludableStorage):
 
     def saveStorage(self, path, spark):
+        """Saves the current model to storage.
+
+        Parameters
+        ----------
+        path : str
+            Path for saving the model.
+        spark : :class:`pyspark.sql.SparkSession`
+            The current SparkSession
+        """
         self._transfer_params_to_java()
         self._java_obj.saveStorage(path, spark._jsparkSession, False)
 
@@ -206,12 +327,37 @@ def RegexRule(rule, identifier):
 
 
 class ReadAs(object):
+    """Object that contains constants for how to read Spark Resources.
+
+    Possible values are:
+
+    ================= =======================================
+    Value             Description
+    ================= =======================================
+    ``ReadAs.TEXT``   Read the resource as text.
+    ``ReadAs.SPARK``  Read the resource as a Spark DataFrame.
+    ``ReadAs.BINARY`` Read the resource as a binary file.
+    ================= =======================================
+    """
     TEXT = "TEXT"
     SPARK = "SPARK"
     BINARY = "BINARY"
 
 
 def ExternalResource(path, read_as=ReadAs.TEXT, options={}):
+    """Returns a representation fo an External Resource.
+
+    How the resource is read can be set with `read_as`.
+
+    Parameters
+    ----------
+    path : str
+        Path to the resource
+    read_as : str, optional
+        How to read the resource, by default ReadAs.TEXT
+    options : dict, optional
+        Options to read the resource, by default {}
+    """
     return _internal._ExternalResource(path, read_as, options).apply()
 
 

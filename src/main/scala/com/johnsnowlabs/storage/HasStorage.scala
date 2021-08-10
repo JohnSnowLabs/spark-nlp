@@ -1,15 +1,31 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.storage
 
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import java.util.UUID
-
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.johnsnowlabs.nlp.HasCaseSensitiveProperties
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.storage.Database.Name
-import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -44,14 +60,14 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
                               localFiles: Array[String],
                               fitDataset: Dataset[_],
                               spark: SparkContext
-                           ): Unit = {
+                            ): Unit = {
 
     require(databases.length == localFiles.length, "Storage temp locations must be equal to the amount of databases")
 
     lazy val connections = databases.zip(localFiles)
-      .map{ case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile))}
+      .map { case (database, localFile) => (database, RocksDBConnection.getOrCreate(localFile)) }
 
-    val writers = connections.map{ case (db, conn) =>
+    val writers = connections.map { case (db, conn) =>
       (db, createWriter(db, conn))
     }.toMap[Database.Name, StorageWriter[_]]
 
@@ -82,7 +98,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     val sparkContext = spark.sparkContext
 
     val tmpLocalDestinations = {
-      databases.map( _ =>
+      databases.map(_ =>
         Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + "_idx")
           .toAbsolutePath.toString
       )
@@ -92,9 +108,10 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
     val locators = databases.map(database => StorageLocator(database.toString, $(storageRef), spark))
 
-    tmpLocalDestinations.zip(locators).foreach{case (tmpLocalDestination, locator) =>
+    tmpLocalDestinations.zip(locators).foreach { case (tmpLocalDestination, locator) =>
+
       /** tmpFiles indexed must be explicitly set to be local files */
-      val uri = "file://"+(new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath)
+      val uri = "file://" + new java.net.URI(tmpLocalDestination.replaceAllLiterally("\\", "/")).getPath
       StorageHelper.sendToCluster(new Path(uri), locator.clusterFilePath, locator.clusterFileName, locator.destinationScheme, sparkContext)
     }
 
@@ -109,12 +126,13 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
     //if the path contains s3a download to local cache if not present
     if (uri.getScheme != null) {
       if (uri.getScheme.equals("s3a")) {
-        var accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-        var secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-        if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-          val defaultCred = new DefaultAWSCredentialsProviderChain().getCredentials
-          accessKeyId = Some(defaultCred.getAWSAccessKeyId)
-          secretAccessKey = Some(defaultCred.getAWSSecretKey)
+        var accessKeyId = ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId)
+        var secretAccessKey = ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)
+
+        if (accessKeyId == "" || secretAccessKey == "") {
+          val defaultCredentials = new DefaultAWSCredentialsProviderChain().getCredentials
+          accessKeyId = defaultCredentials.getAWSAccessKeyId
+          secretAccessKey = defaultCredentials.getAWSSecretKey
         }
         var old_key = ""
         var old_secret = ""
@@ -126,8 +144,8 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
           val dst = new Path(ResourceDownloader.cacheFolder, src.getName)
           if (!Files.exists(Paths.get(dst.toUri.getPath))) {
             //download s3 resource locally using config keys
-            spark.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId.get)
-            spark.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey.get)
+            spark.hadoopConfiguration.set("fs.s3a.access.key", accessKeyId)
+            spark.hadoopConfiguration.set("fs.s3a.secret.key", secretAccessKey)
             val s3fs = FileSystem.get(uri, spark.hadoopConfiguration)
 
             val dst_tmp = new Path(ResourceDownloader.cacheFolder, src.getName + "_tmp")
@@ -135,7 +153,7 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
             s3fs.copyToLocalFile(src, dst_tmp)
             // rename to original file
-            val path = Files.move(
+            Files.move(
               Paths.get(dst_tmp.toUri.getRawPath),
               Paths.get(dst.toUri.getRawPath),
               StandardCopyOption.REPLACE_EXISTING

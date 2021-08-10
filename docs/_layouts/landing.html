@@ -201,22 +201,22 @@ article_header:
                   <div class="highlight-box">
     {% highlight bash %}
     # Install Spark NLP from PyPI
-    $ pip install spark-nlp==3.1.3 pyspark
+    $ pip install spark-nlp==3.2.0 pyspark
   
     # Install Spark NLP from Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
   
     # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.3
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
   
     # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.3
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
   
     # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.1.3
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
   
     # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-    $ spark-shell --jar spark-nlp-assembly-3.1.3
+    $ spark-shell --jar spark-nlp-assembly-3.2.0
     {% endhighlight %}
                     </div>
                 </div>
@@ -289,6 +289,7 @@ article_header:
                     <li><strong>DistilBERT</strong> Embeddings</li>
                     <li><strong>RoBERTa</strong> Embeddings</li>
                     <li><strong>XLM-RoBERTa</strong> Embeddings</li>
+                    <li><strong>Longformer</strong> Embeddings</li>
                     <li><strong>ALBERT</strong> Embeddings</li>
                     <li><strong>XLNet</strong> Embeddings</li>
                     <li><strong>ELMO</strong> Embeddings</li>
@@ -304,7 +305,9 @@ article_header:
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
-                    <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>  
+                    <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>
+                    <li>BERT <strong>for </strong>Token Classification</li>
+                    <li>DistilBERT <strong>for </strong>Token Classification</li>
                     <li><strong>Named entity</strong> recognition (DL model)</li>
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
@@ -361,8 +364,8 @@ article_header:
                     <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
-                    <li>50+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
-                    <strong>BERT</strong>, <strong>ELMO</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
+                    <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
+                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
                     <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
                   </ul>
                 </div>

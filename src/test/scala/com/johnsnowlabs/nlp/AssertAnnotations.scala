@@ -24,13 +24,21 @@ object AssertAnnotations {
   }
 
   def assertFields(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
-    expectedResult.zipWithIndex.foreach { case (annotationDocument, indexDocument) =>
+    expectedResult.zipWithIndex.foreach { case (expectedAnnotationDocument, indexDocument) =>
       val actualDocument = actualResult(indexDocument)
-      annotationDocument.zipWithIndex.foreach { case (annotation, index) =>
-        assert(actualDocument(index).result == annotation.result)
-        assert(actualDocument(index).begin == annotation.begin)
-        assert(actualDocument(index).end == annotation.end)
-        assert(actualDocument(index).metadata == annotation.metadata)
+      expectedAnnotationDocument.zipWithIndex.foreach { case (expectedAnnotation, index) =>
+        val actualResult = actualDocument(index).result
+        val actualBegin = actualDocument(index).begin
+        val actualEnd = actualDocument(index).end
+        val actualMetadata = actualDocument(index).metadata
+        val expectedResult = expectedAnnotation.result
+        val expectedBegin = expectedAnnotation.begin
+        val expectedEnd = expectedAnnotation.end
+        val expectedMetadata = expectedAnnotation.metadata
+        assert(actualResult == expectedResult, s"actual result $actualResult != expected result $expectedResult")
+        assert(actualBegin == expectedBegin, s"actual begin $actualBegin != expected result $expectedBegin")
+        assert(actualEnd == expectedEnd, s"actual end $actualEnd != expected end $expectedEnd")
+        assert(actualMetadata == expectedMetadata, s"actual begin $actualMetadata != expected result $expectedMetadata")
       }
     }
   }

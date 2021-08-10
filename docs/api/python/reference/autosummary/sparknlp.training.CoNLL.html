@@ -1,0 +1,900 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.training.CoNLL &#8212; Spark NLP 3.2.0 documentation</title>
+    
+  <link href="../../static/css/theme.css" rel="stylesheet" />
+  <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../../static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
+    <script src="../../static/jquery.js"></script>
+    <script src="../../static/underscore.js"></script>
+    <script src="../../static/doctools.js"></script>
+    <script src="../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sparknlp.training.CoNLLU" href="sparknlp.training.CoNLLU.html" />
+    <link rel="prev" title="sparknlp.training" href="sparknlp.training.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../static/logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="sparknlp.annotator.html">
+   sparknlp.annotator
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.AlbertEmbeddings.html">
+     sparknlp.annotator.AlbertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.BertEmbeddings.html">
+     sparknlp.annotator.BertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.BertForTokenClassification.html">
+     sparknlp.annotator.BertForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.BertSentenceEmbeddings.html">
+     sparknlp.annotator.BertSentenceEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.BigTextMatcher.html">
+     sparknlp.annotator.BigTextMatcher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.BigTextMatcherModel.html">
+     sparknlp.annotator.BigTextMatcherModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ChunkEmbeddings.html">
+     sparknlp.annotator.ChunkEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ChunkTokenizer.html">
+     sparknlp.annotator.ChunkTokenizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ChunkTokenizerModel.html">
+     sparknlp.annotator.ChunkTokenizerModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Chunker.html">
+     sparknlp.annotator.Chunker
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ClassifierDLApproach.html">
+     sparknlp.annotator.ClassifierDLApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ClassifierDLModel.html">
+     sparknlp.annotator.ClassifierDLModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerApproach.html">
+     sparknlp.annotator.ContextSpellCheckerApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ContextSpellCheckerModel.html">
+     sparknlp.annotator.ContextSpellCheckerModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DateMatcher.html">
+     sparknlp.annotator.DateMatcher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DateMatcherUtils.html">
+     sparknlp.annotator.DateMatcherUtils
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DependencyParserApproach.html">
+     sparknlp.annotator.DependencyParserApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DependencyParserModel.html">
+     sparknlp.annotator.DependencyParserModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DistilBertEmbeddings.html">
+     sparknlp.annotator.DistilBertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html">
+     sparknlp.annotator.DistilBertForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DocumentNormalizer.html">
+     sparknlp.annotator.DocumentNormalizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ElmoEmbeddings.html">
+     sparknlp.annotator.ElmoEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.GraphExtraction.html">
+     sparknlp.annotator.GraphExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LanguageDetectorDL.html">
+     sparknlp.annotator.LanguageDetectorDL
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Lemmatizer.html">
+     sparknlp.annotator.Lemmatizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LemmatizerModel.html">
+     sparknlp.annotator.LemmatizerModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html">
+     sparknlp.annotator.LongformerEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.MarianTransformer.html">
+     sparknlp.annotator.MarianTransformer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.MultiClassifierDLApproach.html">
+     sparknlp.annotator.MultiClassifierDLApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.MultiClassifierDLModel.html">
+     sparknlp.annotator.MultiClassifierDLModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.MultiDateMatcher.html">
+     sparknlp.annotator.MultiDateMatcher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NGramGenerator.html">
+     sparknlp.annotator.NGramGenerator
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerApproach.html">
+     sparknlp.annotator.NerApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerConverter.html">
+     sparknlp.annotator.NerConverter
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerCrfApproach.html">
+     sparknlp.annotator.NerCrfApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerCrfModel.html">
+     sparknlp.annotator.NerCrfModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerDLApproach.html">
+     sparknlp.annotator.NerDLApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerDLModel.html">
+     sparknlp.annotator.NerDLModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NerOverwriter.html">
+     sparknlp.annotator.NerOverwriter
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Normalizer.html">
+     sparknlp.annotator.Normalizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NormalizerModel.html">
+     sparknlp.annotator.NormalizerModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NorvigSweetingApproach.html">
+     sparknlp.annotator.NorvigSweetingApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.NorvigSweetingModel.html">
+     sparknlp.annotator.NorvigSweetingModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.PerceptronApproach.html">
+     sparknlp.annotator.PerceptronApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.PerceptronModel.html">
+     sparknlp.annotator.PerceptronModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RecursiveTokenizer.html">
+     sparknlp.annotator.RecursiveTokenizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RecursiveTokenizerModel.html">
+     sparknlp.annotator.RecursiveTokenizerModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RegexMatcher.html">
+     sparknlp.annotator.RegexMatcher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RegexMatcherModel.html">
+     sparknlp.annotator.RegexMatcherModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RegexTokenizer.html">
+     sparknlp.annotator.RegexTokenizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html">
+     sparknlp.annotator.RoBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentenceDetector.html">
+     sparknlp.annotator.SentenceDetector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLApproach.html">
+     sparknlp.annotator.SentenceDetectorDLApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentenceDetectorDLModel.html">
+     sparknlp.annotator.SentenceDetectorDLModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentenceDetectorParams.html">
+     sparknlp.annotator.SentenceDetectorParams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentenceEmbeddings.html">
+     sparknlp.annotator.SentenceEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentimentDLApproach.html">
+     sparknlp.annotator.SentimentDLApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentimentDLModel.html">
+     sparknlp.annotator.SentimentDLModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentimentDetector.html">
+     sparknlp.annotator.SentimentDetector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SentimentDetectorModel.html">
+     sparknlp.annotator.SentimentDetectorModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Stemmer.html">
+     sparknlp.annotator.Stemmer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.StopWordsCleaner.html">
+     sparknlp.annotator.StopWordsCleaner
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SymmetricDeleteApproach.html">
+     sparknlp.annotator.SymmetricDeleteApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.SymmetricDeleteModel.html">
+     sparknlp.annotator.SymmetricDeleteModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.T5Transformer.html">
+     sparknlp.annotator.T5Transformer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.TextMatcher.html">
+     sparknlp.annotator.TextMatcher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.TextMatcherModel.html">
+     sparknlp.annotator.TextMatcherModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Token2Chunk.html">
+     sparknlp.annotator.Token2Chunk
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Tokenizer.html">
+     sparknlp.annotator.Tokenizer
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.TokenizerModel.html">
+     sparknlp.annotator.TokenizerModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.TypedDependencyParserApproach.html">
+     sparknlp.annotator.TypedDependencyParserApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.TypedDependencyParserModel.html">
+     sparknlp.annotator.TypedDependencyParserModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.UniversalSentenceEncoder.html">
+     sparknlp.annotator.UniversalSentenceEncoder
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ViveknSentimentApproach.html">
+     sparknlp.annotator.ViveknSentimentApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.ViveknSentimentModel.html">
+     sparknlp.annotator.ViveknSentimentModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html">
+     sparknlp.annotator.WordEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.WordEmbeddingsModel.html">
+     sparknlp.annotator.WordEmbeddingsModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.WordSegmenterApproach.html">
+     sparknlp.annotator.WordSegmenterApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.WordSegmenterModel.html">
+     sparknlp.annotator.WordSegmenterModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlmRoBertaEmbeddings.html">
+     sparknlp.annotator.XlmRoBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html">
+     sparknlp.annotator.XlnetEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.YakeModel.html">
+     sparknlp.annotator.YakeModel
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="sparknlp.base.html">
+   sparknlp.base
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.Chunk2Doc.html">
+     sparknlp.base.Chunk2Doc
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.Doc2Chunk.html">
+     sparknlp.base.Doc2Chunk
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.DocumentAssembler.html">
+     sparknlp.base.DocumentAssembler
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.EmbeddingsFinisher.html">
+     sparknlp.base.EmbeddingsFinisher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.Finisher.html">
+     sparknlp.base.Finisher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.GraphFinisher.html">
+     sparknlp.base.GraphFinisher
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.HasRecursiveFit.html">
+     sparknlp.base.HasRecursiveFit
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.HasRecursiveTransform.html">
+     sparknlp.base.HasRecursiveTransform
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.LightPipeline.html">
+     sparknlp.base.LightPipeline
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.RecursivePipeline.html">
+     sparknlp.base.RecursivePipeline
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.RecursivePipelineModel.html">
+     sparknlp.base.RecursivePipelineModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.base.TokenAssembler.html">
+     sparknlp.base.TokenAssembler
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="sparknlp.functions.html">
+   sparknlp.functions
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.explode_annotations_col.html">
+     sparknlp.functions.explode_annotations_col
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.filter_by_annotations_col.html">
+     sparknlp.functions.filter_by_annotations_col
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.map_annotations.html">
+     sparknlp.functions.map_annotations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.map_annotations_array.html">
+     sparknlp.functions.map_annotations_array
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.map_annotations_col.html">
+     sparknlp.functions.map_annotations_col
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.map_annotations_cols.html">
+     sparknlp.functions.map_annotations_cols
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.functions.map_annotations_strict.html">
+     sparknlp.functions.map_annotations_strict
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="sparknlp.training.html">
+   sparknlp.training
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     sparknlp.training.CoNLL
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.training.CoNLLU.html">
+     sparknlp.training.CoNLLU
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.training.POS.html">
+     sparknlp.training.POS
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.training.PubTator.html">
+     sparknlp.training.PubTator
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="sparknlp-training-conll">
+<h1>sparknlp.training.CoNLL<a class="headerlink" href="#sparknlp-training-conll" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.training.CoNLL">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.training.</span></span><span class="sig-name descname"><span class="pre">CoNLL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'document'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentenceCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sentence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pos'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllLabelIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conllPosIndex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">textCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explodeSentences</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/training.html#CoNLL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.CoNLL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.internal.ExtendedJavaWrapper</span></code></p>
+<p>Instantiates the class to read a CoNLL dataset.</p>
+<p>The dataset should be in the format of <a class="reference external" href="https://www.clips.uantwerpen.be/conll2003/ner/">CoNLL 2003</a> and needs to be specified
+with <a class="reference internal" href="#sparknlp.training.CoNLL.readDataset" title="sparknlp.training.CoNLL.readDataset"><code class="xref py py-meth docutils literal notranslate"><span class="pre">readDataset()</span></code></a>, which will create a dataframe with the data.</p>
+<p>Can be used to train a <a class="reference internal" href="sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach" title="sparknlp.annotator.NerDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLApproach</span></code></a>.</p>
+<p><strong>Input File Format</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DOCSTART</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="o">-</span><span class="n">X</span><span class="o">-</span> <span class="n">O</span>
+
+<span class="n">EU</span> <span class="n">NNP</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span>
+<span class="n">rejects</span> <span class="n">VBZ</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">German</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">call</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="n">to</span> <span class="n">TO</span> <span class="n">B</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">boycott</span> <span class="n">VB</span> <span class="n">I</span><span class="o">-</span><span class="n">VP</span> <span class="n">O</span>
+<span class="n">British</span> <span class="n">JJ</span> <span class="n">B</span><span class="o">-</span><span class="n">NP</span> <span class="n">B</span><span class="o">-</span><span class="n">MISC</span>
+<span class="n">lamb</span> <span class="n">NN</span> <span class="n">I</span><span class="o">-</span><span class="n">NP</span> <span class="n">O</span>
+<span class="o">.</span> <span class="o">.</span> <span class="n">O</span> <span class="n">O</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>documentCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.base.DocumentAssembler.html#sparknlp.base.DocumentAssembler" title="sparknlp.base.DocumentAssembler"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentAssembler</span></code></a> column, by default ‘document’</p>
+</dd>
+<dt><strong>sentenceCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.annotator.SentenceDetector.html#sparknlp.annotator.SentenceDetector" title="sparknlp.annotator.SentenceDetector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code></a> column, by default ‘sentence’</p>
+</dd>
+<dt><strong>tokenCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer" title="sparknlp.annotator.Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a> column, by default ‘token’</p>
+</dd>
+<dt><strong>posCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the <a class="reference internal" href="sparknlp.annotator.PerceptronModel.html#sparknlp.annotator.PerceptronModel" title="sparknlp.annotator.PerceptronModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PerceptronModel</span></code></a> column, by default ‘pos’</p>
+</dd>
+<dt><strong>conllLabelIndex</strong><span class="classifier">int, optional</span></dt><dd><p>Index of the label column in the dataset, by default 3</p>
+</dd>
+<dt><strong>conllPosIndex</strong><span class="classifier">int, optional</span></dt><dd><p>Index of the POS tags in the dataset, by default 1</p>
+</dd>
+<dt><strong>textCol</strong><span class="classifier">str, optional</span></dt><dd><p>Index of the text column in the dataset, by default ‘text’</p>
+</dd>
+<dt><strong>labelCol</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the label column, by default ‘label’</p>
+</dd>
+<dt><strong>explodeSentences</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to explode sentences to separate rows, by default True</p>
+</dd>
+<dt><strong>delimiter: str, optional</strong></dt><dd><p>Delimiter used to separate columns inside CoNLL file</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLL</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;token.result as tokens&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;pos.result as pos&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;label.result as label&quot;</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">+------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="go">|text                                            |tokens                                                    |pos                                  |label                                    |</span>
+<span class="go">+------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="go">|EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|</span>
+<span class="go">|Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |</span>
+<span class="go">|BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |</span>
+<span class="go">+------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([documentCol, sentenceCol, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.training.CoNLL.new_java_array" title="sparknlp.training.CoNLL.new_java_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_java_array</span></code></a>(pylist, java_class)</p></td>
+<td><p>ToDo: Inspired from spark 2.0.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_java_array_integer</span></code>(pylist)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_java_array_string</span></code>(pylist)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">new_java_obj</span></code>(java_class, *args)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.training.CoNLL.readDataset" title="sparknlp.training.CoNLL.readDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readDataset</span></code></a>(spark, path[, read_as])</p></td>
+<td><p>Reads the dataset from an external resource.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.training.CoNLL.new_java_array">
+<span class="sig-name descname"><span class="pre">new_java_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pylist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.training.CoNLL.new_java_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>ToDo: Inspired from spark 2.0. Review if spark changes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.training.CoNLL.readDataset">
+<span class="sig-name descname"><span class="pre">readDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/training.html#CoNLL.readDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.training.CoNLL.readDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the dataset from an external resource.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>spark</strong><span class="classifier"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.SparkSession.html#pyspark.sql.SparkSession" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.SparkSession</span></code></a></span></dt><dd><p>Initiated Spark Session with Spark NLP</p>
+</dd>
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to the resource</p>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the resource, by default ReadAs.TEXT</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrame.html#pyspark.sql.DataFrame" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyspark.sql.DataFrame</span></code></a></dt><dd><p>Spark Dataframe with the data</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="sparknlp.training.html" title="previous page">sparknlp.training</a>
+    <a class='right-next' id="next-link" href="sparknlp.training.CoNLLU.html" title="next page">sparknlp.training.CoNLLU</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, John Snow Labs.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
