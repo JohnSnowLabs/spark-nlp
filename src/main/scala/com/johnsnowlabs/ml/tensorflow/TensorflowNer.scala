@@ -29,7 +29,6 @@ import scala.collection.mutable.ArrayBuffer
 
 class TensorflowNer(val tensorflow: TensorflowWrapper,
                     val encoder: NerDatasetEncoder,
-                    val batchSize: Int,
                     override val verboseLevel: Verbose.Value
                    ) extends Serializable with Logging {
 
@@ -53,7 +52,9 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
   def predict(dataset: Array[WordpieceEmbeddingsSentence],
               configProtoBytes: Option[Array[Byte]] = None,
-              includeConfidence: Boolean = false): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+              includeConfidence: Boolean = false,
+              includeAllConfidenceScores: Boolean,
+              batchSize: Int = 8): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val result = ArrayBuffer[Array[(String, Option[Array[Map[String, String]]])]]()
 
@@ -67,7 +68,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       else {
         val tensors = new TensorResources()
 
-        val calculator = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+        val calculator = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
           .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
@@ -91,22 +92,41 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
               require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
               val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
               // val probs = exp.map(g => try{BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble}catch{case _: Exception => 0.0d})
-              val probs = exp.map(d => d.map(_ / d.sum).map(p => try {
-                BigDecimal(p).setScale(4, BigDecimal.RoundingMode.HALF_UP).toFloat
-              } catch{case _: Exception => 0.0f}))
-
+              val probs = if (includeAllConfidenceScores) {
+                //Only include the score of the predicted tag
+                exp.map(d => d.map(_ / d.sum).map(p => try {
+                  BigDecimal(p).setScale(4, BigDecimal.RoundingMode.HALF_UP).toFloat
+                } catch {
+                  case _: Exception => 0.0f
+                }))
+              } else {
+                exp.map(
+                  d => try {
+                    Array(BigDecimal(d.map(_ / d.sum).max)
+                      .setScale(4, BigDecimal.RoundingMode.HALF_UP)
+                      .toFloat)
+                  } catch {
+                    case _: Exception => Array(0.0f)
+                  })
+              }
               Some(probs)
             } else {
               None
             }
-          } catch { case _: Exception =>
-            Option(Seq.fill(tagIds.length)(Array.fill(allTags.length)(0.0f)))
+          } catch {
+            case _: Exception =>
+              Option(Seq.fill(tagIds.length)(Array.fill(allTags.length)(0.0f)))
           }
         }
 
         val predictedTags = encoder.decodeOutputData(tagIds)
 
-        val sentenceTags = encoder.convertBatchTags(predictedTags, allTags, batchInput.sentenceLengths, confidence)
+        val sentenceTags = encoder.convertBatchTags(
+          predictedTags,
+          allTags,
+          batchInput.sentenceLengths,
+          confidence,
+          includeAllConfidenceScores = includeAllConfidenceScores)
 
         result.appendAll(sentenceTags)
       }
@@ -118,26 +138,27 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   def getPiecesTags(tokenTags: TextSentenceLabels, sentence: WordpieceEmbeddingsSentence): Array[String] = {
     var i = -1
 
-    sentence.tokens.map{ _ =>
+    sentence.tokens.map { _ =>
       i += 1
       tokenTags.labels(i)
     }
   }
 
   def getPiecesTags(tokenTags: Array[TextSentenceLabels], sentences: Array[WordpieceEmbeddingsSentence])
-  :Array[Array[String]] = {
-    tokenTags.zip(sentences).map{
+  : Array[Array[String]] = {
+    tokenTags.zip(sentences).map {
       case (tags, sentence) => getPiecesTags(tags, sentence)
     }
   }
 
   def train(trainDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
-            trainLength:Long,
+            trainLength: Long,
             validDataset: => Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
-            validLength:Long,
+            validLength: Long,
             lr: Float,
             po: Float,
             dropout: Float,
+            batchSize: Int = 8,
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
@@ -148,7 +169,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
             includeConfidence: Boolean = false,
             enableOutputLogs: Boolean = false,
             outputLogsPath: String,
-            uuid: String  = Identifiable.randomUID("annotator")
+            uuid: String = Identifiable.randomUID("annotator")
            ): Unit = {
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
@@ -156,7 +177,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
 
     println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
       s"- chars: ${encoder.chars.length} - training examples: $trainLength"
@@ -170,9 +191,9 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
       val learningRate = lr / (1 + po * epoch)
 
-      println(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength")
+      println(s"Epoch ${epoch + 1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength")
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
-      outputLog(s"Epoch ${epoch+1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength", uuid, enableOutputLogs, outputLogsPath)
+      outputLog(s"Epoch ${epoch + 1}/$endEpoch started, lr: $learningRate, dataset size: $trainLength", uuid, enableOutputLogs, outputLogsPath)
 
       val time = System.nanoTime()
       var batches = 0
@@ -185,7 +206,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
         val batchTags = encoder.encodeTags(tags)
 
         val tensors = new TensorResources()
-        val calculated = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+        val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
 
@@ -206,24 +227,23 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
         batches += 1
       }
 
-      val endTime = (System.nanoTime() - time)/1e9
-      println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
+      val endTime = (System.nanoTime() - time) / 1e9
+      println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches")
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
-      outputLog(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
-
+      outputLog(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
 
 
       if (validationSplit > 0.0) {
-        println(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $validLength")
-        outputLog(s"Quality on validation dataset (${validationSplit*100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
-        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
+        println(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength")
+        outputLog(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
+        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
       }
 
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
         outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
-        measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, uuid = uuid)
+        measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
       }
 
     }
@@ -234,12 +254,12 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
     val rec = tp.toFloat / (tp.toFloat + fn.toFloat)
     val f1 = 2 * ((prec * rec) / (prec + rec))
 
-    (if (prec.isNaN) 0f else prec, if(rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
+    (if (prec.isNaN) 0f else prec, if (rec.isNaN) 0f else rec, if (f1.isNaN) 0 else f1)
   }
 
   def tagsForTokens(labels: Array[(String, Option[Array[Map[String, String]]])], pieces: WordpieceEmbeddingsSentence): Array[(String, Option[Array[Map[String, String]]])] = {
-    labels.zip(pieces.tokens).flatMap{
-      case(l, p) =>
+    labels.zip(pieces.tokens).flatMap {
+      case (l, p) =>
         if (p.isWordStart)
           Some(l)
         else
@@ -251,14 +271,16 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     labels.zip(pieces)
-      .map{case (l, p) => tagsForTokens(l, p)}
+      .map { case (l, p) => tagsForTokens(l, p) }
   }
 
   def measure(labeled: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
               extended: Boolean = false,
               includeConfidence: Boolean = false,
+              includeAllConfidenceScores: Boolean = false,
               enableOutputLogs: Boolean = false,
               outputLogsPath: String,
+              batchSize: Int = 8,
               uuid: String = Identifiable.randomUID("annotator")
              ): Unit = {
 
@@ -273,7 +295,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
     for (batch <- labeled) {
 
-      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence)
+      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence, includeAllConfidenceScores = includeAllConfidenceScores, batchSize = batchSize)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
@@ -308,7 +330,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       }
     }
 
-    val endTime = (System.nanoTime() - started)/1e9
+    val endTime = (System.nanoTime() - started) / 1e9
     println(f"time to finish evaluation: $endTime%.2fs")
     outputLog(f"time to finish evaluation: $endTime%.2fs", uuid, enableOutputLogs, outputLogsPath)
 
@@ -339,8 +361,8 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       totalPercByClass = totalPercByClass + prec
       totalRecByClass = totalRecByClass + rec
     }
-    val macroPercision = totalPercByClass/notEmptyLabels.length
-    val macroRecall = totalRecByClass/notEmptyLabels.length
+    val macroPercision = totalPercByClass / notEmptyLabels.length
+    val macroRecall = totalRecByClass / notEmptyLabels.length
     val macroF1 = 2 * ((macroPercision * macroRecall) / (macroPercision + macroRecall))
 
     if (extended) {
