@@ -70,7 +70,8 @@ element: struct (containsNull = true)
 | y | float |  The lower left y coordinate |
 | width | float |  The width of the rectangle |
 | height | float |  The height of the rectangle |
-
+| score | float |  The score of the object |
+| label | string |  The label of the object |
 
 <div class="h3-box" markdown="1">
 

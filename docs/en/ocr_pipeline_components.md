@@ -1508,7 +1508,8 @@ for r in result.select("image", "corrected_image").collect():
 
 ### ImageScaler
 
-`ImageScaler` scales image by provided scale factor.
+`ImageScaler` scales image by provided scale factor or needed output size.
+It supports keeping original ratio of image by padding the image in case fixed output size.
 
 #### Input Columns
 
@@ -1523,6 +1524,9 @@ for r in result.select("image", "corrected_image").collect():
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | scaleFactor | double | 1.0 | scale factor |
+| keepRatio | boolean | false | Keep original ratio of image |
+| width | int | 0 | Output width of image |
+| height | int | 0 | Outpu height of imgae |
 
 #### Output Columns
 
@@ -2338,7 +2342,7 @@ data.show()
 
 ### ImageDrawRegions
 
-`ImageDrawRegions` draw regions to image.
+`ImageDrawRegions` draw regions with label and score to the image.
 
 #### Input Columns
 
@@ -2355,6 +2359,7 @@ data.show()
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | lineWidth | Int | 4 | Line width for draw rectangles |
+| fontSize | Int | 12 | Font size for render labels and score |
 
 #### Output Columns
 
