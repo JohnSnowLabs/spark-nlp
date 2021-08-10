@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -45,13 +62,13 @@ class TensorflowSentiment(
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
 
     val encodedLabels = encoder.encodeTags(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
     val trainingDataset = Random.shuffle(zippedInputsLabels)
 
-    val sample: Int = (trainingDataset.length*validationSplit).toInt
+    val sample: Int = (trainingDataset.length * validationSplit).toInt
 
     val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
@@ -108,12 +125,12 @@ class TensorflowSentiment(
 
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample)
-        val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
+        val endTime = (System.nanoTime() - time) / 1e9
+        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
-      }else{
-        val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+      } else {
+        val endTime = (System.nanoTime() - time) / 1e9
+        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
@@ -152,7 +169,7 @@ class TensorflowSentiment(
         case (content, score) =>
           val label = score.find(_._1 == score.maxBy(_._2)._1).map(_._1).getOrElse("NA")
           val confidenceScore = score.find(_._1 == score.maxBy(_._2)._1).map(_._2).getOrElse(0.0f)
-          val finalLabel = if(confidenceScore >= threshold) label else thresholdLabel
+          val finalLabel = if (confidenceScore >= threshold) label else thresholdLabel
 
           Annotation(
             annotatorType = AnnotatorType.CATEGORY,
@@ -178,7 +195,7 @@ class TensorflowSentiment(
       .run()
 
     val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
-    val predictedLabels = tagsId.map{ score=>
+    val predictedLabels = tagsId.map { score =>
       val labelId = score.zipWithIndex.maxBy(_._1)._2
       labelId
     }
@@ -197,7 +214,7 @@ class TensorflowSentiment(
     val correct = mutable.Map[Int, Int]()
 
     val originalEmbeddings = labeled.map(x => x._1)
-    val originalLabels = labeled.map(x => x._2).map{x=>x.zipWithIndex.maxBy(_._1)._2}
+    val originalLabels = labeled.map(x => x._2).map { x => x.zipWithIndex.maxBy(_._1)._2 }
 
     val predictedLabels = internalPredict(originalEmbeddings)
     val labeledPredicted = predictedLabels.zip(originalLabels)

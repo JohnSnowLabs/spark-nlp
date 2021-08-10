@@ -77,7 +77,7 @@ object ResourceHelper {
       val files = fileSystem.listFiles(path, false)
       val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
 
-      if (fileSystem.getScheme == "hdfs"){
+      if (fileSystem.getScheme == "hdfs") {
         while (files.hasNext) {
           fileSystem.copyToLocalFile(files.next.getPath, dst)
         }

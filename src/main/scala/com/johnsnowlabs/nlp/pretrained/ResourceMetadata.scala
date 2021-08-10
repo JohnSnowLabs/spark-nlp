@@ -73,7 +73,7 @@ case class ResourceMetadata
 object ResourceMetadata {
   implicit val formats: Formats = Serialization.formats(NoTypeHints) + new EnumNameSerializer(ResourceType)
 
-  def toJson(meta: ResourceMetadata): String  = {
+  def toJson(meta: ResourceMetadata): String = {
     write(meta)
   }
 
@@ -106,7 +106,7 @@ object ResourceMetadata {
 
   def readResources(source: Source): List[ResourceMetadata] = {
     source.getLines()
-      .collect{case line if line.nonEmpty =>
+      .collect { case line if line.nonEmpty =>
         ResourceMetadata.parseJson(line)
       }
       .toList

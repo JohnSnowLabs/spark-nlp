@@ -45,9 +45,9 @@ class S3ResourceDownloader(bucket: => String,
   }
 
   lazy val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
-      ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
-      ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
-      region, credentialsType
+    ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
+    ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
+    region, credentialsType
   )
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
@@ -70,11 +70,11 @@ class S3ResourceDownloader(bucket: => String,
   }
 
   /**
-    * Download resource to local file
-    *
-    * @param request Resource request
-    * @return Downloaded file or None if resource is not found
-    */
+   * Download resource to local file
+   *
+   * @param request Resource request
+   * @return Downloaded file or None if resource is not found
+   */
   override def download(request: ResourceRequest): Option[String] = {
     val link = resolveLink(request)
     link.flatMap {
