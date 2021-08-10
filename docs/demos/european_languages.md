@@ -228,18 +228,4 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb
-        - title: Classify German News
-          id: classify_german_news 
-          image: 
-              src: /assets/images/Classify_German_News.svg
-          image2: 
-              src: /assets/images/Classify_German_News_c.svg
-          excerpt: Automatically classifies any German news in documents using our out-of-the-box Spark NLP Classifier DL Model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_DE_NEWS/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_DE_NEWS.ipynb
 ---

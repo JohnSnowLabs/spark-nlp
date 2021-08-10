@@ -2,7 +2,7 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /extract_structured_data
+permalink: /extract_tables_structured_data
 key: demo
 license: false
 show_edit_on_github: false
@@ -10,12 +10,12 @@ show_date: false
 data:
   sections:  
     - title: Spark OCR 
-      excerpt: Extract Structured Data
+      excerpt: Extract Tables & Structured Data
       secheader: yes
       secheader:
         - title: Spark OCR
-          subtitle: Extract Structured Data
-          activemenu: extract_structured_data
+          subtitle: Extract Tables & Structured Data
+          activemenu: extract_tables_structured_data
       source: yes
       source: 
         - title: Recognize entities in scanned PDFs
@@ -32,34 +32,20 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
-        - title: Classify visual documents
-          id: classify_visual_documents
+        - title: Extract tables
+          id: extract_tables_from_pdfs
           image: 
-              src: /assets/images/Classify_visual_documents.svg
+              src: /assets/images/Extract_tables_from_PDFs.svg
           image2: 
-              src: /assets/images/Classify_visual_documents_f.svg
-          excerpt: Classify documents using text and layout data with the new features offered by Spark OCR.
+              src: /assets/images/Extract_tables_from_PDFs_f.svg
+          excerpt: Extract tables from selectable PDF documents with the new features offered by Spark OCR.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_CLASSIFY/
+            url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_TABLE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentClassifier.ipynb
-        - title: Extract entities from visual documents 
-          id: extract_entities_from_visual_documents  
-          image: 
-              src: /assets/images/Extract_entities_from_visual_documents.svg
-          image2: 
-              src: /assets/images/Extract_entities_from_visual_documents_c.svg
-          excerpt: Exract entities form any visual document by using pretrained models.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/ocr/VISUAL_DOCUMENT_NER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOCRVisualDocumentNer.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_TABLE.ipynb
         - title: Extract Data from FoundationOne Sequencing Reports
           id: extract-data-from-foundationone-sequencing-reports
           image: 
@@ -73,5 +59,5 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/FOUNDATIONONE_REPORT_PARSING/
           - text: Colab Netbook
             type: blue_btn
-            url:   
+            url:      
 ---
