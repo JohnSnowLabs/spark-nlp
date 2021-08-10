@@ -25,10 +25,10 @@ docs-en:
         url:    /docs/en/install
       - title:  General Concepts
         url:    /docs/en/concepts
-      - title:  Annotators
-        url:    /docs/en/annotators
       - title:  Transformers
         url:    /docs/en/transformers
+      - title:  Annotators
+        url:    /docs/en/annotators
       - title:  Helpers
         url:    /docs/en/auxiliary
       - title:  Pipelines
@@ -95,8 +95,6 @@ docs-en:
         url:    /docs/en/ocr
       - title:  Installation
         url:    /docs/en/ocr_install
-      - title:  Version Compatibility
-        url:    /docs/en/version_compatibility
       - title:  Pipeline components
         url:    /docs/en/ocr_pipeline_components
       - title:  Table recognition

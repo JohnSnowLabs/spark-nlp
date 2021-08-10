@@ -1,27 +1,9 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -31,7 +13,7 @@ import org.apache.spark.sql.Dataset
 /**
  * Uses a reference file to match a set of regular expressions and associate them with a provided identifier.
  *
- * A dictionary of predefined regular expressions must be provided with `setExternalRules`.
+ * A dictionary of predefined regular expressions must be provided with `setRules`.
  * The dictionary can be set in either in the form of a delimited text file or directly as an
  * [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
  *
@@ -59,7 +41,7 @@ import org.apache.spark.sql.Dataset
  * val sentence = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
  *
  * val regexMatcher = new RegexMatcher()
- *   .setExternalRules("src/test/resources/regex-matcher/rules.txt",  ",")
+ *   .setRules("src/test/resources/regex-matcher/rules.txt",  ",")
  *   .setInputCols(Array("sentence"))
  *   .setOutputCol("regex")
  *   .setStrategy("MATCH_ALL")
@@ -116,7 +98,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    *
    * @group param
    * */
-  val externalRules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
+  val rules: ExternalResourceParam = new ExternalResourceParam(this, "externalRules", "external resource to rules, needs 'delimiter' in options")
   /**
    * Strategy for which to match the expressions (Default: `"MATCH_ALL"`).
    * Possible values are:
@@ -141,7 +123,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    * ==Example==
    * {{{
    * val regexMatcher = new RegexMatcher()
-   *   .setExternalRules(ExternalResource(
+   *   .setRules(ExternalResource(
    *     "src/test/resources/regex-matcher/rules.txt",
    *     ReadAs.TEXT,
    *     Map("delimiter" -> ",")
@@ -153,9 +135,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    *
    * @group setParam
    * */
-  def setExternalRules(value: ExternalResource): this.type = {
+  def setRules(value: ExternalResource): this.type = {
     require(value.options.contains("delimiter"), "RegexMatcher requires 'delimiter' option to be set in ExternalResource")
-    set(externalRules, value)
+    set(rules, value)
   }
 
 
@@ -165,11 +147,11 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
    *
    * @group setParam
    * */
-  def setExternalRules(path: String,
-                       delimiter: String,
-                       readAs: ReadAs.Format = ReadAs.TEXT,
-                       options: Map[String, String] = Map("format" -> "text")): this.type =
-    set(externalRules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
+  def setRules(path: String,
+               delimiter: String,
+               readAs: ReadAs.Format = ReadAs.TEXT,
+               options: Map[String, String] = Map("format" -> "text")): this.type =
+    set(rules, ExternalResource(path, readAs, options ++ Map("delimiter" -> delimiter)))
 
 
   /**
@@ -190,9 +172,9 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
   def getStrategy: String = $(strategy).toString
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): RegexMatcherModel = {
-    val processedRules = ResourceHelper.parseTupleText($(externalRules))
+    val processedRules = ResourceHelper.parseTupleText($(rules))
     new RegexMatcherModel()
-      .setExternalRules(processedRules)
+      .setRules(processedRules)
       .setStrategy($(strategy))
   }
 

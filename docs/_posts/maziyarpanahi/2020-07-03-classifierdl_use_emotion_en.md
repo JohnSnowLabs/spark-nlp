@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Automatically identify Joy, Surprise, Fear, Sadness in Tweets using out pretrained Spark NLP DL classifier.
 
 {:.h2_title}
-## Predicted Entities
+## Classified Labels
 ``surprise``, ``sadness``, ``fear``, ``joy``. 
 
 {:.btn-box}

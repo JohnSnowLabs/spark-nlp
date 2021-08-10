@@ -75,7 +75,7 @@ pipeline = Pipeline(stages=[
     ner_converter
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ['My name is John!']}))
+example = spark.createDataFrame([['My name is John!']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 
 ```
@@ -101,7 +101,10 @@ val ner_converter = NerConverter()
     .setOutputCol("entities")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner_model, ner_converter))
-val result = pipeline.fit(Seq.empty["My name is John!"].toDS.toDF("text")).transform(data)
+
+val example = Seq.empty["My name is John!"].toDS.toDF("text")
+
+val result = pipeline.fit(example).transform(example)
 ```
 
 {:.nlu-block}

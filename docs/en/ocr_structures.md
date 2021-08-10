@@ -231,34 +231,13 @@ element: struct (containsNull = true)
  
 </div><div class="h3-box" markdown="1">
 
-
-### AdaptiveThresholdingMethod
-
- * ***GAUSSIAN***
- * ***MEAN***
- * ***MEDIAN***
- * ***WOLF***
- * ***SINGH***
- 
-</div><div class="h3-box" markdown="1">
-
 ### TresholdingMethod
 
  * ***GAUSSIAN***
  * ***OTSU***
  * ***SAUVOLA***
- * ***WOLF***
  
 </div><div class="h3-box" markdown="1">
-
-
-### CellDetectionAlgos
-
- * ***CONTOURS*** - Detect cells in bordered tables
- * ***MORPHOPS*** - Detected calls in: bordered, borderless and combined tables
-
-</div><div class="h3-box" markdown="1">
- 
 
 ## OCR implicits
 
@@ -401,60 +380,6 @@ images_example_df = spark.read.format("binaryFile").load(images_path).cache()
 display_images(BinaryToImage().transform(images_example_df), limit=3)
 ```
 ![image](/assets/images/ocr/showImage1.png)
-
-
-### display_images_horizontal
-
-Show one or more images per row from dataframe.
-
-
-#### Parameters
-
-{:.table-model-big}
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| fields | string | image | comma separated input column names with image struct |
-| limit | integer | 5 | count of rows for display  |
-| width | string | "600" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
-
-
-**Example:**
-
-```python
-from sparkocr.utils import display_images_horizontal
-
-display_images_horizontal(df_with_few_image_fields, fields="images, image_with_regions", limit=10)
-```
-
-![image](/assets/images/ocr/display_images_horizontal.png)
-
-### display_pdf
-
-Show pdf from dataframe.
-
-
-#### Parameters
-
-{:.table-model-big}
-| Param name | Type | Default | Description |
-| --- | --- | --- | --- |
-| field | string | content | input column with binary representation of pdf|
-| limit | integer | 5 | count of rows for display  |
-| width | string | "600" | width of image |
-| show_meta | boolean | true | enable/disable displaying methadata of image |
-
-
-**Example:**
-
-```python
-from sparkocr.utils import display_pdf
-
-pdf_df = spark.read.format("binaryFile").load(pdf_path)
-display_pdf(pdf_df)
-```
-
-![image](/assets/images/ocr/display_pdf.png)
 
 ## Databricks Python helpers
 

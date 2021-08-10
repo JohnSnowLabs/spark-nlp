@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Classify if a text contains sarcasm.
 
 {:.h2_title}
-## Predicted Entities
+## Classified Labels
 ``normal``, ``sarcasm`` 
 
 {:.btn-box}
