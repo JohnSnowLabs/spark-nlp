@@ -324,3 +324,5 @@ src/*/resources/*.classes
 /word_segmenter_metrics/
 /special_class.ser
 .bsp/sbt.json
+python/docs/_build/**
+python/docs/reference/_autosummary/**

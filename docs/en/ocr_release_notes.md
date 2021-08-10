@@ -84,6 +84,8 @@ Release date: 30-06-2021
 
 Signature Detection in image-based documents.
 
+More details please read in [Signature Detection in Spark OCR](https://medium.com/spark-nlp/signature-detection-in-spark-ocr-32f9e6f91e3c)
+
 #### New Features
 
 * [ImageSignatureDetector](ocr_object_detection#imagehandwrittendetector) is a DL model for detect signature on the image.
@@ -161,6 +163,9 @@ Release date: 16-04-2021
 #### Overview
 
 Image processing on GPU. It is in 3..5 times faster than on CPU.
+
+More details please read in [GPU image preprocessing in Spark OCR](https://medium.com/spark-nlp/gpu-image-pre-processing-in-spark-ocr-3-1-0-6fc27560a9bb)
+
 
 #### New Features
 

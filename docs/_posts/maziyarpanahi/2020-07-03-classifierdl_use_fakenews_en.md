@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Determine if news articles are Real or Fake.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``REAL``, ``FAKE``. 
 
 {:.btn-box}

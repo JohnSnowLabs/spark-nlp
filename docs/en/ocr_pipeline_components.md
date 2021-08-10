@@ -1424,6 +1424,13 @@ Compute a threshold mask image based on local pixel neighborhood and apply it to
 Also known as adaptive or dynamic thresholding. The threshold value is
 the weighted mean for the local neighborhood of a pixel subtracted by a constant.
 
+Supported methods:
+ * ***GAUSSIAN***
+ * ***MEAN***
+ * ***MEDIAN***
+ * ***WOLF***
+ * ***SINGH***
+ 
 #### Input Columns
 
 {:.table-model-big}
@@ -1437,7 +1444,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | blockSize | int | 170 | Odd size of pixel neighborhood which is used to calculate the threshold value (e.g. 3, 5, 7, ..., 21, ...). |
-| method | string | | Method used to determine adaptive threshold for local neighbourhood in weighted mean image. |
+| method | [AdaptiveThresholdingMethod](ocr_structures#adaptivethresholdingmethod) | AdaptiveThresholdingMethod.GAUSSIAN| Method used to determine adaptive threshold for local neighbourhood in weighted mean image. |
 | offset | int | | Constant subtracted from weighted mean of neighborhood to calculate the local threshold value. Default offset is 0. |
 | mode | string | | The mode parameter determines how the array borders are handled, where cval is the value when mode is equal to 'constant' |
 | cval | int | | Value to fill past edges of input if mode is 'constant'. |

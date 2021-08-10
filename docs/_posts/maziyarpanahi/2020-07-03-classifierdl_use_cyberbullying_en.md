@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Identify Racism, Sexism or Neutral tweets.
 
 {:.h2_title}
-## Classified Labels
+## Predicted Entities
 ``neutral``, ``racism``, ``sexism``. 
 
 {:.btn-box}
