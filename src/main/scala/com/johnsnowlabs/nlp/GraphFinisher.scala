@@ -26,6 +26,45 @@ import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
+/**
+ * Helper class to convert the knowledge graph from GraphExtraction into a generic format, such as RDF.
+ *
+ * ==Example==
+ * This is a continuation of the example of
+ * [[com.johnsnowlabs.nlp.annotators.GraphExtraction GraphExtraction]]. To see how the graph is extracted, see the
+ * documentation of that class.
+ * {{{
+ * import com.johnsnowlabs.nlp.GraphFinisher
+ *
+ * val graphFinisher = new GraphFinisher()
+ *   .setInputCol("graph")
+ *   .setOutputCol("graph_finished")
+ *   .setOutputAsArray(false)
+ *
+ * val finishedResult = graphFinisher.transform(result)
+ * finishedResult.select("text", "graph_finished").show(false)
+ * +-----------------------------------------------------+-----------------------------------------------------------------------+
+ * |text                                                 |graph_finished                                                         |
+ * +-----------------------------------------------------+-----------------------------------------------------------------------+
+ * |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
+ * +-----------------------------------------------------+-----------------------------------------------------------------------+
+ * }}}
+ * @see [[com.johnsnowlabs.nlp.annotators.GraphExtraction GraphExtraction]] to extract the graph.
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class GraphFinisher(override val uid: String) extends Transformer {
 
   def this() = this(Identifiable.randomUID("graph_finisher"))

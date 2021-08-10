@@ -43,7 +43,9 @@ class LightPipeline:
     amounts of data. This means, we do not input a Spark Dataframe, but a
     string or an Array of strings instead, to be annotated. To create Light
     Pipelines, you need to input an already trained (fit) Spark ML Pipeline.
-    It’s transform() stage is converted into annotate() instead.
+
+    It’s :meth:`.transform` has now an alternative :meth:`.annotate`, which
+    directly outputs the results.
 
     Parameters
     ----------
@@ -51,6 +53,11 @@ class LightPipeline:
         The PipelineModel containing Spark NLP Annotators
     parse_embeddings : bool, optional
         Whether to parse embeddings, by default False
+
+    Notes
+    -----
+    Use :meth:`.fullAnnotate` to also output the result as
+    :class:`.Annotation`, with metadata.
 
     Examples
     --------
@@ -66,7 +73,6 @@ class LightPipeline:
         'stems': ['we', 'ar', 'veri', 'happi', 'about', 'spark', 'nlp'],
         'token': ['We', 'are', 'very', 'happy', 'about', 'Spark', 'NLP']
     }
-
     """
 
     def __init__(self, pipelineModel, parse_embeddings=False):
@@ -88,7 +94,7 @@ class LightPipeline:
         return annotations
 
     def fullAnnotate(self, target):
-        """Annotates the data provided into Annotations.
+        """Annotates the data provided into `Annotation` type results.
 
         The data should be either a list or a str.
 
@@ -99,8 +105,25 @@ class LightPipeline:
 
         Returns
         -------
-        list or str
+        List[Annotation]
             The result of the annotation
+
+        Examples
+        --------
+        >>> from sparknlp.pretrained import PretrainedPipeline
+        >>> explain_document_pipeline = PretrainedPipeline("explain_document_dl")
+        >>> result = explain_document_pipeline.fullAnnotate('U.N. official Ekeus heads for Baghdad.')
+        >>> result[0].keys()
+        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])
+        >>> result[0]["ner"]
+        [Annotation(named_entity, 0, 2, B-ORG, {'word': 'U.N'}),
+        Annotation(named_entity, 3, 3, O, {'word': '.'}),
+        Annotation(named_entity, 5, 12, O, {'word': 'official'}),
+        Annotation(named_entity, 14, 18, B-PER, {'word': 'Ekeus'}),
+        Annotation(named_entity, 20, 24, O, {'word': 'heads'}),
+        Annotation(named_entity, 26, 28, O, {'word': 'for'}),
+        Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
+        Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
         result = []
         if type(target) is str:
@@ -124,8 +147,18 @@ class LightPipeline:
 
         Returns
         -------
-        list or str
+        List[dict] or dict
             The result of the annotation
+
+        Examples
+        --------
+        >>> from sparknlp.pretrained import PretrainedPipeline
+        >>> explain_document_pipeline = PretrainedPipeline("explain_document_dl")
+        >>> result = explain_document_pipeline.annotate('U.N. official Ekeus heads for Baghdad.')
+        >>> result.keys()
+        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])
+        >>> result["ner"]
+        ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
@@ -157,7 +190,7 @@ class LightPipeline:
         return self.pipeline_model.transform(dataframe)
 
     def setIgnoreUnsupported(self, value):
-        """Set whether to ignore unsupported AnnotatorModels.
+        """Sets whether to ignore unsupported AnnotatorModels.
 
         Parameters
         ----------
@@ -173,7 +206,7 @@ class LightPipeline:
         return self
 
     def getIgnoreUnsupported(self):
-        """Get whether to ignore unsupported AnnotatorModels.
+        """Gets whether to ignore unsupported AnnotatorModels.
 
         Returns
         -------
@@ -196,7 +229,6 @@ class RecursivePipeline(Pipeline, JavaEstimator):
 
     Examples
     --------
-
     >>> from sparknlp.annotator import *
     >>> from sparknlp.base import *
     >>> recursivePipeline = RecursivePipeline(stages=[
@@ -206,7 +238,6 @@ class RecursivePipeline(Pipeline, JavaEstimator):
     ...     lemmatizer,
     ...     finisher
     ... ])
-
     """
     @keyword_only
     def __init__(self, *args, **kwargs):
@@ -251,7 +282,7 @@ class RecursivePipelineModel(PipelineModel):
 
     Behaves the same as a Spark PipelineModel does. Not intended to be
     initialized by itself. To create a RecursivePipelineModel please fit data to
-    a :class:`RecursivePipeline <sparknlp.base.RecursivePipeline>`.
+    a :class:`.RecursivePipeline`.
     """
     def __init__(self, pipeline_model):
         super(PipelineModel, self).__init__()
@@ -283,10 +314,10 @@ class DocumentAssembler(AnnotatorTransformer):
     """Prepares data into a format that is processable by Spark NLP.
 
     This is the entry point for every Spark NLP pipeline. The
-    ``DocumentAssembler`` can read either a ``String`` column or an
-    ``Array[String]``. Additionally, setCleanupMode can be used to pre-process
-    the text (Default: ``disabled``). For possible options please refer the
-    parameters section.
+    `DocumentAssembler` can read either a ``String`` column or an
+    ``Array[String]``. Additionally, :meth:`.setCleanupMode` can be used to
+    pre-process the text (Default: ``disabled``). For possible options please
+    refer the parameters section.
 
     For more extended examples on document pre-processing see the
     `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
@@ -299,7 +330,6 @@ class DocumentAssembler(AnnotatorTransformer):
 
     Parameters
     ----------
-
     inputCol
         Input column name
     outputCol
@@ -318,7 +348,6 @@ class DocumentAssembler(AnnotatorTransformer):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from pyspark.ml import Pipeline
@@ -344,7 +373,6 @@ class DocumentAssembler(AnnotatorTransformer):
     |    |    |    |-- value: string (valueContainsNull = True)
     |    |    |-- embeddings: array (nullable = True)
     |    |    |    |-- element: float (containsNull = False)
-
     """
 
     inputCol = Param(Params._dummy(), "inputCol", "input column name", typeConverter=TypeConverters.toString)
@@ -366,7 +394,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCol(self, value):
-        """Set input column name.
+        """Sets input column name.
 
         Parameters
         ----------
@@ -376,7 +404,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(inputCol=value)
 
     def setOutputCol(self, value):
-        """Set output column name.
+        """Sets output column name.
 
         Parameters
         ----------
@@ -386,7 +414,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(outputCol=value)
 
     def setIdCol(self, value):
-        """Set name of string type column for row id.
+        """Sets name of string type column for row id.
 
         Parameters
         ----------
@@ -396,7 +424,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(idCol=value)
 
     def setMetadataCol(self, value):
-        """Set name for Map type column with metadata information.
+        """Sets name for Map type column with metadata information.
 
         Parameters
         ----------
@@ -406,7 +434,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(metadataCol=value)
 
     def setCalculationsCol(self, value):
-        """Set name of float vector map column to use for embeddings and other
+        """Sets name of float vector map column to use for embeddings and other
         representations.
 
         Parameters
@@ -417,7 +445,7 @@ class DocumentAssembler(AnnotatorTransformer):
         return self._set(metadataCol=value)
 
     def setCleanupMode(self, value):
-        """Set how to cleanup the document , by default disabled.
+        """Sets how to cleanup the document, by default disabled.
         Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
         each, each_full, delete_full``
 
@@ -448,14 +476,12 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
 
     Parameters
     ----------
-
     preservePosition
         Whether to preserve the actual position of the tokens or reduce them to
         one space
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -504,7 +530,6 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
     +---------------------------------------------------------------------------------------------------------------------------+
     |[[document, 0, 80, Spark NLP opensource text processing library advanced natural language processing, [sentence -> 0], []]]|
     +---------------------------------------------------------------------------------------------------------------------------+
-
     """
 
     name = "TokenAssembler"
@@ -520,7 +545,7 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
     def setPreservePosition(self, value):
-        """Set whether to preserve the actual position of the tokens or reduce
+        """Sets whether to preserve the actual position of the tokens or reduce
         them to one space.
 
         Parameters
@@ -550,7 +575,6 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
 
     Parameters
     ----------
-
     chunkCol
         Column that contains the string. Must be part of DOCUMENT
     startCol
@@ -567,7 +591,6 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.common import *
@@ -615,7 +638,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(**kwargs)
 
     def setChunkCol(self, value):
-        """Set column that contains the string. Must be part of DOCUMENT.
+        """Sets column that contains the string. Must be part of DOCUMENT.
 
         Parameters
         ----------
@@ -625,7 +648,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(chunkCol=value)
 
     def setIsArray(self, value):
-        """Set whether the chunkCol is an array of strings.
+        """Sets whether the chunkCol is an array of strings.
 
         Parameters
         ----------
@@ -635,7 +658,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(isArray=value)
 
     def setStartCol(self, value):
-        """Set column that has a reference of where chunk begins.
+        """Sets column that has a reference of where chunk begins.
 
         Parameters
         ----------
@@ -645,7 +668,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(startCol=value)
 
     def setStartColByTokenIndex(self, value):
-        """Set whether start column is prepended by whitespace tokens.
+        """Sets whether start column is prepended by whitespace tokens.
 
         Parameters
         ----------
@@ -655,7 +678,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(startColByTokenIndex=value)
 
     def setFailOnMissing(self, value):
-        """Set whether to fail the job if a chunk is not found within document.
+        """Sets whether to fail the job if a chunk is not found within document.
         Return empty otherwise.
 
         Parameters
@@ -666,7 +689,7 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
         return self._set(failOnMissing=value)
 
     def setLowerCase(self, value):
-        """Set whether to lower case for matching case
+        """Sets whether to lower case for matching case.
 
         Parameters
         ----------
@@ -691,12 +714,10 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
 
     Parameters
     ----------
-
     None
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.pretrained import PretrainedPipeline
@@ -754,7 +775,6 @@ class Finisher(AnnotatorTransformer):
 
     Parameters
     ----------
-
     inputCols
         Input annotations
     outputCols
@@ -775,7 +795,6 @@ class Finisher(AnnotatorTransformer):
 
     Examples
     --------
-
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -835,12 +854,12 @@ class Finisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
-        """Set column names of input annotations.
+        """Sets column names of input annotations.
 
         Parameters
         ----------
-        *value : List[str]
-            List of input columns
+        *value : str
+            Input columns for the annotator
         """
         if len(value) == 1 and type(value[0]) == list:
             return self._set(inputCols=value[0])
@@ -848,7 +867,7 @@ class Finisher(AnnotatorTransformer):
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
-        """Set column names of finished output annotations.
+        """Sets column names of finished output annotations.
 
         Parameters
         ----------
@@ -861,7 +880,7 @@ class Finisher(AnnotatorTransformer):
             return self._set(outputCols=list(value))
 
     def setValueSplitSymbol(self, value):
-        """Set character separating values, by default #.
+        """Sets character separating values, by default #.
 
         Parameters
         ----------
@@ -871,7 +890,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(valueSplitSymbol=value)
 
     def setAnnotationSplitSymbol(self, value):
-        """Set character separating annotations, by default @.
+        """Sets character separating annotations, by default @.
 
         Parameters
         ----------
@@ -881,7 +900,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(annotationSplitSymbol=value)
 
     def setCleanAnnotations(self, value):
-        """Set whether to remove annotation columns, by default True.
+        """Sets whether to remove annotation columns, by default True.
 
         Parameters
         ----------
@@ -891,7 +910,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(cleanAnnotations=value)
 
     def setIncludeMetadata(self, value):
-        """Set whether to include annotation metadata
+        """Sets whether to include annotation metadata.
 
         Parameters
         ----------
@@ -901,7 +920,8 @@ class Finisher(AnnotatorTransformer):
         return self._set(includeMetadata=value)
 
     def setOutputAsArray(self, value):
-        """Set whether to generate an array with the results instead of a string
+        """Sets whether to generate an array with the results instead of a
+        string.
 
         Parameters
         ----------
@@ -911,7 +931,7 @@ class Finisher(AnnotatorTransformer):
         return self._set(outputAsArray=value)
 
     def setParseEmbeddingsVectors(self, value):
-        """Set whether to include embeddings vectors in the process
+        """Sets whether to include embeddings vectors in the process.
 
         Parameters
         ----------
@@ -947,7 +967,6 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
     Parameters
     ----------
-
     inputCols
         Names of input annotation columns containing embeddings
     outputCols
@@ -960,7 +979,6 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
     Examples
     --------
-
     First extract embeddings.
 
     >>> import sparknlp
@@ -1014,7 +1032,6 @@ class EmbeddingsFinisher(AnnotatorTransformer):
     |[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|
     |[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|
     +--------------------------------------------------------------------------------+
-
     """
 
     inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
@@ -1038,12 +1055,12 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCols(self, *value):
-        """Set name of input annotation columns containing embeddings
+        """Sets name of input annotation columns containing embeddings.
 
         Parameters
         ----------
-        *value : List[str]
-            List of input annotation columns
+        *value : str
+            Input columns for the annotator
         """
 
         if len(value) == 1 and type(value[0]) == list:
@@ -1052,12 +1069,12 @@ class EmbeddingsFinisher(AnnotatorTransformer):
             return self._set(inputCols=list(value))
 
     def setOutputCols(self, *value):
-        """Set names of finished output columns
+        """Sets names of finished output columns.
 
         Parameters
         ----------
         *value : List[str]
-            List of input annotation columns
+            Input columns for the annotator
         """
 
         if len(value) == 1 and type(value[0]) == list:
@@ -1066,7 +1083,7 @@ class EmbeddingsFinisher(AnnotatorTransformer):
             return self._set(outputCols=list(value))
 
     def setCleanAnnotations(self, value):
-        """Set whether to remove all the existing annotation columns, by default
+        """Sets whether to remove all the existing annotation columns, by default
         False.
 
         Parameters
@@ -1078,8 +1095,8 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         return self._set(cleanAnnotations=value)
 
     def setOutputAsVector(self, value):
-        """Set whether to output the embeddings as Vectors instead of arrays,
-        by default False
+        """Sets whether to output the embeddings as Vectors instead of arrays,
+        by default False.
 
         Parameters
         ----------
@@ -1091,6 +1108,45 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
 
 class GraphFinisher(AnnotatorTransformer):
+    """Helper class to convert the knowledge graph from GraphExtraction into a
+    generic format, such as RDF.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``NONE``               ``NONE``
+    ====================== ======================
+
+    Parameters
+    ----------
+
+    inputCol
+        Name of input annotation column
+    outputCol
+        Name of finisher output column
+    cleanAnnotations
+        Whether to remove all the existing annotation columns, by default True
+    outputAsArray
+        Whether to generate an Array with the results, by default True
+
+    Examples
+    --------
+    This is a continuation of the example of
+    :class:`.GraphExtraction`. To see how the graph is extracted, see the
+    documentation of that class.
+
+    >>> graphFinisher = GraphFinisher() \\
+    ...     .setInputCol("graph") \\
+    ...     .setOutputCol("graph_finished")
+    ...     .setOutputAsArray(False)
+    >>> finishedResult = graphFinisher.transform(result)
+    >>> finishedResult.select("text", "graph_finished").show(truncate=False)
+    +-----------------------------------------------------+-----------------------------------------------------------------------+
+    |text                                                 |graph_finished                                                         |
+    +-----------------------------------------------------+-----------------------------------------------------------------------+
+    |You and John prefer the morning flight through Denver|[[(prefer,nsubj,morning), (morning,flat,flight), (flight,flat,Denver)]]|
+    +-----------------------------------------------------+-----------------------------------------------------------------------+
+    """
     inputCol = Param(Params._dummy(), "inputCol", "Name of input annotation col", typeConverter=TypeConverters.toString)
     outputCol = Param(Params._dummy(), "outputCol", "Name of finisher output col", typeConverter=TypeConverters.toString)
     cleanAnnotations = Param(Params._dummy(),
@@ -1116,14 +1172,43 @@ class GraphFinisher(AnnotatorTransformer):
         return self._set(**kwargs)
 
     def setInputCol(self, value):
+        """Sets name of input annotation column.
+
+        Parameters
+        ----------
+        value : str
+            Name of input annotation column.
+        """
         return self._set(inputCol=value)
 
     def setOutputCol(self, value):
+        """Sets name of finisher output column.
+
+        Parameters
+        ----------
+        value : str
+            Name of finisher output column.
+        """
         return self._set(outputCol=value)
 
     def setCleanAnnotations(self, value):
+        """Sets whether to remove all the existing annotation columns, by
+        default True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to remove all the existing annotation columns, by default True.
+        """
         return self._set(cleanAnnotations=value)
 
     def setOutputAsArray(self, value):
+        """Sets whether to generate an Array with the results, by default True.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to generate an Array with the results, by default True.
+        """
         return self._set(outputAsArray=value)
 
