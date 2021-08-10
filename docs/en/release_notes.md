@@ -4,9 +4,268 @@ header: true
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2021-08-08"
+modify_date: "2021-08-10"
 ---
 
+### 3.2.0
+
+#### John Snow Labs Spark-NLP 3.2.0: New Longformer embeddings, BERT and DistilBERT for Token Classification, GraphExctraction, Spark NLP Configurations, new state-of-the-art multilingual NER models, and lots more!
+
+Overview
+
+We are very excited to release Spark NLP 🚀 3.2.0! This is a big release with new Longformer models for long documents, BertForTokenClassification & DistilBertForTokenClassification for existing or fine-tuned models on HuggingFace, GraphExctraction & GraphFinisher to find relevant relationships between words, support for multilingual Date Matching, new Pydoc for Python APIs, and so many more!
+
+As always, we would like to thank our community for their feedback, questions, and feature requests.
+
+Major features and improvements
+
+* **NEW:** Introducing **LongformerEmbeddings** annotator. `Longformer` is a transformer model for long documents. Longformer is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents. It supports sequences of length up to 4,096.
+
+We have trained two NER models based on Longformer Base and Large embeddings:
+
+| Model | Accuracy | F1 Test | F1 Dev |
+|:------|:----------|:------|:--------|
+|ner_conll_longformer_base_4096  | 94.75% | 90.09 | 94.22
+|ner_conll_longformer_large_4096 | 95.79% | 91.25 | 94.82
+
+* **NEW:** Introducing **BertForTokenClassification** annotator. `BertForTokenClassification` can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `BertForTokenClassification` or `TFBertForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **DistilBertForTokenClassification** annotator. `DistilBertForTokenClassification` can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `DistilBertForTokenClassification` or `TFDistilBertForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **GraphExctraction** and **GraphFinisher** annotators to extract a dependency graph between entities. The **GraphExtraction** class takes e.g. extracted entities from a `NerDLModel` and creates a dependency tree that describes how the entities relate to each other. For that, a triple store format is used. Nodes represent the entities and the edges represent the relations between those entities. The graph can then be used to find relevant relationships between words
+* **NEW:** Introducing support for multilingual **DateMatcher** and **MultiDateMatcher** annotators. These two annotators will support **English**, **French**, **Italian**, **Spanish**, **German**, and **Portuguese** languages
+* **NEW:** Introducing new **Python APIs** and fully documented **Pydoc**
+* **NEW:** Introducing new **Spark NLP configurations** via spark.conf() by deprecating `application.conf` usage. You can easily change Spark NLP configurations in SparkSession. For more examples please visti [Spark NLP Configuration](https://github.com/JohnSnowLabs/spark-nlp#spark-nlp-configuration) 
+* Add support for Amazon S3 to `log_folder` Spark NLP config and `outputLogsPath` param in `NerDLApproach`, `ClassifierDlApproach`, `MultiClassifierDlApproach`, and `SentimentDlApproach` annotators
+* Added examples to all Spark NLP Scaladoc
+* Added examples to all Spark NLP Pydoc
+* Welcoming new Databricks runtimes to our Spark NLP family:
+  * Databricks 8.4 ML & GPU
+* Fix printing a wrong version return in sparknlp.version()
+
+Models and Pipelines
+
+Spark NLP 3.2.0 comes with new LongformerEmbeddings, BertForTokenClassification, and DistilBertForTokenClassification annotators. 
+
+#### New Longformer Models
+
+| Model                | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| LongformerEmbeddings | [longformer_base_4096](https://nlp.johnsnowlabs.com/2021/08/04/longformer_base_4096_en.html) | 3.2.0 |      `en`
+| LongformerEmbeddings | [longformer_large_4096](https://nlp.johnsnowlabs.com/2021/08/04/longformer_large_4096_en.html) | 3.2.0 |      `en`
+
+#### Featured NerDL Models
+
+New NER models for **CoNLL** (4 entities) and **OntoNotes** (18 entities) trained by using **BERT**, **RoBERTa**, **DistilBERT**, **XLM-RoBERTa**, and **Longformer** Embeddings:
+
+| Model                | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| NerDLModel     | [ner_ontonotes_roberta_base](https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_roberta_base_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_ontonotes_roberta_large](https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_roberta_large_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_ontonotes_distilbert_base_cased](https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_distilbert_base_cased_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_bert_base_cased](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_bert_base_cased_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_distilbert_base_cased](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_distilbert_base_cased_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_roberta_base](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_roberta_base_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_roberta_large](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_roberta_large_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_xlm_roberta_base](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_xlm_roberta_base_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_longformer_base_4096](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_longformer_base_4096_en.html) | 3.2.0 |      `en`
+| NerDLModel     | [ner_conll_longformer_large_4096](https://nlp.johnsnowlabs.com/2021/08/04/ner_conll_longformer_large_4096_en.html) | 3.2.0 |      `en`
+
+#### BERT and DistilBERT for Token Classification
+
+New BERT and DistilBERT fine-tuned for the Named Entity Recognition (NER) in **English**, **Persian**, **Spanish**, **Swedish**, and **Turkish**:
+
+
+| Model                | Name               | Build            | Lang |  
+|:-----------------------------|:-------------------|:-----------------|:------|
+| BertForTokenClassification | [bert_base_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/08/05/bert_base_token_classifier_conll03_en.html) | 3.2.0 |      `en`
+| BertForTokenClassification | [bert_large_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/08/05/bert_large_token_classifier_conll03_en.html) | 3.2.0 |      `en`
+| BertForTokenClassification | [bert_base_token_classifier_ontonote](https://nlp.johnsnowlabs.com/2021/08/05/bert_base_token_classifier_ontonote_en.html) | 3.2.0 |      `en`
+| BertForTokenClassification | [bert_large_token_classifier_ontonote](https://nlp.johnsnowlabs.com/2021/08/05/bert_large_token_classifier_ontonote_en.html) | 3.2.0 |      `en`
+| BertForTokenClassification | [bert_token_classifier_parsbert_armanner](https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_parsbert_armanner_fa.html) | 3.2.0 |      `fa`
+| BertForTokenClassification | [bert_token_classifier_parsbert_ner](https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_parsbert_ner_fa.html) | 3.2.0 |      `fa`
+| BertForTokenClassification | [bert_token_classifier_parsbert_peymaner](https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_parsbert_peymaner_fa.html) | 3.2.0 |      `fa`
+| BertForTokenClassification | [bert_token_classifier_turkish_ner](https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_turkish_ner_tr.html) | 3.2.0 |      `tr`
+| BertForTokenClassification | [bert_token_classifier_spanish_ner](https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_spanish_ner_es.html) | 3.2.0 |      `es`
+| BertForTokenClassification | [bert_token_classifier_swedish_ner](https://nlp.johnsnowlabs.com/2021/08/05/bert_token_classifier_swedish_ner_sv.html) | 3.2.0 |      `sv`
+| BertForTokenClassification | [bert_base_token_classifier_few_nerd](https://nlp.johnsnowlabs.com/2021/08/08/bert_base_token_classifier_few_nerd_en.html) | 3.2.0 |      `en`
+| DistilBertForTokenClassification | [distilbert_base_token_classifier_few_nerd](https://nlp.johnsnowlabs.com/2021/08/08/distilbert_base_token_classifier_few_nerd_en.html) | 3.2.0 |     `en`
+| DistilBertForTokenClassification | [distilbert_base_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/08/05/distilbert_base_token_classifier_conll03_en.html) | 3.2.0 |      `en`
+| DistilBertForTokenClassification | [distilbert_base_token_classifier_ontonotes](https://nlp.johnsnowlabs.com/2021/08/05/distilbert_base_token_classifier_ontonotes_en.html) | 3.2.0 |    `en`
+| DistilBertForTokenClassification | [distilbert_token_classifier_persian_ner](https://nlp.johnsnowlabs.com/2021/08/05/distilbert_token_classifier_persian_ner_fa.html) | 3.2.0 |       `fa`
+
+The complete list of all 3700+ models & pipelines in 200+ languages is available on [Models Hub](https://nlp.johnsnowlabs.com/models).
+
+#### New Notebooks
+
+Import hundreds of models in different languages to Spark NLP
+
+Spark NLP | HuggingFace Notebooks | Colab
+:------------ | :-------------| :----------|
+LongformerEmbeddings|[HuggingFace in Spark NLP - Longformer](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb)
+BertForTokenClassification|[HuggingFace in Spark NLP - BertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb)
+DistilBertForTokenClassification|[HuggingFace in Spark NLP - DistilBertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb)
+
+You can visit [Import Transformers in Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) for more info
+
+New Multilingual DateMatcher and MultiDateMatcher
+
+Spark NLP | Jupyter Notebooks
+:------------ | :-------------|
+MultiDateMatcher |  [Date Matcehr in English](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/MultiDateMatcherMultiLanguage_en.ipynb)
+MultiDateMatcher |  [Date Matcehr in French](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/french/MultiDateMatcherMultiLanguage_fr.ipynb)
+MultiDateMatcher |  [Date Matcehr in German](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/german/MultiDateMatcherMultiLanguage_de.ipynb)
+MultiDateMatcher |  [Date Matcehr in Italian](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/italian/MultiDateMatcherMultiLanguage_it.ipynb)
+MultiDateMatcher |  [Date Matcehr in Portuguese](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/portuguese/MultiDateMatcherMultiLanguage_pt.ipynb)
+MultiDateMatcher |  [Date Matcehr in Spanish](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/spanish/MultiDateMatcherMultiLanguage_es.ipynb)
+GraphExtraction | [Graph Extraction Intro](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/graph-extraction/graph_extraction_intro.ipynb)
+GraphExtraction | [Graph Extraction](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/graph-extraction/graph_extraction.ipynb)
+GraphExtraction | [Graph Extraction Explode Entities](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/graph-extraction/graph_extraction_explode_entities.ipynb)
+
+Documentation
+
+* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
+* [Spark NLP publications](https://medium.com/spark-nlp)
+* [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
+* [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
+* [Spark NLP Scala APIs](https://nlp.johnsnowlabs.com/api)
+* [Spark NLP Python APIs](https://nlp.johnsnowlabs.com/api/python)
+* [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop) notebooks
+* [Spark NLP training certification notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Public) for Google Colab and Databricks
+* [Spark NLP Display](https://github.com/JohnSnowLabs/spark-nlp-display) for visualization of different types of annotations
+* [Discussions](https://github.com/JohnSnowLabs/spark-nlp/discussions) Engage with other community members, share ideas, and show off how you use Spark NLP!
+
+Installation
+
+**Python**
+
+```shell
+#PyPI
+
+pip install spark-nlp==3.2.0
+```
+
+**Spark Packages**
+
+**spark-nlp** on Apache Spark 3.0.x and 3.1.x (Scala 2.12 only):
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.0
+```
+
+**spark-nlp** on Apache Spark 2.4.x (Scala 2.11 only):
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.0
+```
+
+**spark-nlp** on Apache Spark 2.3.x (Scala 2.11 only):
+
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.0
+```
+
+**GPU**
+```shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:3.2.0
+
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.0
+```
+
+**Maven**
+
+**spark-nlp** on Apache Spark 3.0.x and 3.1.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.12</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.12</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.4.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark24_2.11</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark24_2.11</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 2.3.x:
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+**FAT JARs**
+
+* CPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-assembly-3.2.0.jar
+
+* GPU on Apache Spark 3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-assembly-3.2.0.jar
+
+* CPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark24-assembly-3.2.0.jar
+
+* GPU on Apache Spark 2.4.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark24-assembly-3.2.0.jar
+
+* CPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-spark23-assembly-3.2.0.jar
+
+* GPU on Apache Spark 2.3.x: https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/jars/spark-nlp-gpu-spark23-assembly-3.2.0.jar
 
 ### 3.1.3
 
