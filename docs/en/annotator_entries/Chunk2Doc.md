@@ -21,9 +21,7 @@ DOCUMENT
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 from sparknlp.pretrained import PretrainedPipeline
 # Location entities are extracted and converted back into `DOCUMENT` type for further processing
