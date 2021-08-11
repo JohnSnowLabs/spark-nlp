@@ -100,7 +100,7 @@ class Extractor
   def newline_separated_predicted_entities(buf)
     return nil unless buf.include? "\n"
     return nil if buf.strip.start_with? '-'
-    buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').strip }.select { |v| !v.empty? }
+    buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').gsub('`', '').strip }.select { |v| !v.empty? }
   end
 end
 
