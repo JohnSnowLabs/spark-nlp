@@ -1,4 +1,2 @@
-.github/workflows/publish_docs.yaml
-docs/en/release_notes.md
-.github/workflows/publish_docs.yaml
-docs/en/release_notes.md
+README.md
+README.md
