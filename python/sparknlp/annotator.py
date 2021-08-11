@@ -12817,7 +12817,7 @@ class BertForTokenClassification(AnnotatorModel,
     O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
-    name = "BERT_FOR_TOKEN_CLASSIFICATION"
+    name = "BertForTokenClassification"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -12980,7 +12980,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
     |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
-    name = "DISTILBERT_FOR_TOKEN_CLASSIFICATION"
+    name = "DistilBertForTokenClassification"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -13186,7 +13186,7 @@ class LongformerEmbeddings(AnnotatorModel,
     |[0.22409197688102722,-0.4312366545200348,0.1401449590921402,0.356410235166549...|
     +--------------------------------------------------------------------------------+
     """
-    name = "LONGFORMER_EMBEDDINGS"
+    name = "LongformerEmbeddings"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
