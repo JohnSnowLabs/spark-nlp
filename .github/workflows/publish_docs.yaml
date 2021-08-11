@@ -1,11 +1,14 @@
 name: Publish APIs
 
 on:
+  push:
+    branches:
+      - '*release*'
   pull_request:
     branches:
       - 'main'
       - 'master'
-      - '*-release-candidate*'
+      - '*release*'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
