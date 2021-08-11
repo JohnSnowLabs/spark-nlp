@@ -53,6 +53,10 @@ WORD_EMBEDDINGS
 [RoBertaEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[RoBertaEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.RoBertaEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [RoBertaEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddings.scala)
 {%- endcapture -%}
@@ -360,6 +364,7 @@ title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 prediction_python_example=prediction_python_example

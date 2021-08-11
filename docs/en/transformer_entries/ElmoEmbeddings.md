@@ -63,6 +63,10 @@ WORD_EMBEDDINGS
 [ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ElmoEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [ElmoEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings.scala)
 {%- endcapture -%}
@@ -278,6 +282,7 @@ title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 prediction_python_example=prediction_python_example

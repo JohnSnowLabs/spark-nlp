@@ -68,6 +68,10 @@ WORD_EMBEDDINGS
 [XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.XlnetEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [XlnetEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings.scala)
 {%- endcapture -%}
@@ -282,6 +286,7 @@ title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 prediction_python_example=prediction_python_example

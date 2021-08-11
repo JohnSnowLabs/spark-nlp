@@ -73,6 +73,10 @@ WORD_EMBEDDINGS
 [AlbertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[AlbertEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.AlbertEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [AlbertEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddings.scala)
 {%- endcapture -%}
@@ -86,7 +90,7 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture training_python_example -%}
-import sparknlp
+import sparknlp1
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.training import *
@@ -283,6 +287,7 @@ title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 prediction_python_example=prediction_python_example
