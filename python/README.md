@@ -171,6 +171,7 @@ Spark NLP *3.2.1* has been built on top of Apache Spark 3.x while fully supports
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
 |-------------|-----------------------|--------------------|--------------------|--------------------|
+| 3.2.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.1.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.0.x       |YES                    |YES                 |YES                 |YES                 |
 | 2.7.x       |YES                    |YES                 |NO                  |NO                  |
@@ -852,6 +853,21 @@ spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
 ```
 
 NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
+
+#### S3 for logging
+
+To configure S3 path for logging while training models. We need to set up AWS credentials as well as an S3 path
+
+```bash
+spark.conf.set("spark.jsl.settings.annotator.log_folder", "s3://my/s3/path/logs")
+spark.conf.set("spark.jsl.settings.log.credentials.access_key_id", "MY_KEY_ID")
+spark.conf.set("spark.jsl.settings.log.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
+spark.conf.set("spark.jsl.settings.log.s3_bucket", "my.bucket")
+spark.conf.set("spark.jsl.settings.log.aws.region", "my-region")
+```
+
+Now you can check the log on your S3 path defined in *spark.jsl.settings.annotator.log_folder* property.
+Make sure to use the prefix *s3://*, otherwise it will use the default configuration.
 
 ## Pipelines and Models
 
