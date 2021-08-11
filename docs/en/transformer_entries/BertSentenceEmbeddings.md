@@ -51,6 +51,10 @@ SENTENCE_EMBEDDINGS
 [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.BertSentenceEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [BertSentenceEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.scala)
 {%- endcapture -%}
@@ -302,6 +306,7 @@ title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 prediction_python_example=prediction_python_example

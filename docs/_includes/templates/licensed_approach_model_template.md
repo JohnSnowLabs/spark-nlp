@@ -21,11 +21,11 @@
 
 {% if include.approach_source_link %}
 
-| **Python API:** {{include.approach_python_api_link}} | **Scala API:** {{include.approach_api_link}} | **Source:** {{include.approach_source_link}} |
+| **Scala API:** {{include.approach_api_link}} | **Source:** {{include.approach_source_link}} |
 
 {% else %}
 
-| **Python API:** {{include.approach_python_api_link}} | **Scala API:** {{include.approach_api_link}} |
+| **Scala API:** {{include.approach_api_link}} |
 
 {% endif %}
 
@@ -72,11 +72,11 @@
 
 {% if include.model_source_link %}
 
-| **Python API:** {{include.model_python_api_link}} | **Scala API:** {{include.model_api_link}} | **Source:** {{include.model_source_link}} |
+| **Scala API:** {{include.model_api_link}} | **Source:** {{include.model_source_link}} |
 
 {% else %}
 
-| **Python API:** {{include.model_python_api_link}} | **Scala API:** {{include.model_api_link}} |
+| **Scala API:** {{include.model_api_link}} |
 
 {% endif %}
 
