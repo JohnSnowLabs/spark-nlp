@@ -1,2 +1,8 @@
-docs/_plugins/search_index.rb
-docs/_plugins/search_index.rb
+CHANGELOG
+README.md
+conda/meta.yaml
+python/README.md
+CHANGELOG
+README.md
+conda/meta.yaml
+python/README.md
