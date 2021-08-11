@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'master'
+      - '*-release-candidate*'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
