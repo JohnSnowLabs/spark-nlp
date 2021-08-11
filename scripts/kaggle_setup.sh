@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="3.2.0"
+SPARKNLP="3.2.1"
 PYSPARK="3.1.2"
 SPARKHOME="spark-3.1.2-bin-hadoop2.7"
 
