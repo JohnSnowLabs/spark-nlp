@@ -171,6 +171,7 @@ Spark NLP *3.2.0* has been built on top of Apache Spark 3.x while fully supports
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
 |-------------|-----------------------|--------------------|--------------------|--------------------|
+| 3.2.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.1.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.0.x       |YES                    |YES                 |YES                 |YES                 |
 | 2.7.x       |YES                    |YES                 |NO                  |NO                  |
