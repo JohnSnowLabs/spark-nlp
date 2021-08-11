@@ -21,7 +21,7 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "3.2.0"
+  val currentVersion = "3.2.1"
   val MavenSpark30 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark30 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
   val MavenSpark24 = s"com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:$currentVersion"
