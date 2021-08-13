@@ -242,4 +242,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_DE_NEWS.ipynb
+        - title: Detect Legal entities in Portuguese
+          id: detect_legal_entities_portuguese 
+          image: 
+              src: /assets/images/Detect_Legal_entities_in_Portuguese.svg
+          image2: 
+              src: /assets/images/Detect_Legal_entities_in_Portuguese_c.svg
+          excerpt: This demo shows how legal entities in Portuguese can be detected automatically using NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_LENER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
 ---
