@@ -54,7 +54,7 @@ results = model.transform(spark.createDataFrame([["The patient is a 21-day-old C
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
    .setInputCols(["sentence", "token"])
    .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_jsl_greedy_biobert", "en", "clinical/models") 
+val ner = MedicalNerModel.pretrained("ner_jsl_slim", "en", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
 ...
