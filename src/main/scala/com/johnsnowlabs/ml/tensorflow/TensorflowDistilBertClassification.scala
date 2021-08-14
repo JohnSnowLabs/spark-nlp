@@ -34,12 +34,12 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
-class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowWrapper,
-                                              sentenceStartTokenId: Int,
-                                              sentenceEndTokenId: Int,
-                                              configProtoBytes: Option[Array[Byte]] = None,
-                                              tags: Map[String, Int],
-                                              signatures: Option[Map[String, String]] = None
+class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrapper,
+                                         sentenceStartTokenId: Int,
+                                         sentenceEndTokenId: Int,
+                                         configProtoBytes: Option[Array[Byte]] = None,
+                                         tags: Map[String, Int],
+                                         signatures: Option[Map[String, String]] = None
                                        ) extends Serializable {
 
   val _tfDistilBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
