@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadDistilBertForTokenTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedDistilBertForTokenModel, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadDistilBertForTokenTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadRoBertaForTokenTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedDistilBertForTokenModel, ReadablePretrainedMultiClassifierDL, ReadablePretrainedRoBertaForTokenModel, ReadablePretrainedSentimentDL}
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -342,4 +342,7 @@ package object annotator {
 
   object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerTensorflowModel
 
+  type RoBertaForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification
+
+  object RoBertaForTokenClassification extends ReadablePretrainedRoBertaForTokenModel with ReadRoBertaForTokenTensorflowModel
 }
