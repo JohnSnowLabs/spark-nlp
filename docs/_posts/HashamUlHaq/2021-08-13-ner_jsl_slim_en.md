@@ -21,7 +21,7 @@ This is a pretrained named entity recognition deep learning model for clinical t
 
 ## Predicted Entities
 
-`Body_Part`, `Admission_Discharge`, `Clinical_Dept`, `Medical_Device`, `Procedure`, `Substance_Quantity`, `Drug`, `Disease_Syndrome_Disorder`, `Alergen`, `Pregnancy_Newborn`, `Symptom`, `Header`, `Vital_Sign`, `Test`, `Lifestyle`, `Birth_Entity`, `Demographics`, `Death_Entity`, `Age`, `Test_Result`, `Physical_Measurement`, `Treatment`, `Date_Time`
+`Death_Entity`, `Medical_Device`, `Vital_Sign`, `Alergen`, `Drug`, `Clinical_Dept`, `Lifestyle`, `Symptom`, `Body_Part`, `Physical_Measurement`, `Admission_Discharge`, `Date_Time`, `Age`, `Birth_Entity`, `Header`, `Oncological`, `Substance_Quantity`, `Test_Result`, `Test`, `Procedure`, `Treatment`, `Disease_Syndrome_Disorder`, `Pregnancy_Newborn`, `Demographics`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/){:.button.button-orange}
@@ -47,7 +47,7 @@ nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer,
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-results = model.transform(spark.createDataFrame([["The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature."]], ["text"]))
+results = model.transform(spark.createDataFrame([["HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."]], ["text"]))
 ```
 ```scala
 ...
@@ -59,7 +59,7 @@ val ner = MedicalNerModel.pretrained("ner_jsl_slim", "en", "clinical/models")
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
-val data = Seq("The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.").toDF("text")
+val data = Seq("HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
@@ -67,41 +67,18 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-|    | chunk                                          | entity        |
-|---:|:-----------------------------------------------|:--------------|
-|  0 | 21-day-old                                     | Age           |
-|  1 | Caucasian male                                 | Demographics  |
-|  2 | congestion                                     | Symptom       |
-|  3 | mom                                            | Demographics  |
-|  4 | yellow discharge                               | Symptom       |
-|  5 | nares                                          | Body_Part     |
-|  6 | she                                            | Demographics  |
-|  7 | mild problems with his breathing while feeding | Symptom       |
-|  8 | perioral cyanosis                              | Symptom       |
-|  9 | retractions                                    | Symptom       |
-| 10 | One day ago                                    | Date_Time     |
-| 11 | mom                                            | Demographics  |
-| 12 | tactile temperature                            | Symptom       |
-| 13 | Tylenol                                        | Drug          |
-| 14 | Baby                                           | Age           |
-| 15 | decreased p.o. intake                          | Symptom       |
-| 16 | His                                            | Demographics  |
-| 17 | his                                            | Demographics  |
-| 18 | respiratory congestion                         | Symptom       |
-| 19 | He                                             | Demographics  |
-| 20 | tired                                          | Symptom       |
-| 21 | fussy                                          | Symptom       |
-| 22 | over the past 2 days                           | Date_Time     |
-| 23 | albuterol                                      | Drug          |
-| 24 | ER                                             | Clinical_Dept |
-| 25 | His                                            | Demographics  |
-| 26 | urine output has also decreased                | Symptom       |
-| 27 | he                                             | Demographics  |
-| 28 | he                                             | Demographics  |
-| 29 | Mom                                            | Demographics  |
-| 30 | diarrhea                                       | Symptom       |
-| 31 | His                                            | Demographics  |
-| 32 | bowel                                          | Body_Part     |
+|    | chunk            | entity       |
+|---:|:-----------------|:-------------|
+|  0 | HISTORY:         | Header       |
+|  1 | 30-year-old      | Age          |
+|  2 | female           | Demographics |
+|  3 | mammography      | Test         |
+|  4 | soft tissue lump | Symptom      |
+|  5 | shoulder         | Body_Part    |
+|  6 | breast cancer    | Oncological  |
+|  7 | her mother       | Demographics |
+|  8 | age 58           | Age          |
+|  9 | breast cancer    | Oncological  |
 
 ```
 
@@ -126,53 +103,54 @@ Trained on data annotated by JSL.
 
 ```bash
 label	 tp	 fp	 fn	 prec	 rec	 f1
-B-Medical_Device	 1695	 340	 227	 0.8329238	 0.8818939	 0.8567096
-I-Physical_Measurement	 163	 44	 12	 0.7874396	 0.93142855	 0.85340315
-B-Alergen	 1	 0	 8	 1.0	 0.11111111	 0.19999999
-B-Procedure	 1337	 209	 159	 0.86481243	 0.8937166	 0.87902695
-I-Substance_Quantity	 2	 2	 6	 0.5	 0.25	 0.33333334
-B-Drug	 1701	 226	 155	 0.8827193	 0.9164871	 0.8992863
-I-Test_Result	 965	 116	 256	 0.89269197	 0.7903358	 0.8384014
-I-Pregnancy_Newborn	 81	 27	 54	 0.75	 0.6	 0.6666667
-B-Substance_Quantity	 1	 0	 2	 1.0	 0.33333334	 0.5
-B-Admission_Discharge	 186	 8	 8	 0.9587629	 0.9587629	 0.9587629
-B-Demographics	 2660	 73	 77	 0.97328943	 0.971867	 0.9725777
-I-Admission_Discharge	 0	 0	 2	 0.0	 0.0	 0.0
-I-Lifestyle	 65	 21	 31	 0.75581396	 0.6770833	 0.7142857
-B-Header	 1882	 117	 88	 0.94147074	 0.95532995	 0.94834965
-I-Date_Time	 878	 155	 94	 0.8499516	 0.9032922	 0.8758105
-B-Test_Result	 982	 124	 273	 0.88788426	 0.7824701	 0.83185095
-I-Treatment	 108	 39	 103	 0.7346939	 0.51184833	 0.60335195
-B-Clinical_Dept	 520	 73	 67	 0.87689716	 0.8858603	 0.8813559
-B-Test	 1583	 288	 292	 0.8460716	 0.84426665	 0.8451682
-B-Death_Entity	 21	 5	 3	 0.8076923	 0.875	 0.84
-B-Lifestyle	 190	 28	 48	 0.8715596	 0.79831934	 0.8333333
-B-Date_Time	 882	 126	 135	 0.875	 0.86725664	 0.8711111
-I-Age	 130	 15	 26	 0.8965517	 0.8333333	 0.8637873
-I-Body_Part	 4079	 437	 436	 0.90323293	 0.903433	 0.903333
-B-Pregnancy_Newborn	 62	 26	 55	 0.70454544	 0.52991456	 0.60487807
-B-Treatment	 146	 48	 87	 0.7525773	 0.62660944	 0.68384075
-I-Procedure	 1719	 251	 195	 0.8725888	 0.89811915	 0.8851699
-B-Birth_Entity	 2	 1	 5	 0.6666667	 0.2857143	 0.4
-I-Vital_Sign	 466	 177	 62	 0.7247278	 0.88257575	 0.79590094
-I-Header	 1475	 79	 81	 0.94916344	 0.94794345	 0.9485531
-I-Death_Entity	 0	 0	 1	 0.0	 0.0	 0.0
-I-Clinical_Dept	 377	 37	 33	 0.910628	 0.9195122	 0.91504854
-I-Test	 1258	 299	 286	 0.807964	 0.8147668	 0.8113512
-B-Age	 318	 25	 40	 0.9271137	 0.8882682	 0.9072753
-I-Symptom	 2719	 756	 990	 0.782446	 0.7330817	 0.75695986
-I-Demographics	 167	 12	 21	 0.93296087	 0.88829786	 0.9100817
-B-Body_Part	 3962	 427	 419	 0.90271133	 0.90435976	 0.90353477
-B-Physical_Measurement	 62	 15	 21	 0.8051948	 0.74698794	 0.77500004
-B-Disease_Syndrome_Disorder	 2301	 299	 261	 0.885	 0.8981265	 0.89151496
-B-Symptom	 3047	 546	 548	 0.84803784	 0.84756607	 0.8478019
-I-Disease_Syndrome_Disorder	 2216	 288	 287	 0.884984	 0.8853376	 0.88516074
-I-Drug	 2018	 264	 238	 0.88431203	 0.89450353	 0.8893786
-I-Medical_Device	 1130	 209	 122	 0.8439134	 0.9025559	 0.8722501
-B-Vital_Sign	 355	 103	 96	 0.7751092	 0.7871397	 0.7810781
-I-Alergen	 1	 0	 1	 1.0	 0.5	 0.6666667
-tp: 43913 fp: 6335 fn: 6411 labels: 45
-Macro-average	 prec: 0.8122245, rec: 0.7390624, f1: 0.7739183
-Micro-average	 prec: 0.8739253, rec: 0.8726055, f1: 0.87326497
+B-Medical_Device	 2696	 444	 282	 0.8585987	 0.90530556	 0.88133377
+I-Physical_Measurement	 220	 16	 34	 0.9322034	 0.86614174	 0.8979592
+B-Alergen	 0	 0	 6	 0.0	 0.0	 0.0
+B-Procedure	 1800	 239	 281	 0.8827857	 0.8649688	 0.8737864
+I-Substance_Quantity	 0	 0	 6	 0.0	 0.0	 0.0
+B-Drug	 1865	 218	 237	 0.89534324	 0.88725024	 0.8912784
+I-Test_Result	 289	 203	 292	 0.58739835	 0.49741825	 0.5386766
+I-Pregnancy_Newborn	 150	 41	 104	 0.7853403	 0.5905512	 0.6741573
+B-Substance_Quantity	 0	 0	 2	 0.0	 0.0	 0.0
+B-Admission_Discharge	 255	 35	 6	 0.87931037	 0.9770115	 0.92558986
+B-Demographics	 4609	 119	 123	 0.9748308	 0.9740068	 0.97441864
+I-Admission_Discharge	 0	 0	 3	 0.0	 0.0	 0.0
+I-Lifestyle	 71	 49	 20	 0.59166664	 0.7802198	 0.67298573
+B-Header	 2463	 53	 122	 0.9789348	 0.9528046	 0.965693
+I-Date_Time	 928	 184	 191	 0.8345324	 0.8293119	 0.83191395
+B-Test_Result	 866	 198	 262	 0.81390977	 0.7677305	 0.79014593
+I-Treatment	 114	 37	 46	 0.7549669	 0.7125	 0.733119
+B-Clinical_Dept	 688	 83	 76	 0.8923476	 0.90052354	 0.8964169
+B-Test	 1920	 333	 313	 0.85219705	 0.85982984	 0.8559965
+B-Death_Entity	 36	 9	 2	 0.8	 0.94736844	 0.8674699
+B-Lifestyle	 268	 58	 50	 0.8220859	 0.8427673	 0.8322981
+B-Date_Time	 823	 154	 176	 0.8423746	 0.8238238	 0.83299595
+I-Age	 136	 34	 49	 0.8	 0.73513514	 0.7661972
+I-Oncological	 345	 41	 19	 0.8937824	 0.9478022	 0.91999996
+I-Body_Part	 3717	 720	 424	 0.8377282	 0.8976093	 0.8666356
+B-Pregnancy_Newborn	 153	 51	 104	 0.75	 0.5953307	 0.6637744
+B-Treatment	 169	 41	 58	 0.8047619	 0.74449337	 0.7734553
+I-Procedure	 2302	 326	 417	 0.8759513	 0.8466348	 0.8610435
+B-Birth_Entity	 6	 5	 7	 0.54545456	 0.46153846	 0.5
+I-Vital_Sign	 639	 197	 93	 0.76435405	 0.8729508	 0.815051
+I-Header	 4451	 111	 216	 0.97566855	 0.9537176	 0.9645682
+I-Death_Entity	 2	 0	 0	 1.0	 1.0	 1.0
+I-Clinical_Dept	 621	 54	 39	 0.92	 0.9409091	 0.9303371
+I-Test	 1593	 378	 353	 0.8082192	 0.81860226	 0.81337756
+B-Age	 472	 43	 51	 0.91650486	 0.90248567	 0.9094413
+I-Symptom	 4227	 1271	 1303	 0.76882505	 0.7643761	 0.7665941
+I-Demographics	 321	 53	 53	 0.85828876	 0.85828876	 0.85828876
+B-Body_Part	 6312	 912	 809	 0.87375414	 0.88639235	 0.8800279
+B-Physical_Measurement	 91	 10	 17	 0.9009901	 0.8425926	 0.8708134
+B-Disease_Syndrome_Disorder	 2817	 336	 433	 0.8934348	 0.86676925	 0.8799001
+B-Symptom	 4522	 830	 747	 0.8449178	 0.8582274	 0.8515206
+I-Disease_Syndrome_Disorder	 2814	 386	 530	 0.879375	 0.8415072	 0.86002445
+I-Drug	 3737	 612	 517	 0.859278	 0.8784673	 0.8687667
+I-Medical_Device	 1825	 331	 131	 0.84647495	 0.9330266	 0.8876459
+B-Oncological	 276	 28	 27	 0.90789473	 0.9108911	 0.9093904
+B-Vital_Sign	 429	 97	 79	 0.81558937	 0.8444882	 0.8297872
+tp: 62038 fp: 9340 fn: 9110 labels: 46
+Macro-average	 prec: 0.76782775, rec: 0.7648211, f1: 0.76632154
+Micro-average	 prec: 0.86914736, rec: 0.87195706, f1: 0.87055
 
 ```
