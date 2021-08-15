@@ -2069,7 +2069,6 @@ class DateMatcherUtils(Params):
     def setSourceLanguage(self, value):
         return self._set(sourceLanguage=value)
 
-
     def setAnchorDateDay(self, value):
         """Sets an anchor day of the day for the relative dates such as a day
         after tomorrow. If not set it will use the current day.
@@ -4466,7 +4465,6 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
     def setIncludeConfidence(self, b):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -4596,7 +4594,6 @@ class NerCrfModel(AnnotatorModel):
         )
 
     def setIncludeConfidence(self, b):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -4939,7 +4936,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def setIncludeConfidence(self, value):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -5149,7 +5145,6 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         return self._set(configProtoBytes=b)
 
     def setIncludeConfidence(self, value):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -8734,7 +8729,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(wordMaxDistance=dist)
 
     def setMaxCandidates(self, candidates):
-
         """Sets maximum number of candidates for every word.
 
         Parameters
@@ -9122,7 +9116,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(wordMaxDistance=dist)
 
     def setMaxCandidates(self, candidates):
-
         """Sets maximum number of candidates for every word.
 
         Parameters
@@ -12750,7 +12743,7 @@ class BertForTokenClassification(AnnotatorModel,
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> embeddings = BertForTokenClassification.pretrained() \\
+    >>> token_classifier = BertForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
 
@@ -12776,12 +12769,12 @@ class BertForTokenClassification(AnnotatorModel,
     batchSize
         Batch size. Large values allows faster processing but requires more
         memory, by default 8
-        caseSensitive
+    caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
         True
-        configProtoBytes
+    configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
-        maxSentenceLength
+    maxSentenceLength
         Max sentence length to process, by default 128
 
     Examples
@@ -12805,8 +12798,7 @@ class BertForTokenClassification(AnnotatorModel,
     >>> ...     tokenizer,
     >>> ...     tokenClassifier
     ... ])
-    >>> data = spark.createDataFrame([["John Lenon was born in London and lived
-    >>> in Paris. My name is Sarah and I live in London"]]).toDF("text")
+    >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
@@ -12870,7 +12862,7 @@ class BertForTokenClassification(AnnotatorModel,
         ----------
         folder : str
             Folder of the saved model
-            spark_session : pyspark.sql.SparkSession
+        spark_session : pyspark.sql.SparkSession
             The current SparkSession
 
         Returns
@@ -12891,9 +12883,9 @@ class BertForTokenClassification(AnnotatorModel,
         name : str, optional
             Name of the pretrained model, by default
             "bert_base_token_classifier_conll03"
-            lang : str, optional
+        lang : str, optional
             Language of the pretrained model, by default "en"
-            remote_loc : str, optional
+        remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
 
@@ -12916,7 +12908,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> labels = DistilBertForTokenClassification.pretrained() \\
+    >>> token_classifier = DistilBertForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
 
@@ -13272,3 +13264,168 @@ class LongformerEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerEmbeddings, name, lang, remote_loc)
+
+
+class RoBertaForTokenClassification(AnnotatorModel,
+                                    HasCaseSensitiveProperties,
+                                    HasBatchedAnnotate):
+    """RoBertaForTokenClassification can load RoBerta Models with a token
+    classification head on top (a linear layer on top of the hidden-states
+    output) e.g. for Named-Entity-Recognition (NER) tasks.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> token_classifier = RoBertaForTokenClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label")
+
+    The default model is ``"roberta_base_token_classifier_conll03"``, if no name is
+    provided.
+
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
+    Models from the HuggingFace 🤗 Transformers library are also compatible with
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
+    ====================== ======================
+
+    Parameters
+    ----------
+    batchSize
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        True
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    maxSentenceLength
+        Max sentence length to process, by default 128
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> tokenClassifier = RoBertaForTokenClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label") \\
+    ...     .setCaseSensitive(True)
+    >>> pipeline = Pipeline().setStages([
+    >>> ...     documentAssembler,
+    >>> ...     tokenizer,
+    >>> ...     tokenClassifier
+    ... ])
+    >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("label.result").show(truncate=False)
+    +------------------------------------------------------------------------------------+
+    |result
+    |
+    +------------------------------------------------------------------------------------+
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
+    O, B-LOC]|
+    +------------------------------------------------------------------------------------+
+    """
+    name = "RoBertaForTokenClassification"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        """Sets configProto from tensorflow, serialized into byte array.
+
+        Parameters
+        ----------
+        b : List[str]
+            ConfigProto from tensorflow, serialized into byte array
+        """
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process, by default 128.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification",
+                 java_model=None):
+        super(RoBertaForTokenClassification, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        RoBertaForTokenClassification
+            The restored model
+        """
+        from sparknlp.internal import _RoBertaTokenClassifierLoader
+        jModel = _RoBertaTokenClassifierLoader(folder, spark_session._jsparkSession)._java_obj
+        return RoBertaForTokenClassification(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default
+            "roberta_base_token_classifier_conll03"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        RoBertaForTokenClassification
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(RoBertaForTokenClassification, name, lang, remote_loc)
