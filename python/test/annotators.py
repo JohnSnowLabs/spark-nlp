@@ -487,7 +487,6 @@ class SpellCheckerTestSpec(unittest.TestCase):
         self.train_data = self.train_data.withColumnRenamed("value", "text")
 
     def runTest(self):
-
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -519,7 +518,6 @@ class NorvigSweetingModelTestSpec(unittest.TestCase):
             .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
 
     def runTest(self):
-
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -540,6 +538,7 @@ class NorvigSweetingModelTestSpec(unittest.TestCase):
 
         pipelineDF = pipeline.fit(self.data).transform(self.data)
         pipelineDF.show()
+
 
 class SymmetricDeleteTestSpec(unittest.TestCase):
 
@@ -615,19 +614,19 @@ class ParamsGettersTestSpec(unittest.TestCase):
             for param in a.params:
                 param_name = param.name
                 camelized_param = re.sub(r"(?:^|_)(.)", lambda m: m.group(1).upper(), param_name)
-                assert(hasattr(a, param_name))
+                assert (hasattr(a, param_name))
                 param_value = getattr(a, "get" + camelized_param)()
-                assert(param_value is None or param_value is not None)
+                assert (param_value is None or param_value is not None)
         # Try a getter
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence") \
             .setCustomBounds(["%%"])
-        assert(sentence_detector.getOutputCol() == "sentence")
-        assert(sentence_detector.getCustomBounds() == ["%%"])
+        assert (sentence_detector.getOutputCol() == "sentence")
+        assert (sentence_detector.getCustomBounds() == ["%%"])
         # Try a default getter
         document_assembler = DocumentAssembler()
-        assert(document_assembler.getOutputCol() == "document")
+        assert (document_assembler.getOutputCol() == "document")
 
 
 class DependencyParserTreeBankTestSpec(unittest.TestCase):
@@ -1008,10 +1007,16 @@ class NGramGeneratorTestSpec(unittest.TestCase):
         transformed_data.select("ngrams.result", "ngrams_cum.result").show(2, False)
 
         assert transformed_data.select("ngrams.result").rdd.flatMap(lambda x: x).collect() == \
-               [['This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This is', 'is my', 'my second', 'second .'], ['This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This is', 'is my', 'my forth', 'forth .']]
+               [['This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This is', 'is my', 'my second',
+                 'second .'],
+                ['This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This is', 'is my', 'my forth',
+                 'forth .']]
 
         assert transformed_data.select("ngrams_cum.result").rdd.flatMap(lambda x: x).collect() == \
-               [['This', 'is', 'my', 'first', 'sentence', '.', 'This is', 'is my', 'my first', 'first sentence', 'sentence .', 'This', 'is', 'my', 'second', '.', 'This is', 'is my', 'my second', 'second .'], ['This', 'is', 'my', 'third', 'sentence', '.', 'This is', 'is my', 'my third', 'third sentence', 'sentence .', 'This', 'is', 'my', 'forth', '.', 'This is', 'is my', 'my forth', 'forth .']]
+               [['This', 'is', 'my', 'first', 'sentence', '.', 'This is', 'is my', 'my first', 'first sentence',
+                 'sentence .', 'This', 'is', 'my', 'second', '.', 'This is', 'is my', 'my second', 'second .'],
+                ['This', 'is', 'my', 'third', 'sentence', '.', 'This is', 'is my', 'my third', 'third sentence',
+                 'sentence .', 'This', 'is', 'my', 'forth', '.', 'This is', 'is my', 'my forth', 'forth .']]
 
 
 class ChunkEmbeddingsTestSpec(unittest.TestCase):
@@ -1085,7 +1090,8 @@ class EmbeddingsFinisherTestSpec(unittest.TestCase):
             .setInputCols("sentence_embeddings") \
             .setOutputCols("sentence_embeddings_vectors") \
             .setOutputAsVector(True)
-        explode_vectors = SQLTransformer(statement="SELECT EXPLODE(sentence_embeddings_vectors) AS features, * FROM __THIS__")
+        explode_vectors = SQLTransformer(
+            statement="SELECT EXPLODE(sentence_embeddings_vectors) AS features, * FROM __THIS__")
         kmeans = KMeans().setK(2).setSeed(1).setFeaturesCol("features")
 
         pipeline = Pipeline(stages=[
@@ -1208,7 +1214,6 @@ class AlbertEmbeddingsTestSpec(unittest.TestCase):
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
     def runTest(self):
-
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -1252,7 +1257,6 @@ class SentimentDLTestSpec(unittest.TestCase):
             .setOutputCol("category") \
             .setLabelColumn("label") \
             .setRandomSeed(44)
-
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1330,7 +1334,6 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
             .setThreshold(0.5) \
             .setRandomSeed(44)
 
-
         pipeline = Pipeline(stages=[
             document_assembler,
             sentence_embeddings,
@@ -1350,28 +1353,29 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
 class YakeModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([
-            [1,"Sources tell us that Google is acquiring Kaggle, a platform that hosts data science and machine learning "
-               "competitions. Details about the transaction remain somewhat vague, but given that Google is hosting its "
-               "Cloud Next conference in San Francisco this week, the official announcement could come as early as "
-               "tomorrow. Reached by phone, Kaggle co-founder CEO Anthony Goldbloom declined to deny that the acquisition "
-               "is happening. Google itself declined 'to comment on rumors'. Kaggle, which has about half a million data "
-               "scientists on its platform, was founded by Goldbloom  and Ben Hamner in 2010. The service got an early "
-               "start and even though it has a few competitors like DrivenData, TopCoder and HackerRank, it has managed "
-               "to stay well ahead of them by focusing on its specific niche. The service is basically the de facto home "
-               "for running data science and machine learning competitions. With Kaggle, Google is buying one of the "
-               "largest and most active communities for data scientists - and with that, it will get increased mindshare "
-               "in this community, too (though it already has plenty of that thanks to Tensorflow and other projects). "
-               "Kaggle has a bit of a history with Google, too, but that's pretty recent. Earlier this month, Google and "
-               "Kaggle teamed up to host a $100,000 machine learning competition around classifying YouTube videos. That "
-               "competition had some deep integrations with the Google Cloud Platform, too. Our understanding is that "
-               "Google will keep the service running - likely under its current name. While the acquisition is probably "
-               "more about Kaggle's community than technology, Kaggle did build some interesting tools for hosting its "
-               "competition and 'kernels', too. On Kaggle, kernels are basically the source code for analyzing data sets "
-               "and developers can share this code on the platform (the company previously called them 'scripts'). Like "
-               "similar competition-centric sites, Kaggle also runs a job board, too. It's unclear what Google will do "
-               "with that part of the service. According to Crunchbase, Kaggle raised $12.5 million (though PitchBook "
-               "says it's $12.75) since its   launch in 2010. Investors in Kaggle include Index Ventures, SV Angel, Max "
-               "Levchin, Naval Ravikant, Google chief economist Hal Varian, Khosla Ventures and Yuri Milner"]
+            [1,
+             "Sources tell us that Google is acquiring Kaggle, a platform that hosts data science and machine learning "
+             "competitions. Details about the transaction remain somewhat vague, but given that Google is hosting its "
+             "Cloud Next conference in San Francisco this week, the official announcement could come as early as "
+             "tomorrow. Reached by phone, Kaggle co-founder CEO Anthony Goldbloom declined to deny that the acquisition "
+             "is happening. Google itself declined 'to comment on rumors'. Kaggle, which has about half a million data "
+             "scientists on its platform, was founded by Goldbloom  and Ben Hamner in 2010. The service got an early "
+             "start and even though it has a few competitors like DrivenData, TopCoder and HackerRank, it has managed "
+             "to stay well ahead of them by focusing on its specific niche. The service is basically the de facto home "
+             "for running data science and machine learning competitions. With Kaggle, Google is buying one of the "
+             "largest and most active communities for data scientists - and with that, it will get increased mindshare "
+             "in this community, too (though it already has plenty of that thanks to Tensorflow and other projects). "
+             "Kaggle has a bit of a history with Google, too, but that's pretty recent. Earlier this month, Google and "
+             "Kaggle teamed up to host a $100,000 machine learning competition around classifying YouTube videos. That "
+             "competition had some deep integrations with the Google Cloud Platform, too. Our understanding is that "
+             "Google will keep the service running - likely under its current name. While the acquisition is probably "
+             "more about Kaggle's community than technology, Kaggle did build some interesting tools for hosting its "
+             "competition and 'kernels', too. On Kaggle, kernels are basically the source code for analyzing data sets "
+             "and developers can share this code on the platform (the company previously called them 'scripts'). Like "
+             "similar competition-centric sites, Kaggle also runs a job board, too. It's unclear what Google will do "
+             "with that part of the service. According to Crunchbase, Kaggle raised $12.5 million (though PitchBook "
+             "says it's $12.75) since its   launch in 2010. Investors in Kaggle include Index Ventures, SV Angel, Max "
+             "Levchin, Naval Ravikant, Google chief economist Hal Varian, Khosla Ventures and Yuri Milner"]
         ]).toDF("id", "text").cache()
 
     def runTest(self):
@@ -1432,6 +1436,7 @@ class WordSegmenterTestSpec(unittest.TestCase):
                                        os.getcwd() + "/../src/test/resources/word-segmenter/chinese_train.utf8",
                                        delimiter="|", outputPosCol="tags", outputDocumentCol="document",
                                        outputTextCol="text")
+
     def runTest(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
@@ -1449,6 +1454,7 @@ class WordSegmenterTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.train)
         model.transform(self.data).show(truncate=False)
+
 
 class LanguageDetectorDLTestSpec(unittest.TestCase):
 
@@ -1581,7 +1587,6 @@ class T5TransformerSummaryWithSamplingTestSpec(unittest.TestCase):
             .setDoSample(True) \
             .setInputCols(["documents"]) \
             .setOutputCol("summaries")
-
 
         pipeline = Pipeline().setStages([document_assembler, t5])
         results = pipeline.fit(data).transform(data)
@@ -1742,7 +1747,8 @@ class GraphExtractionTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.spark = SparkContextForTest.spark
-        self.data_set = self.spark.createDataFrame([["Peter Parker is a nice person and lives in New York"]]).toDF("text")
+        self.data_set = self.spark.createDataFrame([["Peter Parker is a nice person and lives in New York"]]).toDF(
+            "text")
 
     def runTest(self):
         document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
@@ -1813,3 +1819,28 @@ class BertForTokenClassificationTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
+
+class RoBertaForTokenClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        token_classifier = RoBertaForTokenClassification.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("ner")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            token_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
