@@ -18,7 +18,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{BertForTokenClassification, ClassifierDLModel, DistilBertForTokenClassification, MultiClassifierDLModel, SentimentDLModel}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{BertForTokenClassification, ClassifierDLModel, DistilBertForTokenClassification, MultiClassifierDLModel, RoBertaForTokenClassification, SentimentDLModel}
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -446,9 +446,10 @@ object PythonResourceDownloader {
     "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings,
     "BertForTokenClassification" -> BertForTokenClassification,
     "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
-    "LongformerEmbeddings" -> LongformerEmbeddings
+    "LongformerEmbeddings" -> LongformerEmbeddings,
+    "RoBertaForTokenClassification" -> RoBertaForTokenClassification
   )
-
+3
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
     val reader = keyToReader.getOrElse(readerStr, throw new RuntimeException(s"Unsupported Model: $readerStr"))
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
