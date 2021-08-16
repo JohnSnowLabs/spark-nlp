@@ -208,14 +208,14 @@ class RoBertaForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowRoBertaTokenClassification]] = None
+  private var _model: Option[Broadcast[TensorflowRoBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): RoBertaForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowRoBertaTokenClassification(
+          new TensorflowRoBertaClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -232,7 +232,7 @@ class RoBertaForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowRoBertaTokenClassification = _model.get.value
+  def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not

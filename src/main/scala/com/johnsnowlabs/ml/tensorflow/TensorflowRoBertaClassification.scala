@@ -33,13 +33,13 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
-class TensorflowRoBertaTokenClassification(val tensorflowWrapper: TensorflowWrapper,
-                                           sentenceStartTokenId: Int,
-                                           sentenceEndTokenId: Int,
-                                           padTokenId: Int,
-                                           configProtoBytes: Option[Array[Byte]] = None,
-                                           tags: Map[String, Int],
-                                           signatures: Option[Map[String, String]] = None
+class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
+                                      sentenceStartTokenId: Int,
+                                      sentenceEndTokenId: Int,
+                                      padTokenId: Int,
+                                      configProtoBytes: Option[Array[Byte]] = None,
+                                      tags: Map[String, Int],
+                                      signatures: Option[Map[String, String]] = None
                                        ) extends Serializable {
 
   val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
