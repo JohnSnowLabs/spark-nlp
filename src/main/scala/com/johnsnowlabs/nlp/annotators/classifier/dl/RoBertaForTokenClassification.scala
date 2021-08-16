@@ -361,7 +361,10 @@ trait ReadRoBertaForTokenTensorflowModel extends ReadTensorflowModel {
     val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val merges = ResourceHelper.parseLines(mergesResource)
 
-    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
+      .filter(x => (x.length > 1 && x.length < 3))
+      .map { case Array(c1, c2) => (c1, c2) }
+      .zipWithIndex.toMap
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
