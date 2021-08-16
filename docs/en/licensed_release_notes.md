@@ -522,42 +522,6 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 
 **To see more, please check :** [Spark NLP Healthcare Workshop Repo](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare)
 
-#### Installing and Quickstart Instructions:
-[ Secret Code: 3.2.0-765881270d6a1bc54ca077c862313e08a497d9d9]
-
-python3 -m pip install --upgrade spark-nlp-jsl==3.2.0 --user --extra-index-url https://pypi.johnsnowlabs.com/3.2.0-765881270d6a1bc54ca077c862313e08a497d9d9
-
-Online Quickstart (requires Internet):
-
-Either use our quick SparkSession starter:
-
-from sparknlp.annotator import *
-from sparknlp_jsl.annotator import *
-from sparknlp.base import *
-from sparknlp.common import *
-import sparknlp_jsl
-spark = sparknlp_jsl.start("3.2.0-765881270d6a1bc54ca077c862313e08a497d9d9")
-
-Or create SparkSession manually:
-
-from sparknlp.annotator import *
-from sparknlp_jsl.annotator import *
-from sparknlp.base import *
-from sparknlp.common import *
-from pyspark.sql import SparkSession
-
-spark = SparkSession.builder \
-    .master('local[*]') \
-    .appName('Spark NLP') \
-    .config("spark.driver.memory", "32G") \
-    .config("spark.driver.maxResultSize", "2G") \
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-    .config("spark.kryoserializer.buffer.max", "2000M") \
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1") \
-    .config("spark.jars", "https://pypi.johnsnowlabs.com/3.2.0-765881270d6a1bc54ca077c862313e08a497d9d9/spark-nlp-jsl-3.2.0.jar")\
-    .getOrCreate()
-
-# Release Notes Spark NLP Healthcare
 
 ## 3.1.3
 We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
