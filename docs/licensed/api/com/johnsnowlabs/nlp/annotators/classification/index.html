@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classification</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.classification" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.classification" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classification</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classification" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -433,7 +433,7 @@
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="DocumentLogRegClassifierApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel]withLicensed"></a><a id="DocumentLogRegClassifierApproach:DocumentLogRegClassifierApproach"></a>
+      <a id="DocumentLogRegClassifierApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel]withCheckLicense"></a><a id="DocumentLogRegClassifierApproach:DocumentLogRegClassifierApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierApproach.html" title="Permalink">
         <i class="material-icons"></i>
@@ -444,7 +444,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Trains a model to classify documents with a Logarithmic Regression algorithm." href="DocumentLogRegClassifierApproach.html"><span class="name">DocumentLogRegClassifierApproach</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Trains a model to classify documents with a Logarithmic Regression algorithm." href="DocumentLogRegClassifierApproach.html"><span class="name">DocumentLogRegClassifierApproach</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Trains a model to classify documents with a Logarithmic Regression algorithm.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for
@@ -483,7 +483,7 @@ text and their label. The result is a trained <a href="DocumentLogRegClassifierM
 
 <span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a> for instantiated models</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="DocumentLogRegClassifierModelextendsModel[com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel]withRawAnnotator[com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel]withCanBeLazywithLicensed"></a><a id="DocumentLogRegClassifierModel:DocumentLogRegClassifierModel"></a>
+      <a id="DocumentLogRegClassifierModelextendsModel[com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel]withRawAnnotator[com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel]withCanBeLazywithCheckLicense"></a><a id="DocumentLogRegClassifierModel:DocumentLogRegClassifierModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/DocumentLogRegClassifierModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -494,7 +494,7 @@ text and their label. The result is a trained <a href="DocumentLogRegClassifierM
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Classifies documents with a Logarithmic Regression algorithm." href="DocumentLogRegClassifierModel.html"><span class="name">DocumentLogRegClassifierModel</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</span>[<a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Classifies documents with a Logarithmic Regression algorithm." href="DocumentLogRegClassifierModel.html"><span class="name">DocumentLogRegClassifierModel</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</span>[<a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Classifies documents with a Logarithmic Regression algorithm.</p><div class="fullcomment"><div class="comment cmt"><p>Classifies documents with a Logarithmic Regression algorithm.
