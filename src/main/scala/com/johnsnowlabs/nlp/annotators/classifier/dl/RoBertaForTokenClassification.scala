@@ -362,7 +362,7 @@ trait ReadRoBertaForTokenTensorflowModel extends ReadTensorflowModel {
     val merges = ResourceHelper.parseLines(mergesResource)
 
     val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
-      .filter(x => (x.length > 1 && x.length < 3))
+      .filter(w => w.length == 2)
       .map { case Array(c1, c2) => (c1, c2) }
       .zipWithIndex.toMap
 
