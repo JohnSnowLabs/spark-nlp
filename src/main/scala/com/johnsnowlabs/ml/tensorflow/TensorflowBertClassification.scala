@@ -20,7 +20,6 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -34,15 +33,15 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
-class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowWrapper,
-                                              sentenceStartTokenId: Int,
-                                              sentenceEndTokenId: Int,
-                                              configProtoBytes: Option[Array[Byte]] = None,
-                                              tags: Map[String, Int],
-                                              signatures: Option[Map[String, String]] = None
-                                       ) extends Serializable {
+class TensorflowBertClassification(val tensorflowWrapper: TensorflowWrapper,
+                                   sentenceStartTokenId: Int,
+                                   sentenceEndTokenId: Int,
+                                   configProtoBytes: Option[Array[Byte]] = None,
+                                   tags: Map[String, Int],
+                                   signatures: Option[Map[String, String]] = None
+                                  ) extends Serializable {
 
-  val _tfDistilBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -94,9 +93,10 @@ class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowW
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
-      .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
-      .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
-      .fetch(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
+      .feed(_tfBertSignatures.getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"), segmentTensors)
+      .fetch(_tfBertSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
     val rawScores = TensorResources.extractFloats(outs.head)
@@ -118,17 +118,17 @@ class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowW
               maxSentenceLength: Int
              ): Seq[Annotation] = {
 
-    /*Run embeddings calculation by batches*/
+    /*Run calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
       val encoded = encode(batch, maxSentenceLength)
-      val vectors = tag(encoded)
+      val logits = tag(encoded)
 
-      /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).flatMap { case (sentence, tokenVectors) =>
+      /*Combine tokens and calculated logits*/
+      batch.zip(logits).flatMap { case (sentence, tokenVectors) =>
         val tokenLength = sentence._1.tokens.length
 
-        /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+        /*All wordpiece logits*/
+        val tokenLogits = tokenVectors.slice(1, tokenLength + 1)
 
         /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
@@ -140,7 +140,7 @@ class TensorflowDistilBertTokenClassification(val tensorflowWrapper: TensorflowW
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-        val labelsWithScores = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
+        val labelsWithScores = sentence._1.tokens.zip(tokenLogits).flatMap {
           case (token, scores) =>
             originalTokenSentences(sentence._2).indexedTokens.find(
               p => p.begin == token.begin).map {
