@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.ml.search.SerializableKDTree</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.ml.search.SerializableKDTree" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.ml.search.SerializableKDTree" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.ml.search.SerializableKDTree</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.ml.search.SerializableKDTree" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.ml.search.SerializableKDTree" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -168,7 +168,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">SerializableKDTree</span><span class="tparams">[<span name="E">E</span>]</span><span class="result"> extends <span class="extype" name="smile.neighbor.NearestNeighborSearch">NearestNeighborSearch</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>], <span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>] with <span class="extype" name="smile.neighbor.KNNSearch">KNNSearch</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>], <span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>] with <span class="extype" name="smile.neighbor.RNNSearch">RNNSearch</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>], <span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>] with <span class="extype" name="java.io.Serializable">Serializable</span></span>
+        <span class="name">SerializableKDTree</span><span class="tparams">[<span name="E">E &lt;: <a href="../../nlp/annotators/resolution/TreeData.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.TreeData">TreeData</a></span>]</span><span class="result"> extends <span class="extype" name="smile.neighbor.NearestNeighborSearch">NearestNeighborSearch</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>], <span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>] with <span class="extype" name="smile.neighbor.KNNSearch">KNNSearch</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>], <span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>] with <span class="extype" name="smile.neighbor.RNNSearch">RNNSearch</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>], <span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>] with <span class="extype" name="java.io.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -224,9 +224,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.ml.search.SerializableKDTree#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(key:Array[Array[Float]],data:Array[EwithObject]):com.johnsnowlabs.ml.search.SerializableKDTree[E]"></a><a id="&lt;init&gt;:SerializableKDTree[E]"></a>
+      <a id="&lt;init&gt;(key:Array[Array[Float]],data:Array[E]):com.johnsnowlabs.ml.search.SerializableKDTree[E]"></a><a id="&lt;init&gt;:SerializableKDTree[E]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/search/SerializableKDTree.html#&lt;init&gt;(key:Array[Array[Float]],data:Array[EwithObject]):com.johnsnowlabs.ml.search.SerializableKDTree[E]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/search/SerializableKDTree.html#&lt;init&gt;(key:Array[Array[Float]],data:Array[E]):com.johnsnowlabs.ml.search.SerializableKDTree[E]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -353,6 +353,54 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.search.SerializableKDTree#concat" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="concat(first:Array[E],second:Array[E],blackList:java.util.Set[Integer]):Array[E]"></a><a id="concat(Array[E],Array[E],Set[Integer]):Array[E]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/search/SerializableKDTree.html#concat(first:Array[E],second:Array[E],blackList:java.util.Set[Integer]):Array[E]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">concat</span><span class="params">(<span name="first">first: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>]</span>, <span name="second">second: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>]</span>, <span name="blackList">blackList: <span class="extype" name="java.util.Set">Set</span>[<span class="extype" name="java.lang.Integer">Integer</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="index.html" class="extype" name="com.johnsnowlabs.ml.search">search</a>] </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.search.SerializableKDTree#concat" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="concat(first:Array[Array[Float]],second:Array[Array[Float]],blackList:java.util.Set[Integer]):Array[Array[Float]]"></a><a id="concat(Array[Array[Float]],Array[Array[Float]],Set[Integer]):Array[Array[Float]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/search/SerializableKDTree.html#concat(first:Array[Array[Float]],second:Array[Array[Float]],blackList:java.util.Set[Integer]):Array[Array[Float]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">concat</span><span class="params">(<span name="first">first: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="second">second: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="blackList">blackList: <span class="extype" name="java.util.Set">Set</span>[<span class="extype" name="java.lang.Integer">Integer</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="index.html" class="extype" name="com.johnsnowlabs.ml.search">search</a>] </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.search.SerializableKDTree#continueTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="continueTraining(newKeys:Array[Array[Float]],newData:Array[E],overwrite:Boolean):com.johnsnowlabs.ml.search.SerializableKDTree[E]"></a><a id="continueTraining(Array[Array[Float]],Array[E],Boolean):SerializableKDTree[E]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/search/SerializableKDTree.html#continueTraining(newKeys:Array[Array[Float]],newData:Array[E],overwrite:Boolean):com.johnsnowlabs.ml.search.SerializableKDTree[E]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">continueTraining</span><span class="params">(<span name="newKeys">newKeys: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="newData">newData: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>]</span>, <span name="overwrite">overwrite: <span class="extype" name="java.lang.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree">SerializableKDTree</a>[<span class="extype" name="com.johnsnowlabs.ml.search.SerializableKDTree.E">E</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">

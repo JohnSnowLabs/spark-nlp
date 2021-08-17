@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
+          <title>Spark NLP 3.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
+          <meta name="description" content="Spark NLP 3.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
+          <meta name="keywords" content="Spark NLP 3.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -497,7 +497,7 @@
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="DeIdentificationextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withDeIdentificationParamswithLicensed"></a><a id="DeIdentification:DeIdentification"></a>
+      <a id="DeIdentificationextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withDeIdentificationParamswithCheckLicense"></a><a id="DeIdentification:DeIdentification"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentification.html" title="Permalink">
         <i class="material-icons"></i>
@@ -508,7 +508,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Contains all the methods for training a DeIdentificationModel model." href="DeIdentification.html"><span class="name">DeIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Contains all the methods for training a DeIdentificationModel model." href="DeIdentification.html"><span class="name">DeIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Contains all the methods for training a DeIdentificationModel model.</p><div class="fullcomment"><div class="comment cmt"><p>Contains all the methods for training a DeIdentificationModel model.
@@ -582,7 +582,7 @@ result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class
 |[# <span class="num">01010101</span> Date : <span class="num">01</span>/<span class="num">18</span>/<span class="num">93</span> PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : <span class="num">2079</span>-<span class="num">11</span>-<span class="num">14.</span>]|
 +--------------------------------------------------------------------------------------------------+</pre></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="DeIdentificationModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withDeIdentificationParamswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withLicensed"></a><a id="DeIdentificationModel:DeIdentificationModel"></a>
+      <a id="DeIdentificationModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withDeIdentificationParamswithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withCheckLicense"></a><a id="DeIdentificationModel:DeIdentificationModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -593,7 +593,7 @@ result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS." href="DeIdentificationModel.html"><span class="name">DeIdentificationModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Contains all the parameters to transform a dataset with three Input Annotations of types DOCUMENT, TOKEN and CHUNK, into its DeIdentified version of by either masking or obfuscating the given CHUNKS." href="DeIdentificationModel.html"><span class="name">DeIdentificationModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="DeIdentificationParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Contains all the parameters to transform a dataset with three Input Annotations
@@ -666,7 +666,7 @@ masking or obfuscating the given CHUNKS.</p><p>To create an configured DeIdentif
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.ObfuscatorParams" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.ObfuscatorParams" visbl="prt" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="ObfuscatorParamsextendsParams"></a><a id="ObfuscatorParams:ObfuscatorParams"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/ObfuscatorParams.html" title="Permalink">
@@ -681,9 +681,9 @@ masking or obfuscating the given CHUNKS.</p><p>To create an configured DeIdentif
         <a title="" href="ObfuscatorParams.html"><span class="name">ObfuscatorParams</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.ReIdentification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ReIdentificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withLicensed"></a><a id="ReIdentification:ReIdentification"></a>
+      <a id="ReIdentificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel]withCheckLicense"></a><a id="ReIdentification:ReIdentification"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/ReIdentification.html" title="Permalink">
         <i class="material-icons"></i>
@@ -694,7 +694,7 @@ masking or obfuscating the given CHUNKS.</p><p>To create an configured DeIdentif
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Reidentifies obfuscated entities by DeIdentification." href="ReIdentification.html"><span class="name">ReIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <a href="../../../license/Licensed.html" class="extype" name="com.johnsnowlabs.license.Licensed">Licensed</a></span>
+        <a title="Reidentifies obfuscated entities by DeIdentification." href="ReIdentification.html"><span class="name">ReIdentification</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="DeIdentificationModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationModel">DeIdentificationModel</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Reidentifies obfuscated entities by <a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification"><code>DeIdentification</code></a>.</p><div class="fullcomment"><div class="comment cmt"><p>Reidentifies obfuscated entities by <a href="DeIdentification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentification"><code>DeIdentification</code></a>. This annotator requires the outputs
@@ -780,7 +780,7 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.TextToDocumentColumns" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.TextToDocumentColumns" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TextToDocumentColumnsextendsProductwithSerializable"></a><a id="TextToDocumentColumns:TextToDocumentColumns"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/TextToDocumentColumns.html" title="Permalink">
@@ -795,7 +795,7 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
         <a title="" href="TextToDocumentColumns.html"><span class="name">TextToDocumentColumns</span></a><span class="params">(<span name="columns">columns: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li></ol>
             </div>
 
@@ -836,7 +836,7 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DefaultRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DefaultRegex" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DefaultRegex"></a><a id="DefaultRegex:DefaultRegex"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DefaultRegex$.html" title="Permalink">
@@ -851,8 +851,8 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
         <a title="" href="DefaultRegex$.html"><span class="name">DefaultRegex</span></a>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.nlp.annotators.deid.Obfuscator" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.Obfuscator" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Obfuscator"></a><a id="Obfuscator:Obfuscator"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/Obfuscator$.html" title="Permalink">
@@ -867,7 +867,7 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
         <a title="" href="Obfuscator$.html"><span class="name">Obfuscator</span></a>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.ObfuscatorAnnotatorApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ObfuscatorAnnotatorApproach"></a><a id="ObfuscatorAnnotatorApproach:ObfuscatorAnnotatorApproach"></a>
       <span class="permalink">
