@@ -56,7 +56,7 @@ The `{secret.code}` is a secret code that is only available to users with valid/
 
 ### Setup AWS-CLI Credentials for licensed pretrained models
 
-Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models. 
+Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models.
 You can do this setup via Amazon AWS Command Line Interface (AWSCLI).
 
 Instructions about how to install AWSCLI are available at:
@@ -67,7 +67,7 @@ Make sure you configure your credentials with aws configure following the instru
 
 <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a>
 
-Please substitute the `ACCESS_KEY` and `SECRET_KEY` with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at 
+Please substitute the `ACCESS_KEY` and `SECRET_KEY` with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at
 <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
 </div>
@@ -123,7 +123,7 @@ If you want to download the source files (jar and whl files) locally, you can fo
     SPARK_NLP_LICENSE=zzz
     ```
 
-      -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows: 
+      -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows:
 
     ```bash
     %scala
@@ -153,3 +153,90 @@ If you want to download the source files (jar and whl files) locally, you can fo
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
+
+
+
+### Install Spark NLP for Healthcare on GCP Dataproc
+
+1. Create a cluster if you don't have one already as follows.
+
+At gcloud shell:
+
+```bash
+gcloud services enable dataproc.googleapis.com \
+  compute.googleapis.com \
+  storage-component.googleapis.com \
+  bigquery.googleapis.com \
+  bigquerystorage.googleapis.com
+```
+
+```bash
+REGION=<region>
+```
+
+```bash
+BUCKET_NAME=<bucket_name>
+gsutil mb -c standard -l ${REGION} gs://${BUCKET_NAME}
+```
+
+```bash
+REGION=<region>
+ZONE=<zone>
+CLUSTER_NAME=<cluster_name>
+BUCKET_NAME=<bucket_name>
+```
+
+You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.
+As noticed below, you should explicitly write JSL_SECRET and JSL_VERSION at metadata param inside the quotes.
+This will start the pip installation using the wheel file of Licensed SparkNLP!
+
+
+```bash
+gcloud dataproc clusters create ${CLUSTER_NAME} \
+  --region=${REGION} \
+  --network=${NETWORK} \
+  --zone=${ZONE} \
+  --image-version=2.0 \
+  --master-machine-type=n1-standard-4 \
+  --worker-machine-type=n1-standard-2 \
+  --master-boot-disk-size=128GB \
+  --worker-boot-disk-size=128GB \
+  --num-workers=2 \
+  --bucket=${BUCKET_NAME} \
+  --optional-components=JUPYTER \
+  --enable-component-gateway \
+  --metadata 'PIP_PACKAGES=google-cloud-bigquery google-cloud-storage spark-nlp-display
+  https://s3.eu-west-1.amazonaws.com/pypi.johnsnowlabs.com/JSL_SECRET/spark-nlp-jsl/spark_nlp_jsl-JSL_VERSION-py3-none-any.whl' \
+  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
+```
+
+2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+
+3. Now, you can attach your notebook to the cluster and use Spark NLP via following the instructions.
+The key part of this usage is how to start SparkNLP sessions using Apache Hadoop YARN cluster manager.
+
+3.1. Read license file from the notebook using GCS.
+
+3.2. Set the right path of the Java Home Path.
+
+3.3. Use the start function to start the SparkNLP JSL version such as follows:
+
+```Python
+def start(secret):
+    builder = SparkSession.builder \
+        .appName("Spark NLP Licensed") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000M") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+version) \
+        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+secret+"/spark-nlp-jsl-"+jsl_version+".jar")
+
+    return builder.getOrCreate()
+
+spark = start(SECRET)
+```
+
+As you see, we did not set `.master('local[*]')` explicitly to let YARN manage the cluster.
+Or you can set `.master('yarn')`.
