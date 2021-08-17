@@ -38,6 +38,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   - [Kaggle Kernel](#kaggle-kernel)
   - [Databricks Cluser](#databricks-cluster)
   - [EMR Cluser](#emr-cluster)
+  - [GCP Dataproc](#gcp-dataproc)
   - [Spark NLP Configuration](#spark-nlp-configuration)
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
@@ -782,6 +783,62 @@ aws emr create-cluster \
 --ec2-attributes KeyName=<your_ssh_key>,EmrManagedMasterSecurityGroup=<security_group_with_ssh>,EmrManagedSlaveSecurityGroup=<security_group_with_ssh> \
 --profile <aws_profile_credentials>
 ```
+
+## GCP Dataproc
+
+1. Create a cluster if you don't have one already as follows.
+
+At gcloud shell:
+
+```bash
+gcloud services enable dataproc.googleapis.com \
+  compute.googleapis.com \
+  storage-component.googleapis.com \
+  bigquery.googleapis.com \
+  bigquerystorage.googleapis.com
+```
+
+```bash
+REGION=<region>
+```
+
+```bash
+BUCKET_NAME=<bucket_name>
+gsutil mb -c standard -l ${REGION} gs://${BUCKET_NAME}
+```
+
+```bash
+REGION=<region>
+ZONE=<zone>
+CLUSTER_NAME=<cluster_name>
+BUCKET_NAME=<bucket_name>
+```
+
+You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.
+
+```bash
+gcloud dataproc clusters create ${CLUSTER_NAME} \
+  --region=${REGION} \
+  --zone=${ZONE} \
+  --image-version=2.0 \
+  --master-machine-type=n1-standard-4 \
+  --worker-machine-type=n1-standard-2 \
+  --master-boot-disk-size=128GB \
+  --worker-boot-disk-size=128GB \
+  --num-workers=2 \
+  --bucket=${BUCKET_NAME} \
+  --optional-components=JUPYTER \
+  --enable-component-gateway \
+  --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
+  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
+```
+
+2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+
+3. Now, you can attach your notebook to the cluster and use the Spark NLP!
 
 ## Spark NLP Configuration
 
