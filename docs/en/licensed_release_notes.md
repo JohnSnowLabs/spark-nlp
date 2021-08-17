@@ -418,6 +418,7 @@ df.show(truncate=100, vertical=True)
 ```
 
 *Results*:
+{% raw %}
 ```
 
 +----------+----------+------------------------------+---+------+
@@ -471,6 +472,7 @@ RECORD 0------------------------------------------------------------------------
  parameters          | {"elig":"CNA","age":16,"sex":"F","origds":'0',"disabled":false,"medicaid":false}                   
  details             | {"CNA_HCC10":0.675,"CNA_HCC40":0.421,"CNA_HCC48":0.192,"CNA_D3":0.0} 
 ```
+{% endraw %}
 
 Here is a sample notebook : [Calculating Medicare Risk Adjustment Score](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb)
 
