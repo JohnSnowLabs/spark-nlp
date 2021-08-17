@@ -345,9 +345,9 @@ A sample of your bootstrap script
 #!/bin/bash
 set -x -e
 
-echo -e 'export PYSPARK_PYTHON=/usr/bin/python3 
-export HADOOP_CONF_DIR=/etc/hadoop/conf 
-export SPARK_JARS_DIR=/usr/lib/spark/jars 
+echo -e 'export PYSPARK_PYTHON=/usr/bin/python3
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+export SPARK_JARS_DIR=/usr/lib/spark/jars
 export SPARK_HOME=/usr/lib/spark' >> $HOME/.bashrc && source $HOME/.bashrc
 
 sudo python3 -m pip install awscli boto spark-nlp
@@ -426,7 +426,7 @@ RUN apt-get update && apt-get install -y \
     libhdf5-serial-dev \
     libpng-dev \
     libzmq3-dev \
-    python3 \ 
+    python3 \
     python3-dev \
     python3-pip \
     unzip \
@@ -586,5 +586,62 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 - If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
 
 
-</div>
+### Install Spark NLP on GCP Dataproc
 
+1. Create a cluster if you don't have one already as follows.
+
+At gcloud shell:
+
+```bash
+gcloud services enable dataproc.googleapis.com \
+  compute.googleapis.com \
+  storage-component.googleapis.com \
+  bigquery.googleapis.com \
+  bigquerystorage.googleapis.com
+```
+
+```bash
+REGION=<region>
+```
+
+```bash
+BUCKET_NAME=<bucket_name>
+gsutil mb -c standard -l ${REGION} gs://${BUCKET_NAME}
+```
+
+```bash
+REGION=<region>
+ZONE=<zone>
+CLUSTER_NAME=<cluster_name>
+BUCKET_NAME=<bucket_name>
+```
+
+You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.
+
+
+```bash
+gcloud dataproc clusters create ${CLUSTER_NAME} \
+  --region=${REGION} \
+  --zone=${ZONE} \
+  --image-version=2.0 \
+  --master-machine-type=n1-standard-4 \
+  --worker-machine-type=n1-standard-2 \
+  --master-boot-disk-size=128GB \
+  --worker-boot-disk-size=128GB \
+  --num-workers=2 \
+  --bucket=${BUCKET_NAME} \
+  --optional-components=JUPYTER \
+  --enable-component-gateway \
+  --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
+  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
+```
+
+2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+
+3. Now, you can attach your notebook to the cluster and use the Spark NLP!
+
+
+</div>
