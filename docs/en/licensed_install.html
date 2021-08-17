@@ -571,7 +571,7 @@
 
   <h3 id="setup-aws-cli-credentials-for-licensed-pretrained-models">Setup AWS-CLI Credentials for licensed pretrained models</h3>
 
-  <p>Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models. 
+  <p>Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models.
 You can do this setup via Amazon AWS Command Line Interface (AWSCLI).</p>
 
   <p>Instructions about how to install AWSCLI are available at:</p>
@@ -582,7 +582,7 @@ You can do this setup via Amazon AWS Command Line Interface (AWSCLI).</p>
 
   <p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a></p>
 
-  <p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at 
+  <p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at
 <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
 
 </div>
@@ -676,6 +676,90 @@ not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">i
   <li>Now you can attach your notebook to the cluster and use Spark NLP!</li>
 </ol>
 
+<h3 id="install-spark-nlp-for-healthcare-on-gcp-dataproc">Install Spark NLP for Healthcare on GCP Dataproc</h3>
+
+<ol>
+  <li>Create a cluster if you don’t have one already as follows.</li>
+</ol>
+
+<p>At gcloud shell:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud services <span class="nb">enable </span>dataproc.googleapis.com <span class="se">\</span>
+  compute.googleapis.com <span class="se">\</span>
+  storage-component.googleapis.com <span class="se">\</span>
+  bigquery.googleapis.com <span class="se">\</span>
+  bigquerystorage.googleapis.com
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
+gsutil mb <span class="nt">-c</span> standard <span class="nt">-l</span> <span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+<span class="nv">ZONE</span><span class="o">=</span>&lt;zone&gt;
+<span class="nv">CLUSTER_NAME</span><span class="o">=</span>&lt;cluster_name&gt;
+<span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
+</code></pre></div></div>
+
+<p>You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.
+As noticed below, you should explicitly write JSL_SECRET and JSL_VERSION at metadata param inside the quotes.
+This will start the pip installation using the wheel file of Licensed SparkNLP!</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--network</span><span class="o">=</span><span class="k">${</span><span class="nv">NETWORK</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--zone</span><span class="o">=</span><span class="k">${</span><span class="nv">ZONE</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--image-version</span><span class="o">=</span>2.0 <span class="se">\</span>
+  <span class="nt">--master-machine-type</span><span class="o">=</span>n1-standard-4 <span class="se">\</span>
+  <span class="nt">--worker-machine-type</span><span class="o">=</span>n1-standard-2 <span class="se">\</span>
+  <span class="nt">--master-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
+  <span class="nt">--worker-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
+  <span class="nt">--num-workers</span><span class="o">=</span>2 <span class="se">\</span>
+  <span class="nt">--bucket</span><span class="o">=</span><span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--optional-components</span><span class="o">=</span>JUPYTER <span class="se">\</span>
+  <span class="nt">--enable-component-gateway</span> <span class="se">\</span>
+  <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=google-cloud-bigquery google-cloud-storage spark-nlp-display
+  https://s3.eu-west-1.amazonaws.com/pypi.johnsnowlabs.com/JSL_SECRET/spark-nlp-jsl/spark_nlp_jsl-JSL_VERSION-py3-none-any.whl'</span> <span class="se">\</span>
+  <span class="nt">--initialization-actions</span> gs://goog-dataproc-initialization-actions-<span class="k">${</span><span class="nv">REGION</span><span class="k">}</span>/python/pip-install.sh
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
+  </li>
+  <li>
+    <p>Now, you can attach your notebook to the cluster and use Spark NLP via following the instructions.
+The key part of this usage is how to start SparkNLP sessions using Apache Hadoop YARN cluster manager.</p>
+  </li>
+</ol>
+
+<p>3.1. Read license file from the notebook using GCS.</p>
+
+<p>3.2. Set the right path of the Java Home Path.</p>
+
+<p>3.3. Use the start function to start the SparkNLP JSL version such as follows:</p>
+
+<pre><code class="language-Python">def start(secret):
+    builder = SparkSession.builder \
+        .appName("Spark NLP Licensed") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000M") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+version) \
+        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+secret+"/spark-nlp-jsl-"+jsl_version+".jar")
+
+    return builder.getOrCreate()
+
+spark = start(SECRET)
+</code></pre>
+
+<p>As you see, we did not set <code class="language-plaintext highlighter-rouge">.master('local[*]')</code> explicitly to let YARN manage the cluster.
+Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn')</code>.</p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-03-09T00:00:00+00:00">Mar 09, 2021</time>
     </span><!-- start custom article footer snippet -->

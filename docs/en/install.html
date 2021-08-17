@@ -764,6 +764,8 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.2.
     <li>8.2 ML</li>
     <li>8.3</li>
     <li>8.3 ML</li>
+    <li>8.4</li>
+    <li>8.4 ML</li>
   </ul>
 
   <p><strong>GPU:</strong></p>
@@ -772,6 +774,7 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.2.
     <li>8.1 ML &amp; GPU</li>
     <li>8.2 ML &amp; GPU</li>
     <li>8.3 ML &amp; GPU</li>
+    <li>8.4 ML &amp; GPU</li>
   </ul>
 
   <p>NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.1 ML with GPU, 8.2 ML with GPU, and 8.3 ML with GPU.</p>
@@ -861,9 +864,9 @@ Full list of <a href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-re
   <pre><code class="language-.sh">#!/bin/bash
 set -x -e
 
-echo -e 'export PYSPARK_PYTHON=/usr/bin/python3 
-export HADOOP_CONF_DIR=/etc/hadoop/conf 
-export SPARK_JARS_DIR=/usr/lib/spark/jars 
+echo -e 'export PYSPARK_PYTHON=/usr/bin/python3
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+export SPARK_JARS_DIR=/usr/lib/spark/jars
 export SPARK_HOME=/usr/lib/spark' &gt;&gt; $HOME/.bashrc &amp;&amp; source $HOME/.bashrc
 
 sudo python3 -m pip install awscli boto spark-nlp
@@ -917,11 +920,71 @@ aws emr create-cluster \
 </div>
 <div class="h3-box">
 
-  <h2 id="docker-support">Docker Support</h2>
+  <h2 id="gcp-dataproc-support">GCP Dataproc Support</h2>
 
-  <p>For having Spark NLP, PySpark, Jupyter, and other ML/DL dependencies as a Docker image you can use the following template:</p>
+  <ol>
+    <li>Create a cluster if you don’t have one already as follows.</li>
+  </ol>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Download base image ubuntu 18.04</span>
+  <p>At gcloud shell:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud services <span class="nb">enable </span>dataproc.googleapis.com <span class="se">\</span>
+  compute.googleapis.com <span class="se">\</span>
+  storage-component.googleapis.com <span class="se">\</span>
+  bigquery.googleapis.com <span class="se">\</span>
+  bigquerystorage.googleapis.com
+</code></pre></div>  </div>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+</code></pre></div>  </div>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
+gsutil mb <span class="nt">-c</span> standard <span class="nt">-l</span> <span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>
+</code></pre></div>  </div>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+<span class="nv">ZONE</span><span class="o">=</span>&lt;zone&gt;
+<span class="nv">CLUSTER_NAME</span><span class="o">=</span>&lt;cluster_name&gt;
+<span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
+</code></pre></div>  </div>
+
+  <p>You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--zone</span><span class="o">=</span><span class="k">${</span><span class="nv">ZONE</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--image-version</span><span class="o">=</span>2.0 <span class="se">\</span>
+  <span class="nt">--master-machine-type</span><span class="o">=</span>n1-standard-4 <span class="se">\</span>
+  <span class="nt">--worker-machine-type</span><span class="o">=</span>n1-standard-2 <span class="se">\</span>
+  <span class="nt">--master-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
+  <span class="nt">--worker-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
+  <span class="nt">--num-workers</span><span class="o">=</span>2 <span class="se">\</span>
+  <span class="nt">--bucket</span><span class="o">=</span><span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--optional-components</span><span class="o">=</span>JUPYTER <span class="se">\</span>
+  <span class="nt">--enable-component-gateway</span> <span class="se">\</span>
+  <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage'</span> <span class="se">\</span>
+  <span class="nt">--initialization-actions</span> gs://goog-dataproc-initialization-actions-<span class="k">${</span><span class="nv">REGION</span><span class="k">}</span>/python/pip-install.sh
+</code></pre></div>  </div>
+
+  <ol>
+    <li>
+      <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
+    </li>
+    <li>
+      <p>Now, you can attach your notebook to the cluster and use the Spark NLP!</p>
+    </li>
+  </ol>
+
+</div>
+
+<h2 id="docker-support">Docker Support</h2>
+
+<p>For having Spark NLP, PySpark, Jupyter, and other ML/DL dependencies as a Docker image you can use the following template:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Download base image ubuntu 18.04</span>
 FROM ubuntu:18.04
 
 ENV NB_USER jovyan
@@ -941,7 +1004,7 @@ RUN apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">in
     libhdf5-serial-dev <span class="se">\</span>
     libpng-dev <span class="se">\</span>
     libzmq3-dev <span class="se">\</span>
-    python3 <span class="se">\ </span>
+    python3 <span class="se">\</span>
     python3-dev <span class="se">\</span>
     python3-pip <span class="se">\</span>
     unzip <span class="se">\</span>
@@ -995,96 +1058,92 @@ WORKDIR <span class="k">${</span><span class="nv">HOME</span><span class="k">}</
 
 <span class="c"># Specify the default command to run</span>
 CMD <span class="o">[</span><span class="s2">"jupyter"</span>, <span class="s2">"notebook"</span>, <span class="s2">"--ip"</span>, <span class="s2">"0.0.0.0"</span><span class="o">]</span>
-</code></pre></div>  </div>
+</code></pre></div></div>
 
-  <p>Finally, use <strong>jupyter_notebook_config.json</strong> for the password:</p>
+<p>Finally, use <strong>jupyter_notebook_config.json</strong> for the password:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
   <span class="s2">"NotebookApp"</span>: <span class="o">{</span>
     <span class="s2">"password"</span>: <span class="s2">"sha1:65adaa6ffb9c:36df1c2086ef294276da703667d1b8ff38f92614"</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>  </div>
+</code></pre></div></div>
 
-</div>
-<div class="h3-box">
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
 
-  <h2 id="windows-support">Windows Support</h2>
+<h2 id="windows-support">Windows Support</h2>
 
-  <p>In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, and Java correctly by following the following instructions: <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/1022">https://github.com/JohnSnowLabs/spark-nlp/discussions/1022</a></p>
+<p>In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, and Java correctly by following the following instructions: <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/1022">https://github.com/JohnSnowLabs/spark-nlp/discussions/1022</a></p>
 
-</div>
-<div class="h3-box">
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
 
-  <h4 id="how-to-correctly-install-spark-nlp-on-windows-8-and-10">How to correctly install Spark NLP on Windows 8 and 10</h4>
+<h4 id="how-to-correctly-install-spark-nlp-on-windows-8-and-10">How to correctly install Spark NLP on Windows 8 and 10</h4>
 
-  <p>Follow the below steps:</p>
+<p>Follow the below steps:</p>
 
-  <ol>
-    <li>Download OpenJDK from here: <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot</a>;
-      <ul>
-        <li>Make sure it is 64-bit</li>
-        <li>Make sure you install it in the root <strong>C:\java Windows</strong> .</li>
-        <li>During installation after changing the path, select setting Path</li>
-      </ul>
-    </li>
-    <li>
-      <p>Download winutils and put it in <strong>C:\hadoop\bin</strong> <a href="https://github.com/cdarlint/winutils/blob/master/hadoop-2.7.3/bin/winutils.exe">https://github.com/cdarlint/winutils/blob/master/hadoop-2.7.3/bin/winutils.exe</a>;</p>
-    </li>
-    <li>
-      <p>Download Anaconda 3.6 from Archive: <a href="https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe">https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe</a>;</p>
-    </li>
-    <li>
-      <p>Download Apache Spark 3.1.2 and extract it in <strong>C:\spark</strong></p>
-    </li>
-    <li>
-      <p>Set the env for HADOOP_HOME to <strong>C:\hadoop</strong> and SPARK_HOME to <strong>C:\spark</strong></p>
-    </li>
-    <li>
-      <p>Set Paths for %HADOOP_HOME%\bin and %SPARK_HOME%\bin</p>
-    </li>
-    <li>
-      <p>Install C++ <a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=14632">https://www.microsoft.com/en-us/download/confirmation.aspx?id=14632</a></p>
-    </li>
-    <li>
-      <p>Create <strong>C:\temp</strong> and <strong>C:\temp\hive</strong></p>
-    </li>
-    <li>Fix permissions:</li>
-  </ol>
+<ol>
+  <li>Download OpenJDK from here: <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot</a>;
+    <ul>
+      <li>Make sure it is 64-bit</li>
+      <li>Make sure you install it in the root <strong>C:\java Windows</strong> .</li>
+      <li>During installation after changing the path, select setting Path</li>
+    </ul>
+  </li>
+  <li>
+    <p>Download winutils and put it in <strong>C:\hadoop\bin</strong> <a href="https://github.com/cdarlint/winutils/blob/master/hadoop-2.7.3/bin/winutils.exe">https://github.com/cdarlint/winutils/blob/master/hadoop-2.7.3/bin/winutils.exe</a>;</p>
+  </li>
+  <li>
+    <p>Download Anaconda 3.6 from Archive: <a href="https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe">https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe</a>;</p>
+  </li>
+  <li>
+    <p>Download Apache Spark 3.1.2 and extract it in <strong>C:\spark</strong></p>
+  </li>
+  <li>
+    <p>Set the env for HADOOP_HOME to <strong>C:\hadoop</strong> and SPARK_HOME to <strong>C:\spark</strong></p>
+  </li>
+  <li>
+    <p>Set Paths for %HADOOP_HOME%\bin and %SPARK_HOME%\bin</p>
+  </li>
+  <li>
+    <p>Install C++ <a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=14632">https://www.microsoft.com/en-us/download/confirmation.aspx?id=14632</a></p>
+  </li>
+  <li>
+    <p>Create <strong>C:\temp</strong> and <strong>C:\temp\hive</strong></p>
+  </li>
+  <li>Fix permissions:</li>
+</ol>
 
-  <ul>
-    <li>C:\Users\maz&gt;%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive</li>
-    <li>C:\Users\maz&gt;%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/</li>
-  </ul>
+<ul>
+  <li>C:\Users\maz&gt;%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive</li>
+  <li>C:\Users\maz&gt;%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/</li>
+</ul>
 
-  <p>Either create a conda env for python 3.6, install <em>pyspark==3.1.2 spark-nlp numpy</em> and use Jupyter/python console, or in the same conda env you can go to spark bin for <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1</em>.</p>
+<p>Either create a conda env for python 3.6, install <em>pyspark==3.1.2 spark-nlp numpy</em> and use Jupyter/python console, or in the same conda env you can go to spark bin for <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1</em>.</p>
 
-</div>
-<div class="h3-box">
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
 
-  <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+<p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+<p><img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+<p><img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-  <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+<p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
-</div>
-<div class="h3-box">
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
 
-  <h2 id="offline">Offline</h2>
+<h2 id="offline">Offline</h2>
 
-  <p>Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:</p>
+<p>Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:</p>
 
-  <ul>
-    <li>Instead of using the Maven package, you need to load our Fat JAR</li>
-    <li>Instead of using PretrainedPipeline for pretrained pipelines or the <code class="language-plaintext highlighter-rouge">.pretrained()</code> function to download pretrained models, you will need to manually download your pipeline/model from <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>, extract it, and load it.</li>
-  </ul>
+<ul>
+  <li>Instead of using the Maven package, you need to load our Fat JAR</li>
+  <li>Instead of using PretrainedPipeline for pretrained pipelines or the <code class="language-plaintext highlighter-rouge">.pretrained()</code> function to download pretrained models, you will need to manually download your pipeline/model from <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>, extract it, and load it.</li>
+</ul>
 
-  <p>Example of <code class="language-plaintext highlighter-rouge">SparkSession</code> with Fat JAR to have Spark NLP offline:</p>
+<p>Example of <code class="language-plaintext highlighter-rouge">SparkSession</code> with Fat JAR to have Spark NLP offline:</p>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
     <span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">master</span><span class="p">(</span><span class="s">"local[*]"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span><span class="s">"16G"</span><span class="p">)</span>\
@@ -1092,16 +1151,16 @@ CMD <span class="o">[</span><span class="s2">"jupyter"</span>, <span class="s2">
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000M"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"/tmp/spark-nlp-assembly-3.2.1.jar"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-</code></pre></div>  </div>
+</code></pre></div></div>
 
-  <ul>
-    <li>You can download provided Fat JARs from each <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>, please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)</li>
-    <li>If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/spark-nlp-assembly-3.2.1.jar</code>)</li>
-  </ul>
+<ul>
+  <li>You can download provided Fat JARs from each <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>, please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)</li>
+  <li>If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/spark-nlp-assembly-3.2.1.jar</code>)</li>
+</ul>
 
-  <p>Example of using pretrained Models and Pipelines in offline:</p>
+<p>Example of using pretrained Models and Pipelines in offline:</p>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># instead of using pretrained() for online:
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
 </span><span class="n">french_pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/"</span><span class="p">)</span>\
@@ -1113,17 +1172,14 @@ CMD <span class="o">[</span><span class="s2">"jupyter"</span>, <span class="s2">
 # pipeline = PretrainedPipeline('explain_document_dl', lang='en')
 # you download this pipeline, extract it, and use PipelineModel
 </span><span class="n">PipelineModel</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/"</span><span class="p">)</span>
-</code></pre></div>  </div>
+</code></pre></div></div>
 
-  <ul>
-    <li>Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you</li>
-    <li>If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/</code>)</li>
-  </ul>
-
-</div>
-
+<ul>
+  <li>Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you</li>
+  <li>If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/</code>)</li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-06-07T00:00:00+00:00">Jun 07, 2021</time>
+      <time itemprop="dateModified" datetime="2021-08-17T00:00:00+00:00">Aug 17, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
