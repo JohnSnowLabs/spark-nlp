@@ -207,7 +207,6 @@ class XlmRoBertaEmbeddings(override val uid: String)
           new TensorflowXlmRoberta(
             tensorflowWrapper,
             spp,
-            $(batchSize),
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )
