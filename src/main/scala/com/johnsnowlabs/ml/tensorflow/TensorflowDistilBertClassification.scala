@@ -40,7 +40,7 @@ class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrappe
                                          configProtoBytes: Option[Array[Byte]] = None,
                                          tags: Map[String, Int],
                                          signatures: Option[Map[String, String]] = None
-                                       ) extends Serializable {
+                                        ) extends Serializable {
 
   val _tfDistilBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
@@ -118,17 +118,17 @@ class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrappe
               maxSentenceLength: Int
              ): Seq[Annotation] = {
 
-    /*Run embeddings calculation by batches*/
+    /*Run calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
       val encoded = encode(batch, maxSentenceLength)
-      val vectors = tag(encoded)
+      val logits = tag(encoded)
 
-      /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).flatMap { case (sentence, tokenVectors) =>
+      /*Combine tokens and calculated logits*/
+      batch.zip(logits).flatMap { case (sentence, tokenVectors) =>
         val tokenLength = sentence._1.tokens.length
 
-        /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+        /*All wordpiece logits*/
+        val tokenLogits = tokenVectors.slice(1, tokenLength + 1)
 
         /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
@@ -140,7 +140,7 @@ class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrappe
         # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
         # orig_to_tok_map == [1, 2, 4, 6]*/
 
-        val labelsWithScores = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
+        val labelsWithScores = sentence._1.tokens.zip(tokenLogits).flatMap {
           case (token, scores) =>
             originalTokenSentences(sentence._2).indexedTokens.find(
               p => p.begin == token.begin).map {
