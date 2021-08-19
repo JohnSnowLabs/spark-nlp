@@ -64,7 +64,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val tokenClassifier = RoBertaForTokenClassification.pretrained()
+ * val tokenClassifier = XlmRoBertaForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
