@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.util.io
 
-import com.johnsnowlabs.client.AWSGateway
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkFiles
@@ -84,17 +84,16 @@ object OutputHelper {
       if (logsFolder.startsWith("s3")) {
         val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.logAccessKeyId),
           ConfigLoader.getConfigStringValue(ConfigHelper.logSecretAccessKey),
+          ConfigLoader.getConfigStringValue(ConfigHelper.logSessionToken),
           ConfigLoader.getConfigStringValue(ConfigHelper.logAwsProfileName),
           ConfigLoader.getConfigStringValue(ConfigHelper.logAwsRegion), "proprietary")
-        if (awsGateway.credentials.isEmpty) {
-          println("Warning couldn't export log on S3 because some credential is missing")
-        } else {
+
           val bucket = ConfigLoader.getConfigStringValue(ConfigHelper.logS3BucketKey)
           val sourceFilePath = targetPath.toString
           val s3FilePath = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder).substring("s3://".length) +
             "/" + sourceFilePath.split("/").last
+
           awsGateway.copyInputStreamToS3(bucket, s3FilePath, sourceFilePath)
-        }
       }
     } catch {
       case e: Exception => println(s"Warning couldn't export log on DBFS or S3 because of error: ${e.getMessage}")
