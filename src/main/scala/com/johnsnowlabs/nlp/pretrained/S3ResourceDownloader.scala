@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.client.AWSGateway
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.Path
 
@@ -45,6 +45,7 @@ class S3ResourceDownloader(bucket: => String,
 
   lazy val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
     ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
+    ConfigLoader.getConfigStringValue(ConfigHelper.sessionToken),
     ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
     region, credentialsType
   )
