@@ -1858,8 +1858,8 @@ class XlmRoBertaForTokenClassificationTestSpec(unittest.TestCase):
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        token_classifier = XlmRoBertaForTokenClassification.pretrained()
-        .setInputCols(["document", "token"]) \
+        token_classifier = XlmRoBertaForTokenClassification.pretrained() \
+            .setInputCols(["document", "token"]) \
             .setOutputCol("ner")
 
         pipeline = Pipeline(stages=[
