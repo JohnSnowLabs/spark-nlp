@@ -77,6 +77,7 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
 # unittest.TextTestRunner().run(BertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(RoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlmRoBertaForTokenClassificationTestSpec())
 
 # Misc tests
 
