@@ -397,3 +397,9 @@ class _RoBertaTokenClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_RoBertaTokenClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification.loadSavedModel", path, jspark)
+
+
+class _XlmRoBertaTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification.loadSavedModel", path, jspark)
