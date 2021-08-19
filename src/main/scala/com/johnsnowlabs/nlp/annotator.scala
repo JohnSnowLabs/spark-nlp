@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadDistilBertForTokenTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadRoBertaForTokenTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedDistilBertForTokenModel, ReadablePretrainedMultiClassifierDL, ReadablePretrainedRoBertaForTokenModel, ReadablePretrainedSentimentDL}
+import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
@@ -345,4 +345,9 @@ package object annotator {
   type RoBertaForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification
 
   object RoBertaForTokenClassification extends ReadablePretrainedRoBertaForTokenModel with ReadRoBertaForTokenTensorflowModel
+
+  type XlmRoBertaForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification
+
+  object XlmRoBertaForTokenClassification extends ReadablePretrainedXlmRoBertaForTokenModel with ReadXlmRoBertaForTokenTensorflowModel
+
 }
