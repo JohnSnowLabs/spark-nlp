@@ -107,18 +107,18 @@ class RoBertaForTokenClassificationTestSpec extends FlatSpec {
 
     pipelineDF.select("label.result").show(false)
 
-    Benchmark.time("Time to save BertForTokenClassification pipeline model") {
-      pipelineModel.write.overwrite().save("./tmp_bertfortoken_pipeline")
+    Benchmark.time("Time to save RoBertaForTokenClassification pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_robertafortoken_pipeline")
     }
 
-    Benchmark.time("Time to save BertForTokenClassification model") {
-      pipelineModel.stages.last.asInstanceOf[BertForTokenClassification].write.overwrite().save("./tmp_bertfortoken_model")
+    Benchmark.time("Time to save RoBertaForTokenClassification model") {
+      pipelineModel.stages.last.asInstanceOf[RoBertaForTokenClassification].write.overwrite().save("./tmp_robertafortoken_model")
     }
 
-    val loadedPipelineModel = PipelineModel.load("./tmp_bertfortoken_pipeline")
+    val loadedPipelineModel = PipelineModel.load("./tmp_robertafortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = BertForTokenClassification.load("./tmp_bertfortoken_model")
+    val loadedDistilBertModel = RoBertaForTokenClassification.load("./tmp_robertafortoken_model")
     loadedDistilBertModel.getLabels
 
   }
@@ -139,7 +139,7 @@ class RoBertaForTokenClassificationTestSpec extends FlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save BertForTokenClassification results") {
+    Benchmark.time("Time to save RoBertaForTokenClassification results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_token_classifier")
     }
 

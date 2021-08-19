@@ -111,8 +111,8 @@ class DistilBertForTokenClassificationTestSpec extends FlatSpec {
       pipelineModel.write.overwrite().save("./tmp_bertfortoken_pipeline")
     }
 
-    Benchmark.time("Time to save BertForTokenClassification model") {
-      pipelineModel.stages.last.asInstanceOf[BertForTokenClassification].write.overwrite().save("./tmp_bertfortoken_model")
+    Benchmark.time("Time to save DistilBertForTokenClassification model") {
+      pipelineModel.stages.last.asInstanceOf[DistilBertForTokenClassification].write.overwrite().save("./tmp_bertfortoken_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_bertfortoken_pipeline")
