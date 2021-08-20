@@ -4,7 +4,7 @@ header: true
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2021-06-07"
+modify_date: "2021-08-17"
 ---
 
 ## Spark NLP Cheat Sheet
@@ -262,12 +262,16 @@ Spark NLP 3.2.1 has been tested and is compatible with the following runtimes:
 - 8.2 ML
 - 8.3
 - 8.3 ML
+- 8.4
+- 8.4 ML
+
 
 **GPU:**
 
 - 8.1 ML & GPU
 - 8.2 ML & GPU
 - 8.3 ML & GPU
+- 8.4 ML & GPU
 
 NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.1 ML with GPU, 8.2 ML with GPU, and 8.3 ML with GPU.
 
@@ -345,9 +349,9 @@ A sample of your bootstrap script
 #!/bin/bash
 set -x -e
 
-echo -e 'export PYSPARK_PYTHON=/usr/bin/python3 
-export HADOOP_CONF_DIR=/etc/hadoop/conf 
-export SPARK_JARS_DIR=/usr/lib/spark/jars 
+echo -e 'export PYSPARK_PYTHON=/usr/bin/python3
+export HADOOP_CONF_DIR=/etc/hadoop/conf
+export SPARK_JARS_DIR=/usr/lib/spark/jars
 export SPARK_HOME=/usr/lib/spark' >> $HOME/.bashrc && source $HOME/.bashrc
 
 sudo python3 -m pip install awscli boto spark-nlp
@@ -401,6 +405,64 @@ aws emr create-cluster \
 
 </div><div class="h3-box" markdown="1">
 
+## GCP Dataproc Support
+
+1. Create a cluster if you don't have one already as follows.
+
+At gcloud shell:
+
+```bash
+gcloud services enable dataproc.googleapis.com \
+  compute.googleapis.com \
+  storage-component.googleapis.com \
+  bigquery.googleapis.com \
+  bigquerystorage.googleapis.com
+```
+
+```bash
+REGION=<region>
+```
+
+```bash
+BUCKET_NAME=<bucket_name>
+gsutil mb -c standard -l ${REGION} gs://${BUCKET_NAME}
+```
+
+```bash
+REGION=<region>
+ZONE=<zone>
+CLUSTER_NAME=<cluster_name>
+BUCKET_NAME=<bucket_name>
+```
+
+You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.
+
+```bash
+gcloud dataproc clusters create ${CLUSTER_NAME} \
+  --region=${REGION} \
+  --zone=${ZONE} \
+  --image-version=2.0 \
+  --master-machine-type=n1-standard-4 \
+  --worker-machine-type=n1-standard-2 \
+  --master-boot-disk-size=128GB \
+  --worker-boot-disk-size=128GB \
+  --num-workers=2 \
+  --bucket=${BUCKET_NAME} \
+  --optional-components=JUPYTER \
+  --enable-component-gateway \
+  --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
+  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
+```
+
+2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+
+3. Now, you can attach your notebook to the cluster and use the Spark NLP!
+
+</div>
+
 ## Docker Support
 
 For having Spark NLP, PySpark, Jupyter, and other ML/DL dependencies as a Docker image you can use the following template:
@@ -426,7 +488,7 @@ RUN apt-get update && apt-get install -y \
     libhdf5-serial-dev \
     libpng-dev \
     libzmq3-dev \
-    python3 \ 
+    python3 \
     python3-dev \
     python3-pip \
     unzip \
@@ -584,7 +646,3 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 
 - Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you
 - If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
-
-
-</div>
-
