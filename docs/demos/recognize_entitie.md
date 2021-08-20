@@ -88,4 +88,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DATE_MATCHER.ipynb
+        - title: Detect wide-ranging entities in the Market (Few-NERD) 
+          id: detect_wide_ranging_entities_market
+          image: 
+              src: /assets/images/Detect_wide-ranging_entities_in_the_Market.svg
+          image2: 
+              src: /assets/images/Detect_wide-ranging_entities_in_the_Market_c.svg
+          excerpt: Detect 66 general entities such as art, newspaper, director, war, airport etc., using pretrained Spark NLP NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_FEW_NERD_66/
+          - text: Colab Netbook
+            type: blue_btn
+            url: 
 ---

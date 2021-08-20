@@ -104,5 +104,19 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_CODE_MAPPING/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL              
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL
+        - title: Resolve Clinical Entities to LOINC Codes
+          id: resolve_clinical_entities_codes_loinc
+          image: 
+              src: /assets/images/Resolve_Clinical_Entities_to_LOINC_Codes.svg
+          image2: 
+              src: /assets/images/Resolve_Clinical_Entities_to_LOINC_Codes_c.svg
+          excerpt: This demo shows how clinical entities can be automatically mapped to Logical Observation Identifiers Names and Codes (LOINC) using sentence resolvers.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb             
 ---
