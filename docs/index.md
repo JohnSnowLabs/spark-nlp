@@ -13,7 +13,7 @@ article_header:
       url: /docs/en/quickstart
     - text: View Demo
       type: trans
-      url: /demo
+      url: /demos
     - text: '<i class="fab fa-github"></i> GitHub'
       type: trans
       url: https://github.com/johnsnowlabs/spark-nlp  

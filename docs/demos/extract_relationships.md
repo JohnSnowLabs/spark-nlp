@@ -88,4 +88,33 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb
+        - title: Detect drugs interactions
+          id: detect_drugs_interactions
+          image: 
+              src: /assets/images/Detect_drugs_interactions.svg
+          image2: 
+              src: /assets/images/Detect_drugs_interactions_c.svg
+          excerpt: Detect possible interactions between drugs using out-of-the-box Relation Extraction Spark NLP model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_DRUG_DRUG_INT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
+        - title: Detect relations between chemicals and proteins
+          hide: yes
+          id: detect_relations_between_chemicals_and_proteins
+          image: 
+              src: /assets/images/Detect_relations_between_chemicals_and_proteins.svg
+          image2: 
+              src: /assets/images/Detect_relations_between_chemicals_and_proteins_c.svg
+          excerpt: Automatically detect possible relationships between chemicals and proteins using a predefined Relation Extraction model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_CHEM_PROT/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
 ---
