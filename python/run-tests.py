@@ -76,6 +76,7 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # print("Running T5TransformerSummaryWithRepetitionPenaltyTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
 # unittest.TextTestRunner().run(BertForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(RoBertaSentenceEmbeddingsTestSpec())
 
 # Misc tests
 
