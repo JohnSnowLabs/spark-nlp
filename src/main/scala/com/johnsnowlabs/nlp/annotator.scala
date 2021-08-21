@@ -342,4 +342,8 @@ package object annotator {
 
   object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerTensorflowModel
 
+  type RoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings
+
+  object RoBertaSentenceEmbeddings extends ReadablePretrainedRobertaSentenceModel with ReadRobertaSentenceTensorflowModel
+
 }
