@@ -55,6 +55,7 @@ class ParamsGettersSetters(Params):
         paramName : str
             Name of the parameter
         """
+
         def r():
             try:
                 return self.getOrDefault(paramName)
@@ -71,6 +72,7 @@ class ParamsGettersSetters(Params):
         paramName : str
             Name of the parameter
         """
+
         def r(v):
             self.set(self.getParam(paramName), v)
             return self
@@ -389,3 +391,9 @@ class _LongformerLoader(ExtendedJavaWrapper):
         super(_LongformerLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings.loadSavedModel",
                                                 path,
                                                 jspark)
+
+
+class _RoBertaSentenceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaSentenceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings.loadSavedModel", path, jspark)
