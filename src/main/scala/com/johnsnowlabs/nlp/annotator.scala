@@ -17,7 +17,7 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
+import  com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadDistilBertForTokenTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedDistilBertForTokenModel, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
 import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
@@ -345,5 +345,9 @@ package object annotator {
   type RoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings
 
   object RoBertaSentenceEmbeddings extends ReadablePretrainedRobertaSentenceModel with ReadRobertaSentenceTensorflowModel
+
+  type XlmRoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings
+
+  object XlmRoBertaSentenceEmbeddings extends ReadablePretrainedXlmRobertaSentenceModel with ReadXlmRobertaSentenceTensorflowModel
 
 }
