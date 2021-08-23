@@ -44,7 +44,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
   val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
-  def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+  def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
       Array(
         maxSequenceLength - 2,
@@ -167,7 +167,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
 
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val encoded = encode(batch, maxSentenceLength)
+      val encoded = prepareBatchInputs(batch, maxSentenceLength)
       val vectors = tag(encoded)
 
       /*Combine tokens and calculated embeddings*/
@@ -223,7 +223,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
     tokens.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
       val tokensBatch = batch.map(x => (x._1._1, x._2))
       val sentencesBatch = batch.map(x => x._1._2)
-      val encoded = encode(tokensBatch, maxSentenceLength)
+      val encoded = prepareBatchInputs(tokensBatch, maxSentenceLength)
       val embeddings = tagSentence(encoded)
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>

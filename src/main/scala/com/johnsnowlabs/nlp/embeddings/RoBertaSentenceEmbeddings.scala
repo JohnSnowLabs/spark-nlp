@@ -85,10 +85,13 @@ import java.io.File
  *   .setInputCols(Array("document"))
  *   .setOutputCol("token")
  *
- * val embeddings = RoBertaSentenceEmbeddings.pretrained()
+ * val sentenceEmbeddings = RoBertaSentenceEmbeddings.pretrained()
  *   .setInputCols("document")
  *   .setOutputCol("sentence_embeddings")
  *   .setCaseSensitive(true)
+ *
+ * // you can either use the output to train ClassifierDL, SentimentDL, or MultiClassifierDL
+ * // or you can use EmbeddingsFinisher to prepare the results for Spark ML functions
  *
  * val embeddingsFinisher = new EmbeddingsFinisher()
  *   .setInputCols("sentence_embeddings")
@@ -100,7 +103,7 @@ import java.io.File
  *   .setStages(Array(
  *     documentAssembler,
  *     tokenizer,
- *     embeddings,
+ *     sentenceEmbeddings,
  *     embeddingsFinisher
  *   ))
  *
