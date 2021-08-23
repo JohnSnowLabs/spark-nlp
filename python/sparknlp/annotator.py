@@ -13548,7 +13548,7 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
     +--------------------------------------------------------------------------------+
     """
 
-    name = "RoBertaSentenceEmbeddings"
+    name = "XlmRoBertaSentenceEmbeddings"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
