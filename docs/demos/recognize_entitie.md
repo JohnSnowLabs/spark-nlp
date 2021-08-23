@@ -98,8 +98,8 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_FEW_NERD_66/
+            url: https://demo.johnsnowlabs.com/public/NER_FEW_NERD/
           - text: Colab Netbook
             type: blue_btn
-            url: 
+            url : https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FewNERD.ipynb
 ---
