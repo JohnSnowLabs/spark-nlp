@@ -98,7 +98,7 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_FEW_NERD_66/
+            url: https://demo.johnsnowlabs.com/public/NER_FEW_NERD/
           - text: Colab Netbook
             type: blue_btn
             url: 
