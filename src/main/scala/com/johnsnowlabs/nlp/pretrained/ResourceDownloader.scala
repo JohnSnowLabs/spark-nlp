@@ -447,7 +447,8 @@ object PythonResourceDownloader {
     "BertForTokenClassification" -> BertForTokenClassification,
     "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
     "LongformerEmbeddings" -> LongformerEmbeddings,
-    "RoBertaSentenceEmbeddings" -> RoBertaSentenceEmbeddings
+    "RoBertaSentenceEmbeddings" -> RoBertaSentenceEmbeddings,
+    "XlmRoBertaSentenceEmbeddings" -> XlmRoBertaSentenceEmbeddings,
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
