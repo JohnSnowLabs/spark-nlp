@@ -397,3 +397,9 @@ class _RoBertaSentenceLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_RoBertaSentenceLoader, self).__init__(
             "com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings.loadSavedModel", path, jspark)
+
+
+class _XlmRoBertaSentenceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaSentenceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings.loadSavedModel", path, jspark)
