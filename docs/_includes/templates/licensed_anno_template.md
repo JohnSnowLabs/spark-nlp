@@ -17,11 +17,11 @@
 
 {% if include.source_link %}
 
-| **Python API:** {{include.python_api_link}} | **Scala API:** {{include.api_link}} | **Source:** {{include.source_link}} |
+| **Scala API:** {{include.api_link}} | **Source:** {{include.source_link}} |
 
 {% else %}
 
-| **Python API:** {{include.python_api_link}} | **Scala API:** {{include.api_link}} |
+| **Scala API:** {{include.api_link}} |
 
 
 {% endif %}

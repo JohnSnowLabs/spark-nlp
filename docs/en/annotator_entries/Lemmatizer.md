@@ -39,6 +39,10 @@ val lemmatizer = LemmatizerModel.pretrained()
 [LemmatizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/LemmatizerModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[LemmatizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.LemmatizerModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [LemmatizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala)
 {%- endcapture -%}
@@ -176,6 +180,10 @@ result.selectExpr("lemma.result").show(false)
 [Lemmatizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Lemmatizer)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[Lemmatizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Lemmatizer.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [Lemmatizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala)
 {%- endcapture -%}
@@ -186,8 +194,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -195,6 +202,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}
