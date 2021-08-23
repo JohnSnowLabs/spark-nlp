@@ -53,24 +53,22 @@ import scala.collection.JavaConverters._
  * - This implementation is the same as RoBERTa. Refer to the [[com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings]] for usage examples
  * as well as the information relative to the inputs and outputs.
  *
- * @param tensorflowWrapper    XlmRoberta Model wrapper with TensorFlowWrapper
- * @param spp                  XlmRoberta SentencePiece model with SentencePieceWrapper
- * @param batchSize            size of batch
- * @param configProtoBytes     Configuration for TensorFlow session
+ * @param tensorflowWrapper XlmRoberta Model wrapper with TensorFlowWrapper
+ * @param spp               XlmRoberta SentencePiece model with SentencePieceWrapper
+ * @param configProtoBytes  Configuration for TensorFlow session
  */
 
 class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
                            val spp: SentencePieceWrapper,
-                           batchSize: Int,
                            configProtoBytes: Option[Array[Byte]] = None,
                            signatures: Option[Map[String, String]] = None
                           ) extends Serializable {
 
   val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  private val SentenceStartTokenId = spp.getSppModel.pieceToId("<s>")
-  private val SentenceEndTokenId = spp.getSppModel.pieceToId("</s>")
-  private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>")
+  private val SentenceStartTokenId = 0
+  private val SentenceEndTokenId = 2
+  private val SentencePadTokenId = 1
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
   def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
