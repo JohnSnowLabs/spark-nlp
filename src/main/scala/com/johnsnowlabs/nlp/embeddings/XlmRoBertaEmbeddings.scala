@@ -207,6 +207,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
           new TensorflowXlmRoberta(
             tensorflowWrapper,
             spp,
+            $(caseSensitive),
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )
@@ -266,8 +267,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
       val embeddings = getModelIfNotSet.calculateEmbeddings(
         tokenizedSentences,
         $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive)
+        $(maxSentenceLength)
       )
       WordpieceEmbeddingsSentence.pack(embeddings)
     }) else {
