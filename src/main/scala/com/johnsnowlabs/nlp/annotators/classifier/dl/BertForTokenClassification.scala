@@ -195,14 +195,14 @@ class BertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertTokenClassification]] = None
+  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertTokenClassification(
+          new TensorflowBertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -218,7 +218,7 @@ class BertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertTokenClassification = _model.get.value
+  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not

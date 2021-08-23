@@ -64,7 +64,126 @@ DOCUMENT, TOKEN
 WORD_EMBEDDINGS
 {%- endcapture -%}
 
-{%- capture python_example -%}
+{%- capture api_link -%}
+[XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings)
+{%- endcapture -%}
+
+{%- capture python_api_link -%}
+[XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.XlnetEmbeddings.html)
+{%- endcapture -%}
+
+{%- capture source_link -%}
+[XlnetEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings.scala)
+{%- endcapture -%}
+
+{%- capture prediction_python_example -%}
+# Coming soon!
+{%- endcapture -%}
+
+{%- capture prediction_scala_example -%}
+// Coming soon!
+{%- endcapture -%}
+
+{%- capture training_python_example -%}
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.training import *
+from pyspark.ml import Pipeline
+
+# First extract the prerequisites for the NerDLApproach
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+sentence = SentenceDetector() \
+    .setInputCols(["document"]) \
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+# Use the transformer embeddings
+embeddings = XlnetEmbeddings.pretrained() \
+    .setInputCols(["document", "token"]) \
+    .setOutputCol("embeddings") \
+    .setCaseSensitive(True)
+
+# Then the training can start with the transformer embeddings
+nerTagger = NerDLApproach() \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setLabelColumn("label") \
+    .setOutputCol("ner") \
+    .setMaxEpochs(1) \
+    .setVerbose(0)
+
+pipeline = Pipeline().setStages([
+    documentAssembler,
+    sentence,
+    tokenizer,
+    embeddings,
+    nerTagger
+])
+
+# We use the text and labels from the CoNLL dataset
+conll = CoNLL()
+trainingData = conll.readDataset(spark, "eng.train")
+
+pipelineModel = pipeline.fit(trainingData)
+{%- endcapture -%}
+
+{%- capture training_scala_example -%}
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+import com.johnsnowlabs.nlp.training.CoNLL
+import org.apache.spark.ml.Pipeline
+
+// First extract the prerequisites for the NerDLApproach
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val sentence = new SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+val embeddings = XlnetEmbeddings.pretrained()
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+
+// Then the training can start with the transformer embeddings
+val nerTagger = new NerDLApproach()
+  .setInputCols("sentence", "token", "embeddings")
+  .setLabelColumn("label")
+  .setOutputCol("ner")
+  .setMaxEpochs(1)
+  .setRandomSeed(0)
+  .setVerbose(0)
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  embeddings,
+  nerTagger
+))
+
+// We use the text and labels from the CoNLL dataset
+val conll = CoNLL()
+val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+
+val pipelineModel = pipeline.fit(trainingData)
+{%- endcapture -%}
+
+{%- capture embeddings_python_example -%}
 import sparknlp
 from sparknlp.base import *
 from sparknlp.common import *
@@ -113,7 +232,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture embeddings_scala_example -%}
 import spark.implicits._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -162,21 +281,18 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 
 {%- endcapture -%}
 
-{%- capture api_link -%}
-[XlnetEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings)
-{%- endcapture -%}
-
-{%- capture source_link -%}
-[XlnetEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddings.scala)
-{%- endcapture -%}
-
-{% include templates/anno_template.md
+{% include templates/transformer_usecases_template.md
 title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
+prediction_python_example=prediction_python_example
+prediction_scala_example=prediction_scala_example
+training_python_example=training_python_example
+training_scala_example=training_scala_example
+embeddings_python_example=embeddings_python_example
+embeddings_scala_example=embeddings_scala_example
 %}

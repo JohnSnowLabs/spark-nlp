@@ -138,6 +138,10 @@ result.select("cleanText").show(false)
 [TokenAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/TokenAssembler)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[TokenAssembler](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.base.TokenAssembler.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [TokenAssembler](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/TokenAssembler.scala)
 {%- endcapture -%}
@@ -149,6 +153,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}
