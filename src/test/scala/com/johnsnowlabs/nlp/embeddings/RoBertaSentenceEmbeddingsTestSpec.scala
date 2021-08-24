@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -33,7 +33,7 @@ import scala.collection.mutable
 
 class RoBertaSentenceEmbeddingsTestSpec extends FlatSpec {
 
-  "RoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs FastTest in {
+  "RoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
@@ -77,7 +77,7 @@ class RoBertaSentenceEmbeddingsTestSpec extends FlatSpec {
     model2.transform(testData).select("id", "sentence_embeddings").show()
   }
 
-  "RoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs FastTest in {
+  "RoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "This is my first sentence. This is my second."),
