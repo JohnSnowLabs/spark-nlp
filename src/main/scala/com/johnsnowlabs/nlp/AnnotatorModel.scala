@@ -18,9 +18,8 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.{Model, PipelineModel}
-import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /**
  * This trait implements logic that applies nlp using Spark ML Pipeline transformers
@@ -49,7 +48,7 @@ abstract class AnnotatorModel[M <: Model[M]]
 
     val inputDataset = beforeAnnotate(dataset)
 
-    val processedDataset = {
+    val processedDataset: DataFrame = {
       this match {
         case withAnnotate: HasSimpleAnnotate[M] =>
           inputDataset.withColumn(
@@ -68,11 +67,9 @@ abstract class AnnotatorModel[M <: Model[M]]
             })
           )
         case withBatchAnnotate: HasBatchedAnnotate[M] =>
-          val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
-          implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
-          val processedDataFrame = inputDataset.mapPartitions(partition => {
-            withBatchAnnotate.batchProcess(partition)
-          })
+
+          val processedDataFrame = withBatchAnnotate.batchProcess(inputDataset.toDF())
+
           /** Put back column metadata from `inputDataset` after destructive mapPartitions */
           val dfWithMetadata = inputDataset.schema.fields.foldLeft(processedDataFrame)((dataFrame, field) => {
             dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))

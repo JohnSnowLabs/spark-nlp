@@ -18,8 +18,10 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
-import org.apache.spark.ml.param.IntParam
-import org.apache.spark.sql.Row
+import org.apache.spark.ml.param.{BooleanParam, IntParam}
+import org.apache.spark.sql.catalyst.encoders.{ExpressionEncoder, RowEncoder}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
 trait HasBatchedAnnotate[M <: Model[M]] {
 
@@ -30,6 +32,13 @@ trait HasBatchedAnnotate[M <: Model[M]] {
    * @group param
    * */
   val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
+
+  /** Whether to use mapPartitions when processing batch
+    *
+    * @group param
+    * */
+  val mapPartitionsBatchProcessing = new BooleanParam(this, "mapPartitionsBatchProcessing",
+    "Whether to use mapPartitions when processing batch.")
 
   /** Size of every batch.
    *
@@ -47,10 +56,31 @@ trait HasBatchedAnnotate[M <: Model[M]] {
    * */
   def getBatchSize: Int = $(batchSize)
 
-  def batchProcess(rows: Iterator[_]): Iterator[Row] = {
+  def setMapPartitionsBatchProcessing(value: Boolean): this.type = {
+    set(this.mapPartitionsBatchProcessing, value)
+  }
+
+  setDefault(mapPartitionsBatchProcessing -> true)
+
+  def batchProcess(dataset: Dataset[_]): DataFrame = {
+    if ($(mapPartitionsBatchProcessing)) {
+      batchMapPartitionsProcess(dataset)
+    } else batchMapProcess(dataset.toDF())
+  }
+
+  def batchMapPartitionsProcess(dataset: Dataset[_]): DataFrame = {
+    val newStructType = dataset.schema.add(getOutputCol, Annotation.arrayType)
+    implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
+    val processedDataFrame: DataFrame = dataset.mapPartitions(partition => {
+      processPartition(partition)
+    })
+    processedDataFrame
+  }
+
+  private def processPartition(rows: Iterator[_]): Iterator[Row] = {
     // TODO remove the @unchecked annotation and create a type to handle different subtypes
     rows.grouped(getBatchSize).flatMap { case batchedRows: Seq[Row@unchecked] =>
-      val inputAnnotations = batchedRows.map(row => {
+      val inputAnnotations: Seq[Array[Annotation]] = batchedRows.map(row => {
         getInputCols.flatMap(inputCol => {
           row.getAs[Seq[Row]](inputCol).map(Annotation(_))
         })
@@ -60,6 +90,28 @@ trait HasBatchedAnnotate[M <: Model[M]] {
         row.toSeq ++ Array(annotations.map(a => Row(a.productIterator.toSeq: _*)))
       }
     }.map(Row.fromSeq)
+  }
+
+  def batchMapProcess(dataFrame: DataFrame): DataFrame = {
+    import dataFrame.sparkSession.implicits._
+
+    val processedDataFrame = dataFrame.withColumn("monotonically_increasing_id",
+      monotonically_increasing_id())
+
+    val batchDataFrame = processedDataFrame.map{ row =>
+      val inputAnnotations: Seq[Array[Annotation]] = Seq(getInputCols.flatMap(inputCol => {
+        row.getAs[Seq[Row]](inputCol).map(Annotation(_))
+      }))
+      val outputAnnotations: Seq[Seq[Annotation]] = batchAnnotate(inputAnnotations)
+      val miId = row.getAs[Long]("monotonically_increasing_id")
+
+      (miId, outputAnnotations)
+    }.toDF( "monotonically_increasing_id", "outputAnnotations")
+
+    val expressions: Array[Column] = Array($"monotonically_increasing_id") ++
+      Array($"outputAnnotations".getItem(0).alias(getOutputCol))
+    processedDataFrame.join(batchDataFrame.select(expressions:_*), "monotonically_increasing_id")
+      .drop("monotonically_increasing_id")
   }
 
   /**

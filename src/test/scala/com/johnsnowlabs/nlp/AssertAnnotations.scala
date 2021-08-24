@@ -12,7 +12,8 @@ object AssertAnnotations {
     val metadata = columnName + ".metadata"
     val begin = columnName + ".begin"
     val end = columnName + ".end"
-    dataSet.select(result, metadata, begin,  end).rdd.map{ row=>
+
+    dataSet.select(result, metadata, begin, end).rdd.map{ row =>
       val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
       val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
       val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
