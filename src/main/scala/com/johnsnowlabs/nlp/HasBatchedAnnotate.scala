@@ -33,13 +33,6 @@ trait HasBatchedAnnotate[M <: Model[M]] {
    * */
   val batchSize = new IntParam(this, "batchSize", "Size of every batch.")
 
-  /** Whether to use mapPartitions when processing batch
-    *
-    * @group param
-    * */
-  val mapPartitionsBatchProcessing = new BooleanParam(this, "mapPartitionsBatchProcessing",
-    "Whether to use mapPartitions when processing batch.")
-
   /** Size of every batch.
    *
    * @group setParam
@@ -56,14 +49,8 @@ trait HasBatchedAnnotate[M <: Model[M]] {
    * */
   def getBatchSize: Int = $(batchSize)
 
-  def setMapPartitionsBatchProcessing(value: Boolean): this.type = {
-    set(this.mapPartitionsBatchProcessing, value)
-  }
-
-  setDefault(mapPartitionsBatchProcessing -> true)
-
   def batchProcess(dataset: Dataset[_]): DataFrame = {
-    if ($(mapPartitionsBatchProcessing)) {
+    if (getBatchSize > 1) {
       batchMapPartitionsProcess(dataset)
     } else batchMapProcess(dataset.toDF())
   }
