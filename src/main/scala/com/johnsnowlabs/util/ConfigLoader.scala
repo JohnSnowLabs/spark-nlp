@@ -39,6 +39,7 @@ object ConfigLoader {
     getConfigInfo(ConfigHelper.secretAccessKey, "") ++
     getConfigInfo(ConfigHelper.sessionToken, "") ++
     getConfigInfo(ConfigHelper.awsProfileName, "") ++
+    getConfigInfo(ConfigHelper.awsRegion, "") ++
     getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
     getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
     getConfigInfo(ConfigHelper.serializationMode, "object") ++

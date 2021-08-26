@@ -11,6 +11,7 @@ class AWSTokenCredentials extends Credentials {
     val credentialsValues = credentialParams.productIterator.toList.asInstanceOf[List[String]]
     val expectedNumberOfParams = credentialsValues.slice(0, 3).count(_.!=(""))
     if (expectedNumberOfParams == 3) {
+      println("[INFO]: Connecting to AWS with AWS Token Credentials...")
       return Some(new BasicSessionCredentials(credentialParams.accessKeyId , credentialParams.secretAccessKey,
         credentialParams.sessionToken))
     }
