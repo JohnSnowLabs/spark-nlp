@@ -1,21 +1,24 @@
 package com.johnsnowlabs.client.aws
 
-import com.amazonaws.{AmazonServiceException, ClientConfiguration}
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.pi.model.InvalidArgumentException
 import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult}
-import com.amazonaws.services.s3.transfer.TransferManagerBuilder
+import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
+import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
 import com.johnsnowlabs.client.CredentialParams
 import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 
 class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: String,
                  awsProfile: String, region: String, credentialsType: String = "default") extends AutoCloseable {
+
+  protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
 
   lazy val client: AmazonS3 = {
     if (region == "" || region == null) {
@@ -42,8 +45,9 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
           .withCredentials(new AWSStaticCredentialsProvider(credentials.get))
           .withClientConfiguration(config)
       } else {
-        println("[WARNING]: unable to build AWS credential via AWSGateway chain, some parameter is missing or malformed." +
-          " S3 integration may not work well.")
+        val warning_message = "Unable to build AWS credential via AWSGateway chain, some parameter is missing or" +
+          " malformed. S3 integration may not work well."
+        logger.warn(warning_message)
         AmazonS3ClientBuilder.standard()
           .withClientConfiguration(config)
       }
@@ -106,13 +110,22 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
       .withS3Client(client).build()
     try {
       val multipleFileDownload = transferManager.downloadDirectory(bucketName, keyPrefix, directoryPath)
-      //AWSUtil.showTransferProgress(multipleFileDownload)
-      //AWSUtil.waitForCompletion(multipleFileDownload)
+      println(multipleFileDownload.getDescription)
+      waitForCompletion(multipleFileDownload)
     } catch {
       case e: AmazonServiceException =>
         throw new AmazonServiceException("Amazon service error when downloading files from S3 directory: " + e.getMessage)
     }
     transferManager.shutdownNow()
+  }
+
+  private def waitForCompletion(transfer: Transfer): Unit = {
+    try transfer.waitForCompletion()
+    catch {
+      case e: AmazonServiceException => throw new AmazonServiceException("Amazon service error: " + e.getMessage)
+      case e: AmazonClientException => throw new AmazonClientException("Amazon client error: " + e.getMessage)
+      case e: InterruptedException => throw new InterruptedException("Transfer interrupted: " + e.getMessage)
+    }
   }
 
   override def close(): Unit = {
