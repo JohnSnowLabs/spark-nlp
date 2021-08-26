@@ -45,6 +45,7 @@ object ConfigHelper {
   val secretAccessKey: String = awsCredentials + ".secret_access_key"
   val sessionToken: String = awsCredentials + ".session_token"
   val awsProfileName: String = awsCredentials + ".aws_profile_name"
+  val awsRegion: String = awsCredentials + ".aws.region"
 
   // Stores info for AWS S3 logging output when training models
   val awsLogCredentials = "spark.jsl.settings.log.credentials"

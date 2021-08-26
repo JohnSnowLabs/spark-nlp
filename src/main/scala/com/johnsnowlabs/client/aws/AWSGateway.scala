@@ -4,6 +4,7 @@ import com.amazonaws.{AmazonServiceException, ClientConfiguration}
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.pi.model.InvalidArgumentException
 import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult}
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.johnsnowlabs.client.CredentialParams
 import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
@@ -41,7 +42,7 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
           .withCredentials(new AWSStaticCredentialsProvider(credentials.get))
           .withClientConfiguration(config)
       } else {
-        println("Warning unable to build AWS credential via AWSGateway chain, some parameter is missing or malformed." +
+        println("[WARNING]: unable to build AWS credential via AWSGateway chain, some parameter is missing or malformed." +
           " S3 integration may not work well.")
         AmazonS3ClientBuilder.standard()
           .withClientConfiguration(config)
@@ -98,6 +99,20 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
     val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
     val inputStream = fileSystem.open(new Path(sourceFilePath))
     client.putObject(bucket, s3FilePath, inputStream, new ObjectMetadata())
+  }
+
+  def downloadFilesFromDirectory(bucketName: String, keyPrefix: String, directoryPath: File): Unit = {
+    val transferManager = TransferManagerBuilder.standard()
+      .withS3Client(client).build()
+    try {
+      val multipleFileDownload = transferManager.downloadDirectory(bucketName, keyPrefix, directoryPath)
+      //AWSUtil.showTransferProgress(multipleFileDownload)
+      //AWSUtil.waitForCompletion(multipleFileDownload)
+    } catch {
+      case e: AmazonServiceException =>
+        throw new AmazonServiceException("Amazon service error when downloading files from S3 directory: " + e.getMessage)
+    }
+    transferManager.shutdownNow()
   }
 
   override def close(): Unit = {
