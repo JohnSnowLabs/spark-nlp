@@ -527,7 +527,9 @@
 <p><img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/import.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
 <h2 id="plain-text-file">Plain text file</h2>
-<p>When you upload a text file, a task will be created for each line of that file. In other words the text is split by the new line character and a new task is created for each line.</p>
+<p>When you upload a plain text file, only one task will be created which will contain the entire data in the input file.</p>
+
+<p class="warning">This is an update from versions of Annotation Lab when the input text file was split by the new line character and one task was created for each line.</p>
 
 <h2 id="json-file">Json file</h2>
 <p>For bulk importing a list of documents you can use the json import option. The expected format is illustrated in the image below. It consists of a list of dictionaries, each with 2 keys-values pairs  (“text” and “title”).</p>

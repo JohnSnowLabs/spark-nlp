@@ -1,2 +1,4 @@
-docs/demos/recognize_entitie.md
-docs/demos/recognize_entitie.md
+docs/_posts/HashamUlHaq/2021-01-21-classifierdl_ade_biobert_en.md
+docs/en/import.md
+docs/_posts/HashamUlHaq/2021-01-21-classifierdl_ade_biobert_en.md
+docs/en/import.md
