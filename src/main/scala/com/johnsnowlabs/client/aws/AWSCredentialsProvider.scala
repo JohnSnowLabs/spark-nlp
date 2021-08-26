@@ -14,7 +14,7 @@ class AWSCredentialsProvider extends Credentials {
     if (credentialParams.accessKeyId != "anonymous" && credentialParams.region != "") {
       try {
         //check if default profile name works if not try
-        println("[INFO]: Connecting to AWS with AWS Credentials Provider...")
+        logger.info("Connecting to AWS with AWS Credentials Provider...")
         return Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
       } catch {
         case _: Exception =>

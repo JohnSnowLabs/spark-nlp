@@ -235,6 +235,12 @@ class NerDLApproach(override val uid: String)
    */
   val enableMemoryOptimizer = new BooleanParam(this, "enableMemoryOptimizer", "Whether to optimize for large datasets or not. Enabling this option can slow down training.")
 
+  /** S3 bucket name. Used when graphFolder references an S3 path
+    *
+    * @group param
+    */
+  val s3BucketName = new Param[String](this, "s3BucketName", "S3 bucket name. Used when graphFolder references a S3 path")
+
   /** Learning Rate
    *
    * @group getParam
@@ -400,6 +406,12 @@ class NerDLApproach(override val uid: String)
    * */
   def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
 
+  /** S3 bucket name. Used when graphFolder references an S3 path
+    *
+    * @group param
+    */
+  def setS3BucketName(value: String): this.type = set(this.s3BucketName, value)
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 70,
@@ -415,7 +427,8 @@ class NerDLApproach(override val uid: String)
     includeAllConfidenceScores -> false,
     enableOutputLogs -> false,
     outputLogsPath -> "",
-    enableMemoryOptimizer -> false
+    enableMemoryOptimizer -> false,
+    s3BucketName -> ""
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
@@ -463,7 +476,7 @@ class NerDLApproach(override val uid: String)
     )
 
     val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1,
-      get(graphFolder))
+      get(graphFolder), $(s3BucketName))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -571,9 +584,10 @@ class NerDLApproach(override val uid: String)
 
 
 trait WithGraphResolver {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None): String = {
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None,
+                             bucketName: String = ""): String = {
 
-    val files: Seq[String] = getFiles(localGraphPath)
+    val files: Seq[String] = getFiles(localGraphPath, bucketName)
 
     // 1. Filter Graphs by embeddings
     val embeddingsFiltered = files.map { filePath =>
@@ -633,12 +647,12 @@ trait WithGraphResolver {
     throw new IllegalStateException("Code shouldn't pass here")
   }
 
-  private def getFiles(localGraphPath: Option[String]): Seq[String] = {
+  private def getFiles(localGraphPath: Option[String], bucketName: String): Seq[String] = {
     var files: Seq[String] = List()
 
-    if (localGraphPath.get.startsWith("s3://")) {
-      println("Trying to download files from S3")
-      val bucketName = "auxdata.johnsnowlabs.com" //TODO: Add as a model parameter
+    if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
+      require(bucketName != "", "S3 bucket name is not define. Please define it with parameter setS3BucketName")
+
       val keyPrefix = localGraphPath.get.substring("s3://".length)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
