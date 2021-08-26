@@ -13,8 +13,10 @@ Once a new project is created and its configuration is saved, the user is redire
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/import.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Plain text file 
-When you upload a text file, a task will be created for each line of that file. In other words the text is split by the new line character and a new task is created for each line. 
+When you upload a plain text file, only one task will be created which will contain the entire data in the input file.
 
+This is an update from versions of Annotation Lab when the input text file was split by the new line character and one task was created for each line. 
+{:.warning}
 
 ## Json file
 For bulk importing a list of documents you can use the json import option. The expected format is illustrated in the image below. It consists of a list of dictionaries, each with 2 keys-values pairs  (“text” and “title”). 
