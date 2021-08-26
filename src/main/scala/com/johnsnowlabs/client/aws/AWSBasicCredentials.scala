@@ -11,6 +11,7 @@ class AWSBasicCredentials extends Credentials {
     val credentialsValues = credentialParams.productIterator.toList.asInstanceOf[List[String]]
     val expectedNumberOfParams = credentialsValues.slice(0, 2).count(_.!=(""))
     if (expectedNumberOfParams == 2) {
+      println("[INFO]: Connecting to AWS with AWS Basic Credentials...")
       return Some(new BasicAWSCredentials(credentialParams.accessKeyId, credentialParams.secretAccessKey))
     }
     next.get.buildCredentials(credentialParams)

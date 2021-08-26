@@ -13,10 +13,11 @@ class AWSProfileCredentials extends Credentials {
     val expectedNumberOfParams = credentialsValues.slice(3, 4).count(_.!=(""))
     if (expectedNumberOfParams == 1) {
       try {
+        println("[INFO]: Connecting to AWS with AWS Profile Credentials...")
         return Some(new ProfileCredentialsProvider(credentialParams.profile).getCredentials)
       } catch {
         case _: Exception =>
-          println(s"Warning profile ${credentialParams.profile} is not working. Attempting to use credentials provider")
+          println(s"[WARNING]: profile ${credentialParams.profile} is not working. Attempting to use credentials provider")
           next.get.buildCredentials(credentialParams)
       }
     }
