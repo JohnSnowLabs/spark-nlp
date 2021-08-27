@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Classifier for Adverse Drug Events using Clinical Bert- Spark NLP Model</title><meta name="description" content="DescriptionClassify text/sentence in two categories:True : The sentence is talking about a possible ADEFalse : The sentences doesn’t have any information abo...">
-<link rel="canonical" href="/2021/01/21/classifierdl_ade_clinicalbert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Classifier for Adverse Drug Events- Spark NLP Model</title><meta name="description" content="DescriptionClassify text/sentence in two categories:      True : The sentence is talking about a possible ADE        False : The sentences doesn’t have any i...">
+<link rel="canonical" href="/2021/01/21/classifierdl_ade_biobert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,16 +404,21 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 21, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-21T00:00:00+00:00"></div><header><h1>Classifier for Adverse Drug Events using Clinical Bert</h1></header></div><meta itemprop="headline" content="Classifier for Adverse Drug Events using Clinical Bert"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li><li>classifier</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-21T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,licensed,classifier,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-21T00:00:00+00:00"></div><header><h1>Classifier for Adverse Drug Events</h1></header></div><meta itemprop="headline" content="Classifier for Adverse Drug Events"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>classifier</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-01-21T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,en,classifier"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p>Classify text/sentence in two categories:</p>
 
-<p><code class="language-plaintext highlighter-rouge">True</code> : The sentence is talking about a possible ADE</p>
-
-<p><code class="language-plaintext highlighter-rouge">False</code> : The sentences doesn’t have any information about an ADE.</p>
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">True</code> : The sentence is talking about a possible ADE</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">False</code> : The sentences doesn’t have any information about an ADE.</p>
+  </li>
+</ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
@@ -421,7 +426,7 @@
 
 <p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/PP_ADE/" class="button button-orange">Live Demo</a>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_ade_clinicalbert_en_2.7.1_2.4_1611244439637.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_ade_biobert_en_2.7.1_2.4_1611243410222.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -429,27 +434,35 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'biobert_clinical_base_cased'</span><span class="p">)</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'biobert_pubmed_base_cased'</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">)</span>
-
 <span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">SentenceEmbeddings</span><span class="p">()</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"word_embeddings"</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
-
-<span class="n">classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_ade_clinicalbert'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'classifierdl_ade_biobert'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'sentence_embeddings'</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>
-
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">sentence_embeddings</span><span class="p">,</span> <span class="n">classifier</span><span class="p">])</span>
-
 <span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-
 <span class="n">annotations</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">"I feel a bit drowsy &amp; have a little blurred vision after taking an insulin"</span><span class="p">,</span> <span class="s">"I feel great after taking tylenol"</span><span class="p">])</span>
+</code></pre></div>  </div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'biobert_pubmed_base_case</span><span class="n">d</span><span class="o">')</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="ss">'toke</span><span class="n">n</span><span class="o">'))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"word_embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sentence_embeddings</span> <span class="k">=</span> <span class="nc">SentenceEmbeddings</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"word_embeddings"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'classifierdl_ade_biober</span><span class="n">t</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="o">',</span> <span class="ss">'clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="ss">'documen</span><span class="n">t</span><span class="o">',</span> <span class="ss">'toke</span><span class="n">n</span><span class="o">',</span> <span class="ss">'sentence_embedding</span><span class="n">s</span><span class="o">')).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'clas</span><span class="n">s</span><span class="o">')</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">sentence_embeddings</span><span class="o">,</span> <span class="n">classifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I feel a bit drowsy &amp; have a little blurred vision after taking an insulin"</span><span class="o">,</span> <span class="s">"I feel great after taking tylenol"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -469,11 +482,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>classifierdl_ade_clinicalbert</td>
+      <td>classifierdl_ade_biobert</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 2.7.1+</td>
+      <td>Spark NLP for Healthcare 2.7.1+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -497,7 +510,7 @@
     </tr>
     <tr>
       <td>Dependencies:</td>
-      <td>biobert_clinical_base_cased</td>
+      <td>biobert_pubmed_base_cased</td>
     </tr>
   </tbody>
 </table>
@@ -508,14 +521,14 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>			  precision    recall  f1-score   support
 
-       False       0.95      0.92      0.93      6923
-        True       0.64      0.78      0.70      1359
+       False       0.96      0.94      0.95      6923
+        True       0.71      0.79      0.75      1359
 
-   micro avg       0.89      0.89      0.89      8282
-   macro avg       0.80      0.85      0.82      8282
-weighted avg       0.90      0.89      0.90      8282
+   micro avg       0.91      0.91      0.91      8282
+   macro avg       0.83      0.86      0.85      8282
+weighted avg       0.92      0.91      0.91      8282
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-01-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -642,7 +655,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/01/21/classifierdl_ade_biobert_en.html">Classifier for Adverse Drug Events</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/01/21/classifierdl_ade_conversational_biobert_en.html">Classifier for Adverse Drug Events in Small Conversations</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/01/20/pos_ud_att_am.html">Part of Speech for Amharic (pos_ud_att)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/01/21/classifierdl_ade_clinicalbert_en.html">Classifier for Adverse Drug Events using Clinical Bert</a></div></div></div>
 
 </div>
 </div>
