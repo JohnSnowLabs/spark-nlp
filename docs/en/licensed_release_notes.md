@@ -23,21 +23,21 @@ We are glad to announce that Spark NLP Healthcare 3.2.1 has been released!.
 
 We have two new BERT-based token classifier NER models. These models are the first clinical NER models that use the BertForTokenCLassification approach that was introduced in Spark NLP 3.2.0. 
 
-+ `bert_token_classifier_ner_clinical`: This model is BERT-based version of `ner_clinical` model. This new model is 6% better than the legacy NER model (MedicalNerModel) that is based on BiLSTM-CNN-Char architecture.
++ `bert_token_classifier_ner_clinical`: This model is BERT-based version of `ner_clinical` model. This new model is 4% better than the legacy NER model (MedicalNerModel) that is based on BiLSTM-CNN-Char architecture.
 
 *Metrics*:
 
 ```
               precision    recall  f1-score   support
 
-   B-PROBLEM       0.92      0.94      0.93     59928
-      B-TEST       0.91      0.89      0.90     32906
- B-TREATMENT       0.93      0.90      0.91     40257
-           O       0.97      0.97      0.97    294416
+     PROBLEM       0.88      0.92      0.90     30276
+        TEST       0.91      0.86      0.88     17237
+   TREATMENT       0.87      0.88      0.88     17298
+           O       0.97      0.97      0.97    202438
 
-    accuracy                           0.96    427507
-   macro avg       0.93      0.93      0.93    427507
-weighted avg       0.96      0.96      0.96    427507
+    accuracy                           0.95    267249
+   macro avg       0.91      0.91      0.91    267249
+weighted avg       0.95      0.95      0.95    267249
 
 ```
 
@@ -89,82 +89,82 @@ res[0]['label']
 ```
                                     precision    recall  f1-score   support
 
-                  B-Admission_Discharge       0.84      0.97      0.90       415
-                                  B-Age       0.96      0.96      0.96      2434
-                              B-Alcohol       0.75      0.83      0.79       145
-                             B-Allergen       0.33      0.16      0.22        25
-                                  B-BMI       1.00      0.77      0.87        26
-                         B-Birth_Entity       1.00      0.17      0.29        12
-                       B-Blood_Pressure       0.86      0.88      0.87       597
-              B-Cerebrovascular_Disease       0.74      0.77      0.75       266
-                        B-Clinical_Dept       0.90      0.92      0.91      2385
-                 B-Communicable_Disease       0.70      0.59      0.64        85
-                                 B-Date       0.95      0.98      0.96      1438
-                         B-Death_Entity       0.83      0.83      0.83        59
-                             B-Diabetes       0.95      0.95      0.95       350
-                                 B-Diet       0.60      0.49      0.54       229
-                            B-Direction       0.88      0.90      0.89      6187
-            B-Disease_Syndrome_Disorder       0.90      0.89      0.89     13236
-                               B-Dosage       0.57      0.49      0.53       263
-                                 B-Drug       0.91      0.93      0.92     15926
-                             B-Duration       0.82      0.85      0.83      1218
-                         B-EKG_Findings       0.64      0.70      0.67       325
-                           B-Employment       0.79      0.85      0.82       539
-         B-External_body_part_or_region       0.84      0.84      0.84      4805
-                B-Family_History_Header       1.00      1.00      1.00       889
-                        B-Fetus_NewBorn       0.57      0.56      0.56       341
-                                 B-Form       0.53      0.43      0.48        81
-                            B-Frequency       0.87      0.90      0.88      1718
-                               B-Gender       0.98      0.98      0.98      5666
-                                  B-HDL       0.60      1.00      0.75         6
-                        B-Heart_Disease       0.88      0.88      0.88      2295
-                               B-Height       0.89      0.96      0.92       134
-                       B-Hyperlipidemia       1.00      0.95      0.97       194
-                         B-Hypertension       0.95      0.98      0.97       566
-                      B-ImagingFindings       0.66      0.64      0.65       601
-                    B-Imaging_Technique       0.62      0.67      0.64       108
-                  B-Injury_or_Poisoning       0.85      0.83      0.84      1680
-          B-Internal_organ_or_component       0.90      0.91      0.90     21318
-                       B-Kidney_Disease       0.89      0.89      0.89       446
-                                  B-LDL       0.88      0.97      0.92        37
-                      B-Labour_Delivery       0.82      0.71      0.76       306
-                       B-Medical_Device       0.89      0.93      0.91     12852
-               B-Medical_History_Header       0.96      0.97      0.96      1013
-                             B-Modifier       0.68      0.60      0.64      1398
-                        B-O2_Saturation       0.84      0.82      0.83       199
-                              B-Obesity       0.96      0.98      0.97       130
-                          B-Oncological       0.88      0.96      0.92      1635
-                           B-Overweight       0.80      0.80      0.80        10
-                       B-Oxygen_Therapy       0.91      0.92      0.92       231
-                            B-Pregnancy       0.81      0.83      0.82       439
-                            B-Procedure       0.91      0.91      0.91     14410
-              B-Psychological_Condition       0.81      0.81      0.81       354
-                                B-Pulse       0.85      0.95      0.89       389
-                       B-Race_Ethnicity       1.00      1.00      1.00       163
-                  B-Relationship_Status       0.93      0.91      0.92        57
-                         B-RelativeDate       0.83      0.86      0.84      1562
-                         B-RelativeTime       0.74      0.79      0.77       431
-                          B-Respiration       0.99      0.95      0.97       221
-                                B-Route       0.68      0.69      0.69       597
-                       B-Section_Header       0.97      0.98      0.98     28580
-B-Sexually_Active_or_Sexual_Orientation       1.00      0.64      0.78        14
-                              B-Smoking       0.83      0.90      0.86       225
-                B-Social_History_Header       0.95      0.99      0.97       825
-                             B-Strength       0.71      0.55      0.62       227
-                            B-Substance       0.85      0.81      0.83       193
-                   B-Substance_Quantity       0.00      0.00      0.00        28
-                              B-Symptom       0.84      0.86      0.85     23092
-                          B-Temperature       0.94      0.97      0.96       410
-                                 B-Test       0.84      0.88      0.86      9050
-                          B-Test_Result       0.84      0.84      0.84      2766
-                                 B-Time       0.90      0.81      0.86       140
-                    B-Total_Cholesterol       0.69      0.95      0.80        73
-                            B-Treatment       0.73      0.72      0.73       506
-                        B-Triglycerides       0.83      0.80      0.81        30
-                           B-VS_Finding       0.76      0.77      0.76       588
-                              B-Vaccine       0.70      0.84      0.76        92
-                   B-Vital_Signs_Header       0.95      0.98      0.97      2223
-                               B-Weight       0.88      0.89      0.88       306
+                    Admission_Discharge       0.84      0.97      0.90       415
+                                    Age       0.96      0.96      0.96      2434
+                                Alcohol       0.75      0.83      0.79       145
+                               Allergen       0.33      0.16      0.22        25
+                                    BMI       1.00      0.77      0.87        26
+                           Birth_Entity       1.00      0.17      0.29        12
+                         Blood_Pressure       0.86      0.88      0.87       597
+                Cerebrovascular_Disease       0.74      0.77      0.75       266
+                          Clinical_Dept       0.90      0.92      0.91      2385
+                   Communicable_Disease       0.70      0.59      0.64        85
+                                   Date       0.95      0.98      0.96      1438
+                           Death_Entity       0.83      0.83      0.83        59
+                               Diabetes       0.95      0.95      0.95       350
+                                   Diet       0.60      0.49      0.54       229
+                              Direction       0.88      0.90      0.89      6187
+              Disease_Syndrome_Disorder       0.90      0.89      0.89     13236
+                                 Dosage       0.57      0.49      0.53       263
+                                   Drug       0.91      0.93      0.92     15926
+                               Duration       0.82      0.85      0.83      1218
+                           EKG_Findings       0.64      0.70      0.67       325
+                             Employment       0.79      0.85      0.82       539
+           External_body_part_or_region       0.84      0.84      0.84      4805
+                  Family_History_Header       1.00      1.00      1.00       889
+                          Fetus_NewBorn       0.57      0.56      0.56       341
+                                   Form       0.53      0.43      0.48        81
+                              Frequency       0.87      0.90      0.88      1718
+                                 Gender       0.98      0.98      0.98      5666
+                                    HDL       0.60      1.00      0.75         6
+                          Heart_Disease       0.88      0.88      0.88      2295
+                                 Height       0.89      0.96      0.92       134
+                         Hyperlipidemia       1.00      0.95      0.97       194
+                           Hypertension       0.95      0.98      0.97       566
+                        ImagingFindings       0.66      0.64      0.65       601
+                      Imaging_Technique       0.62      0.67      0.64       108
+                    Injury_or_Poisoning       0.85      0.83      0.84      1680
+            Internal_organ_or_component       0.90      0.91      0.90     21318
+                         Kidney_Disease       0.89      0.89      0.89       446
+                                    LDL       0.88      0.97      0.92        37
+                        Labour_Delivery       0.82      0.71      0.76       306
+                         Medical_Device       0.89      0.93      0.91     12852
+                 Medical_History_Header       0.96      0.97      0.96      1013
+                               Modifier       0.68      0.60      0.64      1398
+                          O2_Saturation       0.84      0.82      0.83       199
+                                Obesity       0.96      0.98      0.97       130
+                            Oncological       0.88      0.96      0.92      1635
+                             Overweight       0.80      0.80      0.80        10
+                         Oxygen_Therapy       0.91      0.92      0.92       231
+                              Pregnancy       0.81      0.83      0.82       439
+                              Procedure       0.91      0.91      0.91     14410
+                Psychological_Condition       0.81      0.81      0.81       354
+                                  Pulse       0.85      0.95      0.89       389
+                         Race_Ethnicity       1.00      1.00      1.00       163
+                    Relationship_Status       0.93      0.91      0.92        57
+                           RelativeDate       0.83      0.86      0.84      1562
+                           RelativeTime       0.74      0.79      0.77       431
+                            Respiration       0.99      0.95      0.97       221
+                                  Route       0.68      0.69      0.69       597
+                         Section_Header       0.97      0.98      0.98     28580
+  Sexually_Active_or_Sexual_Orientation       1.00      0.64      0.78        14
+                                Smoking       0.83      0.90      0.86       225
+                  Social_History_Header       0.95      0.99      0.97       825
+                               Strength       0.71      0.55      0.62       227
+                              Substance       0.85      0.81      0.83       193
+                     Substance_Quantity       0.00      0.00      0.00        28
+                                Symptom       0.84      0.86      0.85     23092
+                            Temperature       0.94      0.97      0.96       410
+                                   Test       0.84      0.88      0.86      9050
+                            Test_Result       0.84      0.84      0.84      2766
+                                   Time       0.90      0.81      0.86       140
+                      Total_Cholesterol       0.69      0.95      0.80        73
+                              Treatment       0.73      0.72      0.73       506
+                          Triglycerides       0.83      0.80      0.81        30
+                             VS_Finding       0.76      0.77      0.76       588
+                                Vaccine       0.70      0.84      0.76        92
+                     Vital_Signs_Header       0.95      0.98      0.97      2223
+                                 Weight       0.88      0.89      0.88       306
                                       O       0.97      0.96      0.97    253164
 
                                accuracy                           0.94    445974
