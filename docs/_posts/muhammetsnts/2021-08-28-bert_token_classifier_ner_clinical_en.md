@@ -109,11 +109,9 @@ val result = pipeline.fit(data).transform(data)
 |T2DM        |PROBLEM|
 |HTG-induced |PROBLEM|
 |pancreatitis|PROBLEM|
-|an          |PROBLEM|
 |acute       |PROBLEM|
 |hepatitis   |PROBLEM|
 |obesity     |PROBLEM|
-|a           |TEST   |
 |body        |TEST   |
 |mass        |TEST   |
 |index       |TEST   |
