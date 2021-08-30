@@ -60,6 +60,11 @@ val result = pipeline.fit(data).transform(data)
 
 
 ```
+
+{:.nlu-block}
+```python
+nlu.load('id.sentence_detector').predict("Mencari sumber paragraf bacaan bahasa Inggris yang bagus? Anda telah datang ke tempat yang tepat. Menurut sebuah penelitian baru-baru ini, kebiasaan membaca di kalangan remaja saat ini menurun dengan cepat. Mereka tidak dapat fokus pada paragraf bacaan bahasa Inggris yang diberikan selama lebih dari beberapa detik! Juga, membaca adalah dan merupakan bagian integral dari semua ujian kompetitif. Jadi, bagaimana Anda meningkatkan keterampilan membaca Anda? Jawaban atas pertanyaan ini sebenarnya adalah pertanyaan lain: Apa gunanya keterampilan membaca? Tujuan utama membaca adalah 'untuk masuk akal'.", output_level ='sentence')  
+```
 </div>
 
 ## Results
