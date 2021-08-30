@@ -1,13 +1,30 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.client.aws
 
 import com.amazonaws.auth.{AnonymousAWSCredentials, BasicSessionCredentials}
 import com.johnsnowlabs.client.CredentialParams
 import com.johnsnowlabs.client.aws.AWSTokenCredentials
+import com.johnsnowlabs.tags.SlowTest
 import org.scalatest.FlatSpec
 
 class AWSGatewayTestSpec extends FlatSpec {
 
-  "AWSGatewayTestSpec" should "build Basic Credentials" in {
+  "AWSGatewayTestSpec" should "build Basic Credentials" taggedAs SlowTest in {
     val accessKeyId = "myAccessKeyId"
     val secretAccessKey = "mySecretAccessKey"
     val region = "myRegion"
@@ -19,7 +36,7 @@ class AWSGatewayTestSpec extends FlatSpec {
     assert(awsCredentials.get.getAWSSecretKey == secretAccessKey)
   }
 
-  it should "build Token Credentials" in {
+  it should "build Token Credentials" taggedAs SlowTest in {
     val accessKeyId = "myAccessKeyId"
     val secretAccessKey = "mySecretAccessKey"
     val sessionToken = "mySessionToken"
@@ -35,7 +52,7 @@ class AWSGatewayTestSpec extends FlatSpec {
     assert(awsSessionCredentials.getSessionToken == sessionToken)
   }
 
-  it should "build provided credentials" in {
+  it should "build provided credentials" taggedAs SlowTest in {
     val secretAccessKey = "mySecretAccessKey"
     val sessionToken = "mySessionToken"
     val region = "myRegion"
@@ -46,7 +63,7 @@ class AWSGatewayTestSpec extends FlatSpec {
     assert(awsCredentials.isDefined)
   }
 
-  it should "build anonymous credentials" in {
+  it should "build anonymous credentials" taggedAs SlowTest in {
     val accessKeyId = "anonymous"
     val region = "myRegion"
     val credentialParams = CredentialParams(accessKeyId, "", "", "", region)
@@ -59,7 +76,7 @@ class AWSGatewayTestSpec extends FlatSpec {
     assert(awsSessionCredentials.getAWSSecretKey == null)
   }
 
-  it should "build Profile Credentials" in {
+  it should "build Profile Credentials" taggedAs SlowTest in {
     val profile = "myProfile"
     val region = "myRegion"
 
