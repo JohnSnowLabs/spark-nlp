@@ -62,7 +62,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.nlu-block}
 ```python
-nlu.load('sentence_detector').predict('NLU can detect things. Like beginning and endings of sentences. It can also do much more!', output_level ='sentence')  
+nlu.load('uk.sentence_detector').predict('Шукаєте чудове джерело англійського читання абзаців? Ви потрапили в потрібне місце. Згідно з останнім дослідженням, звичка читати у сучасної молоді стрімко знижується. Вони не можуть зосередитися на даному абзаці читання англійською мовою більше кількох секунд! Крім того, читання було і є невід’ємною частиною всіх конкурсних іспитів. Отже, як покращити свої навички читання? Відповідь на це питання насправді інше питання: Яка користь від навичок читання? Основна мета читання - «мати сенс».', output_level ='sentence')  
 ```
 </div>
 
