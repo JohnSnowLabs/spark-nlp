@@ -21,12 +21,12 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.util.Date
 
 
-class TokenizerTestSpec extends FlatSpec with TokenizerBehaviors {
+class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
   import SparkAccessor.spark.implicits._
 

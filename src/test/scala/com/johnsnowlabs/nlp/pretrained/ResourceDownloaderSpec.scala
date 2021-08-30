@@ -20,12 +20,12 @@ import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Version
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.sql.Timestamp
 
 
-class ResourceDownloaderSpec extends FlatSpec {
+class ResourceDownloaderSpec extends AnyFlatSpec {
   val b: CloudTestResources.type = CloudTestResources
 
   "CloudResourceMetadata" should "serialize and deserialize correctly" taggedAs FastTest in {

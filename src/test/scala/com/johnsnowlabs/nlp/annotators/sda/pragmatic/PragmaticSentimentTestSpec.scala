@@ -22,10 +22,10 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.storage.StorageLevel
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.tagobjects.Slow
 
-class PragmaticSentimentBigTestSpec extends FlatSpec {
+class PragmaticSentimentBigTestSpec extends AnyFlatSpec {
 
   "Parquet based data" should "be sentiment detected properly" taggedAs Slow in {
     import java.util.Date
@@ -76,7 +76,7 @@ class PragmaticSentimentBigTestSpec extends FlatSpec {
 
 }
 
-class PragmaticSentimentTestSpec extends FlatSpec with PragmaticSentimentBehaviors {
+class PragmaticSentimentTestSpec extends AnyFlatSpec with PragmaticSentimentBehaviors {
 
   val sentimentSentenceTexts = "The staff of the restaurant is nice and the eggplant is bad " +
     "I recommend others to avoid because it is too expensive"

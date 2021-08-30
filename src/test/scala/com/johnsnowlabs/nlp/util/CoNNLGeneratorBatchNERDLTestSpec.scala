@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths}
 
 
-class CoNNLGeneratorBatchNERDLTestSpec extends FlatSpec{
+class CoNNLGeneratorBatchNERDLTestSpec extends AnyFlatSpec {
   ResourceHelper.spark //for toDS and toDF
 
   def formatCoNNL(firstname: String,

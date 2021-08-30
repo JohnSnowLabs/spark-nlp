@@ -23,13 +23,13 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util._
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.File
 import scala.io.Source
 import scala.reflect.io.Directory
 
-class CoNLLGeneratorTestSpec extends FlatSpec{
+class CoNLLGeneratorTestSpec extends AnyFlatSpec {
   ResourceHelper.spark
   import ResourceHelper.spark.implicits._ //for toDS and toDF
 

@@ -18,9 +18,9 @@ package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.ml.crf.VectorMath._
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class GradientSpec extends FlatSpec {
+class GradientSpec extends AnyFlatSpec {
   val dataset = TestDatasets.small
   val instance = dataset.instances.head._2
   val metadata = dataset.metadata

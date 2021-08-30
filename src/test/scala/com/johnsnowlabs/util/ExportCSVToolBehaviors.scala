@@ -24,13 +24,13 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher, SparkAccessor}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import scala.collection.mutable.ArrayBuffer
 
 
-trait ExportCSVToolBehaviors  { this: FlatSpec =>
+trait ExportCSVToolBehaviors  { this: AnyFlatSpec =>
 
   def testPOSModelBuilder(dataset: Dataset[Row]): PipelineModel = {
     val documentAssembler = new DocumentAssembler()

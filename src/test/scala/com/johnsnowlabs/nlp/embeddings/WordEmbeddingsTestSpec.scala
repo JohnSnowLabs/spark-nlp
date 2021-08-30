@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class WordEmbeddingsTestSpec extends FlatSpec {
+class WordEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs SlowTest in {
 

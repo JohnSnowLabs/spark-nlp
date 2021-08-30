@@ -17,11 +17,13 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.training.CoNLL
-import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.{BeforeAndAfterAll, Suite}
 
 
-object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
+object DataBuilder extends AnyFlatSpec with BeforeAndAfterAll {
+  this: Suite =>
 
   import SparkAccessor.spark.implicits._
 
@@ -42,6 +44,6 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
     AnnotatorBuilder.withDocumentAssembler(data)
   }
 
-  def loadParquetDataset(path: String) =
+  def loadParquetDataset(path: String): DataFrame =
     SparkAccessor.spark.read.parquet(path)
 }

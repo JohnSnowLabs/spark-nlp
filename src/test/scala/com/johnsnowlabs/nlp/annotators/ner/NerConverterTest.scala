@@ -23,9 +23,9 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NerConverterTest extends FlatSpec {
+class NerConverterTest extends AnyFlatSpec {
 
   "NerConverter" should "correctly use any TOKEN type input" taggedAs SlowTest in {
 

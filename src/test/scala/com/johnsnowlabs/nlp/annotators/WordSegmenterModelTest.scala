@@ -22,10 +22,10 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence
 import com.johnsnowlabs.nlp.annotators.ws.TagsType.{LEFT_BOUNDARY, MIDDLE, RIGHT_BOUNDARY, SINGLE_WORD}
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class WordSegmenterModelTest extends FlatSpec {
+class WordSegmenterModelTest extends AnyFlatSpec {
 
   "A Word Segmenter Model that predicts all tags right" should "build a word segment" taggedAs FastTest in {
     val taggedWords = Array(TaggedWord("有", LEFT_BOUNDARY), TaggedWord("限", MIDDLE),

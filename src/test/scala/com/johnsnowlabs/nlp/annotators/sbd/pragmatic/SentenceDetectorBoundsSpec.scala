@@ -20,10 +20,10 @@ import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider, DocumentAssembler}
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class SentenceDetectorBoundsSpec extends FlatSpec {
+class SentenceDetectorBoundsSpec extends AnyFlatSpec {
 
   "SentenceDetector" should "support disable list detection" taggedAs FastTest in {
     val model = new DefaultPragmaticMethod(false, false)

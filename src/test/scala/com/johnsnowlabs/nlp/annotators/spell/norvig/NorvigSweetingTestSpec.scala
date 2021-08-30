@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp.annotators.spell.norvig
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, ContentProvider, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NorvigSweetingTestSpec extends FlatSpec with NorvigSweetingBehaviors {
+class NorvigSweetingTestSpec extends AnyFlatSpec with NorvigSweetingBehaviors {
 
   System.gc()
 

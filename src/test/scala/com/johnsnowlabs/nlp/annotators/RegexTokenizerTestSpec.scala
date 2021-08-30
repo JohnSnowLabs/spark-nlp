@@ -23,9 +23,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class RegexTokenizerTestSpec extends FlatSpec {
+class RegexTokenizerTestSpec extends AnyFlatSpec {
 
   "RegexTokenizer" should "correctly tokenize by space" taggedAs FastTest in {
 

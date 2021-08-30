@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.nlp.base._
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
@@ -29,7 +29,7 @@ import org.apache.spark.ml.Pipeline
 import scala.language.reflectiveCalls
 
 
-trait RegexMatcherBehaviors { this: FlatSpec =>
+trait RegexMatcherBehaviors { this: AnyFlatSpec =>
   def fixture(dataset: Dataset[Row], rules: Array[(String, String)], strategy: String) = new {
     val annotationDataset: Dataset[_] = AnnotatorBuilder.withRegexMatcher(dataset, strategy)
     val regexAnnotations: Array[Annotation] = annotationDataset.select("regex")

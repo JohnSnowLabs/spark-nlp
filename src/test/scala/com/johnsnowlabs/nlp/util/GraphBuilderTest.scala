@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.util
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class GraphBuilderTest extends FlatSpec {
+class GraphBuilderTest extends AnyFlatSpec {
 
   "Graph Builder" should "initialize a graph with 5 vertices" in {
     val numberOfVertices = 5

@@ -25,9 +25,9 @@ import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import org.apache.spark.sql.functions.size
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class SentenceEmbeddingsTestSpec extends FlatSpec {
+class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "SentenceEmbeddings" should "correctly calculate sentence embeddings in WordEmbeddings" taggedAs FastTest in {
 

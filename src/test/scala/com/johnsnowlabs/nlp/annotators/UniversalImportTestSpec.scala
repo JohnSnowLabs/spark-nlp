@@ -18,9 +18,9 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class UniversalImportTestSpec extends FlatSpec {
+class UniversalImportTestSpec extends AnyFlatSpec {
 
   "A SentenceDetector" should "be imported automatically when accessing annotator pseudo package" taggedAs FastTest in {
     /** Now you can access all annotators by using this import here */

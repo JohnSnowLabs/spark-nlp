@@ -23,9 +23,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, udf}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class MultiClassifierDLTestSpec extends FlatSpec {
+class MultiClassifierDLTestSpec extends AnyFlatSpec {
 
   val spark = ResourceHelper.getActiveSparkSession
 

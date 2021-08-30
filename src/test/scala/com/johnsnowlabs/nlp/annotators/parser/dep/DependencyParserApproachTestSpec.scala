@@ -20,11 +20,11 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition.{Sentence, Wo
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.SparkSession
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import scala.language.existentials
 
 
-class DependencyParserApproachTestSpec extends FlatSpec{
+class DependencyParserApproachTestSpec extends AnyFlatSpec {
 
   private val spark = SparkSession.builder()
     .appName("benchmark")

@@ -25,9 +25,9 @@ import com.johnsnowlabs.util.Benchmark
 
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class BertForTokenClassificationTestSpec extends FlatSpec {
+class BertForTokenClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 

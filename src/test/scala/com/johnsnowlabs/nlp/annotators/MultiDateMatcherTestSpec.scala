@@ -20,12 +20,12 @@ import com.johnsnowlabs.nlp.{AnnotatorType, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.util.Calendar
 
 
-class MultiDateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
+class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new MultiDateMatcher
   "a MultiDateMatcher" should s"be of type ${AnnotatorType.DATE}" taggedAs FastTest in {

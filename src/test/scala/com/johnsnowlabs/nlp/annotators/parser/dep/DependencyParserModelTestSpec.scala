@@ -25,12 +25,12 @@ import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.util.MLWriter
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.nio.file.{Files, Paths}
 import scala.language.reflectiveCalls
 
-class DependencyParserModelTestSpec extends FlatSpec with DependencyParserBehaviors {
+class DependencyParserModelTestSpec extends AnyFlatSpec with DependencyParserBehaviors {
 
   private val spark = ResourceHelper.spark
   import spark.implicits._

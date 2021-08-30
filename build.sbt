@@ -94,7 +94,9 @@ lazy val analyticsDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
+  "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+  "org.scalatest" %% "scalatest-flatspec" % scalaTestVersion % "test",
+  "org.scalatest" %% "scalatest-shouldmatchers" % scalaTestVersion % "test"
 )
 
 lazy val utilDependencies = Seq(

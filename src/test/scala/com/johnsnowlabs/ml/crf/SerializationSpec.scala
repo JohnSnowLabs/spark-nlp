@@ -17,12 +17,12 @@
 package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
 
 
-class SerializationSpec extends FlatSpec {
+class SerializationSpec extends AnyFlatSpec {
   val dataset = TestDatasets.small
   val metadata = dataset.metadata
   val weights = (0 until 8).map(i => 1f / i).toArray

@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
 
@@ -55,7 +55,7 @@ class DemandingDummyAnnotatorModel(override val uid: String) extends AnnotatorMo
     ))
 }
 object DemandingDummyAnnotatorModel extends DefaultParamsReadable[DemandingDummyAnnotatorModel]
-class AnnotatorBaseTestSpec extends FlatSpec {
+class AnnotatorBaseTestSpec extends AnyFlatSpec {
 
   val dummyAnnotator = new DummyAnnotatorModel()
     .setOutputCol("dummy")

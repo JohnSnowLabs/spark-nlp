@@ -19,10 +19,10 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-trait LemmatizerBehaviors { this: FlatSpec =>
+trait LemmatizerBehaviors { this: AnyFlatSpec =>
 
   def fullLemmatizerPipeline(dataset: => Dataset[Row]) {
     "a Lemmatizer Annotator" should "succesfully transform data" taggedAs FastTest in {

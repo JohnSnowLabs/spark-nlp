@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ChunkTokenizerTestSpec extends FlatSpec {
+class ChunkTokenizerTestSpec extends AnyFlatSpec {
 
   "a ChunkTokenizer" should "correctly identify origin source and in correct order" taggedAs FastTest in {
 

@@ -22,9 +22,9 @@ import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ClassifierDLTestSpec extends FlatSpec {
+class ClassifierDLTestSpec extends AnyFlatSpec {
 
 
   "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {

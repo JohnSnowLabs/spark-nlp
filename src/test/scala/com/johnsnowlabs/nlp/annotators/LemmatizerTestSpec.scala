@@ -22,14 +22,17 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.training.CoNLLU
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
+
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+
+import org.scalatest.Tag
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.nio.file.{Files, Paths}
 
 
-class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
+class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
 
   private val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -201,7 +204,7 @@ class LemmatizerTestSpec extends FlatSpec with LemmatizerBehaviors {
 
     lemmatizerModel.write.overwrite().save("./tmp_lemmatizer")
 
-    assertResult(true){
+    assertResult(true) {
       Files.exists(Paths.get("./tmp_lemmatizer"))
     }
   }
