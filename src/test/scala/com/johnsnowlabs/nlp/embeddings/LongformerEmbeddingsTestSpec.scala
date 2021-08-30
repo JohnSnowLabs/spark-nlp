@@ -24,9 +24,9 @@ import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class LongformerEmbeddingsTestSpec extends FlatSpec {
+class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
 
 
   "LongformerEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {

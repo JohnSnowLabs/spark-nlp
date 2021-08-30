@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class LanguageDetectorDLTestSpec extends FlatSpec {
+class LanguageDetectorDLTestSpec extends AnyFlatSpec {
 
   val spark = ResourceHelper.spark
 

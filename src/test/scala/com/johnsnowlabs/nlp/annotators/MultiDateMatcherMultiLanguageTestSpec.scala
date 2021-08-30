@@ -20,14 +20,14 @@ import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 import java.time.{DayOfWeek, LocalDate}
 
 
-class MultiDateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
+class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   private def getOneDayAgoDate(pattern: String = "MM/dd/yyyy") = {
     val localDate = LocalDate.now.minusDays(1L)

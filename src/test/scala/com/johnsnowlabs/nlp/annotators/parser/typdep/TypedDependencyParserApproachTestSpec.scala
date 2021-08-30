@@ -26,13 +26,13 @@ import com.johnsnowlabs.nlp.{DataBuilder, DocumentAssembler}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.FileNotFoundException
 import scala.language.existentials
 
 
-class TypedDependencyParserApproachTestSpec extends FlatSpec{
+class TypedDependencyParserApproachTestSpec extends AnyFlatSpec {
 
   System.gc()
 

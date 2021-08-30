@@ -20,19 +20,24 @@ package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.tags.FastTest
+
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.apache.spark.sql.SparkSession
 
-import java.nio.file.{Files, Paths}
+import org.scalatest.flatspec.AnyFlatSpec
+
 import scala.io.Source
+import java.nio.file.{Files, Paths}
 
-class SentenceDetectorDLSpec  extends FlatSpec {
-  implicit val session = spark
+class SentenceDetectorDLSpec extends AnyFlatSpec {
+  implicit val session: SparkSession = spark
 
   val trainDataFile = "src/test/resources/sentence_detector_dl/train.txt"
-  val testDataFile =  "src/test/resources/sentence_detector_dl/test.txt"
+  val testDataFile = "src/test/resources/sentence_detector_dl/test.txt"
   val savedModelPath = "./tmp_sdd_model/new_model"
   val testSampleFreeText = "src/test/resources/sentence_detector_dl/sample.txt"
+
+  import spark.implicits._
 
   "Sentence Detector DL" should "train a new model" taggedAs FastTest in {
 
@@ -89,17 +94,16 @@ class SentenceDetectorDLSpec  extends FlatSpec {
 
     case class textOnly(text: String)
 
-    import spark.implicits._
 
     val emptyDataset = spark.emptyDataset[String]
 
     val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
 
     lightModel.fullAnnotate(text).foreach(anno => {
-      if (anno._1 == "sentences"){
+      if (anno._1 == "sentences") {
         anno._2.foreach(s => {
-          println(s.result)
-          println("\n")
+          //          println(s.result)
+          //          println("\n")
         })
       }
 
@@ -130,10 +134,10 @@ class SentenceDetectorDLSpec  extends FlatSpec {
     val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
 
     lightModel.fullAnnotate(text).foreach(anno => {
-      if (anno._1 == "sentences"){
+      if (anno._1 == "sentences") {
         anno._2.foreach(s => {
-          println(s.result)
-          println("\n")
+          //          println(s.result)
+          //          println("\n")
         })
       }
 

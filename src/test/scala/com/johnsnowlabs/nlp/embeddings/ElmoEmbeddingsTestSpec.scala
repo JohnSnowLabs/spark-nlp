@@ -23,9 +23,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ElmoEmbeddingsTestSpec extends FlatSpec {
+class ElmoEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Elmo Embeddings" should "generate annotations" taggedAs SlowTest in {
     System.out.println("Working Directory = " + System.getProperty("user.dir"))

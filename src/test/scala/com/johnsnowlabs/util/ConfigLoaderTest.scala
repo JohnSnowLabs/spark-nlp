@@ -18,9 +18,9 @@ package com.johnsnowlabs.util
 
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.SparkSession
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ConfigLoaderTest extends FlatSpec {
+class ConfigLoaderTest extends AnyFlatSpec {
 
   "ConfigLoader" should "load default property values" taggedAs FastTest in {
     val pretrainedS3BucketKey = ConfigHelper.pretrainedS3BucketKey

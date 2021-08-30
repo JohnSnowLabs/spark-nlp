@@ -27,9 +27,9 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, Normalizer, SQLTransformer}
 import org.apache.spark.sql.functions._
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class UniversalSentenceEncoderTestSpec extends FlatSpec {
+class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" taggedAs SlowTest in {
 

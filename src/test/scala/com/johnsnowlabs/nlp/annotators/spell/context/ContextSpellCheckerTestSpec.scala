@@ -27,12 +27,12 @@ import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
 
 
-class ContextSpellCheckerTestSpec extends FlatSpec {
+class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   trait Scope extends WeightedLevenshtein {
     val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),

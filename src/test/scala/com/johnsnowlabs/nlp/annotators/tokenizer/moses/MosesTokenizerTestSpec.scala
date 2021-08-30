@@ -17,12 +17,13 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.moses
 
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.{Assertion, FlatSpec}
+import org.scalatest.Assertion
+import org.scalatest.flatspec.AnyFlatSpec
 
 /**
-  * Tests ported from sacremoses
-  */
-class MosesTokenizerTestSpec extends FlatSpec {
+ * Tests ported from sacremoses
+ */
+class MosesTokenizerTestSpec extends AnyFlatSpec {
   val moses = new MosesTokenizer("en")
 
   def assertTokenization(tokens: Array[String], expected: Array[String]): Assertion =

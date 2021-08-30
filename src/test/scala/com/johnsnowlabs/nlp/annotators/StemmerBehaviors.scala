@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-trait StemmerBehaviors { this: FlatSpec =>
+trait StemmerBehaviors { this: AnyFlatSpec =>
 
   def fullStemmerPipeline(dataset: => Dataset[Row]) {
     "A Stemmer Annotator" should "successfully transform data" taggedAs FastTest in {

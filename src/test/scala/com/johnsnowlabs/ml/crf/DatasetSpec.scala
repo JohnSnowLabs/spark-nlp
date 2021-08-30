@@ -17,10 +17,10 @@
 package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class DatasetSpec extends FlatSpec {
+class DatasetSpec extends AnyFlatSpec {
 
   "DatasetReader" should "correct calculate transit freaquences" taggedAs FastTest in {
     val dataset = DatasetReader.encodeDataset(TestDatasets.smallText)

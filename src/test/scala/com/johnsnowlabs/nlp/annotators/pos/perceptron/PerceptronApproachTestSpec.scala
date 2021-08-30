@@ -23,10 +23,10 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.DataFrame
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class PerceptronApproachTestSpec extends FlatSpec with PerceptronApproachBehaviors {
+class PerceptronApproachTestSpec extends AnyFlatSpec with PerceptronApproachBehaviors {
 
   "an isolated perceptron tagger" should behave like isolatedPerceptronTraining(
     "src/test/resources/anc-pos-corpus-small/test-training.txt"

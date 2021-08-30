@@ -24,11 +24,11 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.{Benchmark, FileHelper}
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.io.Source
 
-class NerDLSpec extends FlatSpec {
+class NerDLSpec extends AnyFlatSpec {
 
   "NER DL Approach" should "train and annotate with perf" taggedAs SlowTest in {
 

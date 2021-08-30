@@ -19,11 +19,11 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.NODE
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
 
-class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
+class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphExtractionFixture {
 
   spark.conf.set("spark.sql.crossJoin.enabled", "true")
 

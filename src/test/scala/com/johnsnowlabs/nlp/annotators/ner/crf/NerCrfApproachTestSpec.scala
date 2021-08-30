@@ -20,9 +20,9 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NerCrfApproachTestSpec extends FlatSpec {
+class NerCrfApproachTestSpec extends AnyFlatSpec {
   val spark: SparkSession = SparkAccessor.spark
 
   val nerSentence: Dataset[Row] = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)

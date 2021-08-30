@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.base.{DocumentAssembler, LightPipeline, RecursivePip
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Benchmark
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class PragmaticDetectionPerfTest extends FlatSpec {
+class PragmaticDetectionPerfTest extends AnyFlatSpec {
 
   "sentence detection" should "be fast" taggedAs FastTest in {
 

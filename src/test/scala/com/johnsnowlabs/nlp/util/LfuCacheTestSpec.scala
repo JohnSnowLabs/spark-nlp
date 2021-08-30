@@ -17,13 +17,13 @@
 package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 /** Inspired on
   * Lucas Torri
   * https://gist.github.com/lucastorri/138acfdd5f9903e5cf8e3cc1e7cbb8e7
   * */
-class LfuCacheTestSpec extends FlatSpec {
+class LfuCacheTestSpec extends AnyFlatSpec {
 
   "A LfuCache" should "automatically adjust to new content" taggedAs FastTest in {
 

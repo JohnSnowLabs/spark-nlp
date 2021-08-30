@@ -22,10 +22,10 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-trait NormalizerBehaviors { this: FlatSpec =>
+trait NormalizerBehaviors { this: AnyFlatSpec =>
 
   def fullNormalizerPipeline(dataset: => Dataset[Row]) {
     "A Normalizer Annotator" should "successfully transform data" taggedAs FastTest in {

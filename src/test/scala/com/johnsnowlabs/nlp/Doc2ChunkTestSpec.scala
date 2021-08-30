@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class Doc2ChunkTestSpec extends FlatSpec {
+class Doc2ChunkTestSpec extends AnyFlatSpec {
 
   "a chunk assembler" should "correctly chunk ranges" taggedAs FastTest in {
     import ResourceHelper.spark.implicits._

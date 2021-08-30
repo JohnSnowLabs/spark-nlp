@@ -20,12 +20,12 @@ import com.johnsnowlabs.nlp.AnnotatorType.DATE
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest.Matchers._
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers._
 
 import scala.language.reflectiveCalls
 
-trait MultiDateMatcherBehaviors extends FlatSpec {
+trait MultiDateMatcherBehaviors extends AnyFlatSpec {
   def fixture(dataset: Dataset[Row]) = new {
     val df = AnnotatorBuilder.withMultiDateMatcher(dataset)
     val dateAnnotations = df.select("date")
