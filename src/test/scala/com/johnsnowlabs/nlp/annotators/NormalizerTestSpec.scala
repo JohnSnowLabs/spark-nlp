@@ -20,10 +20,10 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark.implicits._
 import com.johnsnowlabs.nlp.{AnnotatorType, ContentProvider, DataBuilder, _}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class NormalizerTestSpec extends FlatSpec with NormalizerBehaviors {
+class NormalizerTestSpec extends AnyFlatSpec with NormalizerBehaviors {
 
   "A normalizer" should s"be of type ${AnnotatorType.TOKEN}" taggedAs FastTest in {
     val normalizer = new Normalizer

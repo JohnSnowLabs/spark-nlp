@@ -18,10 +18,10 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class XlmTokenizerTestSpec extends FlatSpec {
+class XlmTokenizerTestSpec extends AnyFlatSpec {
   val vocab: Map[String, Int] =
     Array(
       "<s>",

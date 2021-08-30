@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp.annotators.common
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.LabeledDependency.DependencyInfo
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class LabeledDependencyTest extends FlatSpec {
+class LabeledDependencyTest extends AnyFlatSpec {
 
   "LabeledDependencyTest" should "unpack Dependency and Typed Dependency Parser annotators" in {
 

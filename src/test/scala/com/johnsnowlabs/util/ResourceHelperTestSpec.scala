@@ -20,11 +20,11 @@ import java.io.{File, FileNotFoundException}
 
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 
-class ResourceHelperTestSpec extends FlatSpec {
+class ResourceHelperTestSpec extends AnyFlatSpec {
 
   "Resource helper" should "load a file line by line as an array" taggedAs FastTest in {
     val externalResource = ExternalResource("src/test/resources/resource-helper/gender.tsv", ReadAs.TEXT,

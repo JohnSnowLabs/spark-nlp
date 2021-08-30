@@ -18,9 +18,9 @@ package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.ml.crf.VectorMath._
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ForwardBackwardSpec extends FlatSpec {
+class ForwardBackwardSpec extends AnyFlatSpec {
 
   val dataset = TestDatasets.small
   val instance = dataset.instances.head._2

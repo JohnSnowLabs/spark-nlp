@@ -24,9 +24,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class StopWordsCleanerTestSpec extends FlatSpec {
+class StopWordsCleanerTestSpec extends AnyFlatSpec {
   val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")

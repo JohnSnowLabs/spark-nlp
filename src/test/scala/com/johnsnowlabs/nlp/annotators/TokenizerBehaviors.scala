@@ -19,11 +19,11 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorType}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.reflectiveCalls
 
-trait TokenizerBehaviors { this: FlatSpec =>
+trait TokenizerBehaviors { this: AnyFlatSpec =>
 
   def fixture(dataset: => Dataset[Row]) = new {
     val df = AnnotatorBuilder.withTokenizer(AnnotatorBuilder.withTokenizer(dataset))

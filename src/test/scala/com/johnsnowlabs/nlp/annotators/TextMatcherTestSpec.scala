@@ -22,10 +22,10 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class TextMatcherTestSpec extends FlatSpec with TextMatcherBehaviors {
+class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
 
   "An TextMatcher" should s"be of type $CHUNK" taggedAs FastTest in {
     val entityExtractor = new TextMatcherModel

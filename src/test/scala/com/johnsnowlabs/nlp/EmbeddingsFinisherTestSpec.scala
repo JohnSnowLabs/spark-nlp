@@ -22,9 +22,9 @@ import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.feature.{Normalizer, SQLTransformer}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class EmbeddingsFinisherTestSpec extends FlatSpec {
+class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
 
   "EmbeddingsFinisher" should "correctly transform embeddings into array of floats for Spark ML" taggedAs FastTest in {
 

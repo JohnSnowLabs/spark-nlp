@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.SparkAccessor
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ChunkerTestSpec extends FlatSpec with ChunkerBehaviors{
+class ChunkerTestSpec extends AnyFlatSpec with ChunkerBehaviors{
 
 
   "a chunker using a trained POS" should behave like testChunkingWithTrainedPOS(

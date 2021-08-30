@@ -25,11 +25,11 @@ import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.nio.file.{Files, Paths}
 
-class WordSegmenterTest extends FlatSpec {
+class WordSegmenterTest extends AnyFlatSpec {
 
   import SparkAccessor.spark.implicits._
 

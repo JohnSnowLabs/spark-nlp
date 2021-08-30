@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Dataset
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 abstract class SomeApproach(override val uid: String) extends AnnotatorApproach[SomeModel] with HasRecursiveFit[SomeModel] {
   override val description: String = "Some Approach"
@@ -42,7 +42,7 @@ abstract class SomeModel(override val uid: String) extends AnnotatorModel[SomeMo
   override val outputAnnotatorType: AnnotatorType = "BAR"
 }
 
-class RecursiveTestSpec extends FlatSpec {
+class RecursiveTestSpec extends AnyFlatSpec {
 
   val spark = SparkAccessor.spark
   import spark.implicits._

@@ -22,9 +22,9 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class DistributedPos extends FlatSpec with PerceptronApproachBehaviors {
+class DistributedPos extends AnyFlatSpec with PerceptronApproachBehaviors {
 
   "distributed pos" should "successfully work" taggedAs FastTest in {
 

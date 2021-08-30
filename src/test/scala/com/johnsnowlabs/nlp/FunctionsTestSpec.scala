@@ -23,9 +23,9 @@ import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.types.ArrayType
 import org.junit.Assert.assertEquals
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class FunctionsTestSpec extends FlatSpec {
+class FunctionsTestSpec extends AnyFlatSpec {
 
   "functions in functions" should "work successfully" taggedAs FastTest in {
 

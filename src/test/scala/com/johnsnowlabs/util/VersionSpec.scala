@@ -16,10 +16,10 @@
 
 package com.johnsnowlabs.util
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
-class VersionSpec extends FlatSpec {
+class VersionSpec extends AnyFlatSpec {
   "Version.isInteger" should "correctly determine whether string is integer" taggedAs FastTest in {
     assert(Version.isInteger("123"))
     assert(!Version.isInteger("23a"))

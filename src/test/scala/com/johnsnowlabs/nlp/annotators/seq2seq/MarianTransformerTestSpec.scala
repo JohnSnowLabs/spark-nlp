@@ -22,10 +22,10 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class MarianTransformerTestSpec extends FlatSpec {
+class MarianTransformerTestSpec extends AnyFlatSpec {
 
   "MarianTransformer" should "correctly load pretrained model" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._

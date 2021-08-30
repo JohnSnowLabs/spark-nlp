@@ -23,9 +23,9 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NGramGeneratorTestSpec extends FlatSpec {
+class NGramGeneratorTestSpec extends AnyFlatSpec {
 
   val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("text")

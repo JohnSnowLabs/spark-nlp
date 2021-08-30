@@ -18,9 +18,9 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{ContentProvider, DataBuilder}
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class RegexMatcherTestSpec extends FlatSpec with RegexMatcherBehaviors {
+class RegexMatcherTestSpec extends AnyFlatSpec with RegexMatcherBehaviors {
   val df: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.englishPhrase)
   val strategy = "MATCH_ALL"
   val rules = Array(

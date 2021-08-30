@@ -23,9 +23,9 @@ import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions.rand
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ViveknPerformanceTestSpec extends FlatSpec {
+class ViveknPerformanceTestSpec extends AnyFlatSpec {
 
   "Vivekn pipeline" should "be fast" taggedAs SlowTest in {
 

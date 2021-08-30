@@ -20,11 +20,11 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.DataFrame
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
 
-class TokenAssemblerTestSpec extends FlatSpec {
+class TokenAssemblerTestSpec extends AnyFlatSpec {
 
   val documentAssembler = new DocumentAssembler()
     .setInputCol("text")

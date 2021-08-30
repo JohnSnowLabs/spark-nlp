@@ -25,9 +25,9 @@ import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.tags.FastTest
 
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ChunkEmbeddingsTestSpec extends FlatSpec {
+class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
 
   "ChunkEmbeddings" should "correctly calculate chunk embeddings from Chunker" taggedAs FastTest in {
 

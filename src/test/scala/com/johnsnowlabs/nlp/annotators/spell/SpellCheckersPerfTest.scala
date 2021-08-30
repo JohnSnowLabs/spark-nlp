@@ -25,12 +25,12 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 //ResourceHelper.spark
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
-class SpellCheckersPerfTest extends FlatSpec {
+class SpellCheckersPerfTest extends AnyFlatSpec {
 
   val documentAssembler = new DocumentAssembler().
     setInputCol("text").

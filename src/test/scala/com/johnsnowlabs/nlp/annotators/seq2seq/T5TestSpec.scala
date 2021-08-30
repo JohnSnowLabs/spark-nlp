@@ -23,10 +23,10 @@ import com.johnsnowlabs.tags.SlowTest
 
 import org.apache.spark.ml.Pipeline
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class T5TestSpec extends FlatSpec {
+class T5TestSpec extends AnyFlatSpec {
   "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 

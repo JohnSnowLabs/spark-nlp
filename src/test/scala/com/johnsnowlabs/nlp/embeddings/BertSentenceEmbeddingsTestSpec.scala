@@ -26,11 +26,11 @@ import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions.{col, explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
 
-class BertSentenceEmbeddingsTestSpec extends FlatSpec {
+class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "BertSentenceEmbeddings" should "produce consistent embeddings" taggedAs FastTest in {
 

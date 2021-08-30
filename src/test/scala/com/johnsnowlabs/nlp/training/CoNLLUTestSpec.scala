@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.Dataset
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class CoNLLUTestSpec extends FlatSpec {
+class CoNLLUTestSpec extends AnyFlatSpec {
 
   val conlluFile = "src/test/resources/conllu/en.test.conllu"
 
