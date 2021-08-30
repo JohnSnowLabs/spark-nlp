@@ -50,13 +50,18 @@ val documenter = DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
+val model = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "bs")
 	.setInputCols(Array("document"))
 	.setOutputCol("sentence")
 
 val pipeline = new Pipeline().setStages(Array(documenter, model))
 val data = Seq("Tražite sjajan izvor čitanja odlomaka na engleskom? Došli ste na pravo mjesto. Prema nedavnom istraživanju, navika čitanja u današnjoj mladosti brzo se smanjuje. Ne mogu se usredotočiti na dati odlomak za čitanje engleskog jezika duže od nekoliko sekundi! Takođe, čitanje je bilo i jeste sastavni dio svih takmičarskih ispita. Dakle, kako poboljšati svoje vještine čitanja? Odgovor na ovo pitanje zapravo je drugo pitanje: Kakva je korist od vještine čitanja? Glavna svrha čitanja je 'imati smisla'.").toDF("text")
 val result = pipeline.fit(data).transform(data)
+```
+
+{:.nlu-block}
+```python
+nlu.load('bs.sentence_detector').predict("Tražite sjajan izvor čitanja odlomaka na engleskom? Došli ste na pravo mjesto. Prema nedavnom istraživanju, navika čitanja u današnjoj mladosti brzo se smanjuje. Ne mogu se usredotočiti na dati odlomak za čitanje engleskog jezika duže od nekoliko sekundi! Takođe, čitanje je bilo i jeste sastavni dio svih takmičarskih ispita. Dakle, kako poboljšati svoje vještine čitanja? Odgovor na ovo pitanje zapravo je drugo pitanje: Kakva je korist od vještine čitanja? Glavna svrha čitanja je 'imati smisla'.", output_level ='sentence')  
 ```
 </div>
 
