@@ -62,7 +62,7 @@ val result = pipeline.fit(data).transform(data)
 
 {:.nlu-block}
 ```python
-nlu.load('sentence_detector').predict('NLU can detect things. Like beginning and endings of sentences. It can also do much more!', output_level ='sentence')  
+nlu.load('so.sentence_detector').predict("Raadinta il weyn oo ka mid ah cutubyada akhriska Ingiriisiga? Waxaad timid meeshii saxda ahayd Sida laga soo xigtay daraasad dhowaan la sameeyay, caadadii wax -akhriska ee dhallinyarada maanta ayaa si degdeg ah hoos ugu dhacaysa. Waxay diiradda saari karin cutubka akhriska Ingiriisiga ee la siiyay wax ka badan dhowr ilbiriqsi! Sidoo kale, akhrintu waxay ahayd qayb muhiim ah oo ka mid ah dhammaan imtixaannada tartanka. Haddaba, sidee u hagaajin kartaa xirfadahaaga akhriska? Jawaabta su'aashan dhab ahaantii waa su'aal kale: Waa maxay isticmaalka xirfadaha akhriska? Ujeeddada ugu weyn ee wax -akhrisku waa 'macno samayn'.", output_level ='sentence')  
 ```
 </div>
 
