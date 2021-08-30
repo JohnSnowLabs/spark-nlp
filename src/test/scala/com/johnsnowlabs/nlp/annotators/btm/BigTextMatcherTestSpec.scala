@@ -24,10 +24,10 @@ import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class BigTextMatcherTestSpec extends FlatSpec with BigTextMatcherBehaviors {
+class BigTextMatcherTestSpec extends AnyFlatSpec with BigTextMatcherBehaviors {
 
   "An BigTextMatcher" should s"be of type $CHUNK" taggedAs FastTest in {
     val entityExtractor = new BigTextMatcherModel

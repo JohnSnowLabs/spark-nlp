@@ -17,13 +17,13 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.normalizer
 
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 /**
   * tests ported from sacremoses
   * https://github.com/alvations/sacremoses/blob/master/sacremoses/test/test_normalizer.py
   */
-class MosesPunctNormalizerTestSpec extends FlatSpec {
+class MosesPunctNormalizerTestSpec extends AnyFlatSpec {
   val normalizer = new MosesPunctNormalizer
   "MosesPunctNormalizer" should "normalize documents" taggedAs FastTest in {
     val documents = Array(

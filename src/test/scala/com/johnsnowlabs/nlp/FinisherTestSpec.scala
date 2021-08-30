@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.StopWordsRemover
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class FinisherTestSpec extends FlatSpec {
+class FinisherTestSpec extends AnyFlatSpec {
 
   val data = ContentProvider.parquetData.limit(5)
   import data.sparkSession.implicits._

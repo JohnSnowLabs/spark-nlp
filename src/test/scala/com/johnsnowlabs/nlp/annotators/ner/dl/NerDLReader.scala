@@ -22,9 +22,9 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NerDLReaderTestSpec extends FlatSpec {
+class NerDLReaderTestSpec extends AnyFlatSpec {
 
   "Tensorflow NerDLReader" should "correctly load and save a ner model" taggedAs SlowTest in {
 

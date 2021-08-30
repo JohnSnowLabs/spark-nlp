@@ -23,9 +23,9 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NerPerfTest extends FlatSpec {
+class NerPerfTest extends AnyFlatSpec {
 
   "NerCRF Approach" should "be fast to train" taggedAs SlowTest in {
 

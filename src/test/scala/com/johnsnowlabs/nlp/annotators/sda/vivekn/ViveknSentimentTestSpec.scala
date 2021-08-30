@@ -24,9 +24,9 @@ import com.johnsnowlabs.tags.FastTest
 
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.Row
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ViveknSentimentTestSpec extends FlatSpec {
+class ViveknSentimentTestSpec extends AnyFlatSpec {
 
   "A ViveknSentiment" should "should be trained by DataFrame" taggedAs FastTest in {
     import SparkAccessor.spark.implicits._

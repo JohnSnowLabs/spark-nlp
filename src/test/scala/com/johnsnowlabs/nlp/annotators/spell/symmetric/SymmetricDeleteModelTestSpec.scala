@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class SymmetricDeleteModelTestSpec extends FlatSpec with SymmetricDeleteBehaviors {
+class SymmetricDeleteModelTestSpec extends AnyFlatSpec with SymmetricDeleteBehaviors {
 
   "A symmetric delete approach" should behave like testDefaultTokenCorpusParameter
 

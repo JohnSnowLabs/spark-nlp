@@ -17,9 +17,9 @@
 package com.johnsnowlabs.ml.crf
 
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class PredictionSpec extends FlatSpec {
+class PredictionSpec extends AnyFlatSpec {
 
   "CrfModel" should "return correct prediction" taggedAs FastTest in {
     val dataset = TestDatasets.small

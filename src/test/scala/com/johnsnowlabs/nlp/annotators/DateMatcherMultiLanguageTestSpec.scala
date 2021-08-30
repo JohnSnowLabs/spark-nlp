@@ -22,13 +22,13 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
+class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   /** ITALIAN * */
 

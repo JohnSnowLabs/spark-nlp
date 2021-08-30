@@ -23,11 +23,11 @@ import com.johnsnowlabs.nlp.{AnnotatorBuilder, SparkAccessor}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.functions.explode
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable.{Set => MSet}
 
-trait PerceptronApproachBehaviors { this: FlatSpec =>
+trait PerceptronApproachBehaviors { this: AnyFlatSpec =>
 
   def isolatedPerceptronTraining(trainingSentencesPath: String): Unit = {
     s"Average Perceptron tagger" should "successfully train a provided wsj corpus" taggedAs FastTest in {

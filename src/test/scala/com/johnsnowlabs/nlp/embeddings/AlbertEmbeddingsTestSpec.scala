@@ -25,10 +25,10 @@ import com.johnsnowlabs.util.Benchmark
 
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class AlbertEmbeddingsTestSpec extends FlatSpec {
+class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "AlbertEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
 

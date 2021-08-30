@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp.annotators.btm
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-trait BigTextMatcherBehaviors { this: FlatSpec =>
+trait BigTextMatcherBehaviors { this: AnyFlatSpec =>
 
   def fullBigTextMatcher(dataset: => Dataset[Row]) {
     "An BigTextMatcher Annotator" should "successfully transform data" taggedAs FastTest in {

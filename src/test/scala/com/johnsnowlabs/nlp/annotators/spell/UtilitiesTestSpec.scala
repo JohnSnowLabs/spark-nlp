@@ -18,9 +18,9 @@ package com.johnsnowlabs.nlp.annotators.spell
 
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class UtilitiesTestSpec extends FlatSpec{
+class UtilitiesTestSpec extends AnyFlatSpec {
 
   "levenshteinDistance" should "compute distance between two strings" taggedAs FastTest in {
     val levenshteinDistance = Utilities.levenshteinDistance("hello", "hello")

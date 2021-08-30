@@ -23,12 +23,12 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Encoders}
-import org.scalatest.FlatSpec
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.scalatest.flatspec.AnyFlatSpec
+import com.johnsnowlabs.tags.SlowTest
 
 import scala.collection.mutable
 
-class WordSegmenterBenchmark extends FlatSpec {
+class WordSegmenterBenchmark extends AnyFlatSpec {
 
   private val trainingDataSetFile = "src/test/resources/word-segmenter/chinese_train.utf8"
   private val testingDataSetFile = "src/test/resources/word-segmenter/chinese_test.utf8"
@@ -44,8 +44,8 @@ class WordSegmenterBenchmark extends FlatSpec {
 
   "WordSegmenterBenchmark with a set of parameters" should "output metrics" taggedAs SlowTest in {
     var accuracyByParameters: List[AccuracyByParameter] = List()
-    nIterationsList.foreach{ nIterations =>
-      frequencyThresholdList.foreach{ frequencyThreshold =>
+    nIterationsList.foreach { nIterations =>
+      frequencyThresholdList.foreach { frequencyThreshold =>
         ambiguityThresholdList.foreach { ambiguityThreshold =>
           val parameters = s"nIterations = $nIterations frequencyThresholdList = $frequencyThreshold ambiguityThreshold = $ambiguityThreshold"
           println(parameters)
@@ -88,7 +88,7 @@ class WordSegmenterBenchmark extends FlatSpec {
 
   private def benchMarkWordSegmenter(nIterations: Int, frequencyThreshold: Int, ambiguityThreshold: Double,
                                      exportMetricsBySentence: Boolean = false):
-    (Double, Double, Double) = {
+  (Double, Double, Double) = {
     val trainingDataSet = POS().readDataset(ResourceHelper.spark, trainingDataSetFile)
 
     val wordSegmenter = new WordSegmenterApproach()
@@ -109,16 +109,16 @@ class WordSegmenterBenchmark extends FlatSpec {
     val testingDataSet = ResourceHelper.spark.read.text(testingDataSetFile)
       .withColumnRenamed("value", "text")
     val tokenizerDataSet = pipelineModel.transform(testingDataSet)
-    tokenizerDataSet.select("token.result").show(1, false)
+    tokenizerDataSet.select("token.result").show(1, truncate = false)
 
-    val predictedTokensBySentences = tokenizerDataSet.select("token.result").rdd.map{ row=>
+    val predictedTokensBySentences = tokenizerDataSet.select("token.result").rdd.map { row =>
       val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
       resultSeq.toList
     }.collect().toList
       .filter(predictedTokens => predictedTokens.nonEmpty)
 
     val realTokensBySentence = getGroundTruthTokens.filter(realTokens => realTokens.nonEmpty)
-    val metricsBySentences = predictedTokensBySentences.zipWithIndex.map{ case(predictedTokens, index) =>
+    val metricsBySentences = predictedTokensBySentences.zipWithIndex.map { case (predictedTokens, index) =>
       val realTokens = realTokensBySentence(index)
       computeMetrics(index, predictedTokens, realTokens)
     }
@@ -157,7 +157,7 @@ class WordSegmenterBenchmark extends FlatSpec {
 
     Encoders.product[Metrics].schema
     val metricsDataFrame = metricsBySentences.toDS().toDF()
-    metricsDataFrame.show(5, false)
+    metricsDataFrame.show(5, truncate = false)
     exportFile(metricsDataFrame, "word_segmenter_metrics_by_sentence")
   }
 
@@ -166,7 +166,7 @@ class WordSegmenterBenchmark extends FlatSpec {
 
     Encoders.product[AccuracyByParameter].schema
     val metricsDataFrame = metrics.toDS().toDF()
-    metricsDataFrame.show(5, false)
+    metricsDataFrame.show(5, truncate = false)
     exportFile(metricsDataFrame, "word_segmenter_metrics")
   }
 

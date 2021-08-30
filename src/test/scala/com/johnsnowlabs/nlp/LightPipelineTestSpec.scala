@@ -26,11 +26,11 @@ import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.when
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.reflectiveCalls
 
-class LightPipelineTestSpec extends FlatSpec {
+class LightPipelineTestSpec extends AnyFlatSpec {
   def fixtureWithNormalizer = new {
     import SparkAccessor.spark.implicits._
 

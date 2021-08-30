@@ -22,11 +22,11 @@ import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.language.reflectiveCalls
 
-trait PragmaticSentimentBehaviors { this: FlatSpec =>
+trait PragmaticSentimentBehaviors { this: AnyFlatSpec =>
 
   def fixture(dataset: Dataset[Row]) = new {
     val df = AnnotatorBuilder.withPragmaticSentimentDetector(dataset)

@@ -21,12 +21,12 @@ import com.johnsnowlabs.nlp.annotators.common.IndexedTaggedWord
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.tags.FastTest
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable.ArrayBuffer
 
 
-class NerSpec extends FlatSpec {
+class NerSpec extends AnyFlatSpec {
   val doc = "word1 word2 word3 word4"
 
   private def createTagged(doc: String, tags: String*): NerTaggedSentence = {

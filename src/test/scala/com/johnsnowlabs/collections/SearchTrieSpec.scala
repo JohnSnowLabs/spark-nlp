@@ -16,19 +16,19 @@
 
 package com.johnsnowlabs.collections
 
-import org.scalatest.FlatSpec
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.scalatest.flatspec.AnyFlatSpec
+import com.johnsnowlabs.tags.FastTest
 
 
-class SearchTrieSpec extends FlatSpec {
-  val trie = SearchTrie(
+class SearchTrieSpec extends AnyFlatSpec {
+  val trie: SearchTrie = SearchTrie(
     Array(
       Array("a", "b", "a", "b", "a"),
       Array("a", "a", "a")
     ), caseSensitive = false
   )
 
-  val aTrie =  SearchTrie(
+  val aTrie: SearchTrie = SearchTrie(
     Array(
       Array("a", "a", "a", "a", "a"),
       Array("a", "a", "a"),
@@ -37,7 +37,7 @@ class SearchTrieSpec extends FlatSpec {
     ), caseSensitive = false
   )
 
-  val btrie = SearchTrie(
+  val btrie: SearchTrie = SearchTrie(
     Array(
       Array("a", "b", "a", "b"),
       Array("b", "a", "a")

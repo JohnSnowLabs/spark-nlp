@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class SentimentDLTestSpec extends FlatSpec {
+class SentimentDLTestSpec extends AnyFlatSpec {
   val spark = ResourceHelper.spark
 
   "SentimentDL" should "correctly train on a test dataset" taggedAs SlowTest in {

@@ -24,9 +24,9 @@ import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.SparkSession
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NerCrfCustomCase extends FlatSpec {
+class NerCrfCustomCase extends AnyFlatSpec {
 
   val spark: SparkSession = ResourceHelper.spark
 

@@ -19,9 +19,9 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece
 import com.johnsnowlabs.nlp.annotators.common.Sentence
 import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class WordpieceTestSpec extends FlatSpec {
+class WordpieceTestSpec extends AnyFlatSpec {
   val basicTokenizer = new BasicTokenizer()
 
   // Test vocabulary

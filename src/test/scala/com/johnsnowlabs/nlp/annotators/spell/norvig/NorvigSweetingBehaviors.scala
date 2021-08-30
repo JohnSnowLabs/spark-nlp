@@ -23,9 +23,9 @@ import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{AnalysisException, Dataset, Row}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-trait NorvigSweetingBehaviors { this: FlatSpec =>
+trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
 
   private val trainDataSet = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   private val predictionDataSet = ContentProvider.parquetData.limit(1000)
