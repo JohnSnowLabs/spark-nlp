@@ -234,7 +234,7 @@ class ElmoEmbeddings(override val uid: String)
 
   setDefault(
     batchSize -> 32,
-    poolingLayer -> "word_emb",
+    poolingLayer -> "elmo",
     dimension -> 512
   )
 
