@@ -42,15 +42,18 @@ data:
             src: /assets/images/chat_symbols.svg
           excerpt: Full <b>Python</b>, <b>Scala</b>, and <b>Java</b> support
    
+    - title: Transformers at Scale
+      transformers: yes
+      features: false
+
     - title: Quick and Easy
       install: yes
-      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, <a href="https://mvnrepository.com/artifact/JohnSnowLabs/spark-nlp" target="_blank">Maven</a>, and <a href="https://spark-packages.org/package/JohnSnowLabs/spark-nlp" target="_blank">Spark Packages</a>
+      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, and <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp" target="_blank">Maven</a>
       actions:
         - text: Install Spark NLP
           type: big_btn
           url: /docs/en/install
     
-
     - title: Right Out of The Box
       top: yes
       classmenu: three_a
