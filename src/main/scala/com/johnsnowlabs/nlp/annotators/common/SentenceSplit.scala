@@ -23,7 +23,7 @@ import scala.collection.Map
 /**
  * structure representing a sentence and its boundaries
  */
-case class Sentence(content: String, start: Int, end: Int, index: Int, metadata: Map[String, String] = null)
+case class Sentence(content: String, start: Int, end: Int, index: Int, metadata: Option[Map[String, String]] = None)
 
 object Sentence {
   def fromTexts(texts: String*): Seq[Sentence] = {
@@ -45,7 +45,7 @@ object SentenceSplit extends Annotated[Sentence] {
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
     annotations.filter(_.annotatorType == annotatorType)
       .zipWithIndex.map { case (annotation, index) =>
-      Sentence(annotation.result, annotation.begin, annotation.end, index, annotation.metadata)
+      Sentence(annotation.result, annotation.begin, annotation.end, index, Option(annotation.metadata))
     }
   }
 
