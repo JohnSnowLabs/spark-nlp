@@ -912,7 +912,13 @@ spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
 
 NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
 
-#### S3 for logging
+### S3 Integration
+
+In Spark NLP we can define S3 locations to:
+- Export log files of training models
+- Store tensorflow graphs used in `NerDLApproach`
+
+**Logging:**
 
 To configure S3 path for logging while training models. We need to set up AWS credentials as well as an S3 path
 
@@ -926,6 +932,34 @@ spark.conf.set("spark.jsl.settings.log.aws.region", "my-region")
 
 Now you can check the log on your S3 path defined in *spark.jsl.settings.annotator.log_folder* property.
 Make sure to use the prefix *s3://*, otherwise it will use the default configuration.
+
+**Tensorflow Graphs:**
+
+To reference S3 location for downloading graphs. We need to set up AWS credentials
+```bash
+spark.conf.set("spark.jsl.settings.pretrained.credentials.access_key_id", "MY_KEY_ID")
+spark.conf.set("spark.jsl.settings.pretrained.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
+spark.conf.set("spark.jsl.settings.pretrained.credentials.aws.region", "my-region")
+```
+**MFA Configuration**
+
+In case your AWS account is configured with MFA. You will need first to get temporal credentials and add session token to the configuration as shown in the examples below
+For logging:
+```bash
+spark.conf.set("spark.jsl.settings.log.credentials.session_token", "MY_TOKEN")
+```
+
+For tensorflow graphs pipelines:
+```bash
+spark.conf.set("spark.jsl.settings.pretrained.credentials.session_token", "MY_TOKEN")
+```
+
+
+An example of a bash script that gets temporal AWS credentials can be found [here](https://github.com/JohnSnowLabs/spark-nlp/blob/master/scripts/aws_tmp_credentials.sh)
+This script requires three arguments:
+```bash
+./aws_tmp_credentials.sh iam_user duration serial_number
+```
 
 ## Pipelines and Models
 

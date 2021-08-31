@@ -14,96 +14,62 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.client
+package com.johnsnowlabs.client.aws
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{AWSCredentials, AnonymousAWSCredentials, BasicAWSCredentials, DefaultAWSCredentialsProviderChain}
-import com.amazonaws.regions.RegionUtils
-import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
+import com.amazonaws.services.pi.model.InvalidArgumentException
 import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult}
+import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
+import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
+import com.johnsnowlabs.client.CredentialParams
 import com.johnsnowlabs.nlp.pretrained.ResourceMetadata
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 
-class AWSGateway(accessKeyId: String, secretAccessKey: String, awsProfile: String, region: String,
-                 credentialsType: String = "default")
-  extends AutoCloseable {
+class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: String,
+                 awsProfile: String, region: String, credentialsType: String = "default") extends AutoCloseable {
 
-  lazy val credentials: Option[AWSCredentials] = {
-    credentialsType match {
-      case "default" =>
-        if (ConfigLoader.hasAwsCredentials) {
-          buildAwsCredentials()
-        } else {
-          fetchCredentials()
-        }
-      case "proprietary" => if (ConfigLoader.hasFullAwsCredentials) buildAwsCredentials() else None
-      case _ => Some(new AnonymousAWSCredentials())
+  protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
+
+  lazy val client: AmazonS3 = {
+    if (region == "" || region == null) {
+      throw new InvalidArgumentException("Region argument is mandatory to create Amazon S3 client.")
     }
+    var credentialParams = CredentialParams(accessKeyId, secretAccessKey, sessionToken, awsProfile, region)
+    if (credentialsType == "public" || credentialsType == "community") {
+      credentialParams = CredentialParams("anonymous", "", "", "", region)
+    }
+    val awsCredentials = new AWSTokenCredentials
+    val credentials: Option[AWSCredentials] = awsCredentials.buildCredentials(credentialParams)
+
+    getAmazonS3Client(credentials)
   }
 
-  /* ToDo AmazonS3Client has been deprecated*/
-  private lazy val client: AmazonS3Client = getAmazonS3Client(credentials)
-
-  def buildAwsCredentials(): Option[AWSCredentials] = {
-    if (awsProfile != "") {
-      return Some(new ProfileCredentialsProvider(awsProfile).getCredentials)
-    }
-    if (accessKeyId == "" || secretAccessKey == "") {
-      fetchCredentials()
-    }
-    else
-      Some(new BasicAWSCredentials(accessKeyId, secretAccessKey))
-  }
-
-  def fetchCredentials(): Option[AWSCredentials] = {
-    try {
-      //check if default profile name works if not try
-      Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
-    } catch {
-      case _: Exception =>
-        try {
-
-          Some(new DefaultAWSCredentialsProviderChain().getCredentials)
-        } catch {
-          case _: AmazonClientException =>
-            if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-
-              val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-              val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-
-              Some(new BasicAWSCredentials(key, secret))
-            } else {
-              Some(new AnonymousAWSCredentials())
-            }
-          case e: Exception => throw e
-
-        }
-    }
-
-  }
-
-  def getAmazonS3Client(credentials: Option[AWSCredentials]): AmazonS3Client = {
-    val regionObj = RegionUtils.getRegion(region)
-
+  private def getAmazonS3Client(credentials: Option[AWSCredentials]): AmazonS3 = {
     val config = new ClientConfiguration()
     val timeout = ConfigLoader.getConfigIntValue(ConfigHelper.s3SocketTimeout)
     config.setSocketTimeout(timeout)
 
     val s3Client = {
       if (credentials.isDefined) {
-        new AmazonS3Client(credentials.get, config)
+        AmazonS3ClientBuilder.standard()
+          .withCredentials(new AWSStaticCredentialsProvider(credentials.get))
+          .withClientConfiguration(config)
       } else {
-        new AmazonS3Client(config)
+        val warning_message = "Unable to build AWS credential via AWSGateway chain, some parameter is missing or" +
+          " malformed. S3 integration may not work well."
+        logger.warn(warning_message)
+        AmazonS3ClientBuilder.standard()
+          .withClientConfiguration(config)
       }
     }
 
-    s3Client.setRegion(regionObj)
-    s3Client
+    s3Client.withRegion(region).build()
   }
 
   def getMetadata(s3Path: String, folder: String, bucket: String): List[ResourceMetadata] = {
@@ -145,16 +111,37 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, awsProfile: Strin
   }
 
   def copyFileToS3(bucket: String, s3FilePath: String, sourceFilePath: String): PutObjectResult = {
-    val result = new Path(sourceFilePath)
-    println(s"In copyFileToS3 result: ${result.toUri.getRawPath}")
     val sourceFile = new File("file://" + sourceFilePath)
     client.putObject(bucket, s3FilePath, sourceFile)
   }
 
-  def copyInputStreamToS3(bucket: String, s3FilePath: String, sourceFilePath: String) = {
+  def copyInputStreamToS3(bucket: String, s3FilePath: String, sourceFilePath: String): PutObjectResult = {
     val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
     val inputStream = fileSystem.open(new Path(sourceFilePath))
     client.putObject(bucket, s3FilePath, inputStream, new ObjectMetadata())
+  }
+
+  def downloadFilesFromDirectory(bucketName: String, keyPrefix: String, directoryPath: File): Unit = {
+    val transferManager = TransferManagerBuilder.standard()
+      .withS3Client(client).build()
+    try {
+      val multipleFileDownload = transferManager.downloadDirectory(bucketName, keyPrefix, directoryPath)
+      println(multipleFileDownload.getDescription)
+      waitForCompletion(multipleFileDownload)
+    } catch {
+      case e: AmazonServiceException =>
+        throw new AmazonServiceException("Amazon service error when downloading files from S3 directory: " + e.getMessage)
+    }
+    transferManager.shutdownNow()
+  }
+
+  private def waitForCompletion(transfer: Transfer): Unit = {
+    try transfer.waitForCompletion()
+    catch {
+      case e: AmazonServiceException => throw new AmazonServiceException("Amazon service error: " + e.getMessage)
+      case e: AmazonClientException => throw new AmazonClientException("Amazon client error: " + e.getMessage)
+      case e: InterruptedException => throw new InterruptedException("Transfer interrupted: " + e.getMessage)
+    }
   }
 
   override def close(): Unit = {
