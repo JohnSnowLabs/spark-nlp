@@ -4806,10 +4806,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
                                   "Whether to optimize for large datasets or not. Enabling this option can slow down training.",
                                   TypeConverters.toBoolean)
 
-    s3BucketName = Param(Params._dummy(), "s3BucketName",
-                         "S3 bucket name. Used when graphFolder references a S3 path",
-                         TypeConverters.toString)
-
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -4993,9 +4989,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         """
         return self._set(outputLogsPath=p)
 
-    def setS3BucketName(self, value):
-        return self._set(s3BucketName=value)
-
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -5014,8 +5007,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             includeConfidence=False,
             includeAllConfidenceScores=False,
             enableOutputLogs=False,
-            enableMemoryOptimizer=False,
-            s3BucketName=""
+            enableMemoryOptimizer=False
         )
 
 

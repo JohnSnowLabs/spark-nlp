@@ -20,9 +20,9 @@ import com.amazonaws.auth.{AnonymousAWSCredentials, BasicSessionCredentials}
 import com.johnsnowlabs.client.CredentialParams
 import com.johnsnowlabs.client.aws.AWSTokenCredentials
 import com.johnsnowlabs.tags.SlowTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class AWSGatewayTestSpec extends FlatSpec {
+class AWSGatewayTestSpec extends AnyFlatSpec {
 
   "AWSGatewayTestSpec" should "build Basic Credentials" taggedAs SlowTest in {
     val accessKeyId = "myAccessKeyId"
