@@ -288,7 +288,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
           begin = sentence.start,
           end = sentence.end,
           result = sentence.content,
-          metadata = Map("sentence" -> sentence.index.toString,
+          metadata = sentence.metadata ++ Map("sentence" -> sentence.index.toString,
             "token" -> sentence.content,
             "pieceId" -> "-1",
             "isWordStart" -> "true"
