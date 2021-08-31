@@ -235,6 +235,12 @@ class NerDLApproach(override val uid: String)
    */
   val enableMemoryOptimizer = new BooleanParam(this, "enableMemoryOptimizer", "Whether to optimize for large datasets or not. Enabling this option can slow down training.")
 
+  /** S3 bucket name. Used when graphFolder references an S3 path
+    *
+    * @group param
+    */
+  val s3BucketName = new Param[String](this, "s3BucketName", "S3 bucket name. Used when graphFolder references a S3 path")
+
   /** Learning Rate
    *
    * @group getParam
@@ -400,6 +406,12 @@ class NerDLApproach(override val uid: String)
    * */
   def setIncludeAllConfidenceScores(value: Boolean): this.type = set(this.includeAllConfidenceScores, value)
 
+  /** S3 bucket name. Used when graphFolder references an S3 path
+    *
+    * @group param
+    */
+  def setS3BucketName(value: String): this.type = set(this.s3BucketName, value)
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 70,
@@ -415,7 +427,8 @@ class NerDLApproach(override val uid: String)
     includeAllConfidenceScores -> false,
     enableOutputLogs -> false,
     outputLogsPath -> "",
-    enableMemoryOptimizer -> false
+    enableMemoryOptimizer -> false,
+    s3BucketName -> ""
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
