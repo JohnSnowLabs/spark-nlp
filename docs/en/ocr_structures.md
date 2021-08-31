@@ -259,6 +259,11 @@ element: struct (containsNull = true)
 
 </div><div class="h3-box" markdown="1">
  
+ 
+### TableOutputFormat
+
+ * ***TABLE*** - Table struct format
+ * ***CSV*** - Comma separated CSV
 
 ## OCR implicits
 
@@ -455,6 +460,46 @@ display_pdf(pdf_df)
 ```
 
 ![image](/assets/images/ocr/display_pdf.png)
+
+### display_pdf_file
+
+Show pdf file using embedded pdf viewer.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pdf | string | | Path to the file name |
+| size | integer | size=(600, 500) | count of rows for display  |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_pdf_file
+
+display_pdf_file("path to the pdf file")
+```
+
+**Example output:**
+
+![image](/assets/images/ocr/display_pdf_file.png)
+
+### display_table
+
+Display table from the dataframe.
+
+### display_tables
+
+Display tables from the dataframe. It is useful for display results
+of table recognition from the multipage documents/few tables per page.
+
+**Example output:**
+
+![image](/assets/images/ocr/display_table.png)
+
 
 ## Databricks Python helpers
 
