@@ -1,2 +1,14 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/assets/images/ocr/display_pdf_file.png
+docs/assets/images/ocr/display_table.png
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/ocr_structures.md
+docs/en/ocr_table_recognition.md
+docs/en/version_compatibility.md
+docs/assets/images/ocr/display_pdf_file.png
+docs/assets/images/ocr/display_table.png
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/ocr_structures.md
+docs/en/ocr_table_recognition.md
+docs/en/version_compatibility.md

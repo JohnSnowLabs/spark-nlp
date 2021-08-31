@@ -1187,11 +1187,164 @@ column and create multipage PDF document.</p>
 
 </div>
 
+<h3 id="pdfassembler">PdfAssembler</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PdfAssembler</code> group single page PDF documents by the filename and assemble
+muliplepage PDF document.</p>
+
+<h5 id="input-columns-4">Input Columns</h5>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCol</td>
+      <td>string</td>
+      <td>page_pdf</td>
+      <td>binary representation of the PDF document</td>
+    </tr>
+    <tr>
+      <td>originCol</td>
+      <td>string</td>
+      <td>path</td>
+      <td>path to the original file</td>
+    </tr>
+    <tr>
+      <td>pageNumCol</td>
+      <td>string</td>
+      <td>pagenum</td>
+      <td>for compatibility with another transformers</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="output-columns-4">Output Columns</h5>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>string</td>
+      <td>pdf</td>
+      <td>binary representation of the PDF document</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Example:</strong></p>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.io.FileOutputStream</span>
+<span class="k">import</span> <span class="nn">java.nio.file.Files</span>
+
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers._</span>
+
+<span class="k">val</span> <span class="nv">pdfPath</span> <span class="k">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1">// Read PDF file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">pdfPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pdf_to_image</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToImage</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setKeepInput</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
+    
+<span class="c1">// Run OCR and render results to PDF</span>
+<span class="k">val</span> <span class="nv">ocr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToTextPdf</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf_page"</span><span class="o">)</span>
+
+<span class="c1">// Assemble multipage PDF</span>
+<span class="k">val</span> <span class="nv">pdf_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"pdf_page"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
+
+<span class="c1">// Create pipeline</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">pdf_to_image</span><span class="o">,</span>
+    <span class="n">ocr</span><span class="o">,</span>
+    <span class="n">pdf_assembler</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">pdf</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">df</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pdfContent</span> <span class="k">=</span> <span class="nv">pdf</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">).</span><span class="py">collect</span><span class="o">().</span><span class="py">head</span><span class="o">.</span><span class="py">getAs</span><span class="o">[</span><span class="kt">Array</span><span class="o">[</span><span class="kt">Byte</span><span class="o">]](</span><span class="mi">0</span><span class="o">)</span>
+
+<span class="c1">// store to pdf file</span>
+<span class="k">val</span> <span class="nv">tmpFile</span> <span class="k">=</span> <span class="nv">Files</span><span class="o">.</span><span class="py">createTempFile</span><span class="o">(</span><span class="s">"with_regions_"</span><span class="o">,</span> <span class="n">s</span><span class="s">".pdf"</span><span class="o">).</span><span class="py">toAbsolutePath</span><span class="o">.</span><span class="py">toString</span>
+<span class="k">val</span> <span class="nv">fos</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="n">tmpFile</span><span class="o">)</span>
+<span class="nv">fos</span><span class="o">.</span><span class="py">write</span><span class="o">(</span><span class="n">pdfContent</span><span class="o">)</span>
+<span class="nv">fos</span><span class="o">.</span><span class="py">close</span><span class="o">()</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">tmpFile</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">pdfPath</span> <span class="o">=</span> <span class="s">"path to pdf"</span>
+
+<span class="c1"># Read PDF file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">pdfPath</span><span class="p">)</span>
+
+<span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+        <span class="p">.</span><span class="n">setKeepInput</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="c1"># Run OCR and render results to PDF
+</span><span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToTextPdf</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf_page"</span><span class="p">)</span>
+
+<span class="c1"># Assemble multipage PDF
+</span><span class="n">pdf_assembler</span> <span class="o">=</span> <span class="n">PdfAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"pdf_page"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">pdf_to_image</span><span class="p">,</span>
+    <span class="n">ocr</span><span class="p">,</span>
+    <span class="n">pdf_assembler</span>
+<span class="p">])</span>
+
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">pdfContent</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">).</span><span class="n">collect</span><span class="p">().</span><span class="n">head</span><span class="p">.</span><span class="n">getAs</span><span class="p">[</span><span class="n">Array</span><span class="p">[</span><span class="n">Byte</span><span class="p">]](</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># store pdf to file
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"test.pdf"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pdfContent</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">pdf</span><span class="p">)</span> 
+</code></pre></div>  </div>
+
+</div>
+
 <h3 id="pdfdrawregions">PdfDrawRegions</h3>
 
 <p><code class="language-plaintext highlighter-rouge">PdfDrawRegions</code> transformer for drawing regions to Pdf document.</p>
 
-<h5 id="input-columns-4">Input Columns</h5>
+<h5 id="input-columns-5">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1245,7 +1398,7 @@ column and create multipage PDF document.</p>
   </tbody>
 </table>
 
-<h5 id="output-columns-4">Output Columns</h5>
+<h5 id="output-columns-5">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1421,7 +1574,7 @@ column and create multipage PDF document.</p>
 Input is a column with binary representation of PDF document.
 As output generate column with tables and tables text chunks coordinates (rows/cols).</p>
 
-<h5 id="input-columns-5">Input Columns</h5>
+<h5 id="input-columns-6">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1481,7 +1634,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-5">Output Columns</h5>
+<h5 id="output-columns-6">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1577,7 +1730,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">DocToText</code> extracts text from the DOCX document.</p>
 
-<h5 id="input-columns-6">Input Columns</h5>
+<h5 id="input-columns-7">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1604,7 +1757,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-6">Output Columns</h5>
+<h5 id="output-columns-7">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1679,7 +1832,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">DocToTextTable</code> extracts table data from the DOCX documents.</p>
 
-<h5 id="input-columns-7">Input Columns</h5>
+<h5 id="input-columns-8">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1706,7 +1859,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-7">Output Columns</h5>
+<h5 id="output-columns-8">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1775,7 +1928,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">DocToPdf</code> convert DOCX document to PDF document.</p>
 
-<h5 id="input-columns-8">Input Columns</h5>
+<h5 id="input-columns-9">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1802,7 +1955,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-8">Output Columns</h5>
+<h5 id="output-columns-9">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1873,7 +2026,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">DicomToImage</code> transforms dicom object (loaded as binary file) to image struct.</p>
 
-<h5 id="input-columns-9">Input Columns</h5>
+<h5 id="input-columns-10">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1900,7 +2053,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-9">Output Columns</h5>
+<h5 id="output-columns-10">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -1981,7 +2134,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">ImageToDicom</code> transforms image to Dicom document.</p>
 
-<h5 id="input-columns-10">Input Columns</h5>
+<h5 id="input-columns-11">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2014,7 +2167,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-10">Output Columns</h5>
+<h5 id="output-columns-11">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2094,7 +2247,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">BinaryToImage</code> transforms image (loaded as binary file) to image struct.</p>
 
-<h5 id="input-columns-11">Input Columns</h5>
+<h5 id="input-columns-12">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2121,7 +2274,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-11">Output Columns</h5>
+<h5 id="output-columns-12">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2235,7 +2388,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h5 id="input-columns-12">Input Columns</h5>
+<h5 id="input-columns-13">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2283,7 +2436,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h5 id="output-columns-12">Output Columns</h5>
+<h5 id="output-columns-13">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2375,7 +2528,7 @@ one of the methods with params:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageBinarizer</code> transforms image to binary color schema by threshold.</p>
 
-<h5 id="input-columns-13">Input Columns</h5>
+<h5 id="input-columns-14">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2417,7 +2570,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h5 id="output-columns-13">Output Columns</h5>
+<h5 id="output-columns-14">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2508,7 +2661,7 @@ one of the methods with params:</p>
   <li>Sauvola</li>
 </ul>
 
-<h4 id="input-columns-14">Input Columns</h4>
+<h4 id="input-columns-15">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2568,7 +2721,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-14">Output Columns</h4>
+<h4 id="output-columns-15">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2683,7 +2836,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
   <li><strong><em>SINGH</em></strong></li>
 </ul>
 
-<h4 id="input-columns-15">Input Columns</h4>
+<h4 id="input-columns-16">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2749,7 +2902,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
   </tbody>
 </table>
 
-<h4 id="output-columns-15">Output Columns</h4>
+<h4 id="output-columns-16">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2830,7 +2983,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 <p><code class="language-plaintext highlighter-rouge">ImageScaler</code> scales image by provided scale factor or needed output size.
 It supports keeping original ratio of image by padding the image in case fixed output size.</p>
 
-<h4 id="input-columns-16">Input Columns</h4>
+<h4 id="input-columns-17">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2890,7 +3043,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-16">Output Columns</h4>
+<h4 id="output-columns-17">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2964,7 +3117,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><code class="language-plaintext highlighter-rouge">ImageAdaptiveScaler</code> detects font size and scales image for have desired font size.</p>
 
-<h4 id="input-columns-17">Input Columns</h4>
+<h4 id="input-columns-18">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3006,7 +3159,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-17">Output Columns</h4>
+<h4 id="output-columns-18">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3080,7 +3233,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><code class="language-plaintext highlighter-rouge">ImageSkewCorrector</code> detects skew of the image and rotates it.</p>
 
-<h4 id="input-columns-18">Input Columns</h4>
+<h4 id="input-columns-19">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3140,7 +3293,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-18">Output Columns</h4>
+<h4 id="output-columns-19">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3222,7 +3375,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><code class="language-plaintext highlighter-rouge">ImageNoiseScorer</code> computes noise score for each region.</p>
 
-<h4 id="input-columns-19">Input Columns</h4>
+<h4 id="input-columns-20">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3270,7 +3423,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-19">Output Columns</h4>
+<h4 id="output-columns-20">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3401,7 +3554,7 @@ It support removing:</p>
   <li>objects more then <em>maxSizeObject</em></li>
 </ul>
 
-<h4 id="input-columns-20">Input Columns</h4>
+<h4 id="input-columns-21">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3481,7 +3634,7 @@ It support removing:</p>
 
 <p>[*] : <em>None</em> value disables removing objects.</p>
 
-<h4 id="output-columns-20">Output Columns</h4>
+<h4 id="output-columns-21">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3556,7 +3709,7 @@ It support removing:</p>
   <li>Closing</li>
 </ul>
 
-<h4 id="input-columns-21">Input Columns</h4>
+<h4 id="input-columns-22">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3610,7 +3763,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-21">Output Columns</h4>
+<h4 id="output-columns-22">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3695,7 +3848,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageCropper</code>is a transformer for cropping image.</p>
 
-<h4 id="input-columns-22">Input Columns</h4>
+<h4 id="input-columns-23">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3743,7 +3896,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-22">Output Columns</h4>
+<h4 id="output-columns-23">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3834,7 +3987,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageLayoutAnalyzer</code> analyzes the image and determines regions of text.</p>
 
-<h4 id="input-columns-23">Input Columns</h4>
+<h4 id="input-columns-24">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3888,7 +4041,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-23">Output Columns</h4>
+<h4 id="output-columns-24">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3974,7 +4127,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageSplitRegions</code> splits image to regions.</p>
 
-<h4 id="input-columns-24">Input Columns</h4>
+<h4 id="input-columns-25">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4022,7 +4175,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-24">Output Columns</h4>
+<h4 id="output-columns-25">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4129,7 +4282,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageDrawRegions</code> draw regions with label and score to the image.</p>
 
-<h4 id="input-columns-25">Input Columns</h4>
+<h4 id="input-columns-26">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4183,7 +4336,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-25">Output Columns</h4>
+<h4 id="output-columns-26">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4294,7 +4447,7 @@ It support removing:</p>
 <p><code class="language-plaintext highlighter-rouge">ImageToText</code> runs OCR for input image, return recognized text
 to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.</p>
 
-<h4 id="input-columns-26">Input Columns</h4>
+<h4 id="input-columns-27">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4402,7 +4555,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-26">Output Columns</h4>
+<h4 id="output-columns-27">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4502,12 +4655,147 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 </code></pre></div></div>
 
+<h3 id="imagetotextpdf">ImageToTextPdf</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ImageToTextPdf</code> runs OCR for input image, render recognized text to 
+the PDF as an invisible text layout with an original image.</p>
+
+<h4 id="input-columns-28">Input Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCol</td>
+      <td>string</td>
+      <td>image</td>
+      <td>image struct (<a href="ocr_structures#image-schema">Image schema</a>)</td>
+    </tr>
+    <tr>
+      <td>originCol</td>
+      <td>string</td>
+      <td>path</td>
+      <td>path to the original file</td>
+    </tr>
+    <tr>
+      <td>pageNumCol</td>
+      <td>string</td>
+      <td>pagenum</td>
+      <td>for compatibility with another transformers</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="parameters-19">Parameters</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ocrParams</td>
+      <td>array of strings</td>
+      <td>[]</td>
+      <td>Array of Ocr params in key=value format.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="output-columns-28">Output Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>string</td>
+      <td>pdf</td>
+      <td>Recognized text rendered to PDF</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToTextPdf</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+<span class="nv">data</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> 
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
+
+<span class="n">binary_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToTextPdf</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span>
+
+<span class="c1"># Define pipeline
+</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binary_to_image</span><span class="p">,</span>
+    <span class="n">ocr</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+</div>
+
 <h3 id="imagetohocr">ImageToHocr</h3>
 
 <p><code class="language-plaintext highlighter-rouge">ImageToHocr</code> runs OCR for input image, return recognized text and bounding boxes
 to <em>outputCol</em> column in HOCR format.</p>
 
-<h4 id="input-columns-27">Input Columns</h4>
+<h4 id="input-columns-29">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4528,7 +4816,7 @@ to <em>outputCol</em> column in HOCR format.</p>
   </tbody>
 </table>
 
-<h4 id="parameters-19">Parameters</h4>
+<h4 id="parameters-20">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4579,7 +4867,7 @@ to <em>outputCol</em> column in HOCR format.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-27">Output Columns</h4>
+<h4 id="output-columns-29">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4738,7 +5026,7 @@ to <em>outputCol</em> column in HOCR format.</p>
 <p><code class="language-plaintext highlighter-rouge">ImageBrandsToText</code> runs OCR for specified brands of input image, return recognized text
 to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.</p>
 
-<h4 id="input-columns-28">Input Columns</h4>
+<h4 id="input-columns-30">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4759,7 +5047,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="parameters-20">Parameters</h4>
+<h4 id="parameters-21">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4822,7 +5110,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-28">Output Columns</h4>
+<h4 id="output-columns-30">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4963,7 +5251,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <p><code class="language-plaintext highlighter-rouge">PositionFinder</code> find position of input text entities in original document.</p>
 
-<h4 id="input-columns-29">Input Columns</h4>
+<h4 id="input-columns-31">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4990,7 +5278,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="parameters-21">Parameters</h4>
+<h4 id="parameters-22">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5023,7 +5311,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-29">Output Columns</h4>
+<h4 id="output-columns-31">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5167,7 +5455,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <p><code class="language-plaintext highlighter-rouge">UpdateTextPosition</code> update output text and keep old coordinates of original document.</p>
 
-<h4 id="input-columns-30">Input Columns</h4>
+<h4 id="input-columns-32">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5194,7 +5482,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-30">Output Columns</h4>
+<h4 id="output-columns-32">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5343,7 +5631,7 @@ Current implementation support parsing patient info, genomic, biomarker findings
 from appendix.
 Output format is json.</p>
 
-<h4 id="input-columns-31">Input Columns</h4>
+<h4 id="input-columns-33">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5370,7 +5658,7 @@ Output format is json.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-31">Output Columns</h4>
+<h4 id="output-columns-33">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>

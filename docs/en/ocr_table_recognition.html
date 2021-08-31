@@ -725,6 +725,24 @@ image processing algorithm by detecting horizontal and vertical lines.</p>
       <td>CellDetectionAlgos.CONTOURS</td>
       <td>Algorithm for detect cells.</td>
     </tr>
+    <tr>
+      <td>algoParams</td>
+      <td>string</td>
+      <td>row_treshold=0.05,row_treshold_wide=1.0, row_min_wide=5,column_treshold=0.05, column_treshold_wide=5,column_min_wide=5</td>
+      <td>Parameters of ‘MORPHOPS’ cells detection algorithm</td>
+    </tr>
+    <tr>
+      <td>drawDetectedLines</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Enable to draw detected lines to the output image</td>
+    </tr>
+    <tr>
+      <td>keepOriginalLines</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Keep original images on the output image</td>
+    </tr>
   </tbody>
 </table>
 
@@ -745,6 +763,12 @@ image processing algorithm by detecting horizontal and vertical lines.</p>
       <td>string</td>
       <td>cells</td>
       <td>array of coordinates of cells</td>
+    </tr>
+    <tr>
+      <td>outputImageCol</td>
+      <td>string</td>
+      <td>output_image</td>
+      <td>output image</td>
     </tr>
   </tbody>
 </table>
@@ -795,7 +819,8 @@ image processing algorithm by detecting horizontal and vertical lines.</p>
 <span class="c1"># Define transformer for detect cells
 </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">ImageTableCellDetector</span> \
   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cells"</span><span class="p">)</span>
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cells"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setAlgoParams</span><span class="p">(</span><span class="s">"row_treshold=0.05"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">binary_to_image</span><span class="p">,</span>
@@ -926,6 +951,12 @@ to <em>outputCol</em> as TableContainer structure.</p>
       <td>bool</td>
       <td>false</td>
       <td>Download model data from JSL S3</td>
+    </tr>
+    <tr>
+      <td>outputFormat</td>
+      <td><a href="ocr_structures#tableoutputformat">TableOutputFormat</a></td>
+      <td>TableOutputFormat.TABLE</td>
+      <td>Output format</td>
     </tr>
   </tbody>
 </table>
