@@ -417,6 +417,122 @@ with open("test.pdf", "wb") as file:
 
 </div>
 
+### PdfAssembler
+
+`PdfAssembler` group single page PDF documents by the filename and assemble
+muliplepage PDF document.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | page_pdf | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+| pageNumCol | string | pagenum | for compatibility with another transformers |
+
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | pdf | binary representation of the PDF document |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import java.io.FileOutputStream
+import java.nio.file.Files
+
+import com.johnsnowlabs.ocr.transformers._
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdf_to_image = new PdfToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+  .setKeepInput(True)
+    
+// Run OCR and render results to PDF
+val ocr = new ImageToTextPdf()
+  .setInputCol("image")
+  .setOutputCol("pdf_page")
+
+// Assemble multipage PDF
+val pdf_assembler = new PdfAssembler()
+  .setInputCol("pdf_page")
+  .setOutputCol("pdf")
+
+// Create pipeline
+val pipeline = new Pipeline()
+  .setStages(Array(
+    pdf_to_image,
+    ocr,
+    pdf_assembler
+))
+
+val pdf = pipeline.fit(df).transform(df)
+
+val pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+// store to pdf file
+val tmpFile = Files.createTempFile("with_regions_", s".pdf").toAbsolutePath.toString
+val fos = new FileOutputStream(tmpFile)
+fos.write(pdfContent)
+fos.close()
+println(tmpFile)
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+        .setInputCol("content") \
+        .setOutputCol("image") \
+        .setKeepInput(True)
+    
+# Run OCR and render results to PDF
+ocr = ImageToTextPdf() \
+    .setInputCol("image") \
+    .setOutputCol("pdf_page")
+
+# Assemble multipage PDF
+pdf_assembler = PdfAssembler() \
+    .setInputCol("pdf_page") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    ocr,
+    pdf_assembler
+])
+
+pdf = pipeline.transform(df)
+
+pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+# store pdf to file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf) 
+```
+
+</div>
+
 ### PdfDrawRegions
 
 `PdfDrawRegions` transformer for drawing regions to Pdf document.
@@ -2572,6 +2688,91 @@ industries. They create ideas and use them in their designs, they stimu-
 late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
+
+### ImageToTextPdf
+
+`ImageToTextPdf` runs OCR for input image, render recognized text to 
+the PDF as an invisible text layout with an original image.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| originCol | string | path | path to the original file |
+| pageNumCol | string | pagenum | for compatibility with another transformers |
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | pdf | Recognized text rendered to PDF |
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageToTextPdf()
+  .setInputCol("image")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+data.show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToTextPdf() \
+    .setInputCol("image") \
+    .setOutputCol("pdf")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+</div>
+
 
 ### ImageToHocr
 
