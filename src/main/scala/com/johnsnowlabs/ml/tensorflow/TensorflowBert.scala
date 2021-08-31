@@ -266,7 +266,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
   }
 
   def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
-                                  sentences: Seq[Sentence],
+                                  sentences: Seq[(Sentence,scala.collection.Map[String,String])],
                                   batchSize: Int,
                                   maxSentenceLength: Int,
                                   isLong: Boolean = false
@@ -283,13 +283,13 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
         tagSentence(encoded)
       }
 
-      sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
+      sentencesBatch.zip(embeddings).map { case ((sentence,originalMetada), vectors) =>
         Annotation(
           annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
           begin = sentence.start,
           end = sentence.end,
           result = sentence.content,
-          metadata = Map("sentence" -> sentence.index.toString,
+          metadata = originalMetada ++ Map("sentence" -> sentence.index.toString,
             "token" -> sentence.content,
             "pieceId" -> "-1",
             "isWordStart" -> "true"

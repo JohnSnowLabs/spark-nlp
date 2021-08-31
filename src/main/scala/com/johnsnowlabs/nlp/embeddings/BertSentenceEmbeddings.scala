@@ -302,10 +302,12 @@ class BertSentenceEmbeddings(override val uid: String)
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     /*Return empty if the real sentences are empty*/
     batchedAnnotations.map(annotations => {
-      val sentences = SentenceSplit.unpack(annotations).toArray
+      val sentences =  annotations.zipWithIndex.map { case (annotation, index) =>
+        (Sentence(annotation.result, annotation.begin, annotation.end, index),annotation.metadata)
+      }.toSeq
 
       if (sentences.nonEmpty) {
-        val tokenized = tokenize(sentences)
+        val tokenized = tokenize(sentences.map(_._1))
         getModelIfNotSet.calculateSentenceEmbeddings(
           tokenized,
           sentences,
