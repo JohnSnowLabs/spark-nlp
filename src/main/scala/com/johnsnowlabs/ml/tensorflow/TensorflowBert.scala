@@ -283,16 +283,22 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
       }
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
+        val metadata = Map("sentence" -> sentence.index.toString,
+          "token" -> sentence.content,
+          "pieceId" -> "-1",
+          "isWordStart" -> "true"
+        )
+        val finalMetadata = if (sentence.metadata.isDefined) {
+          sentence.metadata.getOrElse(Map.empty) ++ metadata
+        } else {
+          metadata
+        }
         Annotation(
           annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
           begin = sentence.start,
           end = sentence.end,
           result = sentence.content,
-          metadata = sentence.metadata ++ Map("sentence" -> sentence.index.toString,
-            "token" -> sentence.content,
-            "pieceId" -> "-1",
-            "isWordStart" -> "true"
-          ),
+          metadata = finalMetadata,
           embeddings = vectors
         )
       }
