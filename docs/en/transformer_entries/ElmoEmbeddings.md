@@ -72,11 +72,91 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture prediction_python_example -%}
-# Coming soon!
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
+
+# First extract the prerequisites for the NerDLModel
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["document"]) \
+    .setOutputCol("token")
+
+# Use the transformer embeddings
+embeddings = ElmoEmbeddings.pretrained() \
+    .setInputCols(['document', 'token']) \
+    .setOutputCol('embeddings')
+
+# This pretrained model requires those specific transformer embeddings
+ner_model = NerDLModel.pretrained("ner_conll_elmo", "en") \
+    .setInputCols(["document", "token", "embeddings"]) \
+    .setOutputCol("ner")
+
+pipeline = Pipeline().setStages([
+    documentAssembler,
+    tokenizer,
+    embeddings,
+    ner_model
+])
+
+data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
+result = pipeline.fit(data).transform(data)
+
+result.select("ner.result").show(truncate=False)
++------------------------------------+
+|result                              |
++------------------------------------+
+|[I-LOC, O, O, I-PER, O, O, I-LOC, O]|
++------------------------------------+
 {%- endcapture -%}
 
 {%- capture prediction_scala_example -%}
-// Coming soon!
+import spark.implicits._
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+import org.apache.spark.ml.Pipeline
+
+// First extract the prerequisites for the NerDLModel
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+  .setInputCols("document")
+  .setOutputCol("token")
+
+// Use the transformer embeddings
+val embeddings = ElmoEmbeddings.pretrained()
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+
+// This pretrained model requires those specific transformer embeddings
+val nerModel = NerDLModel.pretrained("ner_conll_elmo", "en")
+  .setInputCols("document", "token", "embeddings")
+  .setOutputCol("ner")
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  tokenizer,
+  embeddings,
+  nerModel
+))
+
+val data = Seq("U.N. official Ekeus heads for Baghdad.").toDF("text")
+val result = pipeline.fit(data).transform(data)
+
+result.select("ner.result").show(false)
++------------------------------------+
+|result                              |
++------------------------------------+
+|[I-LOC, O, O, I-PER, O, O, I-LOC, O]|
++------------------------------------+
 {%- endcapture -%}
 
 {%- capture training_python_example -%}
