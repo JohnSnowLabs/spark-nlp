@@ -647,11 +647,11 @@ trait WithGraphResolver {
       val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
       var tmpDirectory = SparkFiles.getRootDirectory()
 
-      val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
-        ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
-        ConfigLoader.getConfigStringValue(ConfigHelper.sessionToken),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
-        ConfigLoader.getConfigStringValue(ConfigHelper.awsRegion))
+      val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion))
 
       awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
 

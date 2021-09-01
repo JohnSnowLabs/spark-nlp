@@ -162,7 +162,7 @@ result = pipeline.annotate(text)
 # What's in the pipeline
 list(result.keys())
 Output: ['entities', 'stem', 'checked', 'lemma', 'document',
-         'pos', 'token', 'ner', 'embeddings', 'sentence']
+'pos', 'token', 'ner', 'embeddings', 'sentence']
 
 # Check the results
 result['entities']
@@ -372,9 +372,9 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp_2.12</artifactId>
-  <version>3.2.2</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.12</artifactId>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -383,9 +383,9 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp-gpu_2.12</artifactId>
-  <version>3.2.2</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.12</artifactId>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -394,9 +394,9 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark24 -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp-spark24_2.11</artifactId>
-  <version>3.2.2</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark24_2.11</artifactId>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -405,9 +405,9 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark24 -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp-gpu_2.11</artifactId>
-  <version>3.2.2</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.11</artifactId>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -416,9 +416,9 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23 -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp-spark23_2.11</artifactId>
-  <version>3.2.2</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark23_2.11</artifactId>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -427,9 +427,9 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark23 -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
-  <version>3.2.2</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -516,14 +516,14 @@ spark = sparknlp.start()
 or manually:
 
 ```python
-spark = SparkSession.builder
-  .appName("Spark NLP")
-  .master("local[4]")
-  .config("spark.driver.memory","16G")
-  .config("spark.driver.maxResultSize", "0")
-  .config("spark.kryoserializer.buffer.max", "2000M")
-  .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2")
-  .getOrCreate()
+spark = SparkSession.builder \
+    .appName("Spark NLP")\
+    .master("local[4]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "0") \    
+    .config("spark.kryoserializer.buffer.max", "2000M")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2")\
+    .getOrCreate()
 ```
 
 If using local jars, you can use `spark.jars` instead for comma-delimited jar files. For cluster setups, of course, you'll have to put the jars in a reachable location for all driver and executor nodes.
@@ -850,11 +850,11 @@ You can change the following Spark NLP configurations via Spark Configuration:
 |`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory|3.2.0
 |`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS|3.2.0
 |`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory|3.2.0
-|`spark.jsl.settings.log.credentials.access_key_id`| `None` | Your AWS access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
-|`spark.jsl.settings.log.credentials.secret_access_key`| `None` | Your AWS secret access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
-|`spark.jsl.settings.log.s3_bucket`| `None` | Your AWS S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
-|`spark.jsl.settings.log.aws.region`| `None` | Your AWS region to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
-|`spark.jsl.settings.log.credentials.session_token`| `None` | Your AWS MFA session token to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.aws.credentials.access_key_id`| `None` | Your AWS access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.aws.credentials.secret_access_key`| `None` | Your AWS secret access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.aws.credentials.session_token`| `None` | Your AWS MFA session token to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.aws.s3_bucket`| `None` | Your AWS S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.aws.region`| `None` | Your AWS region to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
 
 ### How to set Spark NLP Configuration
 
@@ -929,10 +929,10 @@ To configure S3 path for logging while training models. We need to set up AWS cr
 
 ```bash
 spark.conf.set("spark.jsl.settings.annotator.log_folder", "s3://my/s3/path/logs")
-spark.conf.set("spark.jsl.settings.log.credentials.access_key_id", "MY_KEY_ID")
-spark.conf.set("spark.jsl.settings.log.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
-spark.conf.set("spark.jsl.settings.log.s3_bucket", "my.bucket")
-spark.conf.set("spark.jsl.settings.log.aws.region", "my-region")
+spark.conf.set("spark.jsl.settings.aws.credentials.access_key_id", "MY_KEY_ID")
+spark.conf.set("spark.jsl.settings.aws.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
+spark.conf.set("spark.jsl.settings.aws.s3_bucket", "my.bucket")
+spark.conf.set("spark.jsl.settings.aws.region", "my-region")
 ```
 
 Now you can check the log on your S3 path defined in *spark.jsl.settings.annotator.log_folder* property.
@@ -942,21 +942,16 @@ Make sure to use the prefix *s3://*, otherwise it will use the default configura
 
 To reference S3 location for downloading graphs. We need to set up AWS credentials
 ```bash
-spark.conf.set("spark.jsl.settings.pretrained.credentials.access_key_id", "MY_KEY_ID")
-spark.conf.set("spark.jsl.settings.pretrained.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
-spark.conf.set("spark.jsl.settings.pretrained.credentials.aws.region", "my-region")
+spark.conf.set("spark.jsl.settings.aws.credentials.access_key_id", "MY_KEY_ID")
+spark.conf.set("spark.jsl.settings.aws.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
+spark.conf.set("spark.jsl.settings.aws.region", "my-region")
 ```
 **MFA Configuration**
 
 In case your AWS account is configured with MFA. You will need first to get temporal credentials and add session token to the configuration as shown in the examples below
 For logging:
 ```bash
-spark.conf.set("spark.jsl.settings.log.credentials.session_token", "MY_TOKEN")
-```
-
-For tensorflow graphs pipelines:
-```bash
-spark.conf.set("spark.jsl.settings.pretrained.credentials.session_token", "MY_TOKEN")
+spark.conf.set("spark.jsl.settings.aws.credentials.session_token", "MY_TOKEN")
 ```
 
 An example of a bash script that gets temporal AWS credentials can be found [here](https://github.com/JohnSnowLabs/spark-nlp/blob/master/scripts/aws_tmp_credentials.sh)
@@ -978,8 +973,8 @@ import com.johnsnowlabs.nlp.SparkNLP
 SparkNLP.version()
 
 val testData = spark.createDataFrame(Seq(
-  (1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
-  (2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
+(1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
+(2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
 )).toDF("id", "text")
 
 val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
@@ -1042,8 +1037,8 @@ val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang="it")
 
 ```scala
 val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-        .setInputCols("document", "token")
-        .setOutputCol("pos")
+      .setInputCols("document", "token")
+      .setOutputCol("pos")
 ```
 
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
@@ -1058,14 +1053,14 @@ Spark NLP library and all the pre-trained models/pipelines can be used entirely 
 Example of `SparkSession` with Fat JAR to have Spark NLP offline:
 
 ```python
-spark = SparkSession.builder
-  .appName("Spark NLP")
-  .master("local[*]")
-  .config("spark.driver.memory","16G")
-  .config("spark.driver.maxResultSize", "0")
-  .config("spark.kryoserializer.buffer.max", "2000M")
-  .config("spark.jars", "/tmp/spark-nlp-assembly-3.2.2.jar")
-  .getOrCreate()
+spark = SparkSession.builder \
+    .appName("Spark NLP")\
+    .master("local[*]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "0") \    
+    .config("spark.kryoserializer.buffer.max", "2000M")\
+    .config("spark.jars", "/tmp/spark-nlp-assembly-3.2.2.jar")\
+    .getOrCreate()
 ```
 
 - You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
