@@ -45,7 +45,7 @@ embeddings = BertSentenceEmbeddings.pretrained("sent_electra_large_uncased", "en
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-document_classifier = ClassifierDLModel.load('outputs/_models/quora_question_pair_classifier_9') \
+document_classifier = ClassifierDLModel.pretrained('classifierdl_electra_questionpair') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
@@ -67,7 +67,7 @@ val embeddings = BertSentenceEmbeddings.pretrained("sent_electra_large_uncased",
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
-val document_classifier = ClassifierDLModel.load("outputs/_models/quora_question_pair_classifier_9")
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_electra_questionpair")
   .setInputCols(Array("document", "sentence_embeddings"))
   .setOutputCol("class")
 
