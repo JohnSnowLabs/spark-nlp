@@ -44,12 +44,12 @@ object ConfigLoader {
     getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
     getConfigInfo(ConfigHelper.serializationMode, "object") ++
     getConfigInfo(ConfigHelper.useBroadcast, "true") ++
-    getConfigInfo(ConfigHelper.logAccessKeyId, "") ++
-    getConfigInfo(ConfigHelper.logSecretAccessKey, "") ++
-    getConfigInfo(ConfigHelper.logSessionToken, "") ++
-    getConfigInfo(ConfigHelper.logAwsProfileName, "") ++
-    getConfigInfo(ConfigHelper.logS3BucketKey, "") ++
-    getConfigInfo(ConfigHelper.logAwsRegion, "")
+    getConfigInfo(ConfigHelper.awsExternalAccessKeyId, "") ++
+    getConfigInfo(ConfigHelper.awsExternalSecretAccessKey, "") ++
+    getConfigInfo(ConfigHelper.awsExternalSessionToken, "") ++
+    getConfigInfo(ConfigHelper.awsExternalProfileName, "") ++
+    getConfigInfo(ConfigHelper.awsExternalS3BucketKey, "") ++
+    getConfigInfo(ConfigHelper.awsExternalRegion, "")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
