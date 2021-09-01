@@ -330,11 +330,11 @@ The `spark-nlp-gpu-spark24` has been published to the [Maven Repository](https:/
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.2
 ```
 
 The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23).
@@ -342,11 +342,11 @@ The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvn
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.2
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.2
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.2
 
 ```
 
