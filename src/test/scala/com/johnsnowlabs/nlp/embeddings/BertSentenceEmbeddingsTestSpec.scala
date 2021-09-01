@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -18,20 +17,21 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotator.{SentenceDetectorDLModel, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.RegexMatcher
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.base.{Chunk2Doc, DocumentAssembler}
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
 import org.apache.spark.sql.functions.{col, explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
 
-class BertSentenceEmbeddingsTestSpec extends FlatSpec {
+class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   "BertSentenceEmbeddings" should "produce consistent embeddings" taggedAs FastTest in {
 
@@ -171,6 +171,43 @@ class BertSentenceEmbeddingsTestSpec extends FlatSpec {
     val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
 
     pipelineModel.transform(ddd)
+  }
+
+  "BertSentenceEmbeddings" should "correctly propagate metadata" taggedAs FastTest in {
+
+    val testData = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "\"My first sentence with the first rule. This is my second sentence with ceremonies rule")
+    )).toDF("id", "text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val regexMatcher = new RegexMatcher()
+      .setExternalRules(ExternalResource("src/test/resources/regex-matcher/rules.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
+      .setInputCols(Array("sentence"))
+      .setOutputCol("regex")
+      .setStrategy("MATCH_ALL")
+
+    val chunk2Doc = new Chunk2Doc().setInputCols("regex").setOutputCol("doc_chunk")
+
+    val embeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
+      .setInputCols("doc_chunk")
+      .setOutputCol("bert")
+      .setCaseSensitive(false)
+      .setMaxSentenceLength(32)
+
+
+    val pipeline = new Pipeline().setStages(Array(document, sentence, regexMatcher, chunk2Doc, embeddings))
+
+    val pipelineDF = pipeline.fit(testData).transform(testData)
+
+    pipelineDF.select("bert.metadata").show(truncate = false)
+
   }
 
 }

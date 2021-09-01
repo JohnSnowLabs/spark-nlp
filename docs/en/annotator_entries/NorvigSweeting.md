@@ -113,6 +113,10 @@ result.select("spell.result").show(false)
 [NorvigSweetingModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[NorvigSweetingModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NorvigSweetingModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [NorvigSweetingModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel.scala)
 {%- endcapture -%}
@@ -225,6 +229,10 @@ val pipelineModel = pipeline.fit(trainingData)
 [NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NorvigSweetingApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [NorvigSweetingApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach.scala)
 {%- endcapture -%}
@@ -235,8 +243,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -244,6 +251,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

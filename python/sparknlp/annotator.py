@@ -1,9 +1,8 @@
-#  Licensed to the Apache Software Foundation (ASF) under one or more
-#  contributor license agreements.  See the NOTICE file distributed with
-#  this work for additional information regarding copyright ownership.
-#  The ASF licenses this file to You under the Apache License, Version 2.0
-#  (the "License"); you may not use this file except in compliance with
-#  the License.  You may obtain a copy of the License at
+#  Copyright 2017-2021 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
@@ -2068,7 +2067,6 @@ class DateMatcherUtils(Params):
 
     def setSourceLanguage(self, value):
         return self._set(sourceLanguage=value)
-
 
     def setAnchorDateDay(self, value):
         """Sets an anchor day of the day for the relative dates such as a day
@@ -4466,7 +4464,6 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
         return self._set(externalFeatures=ExternalResource(path, read_as, opts))
 
     def setIncludeConfidence(self, b):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -4596,7 +4593,6 @@ class NerCrfModel(AnnotatorModel):
         )
 
     def setIncludeConfidence(self, b):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -4939,7 +4935,6 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         return self._set(testDataset=ExternalResource(path, read_as, options.copy()))
 
     def setIncludeConfidence(self, value):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -5149,7 +5144,6 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
         return self._set(configProtoBytes=b)
 
     def setIncludeConfidence(self, value):
-
         """Sets whether to include confidence scores in annotation metadata, by
         default False.
 
@@ -8734,7 +8728,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         return self._set(wordMaxDistance=dist)
 
     def setMaxCandidates(self, candidates):
-
         """Sets maximum number of candidates for every word.
 
         Parameters
@@ -9122,7 +9115,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
         return self._set(wordMaxDistance=dist)
 
     def setMaxCandidates(self, candidates):
-
         """Sets maximum number of candidates for every word.
 
         Parameters
@@ -13272,3 +13264,372 @@ class LongformerEmbeddings(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerEmbeddings, name, lang, remote_loc)
+
+
+class RoBertaSentenceEmbeddings(AnnotatorModel,
+                                HasEmbeddingsProperties,
+                                HasCaseSensitiveProperties,
+                                HasStorageRef,
+                                HasBatchedAnnotate):
+    """Sentence-level embeddings using RoBERTa. The RoBERTa model was proposed in RoBERTa: A Robustly Optimized BERT
+    Pretraining Approach  by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,
+    Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google's BERT model released in 2018. It builds on
+    BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much
+    larger mini-batches and learning rates. Pretrained models can be loaded with pretrained of the companion object:
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>>embeddings = RoBertaSentenceEmbeddings.pretrained() \
+    ...    .setInputCols(["sentence"]) \
+    ...    .setOutputCol("sentence_embeddings")
+
+
+    The default model is ``"sent_roberta_base"``, if no name is provided.
+
+    For available pretrained models please see the
+    `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    batchSize
+        Size of every batch, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        False
+    dimension
+        Number of embedding dimensions, by default 768
+    maxSentenceLength
+        Max sentence length to process, by default 128
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+
+    References
+    ----------
+    `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding <https://arxiv.org/abs/1810.04805>`__
+
+    https://github.com/google-research/bert
+
+    **Paper abstract**
+
+    *Language model pretraining has led to significant performance gains but careful comparison between different
+    approaches is challenging. Training is computationally expensive, often done on private datasets of different
+    sizes, and, as we will show, hyperparameter choices have significant impact on the final results. We present a
+    replication study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key
+    hyperparameters and training data size. We find that BERT was significantly undertrained, and can match or exceed
+    the performance of every model published after it. Our best model achieves state-of-the-art results on GLUE,
+    RACE and SQuAD. These results highlight the importance of previously overlooked design choices, and raise
+    questions about the source of recently reported improvements. We release our models and code.*
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> embeddings = RoBertaSentenceEmbeddings.pretrained() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     embeddings,
+    ...     embeddingsFinisher
+    ... ])
+    >>> data = spark.createDataFrame([["John loves apples. Mary loves oranges. John loves Mary."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[-0.8951074481010437,0.13753940165042877,0.3108254075050354,-1.65693199634552...|
+    |[-0.6180210709571838,-0.12179657071828842,-0.191165953874588,-1.4497021436691...|
+    |[-0.822715163230896,0.7568016648292542,-0.1165061742067337,-1.59048593044281,...|
+    +--------------------------------------------------------------------------------+
+    """
+
+    name = "RoBertaSentenceEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        """Sets configProto from tensorflow, serialized into byte array.
+
+        Parameters
+        ----------
+        b : List[str]
+            ConfigProto from tensorflow, serialized into byte array
+        """
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings", java_model=None):
+        super(RoBertaSentenceEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        BertSentenceEmbeddings
+            The restored model
+        """
+        from sparknlp.internal import _RoBertaSentenceLoader
+        jModel = _RoBertaSentenceLoader(folder, spark_session._jsparkSession)._java_obj
+        return RoBertaSentenceEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="sent_roberta_base", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "sent_roberta_base"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        RoBertaSentenceEmbeddings
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(RoBertaSentenceEmbeddings, name, lang, remote_loc)
+
+
+class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
+                                   HasEmbeddingsProperties,
+                                   HasCaseSensitiveProperties,
+                                   HasStorageRef,
+                                   HasBatchedAnnotate):
+    """Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in Unsupervised Cross-lingual
+    Representation Learning at Scale  by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary,
+    Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based
+    on Facebook's RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of
+    filtered CommonCrawl data. Pretrained models can be loaded with pretrained of the companion object:
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>>embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \
+    ...    .setInputCols(["sentence"]) \
+    ...    .setOutputCol("sentence_embeddings")
+
+
+    The default model is ``"sent_xlm_roberta_base"``, if no name is provided.
+
+    For available pretrained models please see the
+    `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    batchSize
+        Size of every batch, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        False
+    dimension
+        Number of embedding dimensions, by default 768
+    maxSentenceLength
+        Max sentence length to process, by default 128
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+
+    **Paper abstract**
+
+    *This paper shows that pretraining multilingual language models at scale leads to significant performance gains
+    for a wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one
+    hundred languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R,
+    significantly outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8%
+    average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs
+    particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over
+    the previous XLM model. We also present a detailed empirical evaluation of the key factors that are required to
+    achieve these gains, including the trade-offs between (1) positive transfer and capacity dilution and (2) the
+    performance of high and low resource languages at scale. Finally, we show, for the first time, the possibility of
+    multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive with strong
+    monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data, and models publicly available.*
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("sentence_embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["sentence_embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     sentence,
+    ...     embeddings,
+    ...     embeddingsFinisher
+    ... ])
+    >>> data = spark.createDataFrame([["John loves apples. Mary loves oranges. John loves Mary."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[-0.8951074481010437,0.13753940165042877,0.3108254075050354,-1.65693199634552...|
+    |[-0.6180210709571838,-0.12179657071828842,-0.191165953874588,-1.4497021436691...|
+    |[-0.822715163230896,0.7568016648292542,-0.1165061742067337,-1.59048593044281,...|
+    +--------------------------------------------------------------------------------+
+    """
+
+    name = "XlmRoBertaSentenceEmbeddings"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    def setConfigProtoBytes(self, b):
+        """Sets configProto from tensorflow, serialized into byte array.
+
+        Parameters
+        ----------
+        b : List[str]
+            ConfigProto from tensorflow, serialized into byte array
+        """
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        return self._set(maxSentenceLength=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings", java_model=None):
+        super(XlmRoBertaSentenceEmbeddings, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            dimension=768,
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        BertSentenceEmbeddings
+            The restored model
+        """
+        from sparknlp.internal import _XlmRoBertaSentenceLoader
+        jModel = _XlmRoBertaSentenceLoader(folder, spark_session._jsparkSession)._java_obj
+        return XlmRoBertaSentenceEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="sent_xlm_roberta_base", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "sent_roberta_base"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        XlmRoBertaSentenceEmbeddings
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(XlmRoBertaSentenceEmbeddings, name, lang, remote_loc)
