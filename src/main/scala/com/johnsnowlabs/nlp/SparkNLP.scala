@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -21,7 +20,7 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "3.2.1"
+  val currentVersion = "3.2.2"
   val MavenSpark30 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark30 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
   val MavenSpark24 = s"com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:$currentVersion"

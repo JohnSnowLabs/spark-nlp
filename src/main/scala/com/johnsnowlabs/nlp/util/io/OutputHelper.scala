@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.util.io
 
-import com.johnsnowlabs.client.AWSGateway
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkFiles
@@ -83,19 +82,18 @@ object OutputHelper {
         historyLog = Array()
       }
       if (logsFolder.startsWith("s3")) {
-        val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.logAccessKeyId),
-          ConfigLoader.getConfigStringValue(ConfigHelper.logSecretAccessKey),
-          ConfigLoader.getConfigStringValue(ConfigHelper.logAwsProfileName),
-          ConfigLoader.getConfigStringValue(ConfigHelper.logAwsRegion), "proprietary")
-        if (awsGateway.credentials.isEmpty) {
-          println("Warning couldn't export log on S3 because some credential is missing")
-        } else {
-          val bucket = ConfigLoader.getConfigStringValue(ConfigHelper.logS3BucketKey)
-          val sourceFilePath = targetPath.toString
-          val s3FilePath = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder).substring("s3://".length) +
-            "/" + sourceFilePath.split("/").last
-          awsGateway.copyInputStreamToS3(bucket, s3FilePath, sourceFilePath)
-        }
+        val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
+          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
+          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
+          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
+          ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion), "proprietary")
+
+        val bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
+        val sourceFilePath = targetPath.toString
+        val s3FilePath = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder).substring("s3://".length) +
+          "/" + sourceFilePath.split("/").last
+
+        awsGateway.copyInputStreamToS3(bucket, s3FilePath, sourceFilePath)
       }
     } catch {
       case e: Exception => println(s"Warning couldn't export log on DBFS or S3 because of error: ${e.getMessage}")

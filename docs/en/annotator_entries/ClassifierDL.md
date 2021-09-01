@@ -138,6 +138,10 @@ result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out")
 [ClassifierDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[ClassifierDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [ClassifierDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLModel.scala)
 {%- endcapture -%}
@@ -267,6 +271,10 @@ val pipelineModel = pipeline.fit(smallCorpus)
 [ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [ClassifierDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach.scala)
 {%- endcapture -%}
@@ -279,6 +287,7 @@ model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_python_example=model_python_example
 model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -286,6 +295,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 approach_note="This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol"

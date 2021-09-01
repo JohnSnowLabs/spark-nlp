@@ -201,32 +201,50 @@ article_header:
                   <div class="highlight-box">
     {% highlight bash %}
     # Install Spark NLP from PyPI
-    $ pip install spark-nlp==3.2.1 pyspark
+    $ pip install spark-nlp==3.2.2 pyspark
   
     # Install Spark NLP from Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
   
     # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2
   
     # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2
   
     # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2
   
     # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-    $ spark-shell --jar spark-nlp-assembly-3.2.1
+    $ spark-shell --jar spark-nlp-assembly-3.2.2
     {% endhighlight %}
                     </div>
                 </div>
               </div>
-            </div>           
+            </div>
           </div>
         
         {%- endif -%}
+        {%- if _section.transformers -%}
 
-
+        <div class="transformer-section">
+          <div class="grid--container">
+            <div class="grid">
+              <div class="cell cell--12 cell--lg-12">
+                <div class="transformer-top">
+                  <h2 class="h2_title grey">Transformers at Scale</h2>
+                  <div class="transformer-descr">
+                    <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as 
+                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, and <b>MarianMT</b> not only to <b>Python</b>, and <b>R</b> 
+                    but also to <b>JVM</b> ecosystem (<b>Java</b>, <b>Scala</b>, and <b>Kotlin</b>) at <b>scale</b> by extending <b>Apache Spark</b> natively
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {%- endif -%}
         {%- if _section.landingmodels -%}
 
           <div class="quick_easy landing_models">
@@ -248,9 +266,9 @@ article_header:
                       {%- endfor -%}
                     </ul>
                     {%- endif -%}
-                </div>                
+                </div>
               </div>
-            </div>           
+            </div>
           </div>
         
         {%- endif -%}
@@ -294,7 +312,6 @@ article_header:
                     <li><strong>XLNet</strong> Embeddings</li>
                     <li><strong>ELMO</strong> Embeddings</li>
                     <li><strong>Universal Sentence</strong> Encoder</li>
-                    <li><strong>BERT Sentence</strong> Embeddings</li>
                     <li><strong>Sentence</strong> Embeddings</li>
                     <li><strong>Chunk</strong> Embeddings</li>
                   </ul>
@@ -314,7 +331,7 @@ article_header:
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
                     <li><strong>2000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
                     <li><strong>1700+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
-                  </ul>
+                  </ul>                  
                 </div>
                               
     {% highlight python %}
@@ -365,7 +382,7 @@ article_header:
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
                     <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
-                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
+                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ELECTRA</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
                     <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
                   </ul>
                 </div>

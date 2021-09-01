@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -32,22 +31,25 @@ object ConfigLoader {
   private lazy val configData: Map[String, String] = {
 
     getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
-      getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
-      getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
-      getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
-      getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
-      getConfigInfo(ConfigHelper.accessKeyId, "") ++
-      getConfigInfo(ConfigHelper.secretAccessKey, "") ++
-      getConfigInfo(ConfigHelper.awsProfileName, "") ++
-      getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
-      getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
-      getConfigInfo(ConfigHelper.serializationMode, "object") ++
-      getConfigInfo(ConfigHelper.useBroadcast, "true") ++
-      getConfigInfo(ConfigHelper.logAccessKeyId, "") ++
-      getConfigInfo(ConfigHelper.logSecretAccessKey, "") ++
-      getConfigInfo(ConfigHelper.logAwsProfileName, "") ++
-      getConfigInfo(ConfigHelper.logS3BucketKey, "") ++
-      getConfigInfo(ConfigHelper.logAwsRegion, "")
+    getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
+    getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
+    getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
+    getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
+    getConfigInfo(ConfigHelper.accessKeyId, "") ++
+    getConfigInfo(ConfigHelper.secretAccessKey, "") ++
+    getConfigInfo(ConfigHelper.sessionToken, "") ++
+    getConfigInfo(ConfigHelper.awsProfileName, "") ++
+    getConfigInfo(ConfigHelper.awsRegion, "") ++
+    getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
+    getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
+    getConfigInfo(ConfigHelper.serializationMode, "object") ++
+    getConfigInfo(ConfigHelper.useBroadcast, "true") ++
+    getConfigInfo(ConfigHelper.awsExternalAccessKeyId, "") ++
+    getConfigInfo(ConfigHelper.awsExternalSecretAccessKey, "") ++
+    getConfigInfo(ConfigHelper.awsExternalSessionToken, "") ++
+    getConfigInfo(ConfigHelper.awsExternalProfileName, "") ++
+    getConfigInfo(ConfigHelper.awsExternalS3BucketKey, "") ++
+    getConfigInfo(ConfigHelper.awsExternalRegion, "")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {
@@ -86,23 +88,6 @@ object ConfigLoader {
 
   private def toBoolean(string: String): Try[Boolean] = Try {
     java.lang.Boolean.parseBoolean(string.trim)
-  }
-
-  def hasAwsCredentials: Boolean = {
-    val hasAccessKeyId = getConfigStringValue(ConfigHelper.accessKeyId) != ""
-    val hasSecretAccessKey = getConfigStringValue(ConfigHelper.secretAccessKey) != ""
-    val hasAwsProfileName = getConfigStringValue(ConfigHelper.awsProfileName) != ""
-    if (hasAwsProfileName || hasAccessKeyId || hasSecretAccessKey) true else false
-  }
-
-  def hasFullAwsCredentials: Boolean = {
-    val hasAccessKeyId = getConfigStringValue(ConfigHelper.logAccessKeyId) != ""
-    val hasSecretAccessKey = getConfigStringValue(ConfigHelper.logSecretAccessKey) != ""
-    val hasAwsProfileName = getConfigStringValue(ConfigHelper.logAwsProfileName) != ""
-    val hasAwsRegion = getConfigStringValue(ConfigHelper.logAwsRegion) != ""
-    val hasAwsBucket = getConfigStringValue(ConfigHelper.logS3BucketKey) != ""
-    if ((hasAwsProfileName && hasAwsRegion && hasAwsBucket) ||
-      (hasAccessKeyId && hasSecretAccessKey && hasAwsRegion && hasAwsBucket)) true else false
   }
 
 }
