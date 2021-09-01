@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Bring Your Own License
-permalink: /docs/en/byol
+permalink: /docs/en/alab/byol
 key: docs-training
 modify_date: "2021-06-23"
 use_language_switcher: "Python-Scala"

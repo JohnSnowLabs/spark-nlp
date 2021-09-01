@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Project Setup 
-permalink: /docs/en/project_setup
+permalink: /docs/en/alab/project_setup
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
@@ -113,3 +113,6 @@ The Annotation Lab also offers support for relation extraction. Relations are in
 ```
 No other constraints can currently be enforced on the labels linked by the defined relations so the annotators must be extra careful and follow the annotation guidelines that specify how the defined relations can be used.  
  
+## Project Validations
+ Annotation Lab validates the defined configurations before allowing users to save them. Error messages are shown on the preview section. For instance, if the labels names do not align with the lables of the corresponding models an error is displayed. The same happens if reserved shortcut keys are used or if incompatible pretrained models are selected for preannotations.
+ <img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/validation.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
