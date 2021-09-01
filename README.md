@@ -847,9 +847,14 @@ You can change the following Spark NLP configurations via Spark Configuration:
 
 | Property Name   |   Default  | Meaning | Since Version |
 |-----------------|------------|---------|---------------|
-|`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory
-|`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS.
-|`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory.
+|`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory|3.2.0
+|`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS|3.2.0
+|`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory|3.2.0
+|`spark.jsl.settings.log.credentials.access_key_id`| `None` | Your AWS access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.log.credentials.secret_access_key`| `None` | Your AWS secret access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.log.credentials.session_token`| `None` | Your AWS MFA session token to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.log.s3_bucket`| `None` | Your AWS S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
+|`spark.jsl.settings.log.aws.region`| `None` | Your AWS region to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.2
 
 ### How to set Spark NLP Configuration
 
@@ -953,7 +958,6 @@ For tensorflow graphs pipelines:
 ```bash
 spark.conf.set("spark.jsl.settings.pretrained.credentials.session_token", "MY_TOKEN")
 ```
-
 
 An example of a bash script that gets temporal AWS credentials can be found [here](https://github.com/JohnSnowLabs/spark-nlp/blob/master/scripts/aws_tmp_credentials.sh)
 This script requires three arguments:
