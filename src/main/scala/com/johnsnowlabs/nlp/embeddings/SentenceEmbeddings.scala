@@ -196,9 +196,7 @@ class SentenceEmbeddings(override val uid: String)
           val allEmbeddings = tokenEmbedding.tokens.map { token =>
             token.embeddings
           }
-          val result = calculateSentenceEmbeddings(allEmbeddings)
-          println(result.length)
-          result
+          calculateSentenceEmbeddings(allEmbeddings)
       }.toArray
 
       Annotation(
