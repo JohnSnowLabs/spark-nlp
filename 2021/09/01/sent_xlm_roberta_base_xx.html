@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Multilingual Representations for Indian Languages (MuRIL) - BERT Sentence Embedding pre-trained on 17 Indian languages- Spark NLP Model</title><meta name="description" content="DescriptionThis model uses a BERT base architecture pretrained from scratch using the Wikipedia, Common Crawl, PMINDIA and Dakshina corpora for the following...">
-<link rel="canonical" href="/2021/09/01/sent_bert_muril_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)- Spark NLP Model</title><meta name="description" content="DescriptionXLM-RoBERTa is a scaled cross-lingual sentence encoder. It is trained on 2.5T of data across 100 languages data filtered from Common Crawl. XLM-R ...">
+<link rel="canonical" href="/2021/09/01/sent_xlm_roberta_base_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,32 +404,22 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 01, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00"></div><header><h1>Multilingual Representations for Indian Languages (MuRIL) - BERT Sentence Embedding pre-trained on 17 Indian languages</h1></header></div><meta itemprop="headline" content="Multilingual Representations for Indian Languages (MuRIL) - BERT Sentence Embedding pre-trained on 17 Indian languages"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>xx</li><li>open_source</li><li>sentence_embeddings</li><li>muril</li><li>indian_languages</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00">
-    <meta itemprop="keywords" content="xx,open_source,sentence_embeddings,muril,indian_languages"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00"></div><header><h1>XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)</h1></header></div><meta itemprop="headline" content="XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>multilingual</li><li>xx</li><li>sentence_embeddings</li><li>xlm_roberta</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="multilingual,xx,sentence_embeddings,xlm_roberta,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model uses a BERT base architecture pretrained from scratch using the Wikipedia, Common Crawl, PMINDIA and Dakshina corpora for the following 17 Indian languages:</p>
+<p><a href="https://ai.facebook.com/blog/-xlm-r-state-of-the-art-cross-lingual-understanding-through-self-supervision/">XLM-RoBERTa</a> is a scaled cross-lingual sentence encoder. It is trained on 2.5T of data across 100 languages data filtered from Common Crawl. XLM-R achieves state-of-the-arts results on multiple cross-lingual benchmarks.</p>
 
-<p><code class="language-plaintext highlighter-rouge">Assamese</code>, <code class="language-plaintext highlighter-rouge">Bengali</code> , <code class="language-plaintext highlighter-rouge">English</code> , <code class="language-plaintext highlighter-rouge">Gujarati</code> , <code class="language-plaintext highlighter-rouge">Hindi</code> , <code class="language-plaintext highlighter-rouge">Kannada</code> , <code class="language-plaintext highlighter-rouge">Kashmiri</code> , <code class="language-plaintext highlighter-rouge">Malayalam</code> , <code class="language-plaintext highlighter-rouge">Marathi</code> , <code class="language-plaintext highlighter-rouge">Nepali</code> , <code class="language-plaintext highlighter-rouge">Oriya</code> , <code class="language-plaintext highlighter-rouge">Punjabi</code> , <code class="language-plaintext highlighter-rouge">Sanskrit</code> , <code class="language-plaintext highlighter-rouge">Sindhi</code> , <code class="language-plaintext highlighter-rouge">Tamil</code> , <code class="language-plaintext highlighter-rouge">Telugu</code> , <code class="language-plaintext highlighter-rouge">Urdu</code></p>
+<p>The XLM-RoBERTa model was proposed in <a href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer, and Veselin Stoyanov.</p>
 
-<p>The MuRIL model is pre-trained on monolingual segments as well as parallel segments as detailed below :</p>
-
-<ul>
-  <li>Monolingual Data : Publicly available corpora from Wikipedia and Common Crawl for 17 Indian languages.</li>
-  <li>Parallel Data : There are two types of parallel data :
-    <ul>
-      <li>Translated Data : Translations of the above monolingual corpora obtained using the Google NMT pipeline. Translated segment pairs fed as input. Also, Publicly available PMINDIA corpus was used.</li>
-      <li>Transliterated Data : Transliterations of Wikipedia obtained using the IndicTrans library. Transliterated segment pairs fed as input. Also, Publicly available Dakshina dataset was used.</li>
-    </ul>
-  </li>
-</ul>
+<p>It is based on Facebook’s RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_bert_muril_xx_3.2.0_3.0_1630467991919.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_xlm_roberta_base_xx_3.2.2_3.0_1630505672907.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -437,24 +427,13 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sent_embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_muril"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_xlm_roberta_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_sentence"</span><span class="p">)</span>
-
-<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">sent_embeddings</span> <span class="p">])</span>
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">sent_embeddings</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_bert_muril"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_xlm_roberta_base"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"bert_sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">sent_embeddings</span> <span class="o">))</span>
-</code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"I love NLP"</span><span class="p">]</span>
-<span class="n">sent_embeddings_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'en.embed_sentence.bert.muril'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'sentence'</span><span class="p">)</span>
-<span class="n">sent_embeddings_df</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
@@ -464,11 +443,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sent_bert_muril</td>
+      <td>sent_xlm_roberta_base</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.2.0+</td>
+      <td>Spark NLP 3.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -484,7 +463,7 @@
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[bert_sentence]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -492,14 +471,14 @@
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>false</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>The model is imported from: https://tfhub.dev/google/MuRIL/1</p>
+<p><a href="https://huggingface.co/xlm-roberta-base">https://huggingface.co/xlm-roberta-base</a></p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -625,7 +604,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/08/31/ner_conll_xlnet_base_cased_en.html">Named Entity Recognition - CoNLL03 XLNet Base (ner_conll_xlnet_base_cased)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/01/sent_distilroberta_base_en.html">DistilRoBERTa Base Sentence Embeddings(sent_distilroberta_base)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/01/sent_roberta_large_en.html">RoBERTa Large Sentence Embeddings(sent_roberta_large)</a></div></div></div>
 
 </div>
 </div>
