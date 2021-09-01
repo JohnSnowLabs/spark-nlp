@@ -189,12 +189,16 @@ class SentenceEmbeddings(override val uid: String)
 
     sentences.map { sentence =>
 
-      val sentenceEmbeddings = embeddingsSentences.flatMap {
-        case (tokenEmbedding) =>
+      val embeddings = embeddingsSentences.filter(embeddings => embeddings.sentenceId == sentence.index)
+
+      val sentenceEmbeddings = embeddings.flatMap {
+        tokenEmbedding =>
           val allEmbeddings = tokenEmbedding.tokens.map { token =>
             token.embeddings
           }
-          calculateSentenceEmbeddings(allEmbeddings)
+          val result = calculateSentenceEmbeddings(allEmbeddings)
+          println(result.length)
+          result
       }.toArray
 
       Annotation(
