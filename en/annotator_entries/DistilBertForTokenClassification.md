@@ -106,6 +106,10 @@ result.select("label.result").show(false)
 [DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForTokenClassification.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [DistilBertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification.scala)
 {%- endcapture -%}
@@ -117,6 +121,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

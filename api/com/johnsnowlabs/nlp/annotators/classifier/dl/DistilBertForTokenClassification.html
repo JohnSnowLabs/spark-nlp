@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification</title>
-          <meta name="description" content="Spark NLP 3.2.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification" />
-          <meta name="keywords" content="Spark NLP 3.2.1 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification" />
+          <title>Spark NLP 3.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification</title>
+          <meta name="description" content="Spark NLP 3.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification" />
+          <meta name="keywords" content="Spark NLP 3.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -274,9 +274,9 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
 e.g. for Named-Entity-Recognition (NER) tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> labels = DistilBertForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;distilbert_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala" target="_blank">DistilBertForTokenClassificationTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+  .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;distilbert_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
+example shows how to import them <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.
+and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala" target="_blank">DistilBertForTokenClassificationTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base._
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -1216,9 +1216,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       
       <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification#getModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
-      <a id="getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowDistilBertTokenClassification"></a><a id="getModelIfNotSet:TensorflowDistilBertTokenClassification"></a>
+      <a id="getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowDistilBertClassification"></a><a id="getModelIfNotSet:TensorflowDistilBertClassification"></a>
       <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification.html#getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowDistilBertTokenClassification" title="Permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification.html#getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowDistilBertClassification" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1227,7 +1227,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getModelIfNotSet</span><span class="result">: <a href="../../../../ml/tensorflow/TensorflowDistilBertTokenClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowDistilBertTokenClassification">TensorflowDistilBertTokenClassification</a></span>
+        <span class="name">getModelIfNotSet</span><span class="result">: <a href="../../../../ml/tensorflow/TensorflowDistilBertClassification.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowDistilBertClassification">TensorflowDistilBertClassification</a></span>
       </span>
       
       <p class="shortcomment cmt"></p>

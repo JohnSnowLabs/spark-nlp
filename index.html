@@ -425,40 +425,56 @@
                     <img src="/assets/images/chat_symbols.svg" />
                   </figure><h4>Multiple Languages</h4><p>Full <b>Python</b>, <b>Scala</b>, and <b>Java</b> support</p></div></div></div>
         </div></div> </section><section
-      class="hero section-row hero--center" id="hero-2"style="background-image: url(/);"><div class=""><div class="quick_easy">
+      class="hero section-row hero--center" id="hero-2"style="background-image: url(/);"><div class=""><div class="transformer-section">
+          <div class="grid--container">
+            <div class="grid">
+              <div class="cell cell--12 cell--lg-12">
+                <div class="transformer-top">
+                  <h2 class="h2_title grey">Transformers at Scale</h2>
+                  <div class="transformer-descr">
+                    <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as 
+                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, and <b>MarianMT</b> not only to <b>Python</b>, and <b>R</b> 
+                    but also to <b>JVM</b> ecosystem (<b>Java</b>, <b>Scala</b>, and <b>Kotlin</b>) at <b>scale</b> by extending <b>Apache Spark</b> natively
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div></div> </section><section
+      class="hero section-row hero--center" id="hero-3"style="background-image: url(/);"><div class=""><div class="quick_easy">
             <div class="grid--container">
               <div class="grid">
                 <div class="cell d_flex cell--12 cell--lg-5 cell--md-5 cell--sm-12 quick_easy_inner">
-                  <h3 class="grey h3_title">Quick and Easy</h3><div class="descr_quick">Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, <a href="https://mvnrepository.com/artifact/JohnSnowLabs/spark-nlp" target="_blank">Maven</a>, and <a href="https://spark-packages.org/package/JohnSnowLabs/spark-nlp" target="_blank">Spark Packages</a></div><ul class="menu"><li><a class="button button--big_btn button--pill button--lg" href="/docs/en/install">Install Spark NLP</a>
+                  <h3 class="grey h3_title">Quick and Easy</h3><div class="descr_quick">Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, and <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp" target="_blank">Maven</a></div><ul class="menu"><li><a class="button button--big_btn button--pill button--lg" href="/docs/en/install">Install Spark NLP</a>
                       </li></ul></div>
                 <div class="cell cell--12 cell--lg-7 cell--md-7 cell--sm-12">
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.2.1 pyspark
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.2.2 pyspark
   
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
   
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2
   
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2
   
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.1
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.2
   
     <span class="c"># Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.2.1
+    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.2.2
     </code></pre></figure>
 
                     </div>
                 </div>
               </div>
-            </div>           
+            </div>
           </div></div> </section><section
-      class="hero section-row hero--center" id="hero-3"style="background-image: url(/);"><div class=""><div class="top_section ">
+      class="hero section-row hero--center" id="hero-4"style="background-image: url(/);"><div class=""><div class="top_section ">
 
             <h3 class="blue h3_title grey big_h3">Right Out of The Box</h3><p class="h3_descr">Spark NLP ships with many <b>NLP features</b>, pre-trained <b>models</b> and <b>pipelines</b></p><ul class="menu three_a"><li><a class="button button--trans_white button--pill button--lg" href="/models">Models Hub</a>
                 </li></ul></div><div class="features-section">
@@ -497,7 +513,6 @@
                     <li><strong>XLNet</strong> Embeddings</li>
                     <li><strong>ELMO</strong> Embeddings</li>
                     <li><strong>Universal Sentence</strong> Encoder</li>
-                    <li><strong>BERT Sentence</strong> Embeddings</li>
                     <li><strong>Sentence</strong> Embeddings</li>
                     <li><strong>Chunk</strong> Embeddings</li>
                   </ul>
@@ -517,7 +532,7 @@
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
                     <li><strong>2000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
                     <li><strong>1700+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
-                  </ul>
+                  </ul>                  
                 </div>
                               
     
@@ -549,7 +564,7 @@
             </div>
           </div>
         </div></div> </section><section
-      class="hero section-row hero--center" id="hero-4"style="background-image: url(/);"><div class=""><div class="benchmark-section">
+      class="hero section-row hero--center" id="hero-5"style="background-image: url(/);"><div class=""><div class="benchmark-section">
           <div class="grid--container">
             <div class="grid">
               <div class="cell cell--12 cell--lg-5">
@@ -566,7 +581,7 @@
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
                     <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
-                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
+                    <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ELECTRA</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
                     <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
                   </ul>
                 </div>
@@ -661,7 +676,7 @@
             </div>
           </div>
         </div></div> </section><section
-      class="hero section-row hero--center" id="hero-5"style="background-image: url(/); background-color: #ffffff;"><div class=""><div class="top_section ">
+      class="hero section-row hero--center" id="hero-6"style="background-image: url(/); background-color: #ffffff;"><div class=""><div class="top_section ">
 
             <h3 class="blue h3_title grey big_h3">Trusted By</h3></div><div class="grid--container">
           <div class="grid grid--p-3"><div class="cell cell--6 cell--md-3 cell--lg-2 ">
@@ -857,7 +872,7 @@
               <div class="feature-item sponsor "><figure class="mx-auto" style="padding: 20px;">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Logo_Med_Uni_Graz.png" />
                   </figure><h4></h4></div></div></div>
-        </div></div> </section><section class="hero  section-row hero--center hero--dark" id="hero-6"style="background-image: url(/); background-color: #0098DA;"><div class=""><div class="top_section bottom_section">
+        </div></div> </section><section class="hero  section-row hero--center hero--dark" id="hero-7"style="background-image: url(/); background-color: #0098DA;"><div class=""><div class="top_section bottom_section">
 
             <h3 class="blue h3_title "><h4 class="h4_title white">Active Community Support</h4></h3><ul class="menu three_a"><li><a class="button button--trans button--pill button--lg" href="/demo">View Demo</a>
                 </li><li><a class="button button--trans button--pill button--lg" href="https://github.com/JohnSnowLabs/spark-nlp-workshop">Examples</a>
