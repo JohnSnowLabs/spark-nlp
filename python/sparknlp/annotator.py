@@ -13613,7 +13613,7 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
         return XlmRoBertaSentenceEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="sent_xlm_roberta_base", lang="en", remote_loc=None):
+    def pretrained(name="sent_xlm_roberta_base", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
