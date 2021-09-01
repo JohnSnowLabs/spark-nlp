@@ -1,2 +1,2 @@
-docs/_posts/Digaari/2021-09-01-sent_bert_muril_xx.md
-docs/_posts/Digaari/2021-09-01-sent_bert_muril_xx.md
+docs/_posts/murat-gunay/2021-08-13-classifierdl_electra_questionpair_en.md
+docs/_posts/murat-gunay/2021-08-13-classifierdl_electra_questionpair_en.md
