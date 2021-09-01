@@ -140,6 +140,10 @@ result.select("ner.result").show(false)
 [NerDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[NerDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerDLModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)
 {%- endcapture -%}
@@ -276,6 +280,10 @@ val pipelineModel = pipeline.fit(trainingData)
 [NerDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[NerDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerDLApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala)
 {%- endcapture -%}
@@ -286,8 +294,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -295,6 +302,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

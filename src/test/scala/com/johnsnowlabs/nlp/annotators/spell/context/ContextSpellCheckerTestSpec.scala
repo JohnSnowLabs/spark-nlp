@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -28,12 +27,12 @@ import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
 
 
-class ContextSpellCheckerTestSpec extends FlatSpec {
+class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   trait Scope extends WeightedLevenshtein {
     val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),

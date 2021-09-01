@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.{PerceptronApproach, PerceptronModel}
@@ -6,11 +22,14 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, DocumentAssembler, Finisher, SparkAccessor}
 import com.johnsnowlabs.tags.FastTest
+
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest.FlatSpec
 
-trait ChunkerBehaviors { this:FlatSpec =>
+import org.scalatest.flatspec.AnyFlatSpec
+
+trait ChunkerBehaviors {
+  this: AnyFlatSpec =>
 
   case class SentenceParams(sentence: String, POSFormatSentence: Array[String],
                             regexParser: Array[String], correctChunkPhrases: Array[String])
@@ -168,7 +187,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
       val finished_chunks = model.transform(testData).select("finished_chunks").collect().map(row =>
         row.get(0).asInstanceOf[Seq[String]].toList)
-      finished_chunks.map( row => assert(row.isEmpty))
+      finished_chunks.map(row => assert(row.isEmpty))
     }
   }
 
@@ -177,7 +196,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
       import SparkAccessor.spark.implicits._
       import org.apache.spark.sql.functions._
 
-      for (phrase <- phrases){
+      for (phrase <- phrases) {
 
         val tokensLabelsDF = Seq((
           phrase.sentence, phrase.POSFormatSentence)
@@ -198,7 +217,7 @@ trait ChunkerBehaviors { this:FlatSpec =>
           col("correct_chunks") === col("finished_chunks"))
 
         val equalChunks = transform.select("equal_chunks").collect()
-        for (equalChunk <- equalChunks){
+        for (equalChunk <- equalChunks) {
           assert(equalChunk.getBoolean(0))
         }
 
@@ -219,10 +238,10 @@ trait ChunkerBehaviors { this:FlatSpec =>
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
 
-      val finished_chunks = model.transform(dataset).select("finished_chunks").collect().map( row =>
+      val finished_chunks = model.transform(dataset).select("finished_chunks").collect().map(row =>
         row.get(0).asInstanceOf[Seq[String]].toList
       )
-      finished_chunks.map( row => assert(row.nonEmpty))
+      finished_chunks.map(row => assert(row.nonEmpty))
 
     }
   }

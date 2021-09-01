@@ -55,14 +55,14 @@ object Dependencies {
 
   lazy val supportedScalaVersions = List(scala212, scala211)
 
-  val scalaTestVersion = "3.0.1"
+  val scalaTestVersion = "3.2.9"
   /** ------- Scala version end ------- */
 
   /** ------- Dependencies start------- */
 
   // utilDependencies
 
-  val typesafeVersion = "1.3.0"
+  val typesafeVersion = "1.4.1"
   val typesafe = "com.typesafe" % "config" % typesafeVersion
 
   val rocksdbjniVersion = "6.5.3"
@@ -85,13 +85,13 @@ object Dependencies {
   val trove4jVersion = "3.0.3"
   val trove4j = "net.sf.trove4j" % "trove4j" % trove4jVersion
 
-  val junitVersion = "4.10"
+  val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowGPUVersion = "0.3.1"
+  val tensorflowGPUVersion = "0.3.2"
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowGPUVersion
 
-  val tensorflowCPUVersion = "0.3.1"
+  val tensorflowCPUVersion = "0.3.2"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
   /** ------- Dependencies end  ------- */
 }
