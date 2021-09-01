@@ -406,7 +406,10 @@ trait ReadRobertaSentenceTensorflowModel extends ReadTensorflowModel {
     val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val merges = ResourceHelper.parseLines(mergesResource)
 
-    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
+      .filter(w => w.length == 2)
+      .map { case Array(c1, c2) => (c1, c2) }
+      .zipWithIndex.toMap
 
     val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
 
