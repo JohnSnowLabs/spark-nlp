@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Export Data
-permalink: /docs/en/export
+permalink: /docs/en/alab/export
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
@@ -60,7 +60,8 @@ Results are stored in comma-separated tabular file with column names specified b
 Results are stored in tab-separated tabular file with column names specified by "from_name" "to_name" values
 
 ## CONLL2003
-Results will be generated in the following format:
+
+The CONLL export feature generates a single output file, containing all available completios for all the tasks in the project. The resulting file has the following format: 
 ```bash
 -DOCSTART- -X- O
 Sample -X- _ O
@@ -112,3 +113,5 @@ of -X- _ O
 insulin -X- _ O
 …
 ```
+
+User can specify if only starred completions should be included in the output file by checking "Only ground truth" option before generating the export.

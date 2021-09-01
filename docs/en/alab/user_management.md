@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: User Management
-permalink: /docs/en/user_management
+permalink: /docs/en/alab/user_management
 key: docs-training
 modify_date: "2021-05-10"
 use_language_switcher: "Python-Scala"

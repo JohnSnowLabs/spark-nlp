@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Preannotations with Spark NLP  
-permalink: /docs/en/preannotations
+permalink: /docs/en/alab/preannotations
 key: docs-training
 modify_date: "2021-05-11"
 use_language_switcher: "Python-Scala"

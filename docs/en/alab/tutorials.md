@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Video Tutorials
-permalink: /docs/en/tutorials
+permalink: /docs/en/alab/tutorials
 key: docs-training
 modify_date: "2021-01-26"
 use_language_switcher: "Python-Scala"

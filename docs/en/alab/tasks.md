@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Tasks
-permalink: /docs/en/tasks
+permalink: /docs/en/alab/tasks
 key: docs-training
 modify_date: "2020-11-19"
 use_language_switcher: "Python-Scala"
@@ -101,6 +101,33 @@ The number of tasks visible on the screeen is customizable by selecting the pred
 
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/task_filters.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+## Search tasks by label:token
+Annotation Lab supports the identification of tasks based on the annotations they include. 
+Currently supported search queries:
+- label: ABC -> returns all tasks that have at least one completion containing a chunk with label ABC
+- label: ABC=DEF -> returns all tasks that have at least one completion containing the text DEF labeled as ABC
+- choice: Mychoice -> returns all tasks that have at least one completion which classified as Mychoice
+
+Search functionality is case insensitive, thus the following queries `label: ABC=DEF` , `label: Abc=Def` or `label: abc=def` are considered equivalent.
+
+### Example:
+
+Consider a system with 3 tasks which are annotated as below:
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/search1.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/search2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/search3.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+Search-query "label:person" will list as results task 0 and task 1.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/search4.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+Search-query "label:location" will list as result task 2.
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/search5.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+Search-query "label:person=the water" will listas result task 1.
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/search6.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 
 
 ## Comments
