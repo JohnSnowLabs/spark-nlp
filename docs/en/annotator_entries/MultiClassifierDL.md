@@ -181,10 +181,6 @@ CATEGORY
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
 # In this example, the training data has the form
 #
 # +----------------+--------------------+--------------------+
@@ -195,6 +191,11 @@ from pyspark.ml import Pipeline
 # |24b0d6c8733c2abe|Thanks  - thanks ...|            [insult]|
 # |8c4478fb239bcfc0|" Gee, 5 minutes ...|[toxic, obscene, ...|
 # +----------------+--------------------+--------------------+
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 # Process training data to create text with associated array of labels
 
@@ -248,6 +249,7 @@ pipelineModel = pipeline.fit(trainDataset)
 // ...
 //
 // It needs some pre-processing first, so the labels are of type `Array[String]`. This can be done like so:
+
 import spark.implicits._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach
 import com.johnsnowlabs.nlp.base.DocumentAssembler

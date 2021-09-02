@@ -187,13 +187,14 @@ NAMED_ENTITY
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
+# This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
+# If a custom dataset is used, these need to be defined.
+
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.training import *
 from pyspark.ml import Pipeline
-# This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
-# If a custom dataset is used, these need to be defined.
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -230,6 +231,7 @@ pipelineModel = pipeline.fit(trainingData)
 {%- capture approach_scala_example -%}
 // This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
 // If a custom dataset is used, these need to be defined.
+
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.annotator.NerCrfApproach

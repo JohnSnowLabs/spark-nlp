@@ -168,7 +168,7 @@ using a CNN architecture. We also modified the original implementation a little 
 Each extracted sentence can be returned in an Array or exploded to separate rows,
 if `explodeSentences` is set to `true`.
 
-For extended examples of usage, see the [SentenceDetectorDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala).
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb) and the [SentenceDetectorDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -180,10 +180,6 @@ DOCUMENT
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
 # The training process needs data, where each data point is a sentence.
 # In this example the `train.txt` file has the form of
 #
@@ -194,6 +190,11 @@ from pyspark.ml import Pipeline
 #
 # where each line is one sentence.
 # Training can then be started like so:
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 trainingData = spark.read.text("train.txt").toDF("text")
 

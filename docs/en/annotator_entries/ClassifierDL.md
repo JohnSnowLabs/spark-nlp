@@ -155,12 +155,6 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 
 For instantiated/pretrained models, see ClassifierDLModel.
 
-**Notes**:
-  - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-  - [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
-    [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
-    [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) can be used for the `inputCol`.
-
 For extended examples of usage, see the Spark NLP Workshop
 [[1] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
 [[2] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb)
@@ -176,10 +170,6 @@ CATEGORY
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
 # In this example, the training data `"sentiment.csv"` has the form of
 #
 # text,label
@@ -188,6 +178,11 @@ from pyspark.ml import Pipeline
 # ...
 #
 # Then traning can be done like so:
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 smallCorpus = spark.read.option("header","True").csv("src/test/resources/classifier/sentiment.csv")
 
@@ -230,6 +225,7 @@ pipelineModel = pipeline.fit(smallCorpus)
 // ...
 //
 // Then traning can be done like so:
+
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach
