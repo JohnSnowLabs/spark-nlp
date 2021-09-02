@@ -136,16 +136,17 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
 # In this example, `"chinese_train.utf8"` is in the form of
 #
 # 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
 #
 # and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.training import *
+from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -177,6 +178,7 @@ pipelineModel = pipeline.fit(trainingDataSet)
 // 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
 //
 // and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
+
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach
 import com.johnsnowlabs.nlp.training.POS
