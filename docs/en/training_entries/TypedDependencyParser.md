@@ -12,7 +12,7 @@ Dependency parsers provide information about word relationship. For example, dep
 the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
 you find precise answers to specific questions.
 
-The parser requires the dependant tokens beforehand with e.g. [DependencyParser](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel).
+The parser requires the dependant tokens beforehand with e.g. [DependencyParser](/docs/en/annotators#dependencyparser).
 The required training data can be set in two different ways (only one can be chosen for a particular model):
   - Dataset in the [CoNLL 2009 format](https://ufal.mff.cuni.cz/conll2009-st/trial-data.html) set with `setConll2009`. Data format:
     ```
