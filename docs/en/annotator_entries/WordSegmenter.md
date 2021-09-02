@@ -121,7 +121,7 @@ To train your own model, a training dataset consisting of
 into a dataframe, where the column is an [Annotation](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
 set with `setPosColumn`.
 
-**Tip**: The helper class [POS](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/POS) might be useful to read training data into data frames.
+**Tip**: The helper class [POS](/docs/en/training#pos-dataset) might be useful to read training data into data frames.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation)
 and the [WordSegmenterTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala).

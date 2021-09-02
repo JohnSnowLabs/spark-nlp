@@ -6,8 +6,7 @@ POSTagger (Part of speech tagger)
 Averaged Perceptron model to tag words part-of-speech.
 Sets a POS tag to each word within a sentence.
 
-This is the instantiated model of the
-[PerceptronApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach).
+This is the instantiated model of the PerceptronApproach.
 For training your own model, please see the documentation of that class.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
@@ -142,7 +141,7 @@ For pretrained models please see the PerceptronModel.
 The training data needs to be in a Spark DataFrame, where the column needs to consist of
 [Annotations](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `POS`. The `Annotation` needs to have member `result`
 set to the POS tag and have a `"word"` mapping to its word inside of member `metadata`.
-This DataFrame for training can easily created by the helper class [POS](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/POS).
+This DataFrame for training can easily created by the helper class [POS](/docs/en/training#pos-dataset).
 ```
 POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(false)
 +---------------------------------------------+
