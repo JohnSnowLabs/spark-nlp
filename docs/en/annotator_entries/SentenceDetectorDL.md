@@ -5,7 +5,7 @@ SentenceDetectorDL
 {%- capture model_description -%}
 Annotator that detects sentence boundaries using a deep learning approach.
 
-Instantiated Model of the [SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach).
+Instantiated Model of the SentenceDetectorDLApproach.
 Detects sentence boundaries using a deep learning approach.
 
 Pretrained models can be loaded with `pretrained` of the companion object:

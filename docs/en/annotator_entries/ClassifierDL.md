@@ -19,7 +19,7 @@ val classifierDL = ClassifierDLModel.pretrained()
   .setOutputCol("classification")
 ```
 The default model is `"classifierdl_use_trec6"`, if no name is provided. It uses embeddings from the
-[UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder) and is trained on the
+[UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder) and is trained on the
 [TREC-6](https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels) dataset.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
 
