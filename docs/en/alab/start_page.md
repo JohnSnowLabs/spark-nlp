@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Start Page
-permalink: /docs/en/start_page
+permalink: /docs/en/alab/start_page
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"

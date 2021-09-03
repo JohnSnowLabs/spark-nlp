@@ -2,8 +2,8 @@
 layout: docs
 comment: no
 header: true
-title: Active Learning  
-permalink: /docs/en/active_learning
+title: Model Training  
+permalink: /docs/en/alab/active_learning
 key: docs-training
 modify_date: "2021-05-11"
 use_language_switcher: "Python-Scala"
@@ -39,6 +39,22 @@ It is possible to tune the most common training parameters (Validation split rat
 It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifing the targeted Tags on the Training Parameters popup window (last option).
 
 The Annotation Lab v1.8.0 includes additional filtering options for the training dataset based on the status of completions, either all submitted completions cab be used for training or only the reviewed ones (a drop-down is added in the "Advanced Options").
+
+## Transfer Learning
+Annotation Lab 2.0.0+ supports the Transfer Learning feature offerend by [Spark NLP for Healthcare 3.1.2](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#support-for-fine-tuning-of-ner-models). 
+This feature is available for project manages and project owners, but only if a valid Spark NLP for Healthcare license is loaded into the Annotationl Lab. 
+In this case, the feature can be activated for any project by navigating to the Setup->Labeling Config -> Model Training -> Advanced Options. It requiers the presence of a `base model` trained with [MedicalNERModel](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#1-medicalnermodel-annotator).
+
+If a MedicalNER model is available on the Models Hub section of the Annotation Lab, it can be choosen as a starting point of the training process. This means the `base model` will be Fine Tuned with the new training data.
+
+When Fine Tuning is enabled, the same embeddings used for training the `base model` will be used to train the new model. Those need to be available on the Models Hub section as well. If present, embeddings will be automatically selected, otherwise users must go to the Models Hub page and download or upload them.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/transfer_learning.gif" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+## Custom Training Script
+If users want to change the default Training script present within the Annotation Lab, they can upload their own training pipeline. In the Training section of the Project Setup Page, admin users can upload the training scripts. At the moment we are supporting custom training script just for NER projects.
+
+<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/custom_script.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Selection of Completions
 During the annotation project lifetime, normally not all tasks/completions are ready to be used as a training dataset. This is why the training process selects completions based on their status:

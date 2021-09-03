@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 title: Text Annotation
-permalink: /docs/en/annotation
+permalink: /docs/en/alab/annotation
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
