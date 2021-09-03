@@ -8,7 +8,7 @@ modify_date: "2021-08-05"
 use_language_switcher: "Python-Scala-Java"
 ---
 
-<script> {% include scripts/approachModelSwitcher.js %} </script>
+<script> {% include scripts/transformerUseCaseSwitcher.js %} </script>
 
 {% assign parent_path = "en/transformer_entries" %}
 

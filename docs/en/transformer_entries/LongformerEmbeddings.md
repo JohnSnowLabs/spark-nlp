@@ -41,7 +41,205 @@ DOCUMENT, TOKEN
 WORD_EMBEDDINGS
 {%- endcapture -%}
 
-{%- capture python_example -%}
+{%- capture api_link -%}
+[LongformerEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddings)
+{%- endcapture -%}
+
+{%- capture python_api_link -%}
+[LongformerEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.LongformerEmbeddings.html)
+{%- endcapture -%}
+
+{%- capture source_link -%}
+[LongformerEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddings.scala)
+{%- endcapture -%}
+
+{%- capture prediction_python_example -%}
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
+
+# First extract the prerequisites for the NerDLModel
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+# Use the transformer embeddings
+embeddings = LongformerEmbeddings \
+      .pretrained("longformer_large_4096") \
+      .setInputCols(['document', 'token']) \
+      .setOutputCol("embeddings") \
+      .setCaseSensitive(True) \
+      .setMaxSentenceLength(4096)
+
+# This pretrained model requires those specific transformer embeddings
+ner_model = NerDLModel.pretrained('ner_conll_longformer_large_4096', 'en') \
+    .setInputCols(['document', 'token', 'embeddings']) \
+    .setOutputCol('ner')
+
+pipeline = Pipeline().setStages([
+    documentAssembler,
+    tokenizer,
+    embeddings,
+    ner_model
+])
+
+data = spark.createDataFrame([["U.N. official Ekeus heads for Baghdad."]]).toDF("text")
+result = pipeline.fit(data).transform(data)
+
+result.select("ner.result").show(truncate=False)
++------------------------------------+
+|result                              |
++------------------------------------+
+|[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
++------------------------------------+
+{%- endcapture -%}
+
+{%- capture prediction_scala_example -%}
+import spark.implicits._
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+import org.apache.spark.ml.Pipeline
+
+// First extract the prerequisites for the NerDLModel
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+// Use the transformer embeddings
+val embeddings = LongformerEmbeddings.pretrained("longformer_large_4096", "en")
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+  .setCaseSensitive(true)
+  .setMaxSentenceLength(4096)
+
+// This pretrained model requires those specific transformer embeddings
+val nerModel = NerDLModel.pretrained("ner_conll_longformer_large_4096", "en")
+  .setInputCols("document", "token", "embeddings")
+  .setOutputCol("ner")
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  tokenizer,
+  embeddings,
+  nerModel
+))
+
+val data = Seq("U.N. official Ekeus heads for Baghdad.").toDF("text")
+val result = pipeline.fit(data).transform(data)
+
+result.select("ner.result").show(false)
++------------------------------------+
+|result                              |
++------------------------------------+
+|[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
++------------------------------------+
+{%- endcapture -%}
+
+{%- capture training_python_example -%}
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.training import *
+from pyspark.ml import Pipeline
+
+# First extract the prerequisites for the NerDLApproach
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["sentence"]) \
+    .setOutputCol("token")
+
+embeddings = LongformerEmbeddings \
+      .pretrained("longformer_base_4096") \
+      .setInputCols(['document', 'token']) \
+      .setOutputCol("embeddings") \
+      .setCaseSensitive(True) \
+      .setMaxSentenceLength(4096)
+
+# Then the training can start with the transformer embeddings
+nerTagger = NerDLApproach() \
+    .setInputCols(["document", "token", "embeddings"]) \
+    .setLabelColumn("label") \
+    .setOutputCol("ner") \
+    .setMaxEpochs(1) \
+    .setVerbose(0)
+
+pipeline = Pipeline().setStages([
+    documentAssembler,
+    sentence,
+    tokenizer,
+    embeddings,
+    nerTagger
+])
+
+# We use the text and labels from the CoNLL dataset
+conll = CoNLL()
+trainingData = conll.readDataset(spark, "eng.train")
+
+pipelineModel = pipeline.fit(trainingData)
+{%- endcapture -%}
+
+{%- capture training_scala_example -%}
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach
+import com.johnsnowlabs.nlp.training.CoNLL
+import org.apache.spark.ml.Pipeline
+
+// First extract the prerequisites for the NerDLApproach
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+val embeddings = LongformerEmbeddings.pretrained()
+  .setInputCols("document", "token")
+  .setOutputCol("embeddings")
+  .setCaseSensitive(true)
+
+// Then the training can start with the transformer embeddings
+val nerTagger = new NerDLApproach()
+  .setInputCols("document", "token", "embeddings")
+  .setLabelColumn("label")
+  .setOutputCol("ner")
+  .setMaxEpochs(1)
+  .setRandomSeed(0)
+  .setVerbose(0)
+
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  tokenizer,
+  embeddings,
+  nerTagger
+))
+
+// We use the text and labels from the CoNLL dataset
+val conll = CoNLL()
+val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
+
+val pipelineModel = pipeline.fit(trainingData)
+{%- endcapture -%}
+
+{%- capture embeddings_python_example -%}
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
@@ -90,7 +288,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture embeddings_scala_example -%}
 import spark.implicits._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
@@ -139,21 +337,18 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 
 {%- endcapture -%}
 
-{%- capture api_link -%}
-[LongformerEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddings)
-{%- endcapture -%}
-
-{%- capture source_link -%}
-[LongformerEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddings.scala)
-{%- endcapture -%}
-
-{% include templates/anno_template.md
+{% include templates/transformer_usecases_template.md
 title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
+prediction_python_example=prediction_python_example
+prediction_scala_example=prediction_scala_example
+training_python_example=training_python_example
+training_scala_example=training_scala_example
+embeddings_python_example=embeddings_python_example
+embeddings_scala_example=embeddings_scala_example
 %}
