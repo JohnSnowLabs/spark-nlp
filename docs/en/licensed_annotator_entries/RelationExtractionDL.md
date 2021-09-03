@@ -134,7 +134,7 @@ val result = trained_pipeline.fit(data).transform(data)
 [RelationExtractionDLModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionDLModel)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/licensed_anno_template.md
 title=title
 description=description
 input_anno=input_anno

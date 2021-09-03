@@ -187,6 +187,10 @@ result.select("graph").show(false)
 [GraphExtraction](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/GraphExtraction)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[GraphExtraction](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.GraphExtraction.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [GraphExtraction](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/GraphExtraction.scala)
 {%- endcapture -%}
@@ -198,6 +202,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

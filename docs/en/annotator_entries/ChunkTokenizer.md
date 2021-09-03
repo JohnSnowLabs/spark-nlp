@@ -19,6 +19,10 @@ TOKEN
 [ChunkTokenizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ChunkTokenizerModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[ChunkTokenizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ChunkTokenizerModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [ChunkTokenizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ChunkTokenizerModel.scala)
 {%- endcapture -%}
@@ -148,6 +152,10 @@ result.selectExpr("entity.result as entity" , "chunk_token.result as chunk_token
 [ChunkTokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ChunkTokenizer)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[ChunkTokenizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ChunkTokenizer.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [ChunkTokenizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ChunkTokenizer.scala)
 {%- endcapture -%}
@@ -158,6 +166,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -165,6 +174,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

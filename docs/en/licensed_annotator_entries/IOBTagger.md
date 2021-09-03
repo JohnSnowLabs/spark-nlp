@@ -90,7 +90,7 @@ result.selectExpr("explode(ner_label) as a")
 [IOBTagger](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/licensed_anno_template.md
 title=title
 description=description
 input_anno=input_anno

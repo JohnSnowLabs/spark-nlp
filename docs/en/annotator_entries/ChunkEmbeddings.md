@@ -150,6 +150,10 @@ result.selectExpr("explode(chunk_embeddings) as result")
 [ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ChunkEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [ChunkEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings.scala)
 {%- endcapture -%}
@@ -161,6 +165,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}
