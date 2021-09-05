@@ -357,4 +357,8 @@ package object annotator {
 
   object XlmRoBertaForTokenClassification extends ReadablePretrainedXlmRoBertaForTokenModel with ReadXlmRoBertaForTokenTensorflowModel
 
+  type AlbertForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification
+
+  object AlbertForTokenClassification extends ReadablePretrainedAlbertForTokenModel with ReadAlbertForTokenTensorflowModel
+
 }
