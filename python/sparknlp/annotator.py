@@ -10401,7 +10401,7 @@ class YakeModel(AnnotatorModel):
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``TOKEN``              ``KEYWORD``
+    ``TOKEN``              ``CHUNK``
     ====================== ======================
 
     Parameters
