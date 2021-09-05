@@ -13619,9 +13619,9 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "sent_roberta_base"
+            Name of the pretrained model, by default "sent_xlm_roberta_base"
         lang : str, optional
-            Language of the pretrained model, by default "en"
+            Language of the pretrained model, by default "xx"
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
