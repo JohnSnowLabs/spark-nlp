@@ -340,7 +340,7 @@ trait ReadXlmRobertaSentenceTensorflowModel extends ReadTensorflowModel with Rea
     )
     val sppModelPath = tfModelPath + "/assets"
     val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(sppModel.exists(), s"SentencePiece model 30k-clean.model not found in folder $sppModelPath")
+    require(sppModel.exists(), s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
 
 
     val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)

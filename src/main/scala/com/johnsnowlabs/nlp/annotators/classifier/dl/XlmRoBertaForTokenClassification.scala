@@ -109,10 +109,22 @@ class XlmRoBertaForTokenClassification(override val uid: String)
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("XlmRoBertaForTokenClassification"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+
+  /**
+   * Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
+  /**
+   * Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
   /**
@@ -148,7 +160,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 512, "XLM-RoBERTa models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -287,7 +299,7 @@ trait ReadXlmRoBertaForTokenTensorflowModel extends ReadTensorflowModel with Rea
     )
     val sppModelPath = tfModelPath + "/assets"
     val sppModel = new File(sppModelPath, "sentencepiece.bpe.model")
-    require(sppModel.exists(), s"SentencePiece model 30k-clean.model not found in folder $sppModelPath")
+    require(sppModel.exists(), s"SentencePiece model sentencepiece.bpe.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
