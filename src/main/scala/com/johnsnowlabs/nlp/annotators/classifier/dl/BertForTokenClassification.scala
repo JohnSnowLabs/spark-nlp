@@ -108,12 +108,22 @@ class BertForTokenClassification(override val uid: String)
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("BERT_FOR_TOKEN_CLASSIFICATION"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /**
+   * Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
+  /**
+   * Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
   /** @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")

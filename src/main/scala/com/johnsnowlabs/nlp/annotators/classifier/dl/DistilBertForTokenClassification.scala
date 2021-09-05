@@ -108,10 +108,22 @@ class DistilBertForTokenClassification(override val uid: String)
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("DISTILBERT_FOR_TOKEN_CLASSIFICATION"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+
+  /**
+   * Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
+  /**
+   * Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
   /** @group setParam */
@@ -168,7 +180,7 @@ class DistilBertForTokenClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
