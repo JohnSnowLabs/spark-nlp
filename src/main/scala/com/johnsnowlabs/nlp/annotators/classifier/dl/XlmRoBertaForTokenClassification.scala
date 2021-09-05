@@ -324,6 +324,6 @@ trait ReadXlmRoBertaForTokenTensorflowModel extends ReadTensorflowModel with Rea
 }
 
 /**
- * This is the companion object of [[RoBertaForTokenClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[XlmRoBertaForTokenClassification]]. Please refer to that class for the documentation.
  */
 object XlmRoBertaForTokenClassification extends ReadablePretrainedXlmRoBertaForTokenModel with ReadXlmRoBertaForTokenTensorflowModel
