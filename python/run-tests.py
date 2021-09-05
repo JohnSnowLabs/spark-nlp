@@ -93,6 +93,7 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # unittest.TextTestRunner().run(RoBertaSentenceEmbeddingsTestSpec())
 # unittest.TextTestRunner().run(RoBertaForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(XlmRoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
 
 # Misc tests
 
