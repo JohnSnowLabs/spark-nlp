@@ -1,2 +1,2 @@
-README.md
-README.md
+docs/_posts/HashamUlHaq/2021-01-09-sentimentdl_urduvec_imdb_ur.md
+docs/_posts/HashamUlHaq/2021-01-09-sentimentdl_urduvec_imdb_ur.md
