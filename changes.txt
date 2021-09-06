@@ -1,2 +1,2 @@
-docs/_posts/HashamUlHaq/2021-01-09-sentimentdl_urduvec_imdb_ur.md
-docs/_posts/HashamUlHaq/2021-01-09-sentimentdl_urduvec_imdb_ur.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_subentity_augmented_en.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_subentity_augmented_en.md
