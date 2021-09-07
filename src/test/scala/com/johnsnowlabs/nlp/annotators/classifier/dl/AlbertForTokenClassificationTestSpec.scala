@@ -37,8 +37,7 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21",
-      "در سال ۲۰۱۳ درگذشت و آندرتیکر و کین برای او مراسم یادبود گرفتند."
+      "TORONTO 1996-08-21"
     ).toDF("text")
 
     val document = new DocumentAssembler()
