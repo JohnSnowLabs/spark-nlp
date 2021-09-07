@@ -28,7 +28,7 @@ DOCUMENT, TOKEN
 NAMED_ENTITY
 {%- endcapture -%}
 
-{%- capture python_example -%}
+{%- capture prediction_python_example -%}
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
@@ -65,7 +65,7 @@ result.select("label.result").show(truncate=False)
 
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture prediction_scala_example -%}
 import spark.implicits._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
@@ -102,6 +102,26 @@ result.select("label.result").show(false)
 
 {%- endcapture -%}
 
+{%- capture training_python_example -%}
+# This annotator needs to be trained externally. Please see the training page
+# for instructions.
+{%- endcapture -%}
+
+{%- capture training_scala_example -%}
+// This annotator needs to be trained externally. Please see the training page
+// for instructions.
+{%- endcapture -%}
+
+{%- capture embeddings_python_example -%}
+# This annotator has a fully connected layer attached for classification. For
+# embeddings see the base transformer annotator.
+{%- endcapture -%}
+
+{%- capture embeddings_scala_example -%}
+// This annotator has a fully connected layer attached for classification. For
+// embeddings see the base transformer annotator.
+{%- endcapture -%}
+
 {%- capture api_link -%}
 [BertForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassification)
 {%- endcapture -%}
@@ -114,14 +134,18 @@ result.select("label.result").show(false)
 [BertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassification.scala)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/transformer_usecases_template.md
 title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
 python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
+prediction_python_example=prediction_python_example
+prediction_scala_example=prediction_scala_example
+training_python_example=training_python_example
+training_scala_example=training_scala_example
+embeddings_python_example=embeddings_python_example
+embeddings_scala_example=embeddings_scala_example
 %}
