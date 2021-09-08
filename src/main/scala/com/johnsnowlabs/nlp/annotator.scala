@@ -365,4 +365,8 @@ package object annotator {
 
   object XlnetForTokenClassification extends ReadablePretrainedXlnetForTokenModel with ReadXlnetForTokenTensorflowModel
 
+  type LongformerForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification
+
+  object LongformerForTokenClassification extends ReadablePretrainedLongformerForTokenModel with ReadLongformerForTokenTensorflowModel
+
 }
