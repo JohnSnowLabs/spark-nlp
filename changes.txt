@@ -1,2 +1,2 @@
-docs/_plugins/search_index.rb
-docs/_plugins/search_index.rb
+docs/en/licensed_install.md
+docs/en/licensed_install.md

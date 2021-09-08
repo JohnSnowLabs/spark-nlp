@@ -628,14 +628,15 @@ not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">i
 
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 1000M
  spark.serializer org.apache.spark.serializer.KryoSerializer
+ sparknlp.settings.pretrained.credentials.access_key_id xxx
+ sparknlp.settings.pretrained.credentials.secret_access_key yyy
+
 </code></pre></div>    </div>
     <ul>
       <li>Please add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab, in <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</li>
     </ul>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
- <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
- <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
 </code></pre></div>    </div>
 
     <ul>
