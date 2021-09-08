@@ -5,7 +5,7 @@ author: John Snow Labs
 name: ocr_table_detection_general_model
 date: 2021-09-04
 tags: [en, licensed]
-task: OCR Text Detection & Recognition
+task: OCR Table Detection & Recognition
 language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0
@@ -39,8 +39,7 @@ binary_to_image = BinaryToImage()
 binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
 
 table_detector = ImageTableDetector
-.loadONNXModel(os.path.join(model_dir,
-                                                       "model.onnx"),
+.pretrained("general_model_table_detection_v2", "en", "clinical/ocr")
 .setInputCol("image")
 .setOutputCol("table_regions")
 
@@ -53,9 +52,10 @@ pipeline = PipelineModel(stages=[
 var imgDf = spark.read.format("binaryFile").load(imagePath)
 var bin2imTransformer = new BinaryToImage()
 bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
+
 val dataFrame = bin2imTransformer.transform(imgDf)
 val tableDetector = ImageTableDetector
-.loadOnnxModel(modPath, spark)
+.pretrained("general_model_table_detection_v2", "en", "clinical/ocr")
 .setInputCol("image")
 .setOutputCol("table regions")
 ```
