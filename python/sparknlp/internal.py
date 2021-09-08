@@ -427,3 +427,10 @@ class _XlnetTokenClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_XlnetTokenClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification.loadSavedModel", path, jspark)
+
+
+class _LongformerTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LongformerTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification.loadSavedModel", path,
+            jspark)
