@@ -628,8 +628,7 @@ not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">i
 
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 1000M
  spark.serializer org.apache.spark.serializer.KryoSerializer
- sparknlp.settings.pretrained.credentials.access_key_id xxx
- sparknlp.settings.pretrained.credentials.secret_access_key yyy
+ spark.driver.extraJavaOptions <span class="nt">-Dspark</span>.jsl.settings.pretrained.credentials.secret_access_key<span class="o">=</span>xxx <span class="nt">-Dspark</span>.jsl.settings.pretrained.credentials.access_key_id<span class="o">=</span>yyy
 
 </code></pre></div>    </div>
     <ul>
