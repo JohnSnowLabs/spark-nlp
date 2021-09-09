@@ -4,7 +4,7 @@ title: Detect Entities in Twitter texts
 author: John Snow Labs
 name: bert_token_classifier_ner_btc
 date: 2021-09-09
-tags: [en, open_source]
+tags: [en, open_source, ner, btc, twitter]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 3.2.2
