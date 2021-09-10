@@ -2,7 +2,7 @@
 layout: model
 title: Relation Extraction Between Body Parts and Procedures
 author: John Snow Labs
-name: redl_bodypart_procedure_test_biobert_en_3.0.3_2.4
+name: redl_bodypart_procedure_test_biobert
 date: 2021-09-10
 tags: [relation_extraction, en, clinical, dl, licensed]
 task: Relation Extraction
