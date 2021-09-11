@@ -13613,15 +13613,15 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
         return XlmRoBertaSentenceEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="sent_xlm_roberta_base", lang="en", remote_loc=None):
+    def pretrained(name="sent_xlm_roberta_base", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "sent_roberta_base"
+            Name of the pretrained model, by default "sent_xlm_roberta_base"
         lang : str, optional
-            Language of the pretrained model, by default "en"
+            Language of the pretrained model, by default "xx"
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
