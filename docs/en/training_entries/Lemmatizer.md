@@ -2,70 +2,24 @@
 Lemmatizer
 {%- endcapture -%}
 
-{%- capture model_description -%}
-Instantiated Model of the Lemmatizer. For usage and examples, please see the documentation of that class.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
-{%- endcapture -%}
-
-{%- capture model_input_anno -%}
-TOKEN
-{%- endcapture -%}
-
-{%- capture model_output_anno -%}
-TOKEN
-{%- endcapture -%}
-
-{%- capture model_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
-# The lemmatizer from the example of the [[Lemmatizer]] can be replaced with:
-lemmatizer = LemmatizerModel.pretrained() \
-    .setInputCols(["token"]) \
-    .setOutputCol("lemma")
-
-{%- endcapture -%}
-
-{%- capture model_scala_example -%}
-// The lemmatizer from the example of the [[Lemmatizer]] can be replaced with:
-val lemmatizer = LemmatizerModel.pretrained()
-  .setInputCols(Array("token"))
-  .setOutputCol("lemma")
-
-{%- endcapture -%}
-
-{%- capture model_api_link -%}
-[LemmatizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/LemmatizerModel)
-{%- endcapture -%}
-
-{%- capture model_python_api_link -%}
-[LemmatizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.LemmatizerModel.html)
-{%- endcapture -%}
-
-{%- capture model_source_link -%}
-[LemmatizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala)
-{%- endcapture -%}
-
-{%- capture approach_description -%}
+{%- capture description -%}
 Class to find lemmas out of words with the objective of returning a base dictionary word.
 Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with `setDictionary`.
 The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with `LemmatizerModel.pretrained`.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
-{%- capture approach_input_anno -%}
+{%- capture input_anno -%}
 TOKEN
 {%- endcapture -%}
 
-{%- capture approach_output_anno -%}
+{%- capture output_anno -%}
 TOKEN
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
+{%- capture python_example -%}
 # In this example, the lemma dictionary `lemmas_small.txt` has the form of
 #
 # ...
@@ -120,7 +74,7 @@ result.selectExpr("lemma.result").show(truncate=False)
 
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
+{%- capture scala_example -%}
 // In this example, the lemma dictionary `lemmas_small.txt` has the form of
 //
 // ...
@@ -131,6 +85,7 @@ result.selectExpr("lemma.result").show(truncate=False)
 // ...
 //
 // where each key is delimited by `->` and values are delimited by `\t`
+
 import spark.implicits._
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator.Tokenizer
@@ -176,33 +131,26 @@ result.selectExpr("lemma.result").show(false)
 
 {%- endcapture -%}
 
-{%- capture approach_api_link -%}
+{%- capture api_link -%}
 [Lemmatizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Lemmatizer)
 {%- endcapture -%}
 
-{%- capture approach_python_api_link -%}
+{%- capture python_api_link -%}
 [Lemmatizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Lemmatizer.html)
 {%- endcapture -%}
 
-{%- capture approach_source_link -%}
+{%- capture source_link -%}
 [Lemmatizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala)
 {%- endcapture -%}
 
-
-{% include templates/approach_model_template.md
+{% include templates/training_anno_template.md
 title=title
-model_description=model_description
-model_input_anno=model_input_anno
-model_output_anno=model_output_anno
-model_python_api_link=model_python_api_link
-model_api_link=model_api_link
-model_source_link=model_source_link
-approach_description=approach_description
-approach_input_anno=approach_input_anno
-approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
-approach_python_api_link=approach_python_api_link
-approach_api_link=approach_api_link
-approach_source_link=approach_source_link
+description=description
+input_anno=input_anno
+output_anno=output_anno
+python_example=python_example
+scala_example=scala_example
+python_api_link=python_api_link
+api_link=api_link
+source_link=source_link
 %}
