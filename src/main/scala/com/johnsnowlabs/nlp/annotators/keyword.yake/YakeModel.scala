@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.keyword.yake
 
 import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Utilities.{getTag, medianCalculator}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.ml.util.Identifiable
 import org.slf4j.LoggerFactory
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.immutable.ListMap
 import scala.collection.{immutable, mutable}
 import scala.collection.mutable.ListBuffer
-import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, KEYWORD}
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, TOKEN}
 import com.johnsnowlabs.nlp.annotators.keyword.yake.util.Token
 
 import scala.math.sqrt
@@ -53,7 +53,7 @@ import scala.math.sqrt
  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala YakeTestSpec]].
  *
- *  '''Sources''' :
+ * '''Sources''' :
  *
  * [[https://www.sciencedirect.com/science/article/pii/S0020025519308588 Campos, R., Mangaravite, V., Pasquali, A., Jatowt, A., Jorge, A., Nunes, C. and Jatowt, A. (2020). YAKE! Keyword Extraction from Single Documents using Multiple Local Features. In Information Sciences Journal. Elsevier, Vol 509, pp 257-289]]
  *
@@ -153,7 +153,7 @@ class YakeModel(override val uid: String) extends AnnotatorModel[YakeModel] with
    *
    * @group anno
    */
-  override val outputAnnotatorType: AnnotatorType = KEYWORD
+  override val outputAnnotatorType: AnnotatorType = CHUNK
   /** Input Annotator Types: TOKEN
    *
    * @group anno
