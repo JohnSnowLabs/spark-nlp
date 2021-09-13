@@ -10401,7 +10401,7 @@ class YakeModel(AnnotatorModel):
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``TOKEN``              ``KEYWORD``
+    ``TOKEN``              ``CHUNK``
     ====================== ======================
 
     Parameters
@@ -13295,8 +13295,8 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>>embeddings = RoBertaSentenceEmbeddings.pretrained() \
-    ...    .setInputCols(["sentence"]) \
+    >>> embeddings = RoBertaSentenceEmbeddings.pretrained() \\
+    ...    .setInputCols(["sentence"]) \\
     ...    .setOutputCol("sentence_embeddings")
 
 
@@ -13327,11 +13327,9 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
 
     References
     ----------
-    `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding <https://arxiv.org/abs/1810.04805>`__
+    `RoBERTa: A Robustly Optimized BERT Pretraining Approach <https://arxiv.org/abs/1907.11692>`__
 
-    https://github.com/google-research/bert
-
-    **Paper abstract**
+    **Paper abstract:**
 
     *Language model pretraining has led to significant performance gains but careful comparison between different
     approaches is challenging. Training is computationally expensive, often done on private datasets of different
@@ -13481,8 +13479,8 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>>embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \
-    ...    .setInputCols(["sentence"]) \
+    >>> embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \\
+    ...    .setInputCols(["sentence"]) \\
     ...    .setOutputCol("sentence_embeddings")
 
 
@@ -13511,7 +13509,11 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 
-    **Paper abstract**
+    References
+    ----------
+    `Unsupervised Cross-lingual Representation Learning at Scale <https://arxiv.org/pdf/1911.02116.pdf>`__
+
+    **Paper abstract:**
 
     *This paper shows that pretraining multilingual language models at scale leads to significant performance gains
     for a wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one
@@ -13628,15 +13630,15 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
         return XlmRoBertaSentenceEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="sent_xlm_roberta_base", lang="en", remote_loc=None):
+    def pretrained(name="sent_xlm_roberta_base", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "sent_roberta_base"
+            Name of the pretrained model, by default "sent_xlm_roberta_base"
         lang : str, optional
-            Language of the pretrained model, by default "en"
+            Language of the pretrained model, by default "xx"
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.

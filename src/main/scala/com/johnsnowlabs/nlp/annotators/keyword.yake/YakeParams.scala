@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.keyword.yake
 
-import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam, Params, StringArrayParam}
+import org.apache.spark.ml.param.{FloatParam, IntParam, Params, StringArrayParam}
 
 trait YakeParams extends Params {
 
@@ -66,17 +66,22 @@ trait YakeParams extends Params {
 
   /** @group setParam */
   def setStopWords(value: Array[String]): this.type = set(stopWords, value)
+
   /** @group getParam */
   def getStopWords: Array[String] = $(stopWords)
 
   /** @group setParam */
-  def setWindowSize(value: Int): this.type = set(windowSize, value+1)
+  def setWindowSize(value: Int): this.type = set(windowSize, value + 1)
+
   /** @group setParam */
   def setMaxNGrams(value: Int): this.type = set(maxNGrams, value)
+
   /** @group setParam */
   def setMinNGrams(value: Int): this.type = set(minNGrams, value)
+
   /** @group setParam */
   def setNKeywords(value: Int): this.type = set(nKeywords, value)
+
   /** @group setParam */
-  def setThreshold(value: Float): this.type = set(threshold,value)
+  def setThreshold(value: Float): this.type = set(threshold, value)
 }
