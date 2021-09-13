@@ -7,7 +7,7 @@ date: 2021-09-13
 tags: [en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP 3.2.1
+edition: Spark NLP for Healthcare 3.2.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -109,7 +109,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_token_classifier_ner_deid|
-|Compatibility:|Spark NLP 3.2.1+|
+|Compatibility:|Spark NLP for Healthcare 3.2.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
