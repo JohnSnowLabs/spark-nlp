@@ -113,6 +113,14 @@ class GraphBuilderTest extends AnyFlatSpec {
 
   }
 
+  it should "raise an error when trying to find paths on graph without edges" in{
+    val graph = new GraphBuilder(1)
+
+    assertThrows[IllegalArgumentException] {
+      graph.findPath(4, 7)
+    }
+  }
+
   private def getTestGraph: GraphBuilder = {
     val numberOfVertices = 7
     val graph = new GraphBuilder(numberOfVertices)

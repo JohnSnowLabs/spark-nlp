@@ -22,6 +22,7 @@ import scala.util.control.Breaks.{break, breakable}
 
 /**
   * Graph Builder that creates a graph representation as an Adjacency List
+ *
   * Adjacency List: An array of lists is used. The size of the array is equal to the number of vertices.
   * Let the array be an array[]. An entry array[i] represents the list of vertices adjacent to the ith vertex.
   * @param numberOfVertices
@@ -69,6 +70,10 @@ class GraphBuilder(numberOfVertices: Int) {
     * It uses a stack to store the path of visited nodes
     * */
   def findPath(source: Int, destination: Int): List[Int]  = {
+
+    if (source > graph.size || destination > graph.size) {
+      throw new IllegalArgumentException("Source or destination vertices cannot be greater than the size of the graph.")
+    }
 
     val visited: Array[Boolean] = (0 until graph.size).toList.map( _ => false).toArray
     val elementsStack: ListBuffer[Int] = ListBuffer(source)

@@ -12563,6 +12563,11 @@ class GraphExtraction(AnnotatorModel):
                           "Merge same neighboring entities as a single token",
                           typeConverter=TypeConverters.toBoolean)
 
+    mergeEntitiesIOBFormat = Param(Params._dummy(),
+                                   "mergeEntitiesIOBFormat",
+                                   "IOB format to apply when merging entities",
+                                   typeConverter=TypeConverters.toString)
+
     includeEdges = Param(Params._dummy(),
                          "includeEdges",
                          "Whether to include edges when building paths",
@@ -12657,14 +12662,24 @@ class GraphExtraction(AnnotatorModel):
         return self._set(minSentenceSize=value)
 
     def setMergeEntities(self, value):
-        """Sets whether to kerge same neighboring entities as a single token.
+        """Sets whether to merge same neighboring entities as a single token.
 
         Parameters
         ----------
         value : bool
-            Whether to kerge same neighboring entities as a single token.
+            Whether to merge same neighboring entities as a single token.
         """
         return self._set(mergeEntities=value)
+
+    def setMergeEntitiesIOBFormat(self, value):
+        """Sets IOB format to apply when merging entities.
+
+        Parameters
+        ----------
+        value : str
+            IOB format to apply when merging entities. Values IOB or IOB2
+        """
+        return self._set(mergeEntitiesIOBFormat=value)
 
     def setIncludeEdges(self, value):
         """Sets whether to include edges when building paths.
