@@ -6,6 +6,7 @@ permalink: /docs/en/concepts
 key: docs-concepts
 modify_date: "2021-08-31"
 use_language_switcher: "Python-Scala"
+show_nav: true
 sidebar:
     nav: sparknlp
 ---

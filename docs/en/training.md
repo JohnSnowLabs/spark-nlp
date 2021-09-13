@@ -6,6 +6,7 @@ permalink: /docs/en/training
 key: docs-training
 modify_date: "2019-10-23"
 use_language_switcher: "Python-Scala"
+show_nav: true
 sidebar:
     nav: sparknlp
 ---

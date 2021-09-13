@@ -5,6 +5,7 @@ permalink: /docs/en/spark-nlp
 key: docs-spark_nlp
 modify_date: "2021-03-20"
 header: true
+show_nav: true
 sidebar:
     nav: sparknlp
 ---

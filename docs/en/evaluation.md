@@ -6,6 +6,7 @@ permalink: /docs/en/evaluation
 key: docs-evaluation
 modify_date: "2020-06-05"
 use_language_switcher: "Python-Scala"
+show_nav: true
 sidebar:
     nav: sparknlp-healthcare
 ---
