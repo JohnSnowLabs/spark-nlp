@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Bert Embeddings (Base_Cased)
+title: Bert Embeddings Romanian (Base Cased)
 author: John Snow Labs
 name: bert_base_cased
 date: 2021-09-13
