@@ -61,6 +61,9 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_medical_text" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_non_english_medical_text">Analyze non-English Medical Text</a>
       </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "special_cases" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/special_cases">Special Cases</a>
+      </li>
       <li><strong>Spark OCR</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/extract_text_from_documents">Extract Text from Documents</a>
@@ -79,6 +82,9 @@
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_text_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/analyze_non_english_text_documents">Analyze Non-English Text &amp; Documents</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_handwritten_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/extract_handwritten_texts">Extract handwritten texts</a>
       </li>
     </ul>
   </div>

@@ -5,6 +5,8 @@ title: Version Compatibility
 permalink: /docs/en/version_compatibility
 key: version_compatibility
 modify_date: "2021-07-23"
+sidebar:
+    nav: spark-ocr
 ---
 
 <div class="h3-box" markdown="1">
