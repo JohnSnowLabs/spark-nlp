@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.AnnotatorType.NODE
 import com.johnsnowlabs.nlp.annotators.{GraphExtraction, GraphExtractionFixture, SparkSessionTest}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
@@ -133,6 +134,21 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
     assert(actualGraph == expectedGraph)
     val actualMetadata = getFinisher(graphDataSet, "finisher_metadata")
     assert(actualMetadata == expectedMetadata)
+  }
+
+  it should "annotate output graph" in {
+    val metadata = Map("relationship" -> "sees, PER",
+      "path1" -> "sees,nsubj,John",
+      "path2" -> "sees,ccomp,goes,nsubj,Bill",
+      "path3" -> "sees,ccomp,goes,nsubj,Bill,conj,Mary")
+    val graphFinisher = new GraphFinisher()
+    val expectedResult= "[(sees,nsubj,John)],[(sees,ccomp,goes),(goes,nsubj,Bill)]," +
+      "[(sees,ccomp,goes),(goes,nsubj,Bill),(Bill,conj,Mary)]"
+    val expectedAnnotated = Seq(Annotation(NODE, 0, 0, expectedResult, Map()))
+
+    val actualAnnotated = graphFinisher.annotate(metadata)
+
+    assert(actualAnnotated == expectedAnnotated)
   }
 
   private def getFinisherAsArray(dataSet: Dataset[_]) = {
