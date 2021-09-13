@@ -6,6 +6,8 @@ permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
 modify_date: "2020-08-10"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: sparknlp-healthcare
 ---
 
 <div class="h3-box" markdown="1">

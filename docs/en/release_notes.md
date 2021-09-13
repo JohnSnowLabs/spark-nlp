@@ -5,6 +5,8 @@ title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
 modify_date: "2021-08-10"
+sidebar:
+    nav: sparknlp
 ---
 
 ### 3.2.0

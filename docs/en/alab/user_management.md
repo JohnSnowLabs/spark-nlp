@@ -7,6 +7,8 @@ permalink: /docs/en/alab/user_management
 key: docs-training
 modify_date: "2021-05-10"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: annotation-lab
 ---
 
 The Annotation Lab offers user management features. The admin user can add or remove a user from the data base or can edit user information if necessary. This feature is available by navigating to the lower left side menu and selecting User Management feature. 

@@ -7,6 +7,8 @@ permalink: /docs/en/alab/models_hub
 key: docs-training
 modify_date: "2021-06-23"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: annotation-lab
 ---
 
 The Annotation Lab 1.8.0 offers a tight integration with [NLP Models Hub](https://nlp.johnsnowlabs.com/models). Any compatible NER model and Embeddings can be downloaded and made available to the Annotation Lab users for preannotations either from within the application or via manual upload. 

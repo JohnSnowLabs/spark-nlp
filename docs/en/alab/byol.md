@@ -7,6 +7,8 @@ permalink: /docs/en/alab/byol
 key: docs-training
 modify_date: "2021-06-23"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: annotation-lab
 ---
 
 By default the Annotation Lab allows access to community pretrained models and embeddings. Those are available on the Models Hub page. In order to gain access to licensed resources (e.g. pretrained models and embeddings) admin users can import a Spark NLP for Healthcare license which will activate additional features:

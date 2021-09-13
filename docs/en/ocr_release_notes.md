@@ -5,6 +5,8 @@ title: Spark OCR release notes
 permalink: /docs/en/ocr_release_notes
 key: docs-ocr-release-notes
 modify_date: "2020-04-08"
+sidebar:
+    nav: spark-ocr
 ---
 
 ## 3.7.0

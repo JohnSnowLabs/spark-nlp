@@ -7,6 +7,8 @@ permalink: /docs/en/alab/analytics
 key: docs-training
 modify_date: "2021-08-30"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: annotation-lab
 ---
 
 ## Inter-Annotator Agreement Charts (IAA)

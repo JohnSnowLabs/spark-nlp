@@ -7,6 +7,8 @@ permalink: /docs/en/alab/preannotations
 key: docs-training
 modify_date: "2021-05-11"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: annotation-lab
 ---
 
 

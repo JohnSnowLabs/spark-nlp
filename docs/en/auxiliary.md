@@ -6,7 +6,8 @@ permalink: /docs/en/auxiliary
 key: docs-auxiliary
 modify_date: "2019-11-28"
 use_language_switcher: "Python-Scala"
-
+sidebar:
+    nav: sparknlp
 ---
 
 

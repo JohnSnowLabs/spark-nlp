@@ -6,6 +6,8 @@ permalink: /docs/en/ocr_pipeline_components
 key: docs-ocr-pipeline-components
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
+sidebar:
+    nav: spark-ocr
 ---
 
 ## PDF processing

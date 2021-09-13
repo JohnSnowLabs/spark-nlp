@@ -6,6 +6,8 @@ permalink: /docs/en/ocr_visual_document_understanding
 key: docs-ocr-visual-document-understanding
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
+sidebar:
+    nav: spark-ocr
 ---
 
 NLP models are great at processing digital text, but many real-word applications use documents with more complex formats. For example, healthcare systems often include visual lab results, sequencing reports, clinical trial forms, and other scanned documents. When we only use an NLP approach for document understanding, we lose layout and style information - which can be vital for document image understanding. New advances in multi-modal learning allow models to learn from both the text in documents (via NLP) and visual layout (via computer vision).

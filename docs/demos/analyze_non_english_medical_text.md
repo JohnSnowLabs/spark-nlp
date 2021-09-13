@@ -127,9 +127,23 @@ data:
           actions:
           - text: Live Demo
             type: normal
-            url: httpshttps://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/ 
           - text: Colab Netbook
             type: blue_btn
             url:
+        - title: Detect Tumor Characteristics in Spanish medical texts
+          id: detect_tumor_characteristics_spanish_medical_texts  
+          image: 
+              src: /assets/images/Detect_Tumor_Characteristics_in_Spanish_medical_texts.svg
+          image2: 
+              src: /assets/images/Detect_Tumor_Characteristics_in_Spanish_medical_texts_f.svg
+          excerpt: This demo shows how tumor characteristics (morphology) in Spanish medical texts can be detected automatically using Spark NLP NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_TUMOR_ES/  
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR_ES.ipynb 
         
 ---

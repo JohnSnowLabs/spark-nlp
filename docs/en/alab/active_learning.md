@@ -7,6 +7,8 @@ permalink: /docs/en/alab/active_learning
 key: docs-training
 modify_date: "2021-05-11"
 use_language_switcher: "Python-Scala"
+sidebar:
+    nav: annotation-lab
 ---
 
 A **Project Owner** or a **Manager** can use the completed tasks (completions) from a project for training a new Spark NLP model. The training feature can be found on the Setup page.

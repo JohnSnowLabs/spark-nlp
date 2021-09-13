@@ -5,6 +5,8 @@ title: Spark OCR 2.3.x (Licensed)
 permalink: /docs/en/ocr_old
 key: docs-ocr-old
 modify_date: "2020-02-04"
+sidebar:
+    nav: spark-ocr
 ---
 Spark NLP comes with an OCR module that can read both PDF files and scanned images (requires `Tesseract 4.x+`).
 

@@ -5,6 +5,8 @@ title: Installation
 permalink: /docs/en/install
 key: docs-install
 modify_date: "2021-08-31"
+sidebar:
+    nav: sparknlp
 ---
 
 ## Spark NLP Cheat Sheet
