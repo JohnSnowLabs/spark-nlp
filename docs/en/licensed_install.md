@@ -114,8 +114,7 @@ If you want to download the source files (jar and whl files) locally, you can fo
     ```bash
     spark.kryoserializer.buffer.max 1000M
     spark.serializer org.apache.spark.serializer.KryoSerializer
-    sparknlp.settings.pretrained.credentials.access_key_id xxx
-    sparknlp.settings.pretrained.credentials.secret_access_key yyy
+    spark.driver.extraJavaOptions -Dspark.jsl.settings.pretrained.credentials.secret_access_key=xxx -Dspark.jsl.settings.pretrained.credentials.access_key_id=yyy
 
     ```
       -  Please add the following to the `Advanced Options -> Spark` tab, in `Environment Variables` box:

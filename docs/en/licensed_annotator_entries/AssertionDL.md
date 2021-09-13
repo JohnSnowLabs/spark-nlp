@@ -6,9 +6,9 @@ AssertionDL
 AssertionDL is a deep Learning based approach used to extract Assertion Status
 from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
 annotator inputs, which can be obtained by e.g a
-[DocumentAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler),
-[NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter)
-and [WordEmbeddingsModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel).
+[DocumentAssembler](/docs/en/annotators#documentassembler),
+[NerConverter](/docs/en/annotators#nerconverter)
+and [WordEmbeddingsModel](/docs/en/annotators#wordembeddings).
 The result is an assertion status annotation for each recognized entity.
 Possible values include `“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”` etc.
 

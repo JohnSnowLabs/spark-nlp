@@ -1,44 +1,8 @@
 {%- capture title -%}
-ViveknSentiment
+ViveknSentimentAproach
 {%- endcapture -%}
 
-{%- capture model_description -%}
-Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.
-
-The algorithm is based on the paper
-["Fast and accurate sentiment classification using an enhanced Naive Bayes model"](https://arxiv.org/abs/1305.6143).
-
-This is the instantiated model of the ViveknSentimentApproach.
-For training your own model, please see the documentation of that class.
-
-The analyzer requires sentence boundaries to give a score in context.
-Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
-
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
-and the [ViveknSentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn).
-{%- endcapture -%}
-
-{%- capture model_input_anno -%}
-TOKEN, DOCUMENT
-{%- endcapture -%}
-
-{%- capture model_output_anno -%}
-SENTIMENT
-{%- endcapture -%}
-
-{%- capture model_api_link -%}
-[ViveknSentimentModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel)
-{%- endcapture -%}
-
-{%- capture model_python_api_link -%}
-[ViveknSentimentModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ViveknSentimentModel.html)
-{%- endcapture -%}
-
-{%- capture model_source_link -%}
-[ViveknSentimentModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel.scala)
-{%- endcapture -%}
-
-{%- capture approach_description -%}
+{%- capture description -%}
 Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.
 
 The algorithm is based on the paper
@@ -49,19 +13,18 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
 The training data needs to consist of a column for normalized text and a label column (either `"positive"` or `"negative"`).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
-and the [ViveknSentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn).
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb).
 {%- endcapture -%}
 
-{%- capture approach_input_anno -%}
+{%- capture input_anno -%}
 TOKEN, DOCUMENT
 {%- endcapture -%}
 
-{%- capture approach_output_anno -%}
+{%- capture output_anno -%}
 SENTIMENT
 {%- endcapture -%}
 
-{%- capture approach_python_example -%}
+{%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
@@ -116,7 +79,7 @@ result.select("final_sentiment").show(truncate=False)
 
 {%- endcapture -%}
 
-{%- capture approach_scala_example -%}
+{%- capture scala_example -%}
 import spark.implicits._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
@@ -174,33 +137,26 @@ result.select("final_sentiment").show(false)
 
 {%- endcapture -%}
 
-{%- capture approach_api_link -%}
+{%- capture api_link -%}
 [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
 {%- endcapture -%}
 
-{%- capture approach_python_api_link -%}
+{%- capture python_api_link -%}
 [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ViveknSentimentApproach.html)
 {%- endcapture -%}
 
-{%- capture approach_source_link -%}
+{%- capture source_link -%}
 [ViveknSentimentApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala)
 {%- endcapture -%}
 
-
-{% include templates/approach_model_template.md
+{% include templates/training_anno_template.md
 title=title
-model_description=model_description
-model_input_anno=model_input_anno
-model_output_anno=model_output_anno
-model_python_api_link=model_python_api_link
-model_api_link=model_api_link
-model_source_link=model_source_link
-approach_description=approach_description
-approach_input_anno=approach_input_anno
-approach_output_anno=approach_output_anno
-approach_python_example=approach_python_example
-approach_scala_example=approach_scala_example
-approach_python_api_link=approach_python_api_link
-approach_api_link=approach_api_link
-approach_source_link=approach_source_link
+description=description
+input_anno=input_anno
+output_anno=output_anno
+python_example=python_example
+scala_example=scala_example
+python_api_link=python_api_link
+api_link=api_link
+source_link=source_link
 %}
