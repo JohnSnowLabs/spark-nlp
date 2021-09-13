@@ -5,6 +5,7 @@ title: Structures and helpers
 permalink: /docs/en/ocr_structures
 key: docs-ocr-structures
 modify_date: "2020-04-08"
+show_nav: true
 sidebar:
     nav: spark-ocr
 ---

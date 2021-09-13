@@ -6,6 +6,7 @@ permalink: /docs/en/ocr_object_detection
 key: docs-ocr-object-detection
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
+show_nav: true
 sidebar:
     nav: spark-ocr
 ---

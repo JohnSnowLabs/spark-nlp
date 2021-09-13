@@ -5,6 +5,7 @@ title: Licensed Models
 permalink: /docs/en/licensed_models
 key: docs-licensed-models
 modify_date: "2020-04-22"
+show_nav: true
 sidebar:
     nav: sparknlp-healthcare
 ---

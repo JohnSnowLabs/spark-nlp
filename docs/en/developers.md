@@ -5,6 +5,7 @@ title: Developers Guideline
 permalink: /docs/en/developers
 key: docs-developers
 modify_date: "2020-05-08"
+show_nav: true
 sidebar:
     nav: sparknlp
 ---

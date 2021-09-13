@@ -30,16 +30,17 @@ default:
     show_edit_on_github: false
     show_date: true
     show_tags: true
-    show_nav: false
     show_author_profile: false
     show_subscribe: false
     full_width: false
+    show_nav: false
     sharing: false
     comment: true
     demomenu: false
     license: false
     pageview: false
     search: default
+  
 
 sources:
   bootcdn:

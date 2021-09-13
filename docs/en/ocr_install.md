@@ -5,6 +5,7 @@ title: Installation
 permalink: /docs/en/ocr_install
 key: docs-ocr-install
 modify_date: "2020-04-08"
+show_nav: true
 sidebar:
     nav: spark-ocr
 ---

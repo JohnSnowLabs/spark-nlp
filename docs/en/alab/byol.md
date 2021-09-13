@@ -7,6 +7,7 @@ permalink: /docs/en/alab/byol
 key: docs-training
 modify_date: "2021-06-23"
 use_language_switcher: "Python-Scala"
+show_nav: true
 sidebar:
     nav: annotation-lab
 ---

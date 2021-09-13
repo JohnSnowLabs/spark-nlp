@@ -7,6 +7,7 @@ permalink: /docs/en/alab/project_setup
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
+show_nav: true
 sidebar:
     nav: annotation-lab
 ---
