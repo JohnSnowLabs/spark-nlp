@@ -54,7 +54,7 @@ word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja") \
     .setOutputCol("token")
 
 nerTagger = BertForTokenClassification \
-    .pretrained("./bert-base-japanese-char_ner_spark_nlp", "ja") \
+    .pretrained("bert_token_classifier_ner_ud_gsd", "ja") \
     .setInputCols(["sentence",'token']) \
     .setOutputCol("ner")
 
@@ -89,7 +89,7 @@ val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")
   .setOutputCol("token")
 
 val nerTagger = BertForTokenClassification
-  .pretrained("./bert-base-japanese-char_ner_spark_nlp", "ja")
+  .pretrained("bert_token_classifier_ner_ud_gsd", "ja")
   .setInputCols("sentence", "token")
   .setOutputCol("ner")
 
