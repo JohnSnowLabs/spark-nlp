@@ -335,7 +335,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       Annotation(NODE, 15, 20, "taking", Map("entities" -> "Medication,Diagnosis",
         "left_path" -> "taking,pills,paracetamol", "right_path" -> "taking,disease")),
       Annotation(NODE, 15, 20, "taking", Map("entities" -> "Diagnosis,Diagnosis",
-        "left_path" -> "taking,disease,due,to,heart", "right_path" -> "taking,disease")),
+        "left_path" -> "taking,disease,due,to,heart", "right_path" -> "taking,disease"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
