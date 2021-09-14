@@ -5,6 +5,9 @@ title: NLP Server
 permalink: /docs/en/nlp_server
 key: docs-nlp-server
 modify_date: "2021-04-17"
+show_nav: true
+sidebar:
+    nav: nlp-server
 ---
 
 
