@@ -24,6 +24,8 @@ trait HasInputAnnotationCols extends Params {
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   val inputAnnotatorTypes: Array[String]
 
+  val optionalInputAnnotatorTypes: Array[String] = Array()
+
   /**
    * columns that contain annotations necessary to run this annotator
    * AnnotatorType is used both as input and output columns if not specified
