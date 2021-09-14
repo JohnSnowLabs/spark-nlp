@@ -169,7 +169,11 @@ Jekyll::Hooks.register :posts, :post_render do |post|
 
   language = post.data['language']
   languages = [language]
-  languages = post.data['tags'].select { |v| v.length <= 3 and /^[a-z]+$/.match?(v) } if language == 'xx'
+  if language == 'xx'
+    languages = post.data['tags'].select do |v|
+      v.length <= 3 and /^[a-z]+$/.match?(v) and v != 'ner' and v != 'use'
+    end
+  end
 
   model = {
     id: post.url,

@@ -137,6 +137,10 @@ result.selectExpr("explode(translation.result) as result").show(false)
 [MarianTransformer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[MarianTransformer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.MarianTransformer.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [MarianTransformer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala)
 {%- endcapture -%}
@@ -148,6 +152,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}
