@@ -229,3 +229,9 @@ spark-ocr:
         url:    /docs/en/ocr_structures
       - title:  Release notes
         url:    /docs/en/ocr_release_notes
+
+nlp-server:
+  - title: NLP Server
+    children:
+      - title:  Getting Started
+        url:    /docs/en/nlp_server/nlp_server
