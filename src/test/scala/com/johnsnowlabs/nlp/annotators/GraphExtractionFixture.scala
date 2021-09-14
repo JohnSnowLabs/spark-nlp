@@ -162,21 +162,21 @@ trait GraphExtractionFixture {
           "sentence" -> "0"), List()),
         Row(DEPENDENCY, 46, 46, ".", Map("head" -> "2", "head.begin" -> "7", "head.end" -> "14",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 48, 49, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 48, 49, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 50, 50, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 50, 50, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 52, 52, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 52, 52, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 54, 57, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 54, 57, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 59, 60, "root" , Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
+        Row(DEPENDENCY, 59, 60, "root", Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 62, 63, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 62, 63, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 65, 70, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 65, 70, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 72, 79, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 72, 79, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List())
       ),
       List(Row(LABELED_DEPENDENCY, 0, 5, "nsubj", Map("sentence" -> "0"), List()),
@@ -544,7 +544,7 @@ trait GraphExtractionFixture {
   }
 
   private def mockStructType(columnsAndAnnotators: List[(String, String)]): StructType = {
-    val structFields: List[StructField] = columnsAndAnnotators.map{ columnAndAnnotator =>
+    val structFields: List[StructField] = columnsAndAnnotators.map { columnAndAnnotator =>
       val columnName = columnAndAnnotator._1
       val annotatorType = columnAndAnnotator._2
       val metadataBuilder: MetadataBuilder = new MetadataBuilder()
