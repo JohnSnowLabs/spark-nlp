@@ -27,7 +27,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Apache Spark Support](#apache-spark-support)
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
-- [Using Spark NLP](#usage)
+- [Using Spark NLP](#usage)  
   - [Spark Packages](#spark-packages)
   - [Scala](#scala)
     - [Maven](#maven)
@@ -46,8 +46,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
-- [Offline](#offline)
-- [Examples](#examples)
+- [Offline](#offline)  
+- [Examples](#examples)  
 - [FAQ](#faq)
 - [Citation](#citation)
 - [Contributing](#contributing)
@@ -110,6 +110,8 @@ To use Spark NLP you need the following requirements:
 
 - Java 8
 - Apache Spark 3.1.x (or 3.0.x, or 2.4.x, or 2.3.x)
+
+NOTE: Java 11 is supported if you are using Spark NLP and Spark/PySpark 3.x and above
 
 **GPU (optional):**
 
@@ -223,6 +225,8 @@ Spark NLP 3.2.3 has been tested and is compatible with the following runtimes:
 - 8.3 ML
 - 8.4
 - 8.4 ML
+- 9.0
+- 9.0 ML
 
 **GPU:**
 
@@ -230,8 +234,9 @@ Spark NLP 3.2.3 has been tested and is compatible with the following runtimes:
 - 8.2 ML & GPU
 - 8.3 ML & GPU
 - 8.4 ML & GPU
+- 9.0 ML & GPU
 
-NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
+NOTE: Spark NLP 3.2.3 is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
 
 ## EMR Support
 
@@ -330,11 +335,11 @@ The `spark-nlp-gpu-spark24` has been published to the [Maven Repository](https:/
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.3
 ```
 
 The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23).
@@ -342,11 +347,11 @@ The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvn
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.1
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.1
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.3
 
 ```
 
@@ -683,7 +688,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -p is for pyspark
 # -s is for spark-nlp
 # by default they are set to the latest
-!bash colab.sh -p 3.1.2 -s 3.2.3
+!wget http://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.1.2 -s 3.1.3
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
@@ -712,9 +717,9 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-   3.1. Install New -> PyPI -> `spark-nlp==3.2.3` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp==3.2.3` -> Install
 
-   3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -850,11 +855,11 @@ You can change the following Spark NLP configurations via Spark Configuration:
 |`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory|3.2.0
 |`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS|3.2.0
 |`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory|3.2.0
-|`spark.jsl.settings.aws.credentials.access_key_id`| `None` | Your AWS access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
-|`spark.jsl.settings.aws.credentials.secret_access_key`| `None` | Your AWS secret access key to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
-|`spark.jsl.settings.aws.credentials.session_token`| `None` | Your AWS MFA session token to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
-|`spark.jsl.settings.aws.s3_bucket`| `None` | Your AWS S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
-|`spark.jsl.settings.aws.region`| `None` | Your AWS region to use your S3 bucket to store log files log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.credentials.access_key_id`| `None` | Your AWS access key to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.credentials.secret_access_key`| `None` | Your AWS secret access key to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.credentials.session_token`| `None` | Your AWS MFA session token to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.s3_bucket`| `None` | Your AWS S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.region`| `None` | Your AWS region to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
 
 ### How to set Spark NLP Configuration
 
@@ -941,21 +946,25 @@ Make sure to use the prefix *s3://*, otherwise it will use the default configura
 **Tensorflow Graphs:**
 
 To reference S3 location for downloading graphs. We need to set up AWS credentials
+
 ```bash
 spark.conf.set("spark.jsl.settings.aws.credentials.access_key_id", "MY_KEY_ID")
 spark.conf.set("spark.jsl.settings.aws.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
 spark.conf.set("spark.jsl.settings.aws.region", "my-region")
 ```
-**MFA Configuration**
+
+**MFA Configuration:**
 
 In case your AWS account is configured with MFA. You will need first to get temporal credentials and add session token to the configuration as shown in the examples below
 For logging:
+
 ```bash
 spark.conf.set("spark.jsl.settings.aws.credentials.session_token", "MY_TOKEN")
 ```
 
 An example of a bash script that gets temporal AWS credentials can be found [here](https://github.com/JohnSnowLabs/spark-nlp/blob/master/scripts/aws_tmp_credentials.sh)
 This script requires three arguments:
+
 ```bash
 ./aws_tmp_credentials.sh iam_user duration serial_number
 ```
@@ -1072,9 +1081,9 @@ Example of using pretrained Models and Pipelines in offline:
 # instead of using pretrained() for online:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
-french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-  .setInputCols("document", "token")
-  .setOutputCol("pos")
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
 
 # example for pipelines
 # instead of using PretrainedPipeline

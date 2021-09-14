@@ -111,6 +111,8 @@ To use Spark NLP you need the following requirements:
 - Java 8
 - Apache Spark 3.1.x (or 3.0.x, or 2.4.x, or 2.3.x)
 
+NOTE: Java 11 is supported if you are using Spark NLP and Spark/PySpark 3.x and above
+
 **GPU (optional):**
 
 Spark NLP 3.2.3 is built with TensorFlow 2.4.1 and requires the followings if you need GPU support
@@ -223,6 +225,8 @@ Spark NLP 3.2.3 has been tested and is compatible with the following runtimes:
 - 8.3 ML
 - 8.4
 - 8.4 ML
+- 9.0
+- 9.0 ML
 
 **GPU:**
 
@@ -230,8 +234,9 @@ Spark NLP 3.2.3 has been tested and is compatible with the following runtimes:
 - 8.2 ML & GPU
 - 8.3 ML & GPU
 - 8.4 ML & GPU
+- 9.0 ML & GPU
 
-NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
+NOTE: Spark NLP 3.2.3 is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
 
 ## EMR Support
 
@@ -941,21 +946,25 @@ Make sure to use the prefix *s3://*, otherwise it will use the default configura
 **Tensorflow Graphs:**
 
 To reference S3 location for downloading graphs. We need to set up AWS credentials
+
 ```bash
 spark.conf.set("spark.jsl.settings.aws.credentials.access_key_id", "MY_KEY_ID")
 spark.conf.set("spark.jsl.settings.aws.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
 spark.conf.set("spark.jsl.settings.aws.region", "my-region")
 ```
-**MFA Configuration**
+
+**MFA Configuration:**
 
 In case your AWS account is configured with MFA. You will need first to get temporal credentials and add session token to the configuration as shown in the examples below
 For logging:
+
 ```bash
 spark.conf.set("spark.jsl.settings.aws.credentials.session_token", "MY_TOKEN")
 ```
 
 An example of a bash script that gets temporal AWS credentials can be found [here](https://github.com/JohnSnowLabs/spark-nlp/blob/master/scripts/aws_tmp_credentials.sh)
 This script requires three arguments:
+
 ```bash
 ./aws_tmp_credentials.sh iam_user duration serial_number
 ```
