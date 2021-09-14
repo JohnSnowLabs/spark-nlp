@@ -2,7 +2,7 @@
 layout: docs
 header: true
 title: NLP Server
-permalink: /docs/en/nlp_server
+permalink: /docs/en/nlp_server/nlp_server
 key: docs-nlp-server
 modify_date: "2021-04-17"
 show_nav: true
@@ -19,9 +19,6 @@ powered by the most widely used NLP library in the industry, [Spark NLP](http://
 NLP Server is `free` for everyone to download and use. There is no limitation in the amout of text to analyze. 
 
 You can setup NLP-Server as a Docker Machine in any enviroment or get it via the `AWS Marketplace` in just 1 click.
-
-## AWS-Marketplace Setup
-todo
 
 ## Docker Setup
 
