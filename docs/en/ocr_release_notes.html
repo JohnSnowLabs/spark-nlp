@@ -527,15 +527,37 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark OCR release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="370">3.7.0</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="380">3.8.0</h2>
 
-<p>Release date: 30-08-2021</p>
+<p>Release date: 14-09-2021</p>
 
 <h4 id="overview">Overview</h4>
 
-<p>Improve table recognition and render OCR results to the PDF with original image</p>
+<p>Support Microsoft PPT and PPTX documents.</p>
 
 <h4 id="new-features">New Features</h4>
+
+<ul>
+  <li>Added <a href="ocr_pipeline_components#ppttopdf">PptToPdf</a> transformer for convert PPT and PPTX slides to the PDF document.</li>
+  <li>Added <a href="ocr_pipeline_components#ppttotexttable">PptToTextTable</a> transformer for extract tables from PPT and PPTX slides.</li>
+</ul>
+
+<h4 id="new-and-updated-notebooks">New and updated notebooks</h4>
+
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToPdf.ipynb">Convert PPT to PDF</a> (New)</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToTextTable.ipynb">Extract tables from PPT</a> (New)</li>
+</ul>
+
+<h2 id="370">3.7.0</h2>
+
+<p>Release date: 30-08-2021</p>
+
+<h4 id="overview-1">Overview</h4>
+
+<p>Improve table recognition and render OCR results to the PDF with original image</p>
+
+<h4 id="new-features-1">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_pipeline_components#imagetotextpdf">ImageToTextPdf</a> transformer for store recognized text to the searchable
@@ -557,7 +579,7 @@ documents</li>
   <li>Updated license validator</li>
 </ul>
 
-<h4 id="new-and-updated-notebooks">New and updated notebooks</h4>
+<h4 id="new-and-updated-notebooks-1">New and updated notebooks</h4>
 
 <ul>
   <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrProcessMultiplepageScannedPDF.ipynb">Process multiple page scanned PDF</a> (New)</li>
@@ -571,11 +593,11 @@ documents</li>
 
 <p>Release date: 05-08-2021</p>
 
-<h4 id="overview-1">Overview</h4>
+<h4 id="overview-2">Overview</h4>
 
 <p>Handwritten detection and improve visualization.</p>
 
-<h4 id="new-features-1">New Features</h4>
+<h4 id="new-features-2">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_object_detection#imagehandwrittendetector">ImageHandwrittenDetector</a> for detect ‘signature’, ‘date’, ‘name’,
@@ -600,7 +622,7 @@ documents</li>
   <li>Fixed display BGR images in display functions</li>
 </ul>
 
-<h4 id="new-and-updated-notebooks-1">New and updated notebooks</h4>
+<h4 id="new-and-updated-notebooks-2">New and updated notebooks</h4>
 
 <ul>
   <li><a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.6.0/jupyter/SparkOcrImageSignatureDetection.ipynb">Image Signature Detection example</a></li>
@@ -612,13 +634,13 @@ documents</li>
 
 <p>Release date: 15-07-2021</p>
 
-<h4 id="overview-2">Overview</h4>
+<h4 id="overview-3">Overview</h4>
 
 <p>Improve table detection and table recognition.</p>
 
 <p>More details please read in <a href="https://medium.com/spark-nlp/extract-tabular-data-from-pdf-in-spark-ocr-b02136bc0fcb">Extract Tabular Data from PDF in Spark OCR</a></p>
 
-<h4 id="new-features-2">New Features</h4>
+<h4 id="new-features-3">New Features</h4>
 
 <ul>
   <li>Added new method to <a href="ocr_table_recognition#imagetablecelldetector">ImageTableCellDetector</a> which support 
@@ -645,13 +667,13 @@ borderless tables and combined tables.</li>
 
 <p>Release date: 30-06-2021</p>
 
-<h4 id="overview-3">Overview</h4>
+<h4 id="overview-4">Overview</h4>
 
 <p>Signature Detection in image-based documents.</p>
 
 <p>More details please read in <a href="https://medium.com/spark-nlp/signature-detection-in-spark-ocr-32f9e6f91e3c">Signature Detection in Spark OCR</a></p>
 
-<h4 id="new-features-3">New Features</h4>
+<h4 id="new-features-4">New Features</h4>
 
 <ul>
   <li><a href="ocr_object_detection#imagehandwrittendetector">ImageSignatureDetector</a> is a DL model for detect signature on the image.</li>
@@ -667,7 +689,7 @@ borderless tables and combined tables.</li>
 
 <p>Release date: 14-06-2021</p>
 
-<h4 id="overview-4">Overview</h4>
+<h4 id="overview-5">Overview</h4>
 
 <p>Table detection and recognition for scanned documents.</p>
 
@@ -677,7 +699,7 @@ Model was pre-trained on the <strong>COCO dataset</strong> and fine tuned on <st
 
 <p>More details please read in <a href="https://medium.com/spark-nlp/table-detection-extraction-in-spark-ocr-50765c6cedc9">Table Detection &amp; Extraction in Spark OCR</a></p>
 
-<h4 id="new-features-4">New Features</h4>
+<h4 id="new-features-5">New Features</h4>
 
 <ul>
   <li><a href="ocr_table_recognition#imagetabledetector">ImageTableDetector</a> is a DL model for detect tables on the image.</li>
@@ -697,13 +719,13 @@ Model was pre-trained on the <strong>COCO dataset</strong> and fine tuned on <st
 
 <p>Release date: 28-05-2021</p>
 
-<h4 id="overview-5">Overview</h4>
+<h4 id="overview-6">Overview</h4>
 
 <p>Multi-modal visual document understanding, built on the LayoutLM architecture.
 It achieves new state-of-the-art accuracy in several downstream tasks,
 including form understanding and receipt understanding.</p>
 
-<h4 id="new-features-5">New Features</h4>
+<h4 id="new-features-6">New Features</h4>
 
 <ul>
   <li><a href="ocr_pipeline_components#visualdocumentner">VisualDocumentNER</a> is a DL model for NER problem using text and layout data.
@@ -733,13 +755,13 @@ Currently available pre-trained model on the SROIE dataset.</li>
 
 <p>Release date: 16-04-2021</p>
 
-<h4 id="overview-6">Overview</h4>
+<h4 id="overview-7">Overview</h4>
 
 <p>Image processing on GPU. It is in 3..5 times faster than on CPU.</p>
 
 <p>More details please read in <a href="https://medium.com/spark-nlp/gpu-image-pre-processing-in-spark-ocr-3-1-0-6fc27560a9bb">GPU image preprocessing in Spark OCR</a></p>
 
-<h4 id="new-features-6">New Features</h4>
+<h4 id="new-features-7">New Features</h4>
 
 <ul>
   <li><a href="ocr_pipeline_components#gpuimagetransformer">GPUImageTransformer</a> with support: scaling, erosion, delation, Otsu and Huang thresholding.</li>
@@ -768,7 +790,7 @@ Currently available pre-trained model on the SROIE dataset.</li>
 
 <p>Release date: 02-04-2021</p>
 
-<h4 id="overview-7">Overview</h4>
+<h4 id="overview-8">Overview</h4>
 
 <p>We are very excited to release Spark OCR 3.0.0!</p>
 
@@ -776,7 +798,7 @@ Currently available pre-trained model on the SROIE dataset.</li>
 
 <p>Spark OCR started to support Tensorflow models. First model is <a href="ocr_pipeline_components#visualdocumentclassifier">VisualDocumentClassifier</a>.</p>
 
-<h4 id="new-features-7">New Features</h4>
+<h4 id="new-features-8">New Features</h4>
 
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
@@ -816,12 +838,12 @@ Currently available pre-trained model on the SROIE dataset.</li>
 
 <p>Release date: 25-02-2021</p>
 
-<h4 id="overview-8">Overview</h4>
+<h4 id="overview-9">Overview</h4>
 
 <p>Support German, French, Spanish and Russian languages.
 Improving <a href="ocr_pipeline_components#positionsfinder">PositionsFinder</a> and ImageToText for better support de-identification.</p>
 
-<h4 id="new-features-8">New Features</h4>
+<h4 id="new-features-9">New Features</h4>
 
 <ul>
   <li>Loading model data from S3 in <a href="ocr_pipeline_components#imagetotext">ImageToText</a>.</li>
@@ -854,11 +876,11 @@ Improving <a href="ocr_pipeline_components#positionsfinder">PositionsFinder</a> 
 
 <p>Release date: 20-01-2021</p>
 
-<h4 id="overview-9">Overview</h4>
+<h4 id="overview-10">Overview</h4>
 
 <p>Support Microsoft Docx documents.</p>
 
-<h4 id="new-features-9">New Features</h4>
+<h4 id="new-features-10">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_pipeline_components#doctotext">DocToText</a> transformer for extract text
@@ -879,11 +901,11 @@ table data from DOCX documents.</li>
 
 <p>Release date: 11-12-2020</p>
 
-<h4 id="overview-10">Overview</h4>
+<h4 id="overview-11">Overview</h4>
 
 <p>Extension of  FoundationOne report parser and support HOCR output format.</p>
 
-<h4 id="new-features-10">New Features</h4>
+<h4 id="new-features-11">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_pipeline_components#imagetohocr">ImageToHocr</a> transformer for recognize text from image and store it to HOCR format.</li>
@@ -894,12 +916,12 @@ table data from DOCX documents.</li>
 
 <p>Release date: 20-11-2020</p>
 
-<h4 id="overview-11">Overview</h4>
+<h4 id="overview-12">Overview</h4>
 
 <p>Optimisation performance for processing multipage PDF documents.
 Support up to 10k pages per document.</p>
 
-<h4 id="new-features-11">New Features</h4>
+<h4 id="new-features-12">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_pipeline_components#imageadaptivebinarizer">ImageAdaptiveBinarizer</a> Scala transformer with support:
@@ -928,7 +950,7 @@ Support up to 10k pages per document.</p>
 
 <p>Release date: 22-09-2020</p>
 
-<h4 id="overview-12">Overview</h4>
+<h4 id="overview-13">Overview</h4>
 
 <p>Support Spark 2.3.3.</p>
 
@@ -942,11 +964,11 @@ Support up to 10k pages per document.</p>
 
 <p>Release date: 05-09-2020</p>
 
-<h4 id="overview-13">Overview</h4>
+<h4 id="overview-14">Overview</h4>
 
 <p>Support parsing data from tables for selectable PDFs.</p>
 
-<h4 id="new-features-12">New Features</h4>
+<h4 id="new-features-13">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_pipeline_components#pdftotexttable">PdfToTextTable</a> transformer for extract tables from Pdf document per each page.</li>
@@ -958,7 +980,7 @@ Support up to 10k pages per document.</p>
 
 <p>Release date: 22-07-2020</p>
 
-<h4 id="overview-14">Overview</h4>
+<h4 id="overview-15">Overview</h4>
 
 <p>FoundationOne report parsing support.</p>
 
@@ -968,7 +990,7 @@ Support up to 10k pages per document.</p>
   <li>Optimized memory usage during image processing</li>
 </ul>
 
-<h4 id="new-features-13">New Features</h4>
+<h4 id="new-features-14">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_pipeline_components#foundationonereportparser">FoundationOneReportParser</a> which support parsing patient info,
@@ -979,7 +1001,7 @@ genomic and biomarker findings.</li>
 
 <p>Release date: 23-06-2020</p>
 
-<h4 id="overview-15">Overview</h4>
+<h4 id="overview-16">Overview</h4>
 
 <p>Added support Dicom format and improved support image morphological operations.</p>
 
@@ -992,7 +1014,7 @@ genomic and biomarker findings.</li>
   <li>Added possibility to draw filled rectangles to <a href="ocr_pipeline_components#imagedrawregions">ImageDrawRegions</a>.</li>
 </ul>
 
-<h4 id="new-features-14">New Features</h4>
+<h4 id="new-features-15">New Features</h4>
 
 <ul>
   <li>Support reading and writing Dicom documents.</li>
@@ -1010,7 +1032,7 @@ genomic and biomarker findings.</li>
 
 <p>Release date: 22-05-2020</p>
 
-<h4 id="overview-16">Overview</h4>
+<h4 id="overview-17">Overview</h4>
 
 <p>New functionality for de-identification problem.</p>
 
@@ -1022,7 +1044,7 @@ genomic and biomarker findings.</li>
   <li>Added check license from <code class="language-plaintext highlighter-rouge">SPARK_NLP_LICENSE</code> env varibale.</li>
 </ul>
 
-<h4 id="new-features-15">New Features</h4>
+<h4 id="new-features-16">New Features</h4>
 
 <ul>
   <li>Support storing for binaryFormat. Added support storing Image and PDF files.</li>
@@ -1034,7 +1056,7 @@ genomic and biomarker findings.</li>
 
 <p>Release date: 08-04-2020</p>
 
-<h4 id="overview-17">Overview</h4>
+<h4 id="overview-18">Overview</h4>
 
 <p>Improved support Databricks and processing selectable pdfs.</p>
 
@@ -1047,7 +1069,7 @@ genomic and biomarker findings.</li>
   <li>Improved support Spark NLP. Changed <a href="/ocr_install#using-start-function">start</a> function.</li>
 </ul>
 
-<h4 id="new-features-16">New Features</h4>
+<h4 id="new-features-17">New Features</h4>
 
 <ul>
   <li>Added <a href="ocr_structures#showimages">showImage</a> implicit to Dataframe for display images in Scala Databricks notebooks.</li>
@@ -1059,7 +1081,7 @@ genomic and biomarker findings.</li>
 
 <p>Release date: 09-03-2020</p>
 
-<h4 id="overview-18">Overview</h4>
+<h4 id="overview-19">Overview</h4>
 
 <p>Minor improvements and fixes</p>
 
@@ -1079,7 +1101,7 @@ genomic and biomarker findings.</li>
 
 <p>Release date: 06-03-2020</p>
 
-<h4 id="overview-19">Overview</h4>
+<h4 id="overview-20">Overview</h4>
 
 <p>Integration with license server.</p>
 
@@ -1100,12 +1122,12 @@ genomic and biomarker findings.</li>
 
 <p>Release date: 03-03-2020</p>
 
-<h4 id="overview-20">Overview</h4>
+<h4 id="overview-21">Overview</h4>
 
 <p>This release contains improvements for preprocessing image before run OCR and
 added possibility to store results to PDF for keep original formatting.</p>
 
-<h4 id="new-features-17">New Features</h4>
+<h4 id="new-features-18">New Features</h4>
 
 <ul>
   <li>Added auto calculation maximum size of objects for removing in <code class="language-plaintext highlighter-rouge">ImageRemoveObjects</code>.
@@ -1141,12 +1163,12 @@ default <code class="language-plaintext highlighter-rouge">true</code> value to 
 
 <p>Release date: 12-02-2020</p>
 
-<h4 id="overview-21">Overview</h4>
+<h4 id="overview-22">Overview</h4>
 
 <p>Spark NLP OCR functionality was reimplemented as set of Spark ML transformers and
 moved to separate Spark OCR library.</p>
 
-<h4 id="new-features-18">New Features</h4>
+<h4 id="new-features-19">New Features</h4>
 
 <ul>
   <li>Added extraction coordinates of each symbol in ImageToText</li>

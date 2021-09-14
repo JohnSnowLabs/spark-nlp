@@ -1,4 +1,6 @@
-docs/_layouts/nlp_products.html
-docs/en/nlp_server/nlp_server.md
-docs/_layouts/nlp_products.html
-docs/en/nlp_server/nlp_server.md
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/version_compatibility.md
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/version_compatibility.md
