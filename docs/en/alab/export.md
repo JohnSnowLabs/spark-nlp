@@ -7,6 +7,9 @@ permalink: /docs/en/alab/export
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 
 The completions and predictions are stored in a database for fast search and access. Completions and predictions can be exported into the formats described below.

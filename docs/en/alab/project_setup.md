@@ -7,6 +7,9 @@ permalink: /docs/en/alab/project_setup
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 
 To create a new project, click on the **Create Project** button on the **Home Page** and choose a name for it. The project can include a short description and annotation instructions/guidelines. 

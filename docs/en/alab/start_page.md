@@ -7,6 +7,9 @@ permalink: /docs/en/alab/start_page
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 
 When you login to the Annotation Lab, you will be presented with the list of available projects you have created (**My Projects**) or that have been shared with you (**Shared With Me**). Some basic information are shown for each project the total number of tasks and the creation date.   

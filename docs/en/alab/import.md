@@ -7,6 +7,9 @@ permalink: /docs/en/alab/import
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 Once a new project is created and its configuration is saved, the user is redirected to the **Import page**. Here the user has multiple options for importing tasks.
 

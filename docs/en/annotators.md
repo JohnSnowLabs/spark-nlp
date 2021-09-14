@@ -6,6 +6,9 @@ permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2021-04-17"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 <div class="h3-box" markdown="1">

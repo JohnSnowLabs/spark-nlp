@@ -5,7 +5,9 @@ title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
 modify_date: "2021-03-20"
-header: true
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 <div class="main-docs" markdown="1">
