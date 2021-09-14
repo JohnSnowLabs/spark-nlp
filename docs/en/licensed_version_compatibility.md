@@ -10,7 +10,7 @@ modify_date: 2021-09-14
 <div class="h3-box" markdown="1">
 
 
-| Healthcare| Spark NLP (Public |
+| Healthcare| Spark NLP (Public) |
 |-----------|-------------------|
 | 3.2.2     | 3.2.2             |
 | 3.2.1     | 3.2.1             |
