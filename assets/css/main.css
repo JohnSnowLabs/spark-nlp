@@ -6089,6 +6089,24 @@ ul.list1 {
   margin: 0 auto 50px;
   width: 645px; }
 
+.breadcrambs {
+  display: flex;
+  list-style-type: none;
+  padding-bottom: 20px; }
+  .breadcrambs li {
+    list-style-type: none;
+    font-size: 16px;
+    line-height: 36px;
+    color: #536B76; }
+    .breadcrambs li:first-child::after {
+      content: '>';
+      font-size: 17px;
+      display: inline-block;
+      margin: 0 8px; }
+    .breadcrambs li a {
+      font-weight: normal;
+      text-decoration: none !important; }
+
 .article-inner {
   display: block;
   position: relative;
@@ -6633,6 +6651,37 @@ a.btn1.small {
     display: inline-block; }
   .responsive_btn.close .fa-bars {
     display: none; }
+
+/***NLP Products***/
+.nlp_content {
+  background: url("../../assets/images/nlp_product_bg.jpg") 0 0 no-repeat;
+  background-size: cover; }
+  .nlp_content h1 {
+    color: #fff;
+    margin: 80px 0 61px; }
+
+.nlp_content_inner {
+  width: 950px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
+
+.nlp_content_item {
+  display: flex;
+  width: 300px;
+  background: #fff;
+  height: 237px;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-bottom: 30px;
+  justify-content: center;
+  text-decoration: none !important; }
+
+.nlp_c {
+  text-align: center; }
+  .nlp_c figure {
+    display: inline-block; }
 
 /***Models***/
 code {
@@ -7315,6 +7364,15 @@ code {
       width: 50%;
       flex: 0 0 50%; }
 
+  .nlp_content_item {
+    flex: 0 0 auto;
+    width: 244px;
+    height: 250px;
+    margin: 0 5px 20px; }
+
+  .nlp_content_inner {
+    width: 100%; }
+
   .docs-wrapper {
     width: 100%; }
 
@@ -7439,6 +7497,12 @@ code {
   .header__title {
     width: 100%;
     margin: 0; }
+
+  .nlp_content_item {
+    width: 31%; }
+
+  .nlp_content_inner {
+    justify-content: center; }
 
   .epd #panels {
     padding-top: 60px; }
@@ -7581,6 +7645,9 @@ code {
 
   .block-box {
     padding: 25px 15px; } }
+@media (max-width: 660px) {
+  .nlp_content_item {
+    width: 47%; } }
 @media (max-width: 600px) {
   .btn-list {
     flex-direction: column; }
@@ -7730,6 +7797,13 @@ code {
     line-height: 46px; }
 
   .end_banner {
+    padding: 0 15px; } }
+@media (max-width: 660px) {
+  .nlp_content_item {
+    width: 100%;
+    margin: 0 0 20px; }
+
+  .nlp_content_inner {
     padding: 0 15px; } }
 @media (max-width: 400px) {
   .docs-wrapper .table-model-big tbody tr td {
