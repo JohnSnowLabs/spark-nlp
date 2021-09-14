@@ -6,6 +6,9 @@ permalink: /docs/en/transformers
 key: docs-transformers
 modify_date: "2021-08-05"
 use_language_switcher: "Python-Scala-Java"
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 <script> {% include scripts/transformerUseCaseSwitcher.js %} </script>

@@ -7,6 +7,9 @@ permalink: /docs/en/alab/alab
 key: docs-quickstart
 modify_date: "2020-11-19"
 header: true
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 
 <div class="main-docs" markdown="1">

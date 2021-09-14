@@ -5,6 +5,9 @@ title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/licensed_release_notes
 key: docs-licensed-release-notes
 modify_date: 2021-07-14
+show_nav: true
+sidebar:
+    nav: sparknlp-healthcare
 ---
 
 

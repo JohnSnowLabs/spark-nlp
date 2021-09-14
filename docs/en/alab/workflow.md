@@ -7,6 +7,9 @@ permalink: /docs/en/alab/workflow
 key: docs-training
 modify_date: "2020-11-18"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 
 When a team of people work together on a large annotation project, the tasks can be organized into a multi-step workflow for an easier management of the team collaboration. This is also necessary when the project has strict requirements on the labels: e.g. the same document must be labeled by multiple annotators; the annotations must be checked by a senior annotator.
