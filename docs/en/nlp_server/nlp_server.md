@@ -20,9 +20,6 @@ NLP Server is `free` for everyone to download and use. There is no limitation in
 
 You can setup NLP-Server as a Docker Machine in any enviroment or get it via the `AWS Marketplace` in just 1 click.
 
-## AWS-Marketplace Setup
-todo
-
 ## Docker Setup
 
 ```shell
