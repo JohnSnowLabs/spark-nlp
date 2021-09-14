@@ -34,7 +34,14 @@ object NerTagsEncoding {
    * @return Extracted Named Entities
    */
   def fromIOB(sentence: NerTaggedSentence, doc: Annotation, sentenceIndex: Int = 0, originalOffset: Boolean = true,
-              includeNoneEntities: Boolean = false): Seq[NamedEntity] = {
+              includeNoneEntities: Boolean = false, format: String = "IOB2"): Seq[NamedEntity] = {
+
+    val noChunk = "O"
+    var beginningTagChunk = "B-"
+    if (format != "IOB2") {
+      beginningTagChunk = "I-"
+    }
+
     val result = ArrayBuffer[NamedEntity]()
 
     val words = sentence.words.length
@@ -80,15 +87,15 @@ object NerTagsEncoding {
 
     for (i <- 0 until words) {
       val tag = sentence.tags(i)
-      if (lastTag.isDefined && (tag.startsWith("B-") || tag == "O")) {
+      if (lastTag.isDefined && (tag.startsWith(beginningTagChunk) || tag == noChunk)) {
         flushEntity(lastTagStart, i - 1)
       }
 
       if (includeNoneEntities && lastTag.isEmpty) {
-        lastTag = if (tag == "O" ) Some(tag) else getTag(tag)
+        lastTag = if (tag == noChunk ) Some(tag) else getTag(tag)
         lastTagStart = i
       } else {
-        if (lastTag.isEmpty && tag != "O") {
+        if (lastTag.isEmpty && tag != noChunk) {
           lastTag = getTag(tag)
           lastTagStart = i
         }

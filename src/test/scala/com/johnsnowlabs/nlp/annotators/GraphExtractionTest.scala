@@ -319,4 +319,29 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
+  it should "output paths when Typed Dependency Parser cannot label relations" ignore {
+    //Ignored because it requires to download pretrained models which takes a considerable time
+    val testDataSet = getEntitiesWithNoTypeParserOutput(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtraction()
+      .setInputCols("sentence", "token", "entities")
+      .setOutputCol("graph")
+      .setExplodeEntities(true)
+      .setMergeEntities(true)
+      .setMergeEntitiesIOBFormat("IOB")
+      .setIncludeEdges(false)
+    val expectedGraph = Array(Seq(
+      Annotation(NODE, 15, 20, "taking", Map("entities" -> "Medication,Diagnosis",
+        "left_path" -> "taking,pills,paracetamol", "right_path" -> "taking,disease,due,to,heart")),
+      Annotation(NODE, 15, 20, "taking", Map("entities" -> "Medication,Diagnosis",
+        "left_path" -> "taking,pills,paracetamol", "right_path" -> "taking,disease")),
+      Annotation(NODE, 15, 20, "taking", Map("entities" -> "Diagnosis,Diagnosis",
+        "left_path" -> "taking,disease,due,to,heart", "right_path" -> "taking,disease")),
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
 }
