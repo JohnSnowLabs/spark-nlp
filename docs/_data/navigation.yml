@@ -50,33 +50,35 @@ docs-en:
   - title: Annotation Lab
     children:
       - title:  Getting Started
-        url:    /docs/en/alab
-      - title:  License Setup  
-        url:    /docs/en/byol
+        url:    /docs/en/alab/alab
       - title:  Start Page 
-        url:    /docs/en/start_page
+        url:    /docs/en/alab/start_page
       - title:  User Management
-        url:    /docs/en/user_management
+        url:    /docs/en/alab/user_management
       - title:  Project Setup
-        url:    /docs/en/project_setup
+        url:    /docs/en/alab/project_setup
       - title:  NLP Models Hub  
-        url:    /docs/en/models_hub
+        url:    /docs/en/alab/models_hub
       - title:  Preannotations with Spark NLP
-        url:    /docs/en/preannotations
+        url:    /docs/en/alab/preannotations
       - title:  Active Learning
-        url:    /docs/en/active_learning
+        url:    /docs/en/alab/active_learning
       - title:  Import Documents 
-        url:    /docs/en/import
+        url:    /docs/en/alab/import
       - title:  Tasks
-        url:    /docs/en/tasks
+        url:    /docs/en/alab/tasks
       - title:  Annotate
-        url:    /docs/en/annotation
+        url:    /docs/en/alab/annotation
+      - title:  Analytics   
+        url:    /docs/en/alab/analytics        
       - title:  Export Data  
-        url:    /docs/en/export
+        url:    /docs/en/alab/export
       - title:  Workflow Setup   
-        url:    /docs/en/workflow
+        url:    /docs/en/alab/workflow
+      - title:  License Setup  
+        url:    /docs/en/alab/byol
       - title:  Video Tutorials   
-        url:    /docs/en/tutorials        
+        url:    /docs/en/alab/tutorials        
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started

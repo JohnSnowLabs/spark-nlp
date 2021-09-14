@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -23,13 +22,15 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
-import org.scalatest._
+import org.scalatest.Suite
+import org.scalatest.flatspec.AnyFlatSpec
 
 /**
-  * Generates different Annotator pipeline paths
-  * Place to add different annotator constructions
-  */
-object AnnotatorBuilder extends FlatSpec { this: Suite =>
+ * Generates different Annotator pipeline paths
+ * Place to add different annotator constructions
+ */
+object AnnotatorBuilder extends AnyFlatSpec {
+  this: Suite =>
 
   def withDocumentAssembler(dataset: Dataset[Row], cleanupMode: String = "disabled"): Dataset[Row] = {
     val documentAssembler = new DocumentAssembler()
@@ -188,7 +189,7 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     sentimentDetector
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("sentiment")
-      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter"->",")))
+      .setDictionary(ExternalResource("src/test/resources/sentiment-corpus/default-sentiment-dict.txt", ReadAs.TEXT, Map("delimiter" -> ",")))
     sentimentDetector.fit(data).transform(data)
   }
 
@@ -339,10 +340,10 @@ object AnnotatorBuilder extends FlatSpec { this: Suite =>
     val pw = new PrintWriter(new File(filename))
 
     val tokens = dataset.toDF().select(col(rowText)).
-      collect().flatMap(row=> row.getString(0).split(" ")).
+      collect().flatMap(row => row.getString(0).split(" ")).
       distinct
 
-    def randomDoubleArrayStr = (1 to dim).map{_ => random.nextDouble}.mkString(" ")
+    def randomDoubleArrayStr = (1 to dim).map { _ => random.nextDouble }.mkString(" ")
 
     for (token <- tokens)
       pw.println(s"$token $randomDoubleArrayStr")

@@ -163,6 +163,10 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentenceEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [SentenceEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings.scala)
 {%- endcapture -%}
@@ -174,6 +178,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

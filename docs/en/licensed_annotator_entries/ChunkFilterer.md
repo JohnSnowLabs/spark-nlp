@@ -137,7 +137,7 @@ result.selectExpr("explode(filtered)").show(truncate=false)
 [ChunkFilterer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/licensed_anno_template.md
 title=title
 description=description
 input_anno=input_anno

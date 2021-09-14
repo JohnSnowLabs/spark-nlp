@@ -75,7 +75,7 @@ val pipeline = new Pipeline().setStages(Array(
 val clf_model = pipeline.fit(data)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/licensed_anno_template.md
 title=title
 description=description
 input_anno=input_anno

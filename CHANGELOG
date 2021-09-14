@@ -1,4 +1,36 @@
 ========
+3.2.2
+========
+
+----------------
+New Features
+----------------
+* A new RoBertaSentenceEmbeddings annotator for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
+* A new XlmRoBertaSentenceEmbeddings annotator for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
+* Add support for AWS MFA via Spark NLP configuration
+* Add new AWS configs to Spark NLP configuration when using a private S3 bucket to store logs for training models or access TF graphs needed in NerDLApproach
+  * spark.jsl.settings.aws.credentials.access_key_id
+  * spark.jsl.settings.aws.credentials.secret_access_key
+  * spark.jsl.settings.aws.credentials.session_token
+  * spark.jsl.settings.aws.s3_bucket
+  * spark.jsl.settings.aws.region
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Improve loading merges file for RoBERTa tokenizer
+* Remove batchSize param from broadcast in XlmRoBertaEmbeddings to be set after it is created
+* Preserve previsouly generated metadata in BertSentenceEmbeddings annotator
+* Set `elmo` as a default poolingLayer in ElmoEmbeddings
+* Fix special tokens ids in XlmRoBertaEmbeddings annotator
+* Fix distilbert_base_token_classifier_ontonotes model
+* Fix distilbert_base_token_classifier_conll03 model
+* Fix distilbert_base_token_classifier_few_nerd model
+* Fix distilbert_token_classifier_persian_ner model
+* Fix ner_conll_longformer_base_4096 model
+
+
+========
 3.2.1
 ========
 ----------------

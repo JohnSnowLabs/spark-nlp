@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.2.1 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.2.2 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -138,12 +138,11 @@
               <div>
                 
   <h1>Source code for sparknlp.annotator</h1><div class="highlight"><pre>
-<span></span><span class="c1">#  Licensed to the Apache Software Foundation (ASF) under one or more</span>
-<span class="c1">#  contributor license agreements.  See the NOTICE file distributed with</span>
-<span class="c1">#  this work for additional information regarding copyright ownership.</span>
-<span class="c1">#  The ASF licenses this file to You under the Apache License, Version 2.0</span>
-<span class="c1">#  (the &quot;License&quot;); you may not use this file except in compliance with</span>
-<span class="c1">#  the License.  You may obtain a copy of the License at</span>
+<span></span><span class="c1">#  Copyright 2017-2021 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
@@ -2208,7 +2207,6 @@
 
     <span class="k">def</span> <span class="nf">setSourceLanguage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sourceLanguage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="DateMatcherUtils.setAnchorDateDay"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DateMatcherUtils.html#sparknlp.annotator.DateMatcherUtils.setAnchorDateDay">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateDay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
@@ -4606,7 +4604,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">externalFeatures</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setIncludeConfidence"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.NerCrfApproach.html#sparknlp.annotator.NerCrfApproach.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
 <span class="sd">        default False.</span>
 
@@ -4736,7 +4733,6 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="NerCrfModel.setIncludeConfidence"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.NerCrfModel.html#sparknlp.annotator.NerCrfModel.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
 <span class="sd">        default False.</span>
 
@@ -5079,7 +5075,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">testDataset</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()))</span></div>
 
 <div class="viewcode-block" id="NerDLApproach.setIncludeConfidence"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
 <span class="sd">        default False.</span>
 
@@ -5289,7 +5284,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDLModel.setIncludeConfidence"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.NerDLModel.html#sparknlp.annotator.NerDLModel.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
 <span class="sd">        default False.</span>
 
@@ -8874,7 +8868,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">wordMaxDistance</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ContextSpellCheckerApproach.setMaxCandidates"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.ContextSpellCheckerApproach.html#sparknlp.annotator.ContextSpellCheckerApproach.setMaxCandidates">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxCandidates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidates</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;Sets maximum number of candidates for every word.</span>
 
 <span class="sd">        Parameters</span>
@@ -9262,7 +9255,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">wordMaxDistance</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ContextSpellCheckerModel.setMaxCandidates"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.ContextSpellCheckerModel.html#sparknlp.annotator.ContextSpellCheckerModel.setMaxCandidates">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxCandidates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candidates</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;Sets maximum number of candidates for every word.</span>
 
 <span class="sd">        Parameters</span>
@@ -13412,6 +13404,375 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">LongformerEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RoBertaSentenceEmbeddings"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">RoBertaSentenceEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                                <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                <span class="n">HasStorageRef</span><span class="p">,</span>
+                                <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sentence-level embeddings using RoBERTa. The RoBERTa model was proposed in RoBERTa: A Robustly Optimized BERT</span>
+<span class="sd">    Pretraining Approach  by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,</span>
+<span class="sd">    Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google&#39;s BERT model released in 2018. It builds on</span>
+<span class="sd">    BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much</span>
+<span class="sd">    larger mini-batches and learning rates. Pretrained models can be loaded with pretrained of the companion object:</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt;embeddings = RoBertaSentenceEmbeddings.pretrained() \</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \</span>
+<span class="sd">    ...    .setOutputCol(&quot;sentence_embeddings&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;sent_roberta_base&quot;``, if no name is provided.</span>
+
+<span class="sd">    For available pretrained models please see the</span>
+<span class="sd">    `Models Hub &lt;https://nlp.johnsnowlabs.com/models?task=Embeddings&gt;`__.</span>
+
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``</span>
+<span class="sd">    ====================== =======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Size of every batch, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        False</span>
+<span class="sd">    dimension</span>
+<span class="sd">        Number of embedding dimensions, by default 768</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding &lt;https://arxiv.org/abs/1810.04805&gt;`__</span>
+
+<span class="sd">    https://github.com/google-research/bert</span>
+
+<span class="sd">    **Paper abstract**</span>
+
+<span class="sd">    *Language model pretraining has led to significant performance gains but careful comparison between different</span>
+<span class="sd">    approaches is challenging. Training is computationally expensive, often done on private datasets of different</span>
+<span class="sd">    sizes, and, as we will show, hyperparameter choices have significant impact on the final results. We present a</span>
+<span class="sd">    replication study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key</span>
+<span class="sd">    hyperparameters and training data size. We find that BERT was significantly undertrained, and can match or exceed</span>
+<span class="sd">    the performance of every model published after it. Our best model achieves state-of-the-art results on GLUE,</span>
+<span class="sd">    RACE and SQuAD. These results highlight the importance of previously overlooked design choices, and raise</span>
+<span class="sd">    questions about the source of recently reported improvements. We release our models and code.*</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence = SentenceDetector() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = RoBertaSentenceEmbeddings.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence_embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddingsFinisher = EmbeddingsFinisher() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence_embeddings&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCols(&quot;finished_embeddings&quot;) \\</span>
+<span class="sd">    ...     .setOutputAsVector(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentence,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     embeddingsFinisher</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John loves apples. Mary loves oranges. John loves Mary.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(finished_embeddings) as result&quot;).show(5, 80)</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |                                                                          result|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |[-0.8951074481010437,0.13753940165042877,0.3108254075050354,-1.65693199634552...|</span>
+<span class="sd">    |[-0.6180210709571838,-0.12179657071828842,-0.191165953874588,-1.4497021436691...|</span>
+<span class="sd">    |[-0.822715163230896,0.7568016648292542,-0.1165061742067337,-1.59048593044281,...|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RoBertaSentenceEmbeddings&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RoBertaSentenceEmbeddings.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoBertaSentenceEmbeddings.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RoBertaSentenceEmbeddings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="RoBertaSentenceEmbeddings.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BertSentenceEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_RoBertaSentenceLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_RoBertaSentenceLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">RoBertaSentenceEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoBertaSentenceEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaSentenceEmbeddings.html#sparknlp.annotator.RoBertaSentenceEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sent_roberta_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;sent_roberta_base&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        RoBertaSentenceEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RoBertaSentenceEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XlmRoBertaSentenceEmbeddings"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">XlmRoBertaSentenceEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                   <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                                   <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                   <span class="n">HasStorageRef</span><span class="p">,</span>
+                                   <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in Unsupervised Cross-lingual</span>
+<span class="sd">    Representation Learning at Scale  by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary,</span>
+<span class="sd">    Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based</span>
+<span class="sd">    on Facebook&#39;s RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of</span>
+<span class="sd">    filtered CommonCrawl data. Pretrained models can be loaded with pretrained of the companion object:</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt;embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \</span>
+<span class="sd">    ...    .setOutputCol(&quot;sentence_embeddings&quot;)</span>
+
+
+<span class="sd">    The default model is ``&quot;sent_xlm_roberta_base&quot;``, if no name is provided.</span>
+
+<span class="sd">    For available pretrained models please see the</span>
+<span class="sd">    `Models Hub &lt;https://nlp.johnsnowlabs.com/models?task=Embeddings&gt;`__.</span>
+
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    ``DOCUMENT``           ``SENTENCE_EMBEDDINGS``</span>
+<span class="sd">    ====================== =======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Size of every batch, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        False</span>
+<span class="sd">    dimension</span>
+<span class="sd">        Number of embedding dimensions, by default 768</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">    **Paper abstract**</span>
+
+<span class="sd">    *This paper shows that pretraining multilingual language models at scale leads to significant performance gains</span>
+<span class="sd">    for a wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one</span>
+<span class="sd">    hundred languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R,</span>
+<span class="sd">    significantly outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8%</span>
+<span class="sd">    average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs</span>
+<span class="sd">    particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over</span>
+<span class="sd">    the previous XLM model. We also present a detailed empirical evaluation of the key factors that are required to</span>
+<span class="sd">    achieve these gains, including the trade-offs between (1) positive transfer and capacity dilution and (2) the</span>
+<span class="sd">    performance of high and low resource languages at scale. Finally, we show, for the first time, the possibility of</span>
+<span class="sd">    multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive with strong</span>
+<span class="sd">    monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data, and models publicly available.*</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence = SentenceDetector() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence_embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddingsFinisher = EmbeddingsFinisher() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence_embeddings&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCols(&quot;finished_embeddings&quot;) \\</span>
+<span class="sd">    ...     .setOutputAsVector(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentence,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     embeddingsFinisher</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John loves apples. Mary loves oranges. John loves Mary.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(finished_embeddings) as result&quot;).show(5, 80)</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |                                                                          result|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |[-0.8951074481010437,0.13753940165042877,0.3108254075050354,-1.65693199634552...|</span>
+<span class="sd">    |[-0.6180210709571838,-0.12179657071828842,-0.191165953874588,-1.4497021436691...|</span>
+<span class="sd">    |[-0.822715163230896,0.7568016648292542,-0.1165061742067337,-1.59048593044281,...|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;XlmRoBertaSentenceEmbeddings&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XlmRoBertaSentenceEmbeddings.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XlmRoBertaSentenceEmbeddings.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="XlmRoBertaSentenceEmbeddings.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BertSentenceEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_XlmRoBertaSentenceLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_XlmRoBertaSentenceLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XlmRoBertaSentenceEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sent_xlm_roberta_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;sent_roberta_base&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        XlmRoBertaSentenceEmbeddings</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>
