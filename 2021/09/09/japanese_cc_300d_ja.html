@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)- Spark NLP Model</title><meta name="description" content="DescriptionXLM-RoBERTa is a scaled cross-lingual sentence encoder. It is trained on 2.5T of data across 100 languages data filtered from Common Crawl. XLM-R ...">
-<link rel="canonical" href="/2021/09/01/sent_xlm_roberta_base_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Word Embeddings for Japanese (japanese_cc_300d)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is trained on Common Crawl and Wikipedia using fastText. It is trained using CBOW with position-weights, in dimension 300, with charact...">
+<link rel="canonical" href="/2021/09/09/japanese_cc_300d_ja.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,23 +403,23 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 01, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00"></div><header><h1>XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)</h1></header></div><meta itemprop="headline" content="XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>multilingual</li><li>xx</li><li>sentence_embeddings</li><li>xlm_roberta</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00">
-    <meta itemprop="keywords" content="multilingual,xx,sentence_embeddings,xlm_roberta,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 09, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-09T00:00:00+00:00"></div><header><h1>Word Embeddings for Japanese (japanese_cc_300d)</h1></header></div><meta itemprop="headline" content="Word Embeddings for Japanese (japanese_cc_300d)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>embeddings</li><li>open_source</li><li>ja</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="embeddings,open_source,ja"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p><a href="https://ai.facebook.com/blog/-xlm-r-state-of-the-art-cross-lingual-understanding-through-self-supervision/">XLM-RoBERTa</a> is a scaled cross-lingual sentence encoder. It is trained on 2.5T of data across 100 languages data filtered from Common Crawl. XLM-R achieves state-of-the-arts results on multiple cross-lingual benchmarks.</p>
+<p>This model is trained on Common Crawl and Wikipedia using fastText. It is trained using CBOW with position-weights, in dimension 300, with character n-grams of length 5, a window of size 5 and 10 negatives.</p>
 
-<p>The XLM-RoBERTa model was proposed in <a href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer, and Veselin Stoyanov.</p>
+<p>The model gives 300 dimensional vector outputs per token. The output vectors map words into a meaningful space where the distance between the vectors is related to semantic similarity of words.</p>
 
-<p>It is based on Facebook’s RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.</p>
+<p>These embeddings can be used in multiple tasks like semantic word similarity, named entity recognition, sentiment analysis, and classification.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_xlm_roberta_base_xx_3.2.2_3.0_1630505672907.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/japanese_cc_300d_ja_3.2.2_3.0_1631192388744.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -427,15 +427,92 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_xlm_roberta_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
+<span class="n">word_segmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"wordseg_gsd_ud"</span><span class="p">,</span> <span class="s">"ja"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">sentence</span><span class="p">,</span>
+    <span class="n">word_segmenter</span><span class="p">,</span>
+    <span class="n">embeddings</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"宮本茂氏は、日本の任天堂のゲームプロデューサーです。"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(arrays_zip(embeddings.result, embeddings.embeddings))"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_xlm_roberta_base"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.</span><span class="o">{</span><span class="nc">SentenceDetector</span><span class="o">,</span> <span class="nc">WordSegmenterModel</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_gsd_ud"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"japanese_cc_300d"</span><span class="o">,</span> <span class="s">"ja"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">sentence</span><span class="o">,</span>
+  <span class="n">word_segmenter</span><span class="o">,</span>
+  <span class="n">embeddings</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"宮本茂氏は、日本の任天堂のゲームプロデューサーです。"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(arrays_zip(embeddings.result, embeddings.embeddings))"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------+
+|                        col|
++---------------------------+
+|     <span class="o">[</span>宮本, <span class="o">[</span>0.1944, 0.4...|
+|      <span class="o">[</span>茂, <span class="o">[</span><span class="nt">-0</span>.079, 0.09...|
+|      <span class="o">[</span>氏, <span class="o">[</span><span class="nt">-0</span>.1053, 0.1...|
+|      <span class="o">[</span>は, <span class="o">[</span>0.0732, <span class="nt">-0</span>.0...|
+|      <span class="o">[</span>、, <span class="o">[</span>0.0571, <span class="nt">-0</span>.0...|
+|     <span class="o">[</span>日本, <span class="o">[</span>0.1844, 0.0...|
+|      <span class="o">[</span>の, <span class="o">[</span>0.0109, <span class="nt">-0</span>.0...|
+|     <span class="o">[</span>任天, <span class="o">[</span>0.0, 0.0, 0...|
+|      <span class="o">[</span>堂, <span class="o">[</span><span class="nt">-0</span>.1972, 0.0...|
+|      <span class="o">[</span>の, <span class="o">[</span>0.0109, <span class="nt">-0</span>.0...|
+|    <span class="o">[</span>ゲーム, <span class="o">[</span>0.013, 0.0...|
+|[プロデューサー, <span class="o">[</span><span class="nt">-0</span>.010...|
+|     <span class="o">[</span>です, <span class="o">[</span>0.0036, <span class="nt">-0</span>....|
+|      <span class="o">[</span>。, <span class="o">[</span>0.069, <span class="nt">-0</span>.01...|
++---------------------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -443,7 +520,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sent_xlm_roberta_base</td>
+      <td>japanese_cc_300d</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>embeddings</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -459,7 +540,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence]</td>
+      <td>[sentence, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -467,19 +548,23 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>xx</td>
+      <td>ja</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>Dimension:</td>
+      <td>300</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/xlm-roberta-base">https://huggingface.co/xlm-roberta-base</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-01T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>This model is imported from https://fasttext.cc/docs/en/crawl-vectors.html</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -604,7 +689,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/01/sent_roberta_large_en.html">RoBERTa Large Sentence Embeddings(sent_roberta_large)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/03/ner_deid_subentity_augmented_en.html">Detect PHI for Deidentification (Subentity- Augmented)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/08/classifierdl_bert_sentiment_fr.html">Sentiment Analysis of French texts</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/09/ner_ud_gsd_cc_300d_ja.html">Named Entity Recognition for Japanese (FastText 300d)</a></div></div></div>
 
 </div>
 </div>

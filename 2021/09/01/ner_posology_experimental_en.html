@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)- Spark NLP Model</title><meta name="description" content="DescriptionXLM-RoBERTa is a scaled cross-lingual sentence encoder. It is trained on 2.5T of data across 100 languages data filtered from Common Crawl. XLM-R ...">
-<link rel="canonical" href="/2021/09/01/sent_xlm_roberta_base_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect Drugs and posology entities including experimental drugs and cycles (ner_posology_experimental)- Spark NLP Model</title><meta name="description" content="DescriptionThis model detects drugs, experimental drugs, cyclelength, cyclecount, cycledaty, dosage, form, frequency, duration, route, and drug strength in t...">
+<link rel="canonical" href="/2021/09/01/ner_posology_experimental_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,22 +404,20 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 01, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00"></div><header><h1>XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)</h1></header></div><meta itemprop="headline" content="XLM-RoBERTa Base Sentence Embeddings (sent_xlm_roberta_base)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>multilingual</li><li>xx</li><li>sentence_embeddings</li><li>xlm_roberta</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00">
-    <meta itemprop="keywords" content="multilingual,xx,sentence_embeddings,xlm_roberta,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00"></div><header><h1>Detect Drugs and posology entities including experimental drugs and cycles (ner_posology_experimental)</h1></header></div><meta itemprop="headline" content="Detect Drugs and posology entities including experimental drugs and cycles (ner_posology_experimental)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>ner</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,en,ner"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p><a href="https://ai.facebook.com/blog/-xlm-r-state-of-the-art-cross-lingual-understanding-through-self-supervision/">XLM-RoBERTa</a> is a scaled cross-lingual sentence encoder. It is trained on 2.5T of data across 100 languages data filtered from Common Crawl. XLM-R achieves state-of-the-arts results on multiple cross-lingual benchmarks.</p>
-
-<p>The XLM-RoBERTa model was proposed in <a href="https://arxiv.org/abs/1911.02116">Unsupervised Cross-lingual Representation Learning at Scale</a> by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer, and Veselin Stoyanov.</p>
-
-<p>It is based on Facebook’s RoBERTa model released in 2019. It is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.</p>
+<p>This model detects drugs, experimental drugs, cyclelength, cyclecount, cycledaty, dosage, form, frequency, duration, route, and drug strength in text. It is based on the core <code class="language-plaintext highlighter-rouge">ner_posology</code> model, supports additional things like drug cycles, and enriched with more data from clinical trials.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_xlm_roberta_base_xx_3.2.2_3.0_1630505672907.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p><code class="language-plaintext highlighter-rouge">Administration</code>, <code class="language-plaintext highlighter-rouge">Cyclenumber</code>, <code class="language-plaintext highlighter-rouge">Strength</code>, <code class="language-plaintext highlighter-rouge">Cycleday</code>, <code class="language-plaintext highlighter-rouge">Duration</code>, <code class="language-plaintext highlighter-rouge">Cyclecount</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Form</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Cyclelength</code>, <code class="language-plaintext highlighter-rouge">Drug</code>, <code class="language-plaintext highlighter-rouge">Dosage'</code></p>
+
+<p class="btn-box"><a href="https://nlp.johnsnowlabs.com/demo" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_posology_experimental_en_3.1.3_3.0_1630511369574.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -427,15 +425,53 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_xlm_roberta_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_posology_experimental"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">...</span>
+
+<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Y-90 Humanized Anti-Tac: 10 mCi (if a bone marrow transplant was part of the patient's previous therapy) or 15 mCi of yttrium labeled anti-TAC; followed by calcium trisodium Inj (Ca DTPA)..</span><span class="se">\n\n</span><span class="s">Calcium-DTPA: Ca-DTPA will be administered intravenously on Days 1-3 to clear the radioactive agent from the body."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_xlm_roberta_base"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">clinical_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_posology_experimental"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Y-90 Humanized Anti-Tac: 10 mCi (if a bone marrow transplant was part of the patient's previous therapy) or 15 mCi of yttrium labeled anti-TAC; followed by calcium trisodium Inj (Ca DTPA)..\n\nCalcium-DTPA: Ca-DTPA will be administered intravenously on Days 1-3 to clear the radioactive agent from the body."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                    |   begin |   end | entity   |
+|---:|:-------------------------|--------:|------:|:---------|
+|  0 | Anti-Tac                 |      15 |    22 | Drug     |
+|  1 | 10 mCi                   |      25 |    30 | Dosage   |
+|  2 | 15 mCi                   |     108 |   113 | Dosage   |
+|  3 | yttrium labeled anti-TAC |     118 |   141 | Drug     |
+|  4 | calcium trisodium Inj    |     156 |   176 | Drug     |
+|  5 | Calcium-DTPA             |     191 |   202 | Drug     |
+|  6 | Ca-DTPA                  |     205 |   211 | Drug     |
+|  7 | intravenously            |     234 |   246 | Route    |
+|  8 | Days 1-3                 |     251 |   258 | Cycleday |
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -443,15 +479,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sent_xlm_roberta_base</td>
+      <td>ner_posology_experimental</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.2.2+</td>
+      <td>Spark NLP for Healthcare 3.1.3+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -459,26 +495,54 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[embeddings]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>xx</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
+      <td>en</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/xlm-roberta-base">https://huggingface.co/xlm-roberta-base</a></p>
+<p>This model is trained on FDA 2018 Medication dataset, enriched with clinical trials data.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
+B-Drug	 30260	 1321	 1630	 0.95817107	 0.9488868	 0.95350635
+B-Cycleday	 294	 1	 7	 0.99661016	 0.9767442	 0.9865772
+B-Dosage	 4019	 441	 972	 0.9011211	 0.80524945	 0.85049194
+I-Strength	 21784	 2375	 1616	 0.9016929	 0.93094015	 0.9160832
+I-Cyclenumber	 113	 2	 1	 0.9826087	 0.99122804	 0.98689955
+B-Cyclelength	 217	 3	 0	 0.98636365	 1.0	 0.99313504
+B-Administration	 97	 1	 5	 0.9897959	 0.95098037	 0.96999997
+I-Cyclecount	 174	 7	 3	 0.96132594	 0.9830508	 0.972067
+B-Strength	 18871	 1299	 1161	 0.9355974	 0.9420427	 0.93880904
+B-Frequency	 13064	 464	 713	 0.96570075	 0.9482471	 0.95689434
+B-Cyclenumber	 93	 2	 1	 0.97894734	 0.9893617	 0.9841269
+I-Duration	 6116	 519	 738	 0.92177844	 0.89232564	 0.9068129
+B-Cyclecount	 120	 5	 3	 0.96	 0.9756098	 0.9677419
+B-Form	 10964	 912	 986	 0.92320645	 0.9174895	 0.9203391
+I-Route	 275	 42	 51	 0.8675079	 0.8435583	 0.85536546
+I-Cyclelength	 261	 5	 0	 0.981203	 1.0	 0.9905123
+I-Dosage	 2385	 471	 1107	 0.835084	 0.6829897	 0.75141776
+I-Cycleday	 548	 5	 13	 0.9909584	 0.9768271	 0.983842
+I-Frequency	 18644	 967	 1574	 0.9506909	 0.9221486	 0.9362023
+I-Administration	 303	 10	 5	 0.96805114	 0.98376626	 0.9758454
+I-Form	 642	 284	 553	 0.69330454	 0.5372385	 0.6053748
+B-Route	 5930	 280	 692	 0.9549114	 0.8954998	 0.92425185
+B-Duration	 2422	 261	 359	 0.9027208	 0.87090975	 0.88653
+I-Drug	 11472	 1066	 1240	 0.91497844	 0.9024544	 0.9086733
+tp: 149068 fp: 10743 fn: 13430 labels: 24
+Macro-average	 prec: 0.93426394, rec: 0.9111479, f1: 0.92256117
+Micro-average	 prec: 0.93277687, rec: 0.91735286, f1: 0.9250006
+</code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -604,7 +668,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/01/sent_roberta_large_en.html">RoBERTa Large Sentence Embeddings(sent_roberta_large)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/03/ner_deid_subentity_augmented_en.html">Detect PHI for Deidentification (Subentity- Augmented)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/01/sent_bert_muril_xx.html">Multilingual Representations for Indian Languages (MuRIL) - BERT Sentence Embedding pre-trained on 17 Indian languages</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/01/sent_distilroberta_base_en.html">DistilRoBERTa Base Sentence Embeddings(sent_distilroberta_base)</a></div></div></div>
 
 </div>
 </div>
