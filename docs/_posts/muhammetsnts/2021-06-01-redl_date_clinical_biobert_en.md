@@ -17,13 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Identify if tests were conducted on a particular date or any diagnosis was made on a specific date by checking relations between clinical entities and dates.
+Identify if tests were conducted on a particular date or any diagnosis was made on a specific date by checking relations between clinical entities and dates. `1` : Shows date and the clinical entity are related, `0` : Shows date and the clinical entity are not related.
 
 ## Predicted Entities
 
-`1` : Shows date and the clinical entity are related.
-
-`0` : Shows date and the clinical entity are not related.
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

@@ -17,13 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is capable of Relating Drugs and adverse reactions caused by them; It predicts if an adverse event is caused by a drug or not. It is based on 'biobert_pubmed_base_cased' embeddings.
+This model is capable of Relating Drugs and adverse reactions caused by them; It predicts if an adverse event is caused by a drug or not. It is based on 'biobert_pubmed_base_cased' embeddings. `1` : Shows the adverse event and drug entities are related, `0` : Shows the adverse event and drug entities are not related.
 
 ## Predicted Entities
 
-`1` : Shows the adverse event and drug entities are related.
-
-`0` : Shows the adverse event and drug entities are not related.
+`0`, `1`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}
