@@ -121,6 +121,19 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec {
     assertEncodedCorrectly(text, encoded, expected, expectedIds)
   }
 
+  "RobertaTokenizer" should "encode sentences with special tokens at the end" taggedAs FastTest in {
+    val text = "I unambigouosly 3Asd <mask>"
+    val sentence = Sentence(text, 0, text.length - 1, 0)
+
+    val expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġ3", "As", "d", "<mask>")
+    val expectedIds = Array(3, 4, 5, 6, 7, 8, 10, 11, 12, 2)
+
+    val tokenizedWithMask = bpeTokenizer.tokenize(sentence)
+    val encoded = bpeTokenizer.encode(tokenizedWithMask)
+
+    assertEncodedCorrectly(text, encoded, expected, expectedIds)
+  }
+
   "RobertaTokenizer" should "handle empty sentences" taggedAs FastTest in {
     val text = " \n"
     val sentence = Sentence(text, 0, text.length - 1, 0)
