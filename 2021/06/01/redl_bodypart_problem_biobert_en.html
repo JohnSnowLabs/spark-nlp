@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Relation Extraction Between Body Parts and Problem Entities (ReDL)- Spark NLP Model</title><meta name="description" content="DescriptionRelation extraction between body parts and problem entities in clinical texts.Predicted Entities1 : Shows that there is a relation between body pa...">
+<!-- End Google Tag Manager --><title>Relation Extraction Between Body Parts and Problem Entities (ReDL)- Spark NLP Model</title><meta name="description" content="DescriptionRelation extraction between body parts and problem entities in clinical texts. 1 : Shows that there is a relation between body part entity and ent...">
 <link rel="canonical" href="/2021/06/01/redl_bodypart_problem_biobert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,12 +409,11 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Relation extraction between body parts and problem entities in clinical texts.</p>
+<p>Relation extraction between body parts and problem entities in clinical texts. <code class="language-plaintext highlighter-rouge">1</code> : Shows that there is a relation between body part entity and entities labeled as problem ( diagnosis, symptom etc.), <code class="language-plaintext highlighter-rouge">0</code> : Shows that there no relation between body part and problem entities.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">1</code> : Shows that there is a relation between body part entity and entities labeled as problem ( diagnosis, symptom etc.) 
-<code class="language-plaintext highlighter-rouge">0</code> : Shows that there no relation between body part and problem entities</p>
+<p><code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">1</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.1.Clinical_Relation_Extraction_BodyParts_Models.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>

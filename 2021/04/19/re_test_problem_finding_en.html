@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Extract relations between problem, test, and findings in reports- Spark NLP Model</title><meta name="description" content="DescriptionFind relations between diagnosis, tests and imaging findings in radiology reports.Predicted Entities1 : The two entities are related. 0 : The two ...">
+<!-- End Google Tag Manager --><title>Extract relations between problem, test, and findings in reports- Spark NLP Model</title><meta name="description" content="DescriptionFind relations between diagnosis, tests and imaging findings in radiology reports. 1 : The two entities are related. 0 : The two entities are not ...">
 <link rel="canonical" href="/2021/04/19/re_test_problem_finding_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,11 +409,11 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Find relations between diagnosis, tests and imaging findings in radiology reports.</p>
+<p>Find relations between diagnosis, tests and imaging findings in radiology reports. <code class="language-plaintext highlighter-rouge">1</code> : The two entities are related. <code class="language-plaintext highlighter-rouge">0</code> : The two entities are not related</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">1</code> : The two entities are related. <code class="language-plaintext highlighter-rouge">0</code> : The two entities are not related</p>
+<p><code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">1</code></p>
 
 <p class="btn-box"><a href="https://nlp.johnsnowlabs.com/demo" class="button button-orange">Live Demo</a>
 <a href="https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>

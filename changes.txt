@@ -1,4 +1,2 @@
-docs/_posts/HashamUlHaq/2021-09-15-sent_bert_base_cased_de.md
-docs/_posts/muhammetsnts/2021-09-15-spellcheck_drug_norvig_en.md
-docs/_posts/HashamUlHaq/2021-09-15-sent_bert_base_cased_de.md
-docs/_posts/muhammetsnts/2021-09-15-spellcheck_drug_norvig_en.md
+.github/workflows/build_and_test.yml
+.github/workflows/build_and_test.yml
