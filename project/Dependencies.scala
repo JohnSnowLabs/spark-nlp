@@ -88,10 +88,10 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowGPUVersion = "0.3.2"
+  val tensorflowGPUVersion = "0.3.3"
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowGPUVersion
 
-  val tensorflowCPUVersion = "0.3.2"
+  val tensorflowCPUVersion = "0.3.3"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
   /** ------- Dependencies end  ------- */
 }

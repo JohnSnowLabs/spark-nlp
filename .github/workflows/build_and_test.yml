@@ -2,12 +2,22 @@ name: build
 
 on:
   push:
+    paths-ignore:
+      - 'docs/**'
+      - 'conda/**'
+      - 'scripts/**'
     branches:
       - 'master'
       - '*release*'
+      - 'main'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'conda/**'
+      - 'scripts/**'
     branches:
       - 'master'
+      - 'main'
 
 jobs:
   spark24:
