@@ -205,6 +205,8 @@ sparknlp-healthcare:
         url:    /docs/en/evaluation
       - title: Scaladoc
         url: /licensed/api/
+      - title: Version Compatibility
+        url: /docs/en/licensed_version_compatibility
       - title: Release Notes
         url: /docs/en/licensed_release_notes
 
