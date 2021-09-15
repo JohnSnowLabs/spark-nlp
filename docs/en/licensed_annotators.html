@@ -800,9 +800,9 @@ For pretrained models please use AssertionDLModel and see the
     <p>AssertionDL is a deep Learning based approach used to extract Assertion Status
 from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
 annotator inputs, which can be obtained by e.g a
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler">DocumentAssembler</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter">NerConverter</a>
-and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddingsModel</a>.
+<a href="/docs/en/annotators#documentassembler">DocumentAssembler</a>,
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>
+and <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>.
 The result is an assertion status annotation for each recognized entity.
 Possible values include <code class="language-plaintext highlighter-rouge">“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”</code> etc.</p>
 
@@ -1212,9 +1212,9 @@ Contains all the methods for training a AssertionLogRegModel, together with trai
     <p>This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status
 from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
 annotator inputs, which can be obtained by e.g a
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler">DocumentAssembler</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter">NerConverter</a>
-and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddingsModel</a>.
+<a href="/docs/en/annotators#documentassembler">DocumentAssembler</a>,
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>
+and <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>.
 The result is an assertion status annotation for each recognized entity.
 Possible values are <code class="language-plaintext highlighter-rouge">"Negated", "Affirmed" and "Historical"</code>.</p>
 
@@ -2212,11 +2212,11 @@ setRefFileFormat and setRefSep.</p>
 </code></pre></div>    </div>
 
     <p>Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TextMatcher">TextMatchers</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RegexMatcher">RegexMatchers</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/DateMatcher">DateMatchers</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach">NerCRFs</a> or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach">NerDLs</a></p>
+<a href="/docs/en/annotators#textmatcher">TextMatchers</a>,
+<a href="/docs/en/annotators#regexmatcher">RegexMatchers</a>,
+<a href="/docs/en/annotators#datematcher">DateMatchers</a>,
+<a href="/docs/en/annotators#nercrf">NerCRFs</a> or
+<a href="/docs/en/annotators#nerdl">NerDLs</a></p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, CHUNK</code></p>
 
@@ -2885,8 +2885,8 @@ Requires the FeaturesAssembler to create the input.</p>
 
   <p>Merges token tags and NER labels from chunks in the specified format.
 For example output columns as inputs from
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html">NerConverter</a>
-and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer">Tokenizer</a> can be used to merge.</p>
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>
+and <a href="/docs/en/annotators#tokenizer">Tokenizer</a> can be used to merge.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, CHUNK</code></p>
 
@@ -3275,8 +3275,8 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
 a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),
 mentions, or surface forms.
 The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings.html">SentenceEmbeddings</a> and
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html">NerConverter</a>.</p>
+<a href="/docs/en/annotators#sentenceembeddings">SentenceEmbeddings</a> and
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">CHUNK, SENTENCE_EMBEDDINGS</code></p>
 
@@ -4333,7 +4333,7 @@ For pretrained models please see the
 
     <p>Contains all the parameters and methods to train a SentenceEntityResolverModel.
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html">BertSentenceEmbeddings</a>
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)</p>
 
@@ -4451,7 +4451,7 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <div class="h3-box model-content" style="display: none;">
 
     <p>The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html">BertSentenceEmbeddings</a>
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)</p>
 
