@@ -203,7 +203,7 @@ private[nlp] abstract class BpeTokenizer(
     val tok = specialToken.content
 
     val splitText = StringUtils.splitByWholeSeparator(text, tok)
-//      .filter { s: String => s.nonEmpty }
+    //      .filter { s: String => s.nonEmpty }
     var fullWord = ""
     //    val boolProperty = (property: Map[String, Any], key: String) => property(key).asInstanceOf[Boolean]
 

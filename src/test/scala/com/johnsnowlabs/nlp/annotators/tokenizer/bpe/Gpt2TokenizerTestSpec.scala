@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece}
+import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 

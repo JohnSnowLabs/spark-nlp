@@ -67,12 +67,12 @@ private[nlp] object SpecialTokens {
       padTokenString = "<pad>"
     )
     case "gpt2" => new SpecialTokens(vocab,
-        startTokenString = "<|endoftext|>",
-        endTokenString = "<|endoftext|>",
-        unkTokenString = "<|endoftext|>",
-        maskTokenString = "<|endoftext|>",
-        padTokenString = "<|endoftext|>"
-      )
+      startTokenString = "<|endoftext|>",
+      endTokenString = "<|endoftext|>",
+      unkTokenString = "<|endoftext|>",
+      maskTokenString = "<|endoftext|>",
+      padTokenString = "<|endoftext|>"
+    )
     case "xlm" => new SpecialTokens(
       vocab,
       "<s>",
