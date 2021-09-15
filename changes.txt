@@ -1,4 +1,6 @@
-docs/_data/navigation.yml
-docs/en/licensed_version_compatibility.md
-docs/_data/navigation.yml
-docs/en/licensed_version_compatibility.md
+docs/_posts/DevinTDHa/2021-09-15-ner_ud_gsd_xlm_roberta_base_ja.md
+docs/_posts/muhammetsnts/2021-09-15-ner_healthcare_de.md
+docs/_posts/murat-gunay/2021-09-13-bert_token_classifier_ner_deid_en.md
+docs/_posts/DevinTDHa/2021-09-15-ner_ud_gsd_xlm_roberta_base_ja.md
+docs/_posts/muhammetsnts/2021-09-15-ner_healthcare_de.md
+docs/_posts/murat-gunay/2021-09-13-bert_token_classifier_ner_deid_en.md
