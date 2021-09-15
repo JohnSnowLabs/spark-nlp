@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Evaluation - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Version Compatibility - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/evaluation"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/licensed_version_compatibility"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -387,7 +387,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/licensed_install">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2 active"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scaladoc</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/licensed_install">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scaladoc</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -518,381 +518,163 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/nlp_products">NLP Products</a></li>
-    <li>Evaluation</li>
+    <li>Version Compatibility</li>
   </ul>
-</div></div><header><h1>Evaluation</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header><h1>Version Compatibility</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/evaluation.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Evaluation"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_version_compatibility.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Version Compatibility"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="spark-nlp-evaluation">Spark NLP Evaluation</h2>
-
-  <p>This module includes tools to evaluate the accuracy of annotators and visualize the parameters used on training. It includes specific metrics for each <strong>annotator</strong> and its training time.
-The results will display on the console or to an <a href="https://mlflow.org/docs/latest/tracking.html">MLflow tracking UI</a>. Just with a simple import you can start using eval module.</p>
-  <ul>
-    <li>Check how to setup MLflow UI</li>
-    <li>See <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/enterprise/eval">here</a> on eval folder if you want to check specific running examples.</li>
-  </ul>
-
-  <p><strong>Example:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.eval</span> <span class="kn">import</span> <span class="o">*</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.eval._</span>
-</code></pre></div>    </div>
-
-  </div>
-</div>
-<div class="h3-box">
-
-  <h3 id="evaluating-norvig-spell-checker">Evaluating Norvig Spell Checker</h3>
-
-  <p>You can evaluate this spell checker either by training an annotator or by using a pretrained model.</p>
-
-  <ul>
-    <li>spark: Spark session.</li>
-    <li>trainFile: A corpus of documents with correctly spell words.</li>
-    <li>testFile: A corpus of documents with misspells words.</li>
-    <li>groundTruthFile: The same corpus used on <em>testFile</em> but with correctly spell words.</li>
-  </ul>
-
-  <p><strong>Train File Example:</strong></p>
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Any document that you prefer with correctly spell words.
-</code></pre></div>  </div>
-
-  <p><strong>Test File Example:</strong></p>
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>My siter go to Munich.
-</code></pre></div>  </div>
-
-  <p><strong>Ground Truth File Example:</strong></p>
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>My sister goes to Munich.
-</code></pre></div>  </div>
-
-  <p><strong>Example for annotator:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spell</span> <span class="o">=</span> <span class="n">NorvigSweetingApproach</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setDictionary</span><span class="p">(</span><span class="n">dictionary_file</span><span class="p">)</span>
-
-<span class="n">norvigSpellEvaluation</span> <span class="o">=</span> <span class="n">NorvigSpellEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_file</span><span class="p">,</span> <span class="n">ground_truth_file</span><span class="p">)</span>
-<span class="n">norvigSpellEvaluation</span><span class="p">.</span><span class="n">computeAccuracyAnnotator</span><span class="p">(</span><span class="n">train_file</span><span class="p">,</span> <span class="n">spell</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">spell</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NorvigSweetingApproach</span><span class="o">()</span>
-   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">))</span>
-   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"checked"</span><span class="o">)</span>
-   <span class="o">.</span><span class="py">setDictionary</span><span class="o">(</span><span class="n">dictionary_file</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">norvigSpellEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NorvigSpellEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">groundTruthFile</span><span class="o">)</span>
-<span class="nv">norvigSpellEvaluation</span><span class="o">.</span><span class="py">computeAccuracyAnnotator</span><span class="o">(</span><span class="n">trainFile</span><span class="o">,</span> <span class="n">spell</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-
-  <p><strong>Example for pretrained model:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spell</span> <span class="o">=</span> <span class="n">NorvigSweetingModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>
-
-<span class="n">norvigSpellEvaluation</span> <span class="o">=</span> <span class="n">NorvigSpellEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_file</span><span class="p">,</span> <span class="n">ground_truth_file</span><span class="p">)</span>
-<span class="n">norvigSpellEvaluation</span><span class="p">.</span><span class="n">computeAccuracyModel</span><span class="p">(</span><span class="n">spell</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">spell</span> <span class="k">=</span> <span class="nv">NorvigSweetingModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-<span class="k">val</span> <span class="nv">norvigSpellEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NorvigSpellEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">groundTruthFile</span><span class="o">)</span>
-<span class="nv">norvigSpellEvaluation</span><span class="o">.</span><span class="py">computeAccuracyModel</span><span class="o">(</span><span class="n">spell</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-</div>
-<div class="h3-box">
-
-  <h3 id="evaluating-symmetric-spell-checker">Evaluating Symmetric Spell Checker</h3>
-
-  <p>You can evaluate this spell checker either by training an annotator or by using a pretrained model.</p>
-
-  <ul>
-    <li>spark: Spark session</li>
-    <li>trainFile: A corpus of documents with correctly spell words.</li>
-    <li>testFile: A corpus of documents with misspells words.</li>
-    <li>groundTruthFile: The same corpus used on <em>testFile</em> but with correctly spell words.</li>
-  </ul>
-
-  <p><strong>Train File Example:</strong></p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Any document that you prefer with correctly spell words.
-</code></pre></div>  </div>
-
-  <p><strong>Test File Example:</strong></p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>My siter go to Munich.
-</code></pre></div>  </div>
-
-  <p><strong>Ground Truth File Example:</strong></p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>My sister goes to Munich.
-</code></pre></div>  </div>
-
-  <p><strong>Example for annotator:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spell</span> <span class="o">=</span> <span class="n">SymmetricDeleteApproach</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"checked"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setDictionary</span><span class="p">(</span><span class="n">dictionary_file</span><span class="p">)</span>
-
-<span class="n">symSpellEvaluation</span> <span class="o">=</span> <span class="n">SymSpellEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_file</span><span class="p">,</span> <span class="n">ground_truth_file</span><span class="p">)</span>
-<span class="n">symSpellEvaluation</span><span class="p">.</span><span class="n">computeAccuracyAnnotator</span><span class="p">(</span><span class="n">train_file</span><span class="p">,</span> <span class="n">spell</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">spell</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SymmetricDeleteApproach</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"checked"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">symSpellEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SymSpellEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">groundTruthFile</span><span class="o">)</span>
-<span class="nv">symSpellEvaluation</span><span class="o">.</span><span class="py">computeAccuracyAnnotator</span><span class="o">(</span><span class="n">trainFile</span><span class="o">,</span> <span class="n">spell</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-
-  <p><strong>Example for pretrained model:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spell</span> <span class="o">=</span> <span class="n">SymmetricDeleteModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>
-
-<span class="n">symSpellEvaluation</span> <span class="o">=</span> <span class="n">NorvigSpellEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_file</span><span class="p">,</span> <span class="n">ground_truth_file</span><span class="p">)</span>
-<span class="n">symSpellEvaluation</span><span class="p">.</span><span class="n">computeAccuracyModel</span><span class="p">(</span><span class="n">spell</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">spell</span> <span class="k">=</span> <span class="nv">SymmetricDeleteModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-<span class="k">val</span> <span class="nv">symSpellEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SymSpellEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">groundTruthFile</span><span class="o">)</span>
-<span class="nv">symSpellEvaluation</span><span class="o">.</span><span class="py">computeAccuracyModel</span><span class="o">(</span><span class="n">spell</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-</div>
-<div class="h3-box">
-
-  <h3 id="evaluating-ner-dl">Evaluating NER DL</h3>
-
-  <p>You can evaluate NER DL when training an annotator.</p>
-
-  <ul>
-    <li>spark: Spark session.</li>
-    <li>trainFile: Files with labeled NER entities for training.</li>
-    <li>testFile: Files with labeled NER entities for testing. These files are used to evaluate the model. So, it’s used for prediction and the labels as ground truth.</li>
-    <li>tagLevel: The granularity of tagging when measuring accuracy on entities. Set “IOB” to include inside and beginning, empty to ignore it. For example
-to display accuracy for entity I-PER and B-PER set “IOB” whereas just for entity PER set it as an empty string.</li>
-  </ul>
-
-  <p><strong>Example:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddings</span><span class="p">()</span> \
-            <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
-            <span class="p">.</span><span class="n">setEmbeddingsSource</span><span class="p">(</span><span class="s">"glove.6B.100d.txt"</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s">"TEXT"</span><span class="p">)</span>
-
-<span class="n">ner_approach</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">nerDLEvaluation</span> <span class="o">=</span> <span class="n">NerDLEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_File</span><span class="p">,</span> <span class="n">tag_level</span><span class="p">)</span>
-<span class="n">nerDLEvaluation</span><span class="p">.</span><span class="n">computeAccuracyAnnotator</span><span class="p">(</span><span class="n">train_file</span><span class="p">,</span> <span class="n">ner_approach</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">WordEmbeddings</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setEmbeddingsSource</span><span class="o">(</span><span class="s">"glove.6B.100d.txt"</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="nv">WordEmbeddingsFormat</span><span class="o">.</span><span class="py">TEXT</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nerApproach</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerDLApproach</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setLabelColumn</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setMaxEpochs</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setRandomSeed</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nerDLEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerDLEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">tagLevel</span><span class="o">)</span>
-<span class="nv">nerDLEvaluation</span><span class="o">.</span><span class="py">computeAccuracyAnnotator</span><span class="o">(</span><span class="n">trainFile</span><span class="o">,</span> <span class="n">nerApproach</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-
-  <p><strong>Example for pretrained model:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_dl</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>
-
-<span class="n">nerDlEvaluation</span> <span class="o">=</span> <span class="n">NerDLEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_File</span><span class="p">,</span> <span class="n">tag_level</span><span class="p">)</span>
-<span class="n">nerDlEvaluation</span><span class="p">.</span><span class="n">computeAccuracyModel</span><span class="p">(</span><span class="n">ner_dl</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">nerDl</span> <span class="k">=</span> <span class="nv">NerDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-
-<span class="k">val</span> <span class="nv">nerDlEvaluation</span> <span class="k">=</span> <span class="nc">NerDLEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">tagLevel</span><span class="o">)</span>
-<span class="nv">nerDlEvaluation</span><span class="o">.</span><span class="py">computeAccuracyModel</span><span class="o">(</span><span class="n">nerDl</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-</div>
-<div class="h3-box">
-
-  <h3 id="evaluating-ner-crf">Evaluating NER CRF</h3>
-
-  <p>You can evaluate NER CRF when training an annotator.</p>
-
-  <ul>
-    <li>spark: Spark session.</li>
-    <li>trainFile: Files with labeled NER entities for training.</li>
-    <li>testFile: Files with labeled NER entities for testing. These files are used to evaluate the model. So, it’s used for prediction and the labels as ground truth.</li>
-    <li>format: The granularity of tagging when measuring accuracy on entities. Set “IOB” to include inside and beginning, empty to ignore it. For example
-to display accuracy for entity I-PER and B-PER set “IOB” whereas just for entity PER set it as an empty string.</li>
-  </ul>
-
-  <p><strong>Example:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddings</span><span class="p">()</span> \
-            <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
-            <span class="p">.</span><span class="n">setEmbeddingsSource</span><span class="p">(</span><span class="s">"glove.6B.100d.txt"</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s">"TEXT"</span><span class="p">)</span>
-
-<span class="n">ner_approach</span> <span class="o">=</span> <span class="n">NerCrfApproach</span><span class="p">()</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">nerCrfEvaluation</span> <span class="o">=</span> <span class="n">NerCrfEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_File</span><span class="p">,</span> <span class="n">tag_level</span><span class="p">)</span>
-<span class="n">nerCrfEvaluation</span><span class="p">.</span><span class="n">computeAccuracyAnnotator</span><span class="p">(</span><span class="n">train_file</span><span class="p">,</span> <span class="n">ner_approach</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">WordEmbeddings</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setEmbeddingsSource</span><span class="o">(</span><span class="s">"./glove.6B.100d.txt "</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="nv">WordEmbeddingsFormat</span><span class="o">.</span><span class="py">TEXT</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerCrfApproach</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span><span class="s">"pos"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setLabelColumn</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setMaxEpochs</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">nerCrfEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerCrfEvaluation</span><span class="o">(</span><span class="n">testFile</span><span class="o">,</span> <span class="n">format</span><span class="o">)</span>
-<span class="nv">nerCrfEvaluation</span><span class="o">.</span><span class="py">computeAccuracyAnnotator</span><span class="o">(</span><span class="n">trainFile</span><span class="o">,</span> <span class="n">nerTagger</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-
-  <p><strong>Example for pretrained model:</strong></p>
-
-  <div class="tabs-box pt0">
-
-    <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ner_crf</span> <span class="o">=</span> <span class="n">NerCrfModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>
-
-<span class="n">nerCrfEvaluation</span> <span class="o">=</span> <span class="n">NerCrfEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_File</span><span class="p">,</span> <span class="n">tag_level</span><span class="p">)</span>
-<span class="n">nerCrfEvaluation</span><span class="p">.</span><span class="n">computeAccuracyModel</span><span class="p">(</span><span class="n">ner_crf</span><span class="p">)</span>
-</code></pre></div>    </div>
-
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nerCrf</span> <span class="k">=</span> <span class="nv">NerCrfModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-
-<span class="n">nerCrfEvaluation</span> <span class="k">=</span> <span class="nc">NerCrfEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">,</span> <span class="n">tagLevel</span><span class="o">)</span>
-<span class="nv">nerCrfEvaluation</span><span class="o">.</span><span class="py">computeAccuracyModel</span><span class="o">(</span><span class="n">nerCrf</span><span class="o">)</span>
-</code></pre></div>    </div>
-
-  </div>
-</div>
-
-<h3 id="evaluating-pos-tagger">Evaluating POS Tagger</h3>
-
-<p>You can evaluate POS either by training an annotator or by using a pretrained model.</p>
-
-<ul>
-  <li>spark: Spark session.</li>
-  <li>trainFile: A labeled POS file see and example <a href="https://nlp.johnsnowlabs.com/docs/en/annotators#pos-dataset">here</a>.</li>
-  <li>testFile: A CoNLL-U format file.</li>
-</ul>
-
-<p><strong>Example for annotator:</strong></p>
-
-<div class="tabs-box pt0">
-
-  <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronApproach</span><span class="p">()</span> \
-             <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-             <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span> \
-             <span class="p">.</span><span class="n">setNIterations</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">posEvaluation</span> <span class="o">=</span> <span class="n">POSEvaluation</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">test_file</span><span class="p">)</span>
-<span class="n">posEvaluation</span><span class="p">.</span><span class="n">computeAccuracyAnnotator</span><span class="p">(</span><span class="n">train_file</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">posTagger</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PerceptronApproach</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setNIterations</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">posEvaluation</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">POSEvaluation</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="n">testFile</span><span class="o">)</span>
-<span class="nv">posEvaluation</span><span class="o">.</span><span class="py">computeAccuracyAnnotator</span><span class="o">(</span><span class="n">trainFile</span><span class="o">,</span> <span class="n">posTagger</span><span class="o">)</span>
-</code></pre></div>  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Spark NLP for Healthcare</th>
+        <th>Spark NLP (Public)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>3.2.2</td>
+        <td>3.2.2</td>
+      </tr>
+      <tr>
+        <td>3.2.1</td>
+        <td>3.2.1</td>
+      </tr>
+      <tr>
+        <td>3.2.0</td>
+        <td>3.2.1</td>
+      </tr>
+      <tr>
+        <td>3.1.3</td>
+        <td>3.1.3</td>
+      </tr>
+      <tr>
+        <td>3.1.2</td>
+        <td>3.1.2</td>
+      </tr>
+      <tr>
+        <td>3.1.1</td>
+        <td>3.1.0</td>
+      </tr>
+      <tr>
+        <td>3.1.0</td>
+        <td>3.1.0</td>
+      </tr>
+      <tr>
+        <td>3.0.3</td>
+        <td>3.0.3</td>
+      </tr>
+      <tr>
+        <td>3.0.2</td>
+        <td>3.0.2</td>
+      </tr>
+      <tr>
+        <td>3.0.1</td>
+        <td>3.0.1</td>
+      </tr>
+      <tr>
+        <td>3.0.0</td>
+        <td>3.0.1</td>
+      </tr>
+      <tr>
+        <td>2.7.6</td>
+        <td>2.7.4</td>
+      </tr>
+      <tr>
+        <td>2.7.5</td>
+        <td>2.7.4</td>
+      </tr>
+      <tr>
+        <td>2.7.4</td>
+        <td>2.7.3</td>
+      </tr>
+      <tr>
+        <td>2.7.3</td>
+        <td>2.7.3</td>
+      </tr>
+      <tr>
+        <td>2.7.2</td>
+        <td>2.6.5</td>
+      </tr>
+      <tr>
+        <td>2.7.1</td>
+        <td>2.6.4</td>
+      </tr>
+      <tr>
+        <td>2.7.0</td>
+        <td>2.6.3</td>
+      </tr>
+      <tr>
+        <td>2.6.2</td>
+        <td>2.6.2</td>
+      </tr>
+      <tr>
+        <td>2.6.0</td>
+        <td>2.6.0</td>
+      </tr>
+      <tr>
+        <td>2.5.5</td>
+        <td>2.5.5</td>
+      </tr>
+      <tr>
+        <td>2.5.3</td>
+        <td>2.5.3</td>
+      </tr>
+      <tr>
+        <td>2.5.2</td>
+        <td>2.5.2</td>
+      </tr>
+      <tr>
+        <td>2.5.0</td>
+        <td>2.5.0</td>
+      </tr>
+      <tr>
+        <td>2.4.7</td>
+        <td>2.4.5</td>
+      </tr>
+      <tr>
+        <td>2.4.6</td>
+        <td>2.4.5</td>
+      </tr>
+      <tr>
+        <td>2.4.5</td>
+        <td>2.4.5</td>
+      </tr>
+      <tr>
+        <td>2.4.2</td>
+        <td>2.4.2</td>
+      </tr>
+      <tr>
+        <td>2.4.1</td>
+        <td>2.4.1</td>
+      </tr>
+      <tr>
+        <td>2.4.0</td>
+        <td>2.4.0</td>
+      </tr>
+      <tr>
+        <td>2.3.6</td>
+        <td>2.3.6</td>
+      </tr>
+      <tr>
+        <td>2.3.5</td>
+        <td>2.3.5</td>
+      </tr>
+      <tr>
+        <td>2.3.4</td>
+        <td>2.3.4</td>
+      </tr>
+    </tbody>
+  </table>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2020-06-05T00:00:00+00:00">Jun 05, 2020</time>
+      <time itemprop="dateModified" datetime="2021-09-14T00:00:00+00:00">Sep 14, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1018,7 +800,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_models">Models</a></div><div class="next nav_link"><span>NEXT</span><a href="/licensed/api/">Scaladoc</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/licensed/api/">Scaladoc</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/licensed_release_notes">Release Notes</a></div></div></div>
 
 </div>
 </div>
