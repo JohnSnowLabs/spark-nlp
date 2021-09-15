@@ -18,10 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-Relation Extraction model based on syntactic features using deep learning. Models the set of clinical relations defined in the 2010 ``i2b2`` relation challenge.
-
-{:.h2_title}
-## Included Relations 
+Relation Extraction model based on syntactic features using deep learning. Models the set of clinical relations defined in the 2010 ``i2b2`` relation challenge. 
 `TrIP`: A certain treatment has improved or cured a medical problem (eg, ‘infection resolved with antibiotic course’)
 `TrWP`: A patient's medical problem has deteriorated or worsened because of or in spite of a treatment being administered (eg, ‘the tumor was growing despite the drain’)
 `TrCP`: A treatment caused a medical problem (eg, ‘penicillin causes a rash’)
@@ -30,6 +27,11 @@ Relation Extraction model based on syntactic features using deep learning. Model
 `TeRP`: A test has revealed some medical problem (eg, ‘an echocardiogram revealed a pericardial effusion’)
 `TeCP`: A test was performed to investigate a medical problem (eg, ‘chest x-ray done to rule out pneumonia’)
 `PIP`: Two problems are related to each other (eg, ‘Azotemia presumed secondary to sepsis’)
+
+{:.h2_title}
+## Predicted Entities
+ 
+`TrIP`, `TrWP`, `TrCP`, `TrAP`, `TrAP`, `TeRP`, `TeCP`, `PIP`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL/){:.button.button-orange.button-orange-trans.co.button-icon}

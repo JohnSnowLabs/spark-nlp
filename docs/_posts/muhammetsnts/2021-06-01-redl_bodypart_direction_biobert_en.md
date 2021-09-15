@@ -17,13 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Relation extraction between body parts entities like `Internal_organ_or_component`, `External_body_part_or_region` etc. and direction entities like `upper`, `lower` in clinical texts.
+Relation extraction between body parts entities like `Internal_organ_or_component`, `External_body_part_or_region` etc. and direction entities like `upper`, `lower` in clinical texts. `1` : Shows the body part and direction entity are related, `0` : Shows the body part and direction entity are not related.
 
 ## Predicted Entities
 
-`1` : Shows the body part and direction entity are related.
-
-`0` : Shows the body part and direction entity are not related.
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

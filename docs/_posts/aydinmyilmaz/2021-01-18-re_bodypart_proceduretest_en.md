@@ -20,8 +20,7 @@ Relation extraction between body parts entites ['Internal_organ_or_component','E
 
 ## Predicted Entities
 
-  `1`
-  `0`
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
