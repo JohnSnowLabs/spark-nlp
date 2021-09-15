@@ -424,8 +424,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Detect Symptoms, Treatments and Other Entities in German- Spark NLP Model</title><meta name="description" content="DescriptionThis model can be used to detect clinical entities in medical text in German language.Predicted EntitiesDIAGLAB_PROCEDURE, MEDICAL_SPECIFICATION, ...">
-<link rel="canonical" href="/2021/09/15/ner_healthcare_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Drug Spell Checker- Spark NLP Model</title><meta name="description" content="DescriptionThis model detects and corrects spelling errors of drugs in your input text based on Norvig’s approach.Predicted EntitiesLive DemoOpen in ColabDow...">
+<link rel="canonical" href="/2021/09/15/spellcheck_drug_norvig_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -819,20 +819,18 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 15, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-15T00:00:00+00:00"></div><header><h1>Detect Symptoms, Treatments and Other Entities in German</h1></header></div><meta itemprop="headline" content="Detect Symptoms, Treatments and Other Entities in German"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>healthcare</li><li>licensed</li><li>de</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="ner,healthcare,licensed,de"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-15T00:00:00+00:00"></div><header><h1>Drug Spell Checker</h1></header></div><meta itemprop="headline" content="Drug Spell Checker"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>spell</li><li>spell_checker</li><li>clinical</li><li>en</li><li>licensed</li><li>drug</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-15T00:00:00+00:00">
+    <meta itemprop="keywords" content="spell,spell_checker,clinical,en,licensed,drug"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model can be used to detect clinical entities in medical text in German language.</p>
+<p>This model detects and corrects spelling errors of drugs in your input text based on Norvig’s approach.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">DIAGLAB_PROCEDURE</code>, <code class="language-plaintext highlighter-rouge">MEDICAL_SPECIFICATION</code>, <code class="language-plaintext highlighter-rouge">MEDICAL_DEVICE</code>, <code class="language-plaintext highlighter-rouge">MEASUREMENT</code>, <code class="language-plaintext highlighter-rouge">BIOLOGICAL_CHEMISTRY</code>, <code class="language-plaintext highlighter-rouge">BODY_FLUID</code>, <code class="language-plaintext highlighter-rouge">TIME_INFORMATION</code>, <code class="language-plaintext highlighter-rouge">LOCAL_SPECIFICATION</code>, <code class="language-plaintext highlighter-rouge">BIOLOGICAL_PARAMETER</code>, <code class="language-plaintext highlighter-rouge">PROCESS</code>, <code class="language-plaintext highlighter-rouge">MEDICATION</code>, <code class="language-plaintext highlighter-rouge">DOSING</code>, <code class="language-plaintext highlighter-rouge">DEGREE</code>, <code class="language-plaintext highlighter-rouge">MEDICAL_CONDITION</code>, <code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">TISSUE</code>, <code class="language-plaintext highlighter-rouge">STATE_OF_HEALTH</code>, <code class="language-plaintext highlighter-rouge">BODY_PART</code>, <code class="language-plaintext highlighter-rouge">TREATMENT</code></p>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_de_3.0.0_3.0_1631687601139.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_drug_norvig_en_3.2.2_3.0_1631700986904.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -840,60 +838,56 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span><span class="s">"de"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
-   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
-   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_healthcare"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-<span class="p">...</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">clinical_ner_converter</span><span class="p">])</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">spell</span> <span class="o">=</span> <span class="n">NorvigSweetingModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"spellcheck_drug_norvig"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"spell"</span><span class="p">)</span>\
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist Hernia femoralis, Akne, einseitig, ein hochmalignes bronchogenes Karzinom, das überwiegend im Zentrum der Lunge, in einem Hauptbronchus entsteht. Die mittlere Prävalenz wird auf 1/20.000 geschätzt."</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">]))</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>    
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">spell</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">))</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"You have to take Neutrcare and colfosrinum and a bit of Fluorometholne &amp; Ribotril"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="k">val</span> <span class="nv">embeddings_clinical</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span><span class="s">"de"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-   <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
-   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_healthcare"</span><span class="o">,</span> <span class="s">"de"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-<span class="o">...</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings_clinical</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist Hernia femoralis, Akne, einseitig, ein hochmalignes bronchogenes Karzinom, das überwiegend im Zentrum der Lunge, in einem Hauptbronchus entsteht. Die mittlere Prävalenz wird auf 1/20.000 geschätzt."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">spell</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">NorvigSweetingModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"spellcheck_drug_norvig"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"spell"</span><span class="o">)\</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">tokenizer</span><span class="o">,</span><span class="n">spell</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="ss">'tex</span><span class="n">t</span><span class="o">'))</span>
+<span class="k">val</span> <span class="nv">lp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">lp</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"You have to take Neutrcare and colfosrinum and a bit of Fluorometholne &amp; Ribotril"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+---------------------+
-|chunk            |label                |
-+-----------------+---------------------+
-|Kleinzellige     |MEASUREMENT          |
-|Bronchialkarzinom|MEDICAL_CONDITION    |
-|Kleinzelliger    |MEDICAL_SPECIFICATION|
-|Lungenkrebs      |MEDICAL_CONDITION    |
-|SCLC             |MEDICAL_CONDITION    |
-|Hernia           |MEDICAL_CONDITION    |
-|femoralis        |LOCAL_SPECIFICATION  |
-|Akne             |MEDICAL_CONDITION    |
-|einseitig        |MEASUREMENT          |
-|hochmalignes     |MEDICAL_CONDITION    |
-|bronchogenes     |BODY_PART            |
-|Karzinom         |MEDICAL_CONDITION    |
-|Lunge            |BODY_PART            |
-|Hauptbronchus    |BODY_PART            |
-|mittlere         |MEASUREMENT          |
-|Prävalenz        |MEDICAL_CONDITION    |
-+-----------------+---------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Original text  : You have to take Neutrcare and colfosrinum and a bit of fluorometholne &amp; Ribotril
+
+Corrected text : You have to take Neutracare and colforsinum and a bit of fluorometholone &amp; Rivotril
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -902,11 +896,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>ner_healthcare</td>
+      <td>spellcheck_drug_norvig</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.0.0+</td>
+      <td>Spark NLP for Healthcare 3.2.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -918,43 +912,22 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[spell]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>de</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------+-------+------+------+-------+---------+------+------+
-|               entity|     tp|    fp|    fn|  total|precision|recall|    f1|
-+---------------------+-------+------+------+-------+---------+------+------+
-| BIOLOGICAL_PARAMETER| 1186.0| 651.0| 429.0| 1615.0|   0.6456|0.7344|0.6871|
-|           BODY_FLUID|   32.0|   8.0|  23.0|   55.0|      0.8|0.5818|0.6737|
-|               PERSON| 3927.0| 293.0| 641.0| 4568.0|   0.9306|0.8597|0.8937|
-|               DOSING|  203.0|  96.0| 155.0|  358.0|   0.6789| 0.567| 0.618|
-|    DIAGLAB_PROCEDURE| 2373.0| 812.0| 873.0| 3246.0|   0.7451|0.7311| 0.738|
-|               TISSUE|    4.0|   3.0|   2.0|    6.0|   0.5714|0.6667|0.6154|
-|            BODY_PART| 1859.0| 513.0| 384.0| 2243.0|   0.7837|0.8288|0.8056|
-|           MEDICATION| 3307.0| 925.0|1075.0| 4382.0|   0.7814|0.7547|0.7678|
-|      STATE_OF_HEALTH|  602.0| 131.0| 162.0|  764.0|   0.8213| 0.788|0.8043|
-|  LOCAL_SPECIFICATION|  231.0|  86.0|  97.0|  328.0|   0.7287|0.7043|0.7163|
-|          MEASUREMENT| 6472.0|1612.0|1691.0| 8163.0|   0.8006|0.7928|0.7967|
-|            TREATMENT| 9262.0|2054.0|2380.0|11642.0|   0.8185|0.7956|0.8069|
-|MEDICAL_SPECIFICATION| 1455.0| 782.0| 493.0| 1948.0|   0.6504|0.7469|0.6953|
-|    MEDICAL_CONDITION|10464.0|2243.0|2364.0|12828.0|   0.8235|0.8157|0.8196|
-|     TIME_INFORMATION| 1496.0| 534.0| 603.0| 2099.0|   0.7369|0.7127|0.7246|
-|              PROCESS|  526.0| 232.0| 251.0|  777.0|   0.6939| 0.677|0.6853|
-| BIOLOGICAL_CHEMISTRY|  524.0| 261.0| 392.0|  916.0|   0.6675|0.5721|0.6161|
-+---------------------+-------+------+------+-------+---------+------+------+
-</code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1080,7 +1053,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/15/ner_ud_gsd_xlm_roberta_base_ja.html">Named Entity Recognition for Japanese (XLM-RoBERTa)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/15/ner_healthcare_de.html">Detect Symptoms, Treatments and Other Entities in German</a></div></div></div>
 
 </div>
 </div>
