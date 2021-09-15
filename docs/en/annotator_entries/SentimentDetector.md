@@ -62,10 +62,6 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
 # In this example, the dictionary `default-sentiment-dict.txt` has the form of
 #
 # ...
@@ -76,6 +72,11 @@ from pyspark.ml import Pipeline
 # ...
 #
 # where each sentiment keyword is delimited by `","`.
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -129,6 +130,7 @@ result.selectExpr("sentimentScore.result").show(truncate=False)
 // ...
 //
 // where each sentiment keyword is delimited by `","`.
+
 import spark.implicits._
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator.Tokenizer

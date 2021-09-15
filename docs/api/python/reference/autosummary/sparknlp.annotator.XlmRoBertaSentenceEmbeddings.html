@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.XlmRoBertaSentenceEmbeddings &#8212; Spark NLP 3.2.2 documentation</title>
+    <title>sparknlp.annotator.XlmRoBertaSentenceEmbeddings &#8212; Spark NLP 3.2.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -751,7 +751,11 @@ on Facebook’s RoBERTa model released in 2019. It is a large multi-lingual lang
 filtered CommonCrawl data. Pretrained models can be loaded with pretrained of the companion object:</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained" title="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
-<p>&gt;&gt;&gt;embeddings = XlmRoBertaSentenceEmbeddings.pretrained()     …    .setInputCols([“sentence”])     …    .setOutputCol(“sentence_embeddings”)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaSentenceEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;sent_xlm_roberta_base&quot;</span></code>, if no name is provided.</p>
 <p>For available pretrained models please see the
 <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
@@ -785,21 +789,23 @@ False</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
-<dt><strong>**Paper abstract**</strong></dt><dd></dd>
-<dt><strong>*This paper shows that pretraining multilingual language models at scale leads to significant performance gains</strong></dt><dd></dd>
-<dt><strong>for a wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one</strong></dt><dd></dd>
-<dt><strong>hundred languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R,</strong></dt><dd></dd>
-<dt><strong>significantly outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8%</strong></dt><dd></dd>
-<dt><strong>average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs</strong></dt><dd></dd>
-<dt><strong>particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over</strong></dt><dd></dd>
-<dt><strong>the previous XLM model. We also present a detailed empirical evaluation of the key factors that are required to</strong></dt><dd></dd>
-<dt><strong>achieve these gains, including the trade-offs between (1) positive transfer and capacity dilution and (2) the</strong></dt><dd></dd>
-<dt><strong>performance of high and low resource languages at scale. Finally, we show, for the first time, the possibility of</strong></dt><dd></dd>
-<dt><strong>multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive with strong</strong></dt><dd></dd>
-<dt><strong>monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data, and models publicly available.*</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://arxiv.org/pdf/1911.02116.pdf">Unsupervised Cross-lingual Representation Learning at Scale</a></p>
+<p><strong>Paper abstract:</strong></p>
+<p><em>This paper shows that pretraining multilingual language models at scale leads to significant performance gains
+for a wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one
+hundred languages, using more than two terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R,
+significantly outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8%
+average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs
+particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over
+the previous XLM model. We also present a detailed empirical evaluation of the key factors that are required to
+achieve these gains, including the trade-offs between (1) positive transfer and capacity dilution and (2) the
+performance of high and low resource languages at scale. Finally, we show, for the first time, the possibility of
+multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive with strong
+monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data, and models publicly available.</em></p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -916,7 +922,7 @@ False</p>
 <td><p>Returns an MLReader instance for this class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.save" title="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
-<td><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p></td>
+<td><p>Save this ML instance to the given path, a shortcut of 'write().save(path)'.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.set" title="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
@@ -1221,14 +1227,14 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sent_xlm_roberta_base'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaSentenceEmbeddings.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sent_xlm_roberta_base'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xx'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaSentenceEmbeddings.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “sent_roberta_base”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “sent_xlm_roberta_base”</p>
 </dd>
-<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “xx”</p>
 </dd>
 <dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
 Spark NLPs repositories otherwise.</p>
@@ -1470,7 +1476,7 @@ RecursivePipeline</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     

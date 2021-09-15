@@ -7,6 +7,9 @@ permalink: /docs/en/alab/tasks
 key: docs-training
 modify_date: "2020-11-19"
 use_language_switcher: "Python-Scala"
+show_nav: true
+sidebar:
+    nav: annotation-lab
 ---
 
 The **Tasks** screen shows a list of all documents that have been imported into the current project. 

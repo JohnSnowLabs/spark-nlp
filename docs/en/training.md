@@ -6,95 +6,25 @@ permalink: /docs/en/training
 key: docs-training
 modify_date: "2019-10-23"
 use_language_switcher: "Python-Scala"
-
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 ## Training Datasets
+These are classes to load common datasets to train annotators for tasks such as
+part-of-speech tagging, named entity recognition, spell checking and more.
+
+{% include_relative training_entries/pos.md %}
+{% include_relative training_entries/conll.md %}
+{% include_relative training_entries/conllu.md %}
+{% include_relative training_entries/pubtator.md %}
 
 <div class="h3-box" markdown="1">
 
-### POS Dataset
+### Spell Checkers Dataset (Corpus)
 
-In order to train a Part of Speech Tagger annotator, we need to get corpus data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.  
-
-**Input File Format:**
-
-```bash
-A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN
-```
-
-**Available parameters are:**
-
-- spark: Spark session
-- path(string): Path to file with corpus data for training POS
-- delimiter(string): Delimiter of token and postag. Defaults to `|`
-- outputPosCol(string): Name of the column with POS values. Defaults to "tags".
-
-**Example:**  
-
-Refer to the [POS](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.POS) Scala docs for more details on the API.
-
-<div class="tabs-box" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-from sparknlp.training import POS
-train_pos = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
-```
-
-```scala
-import com.johnsnowlabs.nlp.training.POS
-val trainPOS = POS().readDataset(spark, "./src/main/resources/anc-pos-corpus")
-```
-
-</div></div><div class="h3-box" markdown="1">
-
-### CoNLL Dataset
-
-In order to train a Named Entity Recognition DL annotator, we need to get CoNLL format data as a spark dataframe. There is a component that does this for us: it reads a plain text file and transforms it to a spark dataset.
-
-**Constructor parameters:**
-
-- documentCol: String = "document",
-- sentenceCol: String = "sentence",
-- tokenCol: String = "token",
-- posCol: String = "pos",
-- conllLabelIndex: Int = 3,
-- conllPosIndex: Int = 1,
-- conllTextCol: String = "text",
-- labelCol: String = "label",
-- explodeSentences: Boolean = false
-
-**Available parameters are:**
-
-- spark: Spark session
-- path(string): Path to a [CoNLL 2003 IOB NER file](https://www.clips.uantwerpen.be/conll2003/ner).
-- readAs(string): Can be LINE_BY_LINE or SPARK_DATASET, with options if latter is used (default LINE_BY_LINE)
-
-**Example:**
-
-Refer to the [CoNLL](https://nlp.johnsnowlabs.com/api/index#com.johnsnowlabs.nlp.training.CoNLL) Scala docs for more details on the API.
-
-<div class="tabs-box" markdown="1">
-
-{% include programmingLanguageSelectScalaPython.html %}
-
-```python
-from sparknlp.training import CoNLL
-training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
-```
-
-```scala
-import com.johnsnowlabs.nlp.training.CoNLL
-val trainingConll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
-```
-
-</div></div><div class="h3-box" markdown="1">
-
-### Spell Checkers Dataset
-
-In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus data as a spark dataframe. We can read a plain text file and transforms it to a spark dataset.  
+In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus data as a spark dataframe. We can read a plain text file and transforms it to a spark dataset.
 
 **Example:**
 
@@ -103,40 +33,62 @@ In order to train a Norvig or Symmetric Spell Checkers, we need to get corpus da
 {% include programmingLanguageSelectScalaPython.html %}
 
 ```python
-train_corpus = spark.read.text("./sherlockholmes.txt")
-                    .withColumnRenamed("value", "text")
+train_corpus = spark.read \
+    .text("./sherlockholmes.txt") \
+    .withColumnRenamed("value", "text")
 ```
 
 ```scala
-val trainCorpus = spark.read.text("./sherlockholmes.txt")
-                       .select(trainCorpus.col("value").as("text"))
+val trainCorpus = spark.read
+    .text("./sherlockholmes.txt")
+    .select(trainCorpus.col("value").as("text"))
 ```
 
-</div></div><div class="h3-box" markdown="1">
+</div></div>
 
-### Vivekn Sentiment Analysis Dataset
+## Text Processing
+These are annotators that can be trained to process text for tasks such as
+dependency parsing, lemmatisation, part-of-speech tagging, sentence detection
+and word segmentation.
 
-To train ViveknSentimentApproach, it is needed to have input columns DOCUMENT and TOKEN, and a String column which is set with `setSentimentCol` stating either `positive` or `negative`
+{% include_relative training_entries/DependencyParser.md %}
+{% include_relative training_entries/Lemmatizer.md %}
+{% include_relative training_entries/Perceptron.md %}
+{% include_relative training_entries/SentenceDetectorDL.md %}
+{% include_relative training_entries/TypedDependencyParser.md %}
+{% include_relative training_entries/WordSegmenter.md %}
 
-</div>
+## Spell Checkers
+These are annotators that can be trained to correct text.
 
-### PubTator Dataset
+{% include_relative training_entries/ContextSpellChecker.md %}
+{% include_relative training_entries/NorvigSweeting.md %}
+{% include_relative training_entries/SymmetricDelete.md %}
 
-The PubTator format includes medical papers' titles, abstracts, and tagged chunks (see [PubTator Docs](http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783) and [MedMentions Docs](http://github.com/chanzuckerberg/MedMentions) for more information). We can create a Spark DataFrame from a PubTator text file.
+## Token Classification
+These are annotators that can be trained to recognize named entities in text.
 
-**Available parameters are:**
+{% include_relative training_entries/NerCrf.md %}
+{% include_relative training_entries/NerDL.md %}
 
-- spark: Spark session
-- path(string): Path to a PubTator File
+## Text Classification
+These are annotators that can be trained to classify text into different
+classes, such as sentiment.
 
-**Example:**
+{% include_relative training_entries/ClassifierDL.md %}
+{% include_relative training_entries/MultiClassifierDL.md %}
+{% include_relative training_entries/SentimentDL.md %}
+{% include_relative training_entries/ViveknSentiment.md %}
 
-```scala
-import com.johnsnowlabs.nlp.training.PubTator
-val trainingPubTatorDF = PubTator.readDataset(spark, "./src/test/resources/corpus_pubtator.txt")
-```
+## External Trainable Models
+These are annotators that are trained in an external library, which are then
+loaded into Spark NLP.
 
-### TensorFlow Graphs
+{% include_relative training_entries/BertForTokenClassification.md %}
+{% include_relative training_entries/DistilBertForTokenClassification.md %}
+
+
+## TensorFlow Graphs
 NER DL uses Char CNNs - BiLSTM - CRF Neural Network architecture. Spark NLP defines this architecture through a Tensorflow graph, which requires the following parameters:
 
 - Tags

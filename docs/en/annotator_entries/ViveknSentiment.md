@@ -8,7 +8,7 @@ Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.c
 The algorithm is based on the paper
 ["Fast and accurate sentiment classification using an enhanced Naive Bayes model"](https://arxiv.org/abs/1305.6143).
 
-This is the instantiated model of the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach).
+This is the instantiated model of the ViveknSentimentApproach.
 For training your own model, please see the documentation of that class.
 
 The analyzer requires sentence boundaries to give a score in context.

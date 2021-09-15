@@ -28,7 +28,19 @@ DOCUMENT, TOKEN
 NAMED_ENTITY
 {%- endcapture -%}
 
-{%- capture python_example -%}
+{%- capture api_link -%}
+[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification)
+{%- endcapture -%}
+
+{%- capture python_api_link -%}
+[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForTokenClassification.html)
+{%- endcapture -%}
+
+{%- capture source_link -%}
+[DistilBertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification.scala)
+{%- endcapture -%}
+
+{%- capture predition_python_example -%}
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
@@ -65,7 +77,7 @@ result.select("label.result").show(truncate=False)
 
 {%- endcapture -%}
 
-{%- capture scala_example -%}
+{%- capture predition_scala_example -%}
 import spark.implicits._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
@@ -102,26 +114,38 @@ result.select("label.result").show(false)
 
 {%- endcapture -%}
 
-{%- capture api_link -%}
-[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification)
+{%- capture training_python_example -%}
+# This annotator needs to be trained externally. Please see the training page
+# for instructions.
 {%- endcapture -%}
 
-{%- capture python_api_link -%}
-[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForTokenClassification.html)
+{%- capture training_scala_example -%}
+// This annotator needs to be trained externally. Please see the training page
+// for instructions.
 {%- endcapture -%}
 
-{%- capture source_link -%}
-[DistilBertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification.scala)
+{%- capture embeddings_python_example -%}
+# This annotator has a fully connected layer attached for classification. For
+# embeddings see the base transformer annotator.
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{%- capture embeddings_scala_example -%}
+// This annotator has a fully connected layer attached for classification. For
+// embeddings see the base transformer annotator.
+{%- endcapture -%}
+
+{% include templates/transformer_usecases_template.md
 title=title
 description=description
 input_anno=input_anno
 output_anno=output_anno
-python_example=python_example
-scala_example=scala_example
 python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
+prediction_python_example=prediction_python_example
+prediction_scala_example=prediction_scala_example
+training_python_example=training_python_example
+training_scala_example=training_scala_example
+embeddings_python_example=embeddings_python_example
+embeddings_scala_example=embeddings_scala_example
 %}
