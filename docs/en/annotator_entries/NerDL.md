@@ -23,7 +23,7 @@ Additionally, pretrained pipelines are available for this module, see [Pipelines
 
 Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
 For example, the default model `"ner_dl"` requires the
-[WordEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel) `"glove_100d"`.
+[WordEmbeddings](/docs/en/annotators#wordembeddings) `"glove_100d"`.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
@@ -155,14 +155,15 @@ The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achiev
 
 For instantiated/pretrained models, see NerDLModel.
 
-The training data should be a labeled Spark Dataset, in the format of [CoNLL](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/CoNLL)
+The training data should be a labeled Spark Dataset, in the format of [CoNLL](/docs/en/training#conll-dataset)
 2003 IOB with `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, WORD_EMBEDDINGS` and an
 additional label column of annotator type `NAMED_ENTITY`.
 Excluding the label, this can be done with for example
-  - a [SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector),
-  - a [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer) and
-  - a [WordEmbeddingsModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel)
-  (any embeddings can be chosen, e.g. [BertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings) for BERT based embeddings).
+  - a [SentenceDetector](/docs/en/annotators#sentencedetector),
+  - a [Tokenizer](/docs/en/annotators#tokenizer) and
+  - a [PerceptronModel](/docs/en/annotators#postagger-part-of-speech-tagger) and
+  - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
+  (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).

@@ -1,4 +1,21 @@
 ========
+3.2.3
+========
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Add delimiter feature to CoNLL() class to support other delimiters in CoNLL files https://github.com/JohnSnowLabs/spark-nlp/pull/5934
+* Add support for IOB in addition to IOB2 format in GraphExctraction https://github.com/JohnSnowLabs/spark-nlp/pull/6101
+* Change YakeModel output type from KEYWORD to CHUNK to have more available features after the YakeModel annotator such as Chunk2Doc or ChunkEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/6065
+* Fix the default language for XlmRoBertaSentenceEmbeddings pretrained model in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6057
+* Fix SentenceEmbeddings issue concatenating sentences instead of each correspondent sentence https://github.com/JohnSnowLabs/spark-nlp/pull/6060
+* Fix GraphExctraction usage in LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6101
+* Fix compatibility issue in `explain_document_ml` pipeline 
+* Better import process for corrupted merges file in Longformer tokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6083
+
+
+========
 3.2.2
 ========
 

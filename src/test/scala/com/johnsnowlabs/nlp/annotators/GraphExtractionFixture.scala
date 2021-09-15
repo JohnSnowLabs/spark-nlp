@@ -162,21 +162,21 @@ trait GraphExtractionFixture {
           "sentence" -> "0"), List()),
         Row(DEPENDENCY, 46, 46, ".", Map("head" -> "2", "head.begin" -> "7", "head.end" -> "14",
           "sentence" -> "0"), List()),
-        Row(DEPENDENCY, 48, 49, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 48, 49, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 50, 50, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 50, 50, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 52, 52, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 52, 52, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 54, 57, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 54, 57, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 59, 60, "root" , Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
+        Row(DEPENDENCY, 59, 60, "root", Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 62, 63, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 62, 63, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 65, 70, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 65, 70, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List()),
-        Row(DEPENDENCY, 72, 79, "go" , Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
+        Row(DEPENDENCY, 72, 79, "go", Map("head" -> "5", "head.begin" -> "59", "head.end" -> "60",
           "sentence" -> "1"), List())
       ),
       List(Row(LABELED_DEPENDENCY, 0, 5, "nsubj", Map("sentence" -> "0"), List()),
@@ -453,10 +453,98 @@ trait GraphExtractionFixture {
 
   }
 
+  def getEntitiesWithNoTypeParserOutput(spark: SparkSession, pipeline: Pipeline): DataFrame = {
+    import spark.implicits._
+    val textDataSet = Seq("Ms. Stewart is taking two pills of paracetamol a day due to her heart disease")
+      .toDS.toDF("text")
+    val tokenDataSet = pipeline.fit(textDataSet).transform(textDataSet)
+    val mockDependencyParserData = Seq(Row(
+      List(Row(DEPENDENCY, 0, 1, "taking", Map("head" -> "5", "head.begin" -> "15", "head.end" -> "20",
+        "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 2, 2, "Ms", Map("head" -> "1", "head.begin" -> "0", "head.end" -> "1",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 4, 10, "taking", Map("head" -> "5", "head.begin" -> "15", "head.end" -> "20",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 12, 13, "taking", Map("head" -> "5", "head.begin" -> "15", "head.end" -> "20",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 15, 20, "ROOT", Map("head" -> "0", "head.begin" -> "-1", "head.end" -> "-1",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 22, 24, "pills", Map("head" -> "7", "head.begin" -> "26", "head.end" -> "30",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 26, 30, "taking", Map("head" -> "5", "head.begin" -> "15", "head.end" -> "20",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 32, 33, "paracetamol", Map("head" -> "9", "head.begin" -> "35", "head.end" -> "45",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 35, 45, "pills", Map("head" -> "7", "head.begin" -> "26", "head.end" -> "30",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 47, 47, "day", Map("head" -> "11", "head.begin" -> "49", "head.end" -> "51",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 49, 51, "paracetamol", Map("head" -> "9", "head.begin" -> "35", "head.end" -> "45",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 53, 55, "disease", Map("head" -> "16", "head.begin" -> "70", "head.end" -> "76",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 57, 58, "due", Map("head" -> "12", "head.begin" -> "53", "head.end" -> "55",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 60, 62, "to", Map("head" -> "13", "head.begin" -> "57", "head.end" -> "58",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 64, 68, "to", Map("head" -> "13", "head.begin" -> "57", "head.end" -> "58",
+          "sentence" -> "0"), List()),
+        Row(DEPENDENCY, 70, 76, "taking", Map("head" -> "5", "head.begin" -> "15", "head.end" -> "20",
+          "sentence" -> "0"), List())
+      ),
+      List(Row(LABELED_DEPENDENCY, 0, 1, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 2, 2, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 4, 10, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 12, 13, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 15, 20, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 22, 24, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 26, 30, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 32, 33, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 35, 45, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 47, 47, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 49, 51, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 53, 55, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 57, 58, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 60, 62, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 64, 68, "<no-type>", Map("sentence" -> "0"), List()),
+        Row(LABELED_DEPENDENCY, 70, 76, "<no-type>", Map("sentence" -> "0"), List())
+      )
+    ))
 
+    val dependenciesStruct = mockStructType(List(("heads", DEPENDENCY), ("deprel", LABELED_DEPENDENCY)))
+    val mockDependencyParserDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockDependencyParserData),
+      dependenciesStruct)
+
+    val mockNerData = Seq(Row(
+      List(Row(NAMED_ENTITY, 0, 1, "O", Map("entity" -> "Peter", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 2, 2, "O", Map("entity" -> "Parker", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 4, 10, "O", Map("entity" -> "is", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 12, 13, "O", Map("entity" -> "a", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 15, 20, "O", Map("entity" -> "nice", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 22, 24, "O", Map("entity" -> "person", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 26, 30, "O", Map("entity" -> "and", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 32, 33, "O", Map("entity" -> "lives", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 35, 45, "I-Medication", Map("entity" -> "in", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 47, 47, "O", Map("entity" -> "New", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 49, 51, "O", Map("entity" -> "York", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 53, 55, "O", Map("entity" -> "York", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 57, 58, "O", Map("entity" -> "York", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 60, 62, "O", Map("entity" -> "York", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 64, 68, "I-Diagnosis", Map("entity" -> "York", "sentence" -> "0"), List()),
+        Row(NAMED_ENTITY, 70, 76, "I-Diagnosis", Map("entity" -> "York", "sentence" -> "0"), List())
+      )
+    ))
+
+    val entitiesStruct = mockStructType(List(("entities", NAMED_ENTITY)))
+    val mockEntitiesDataSet = spark.createDataFrame(spark.sparkContext.parallelize(mockNerData), entitiesStruct)
+
+    val mockAnnotatorsDataSet = mockDependencyParserDataSet.join(mockEntitiesDataSet)
+
+    tokenDataSet.join(mockAnnotatorsDataSet)
+  }
 
   private def mockStructType(columnsAndAnnotators: List[(String, String)]): StructType = {
-    val structFields: List[StructField] = columnsAndAnnotators.map{ columnAndAnnotator =>
+    val structFields: List[StructField] = columnsAndAnnotators.map { columnAndAnnotator =>
       val columnName = columnAndAnnotator._1
       val annotatorType = columnAndAnnotator._2
       val metadataBuilder: MetadataBuilder = new MetadataBuilder()
