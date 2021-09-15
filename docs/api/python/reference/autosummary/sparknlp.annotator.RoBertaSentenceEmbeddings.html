@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.RoBertaSentenceEmbeddings &#8212; Spark NLP 3.2.2 documentation</title>
+    <title>sparknlp.annotator.RoBertaSentenceEmbeddings &#8212; Spark NLP 3.2.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -751,7 +751,11 @@ BERT and modifies key hyperparameters, removing the next-sentence pretraining ob
 larger mini-batches and learning rates. Pretrained models can be loaded with pretrained of the companion object:</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.RoBertaSentenceEmbeddings.pretrained" title="sparknlp.annotator.RoBertaSentenceEmbeddings.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
-<p>&gt;&gt;&gt;embeddings = RoBertaSentenceEmbeddings.pretrained()     …    .setInputCols([“sentence”])     …    .setOutputCol(“sentence_embeddings”)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">RoBertaSentenceEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;sent_roberta_base&quot;</span></code>, if no name is provided.</p>
 <p>For available pretrained models please see the
 <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
@@ -789,9 +793,8 @@ False</p>
 </dd>
 </dl>
 <p class="rubric">References</p>
-<p><a class="reference external" href="https://arxiv.org/abs/1810.04805">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p>
-<p><a class="reference external" href="https://github.com/google-research/bert">https://github.com/google-research/bert</a></p>
-<p><strong>Paper abstract</strong></p>
+<p><a class="reference external" href="https://arxiv.org/abs/1907.11692">RoBERTa: A Robustly Optimized BERT Pretraining Approach</a></p>
+<p><strong>Paper abstract:</strong></p>
 <p><em>Language model pretraining has led to significant performance gains but careful comparison between different
 approaches is challenging. Training is computationally expensive, often done on private datasets of different
 sizes, and, as we will show, hyperparameter choices have significant impact on the final results. We present a
@@ -916,7 +919,7 @@ questions about the source of recently reported improvements. We release our mod
 <td><p>Returns an MLReader instance for this class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.RoBertaSentenceEmbeddings.save" title="sparknlp.annotator.RoBertaSentenceEmbeddings.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
-<td><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p></td>
+<td><p>Save this ML instance to the given path, a shortcut of 'write().save(path)'.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.RoBertaSentenceEmbeddings.set" title="sparknlp.annotator.RoBertaSentenceEmbeddings.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
@@ -1470,7 +1473,7 @@ RecursivePipeline</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     

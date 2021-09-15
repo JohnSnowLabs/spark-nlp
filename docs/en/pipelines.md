@@ -5,6 +5,9 @@ title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
 modify_date: "2020-09-10"
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 Pretrained Pipelines moved to its own dedicated repository.

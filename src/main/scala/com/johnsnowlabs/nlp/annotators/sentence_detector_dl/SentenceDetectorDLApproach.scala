@@ -48,7 +48,9 @@ import scala.collection.mutable.WrappedArray
   * Each extracted sentence can be returned in an Array or exploded to separate rows,
   * if `explodeSentences` is set to `true`.
   *
-  * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala SentenceDetectorDLSpec]].
+  * For extended examples of usage, see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb Spark NLP Workshop]]
+  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala SentenceDetectorDLSpec]].
   *
   * ==Example==
   * The training process needs data, where each data point is a sentence.

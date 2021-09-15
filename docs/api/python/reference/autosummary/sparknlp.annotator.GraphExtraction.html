@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.GraphExtraction &#8212; Spark NLP 3.2.2 documentation</title>
+    <title>sparknlp.annotator.GraphExtraction &#8212; Spark NLP 3.2.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -939,7 +939,7 @@ Parser model</p>
 <td><p>Returns an MLReader instance for this class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.save" title="sparknlp.annotator.GraphExtraction.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
-<td><p>Save this ML instance to the given path, a shortcut of ‘write().save(path)’.</p></td>
+<td><p>Save this ML instance to the given path, a shortcut of 'write().save(path)'.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.set" title="sparknlp.annotator.GraphExtraction.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
@@ -969,36 +969,39 @@ Parser model</p>
 <td><p>Sets Maximum sentence size that the annotator will process, by default 1000.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMergeEntities" title="sparknlp.annotator.GraphExtraction.setMergeEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMergeEntities</span></code></a>(value)</p></td>
-<td><p>Sets whether to kerge same neighboring entities as a single token.</p></td>
+<td><p>Sets whether to merge same neighboring entities as a single token.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMinSentenceSize" title="sparknlp.annotator.GraphExtraction.setMinSentenceSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinSentenceSize</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMergeEntitiesIOBFormat" title="sparknlp.annotator.GraphExtraction.setMergeEntitiesIOBFormat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMergeEntitiesIOBFormat</span></code></a>(value)</p></td>
+<td><p>Sets IOB format to apply when merging entities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setMinSentenceSize" title="sparknlp.annotator.GraphExtraction.setMinSentenceSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinSentenceSize</span></code></a>(value)</p></td>
 <td><p>Sets Minimum sentence size that the annotator will process, by default 2.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setOutputCol" title="sparknlp.annotator.GraphExtraction.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setOutputCol" title="sparknlp.annotator.GraphExtraction.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setParamValue" title="sparknlp.annotator.GraphExtraction.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setParamValue" title="sparknlp.annotator.GraphExtraction.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setPosModel" title="sparknlp.annotator.GraphExtraction.setPosModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosModel</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setPosModel" title="sparknlp.annotator.GraphExtraction.setPosModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPosModel</span></code></a>(value)</p></td>
 <td><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained POS model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setRelationshipTypes" title="sparknlp.annotator.GraphExtraction.setRelationshipTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRelationshipTypes</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setRelationshipTypes" title="sparknlp.annotator.GraphExtraction.setRelationshipTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRelationshipTypes</span></code></a>(value)</p></td>
 <td><p>Sets paths to find between a pair of token and entity.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setRootTokens" title="sparknlp.annotator.GraphExtraction.setRootTokens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRootTokens</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setRootTokens" title="sparknlp.annotator.GraphExtraction.setRootTokens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRootTokens</span></code></a>(value)</p></td>
 <td><p>Sets tokens to be considered as the root to start traversing the paths.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel" title="sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTypedDependencyParserModel</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel" title="sparknlp.annotator.GraphExtraction.setTypedDependencyParserModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTypedDependencyParserModel</span></code></a>(value)</p></td>
 <td><p>Sets Coordinates (name, lang, remoteLoc) to a pretrained Typed Dependency Parser model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.transform" title="sparknlp.annotator.GraphExtraction.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.transform" title="sparknlp.annotator.GraphExtraction.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.write" title="sparknlp.annotator.GraphExtraction.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.write" title="sparknlp.annotator.GraphExtraction.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1040,28 +1043,31 @@ Parser model</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mergeEntities</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minSentenceSize</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mergeEntitiesIOBFormat</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minSentenceSize</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.params" title="sparknlp.annotator.GraphExtraction.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.GraphExtraction.params" title="sparknlp.annotator.GraphExtraction.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">posModel</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">posModel</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relationshipTypes</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relationshipTypes</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rootTokens</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rootTokens</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">typedDependencyParserModel</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">typedDependencyParserModel</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1347,11 +1353,25 @@ default 1000.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setMergeEntities">
 <span class="sig-name descname"><span class="pre">setMergeEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setMergeEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setMergeEntities" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets whether to kerge same neighboring entities as a single token.</p>
+<dd><p>Sets whether to merge same neighboring entities as a single token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to kerge same neighboring entities as a single token.</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to merge same neighboring entities as a single token.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.GraphExtraction.setMergeEntitiesIOBFormat">
+<span class="sig-name descname"><span class="pre">setMergeEntitiesIOBFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#GraphExtraction.setMergeEntitiesIOBFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.GraphExtraction.setMergeEntitiesIOBFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets IOB format to apply when merging entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>IOB format to apply when merging entities. Values IOB or IOB2</p>
 </dd>
 </dl>
 </dd>
@@ -1527,7 +1547,7 @@ Parser model</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     

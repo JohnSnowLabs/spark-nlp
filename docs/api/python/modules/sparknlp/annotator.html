@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.2.2 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.2.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -10541,7 +10541,7 @@
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
 <span class="sd">    ====================== ======================</span>
-<span class="sd">    ``TOKEN``              ``KEYWORD``</span>
+<span class="sd">    ``TOKEN``              ``CHUNK``</span>
 <span class="sd">    ====================== ======================</span>
 
 <span class="sd">    Parameters</span>
@@ -12703,6 +12703,11 @@
                           <span class="s2">&quot;Merge same neighboring entities as a single token&quot;</span><span class="p">,</span>
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
+    <span class="n">mergeEntitiesIOBFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                   <span class="s2">&quot;mergeEntitiesIOBFormat&quot;</span><span class="p">,</span>
+                                   <span class="s2">&quot;IOB format to apply when merging entities&quot;</span><span class="p">,</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
     <span class="n">includeEdges</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;includeEdges&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Whether to include edges when building paths&quot;</span><span class="p">,</span>
@@ -12797,14 +12802,24 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minSentenceSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setMergeEntities"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction.setMergeEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to kerge same neighboring entities as a single token.</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to merge same neighboring entities as a single token.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : bool</span>
-<span class="sd">            Whether to kerge same neighboring entities as a single token.</span>
+<span class="sd">            Whether to merge same neighboring entities as a single token.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeEntities</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphExtraction.setMergeEntitiesIOBFormat"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction.setMergeEntitiesIOBFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeEntitiesIOBFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets IOB format to apply when merging entities.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            IOB format to apply when merging entities. Values IOB or IOB2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeEntitiesIOBFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setIncludeEdges"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.GraphExtraction.html#sparknlp.annotator.GraphExtraction.setIncludeEdges">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets whether to include edges when building paths.</span>
@@ -13420,8 +13435,8 @@
 <span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
 <span class="sd">    object:</span>
 
-<span class="sd">    &gt;&gt;&gt;embeddings = RoBertaSentenceEmbeddings.pretrained() \</span>
-<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = RoBertaSentenceEmbeddings.pretrained() \\</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \\</span>
 <span class="sd">    ...    .setOutputCol(&quot;sentence_embeddings&quot;)</span>
 
 
@@ -13452,11 +13467,9 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    `BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding &lt;https://arxiv.org/abs/1810.04805&gt;`__</span>
+<span class="sd">    `RoBERTa: A Robustly Optimized BERT Pretraining Approach &lt;https://arxiv.org/abs/1907.11692&gt;`__</span>
 
-<span class="sd">    https://github.com/google-research/bert</span>
-
-<span class="sd">    **Paper abstract**</span>
+<span class="sd">    **Paper abstract:**</span>
 
 <span class="sd">    *Language model pretraining has led to significant performance gains but careful comparison between different</span>
 <span class="sd">    approaches is challenging. Training is computationally expensive, often done on private datasets of different</span>
@@ -13606,8 +13619,8 @@
 <span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
 <span class="sd">    object:</span>
 
-<span class="sd">    &gt;&gt;&gt;embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \</span>
-<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = XlmRoBertaSentenceEmbeddings.pretrained() \\</span>
+<span class="sd">    ...    .setInputCols([&quot;sentence&quot;]) \\</span>
 <span class="sd">    ...    .setOutputCol(&quot;sentence_embeddings&quot;)</span>
 
 
@@ -13636,7 +13649,11 @@
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
 
-<span class="sd">    **Paper abstract**</span>
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `Unsupervised Cross-lingual Representation Learning at Scale &lt;https://arxiv.org/pdf/1911.02116.pdf&gt;`__</span>
+
+<span class="sd">    **Paper abstract:**</span>
 
 <span class="sd">    *This paper shows that pretraining multilingual language models at scale leads to significant performance gains</span>
 <span class="sd">    for a wide range of cross-lingual transfer tasks. We train a Transformer-based masked language model on one</span>
@@ -13753,15 +13770,15 @@
         <span class="k">return</span> <span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="XlmRoBertaSentenceEmbeddings.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html#sparknlp.annotator.XlmRoBertaSentenceEmbeddings.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sent_xlm_roberta_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sent_xlm_roberta_base&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;sent_roberta_base&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;sent_xlm_roberta_base&quot;</span>
 <span class="sd">        lang : str, optional</span>
-<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">            Language of the pretrained model, by default &quot;xx&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
@@ -13802,7 +13819,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
 </p>
     </div>
     
