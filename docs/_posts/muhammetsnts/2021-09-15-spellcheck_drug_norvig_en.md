@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Posology Spell Checker
+title: Drug Spell Checker
 author: John Snow Labs
 name: spellcheck_drug_norvig
 date: 2021-09-15
