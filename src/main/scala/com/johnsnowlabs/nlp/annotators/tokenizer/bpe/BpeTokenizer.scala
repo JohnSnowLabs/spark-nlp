@@ -28,10 +28,10 @@ import scala.collection.mutable.ListBuffer
  * TODO: truncation assumed?
  */
 private[nlp] abstract class BpeTokenizer(
-                                          merges: Map[(String, String), Int],
-                                          vocab: Map[String, Int],
-                                          specialTokens: SpecialTokens,
-                                          padWithSentenceTokens: Boolean
+                                          val merges: Map[(String, String), Int],
+                                          val vocab: Map[String, Int],
+                                          val specialTokens: SpecialTokens,
+                                          var padWithSentenceTokens: Boolean
                                         ) {
 
   protected val bpeRanks: Map[(String, String), Int] = {
@@ -203,9 +203,7 @@ private[nlp] abstract class BpeTokenizer(
     val tok = specialToken.content
 
     val splitText = StringUtils.splitByWholeSeparator(text, tok)
-    //      .filter { s: String => s.nonEmpty }
     var fullWord = ""
-    //    val boolProperty = (property: Map[String, Any], key: String) => property(key).asInstanceOf[Boolean]
 
     for ((subText, i) <- splitText.zipWithIndex) {
       var done = false

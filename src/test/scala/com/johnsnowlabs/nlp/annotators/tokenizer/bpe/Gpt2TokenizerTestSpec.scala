@@ -16,11 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
-import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-class Gpt2TokenizerTestSpec extends AnyFlatSpec {
+class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
   val vocab: Map[String, Int] =
     Array(
       "<|endoftext|>",
@@ -67,103 +65,28 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec {
     "Ġ 3"
   ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
-  val bpeTokenizer: BpeTokenizer = BpeTokenizer.forModel(
-    "gpt2",
+  val modelType: String = "gpt2"
+  val tokenizer: BpeTokenizer = BpeTokenizer.forModel(
+    modelType,
     merges,
     vocab
   )
 
-  private def assertEncodedCorrectly(text: String,
-                                     encoded: Array[TokenPiece],
-                                     expected: Array[String],
-                                     expectedIds: Array[Int]): Unit = {
-    println(encoded.map {
-      t: TokenPiece => t.wordpiece
-    }.mkString("Array(", ", ", ")"))
-    println(encoded.map {
-      t: TokenPiece => t.pieceId
-    }.mkString("Array(", ", ", ")"))
-    assert(encoded.length == expected.length)
-    for (i <- encoded.indices) {
-      val piece = encoded(i)
-      assert(piece.wordpiece == expected(i))
-      assert(piece.pieceId == expectedIds(i))
+  override val replaceCharBeforeAssertion: Some[String] = Some("Ġ")
 
-      assert(text.slice(piece.begin, piece.end + 1) == piece.wordpiece.replace("Ġ", " "))
-    }
-  }
+  "Gpt2Tokenizer" should behave like correctBpeTokenizer(
+    tokenizer = tokenizer,
+    text = "I unambigouosly good 3Asd!",
+    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+  )
 
-  it should "encode words correctly" taggedAs FastTest in {
-    val text = "I unambigouosly good 3Asd!"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
+  it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
 
-    val expected: Array[String] = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!")
-    val expectedIds: Array[Int] = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
-
-    val tokenized = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenized)
-
-    assertEncodedCorrectly(text, encoded, expected, expectedIds)
-
-  }
-
-  it should "encode sentences with special tokens correctly" taggedAs FastTest in {
-    val text = "I unambigouosly good 3Asd <|endoftext|>"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>")
-    val expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0)
-
-    val tokenizedWithMask = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenizedWithMask)
-
-    assertEncodedCorrectly(text, encoded, expected, expectedIds)
-  }
-
-  it should "handle empty sentences" taggedAs FastTest in {
-    val text = " \n"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val tokenized = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenized)
-    assert(tokenized.isEmpty)
-    assert(encoded.isEmpty)
-  }
-
-  it should "add sentence padding correctly if requested" taggedAs FastTest in {
-    val tokenizer = BpeTokenizer.forModel("gpt2", merges, vocab, padWithSentenceTokens = true)
-
-    val text = "I unambigouosly"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val expected = Array("<|endoftext|>", "I", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>")
-    val expectedIds = Array(0, 1, 2, 3, 4, 5, 6, 0)
-
-    val tokenized = tokenizer.tokenize(sentence)
-    val encoded = tokenizer.encode(tokenized)
-
-    val textPadded = "<|endoftext|>I unambigouosly<|endoftext|>"
-    assertEncodedCorrectly(textPadded, encoded, expected, expectedIds)
-
-    assert(tokenized.head.token == tokenizer.sentencePadding._1)
-    assert(tokenized.last.token == tokenizer.sentencePadding._2)
-
-  }
-  it should "handle unknown words" taggedAs FastTest in {
-    val text = "???"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val tokenized = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenized)
-    assert(encoded.forall(_.pieceId == vocab("<|endoftext|>")))
-  }
-
-  it should "handle unknown byte encodings" taggedAs FastTest in {
-    val text = "I unambigouosly \u8216"
-    val sentence = Sentence(text, 0, text.length - 1, 0)
-
-    val tokenized = bpeTokenizer.tokenize(sentence)
-    val encoded = bpeTokenizer.encode(tokenized)
-    assert(encoded.last.pieceId == vocab("<|endoftext|>"))
-  }
+  it should behave like correctBpeTokenizerSpecialTokens(
+    tokenizer = tokenizer,
+    text = "I unambigouosly <|endoftext|> good 3Asd <|endoftext|>",
+    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0)
+  )
 }
