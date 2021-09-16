@@ -21,7 +21,7 @@ This model maps extracted medical entities to SNOMED codes for the German langua
 
 ## Predicted Entities
 
-
+`SNOMED Codes`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
