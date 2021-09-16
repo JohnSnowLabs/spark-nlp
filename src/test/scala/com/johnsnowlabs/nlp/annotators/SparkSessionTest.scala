@@ -18,8 +18,9 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.SparkSession
+import com.johnsnowlabs.util.PipelineModels
+import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 import org.scalatest.{BeforeAndAfterAll, Suite}
 
 trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
@@ -29,6 +30,7 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
   val tokenizerWithSentencePipeline = new Pipeline()
   val documentAssembler = new DocumentAssembler()
   val tokenizer = new Tokenizer()
+  val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
 
   override def beforeAll(): Unit = {
     super.beforeAll()
