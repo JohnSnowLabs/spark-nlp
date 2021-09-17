@@ -16,12 +16,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Relation extraction between body parts entities like ‘Internal_organ_or_component’, ’External_body_part_or_region’ etc. and procedure and test entities.
+Relation extraction between body parts entities like ‘Internal_organ_or_component’, ’External_body_part_or_region’ etc. and procedure and test entities. `1` : body part and test/procedure are related to each other.  `0` : body part and test/procedure are not related to each other.
 
 ## Predicted Entities
 
-`1` : body part and test/procedure are related to each other.
-`0` : body part and test/procedure are not related to each other.
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

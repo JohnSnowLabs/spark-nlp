@@ -21,7 +21,7 @@ Extract relations between clinical events in terms of time. If an event occurred
 
 ## Predicted Entities
 
-`After`, `Before`, `Overlap`
+`AFTER`, `BEFORE`, `OVERLAP`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/){:.button.button-orange}

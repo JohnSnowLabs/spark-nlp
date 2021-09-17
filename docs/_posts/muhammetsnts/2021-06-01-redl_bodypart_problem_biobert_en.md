@@ -17,12 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Relation extraction between body parts and problem entities in clinical texts.
+Relation extraction between body parts and problem entities in clinical texts. `1` : Shows that there is a relation between body part entity and entities labeled as problem ( diagnosis, symptom etc.), `0` : Shows that there no relation between body part and problem entities.
 
 ## Predicted Entities
 
-`1` : Shows that there is a relation between body part entity and entities labeled as problem ( diagnosis, symptom etc.) 
-`0` : Shows that there no relation between body part and problem entities
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

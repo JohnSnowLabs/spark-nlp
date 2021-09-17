@@ -6,7 +6,7 @@ name: dependency_conllu
 date: 2021-03-27
 tags: [untyped_dependency_parsing, unlabelled_dependency_parsing, dependency_parsing, en, open_source]
 supported: true
-task: Relation Extraction
+task: Dependency Parser
 language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0

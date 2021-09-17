@@ -6,7 +6,7 @@ name: dependency_parse
 date: 2021-03-27
 tags: [pipeline, dependency_parsing, untyped_dependency_parsing, typed_dependency_parsing, laballed_depdency_parsing, unlaballed_depdency_parsing, en, open_source]
 supported: true
-task: [Relation Extraction, Pipeline Public]
+task: [Dependency Parser, Pipeline Public]
 language: en
 edition: Spark NLP 3.0.0
 spark_version: 3.0

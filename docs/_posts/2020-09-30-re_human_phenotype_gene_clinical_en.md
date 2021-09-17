@@ -16,12 +16,12 @@ use_language_switcher: "Python"
 
 {:.h2_title}
 ## Description
-This model can be used to identify relations between genes and phenotypes.
+This model can be used to identify relations between genes and phenotypes. `1` : There is a relation between gene and phenotype, `0` : There is not a relation between gene and phenotype.
 
 {:.h2_title}
 ## Predicted Entities
-True-`1` : There is a relation between gene and phenotype.
-False-`0` : There is not a relation between gene and phenotype.
+
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
