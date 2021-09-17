@@ -56,22 +56,6 @@ object Utilities {
 
   private def minimum(i1: Int, i2: Int, i3: Int) = min(min(i1, i2), i3)
 
-  /** number of items duplicated in some text */
-  def cartesianProduct[T](xss: List[List[_]]): List[List[_]] = xss match {
-    case Nil => List(Nil)
-    case h :: t => for (xh <- h; xt <- cartesianProduct(t)) yield xh :: xt
-  }
-
-  def numberOfDuplicates(text: String, id: Int): Int = {
-    var idx = id
-    val initialId = idx
-    val last = text(idx)
-    while (idx+1 < text.length && text(idx+1) == last) {
-      idx += 1
-    }
-    idx - initialId
-  }
-
   def limitDuplicates(duplicatesLimit: Int, text: String, overrideLimit: Option[Int] = None): String = {
     var duplicates = 0
     text.zipWithIndex.collect {
@@ -95,16 +79,17 @@ object Utilities {
 
   /** Possibilities analysis */
   def variants(targetWord: String): List[String] = {
+
     val splits = (0 to targetWord.length).map(i => (targetWord.take(i), targetWord.drop(i)))
     val vars = scala.collection.mutable.Set.empty[String]
-    splits.foreach{case (a,b) =>
-      if (b.length > 0) {
+    splits.toIterator.foreach{case (a,b) =>
+      if (b.nonEmpty) {
         vars.add(a + b.tail)
       }
       if (b.length > 1) {
         vars.add(a + b(1) + b(0) + b.drop(2))
       }
-      if (b.length > 0) {
+      if (b.nonEmpty) {
         alphabet.foreach(c => vars.add(a + c + b.tail))
       }
       alphabet.foreach(c => vars.add(a + c + b))
@@ -113,20 +98,31 @@ object Utilities {
   }
 
   /** possible variations of the word by removing duplicate letters */
-  /* ToDo: convert logic into an iterator, probably faster */
   def reductions(word: String, reductionsLimit: Int): List[String] = {
-    val flatWord: List[List[String]] = word.toCharArray.toList.zipWithIndex.collect {
+
+    val flatWord = word.toCharArray.toIterator.zipWithIndex.collect {
       case (c, i) =>
-        val n = Utilities.numberOfDuplicates(word, i)
+        val n = numberOfDuplicates(word, i)
         if (n > 0) {
-          (0 to n).map(r => c.toString*r).take(reductionsLimit).toList
+          (0 to n).map(r => c.toString * r).take(reductionsLimit).toIterator
         } else {
-          List(c.toString)
+          Iterator(c.toString)
         }
     }
-    val reds = Utilities.cartesianProduct(flatWord).map(_.mkString(""))
+
+    val reds = cartesianProductNonRecursive(flatWord).map(_.mkString(""))
     logger.debug("parsed reductions: " + reds.size)
-    reds
+    reds.toList
+  }
+
+  private def numberOfDuplicates(text: String, id: Int): Int = {
+    var idx = id
+    val initialId = idx
+    val last = text(idx)
+    while (idx+1 < text.length && text(idx+1) == last) {
+      idx += 1
+    }
+    idx - initialId
   }
 
   /** flattens vowel possibilities */
@@ -139,9 +135,18 @@ object Utilities {
         List(c)
       }
     }.toList
-    val vowelSwaps = Utilities.cartesianProduct(flatWord).map(_.mkString(""))
+    val vowelSwaps = cartesianProduct(flatWord).map(_.mkString(""))
     logger.debug("vowel swaps: " + vowelSwaps.size)
     vowelSwaps
+  }
+
+  private def cartesianProduct[T](xss: List[List[_]]): List[List[_]] = xss match {
+    case Nil => List(Nil)
+    case head :: tail => for (xh <- head; xt <- cartesianProduct(tail)) yield xh :: xt
+  }
+
+  private def cartesianProductNonRecursive[T](seqs: Iterator[Iterator[T]]): Seq[Seq[T]] = {
+    seqs.foldLeft(Seq(Seq.empty[T]))((b, a) => b.flatMap(i => a.map(j => i ++ Seq(j))))
   }
 
   def getRandomValueFromList[A](list: List[A]): Option[A] = {
