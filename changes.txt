@@ -1,2 +1,2 @@
-.github/workflows/build_and_test.yml
-.github/workflows/build_and_test.yml
+docs/_posts/murat-gunay/2021-09-03-ner_deid_subentity_augmented_en.md
+docs/_posts/murat-gunay/2021-09-03-ner_deid_subentity_augmented_en.md
