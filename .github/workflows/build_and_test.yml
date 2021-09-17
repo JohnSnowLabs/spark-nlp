@@ -6,6 +6,7 @@ on:
       - 'docs/**'
       - 'conda/**'
       - 'scripts/**'
+      - 'example/**'
     branches:
       - 'master'
       - '*release*'
@@ -15,6 +16,7 @@ on:
       - 'docs/**'
       - 'conda/**'
       - 'scripts/**'
+      - 'example/**'      
     branches:
       - 'master'
       - 'main'
