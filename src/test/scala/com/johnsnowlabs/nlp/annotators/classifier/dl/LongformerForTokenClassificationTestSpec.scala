@@ -22,16 +22,15 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class DistilBertForTokenClassificationTestSpec extends AnyFlatSpec {
+class LongformerForTokenClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "DistilBertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "LongformerForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
     val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London",
@@ -48,7 +47,7 @@ class DistilBertForTokenClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = DistilBertForTokenClassification.pretrained()
+    val tokenClassifier = LongformerForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -75,7 +74,7 @@ class DistilBertForTokenClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "DistilBertForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "LongformerForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -94,7 +93,7 @@ class DistilBertForTokenClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = DistilBertForTokenClassification.pretrained()
+    val tokenClassifier = LongformerForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -106,32 +105,31 @@ class DistilBertForTokenClassificationTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("label.result").show(false)
 
-    Benchmark.time("Time to save DistilBertForTokenClassification pipeline model") {
-      pipelineModel.write.overwrite().save("./tmp_bertfortoken_pipeline")
+    Benchmark.time("Time to save LongformerForTokenClassification pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_longformerfortoken_pipeline")
     }
 
-    Benchmark.time("Time to save DistilBertForTokenClassification model") {
-      pipelineModel.stages.last.asInstanceOf[DistilBertForTokenClassification].write.overwrite().save("./tmp_bertfortoken_model")
+    Benchmark.time("Time to save LongformerForTokenClassification model") {
+      pipelineModel.stages.last.asInstanceOf[LongformerForTokenClassification].write.overwrite().save("./tmp_longformerfortoken_model")
     }
 
-    val loadedPipelineModel = PipelineModel.load("./tmp_bertfortoken_pipeline")
+    val loadedPipelineModel = PipelineModel.load("./tmp_longformerfortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = DistilBertForTokenClassification.load("./tmp_bertfortoken_model")
-    loadedDistilBertModel.getLabels
+    val loadedModel = LongformerForTokenClassification.load("./tmp_longformerfortoken_model")
+    loadedModel.getLabels
 
   }
 
-  "DistilBertForTokenClassification" should "benchmark test" taggedAs SlowTest in {
+  "LongformerForTokenClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val tokenClassifier = DistilBertForTokenClassification.pretrained()
+    val tokenClassifier = LongformerForTokenClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("ner")
       .setCaseSensitive(true)
-      .setMaxSentenceLength(512)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -139,8 +137,8 @@ class DistilBertForTokenClassificationTestSpec extends AnyFlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save DistilBertForTokenClassification results") {
-      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_token_classifier")
+    Benchmark.time("Time to save LongformerForTokenClassification results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_token_classifier")
     }
 
     println("missing tokens/tags: ")

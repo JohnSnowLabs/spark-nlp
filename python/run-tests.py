@@ -91,6 +91,11 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
 # unittest.TextTestRunner().run(BertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(RoBertaSentenceEmbeddingsTestSpec())
+# unittest.TextTestRunner().run(RoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlmRoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
 
 # Misc tests
 
@@ -100,4 +105,3 @@ unittest.TextTestRunner().run(SerializersTestSpec())
 # Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
-
