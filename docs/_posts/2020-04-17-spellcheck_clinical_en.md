@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Implements Noisy Channel Model Spell Algorithm. Correction candidates are extracted combining context information and word information
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/6.Clinical_Context_Spell_Checker.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_en_2.4.2_2.4_1587146727460.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
