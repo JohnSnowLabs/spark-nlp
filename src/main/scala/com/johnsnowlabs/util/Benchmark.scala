@@ -20,14 +20,15 @@ object Benchmark {
 
   private var print = true
 
-  def setPrint(v: Boolean) = print = v
+  def setPrint(v: Boolean): Unit = print = v
+
   def getPrint: Boolean = print
 
   def time[R](description: String, forcePrint: Boolean = false)(block: => R): R = {
     val t0 = System.nanoTime()
     val result = block
     val t1 = System.nanoTime()
-    if (print || forcePrint) println(description + ": " + ((t1 - t0)/1000000000.0) + "sec")
+    if (print || forcePrint) println(description + ": " + ((t1 - t0) / 1000000000.0) + "sec")
     result
   }
 
@@ -44,5 +45,6 @@ object Benchmark {
   }
 
   def measure(f: => Any): Double = measure()(f)
+
   def measure(d: String)(f: => Any): Double = measure(description = d)(f)
 }
