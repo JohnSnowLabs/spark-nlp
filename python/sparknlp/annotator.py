@@ -12808,9 +12808,9 @@ class BertForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    >>> ...     documentAssembler,
-    >>> ...     tokenizer,
-    >>> ...     tokenClassifier
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
     ... ])
     >>> data = spark.createDataFrame([["John Lenon was born in London and lived
     >>> in Paris. My name is Sarah and I live in London"]]).toDF("text")
@@ -13658,24 +13658,31 @@ class RoBertaForTokenClassification(AnnotatorModel,
     """RoBertaForTokenClassification can load RoBerta Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
+
     >>> token_classifier = RoBertaForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
-    The default model is ``"roberta_base_token_classifier_conll03"``, if no name is
-    provided.
+
+    The default model is ``"roberta_base_token_classifier_conll03"``, if no name
+    is provided.
+
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
     ====================== ======================
+
     Parameters
     ----------
     batchSize
@@ -13688,6 +13695,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
         Max sentence length to process, by default 128
+
     Examples
     --------
     >>> import sparknlp
@@ -13705,19 +13713,17 @@ class RoBertaForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    >>> ...     documentAssembler,
-    >>> ...     tokenizer,
-    >>> ...     tokenClassifier
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
     ... ])
     >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result
-    |
+    |result                                                                              |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
-    O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
     name = "RoBertaForTokenClassification"
@@ -13809,24 +13815,29 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     """XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
+
     >>> token_classifier = XlmRoBertaForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
-    The default model is ``"xlm_roberta_base_token_classifier_conll03"``, if no name is
-    provided.
+    The default model is ``"xlm_roberta_base_token_classifier_conll03"``, if no
+    name is provided.
+
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
     ====================== ======================
+
     Parameters
     ----------
     batchSize
@@ -13839,6 +13850,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
         Max sentence length to process, by default 128
+
     Examples
     --------
     >>> import sparknlp
@@ -13856,19 +13868,17 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    >>> ...     documentAssembler,
-    >>> ...     tokenizer,
-    >>> ...     tokenClassifier
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
     ... ])
     >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result
-    |
+    |result                                                                              |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
-    O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
     name = "XlmRoBertaForTokenClassification"
@@ -13960,24 +13970,30 @@ class AlbertForTokenClassification(AnnotatorModel,
     """AlbertForTokenClassification can load ALBERT Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
+
     >>> token_classifier = AlbertForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
-    The default model is ``"albert_base_token_classifier_conll03"``, if no name is
-    provided.
+
+    The default model is ``"albert_base_token_classifier_conll03"``, if no name
+    is provided.
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
     ====================== ======================
+
     Parameters
     ----------
     batchSize
@@ -13990,6 +14006,7 @@ class AlbertForTokenClassification(AnnotatorModel,
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
         Max sentence length to process, by default 128
+
     Examples
     --------
     >>> import sparknlp
@@ -14007,19 +14024,17 @@ class AlbertForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    >>> ...     documentAssembler,
-    >>> ...     tokenizer,
-    >>> ...     tokenClassifier
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
     ... ])
     >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result
-    |
+    |result                                                                              |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
-    O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
 
@@ -14112,24 +14127,31 @@ class XlnetForTokenClassification(AnnotatorModel,
     """XlnetForTokenClassification can load XLNet Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
+
     >>> token_classifier = XlnetForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
+
     The default model is ``"xlnet_base_token_classifier_conll03"``, if no name is
     provided.
+
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
     ====================== ======================
+
     Parameters
     ----------
     batchSize
@@ -14142,6 +14164,7 @@ class XlnetForTokenClassification(AnnotatorModel,
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
         Max sentence length to process, by default 128
+
     Examples
     --------
     >>> import sparknlp
@@ -14159,19 +14182,17 @@ class XlnetForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    >>> ...     documentAssembler,
-    >>> ...     tokenizer,
-    >>> ...     tokenClassifier
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
     ... ])
     >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result
-    |
+    |result                                                                              |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
-    O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
 
@@ -14264,24 +14285,31 @@ class LongformerForTokenClassification(AnnotatorModel,
     """LongformerForTokenClassification can load Longformer Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
+
     >>> token_classifier = LongformerForTokenClassification.pretrained() \\
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
+
     The default model is ``"xlnet_base_token_classifier_conll03"``, if no name is
     provided.
+
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
     Models from the HuggingFace 🤗 Transformers library are also compatible with
     Spark NLP 🚀. To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
     ====================== ======================
+
     Parameters
     ----------
     batchSize
@@ -14294,6 +14322,7 @@ class LongformerForTokenClassification(AnnotatorModel,
         ConfigProto from tensorflow, serialized into byte array.
     maxSentenceLength
         Max sentence length to process, by default 128
+
     Examples
     --------
     >>> import sparknlp
@@ -14311,19 +14340,17 @@ class LongformerForTokenClassification(AnnotatorModel,
     ...     .setOutputCol("label") \\
     ...     .setCaseSensitive(True)
     >>> pipeline = Pipeline().setStages([
-    >>> ...     documentAssembler,
-    >>> ...     tokenizer,
-    >>> ...     tokenClassifier
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     tokenClassifier
     ... ])
     >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
-    |result
-    |
+    |result                                                                              |
     +------------------------------------------------------------------------------------+
-    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O,
-    O, B-LOC]|
+    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
     """
 
