@@ -100,7 +100,7 @@ object Utilities {
   /** possible variations of the word by removing duplicate letters */
   def reductions(word: String, reductionsLimit: Int): List[String] = {
 
-    val flatWord = word.toCharArray.toIterator.zipWithIndex.collect {
+    val flatWord: Iterator[Iterator[String]] = word.toCharArray.toIterator.zipWithIndex.collect {
       case (c, i) =>
         val n = numberOfDuplicates(word, i)
         if (n > 0) {
@@ -110,7 +110,7 @@ object Utilities {
         }
     }
 
-    val reds = cartesianProductNonRecursive(flatWord).map(_.mkString(""))
+    val reds = cartesianProduct(flatWord).map(_.mkString(""))
     logger.debug("parsed reductions: " + reds.size)
     reds.toList
   }
@@ -128,24 +128,19 @@ object Utilities {
   /** flattens vowel possibilities */
   def getVowelSwaps(word: String, vowelSwapLimit: Int): List[String] = {
     if (word.length > vowelSwapLimit) return List.empty[String]
-    val flatWord: List[List[Char]] = word.toCharArray.collect {
+    val flatWord: Iterator[Iterator[Char]] = word.toCharArray.toIterator.collect {
       case c => if (vowels.contains(c)) {
-        vowels.toList
+        vowels.toIterator
       } else {
-        List(c)
+        Iterator(c)
       }
-    }.toList
+    }
     val vowelSwaps = cartesianProduct(flatWord).map(_.mkString(""))
     logger.debug("vowel swaps: " + vowelSwaps.size)
-    vowelSwaps
+    vowelSwaps.toList
   }
 
-  private def cartesianProduct[T](xss: List[List[_]]): List[List[_]] = xss match {
-    case Nil => List(Nil)
-    case head :: tail => for (xh <- head; xt <- cartesianProduct(tail)) yield xh :: xt
-  }
-
-  private def cartesianProductNonRecursive[T](seqs: Iterator[Iterator[T]]): Seq[Seq[T]] = {
+  private def cartesianProduct[T](seqs: Iterator[Iterator[T]]): Seq[Seq[T]] = {
     seqs.foldLeft(Seq(Seq.empty[T]))((b, a) => b.flatMap(i => a.map(j => i ++ Seq(j))))
   }
 
