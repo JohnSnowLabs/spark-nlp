@@ -18,9 +18,7 @@ val embeddings = XlmRoBertaSentenceEmbeddings.pretrained()
 The default model is `"sent_xlm_roberta_base"`, default language is `"xx"` (meaning multi-lingual), if no values are provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
-and the [XlmRoBertaSentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaSentenceEmbeddingsTestSpec.scala).
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see [Import Transformers into Spark NLP 🚀](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
 
 **Paper Abstract:**
 
