@@ -8675,7 +8675,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     minCount = Param(Params._dummy(),
                      "minCount",
                      "Min number of times a token should appear to be included in vocab.",
-                     typeConverter=TypeConverters.toInt)
+                     typeConverter=TypeConverters.toFloat)
 
     compoundCount = Param(Params._dummy(),
                           "compoundCount",
@@ -8685,7 +8685,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     classCount = Param(Params._dummy(),
                        "classCount",
                        "Min number of times the word need to appear in corpus to not be considered of a special class.",
-                       typeConverter=TypeConverters.toInt)
+                       typeConverter=TypeConverters.toFloat)
 
     tradeoff = Param(Params._dummy(),
                      "tradeoff",
@@ -8819,7 +8819,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
         Parameters
         ----------
-        count : int
+        count : float
             Min number of times a token should appear to be included in vocab
         """
         return self._set(minCount=count)
@@ -8842,7 +8842,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
         Parameters
         ----------
-        count : int
+        count : float
             Min number of times the word need to appear in corpus to not be
             considered of a special class.
         """
@@ -8997,9 +8997,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
     tradeoff
         Tradeoff between the cost of a word error and a transition in the
         language model.
-    weightedDistPath
-        The path to the file containing the weights for the levenshtein
-        distance.
     maxWindowLen
         Maximum size for the window used to remember history prior to every
         correction.
@@ -9077,11 +9074,6 @@ class ContextSpellCheckerModel(AnnotatorModel):
                      "tradeoff",
                      "Tradeoff between the cost of a word error and a transition in the language model.",
                      typeConverter=TypeConverters.toFloat)
-
-    weightedDistPath = Param(Params._dummy(),
-                             "weightedDistPath",
-                             "The path to the file containing the weights for the levenshtein distance.",
-                             typeConverter=TypeConverters.toString)
 
     maxWindowLen = Param(Params._dummy(),
                          "maxWindowLen",
