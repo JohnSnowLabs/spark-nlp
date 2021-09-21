@@ -250,6 +250,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+docs/vendor/
 
 # PyBuilder
 target/
