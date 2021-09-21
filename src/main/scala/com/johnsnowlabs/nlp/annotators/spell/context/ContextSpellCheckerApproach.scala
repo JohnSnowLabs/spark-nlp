@@ -308,7 +308,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val maxSentLen = new IntParam(this, "maxSentLen", "Maximum length for a sentence - internal use during training")
 
 
-  setDefault(minCount -> 3.0,
+  setDefault(
+    minCount -> 3.0,
     specialClasses -> List(new DateToken, new NumberToken),
     wordMaxDistance -> 3,
     maxCandidates -> 6,
@@ -366,7 +367,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     val (vocabulary, classes) = genVocab(dataset)
     val word2ids = vocabulary.keys.toList.sorted.zipWithIndex.toMap
-    val encodedClasses = classes.map { case (word, cwid) => word2ids.get(word).get -> cwid }
+    val encodedClasses = classes.map { case (word, cwid) => word2ids(word) -> cwid }
 
     // split in validation and train
     val trainFraction = 1.0 - getOrDefault(validationFraction)
@@ -442,7 +443,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   /*
   *  here we do some pre-processing of the training data, and generate the vocabulary
   * */
-  def genVocab(dataset: Dataset[_]) = {
+  def genVocab(dataset: Dataset[_]): (mutable.HashMap[String, Double], Map[String, (Int, Int)]) = {
 
     import dataset.sparkSession.implicits._
     // for every sentence we have one end and one begining
@@ -574,7 +575,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         while (it.hasNext && count < getOrDefault(batchSize)) {
           count += 1
           val next = it.next
-          val ids = Array(vMap("_BOS_")) ++ next.map { case token =>
+          val ids = Array(vMap("_BOS_")) ++ next.map { token =>
             var tmp = token.result
             // identify tokens that belong to special classes, and replace with a label
             getOrDefault(specialClasses).foreach { specialClass =>
@@ -584,8 +585,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
             vMap.getOrElse(tmp, vMap("_UNK_"))
           } ++ Array(vMap("_EOS_"))
 
-          val cids = ids.map(id => classes.get(id).get._1).tail
-          val cwids = ids.map(id => classes.get(id).get._2).tail
+          val cids = ids.map(id => classes(id)._1).tail
+          val cwids = ids.map(id => classes(id)._2).tail
           val len = ids.length
 
           thisBatch = thisBatch :+ LangModelSentence(ids.dropRight(1).fixSize, cids.fixSize, cwids.fixSize, len)
@@ -607,14 +608,14 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val candidates = availableGraphs.map { filename =>
       filename match {
         // not looking into innerLayerSize or layerCount
-        case graphFilePattern(innerLayerSize, layerCount, classCount, vSize) =>
+        case graphFilePattern(classCount, vSize) =>
           val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
           val score = classCount.toFloat / requiredClassCount
           (filename, score, isValid)
       } // keep the valid, and pick the best
     }.filter(_._3)
 
-    require(!candidates.isEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")
+    require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")
 
     val bestGraph = candidates.minBy(_._2)._1
     val graph = new Graph()
