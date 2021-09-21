@@ -1,6 +1,21 @@
 # Spark NLP: State of the Art Natural Language Processing
+<p align="center">
+    <a href="https://github.com/JohnSnowLabs/spark-nlp/actions" alt="build">
+        <img src="https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg" /></a>
+    <a href="https://github.com/JohnSnowLabs/spark-nlp/releases" alt="Current Release Version">
+        <img src="https://img.shields.io/github/v/release/JohnSnowLabs/spark-nlp.svg?style=flat-square&logo=github" /></a>
+    <a href="https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.12" alt="Maven Central">
+        <img src="https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.12/badge.svg" /></a>
+    <a href="https://badge.fury.io/py/spark-nlp" alt="PyPI version">
+        <img src="https://badge.fury.io/py/spark-nlp.svg" /></a>
+    <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" alt="Anaconda-Cloud">
+        <img src="https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg" /></a>
+    <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE" alt="License">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
+    <a href="https://pypi.org/project/spark-nlp/" alt="PyPi downloads">
+        <img src="https://static.pepy.tech/personalized-badge/spark-nlp?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads" /></a>
+</p>
 
-[![build](https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg)](https://github.com/JohnSnowLabs/spark-nlp/actions) [![Current Release Version](https://img.shields.io/github/v/release/JohnSnowLabs/spark-nlp.svg?style=flat-square&logo=github)](https://github.com/JohnSnowLabs/spark-nlp/releases) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.12/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.12) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE) [![PyPi downloads](https://static.pepy.tech/personalized-badge/spark-nlp?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads)](https://pypi.org/project/spark-nlp/)
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **3700+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, and many more [NLP tasks](#features).
