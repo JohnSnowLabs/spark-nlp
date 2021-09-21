@@ -27,4 +27,13 @@ class UtilitiesTestSpec extends AnyFlatSpec {
     assert(levenshteinDistance == 0)
   }
 
+  "Utilities functions" should "work for long words" in {
+    val longWord = "hello" * 61
+    val reductions = Utilities.reductions(longWord, 3)
+    val variants = Utilities.variants(longWord)
+
+    assert(reductions.nonEmpty)
+    assert(variants.nonEmpty)
+  }
+
 }
