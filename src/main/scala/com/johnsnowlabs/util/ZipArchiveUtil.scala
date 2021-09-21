@@ -16,34 +16,26 @@
 
 package com.johnsnowlabs.util
 
-import scala.collection.JavaConversions.enumerationAsScalaIterator
-import scala.io.BufferedSource
-import scala.io.Codec
-import java.io.{File, FileInputStream, FileOutputStream, IOException}
-import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
-
 import org.apache.commons.io.FileUtils
 
-/**
-  * Copied from https://github.com/dhbikoff/Scala-Zip-Archive-Util
-  * with small fixes
-  */
+import scala.collection.JavaConverters._
+import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
+import java.io.{BufferedInputStream, File, FileInputStream, FileOutputStream, IOException}
+
 object ZipArchiveUtil {
 
   private def listFiles(file: File, outputFilename: String): List[String] = {
     file match {
-      case file if file.isFile => {
+      case file if file.isFile =>
         if (file.getName != outputFilename)
           List(file.getAbsoluteFile.toString)
         else
           List()
-      }
-      case file if file.isDirectory => {
+      case file if file.isDirectory =>
         val fList = file.list
         // Add all files in current dir to list and recur on subdirs
         fList.foldLeft(List[String]())((pList: List[String], path: String) =>
           pList ++ listFiles(new File(file, path), outputFilename))
-      }
       case _ => throw new IOException("Bad path. No file or directory found.")
     }
   }
@@ -60,28 +52,31 @@ object ZipArchiveUtil {
     }
   }
 
-  private def createZip(filePaths: List[String], outputFilename: String, parentPath: String) = {
-    try {
-      val fileOutputStream = new FileOutputStream(outputFilename)
-      val zipOutputStream = new ZipOutputStream(fileOutputStream)
+  private def createZip(filePaths: List[String], outputFilename: String, parentPath: String): Unit = {
 
+    val Buffer = 2 * 1024
+    val data = new Array[Byte](Buffer)
+    try {
+      val zip = new ZipOutputStream(new FileOutputStream(outputFilename))
+      zip.setLevel(0)
       filePaths.foreach((name: String) => {
         val zipEntry = addFileToZipEntry(name, parentPath, filePaths.size)
-        zipOutputStream.putNextEntry(zipEntry)
-        val inputSrc = new BufferedSource(
-          new FileInputStream(name))(Codec.ISO8859)
-        inputSrc foreach { c: Char => zipOutputStream.write(c) }
-        inputSrc.close
+        //add zip entry to output stream
+        zip.putNextEntry(new ZipEntry(zipEntry))
+        val in = new BufferedInputStream(new FileInputStream(name), Buffer)
+        var b = in.read(data, 0, Buffer)
+        while (b != -1) {
+          zip.write(data, 0, b)
+          b = in.read(data, 0, Buffer)
+        }
+        in.close()
+        zip.closeEntry()
       })
-
-      zipOutputStream.closeEntry
-      zipOutputStream.close
-      fileOutputStream.close
+      zip.close()
 
     } catch {
-      case e: IOException => {
-        e.printStackTrace
-      }
+      case e: IOException =>
+        e.printStackTrace()
     }
   }
 
@@ -100,7 +95,7 @@ object ZipArchiveUtil {
       fileName + "_unzipped"
     }
 
-    val destDir = if (destDirPath == None) {
+    val destDir = if (destDirPath.isEmpty) {
       new File(file.getParentFile, basename)
     }
     else {
@@ -110,7 +105,7 @@ object ZipArchiveUtil {
     destDir.mkdirs()
 
     val zip = new ZipFile(file)
-    zip.entries foreach { entry =>
+    zip.entries.asScala foreach { entry =>
       val entryName = entry.getName
       val entryPath = {
         if (entryName.startsWith(basename))
@@ -129,7 +124,7 @@ object ZipArchiveUtil {
         dirBuilder.append(part)
         val path = dirBuilder.toString
 
-        if (!(new File(path).exists)) {
+        if (!new File(path).exists) {
           new File(path).mkdir
         }
       }

@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{BertForTokenClassification, ClassifierDLModel, DistilBertForTokenClassification, MultiClassifierDLModel, SentimentDLModel}
+import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -447,7 +447,12 @@ object PythonResourceDownloader {
     "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
     "LongformerEmbeddings" -> LongformerEmbeddings,
     "RoBertaSentenceEmbeddings" -> RoBertaSentenceEmbeddings,
-    "XlmRoBertaSentenceEmbeddings" -> XlmRoBertaSentenceEmbeddings
+    "XlmRoBertaSentenceEmbeddings" -> XlmRoBertaSentenceEmbeddings,
+    "RoBertaForTokenClassification" -> RoBertaForTokenClassification,
+    "XlmRoBertaForTokenClassification" -> XlmRoBertaForTokenClassification,
+    "AlbertForTokenClassification" -> AlbertForTokenClassification,
+    "XlnetForTokenClassification" -> XlnetForTokenClassification,
+    "LongformerForTokenClassification" -> LongformerForTokenClassification
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

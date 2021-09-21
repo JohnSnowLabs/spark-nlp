@@ -16,16 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.{Sentence, TokenPiece}
-import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
-class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
+class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
   val vocab: Map[String, Int] =
     Array(
-      "<s>",
-      "</s>",
-      "<mask>",
+      "<|endoftext|>",
       "ĠI",
       "Ġunamb",
       "ig",
@@ -36,12 +32,7 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
       "Ġ3",
       "ĠAs",
       "d",
-      "Ġ!",
-      "<unk>",
-      "<pad>"
-      //        "ĠI",
-      //        "ĠAs",
-      //        "Ġ!",
+      "Ġ!"
     ).zipWithIndex.toMap
 
   val merges: Map[(String, String), Int] = Array(
@@ -74,27 +65,28 @@ class RobertaTokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "Ġ 3"
   ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
+  val modelType: String = "gpt2"
   val tokenizer: BpeTokenizer = BpeTokenizer.forModel(
-    "roberta",
+    modelType,
     merges,
     vocab
   )
 
   override val replaceCharBeforeAssertion: Some[String] = Some("Ġ")
 
-  "RobertaTokenizer" should behave like correctBpeTokenizer(
+  "Gpt2Tokenizer" should behave like correctBpeTokenizer(
     tokenizer = tokenizer,
     text = "I unambigouosly good 3Asd!",
-    Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
-    Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
   )
 
   it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
 
   it should behave like correctBpeTokenizerSpecialTokens(
     tokenizer = tokenizer,
-    text = "I unambigouosly <mask> good 3Asd <mask>",
-    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<mask>", "Ġgood", "Ġ3", "As", "d", "<mask>"),
-    expectedIds = Array(3, 4, 5, 6, 7, 8, 2, 9, 10, 11, 12, 2)
+    text = "I unambigouosly <|endoftext|> good 3Asd <|endoftext|>",
+    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0)
   )
 }
