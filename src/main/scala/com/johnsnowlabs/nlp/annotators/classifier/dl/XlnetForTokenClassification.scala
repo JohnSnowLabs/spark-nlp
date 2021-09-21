@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
@@ -31,22 +31,22 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
+ * XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output)
  * e.g. for Named-Entity-Recognition (NER) tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val tokenClassifier = DistilBertForTokenClassification.pretrained()
+ * val tokenClassifier = XlnetForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"distilbert_base_token_classifier_conll03"`, if no name is provided.
+ * The default model is `"xlnet_base_token_classifier_conll03"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
  *
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForTokenClassificationTestSpec.scala XlnetForTokenClassificationTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala DistilBertForTokenClassificationTestSpec]].
  *
  * ==Example==
  * {{{
@@ -63,7 +63,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val tokenClassifier = DistilBertForTokenClassification.pretrained()
+ * val tokenClassifier = XlnetForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -85,7 +85,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[DistilBertForTokenClassification]] for sentence-level embeddings
+ * @see [[XlnetForTokenClassification]] for sentence-level embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -102,15 +102,15 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class DistilBertForTokenClassification(override val uid: String)
-  extends AnnotatorModel[DistilBertForTokenClassification]
-    with HasBatchedAnnotate[DistilBertForTokenClassification]
+class XlnetForTokenClassification(override val uid: String)
+  extends AnnotatorModel[XlnetForTokenClassification]
+    with HasBatchedAnnotate[XlnetForTokenClassification]
     with WriteTensorflowModel
+    with WriteSentencePieceModel
     with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("DISTILBERT_FOR_TOKEN_CLASSIFICATION"))
-
+  def this() = this(Identifiable.randomUID("XlnetForTokenClassification"))
 
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
@@ -125,27 +125,6 @@ class DistilBertForTokenClassification(override val uid: String)
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
-
-  /** @group setParam */
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-
-  /** @group setParam */
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
-
-  /**
-   * Vocabulary used to encode the words to ids with WordPieceEncoder
-   *
-   * @group param
-   * */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
 
   /**
    * Labels used to decode predicted IDs back to string tags
@@ -167,7 +146,7 @@ class DistilBertForTokenClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForTokenClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): XlnetForTokenClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -180,7 +159,7 @@ class DistilBertForTokenClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 512, "XLNet models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -206,17 +185,16 @@ class DistilBertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBertClassification]] = None
+  private var _model: Option[Broadcast[TensorflowXlnetClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertForTokenClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): XlnetForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBertClassification(
+          new TensorflowXlnetClassification(
             tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
+            spp,
             configProtoBytes = getConfigProtoBytes,
             tags = getLabels,
             signatures = getSignatures
@@ -229,7 +207,7 @@ class DistilBertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBertClassification = _model.get.value
+  def getModelIfNotSet: TensorflowXlnetClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -248,25 +226,6 @@ class DistilBertForTokenClassification(override val uid: String)
     caseSensitive -> true
   )
 
-  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
-
-    tokens.map { tokenIndex =>
-      // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-  }
-
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
    *
@@ -279,13 +238,12 @@ class DistilBertForTokenClassification(override val uid: String)
     ).toArray
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-      val tokenized = tokenizeWithAlignment(tokenizedSentences)
 
       getModelIfNotSet.predict(
-        tokenized,
         tokenizedSentences,
         $(batchSize),
-        $(maxSentenceLength)
+        $(maxSentenceLength),
+        $(caseSensitive)
       )
     }) else {
       Seq(Seq.empty[Annotation])
@@ -295,54 +253,52 @@ class DistilBertForTokenClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert_classification", DistilBertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlnet_classification", XlnetForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet", XlnetForTokenClassification.sppFile)
   }
 
 }
 
-trait ReadablePretrainedDistilBertForTokenModel extends ParamsAndFeaturesReadable[DistilBertForTokenClassification] with HasPretrained[DistilBertForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("distilbert_base_token_classifier_conll03")
+trait ReadablePretrainedXlnetForTokenModel extends ParamsAndFeaturesReadable[XlnetForTokenClassification] with HasPretrained[XlnetForTokenClassification] {
+  override val defaultModelName: Some[String] = Some("xlnet_base_token_classifier_conll03")
 
   /** Java compliant-overrides */
-  override def pretrained(): DistilBertForTokenClassification = super.pretrained()
+  override def pretrained(): XlnetForTokenClassification = super.pretrained()
 
-  override def pretrained(name: String): DistilBertForTokenClassification = super.pretrained(name)
+  override def pretrained(name: String): XlnetForTokenClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertForTokenClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlnetForTokenClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertForTokenClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): XlnetForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[DistilBertForTokenClassification] =>
+trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[XlnetForTokenClassification] =>
 
-  override val tfFile: String = "distilbert_classification_tensorflow"
+  override val tfFile: String = "xlnet_classification_tensorflow"
+  override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(instance: DistilBertForTokenClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: XlnetForTokenClassification, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    val tf = readTensorflowModel(path, spark, "_xlnet_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
+    instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertForTokenClassification = {
-
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetForTokenClassification = {
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
-
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
       s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
-
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(vocabPath.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
-
-    val vocabResource = new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    val sppModelPath = tfModelPath + "/assets"
+    val sppModel = new File(sppModelPath, "spiece.model")
+    require(sppModel.exists(), s"SentencePiece model spiece.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
@@ -351,6 +307,7 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
     val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
 
     val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -358,15 +315,14 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new DistilBertForTokenClassification()
-      .setVocabulary(words)
+    new XlnetForTokenClassification()
       .setLabels(labels)
       .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(spark, wrapper, spp)
   }
 }
 
 /**
- * This is the companion object of [[DistilBertForTokenClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[XlnetForTokenClassification]]. Please refer to that class for the documentation.
  */
-object DistilBertForTokenClassification extends ReadablePretrainedDistilBertForTokenModel with ReadDistilBertForTokenTensorflowModel
+object XlnetForTokenClassification extends ReadablePretrainedXlnetForTokenModel with ReadXlnetForTokenTensorflowModel

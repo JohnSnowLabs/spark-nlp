@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
@@ -31,22 +31,22 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
+ * LongformerForTokenClassification can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output)
  * e.g. for Named-Entity-Recognition (NER) tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val tokenClassifier = DistilBertForTokenClassification.pretrained()
+ * val tokenClassifier = LongformerForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"distilbert_base_token_classifier_conll03"`, if no name is provided.
+ * The default model is `"longformer_base_token_classifier_conll03"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
  *
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForTokenClassificationTestSpec.scala LongformerForTokenClassificationTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala DistilBertForTokenClassificationTestSpec]].
  *
  * ==Example==
  * {{{
@@ -63,7 +63,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val tokenClassifier = DistilBertForTokenClassification.pretrained()
+ * val tokenClassifier = LongformerForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -85,7 +85,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[DistilBertForTokenClassification]] for sentence-level embeddings
+ * @see [[LongformerForTokenClassification]] for sentence-level embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -102,14 +102,14 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class DistilBertForTokenClassification(override val uid: String)
-  extends AnnotatorModel[DistilBertForTokenClassification]
-    with HasBatchedAnnotate[DistilBertForTokenClassification]
+class LongformerForTokenClassification(override val uid: String)
+  extends AnnotatorModel[LongformerForTokenClassification]
+    with HasBatchedAnnotate[LongformerForTokenClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("DISTILBERT_FOR_TOKEN_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("LongformerForTokenClassification"))
 
 
   /**
@@ -126,14 +126,16 @@ class DistilBertForTokenClassification(override val uid: String)
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
-  /** @group setParam */
   def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
+    $$(vocabulary)("<s>")
   }
 
-  /** @group setParam */
   def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
+    $$(vocabulary)("</s>")
+  }
+
+  def padTokenId: Int = {
+    $$(vocabulary)("<pad>")
   }
 
   /**
@@ -160,6 +162,17 @@ class DistilBertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getLabels: Map[String, Int] = $$(labels)
 
+
+  /**
+   * Holding merges.txt coming from RoBERTa model
+   *
+   * @group param
+   */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
    * @group param
@@ -167,7 +180,7 @@ class DistilBertForTokenClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForTokenClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): LongformerForTokenClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -180,7 +193,7 @@ class DistilBertForTokenClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 4096, "Longformer models do not support sequences longer than 4096 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -206,17 +219,18 @@ class DistilBertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBertClassification]] = None
+  private var _model: Option[Broadcast[TensorflowRoBertaClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertForTokenClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): LongformerForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBertClassification(
+          new TensorflowRoBertaClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
+            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             tags = getLabels,
             signatures = getSignatures
@@ -229,7 +243,7 @@ class DistilBertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBertClassification = _model.get.value
+  def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -249,8 +263,12 @@ class DistilBertForTokenClassification(override val uid: String)
   )
 
   def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
+    val bpeTokenizer = BpeTokenizer.forModel(
+      "roberta",
+      merges = $$(merges),
+      vocab = $$(vocabulary),
+      padWithSentenceTokens = false
+    )
 
     tokens.map { tokenIndex =>
       // filter empty and only whitespace tokens
@@ -259,10 +277,10 @@ class DistilBertForTokenClassification(override val uid: String)
         val sentenceBegin = token.begin
         val sentenceEnd = token.end
         val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        val result = bpeTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
         if (result.nonEmpty) result.head else IndexedToken("")
       }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
+      val wordpieceTokens = bertTokens.flatMap(token => bpeTokenizer.encode(token)).take($(maxSentenceLength))
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -295,38 +313,38 @@ class DistilBertForTokenClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_distilbert_classification", DistilBertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_longformer_classification", LongformerForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedDistilBertForTokenModel extends ParamsAndFeaturesReadable[DistilBertForTokenClassification] with HasPretrained[DistilBertForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("distilbert_base_token_classifier_conll03")
+trait ReadablePretrainedLongformerForTokenModel extends ParamsAndFeaturesReadable[LongformerForTokenClassification] with HasPretrained[LongformerForTokenClassification] {
+  override val defaultModelName: Some[String] = Some("longformer_base_token_classifier_conll03")
 
   /** Java compliant-overrides */
-  override def pretrained(): DistilBertForTokenClassification = super.pretrained()
+  override def pretrained(): LongformerForTokenClassification = super.pretrained()
 
-  override def pretrained(name: String): DistilBertForTokenClassification = super.pretrained(name)
+  override def pretrained(name: String): LongformerForTokenClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertForTokenClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): LongformerForTokenClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): DistilBertForTokenClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): LongformerForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[DistilBertForTokenClassification] =>
+trait ReadLongformerForTokenTensorflowModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[LongformerForTokenClassification] =>
 
-  override val tfFile: String = "distilbert_classification_tensorflow"
+  override val tfFile: String = "longformer_classification_tensorflow"
 
-  def readTensorflow(instance: DistilBertForTokenClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: LongformerForTokenClassification, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
+    val tf = readTensorflowModel(path, spark, "_longformer_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertForTokenClassification = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): LongformerForTokenClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -338,11 +356,26 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
 
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(vocabPath.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
+    val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(vocabFile.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
 
-    val vocabResource = new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val mergesFile = new File(tfModelPath + "/assets", "merges.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
+
+    val vocabResource = new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+
+    val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val merges = ResourceHelper.parseLines(mergesResource)
+
+    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
+      .filter(w => w.length == 2)
+      .map { case Array(c1, c2) => (c1, c2) }
+      .zipWithIndex.toMap
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
@@ -358,8 +391,9 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new DistilBertForTokenClassification()
+    new LongformerForTokenClassification()
       .setVocabulary(words)
+      .setMerges(bytePairs)
       .setLabels(labels)
       .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
@@ -367,6 +401,6 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
 }
 
 /**
- * This is the companion object of [[DistilBertForTokenClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[LongformerForTokenClassification]]. Please refer to that class for the documentation.
  */
-object DistilBertForTokenClassification extends ReadablePretrainedDistilBertForTokenModel with ReadDistilBertForTokenTensorflowModel
+object LongformerForTokenClassification extends ReadablePretrainedLongformerForTokenModel with ReadLongformerForTokenTensorflowModel
