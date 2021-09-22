@@ -13,7 +13,7 @@ article_header:
       url: /docs/en/quickstart
     - text: View Demo
       type: trans
-      url: /demo
+      url: /demos
     - text: '<i class="fab fa-github"></i> GitHub'
       type: trans
       url: https://github.com/johnsnowlabs/spark-nlp  
@@ -42,15 +42,18 @@ data:
             src: /assets/images/chat_symbols.svg
           excerpt: Full <b>Python</b>, <b>Scala</b>, and <b>Java</b> support
    
+    - title: Transformers at Scale
+      transformers: yes
+      features: false
+
     - title: Quick and Easy
       install: yes
-      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, <a href="https://mvnrepository.com/artifact/JohnSnowLabs/spark-nlp" target="_blank">Maven</a>, and <a href="https://spark-packages.org/package/JohnSnowLabs/spark-nlp" target="_blank">Spark Packages</a>
+      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, and <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp" target="_blank">Maven</a>
       actions:
         - text: Install Spark NLP
           type: big_btn
           url: /docs/en/install
     
-
     - title: Right Out of The Box
       top: yes
       classmenu: three_a
@@ -100,7 +103,7 @@ data:
             is_row: true        
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Intel_logo_%282006%29.svg/800px-Intel_logo_%282006%29.svg.png
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Intel_logo_%282020%2C_light_blue%29.svg/200px-Intel_logo_%282020%2C_light_blue%29.svg.png
             url: https://www.intel.com/
             style: "padding: 25px;"
             is_row: true
@@ -314,7 +317,7 @@ data:
           image:
             src: https://www.cnrs.fr/themes/custom/cnrs/logo.svg
             url: https://iscpif.fr/
-            style: ""
+            style: "padding: 30px;"
             is_row: true
         - title: 
           image:
@@ -342,7 +345,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Columbia_University_shield.svg/1200px-Columbia_University_shield.svg.png
+            src: https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Columbia_University_shield.svg/1184px-Columbia_University_shield.svg.png
             url: https://www.columbia.edu/
             style: "padding: 25px;"
             is_row: true
@@ -360,7 +363,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://upload.wikimedia.org/wikipedia/commons/1/1f/UniversiteParis_logo_horizontal_couleur_RVB.png
+            src: https://u-paris.fr/wp-content/uploads/2019/03/Universite_Paris_logo_horizontal.jpg
             url: https://u-paris.fr/en/
             style: ""
             is_row: true
@@ -386,7 +389,7 @@ data:
           url: https://github.com/JohnSnowLabs/spark-nlp-workshop
         - text: '<i class="fab fa-slack-hash"></i> Slack'
           type: trans
-          url: https://join.slack.com/t/spark-nlp/shared_invite/enQtNjA4MTE2MDI1MDkxLWVjNWUzOGNlODg1Y2FkNGEzNDQ1NDJjMjc3Y2FkOGFmN2Q3ODIyZGVhMzU0NGM3NzRjNDkyZjZlZTQ0YzY1N2I
+          url: https://www.johnsnowlabs.com/slack-redirect/
       background_color: "#0098DA"
     
     

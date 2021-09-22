@@ -1,18 +1,34 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
-import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
+import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.{Benchmark, FileHelper}
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.io.Source
 
-class NerDLSpec extends FlatSpec {
+class NerDLSpec extends AnyFlatSpec {
 
   "NER DL Approach" should "train and annotate with perf" taggedAs SlowTest in {
 
@@ -228,6 +244,52 @@ class NerDLSpec extends FlatSpec {
 
     nerModel.getClasses.foreach(x=>println(x))
 
+  }
+
+  "NerDLModel" should "benchmark test" taggedAs SlowTest in {
+
+    val conll = CoNLL(explodeSentences = false)
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+
+    val nerModel = NerDLModel.pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        embeddings,
+        nerModel
+      ))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_nerdl")
+    }
+  }
+
+  "NerDLModel" should "work with confidence scores enabled" taggedAs SlowTest in {
+
+    val conll = CoNLL(explodeSentences = false)
+    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+
+    val nerModel = NerDLModel.pretrained()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setIncludeConfidence(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        embeddings,
+        nerModel
+      ))
+
+    val pipelineDF = pipeline.fit(training_data).transform(training_data)
+    pipelineDF.select("ner").show(1, false)
   }
 
 }

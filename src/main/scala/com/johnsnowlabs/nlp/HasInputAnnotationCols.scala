@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.param.{Params, StringArrayParam}
@@ -8,10 +24,12 @@ trait HasInputAnnotationCols extends Params {
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   val inputAnnotatorTypes: Array[String]
 
+  val optionalInputAnnotatorTypes: Array[String] = Array()
+
   /**
-    * columns that contain annotations necessary to run this annotator
-    * AnnotatorType is used both as input and output columns if not specified
-    */
+   * columns that contain annotations necessary to run this annotator
+   * AnnotatorType is used both as input and output columns if not specified
+   */
   protected final val inputCols: StringArrayParam =
     new StringArrayParam(this, "inputCols", "the input annotation columns")
 
@@ -28,9 +46,10 @@ trait HasInputAnnotationCols extends Params {
 
   protected def msgHelper(schema: StructType): String = {
     val schemaInfo = schema.map(sc => (
-      "column_name="+sc.name,
-      "is_nlp_annotator="+sc.metadata.contains("annotatorType")+
-        {if (sc.metadata.contains("annotatorType")) ",type="+sc.metadata.getString("annotatorType") else ""}))
+      "column_name=" + sc.name,
+      "is_nlp_annotator=" + sc.metadata.contains("annotatorType") + {
+        if (sc.metadata.contains("annotatorType")) ",type=" + sc.metadata.getString("annotatorType") else ""
+      }))
     s"\nCurrent inputCols: ${getInputCols.mkString(",")}. Dataset's columns:\n${schemaInfo.mkString("\n")}."
   }
 
@@ -50,5 +69,5 @@ trait HasInputAnnotationCols extends Params {
   def getInputCols: Array[String] =
     get(inputCols).orElse(getDefault(inputCols))
       .getOrElse(throw new Exception(s"inputCols not provided." +
-      s" Requires columns for ${inputAnnotatorTypes.mkString(", ")} annotators"))
+        s" Requires columns for ${inputAnnotatorTypes.mkString(", ")} annotators"))
 }

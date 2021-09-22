@@ -5,6 +5,7 @@ author: John Snow Labs
 name: t5_base_mediqa_mnli
 date: 2021-02-19
 tags: [t5, licensed, clinical, en]
+supported: true
 task: Summarization
 language: en
 edition: Spark NLP 2.7.4

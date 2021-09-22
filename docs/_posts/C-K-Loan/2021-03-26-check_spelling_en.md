@@ -1,10 +1,11 @@
 ---
 layout: model
-title: check_spelling pipeline for English
+title: Spell Checking Pipeline for English
 author: John Snow Labs
 name: check_spelling
 date: 2021-03-26
 tags: [open_source, english, check_spelling, pipeline, en]
+supported: true
 task: [Spell Check,]
 language: en
 edition: Spark NLP 3.0.0

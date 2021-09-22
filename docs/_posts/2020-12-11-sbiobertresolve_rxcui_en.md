@@ -39,7 +39,7 @@ RxCUI Codes and their normalized definition with ``sbiobert_base_cased_mli`` emb
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 rxcui_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxcui","en", "clinical/models") \
@@ -67,7 +67,8 @@ val rxcui_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxc
      .setDistanceFunction("EUCLIDEAN")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, rxcui_resolver))
 
-val result = pipeline.fit(Seq.empty["He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day"].toDS.toDF("text")).transform(data)
+val data = Seq("He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.h2_title}

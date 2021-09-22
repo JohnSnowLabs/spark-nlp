@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.{PipelineModel, Transformer}
@@ -10,6 +26,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   private var ignoreUnsupported = false
 
   def setIgnoreUnsupported(v: Boolean): Unit = ignoreUnsupported = v
+
   def getIgnoreUnsupported: Boolean = ignoreUnsupported
 
   def getStages: Array[Transformer] = pipelineModel.stages
@@ -31,11 +48,19 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
           // Benchmarks proved that parallel execution in LightPipeline gains more speed than batching entries (which require non parallel collections)
           annotations.updated(batchedAnnotator.getOutputCol, batchedAnnotator.batchAnnotate(Seq(combinedAnnotations)).head)
         case annotator: AnnotatorModel[_] with HasSimpleAnnotate[_] =>
+          var inputCols = annotator.getInputCols
+          if (annotator.optionalInputAnnotatorTypes.nonEmpty) {
+            val optionalColumns = getOptionalAnnotatorsOutputCols(annotator.optionalInputAnnotatorTypes)
+            inputCols = inputCols ++ optionalColumns
+          }
           val combinedAnnotations =
-            annotator.getInputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
+            inputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))
         case finisher: Finisher =>
           annotations.filterKeys(finisher.getInputCols.contains)
+        case graphFinisher: GraphFinisher =>
+          val annotated = getGraphFinisherOutput(annotations, graphFinisher)
+          annotations.updated(graphFinisher.getOutputCol, annotated)
         case rawModel: RawAnnotator[_] =>
           if (ignoreUnsupported) annotations
           else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
@@ -45,6 +70,26 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case _ => annotations
       }
     })
+  }
+
+  private def getOptionalAnnotatorsOutputCols(optionalInputAnnotatorTypes: Array[String]): Array[String] = {
+    val optionalColumns = getStages
+      .filter(stage => stage.isInstanceOf[AnnotatorModel[_]])
+      .filter(stage => optionalInputAnnotatorTypes.contains(stage.asInstanceOf[AnnotatorModel[_]].outputAnnotatorType))
+      .map(stage => stage.asInstanceOf[AnnotatorModel[_]].getOutputCol)
+
+    optionalColumns
+  }
+
+  private def getGraphFinisherOutput(annotations: Map[String, Seq[Annotation]], graphFinisher: GraphFinisher): Seq[Annotation] = {
+    val result = getStages
+      .filter(stage => stage.isInstanceOf[GraphFinisher])
+      .map(stage => stage.asInstanceOf[GraphFinisher].getInputCol)
+    val metadata = annotations
+      .filter(annotation => result.contains(annotation._1))
+      .flatMap(annotation => annotation._2.flatMap(a => a.metadata))
+
+    graphFinisher.annotate(metadata)
   }
 
   def fullAnnotate(targets: Array[String]): Array[Map[String, Seq[Annotation]]] = {
@@ -67,8 +112,8 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   def annotate(target: String): Map[String, Seq[String]] = {
     fullAnnotate(target).mapValues(_.map(a => {
       a.annotatorType match {
-        case (AnnotatorType.WORD_EMBEDDINGS |
-             AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddingsVectors) =>  a.embeddings.mkString(" ")
+        case AnnotatorType.WORD_EMBEDDINGS |
+              AnnotatorType.SENTENCE_EMBEDDINGS if parseEmbeddingsVectors => a.embeddings.mkString(" ")
         case _ => a.result
       }
     }))

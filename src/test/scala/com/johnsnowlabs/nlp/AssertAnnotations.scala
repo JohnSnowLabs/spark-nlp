@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
@@ -24,13 +40,21 @@ object AssertAnnotations {
   }
 
   def assertFields(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
-    expectedResult.zipWithIndex.foreach { case (annotationDocument, indexDocument) =>
+    expectedResult.zipWithIndex.foreach { case (expectedAnnotationDocument, indexDocument) =>
       val actualDocument = actualResult(indexDocument)
-      annotationDocument.zipWithIndex.foreach { case (annotation, index) =>
-        assert(actualDocument(index).result == annotation.result)
-        assert(actualDocument(index).begin == annotation.begin)
-        assert(actualDocument(index).end == annotation.end)
-        assert(actualDocument(index).metadata == annotation.metadata)
+      expectedAnnotationDocument.zipWithIndex.foreach { case (expectedAnnotation, index) =>
+        val actualResult = actualDocument(index).result
+        val actualBegin = actualDocument(index).begin
+        val actualEnd = actualDocument(index).end
+        val actualMetadata = actualDocument(index).metadata
+        val expectedResult = expectedAnnotation.result
+        val expectedBegin = expectedAnnotation.begin
+        val expectedEnd = expectedAnnotation.end
+        val expectedMetadata = expectedAnnotation.metadata
+        assert(actualResult == expectedResult, s"actual result $actualResult != expected result $expectedResult")
+        assert(actualBegin == expectedBegin, s"actual begin $actualBegin != expected result $expectedBegin")
+        assert(actualEnd == expectedEnd, s"actual end $actualEnd != expected end $expectedEnd")
+        assert(actualMetadata == expectedMetadata, s"actual begin $actualMetadata != expected result $expectedMetadata")
       }
     }
   }

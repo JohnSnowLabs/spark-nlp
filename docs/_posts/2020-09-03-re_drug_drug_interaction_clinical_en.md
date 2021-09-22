@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Relation Extraction model based on syntactic features using deep learning. This model can be used to identify drug-drug interactions relationships among drug entities.
 
-## Included Relations
+## Predicted Entities
 ``DDI-advise``, ``DDI-effect``, ``DDI-mechanism``, ``DDI-int``, ``DDI-false``.
 
 {:.btn-box}
@@ -52,7 +52,8 @@ val ddi_re_model = RelationExtractionModel.pretrained("re_drug_drug_interaction_
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_converter, dependency_parser, ddi_re_model))
 
-val result = pipeline.fit(Seq.empty["When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"].toDS.toDF("text")).transform(data)
+val data = Seq("When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 </div>

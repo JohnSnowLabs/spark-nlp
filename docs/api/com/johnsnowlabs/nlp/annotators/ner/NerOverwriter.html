@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
+          <title>Spark NLP 3.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter</title>
+          <meta name="description" content="Spark NLP 3.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
+          <meta name="keywords" content="Spark NLP 3.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerOverwriter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -191,12 +191,12 @@
                         <a href="NerApproach.html" title="">NerApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="NerConverter$.html" title=""></a>
-                        <a class="class" href="NerConverter.html" title="Converts IOB or IOB2 representation of NER to user-friendly."></a>
-                        <a href="NerConverter.html" title="Converts IOB or IOB2 representation of NER to user-friendly.">NerConverter</a>
+                        <a class="class" href="NerConverter.html" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label."></a>
+                        <a href="NerConverter.html" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label.">NerConverter</a>
                       </li><li class="current-entities indented5">
-                        <a class="object" href="NerOverwriter$.html" title=""></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">NerOverwriter</a>
+                        <a class="object" href="NerOverwriter$.html" title="This is the companion object of NerOverwriter."></a>
+                        <a class="class" href="" title="Overwrites entities of specified strings."></a>
+                        <a href="" title="Overwrites entities of specified strings.">NerOverwriter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="object" href="NerTagsEncoding$.html" title="Works with different NER representations as tags Supports: IOB and IOB2 https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)"></a>
@@ -235,7 +235,91 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Overwrites entities of specified strings.</p><p>The input for this Annotator have to be entities that are already extracted, Annotator type <code>NAMED_ENTITY</code>.
+The strings specified with <code>setStopWords</code> will have new entities assigned to, specified with <code>setNewResult</code>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.ner.NerOverwriter
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="cmt">// First extract the prerequisite Entities</span>
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)
+
+<span class="kw">val</span> nerTagger = NerDLModel.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentence,
+  tokenizer,
+  embeddings,
+  nerTagger
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Spark NLP Crosses Five Million Downloads, John Snow Labs Announces."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(ner)"</span>).show(<span class="kw">false</span>)
+<span class="cmt">/*
++------------------------------------------------------+
+|col                                                   |
++------------------------------------------------------+
+|[named_entity, 0, 4, B-ORG, [word -&gt; Spark], []]      |
+|[named_entity, 6, 8, I-ORG, [word -&gt; NLP], []]        |
+|[named_entity, 10, 16, O, [word -&gt; Crosses], []]      |
+|[named_entity, 18, 21, O, [word -&gt; Five], []]         |
+|[named_entity, 23, 29, O, [word -&gt; Million], []]      |
+|[named_entity, 31, 39, O, [word -&gt; Downloads], []]    |
+|[named_entity, 40, 40, O, [word -&gt; ,], []]            |
+|[named_entity, 42, 45, B-ORG, [word -&gt; John], []]     |
+|[named_entity, 47, 50, I-ORG, [word -&gt; Snow], []]     |
+|[named_entity, 52, 55, I-ORG, [word -&gt; Labs], []]     |
+|[named_entity, 57, 65, I-ORG, [word -&gt; Announces], []]|
+|[named_entity, 66, 66, O, [word -&gt; .], []]            |
++------------------------------------------------------+
+*/</span>
+<span class="cmt">// The recognized entities can then be overwritten</span>
+<span class="kw">val</span> nerOverwriter = <span class="kw">new</span> NerOverwriter()
+  .setInputCols(<span class="lit">"ner"</span>)
+  .setOutputCol(<span class="lit">"ner_overwritten"</span>)
+  .setStopWords(<span class="std">Array</span>(<span class="lit">"Million"</span>))
+  .setNewResult(<span class="lit">"B-CARDINAL"</span>)
+
+nerOverwriter.transform(result).selectExpr(<span class="lit">"explode(ner_overwritten)"</span>).show(<span class="kw">false</span>)
++---------------------------------------------------------+
+|col                                                      |
++---------------------------------------------------------+
+|[named_entity, <span class="num">0</span>, <span class="num">4</span>, B-ORG, [word -&gt; Spark], []]         |
+|[named_entity, <span class="num">6</span>, <span class="num">8</span>, I-ORG, [word -&gt; NLP], []]           |
+|[named_entity, <span class="num">10</span>, <span class="num">16</span>, O, [word -&gt; Crosses], []]         |
+|[named_entity, <span class="num">18</span>, <span class="num">21</span>, O, [word -&gt; Five], []]            |
+|[named_entity, <span class="num">23</span>, <span class="num">29</span>, B-CARDINAL, [word -&gt; Million], []]|
+|[named_entity, <span class="num">31</span>, <span class="num">39</span>, O, [word -&gt; Downloads], []]       |
+|[named_entity, <span class="num">40</span>, <span class="num">40</span>, O, [word -&gt; ,], []]               |
+|[named_entity, <span class="num">42</span>, <span class="num">45</span>, B-ORG, [word -&gt; John], []]        |
+|[named_entity, <span class="num">47</span>, <span class="num">50</span>, I-ORG, [word -&gt; Snow], []]        |
+|[named_entity, <span class="num">52</span>, <span class="num">55</span>, I-ORG, [word -&gt; Labs], []]        |
+|[named_entity, <span class="num">57</span>, <span class="num">65</span>, I-ORG, [word -&gt; Announces], []]   |
+|[named_entity, <span class="num">66</span>, <span class="num">66</span>, O, [word -&gt; .], []]               |
++---------------------------------------------------------+</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -541,7 +625,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a> → <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a document and annotations and produces new annotations of this annotator's annotation type
+</p><div class="fullcomment"><div class="comment cmt"><p>takes a document and annotations and produces new annotations of this annotator's annotation type
+</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>any number of annotations processed for every input annotation. Not necessary one to one relationship</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a> → <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -693,7 +779,9 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">dfAnnotate</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
       </span>
       
-      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span></p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p><div class="fullcomment"><div class="comment cmt"><p>Wraps annotate to happen inside SparkSQL user defined functions in order to act with <span class="extype" name="org.apache.spark.sql.Column">org.apache.spark.sql.Column</span>
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>udf function to be applied to <span class="extype" name="inputCols">inputCols</span> using this annotator's annotate function as part of ML transformation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1087,7 +1175,7 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
         <span class="name">getStopWords</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">the words to be filtered out.</p>
+      <p class="shortcomment cmt">The words to be filtered out.</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1600,6 +1688,22 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optionalInputAnnotatorTypes:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.html#optionalInputAnnotatorTypes:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optionalInputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:NerOverwriter.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
@@ -2013,7 +2117,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setStopWords</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter">NerOverwriter</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">the words to be filtered out.</p>
+      <p class="shortcomment cmt">The words to be filtered out.</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerOverwriter#stopWords" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="stopWords:org.apache.spark.ml.param.StringArrayParam"></a><a id="stopWords:StringArrayParam"></a>
       <span class="permalink">
@@ -2029,7 +2133,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">stopWords</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">the words to be filtered out.</p>
+      <p class="shortcomment cmt">The words to be filtered out.</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2196,7 +2300,8 @@ metadata is built at schema level to record annotations structural information o
         <span class="name">validate</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2356,7 +2461,7 @@ metadata is built at schema level to record annotations structural information o
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
               <div class="comment cmt"><p>Required input and expected output annotator types</p></div>

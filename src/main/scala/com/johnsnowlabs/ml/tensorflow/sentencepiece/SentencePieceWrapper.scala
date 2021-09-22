@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow.sentencepiece
 
 import java.io.File
@@ -16,7 +32,7 @@ class SentencePieceWrapper(
 
   def getSppModel: SentencePieceProcessor = {
 
-    if (mspp == null){
+    if (mspp == null) {
       val spp = new SentencePieceProcessor()
       spp.loadFromSerializedProto(sppModel)
       mspp = spp
@@ -48,7 +64,7 @@ trait WriteSentencePieceModel {
                                spark: SparkSession,
                                spp: SentencePieceWrapper,
                                suffix: String,
-                               filename:String
+                               filename: String
                              ): Unit = {
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
@@ -84,7 +100,7 @@ trait ReadSentencePieceModel {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
     // 1. Create tmp directory
-    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12)+ suffix)
+    val tmpFolder = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath.toString
 
     // 2. Copy to local dir

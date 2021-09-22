@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ws
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
@@ -8,18 +24,85 @@ import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable}
 import org.apache.spark.ml.util.Identifiable
 
+/** WordSegmenter which tokenizes non-english or non-whitespace separated texts.
+ *
+ * Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
+ * Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
+ * impossible. The WordSegmenter is trained to understand these languages and plit them into semantically correct parts.
+ *
+ * This is the instantiated model of the [[WordSegmenterApproach]].
+ * For training your own model, please see the documentation of that class.
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val wordSegmenter = WordSegmenterModel.pretrained()
+ *   .setInputCols("document")
+ *   .setOutputCol("words_segmented")
+ * }}}
+ * The default model is `"wordseg_pku"`, default language is `"zh"`, if no values are provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Word+Segmentation Models Hub]].
+ *
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala WordSegmenterTest]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotator.WordSegmenterModel
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val wordSegmenter = WordSegmenterModel.pretrained()
+ *   .setInputCols("document")
+ *   .setOutputCol("token")
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   wordSegmenter
+ * ))
+ *
+ * val data = Seq("然而，這樣的處理也衍生了一些問題。").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.select("token.result").show(false)
+ * +--------------------------------------------------------+
+ * |result                                                  |
+ * +--------------------------------------------------------+
+ * |[然而, ，, 這樣, 的, 處理, 也, 衍生, 了, 一些, 問題, 。    ]|
+ * +--------------------------------------------------------+
+ * }}}
+ *
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class WordSegmenterModel(override val uid: String)
   extends AnnotatorModel[WordSegmenterModel]
     with HasSimpleAnnotate[WordSegmenterModel]
-    with PerceptronPredictionUtils
-{
+    with PerceptronPredictionUtils {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("WORD_SEGMENTER"))
 
   /** POS model
-    *
-    * @group param
-    **/
+   *
+   * @group param
+   * */
   val model: StructFeature[AveragedPerceptron] = new StructFeature[AveragedPerceptron](this, "POS Model")
 
   /** @group getParam */
@@ -29,23 +112,23 @@ class WordSegmenterModel(override val uid: String)
   def setModel(targetModel: AveragedPerceptron): this.type = set(model, targetModel)
 
   /**
-    * takes a document and annotations and produces new annotations of this annotator's annotation type
-    *
-    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
-    */
+   * takes a document and annotations and produces new annotations of this annotator's annotation type
+   *
+   * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+   * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+   */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokens = getTokenAnnotations(sentences)
     val tokenizedSentences = TokenizedWithSentence.unpack(annotations ++ tokens)
-    val tagged = tag($$(model),tokenizedSentences.toArray)
+    val tagged = tag($$(model), tokenizedSentences.toArray)
     buildWordSegments(tagged)
   }
 
   private def getTokenAnnotations(annotation: Seq[Sentence]): Seq[Annotation] = {
-    val tokens = annotation.flatMap{ sentence =>
+    val tokens = annotation.flatMap { sentence =>
       val chars = sentence.content.split("")
-      chars.zipWithIndex.map{ case (char, index) =>
+      chars.zipWithIndex.map { case (char, index) =>
         val tokenIndex = index + sentence.start
         Annotation(TOKEN, tokenIndex, tokenIndex, char, Map("sentence" -> sentence.index.toString))
       }.filter(annotation => annotation.result != " ")
@@ -54,7 +137,7 @@ class WordSegmenterModel(override val uid: String)
   }
 
   def buildWordSegments(taggedSentences: Array[TaggedSentence]): Seq[Annotation] = {
-    taggedSentences.zipWithIndex.flatMap{ case (taggedSentence, index) =>
+    taggedSentences.zipWithIndex.flatMap { case (taggedSentence, index) =>
       val tagsSentence = taggedSentence.tags.mkString("")
       val wordIndexesByMatchedGroups = getWordIndexesByMatchedGroups(tagsSentence)
       if (wordIndexesByMatchedGroups.isEmpty) {
@@ -92,7 +175,7 @@ class WordSegmenterModel(override val uid: String)
                                           taggedSentence: TaggedSentence): List[IndexedTaggedWord] = {
     val flattenWordIndexes = wordIndexesByMatchedGroups.flatMap(wordIndexGroup =>
       wordIndexGroup.map(wi => wi.estimatedIndex))
-    val unmatchedTaggedWordsCandidates = taggedSentence.indexedTaggedWords.zipWithIndex.filter{ case (_, index) =>
+    val unmatchedTaggedWordsCandidates = taggedSentence.indexedTaggedWords.zipWithIndex.filter { case (_, index) =>
       !flattenWordIndexes.contains(index)
     }.map(_._1)
     val unmatchedTaggedWords = unmatchedTaggedWordsCandidates.filter(unmatchedTaggedWordCandidate =>
@@ -120,7 +203,7 @@ class WordSegmenterModel(override val uid: String)
 
   private def getMultipleTaggedWords(wordIndexesByMatchedGroups: List[List[RegexTagsInfo]],
                                      taggedSentence: TaggedSentence): List[IndexedTaggedWord] = {
-    wordIndexesByMatchedGroups.flatMap{ wordIndexesGroup =>
+    wordIndexesByMatchedGroups.flatMap { wordIndexesGroup =>
       val wordIndexes = wordIndexesGroup.map(wi => wi.estimatedIndex)
       val taggedWords = taggedSentence.indexedTaggedWords.zipWithIndex
         .filter { case (indexedTaggedWord, index) =>
@@ -141,25 +224,38 @@ class WordSegmenterModel(override val uid: String)
     IndexedTaggedWord(wordSegment, tagSegment, begin, end, None, Map("index" -> index))
   }
 
+  /** Output Annotator Types: TOKEN
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = TOKEN
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+
+  /** Input Annotator Types: DOCUMENT
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
 }
 
 private case class RegexTagsInfo(tagsMatch: String, start: Int, end: Int, estimatedIndex: Int)
 
 trait ReadablePretrainedWordSegmenter extends ParamsAndFeaturesReadable[WordSegmenterModel]
-  with HasPretrained[WordSegmenterModel]
-{
+  with HasPretrained[WordSegmenterModel] {
   override val defaultModelName: Some[String] = Some("wordseg_pku")
   override val defaultLang: String = "zh"
 
   /** Java compliant-overrides */
   override def pretrained(): WordSegmenterModel = super.pretrained()
+
   override def pretrained(name: String): WordSegmenterModel = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): WordSegmenterModel = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): WordSegmenterModel =
     super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[WordSegmenterModel]]. Please refer to that class for the documentation.
+ */
 object WordSegmenterModel extends ReadablePretrainedWordSegmenter

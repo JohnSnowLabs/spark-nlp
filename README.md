@@ -1,8 +1,26 @@
 # Spark NLP: State of the Art Natural Language Processing
+<p align="center">
+    <a href="https://github.com/JohnSnowLabs/spark-nlp/actions" alt="build">
+        <img src="https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg" /></a>
+    <a href="https://github.com/JohnSnowLabs/spark-nlp/releases" alt="Current Release Version">
+        <img src="https://img.shields.io/github/v/release/JohnSnowLabs/spark-nlp.svg?style=flat-square&logo=github" /></a>
+    <a href="https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.12" alt="Maven Central">
+        <img src="https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.12/badge.svg" /></a>
+    <a href="https://badge.fury.io/py/spark-nlp" alt="PyPI version">
+        <img src="https://badge.fury.io/py/spark-nlp.svg" /></a>
+    <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" alt="Anaconda-Cloud">
+        <img src="https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg" /></a>
+    <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE" alt="License">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
+    <a href="https://pypi.org/project/spark-nlp/" alt="PyPi downloads">
+        <img src="https://static.pepy.tech/personalized-badge/spark-nlp?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads" /></a>
+</p>
 
-[![build](https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg)](https://github.com/JohnSnowLabs/spark-nlp/actions) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.12/badge.svg)](https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.12) [![PyPI version](https://badge.fury.io/py/spark-nlp.svg)](https://badge.fury.io/py/spark-nlp) [![Anaconda-Cloud](https://anaconda.org/johnsnowlabs/spark-nlp/badges/version.svg)](https://anaconda.org/JohnSnowLabs/spark-nlp) [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://github.com/JohnSnowLabs/spark-nlp/blob/master/LICENSE)
 
-Spark NLP is a Natural Language Processing library built on top of Apache Spark ML. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **1100+** pretrained **pipelines** and **models** in more than **192+** languages. It supports state-of-the-art transformers such as **BERT**, **XLNet**, **ELMO**, **ALBERT**, and **Universal Sentence Encoder** that can be used seamlessly in a cluster. It also offers Tokenization, Word Segmentation, Part-of-Speech Tagging, Named Entity Recognition, Dependency Parsing, Spell Checking, Multi-class Text Classification, Multi-class Sentiment Analysis, Machine Translation (+180 languages), Summarization and Question Answering **(Google T5)**, and many more [NLP tasks](#features).
+Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment. Spark NLP comes with **3700+** pretrained **pipelines** and **models** in more than **200+** languages.
+It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization** & **Question Answering**, and many more [NLP tasks](#features).
+
+**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, and **MarianMT** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
 ## Project's website
 
@@ -10,7 +28,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 
 ## Community support
 
-- [Slack](https://join.slack.com/t/spark-nlp/shared_invite/zt-lutct9gm-kuUazcyFKhuGY3_0AMkxqA) For live discussion with the Spark NLP community and the team
+- [Slack](https://www.johnsnowlabs.com/slack-redirect/) For live discussion with the Spark NLP community and the team
 - [GitHub](https://github.com/JohnSnowLabs/spark-nlp) Bug reports, feature requests, and contributions
 - [Discussions](https://github.com/JohnSnowLabs/spark-nlp/discussions) Engage with other community members, share ideas, and show off how you use Spark NLP!
 - [Medium](https://medium.com/spark-nlp) Spark NLP articles
@@ -35,15 +53,17 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
   - [Apache Zeppelin](#apache-zeppelin)
   - [Jupyter Notebook](#jupyter-notebook-python)
   - [Google Colab Notebook](#google-colab-notebook)
+  - [Kaggle Kernel](#kaggle-kernel)
   - [Databricks Cluser](#databricks-cluster)
   - [EMR Cluser](#emr-cluster)
-  - [S3 Cluster](#s3-cluster)  
+  - [GCP Dataproc](#gcp-dataproc)
+  - [Spark NLP Configuration](#spark-nlp-configuration)
 - [Pipelines & Models](#pipelines-and-models)
   - [Pipelines](#pipelines)
   - [Models](#models)
+- [Offline](#offline)  
 - [Examples](#examples)  
 - [FAQ](#faq)
-- [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 - [Contributing](#contributing)
 
@@ -68,12 +88,18 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Sentiment Detection (ML models)
 - Spell Checker (ML and DL models)
 - Word Embeddings (GloVe and Word2Vec)
-- BERT Embeddings (TF Hub models)
-- ELMO Embeddings (TF Hub models)
-- ALBERT Embeddings (TF Hub models)
+- BERT Embeddings (TF Hub & HuggingFace models)
+- DistilBERT Embeddings (HuggingFace models)
+- RoBERTa Embeddings (HuggingFace models)
+- XLM-RoBERTa Embeddings (HuggingFace models)
+- Longformer Embeddings (HuggingFace models)
+- ALBERT Embeddings (TF Hub & HuggingFace models)
 - XLNet Embeddings
+- ELMO Embeddings (TF Hub models)
 - Universal Sentence Encoder (TF Hub models)
-- BERT Sentence Embeddings (42 TF Hub models)
+- BERT Sentence Embeddings (TF Hub & HuggingFace models)
+- RoBerta Sentence Embeddings (HuggingFace models)
+- XLM-RoBerta Sentence Embeddings (HuggingFace models)
 - Sentence Embeddings
 - Chunk Embeddings
 - Unsupervised keywords extraction
@@ -81,14 +107,16 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Multi-class Sentiment analysis (Deep learning)
 - Multi-label Sentiment analysis (Deep learning)
 - Multi-class Text Classification (Deep learning)
-- Neural Machine Translation
+- BERT for Token Classification
+- DistilBERT for Token Classification
+- Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Named entity recognition (Deep learning)
 - Easy TensorFlow integration
 - GPU Support
 - Full integration with Spark ML functions
-- +710 pre-trained models in +192 languages!
-- +450 pre-trained pipelines in +192 languages!
+- +2000 pre-trained models in +200 languages!
+- +1700 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu.
 
 ## Requirements
@@ -97,6 +125,14 @@ To use Spark NLP you need the following requirements:
 
 - Java 8
 - Apache Spark 3.1.x (or 3.0.x, or 2.4.x, or 2.3.x)
+
+NOTE: Java 11 is supported if you are using Spark NLP and Spark/PySpark 3.x and above
+
+**GPU (optional):**
+
+Spark NLP 3.2.3 is built with TensorFlow 2.4.1 and requires the followings if you need GPU support
+
+- CUDA11 and cuDNN 8.0.2
 
 ## Quick Start
 
@@ -108,7 +144,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.0.0 pyspark==3.1.1
+$ pip install spark-nlp==3.2.3 pyspark
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -154,10 +190,12 @@ For more examples, you can visit our dedicated [repository](https://github.com/J
 
 ## Apache Spark Support
 
-Spark NLP *3.0.0* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x and Apache Spark 2.4.x:
+Spark NLP *3.2.3* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x and Apache Spark 2.4.x:
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
 |-------------|-----------------------|--------------------|--------------------|--------------------|
+| 3.2.x       |YES                    |YES                 |YES                 |YES                 |
+| 3.1.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.0.x       |YES                    |YES                 |YES                 |YES                 |
 | 2.7.x       |YES                    |YES                 |NO                  |NO                  |
 | 2.6.x       |YES                    |YES                 |NO                  |NO                  |
@@ -176,29 +214,48 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ## Databricks Support
 
-Spark NLP 3.0.0 has been tested and is compatible with the following runtimes:
+Spark NLP 3.2.3 has been tested and is compatible with the following runtimes:
+
+**CPU:**
 
 - 5.5 LTS
-- 5.5 LTS ML & GPU
+- 5.5 LTS ML
 - 6.4
-- 6.4 ML & GPU
+- 6.4 ML
 - 7.3
-- 7.3 ML & GPU
+- 7.3 ML
 - 7.4
-- 7.4 ML & GPU
+- 7.4 ML
 - 7.5
-- 7.5 ML & GPU
+- 7.5 ML
 - 7.6
-- 7.6 ML & GPU
+- 7.6 ML
 - 8.0
 - 8.0 ML
-- 8.1 Beta
+- 8.1
+- 8.1 ML
+- 8.2
+- 8.2 ML
+- 8.3
+- 8.3 ML
+- 8.4
+- 8.4 ML
+- 9.0
+- 9.0 ML
 
-NOTE: The Databricks 8.1 Beta ML with GPU is not supported in Spark NLP 3.0.0 due to its default CUDA 11.x incompatibility
+**GPU:**
+
+- 8.1 ML & GPU
+- 8.2 ML & GPU
+- 8.3 ML & GPU
+- 8.4 ML & GPU
+- 9.0 ML & GPU
+
+NOTE: Spark NLP 3.2.3 is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
 
 ## EMR Support
 
-Spark NLP 3.0.0 has been tested and is compatible with the following EMR releases:
+Spark NLP 3.2.3 has been tested and is compatible with the following EMR releases:
 
 - emr-5.20.0
 - emr-5.21.0
@@ -216,13 +273,15 @@ Spark NLP 3.0.0 has been tested and is compatible with the following EMR release
 - emr-5.30.1
 - emr-5.31.0
 - emr-5.32.0
+- emr-5.33.0
 - emr-6.1.0
 - emr-6.2.0
+- emr-6.3.0
 
 Full list of [Amazon EMR 5.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html)
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 
-NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.0.0
+NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.2.3
 
 ## Usage
 
@@ -237,11 +296,11 @@ Spark NLP supports all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x,
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
 ```
 
 The `spark-nlp` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp).
@@ -249,11 +308,11 @@ The `spark-nlp` has been published to the [Maven Repository](https://mvnreposito
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.0.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:3.2.3
 
 ```
 
@@ -264,11 +323,11 @@ The `spark-nlp-gpu` has been published to the [Maven Repository](https://mvnrepo
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.0.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:3.2.3
 ```
 
 The `spark-nlp-spark24` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark24).
@@ -276,11 +335,11 @@ The `spark-nlp-spark24` has been published to the [Maven Repository](https://mvn
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.0.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark24_2.11:3.2.3
 
 ```
 
@@ -291,11 +350,11 @@ The `spark-nlp-gpu-spark24` has been published to the [Maven Repository](https:/
 ```sh
 # CPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.0.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark23_2.11:3.2.3
 ```
 
 The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23).
@@ -303,11 +362,11 @@ The `spark-nlp-spark23` has been published to the [Maven Repository](https://mvn
 ```sh
 # GPU
 
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.0
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.3
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.3
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.0.0
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.3
 
 ```
 
@@ -319,12 +378,12 @@ The `spark-nlp-gpu-spark23` has been published to the [Maven Repository](https:/
 spark-shell \
   --driver-memory 16g \
   --conf spark.kryoserializer.buffer.max=2000M \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
 ```
 
 ## Scala
 
-Our package is deployed to maven central. To add this package as a dependency in your application:
+Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and Scala 2.12.x if you are using Apache Spark 3.0.x or 3.1.x. Our packages are deployed to Maven central. To add any of our packages as a dependency in your application you can follow these coordinates:
 
 ### Maven
 
@@ -335,7 +394,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp_2.12</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.3</version>
 </dependency>
 ```
 
@@ -346,7 +405,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.12</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.3</version>
 </dependency>
 ```
 
@@ -357,7 +416,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-spark24_2.11</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.3</version>
 </dependency>
 ```
 
@@ -368,7 +427,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>3.0.0/version>
+    <version>3.2.3</version>
 </dependency>
 ```
 
@@ -379,7 +438,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-spark23_2.11</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.3</version>
 </dependency>
 ```
 
@@ -390,7 +449,7 @@ Our package is deployed to maven central. To add this package as a dependency in
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu-spark23_2.11</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.3</version>
 </dependency>
 ```
 
@@ -400,42 +459,42 @@ Our package is deployed to maven central. To add this package as a dependency in
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "3.0.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "3.2.3"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "3.0.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "3.2.3"
 ```
 
 **spark-nlp** on Apache Spark 2.4.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark24" % "3.0.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark24" % "3.2.3"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark24" % "3.0.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark24" % "3.2.3"
 ```
 
 **spark-nlp** on Apache Spark 2.3.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark23
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "3.0.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark23" % "3.2.3"
 ```
 
 **spark-nlp-gpu:**
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark23
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.0.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.2.3"
 ```
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
@@ -443,6 +502,8 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects [Spark NLP SBT Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
 
 ## Python
+
+Spark NLP supports Python 3.6.x and 3.7.x if you are using PySpark 2.3.x or 2.4.x and Python 3.8.x if you are using PySpark 3.x.
 
 ### Python without explicit Pyspark installation
 
@@ -453,7 +514,7 @@ If you installed pyspark through pip/conda, you can install `spark-nlp` through 
 Pip:
 
 ```bash
-pip install spark-nlp==3.0.0
+pip install spark-nlp==3.2.3
 ```
 
 Conda:
@@ -481,7 +542,7 @@ spark = SparkSession.builder \
     .config("spark.driver.memory","16G")\
     .config("spark.driver.maxResultSize", "0") \    
     .config("spark.kryoserializer.buffer.max", "2000M")\
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0")\
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3")\
     .getOrCreate()
 ```
 
@@ -567,7 +628,7 @@ Use either one of the following options
 - Add the following Maven Coordinates to the interpreter's library list
 
 ```bash
-com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
 ```
 
 - Add a path to pre-built jar from [here](#compiled-jars) in the interpreter's library list making sure the jar is available to driver path
@@ -577,7 +638,7 @@ com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
 Apart from the previous step, install the python module through pip
 
 ```bash
-pip install spark-nlp==3.0.0
+pip install spark-nlp==3.2.3
 ```
 
 Or you can install `spark-nlp` from inside Zeppelin by using Conda:
@@ -592,10 +653,6 @@ Finally, in Zeppelin interpreter settings, make sure you set properly zeppelin.p
 
 An alternative option would be to set `SPARK_SUBMIT_OPTIONS` (zeppelin-env.sh) and make sure `--packages` is there as shown earlier since it includes both scala and python side installation.
 
-Q: What if I am still on Zeppelin 0.8.x that only supports Apache Spark 2.4.x?
-
-A: You can simply use the `spark-nlp-spark24:3.0.0` package or Fat JAR instead.
-
 ## Jupyter Notebook (Python)
 
 **Recomended:**
@@ -606,7 +663,7 @@ The easiest way to get this done on Linux and macOS is to simply install `spark-
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.0.0 pyspark==3.1.1 jupyter
+$ pip install spark-nlp==3.2.3 pyspark jupyter
 $ jupyter notebook
 ```
 
@@ -622,7 +679,7 @@ export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS=notebook
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
 ```
 
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
@@ -635,34 +692,32 @@ Google Colab is perhaps the easiest way to get started with spark-nlp. It requir
 
 Run the following code in Google Colab notebook and start using spark-nlp right away.
 
-```python
-import os
-
-# Install java
-! apt-get install -y openjdk-8-jdk-headless -qq > /dev/null
-!wget -q "https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz" > /dev/null
-!tar -xvf spark-3.1.1-bin-hadoop2.7.tgz
-!pip install -q findspark
-
-os.environ["SPARK_HOME"] = "/content/spark-3.1.1-bin-hadoop2.7"
-os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["PATH"] = os.environ["JAVA_HOME"] + "/bin:" + os.environ["PATH"]
-! java -version
-
-# Install spark-nlp and pyspark
-! pip install spark-nlp==3.0.0 pyspark==3.1.1
-
-# Quick SparkSession start
-import sparknlp
-spark = sparknlp.start()
-
-print("Spark NLP version")
-sparknlp.version()
-print("Apache Spark version")
-spark.version
+```sh
+# This is only to setup PySpark and Spark NLP on Colab
+!wget http://setup.johnsnowlabs.com/colab.sh -O - | bash
 ```
 
-[Here](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs sentiment analysis and NER using pretrained spark-nlp models.
+This script comes with the two options to define `pyspark` and `spark-nlp` versions via options:
+
+```sh
+# -p is for pyspark
+# -s is for spark-nlp
+# by default they are set to the latest
+!wget http://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.1.2 -s 3.1.3
+```
+
+[Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
+
+## Kaggle Kernel
+
+Run the following code in Kaggle Kernel and start using spark-nlp right away.
+
+```sh
+# Let's setup Kaggle for Spark NLP and PySpark
+!wget http://setup.johnsnowlabs.com/kaggle.sh -O - | bash
+```
+
+[Spark NLP quick start on Kaggle Kernel](https://www.kaggle.com/mozzie/spark-nlp-named-entity-recognition) is a live demo on Kaggle Kernel that performs named entity recognitions by using Spark NLP pretrained pipeline.
 
 ## Databricks Cluster
 
@@ -677,9 +732,9 @@ spark.version
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
 
-    3.1. Install New -> PyPI -> `spark-nlp` -> Install
+    3.1. Install New -> PyPI -> `spark-nlp==3.2.3` -> Install
 
-    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0` -> Install
+    3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
@@ -687,7 +742,7 @@ NOTE: If you are launching a Databricks runtime that is not based on Apache Spar
 
 ## EMR Cluster
 
-To lanuch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.
+To launch EMR cluster with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software configuration.
 
 A sample of your bootstrap script
 
@@ -727,16 +782,17 @@ A sample of your software configuration in JSON on S3 (must be public access):
       "spark.kryoserializer.buffer.max": "2000M",
       "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
       "spark.driver.maxResultSize": "0",
-      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:3.0.0"
+      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3"
     }
 }
 ]
+```
 
 A sample of AWS CLI to launch EMR cluster:
 
 ```.sh
 aws emr create-cluster \
---name "Spark NLP 3.0.0" \
+--name "Spark NLP 3.2.3" \
 --release-label emr-6.2.0 \
 --applications Name=Hadoop Name=Spark Name=Hive \
 --instance-type m4.4xlarge \
@@ -749,35 +805,188 @@ aws emr create-cluster \
 --profile <aws_profile_credentials>
 ```
 
-## S3 Cluster
+## GCP Dataproc
 
-### With no Hadoop configuration
+1. Create a cluster if you don't have one already as follows.
 
-If your distributed storage is S3 and you don't have a standard Hadoop configuration (i.e. fs.defaultFS)
-You need to specify where in the cluster distributed storage you want to store Spark NLP's tmp files.
-First, decide where you want to put your *application.conf* file
-
-```scala
-import com.johnsnowlabs.util.ConfigLoader
-ConfigLoader.setConfigPath("/somewhere/to/put/application.conf")
-```
-
-And then we need to put in such application.conf the following content
+At gcloud shell:
 
 ```bash
-sparknlp {
-  settings {
-    cluster_tmp_dir = "somewhere in s3n:// path to some folder"
-  }
-}
+gcloud services enable dataproc.googleapis.com \
+  compute.googleapis.com \
+  storage-component.googleapis.com \
+  bigquery.googleapis.com \
+  bigquerystorage.googleapis.com
+```
+
+```bash
+REGION=<region>
+```
+
+```bash
+BUCKET_NAME=<bucket_name>
+gsutil mb -c standard -l ${REGION} gs://${BUCKET_NAME}
+```
+
+```bash
+REGION=<region>
+ZONE=<zone>
+CLUSTER_NAME=<cluster_name>
+BUCKET_NAME=<bucket_name>
+```
+
+You can set image-version, master-machine-type, worker-machine-type,
+master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
+If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
+And, you should enable gateway.
+
+```bash
+gcloud dataproc clusters create ${CLUSTER_NAME} \
+  --region=${REGION} \
+  --zone=${ZONE} \
+  --image-version=2.0 \
+  --master-machine-type=n1-standard-4 \
+  --worker-machine-type=n1-standard-2 \
+  --master-boot-disk-size=128GB \
+  --worker-boot-disk-size=128GB \
+  --num-workers=2 \
+  --bucket=${BUCKET_NAME} \
+  --optional-components=JUPYTER \
+  --enable-component-gateway \
+  --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
+  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
+```
+
+2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+
+3. Now, you can attach your notebook to the cluster and use the Spark NLP!
+
+## Spark NLP Configuration
+
+You can change the following Spark NLP configurations via Spark Configuration:
+
+| Property Name   |   Default  | Meaning | Since Version |
+|-----------------|------------|---------|---------------|
+|`spark.jsl.settings.pretrained.cache_folder`| `~/cache_pretrained`| The location to download and exctract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory|3.2.0
+|`spark.jsl.settings.storage.cluster_tmp_dir` | `hadoop.tmp.dir`| The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS|3.2.0
+|`spark.jsl.settings.annotator.log_folder`| `~/annotator_logs` | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory|3.2.0
+|`spark.jsl.settings.aws.credentials.access_key_id`| `None` | Your AWS access key to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.credentials.secret_access_key`| `None` | Your AWS secret access key to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.credentials.session_token`| `None` | Your AWS MFA session token to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.s3_bucket`| `None` | Your AWS S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+|`spark.jsl.settings.aws.region`| `None` | Your AWS region to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`|3.2.3
+
+### How to set Spark NLP Configuration
+
+**SparkSession:**
+
+You can use `.config()` during SparkSession creation to set Spark NLP configurations.
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+        .master("local[*]") \        
+        .config("spark.driver.memory", "16G") \
+        .config("spark.driver.maxResultSize", "0") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000m") \
+        .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained") \
+        .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3") \
+        .getOrCreate()
+```
+
+**spark-shell:**
+
+```sh
+spark-shell \
+  --driver-memory 16g \
+  --conf spark.driver.maxResultSize=0 \
+  --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+  --conf spark.kryoserializer.buffer.max=2000M \
+  --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
+  --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
+```
+
+**pyspark:**
+
+```sh
+pyspark \
+  --driver-memory 16g \
+  --conf spark.driver.maxResultSize=0 \
+  --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+  --conf spark.kryoserializer.buffer.max=2000M \
+  --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
+  --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
+```
+
+**Databricks:**
+
+On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab:
+
+```bash
+spark.kryoserializer.buffer.max 2000M
+spark.serializer org.apache.spark.serializer.KryoSerializer
+spark.jsl.settings.pretrained.cache_folder dbfs:/PATH_TO_CACHE
+spark.jsl.settings.storage.cluster_tmp_dir dbfs:/PATH_TO_STORAGE
+spark.jsl.settings.annotator.log_folder dbfs:/PATH_TO_LOGS
+```
+
+NOTE: If this is an existing cluster, after adding new configs or changing existing properties you need to restart it.
+
+### S3 Integration
+
+In Spark NLP we can define S3 locations to:
+- Export log files of training models
+- Store tensorflow graphs used in `NerDLApproach`
+
+**Logging:**
+
+To configure S3 path for logging while training models. We need to set up AWS credentials as well as an S3 path
+
+```bash
+spark.conf.set("spark.jsl.settings.annotator.log_folder", "s3://my/s3/path/logs")
+spark.conf.set("spark.jsl.settings.aws.credentials.access_key_id", "MY_KEY_ID")
+spark.conf.set("spark.jsl.settings.aws.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
+spark.conf.set("spark.jsl.settings.aws.s3_bucket", "my.bucket")
+spark.conf.set("spark.jsl.settings.aws.region", "my-region")
+```
+
+Now you can check the log on your S3 path defined in *spark.jsl.settings.annotator.log_folder* property.
+Make sure to use the prefix *s3://*, otherwise it will use the default configuration.
+
+**Tensorflow Graphs:**
+
+To reference S3 location for downloading graphs. We need to set up AWS credentials
+
+```bash
+spark.conf.set("spark.jsl.settings.aws.credentials.access_key_id", "MY_KEY_ID")
+spark.conf.set("spark.jsl.settings.aws.credentials.secret_access_key", "MY_SECRET_ACCESS_KEY")
+spark.conf.set("spark.jsl.settings.aws.region", "my-region")
+```
+
+**MFA Configuration:**
+
+In case your AWS account is configured with MFA. You will need first to get temporal credentials and add session token to the configuration as shown in the examples below
+For logging:
+
+```bash
+spark.conf.set("spark.jsl.settings.aws.credentials.session_token", "MY_TOKEN")
+```
+
+An example of a bash script that gets temporal AWS credentials can be found [here](https://github.com/JohnSnowLabs/spark-nlp/blob/master/scripts/aws_tmp_credentials.sh)
+This script requires three arguments:
+
+```bash
+./aws_tmp_credentials.sh iam_user duration serial_number
 ```
 
 ## Pipelines and Models
 
 ### Pipelines
-
-Spark NLP offers more than `450+ pre-trained pipelines` in `192 languages`.
-            | `dependency_parse`                    | 2.4.0 |   `en`    |
 
 **Quick example:**
 
@@ -828,9 +1037,7 @@ annotation.select("entities.result").show(false)
 
 ### Models
 
-Spark NLP offers more than `710+ pre-trained models` in `192 languages`.
-
-**Some of the selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
+**Some selected languages:** `Afrikaans, Arabic, Armenian, Basque, Bengali, Breton, Bulgarian, Catalan, Czech, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hausa, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Latin, Latvian, Marathi, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Slovak, Slovenian, Somali, Southern Sotho, Spanish, Swahili, Swedish, Tswana, Turkish, Ukrainian, Zulu`
 
 **Quick online example:**
 
@@ -860,6 +1067,49 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
 
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
 
+## Offline
+
+Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:
+
+- Instead of using the Maven package, you need to load our Fat JAR
+- Instead of using PretrainedPipeline for pretrained pipelines or the `.pretrained()` function to download pretrained models, you will need to manually download your pipeline/model from [Models Hub](https://nlp.johnsnowlabs.com/models), extract it, and load it.
+
+Example of `SparkSession` with Fat JAR to have Spark NLP offline:
+
+```python
+spark = SparkSession.builder \
+    .appName("Spark NLP")\
+    .master("local[*]")\
+    .config("spark.driver.memory","16G")\
+    .config("spark.driver.maxResultSize", "0") \    
+    .config("spark.kryoserializer.buffer.max", "2000M")\
+    .config("spark.jars", "/tmp/spark-nlp-assembly-3.2.3.jar")\
+    .getOrCreate()
+```
+
+- You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases), please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (2.3.x, 2.4.x, and 3.x)
+- If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/spark-nlp-assembly-3.2.3.jar`)
+
+Example of using pretrained Models and Pipelines in offline:
+
+```python
+# instead of using pretrained() for online:
+# french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
+# you download this model, extract it, and use .load
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")\
+      .setInputCols("document", "token")\
+      .setOutputCol("pos")
+
+# example for pipelines
+# instead of using PretrainedPipeline
+# pipeline = PretrainedPipeline('explain_document_dl', lang='en')
+# you download this pipeline, extract it, and use PipelineModel
+PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
+```
+
+- Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you
+- If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
+
 ## Examples
 
 Need more **examples**? Check out our dedicated [Spark NLP Showcase](https://github.com/JohnSnowLabs/spark-nlp-workshop) repository to showcase all Spark NLP use cases!
@@ -874,7 +1124,7 @@ Also, don't forget to check [Spark NLP in Action](https://nlp.johnsnowlabs.com/d
 
 ## Citation
 
-We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2665963821000063) that you can cite for the Spark NLP library:
+We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2665963.2.100063) that you can cite for the Spark NLP library:
 
 ```bibtex
 @article{KOCAMAN2021100058,
@@ -884,7 +1134,7 @@ We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2
     year = {2021},
     issn = {2665-9638},
     doi = {https://doi.org/10.1016/j.simpa.2021.100058},
-    url = {https://www.sciencedirect.com/science/article/pii/S2665963821000063},
+    url = {https://www.sciencedirect.com/science/article/pii/S2665963.2.100063},
     author = {Veysel Kocaman and David Talby},
     keywords = {Spark, Natural language processing, Deep learning, Tensorflow, Cluster},
     abstract = {Spark NLP is a Natural Language Processing (NLP) library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines that can scale easily in a distributed environment. Spark NLP comes with 1100+ pretrained pipelines and models in more than 192+ languages. It supports nearly all the NLP tasks and modules that can be used seamlessly in a cluster. Downloaded more than 2.7 million times and experiencing 9x growth since January 2020, Spark NLP is used by 54% of healthcare organizations as the world’s most widely used NLP library in the enterprise.}

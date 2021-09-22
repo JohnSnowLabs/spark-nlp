@@ -13,13 +13,14 @@ jQuery(document).ready(function($) {
       if (jQuery(window).width() <= 1023)
       {
         jQuery('.page__sidebar').toggleClass('open'); 
+      jQuery('.demopage-sidemenu').toggleClass('open');
       }
   });
   jQuery('.toc--ellipsis a').click(function(e) {
     if (jQuery(window).width() <= 767)
       {
         jQuery('.js-col-aside').removeClass('open');
-        jQuery('.page__sidebar').removeClass('open');     
+        jQuery('.page__sidebar').removeClass('open');    
         jQuery('#aside_menu').removeClass('close');  
       }       
   });

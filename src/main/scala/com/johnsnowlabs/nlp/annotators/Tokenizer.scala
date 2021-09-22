@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import java.util.regex.Pattern
@@ -21,13 +37,37 @@ import scala.collection.mutable.ArrayBuffer
   *
   * Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for examples examples of usage.
+  * For extended examples of usage see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]]
+  * and [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]]
+  *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.Tokenizer
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val data = Seq("I'd like to say we didn't expect that. Jane's boyfriend.").toDF("text")
+  * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+  * val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
+  *
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer)).fit(data)
+  * val result = pipeline.transform(data)
+  *
+  * result.selectExpr("token.result").show(false)
+  * +-----------------------------------------------------------------------+
+  * |output                                                                 |
+  * +-----------------------------------------------------------------------+
+  * |[I'd, like, to, say, we, didn't, expect, that, ., Jane's, boyfriend, .]|
+  * +-----------------------------------------------------------------------+
+  * }}}
   *
   * @param uid required uid for storing annotator to disk
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
   * @groupname Ungrouped Members
-  * @groupname param Parameters
+  * @groupname param Parameters.
   * @groupname setParam Parameter setters
   * @groupname getParam Parameter getters
   * @groupname Ungrouped Members
@@ -36,7 +76,7 @@ import scala.collection.mutable.ArrayBuffer
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerModel] {
 
@@ -59,92 +99,30 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
 
   /** Words that won't be affected by tokenization rules
     *
-    * @group Parameters
+    * @group param
     **/
   val exceptions: StringArrayParam = new StringArrayParam(this, "exceptions", "Words that won't be affected by tokenization rules")
   /** Path to file containing list of exceptions
     *
-    * @group Parameters
+    * @group param
     **/
   val exceptionsPath: ExternalResourceParam = new ExternalResourceParam(this, "exceptionsPath", "Path to file containing list of exceptions")
-  /** Whether to care for case sensitiveness in exceptions
+  /** Whether to care for case sensitiveness in exceptions (Default: `true`)
     *
-    * @group Parameters
+    * @group param
     */
   val caseSensitiveExceptions: BooleanParam = new BooleanParam(this, "caseSensitiveExceptions", "Whether to care for case sensitiveness in exceptions")
   /** Character list used to separate from token boundaries
-    *
-    * @group Parameters
+    * (Default: `Array(".", ",", ";", ":", "!", "?", "*", "-", "(", ")", "\"", "'")`)
+    * @group param
     **/
   val contextChars: StringArrayParam = new StringArrayParam(this, "contextChars", "Character list used to separate from token boundaries")
   /** Character list used to separate from the inside of tokens
     *
-    * @group Parameters
+    * @group param
     **/
   val splitChars: StringArrayParam = new StringArrayParam(this, "splitChars", "Character list used to separate from the inside of tokens")
   /** Pattern to separate from the inside of tokens. takes priority over splitChars.
-    *
-    * @group Parameters
-    **/
-  val splitPattern: Param[String] = new Param(this, "splitPattern", "Pattern to separate from the inside of tokens. takes priority over splitChars.")
-  /** Pattern to grab from text as token candidates. Defaults \\S+
-    *
-    * @group Parameters
-    **/
-  val targetPattern: Param[String] = new Param(this, "targetPattern", "Pattern to grab from text as token candidates. Defaults \\S+")
-  /** Regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults
-    *
-    * @group Parameters
-    **/
-  val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "Regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
-  /** Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param
-    *
-    * @group Parameters
-    **/
-  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
-  /** Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param
-    *
-    * @group Parameters
-    **/
-  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
-  /** Set the minimum allowed length for each token
-    *
-    * @group Parameters
-    **/
-  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
-  /** Set the maximum allowed length for each token
-    *
-    * @group Parameters
-    **/
-  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
-
-
-  /**
-    * Set a basic regex rule to identify token candidates in text.
-    *
-    * Defaults to: "\\S+" which means anything not a space will be matched and considered as a token candidate, This will cause text to be split on on white spaces  to yield token candidates.
-    *
-    * This rule will be added to the BREAK_PATTERN varaible, which is used to yield token candidates.
-    *
-    * {{{
-    * import org.apache.spark.ml.Pipeline
-    * import com.johnsnowlabs.nlp.annotators.Tokenizer
-    * import com.johnsnowlabs.nlp.DocumentAssembler
-    *
-    * val textDf = sqlContext.sparkContext.parallelize(Array("I only consider lowercase characters and NOT UPPERCASED and only the numbers 0,1, to 7 as tokens but not 8 or 9")).toDF("text")
-    * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("sentences")
-    * val tokenizer = new Tokenizer().setInputCols("sentences").setOutputCol("tokens").setTargetPattern("a-z-0-7")
-    * new Pipeline().setStages(Array(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select("tokens.result").show(false)
-    * }}}
-    *
-    * This will yield : [only, consider, lowercase, characters, and, and, only, the, numbers, 0, 1, to, 7, as, tokens, but, not, or]
-    *
-    * @group setParam
-    */
-  def setTargetPattern(value: String): this.type = set(targetPattern, value)
-
-  /**
-    * Regex pattern to separate from the inside of tokens. Takes priority over splitChars.
     *
     * This pattern will be applied to the tokens which where extracted with the target pattern previously
     *
@@ -166,15 +144,32 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * new Pipeline().setStages(Array(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select("tokens.result").show(false)
     * }}}
     *
-    * This will yield : [Tokens, in, this, text, will, be, split, on, hashtags, and, dashes]
+    * This will yield: `Tokens, in, this, text, will, be, split, on, hashtags, and, dashes`
+    * @group param
+    **/
+  val splitPattern: Param[String] = new Param(this, "splitPattern", "Pattern to separate from the inside of tokens. takes priority over splitChars.")
+  /** Pattern to grab from text as token candidates. (Default: `"\\S+"`)
     *
-    * @group setParam
-    */
-  def setSplitPattern(value: String): this.type = set(splitPattern, value)
-
-
-  /**
-    * Set a list of Regex patterns that match tokens within a single target. Groups identify different sub-tokens. multiple defaults
+    * Defaults to: "\\S+" which means anything not a space will be matched and considered as a token candidate, This will cause text to be split on on white spaces to yield token candidates.
+    *
+    * This rule will be added to the BREAK_PATTERN varaible, which is used to yield token candidates.
+    *
+    * {{{
+    * import org.apache.spark.ml.Pipeline
+    * import com.johnsnowlabs.nlp.annotators.Tokenizer
+    * import com.johnsnowlabs.nlp.DocumentAssembler
+    *
+    * val textDf = sqlContext.sparkContext.parallelize(Array("I only consider lowercase characters and NOT UPPERCASED and only the numbers 0,1, to 7 as tokens but not 8 or 9")).toDF("text")
+    * val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("sentences")
+    * val tokenizer = new Tokenizer().setInputCols("sentences").setOutputCol("tokens").setTargetPattern("a-z-0-7")
+    * new Pipeline().setStages(Array(documentAssembler, tokenizer)).fit(textDf).transform(textDf).select("tokens.result").show(false)
+    * }}}
+    *
+    * This will yield: `only, consider, lowercase, characters, and, and, only, the, numbers, 0, 1, to, 7, as, tokens, but, not, or`
+    * @group param
+    **/
+  val targetPattern: Param[String] = new Param(this, "targetPattern", "Pattern to grab from text as token candidates. Defaults \\S+")
+  /** Regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults
     *
     * Infix patterns must use regex group. Notice each group will result in separate token
     *
@@ -192,8 +187,83 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     *
     * }}}
     *
-    * This will yield [l', une, d', un, l', un, , , des, l', extrême, des, l', extreme]
+    * This will yield: `l', une, d', un, l', un, , , des, l', extrême, des, l', extreme`
+    * @group param
+    **/
+  val infixPatterns: StringArrayParam = new StringArrayParam(this, "infixPatterns", "Regex patterns that match tokens within a single target. groups identify different sub-tokens. multiple defaults")
+  /** Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param
     *
+    * @group param
+    **/
+  val prefixPattern: Param[String] = new Param[String](this, "prefixPattern", "Regex with groups and begins with \\A to match target prefix. Overrides contextCharacters Param")
+  /** Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param
+    *
+    * @group param
+    **/
+  val suffixPattern: Param[String] = new Param[String](this, "suffixPattern", "Regex with groups and ends with \\z to match target suffix. Overrides contextCharacters Param")
+
+  /** Set the minimum allowed length for each token
+    *
+    * @group param
+    **/
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
+
+  /**
+    * Set the minimum allowed length for each token
+    * @group setParam
+    **/
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
+
+  /**
+    * Get the minimum allowed length for each token
+    * @group getParam
+    **/
+  def getMinLength(value: Int): Int = $(minLength)
+
+  /** Set the maximum allowed length for each token
+    *
+    * @group param
+    **/
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
+
+  /**
+    * Get the maximum allowed length for each token
+    * @group setParam
+    **/
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${
+      minLength
+    }, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+
+  /**
+    * Get the maximum allowed length for each token
+    * @group getParam
+    **/
+  def getMaxLength(value: Int): Int = $(maxLength)
+
+
+  /**
+    * Set a basic regex rule to identify token candidates in text.
+    * @group setParam
+    */
+  def setTargetPattern(value: String): this.type = set(targetPattern, value)
+
+  /**
+    * Regex pattern to separate from the inside of tokens. Takes priority over splitChars.
+    * @group setParam
+    */
+  def setSplitPattern(value: String): this.type = set(splitPattern, value)
+
+
+  /**
+    * Set a list of Regex patterns that match tokens within a single target. Groups identify different sub-tokens. multiple defaults
     * @group setParam
     */
   def setInfixPatterns(value: Array[String]): this.type = set(infixPatterns, value)
@@ -336,40 +406,6 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     $(splitChars)
   }
 
-  /** Set the minimum allowed legth for each token
-    *
-    * @group setParam
-    **/
-  def setMinLength(value: Int): this.type = {
-    require(value >= 0, "minLength must be greater equal than 0")
-    require(value.isValidInt, "minLength must be Int")
-    set(minLength, value)
-  }
-
-  /** Get the minimum allowed legth for each token
-    *
-    * @group getParam
-    **/
-  def getMinLength(value: Int): Int = $(minLength)
-
-  /** Set the maximum allowed legth for each token
-    *
-    * @group setParam
-    **/
-  def setMaxLength(value: Int): this.type = {
-    require(value >= ${
-      minLength
-    }, "maxLength must be greater equal than minLength")
-    require(value.isValidInt, "minLength must be Int")
-    set(maxLength, value)
-  }
-
-  /** Get the maximum allowed legth for each token
-    *
-    * @group getParam
-    **/
-  def getMaxLength(value: Int): Int = $(maxLength)
-
   setDefault(
     inputCols -> Array(DOCUMENT),
     outputCol -> "token",
@@ -439,4 +475,7 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
 
 }
 
+/**
+ * This is the companion object of [[Tokenizer]]. Please refer to that class for the documentation.
+ */
 object Tokenizer extends DefaultParamsReadable[Tokenizer]

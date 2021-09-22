@@ -16,12 +16,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Relation extraction between body parts entites [Internal_organ_or_component, External_body_part_or_region] and Direction entity in clinical texts
+Relation extraction between body parts entites [Internal_organ_or_component, External_body_part_or_region] and Direction entity in clinical texts. `1` : Shows there is a relation between the body part entity and the direction entity, `0` : Shows there is no relation between the body part entity and the direction entity.
 
 ## Predicted Entities
 
-`1` : Shows there is a relation between the body part entity and the direction entity
-`0` : Shows there is no relation between the body part entity and the direction entity
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -40,13 +39,13 @@ words_embedder = WordEmbeddingsModel()\
     .setOutputCol("embeddings")
 
 ner_tagger = sparknlp.annotators.NerDLModel()\
-    .pretrained('jsl_ner_wip_greedy_clinical','en','clinical/models')\
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags")    
 
 pair_list = ['direction-internal_organ_or_component', 'internal_organ_or_component-direction']
 
-re_model = RelationExtractionModel().pretrained("re_bodypart_direction","en","clinical/models")\
+re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en","clinical/models")\
     .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
     .setOutputCol("relations")\
     .setMaxSyntacticDistance(4)\
@@ -58,6 +57,33 @@ model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 results = LightPipeline(model).fullAnnotate(''' MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia ''')
 ```
+
+```scala
+...
+val words_embedder = WordEmbeddingsModel()
+    .pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("embeddings")
+
+val ner_tagger = sparknlp.annotators.NerDLModel()
+    .pretrained("jsl_ner_wip_greedy_clinical","en","clinical/models")
+    .setInputCols("sentences", "tokens", "embeddings")
+    .setOutputCol("ner_tags")    
+
+val pair_list = Array('direction-internal_organ_or_component', 'internal_organ_or_component-direction')
+
+val re_model = RelationExtractionModel().pretrained("re_bodypart_directions","en","clinical/models")
+    .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
+    .setOutputCol("relations")
+    .setMaxSyntacticDistance(4)
+    .setRelationPairs(pair_list)
+
+val nlpPipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, re_model))
+val result = pipeline.fit(Seq.empty[String]).transform(data)
+
+```
+
+
 </div>
 
 ## Results

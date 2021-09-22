@@ -16,12 +16,12 @@ use_language_switcher: "Python"
 
 {:.h2_title}
 ## Description
-This model can be used to identify relations between genes and phenotypes.
+This model can be used to identify relations between genes and phenotypes. `1` : There is a relation between gene and phenotype, `0` : There is not a relation between gene and phenotype.
 
 {:.h2_title}
-## Included Relations
-True-`1` : There is a relation between gene and phenotype.
-False-`0` : There is not a relation between gene and phenotype.
+## Predicted Entities
+
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -63,7 +63,8 @@ val clinical_re_Model = RelationExtractionModel()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, pos_tagger, dependecy_parser, word_embeddings, clinical_ner, ner_converter, clinical_re_Model))
 
-val result = pipeline.fit(Seq.empty["Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3"].toDS.toDF("text")).transform(data)
+val data = Seq("Bilateral colobomatous microphthalmia and developmental delay in whom genetic studies identified a homozygous TENM3").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>

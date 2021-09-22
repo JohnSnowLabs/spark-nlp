@@ -1,3 +1,17 @@
+#  Copyright 2017-2021 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 import re
 import unittest
 import os
@@ -175,23 +189,27 @@ class ChunkTokenizerTestSpec(unittest.TestCase):
 class NormalizerTestSpec(unittest.TestCase):
 
     def setUp(self):
-        self.data = SparkContextForTest.data
+        self.session = SparkContextForTest.spark
+        # self.data = SparkContextForTest.data
 
     def runTest(self):
+        data = self.session.createDataFrame([("this is some/text I wrote",)], ["text"])
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token")
-        lemmatizer = Normalizer() \
+        normalizer = Normalizer() \
             .setInputCols(["token"]) \
-            .setOutputCol("normalized_token") \
-            .setLowercase(False)
+            .setOutputCol("normalized") \
+            .setLowercase(False) \
+            .setMinLength(4) \
+            .setMaxLength(10)
 
-        assembled = document_assembler.transform(self.data)
-        tokenized = tokenizer.fit(assembled).transform(assembled)
-        lemmatizer.transform(tokenized).show()
+        assembled = document_assembler.transform(data)
+        tokens = tokenizer.fit(assembled).transform(assembled)
+        normalizer.fit(tokens).transform(tokens).show()
 
 
 class DateMatcherTestSpec(unittest.TestCase):
@@ -206,7 +224,9 @@ class DateMatcherTestSpec(unittest.TestCase):
         date_matcher = DateMatcher() \
             .setInputCols(['document']) \
             .setOutputCol("date") \
-            .setFormat("yyyyMM")
+            .setFormat("yyyyMM") \
+            .setSourceLanguage("en")
+
         assembled = document_assembler.transform(self.data)
         date_matcher.transform(assembled).show()
 
@@ -505,6 +525,35 @@ class SpellCheckerTestSpec(unittest.TestCase):
         checked = model.transform(self.prediction_data)
         checked.show()
 
+
+class NorvigSweetingModelTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark \
+            .createDataFrame([["I saw a girl with a telescope"]]).toDF("text")
+
+    def runTest(self):
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+
+        spell_checker = NorvigSweetingModel.pretrained() \
+            .setInputCols(["token"]) \
+            .setOutputCol("spell")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            spell_checker
+        ])
+
+        pipelineDF = pipeline.fit(self.data).transform(self.data)
+        pipelineDF.show()
 
 class SymmetricDeleteTestSpec(unittest.TestCase):
 
@@ -1147,7 +1196,8 @@ class ClassifierDLTestSpec(unittest.TestCase):
         classifier = ClassifierDLApproach() \
             .setInputCols("sentence_embeddings") \
             .setOutputCol("category") \
-            .setLabelColumn("label")
+            .setLabelColumn("label") \
+            .setRandomSeed(44)
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1214,7 +1264,9 @@ class SentimentDLTestSpec(unittest.TestCase):
         classifier = SentimentDLApproach() \
             .setInputCols("sentence_embeddings") \
             .setOutputCol("category") \
-            .setLabelColumn("label")
+            .setLabelColumn("label") \
+            .setRandomSeed(44)
+
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1289,7 +1341,9 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
             .setBatchSize(64) \
             .setMaxEpochs(20) \
             .setLr(0.001) \
-            .setThreshold(0.5)
+            .setThreshold(0.5) \
+            .setRandomSeed(44)
+
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1399,8 +1453,8 @@ class WordSegmenterTestSpec(unittest.TestCase):
         word_segmenter = WordSegmenterApproach() \
             .setInputCols("document") \
             .setOutputCol("token") \
-            .setPosCol("tags") \
-            .setIterations(1) \
+            .setPosColumn("tags") \
+            .setNIterations(1) \
             .fit(self.train)
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -1408,7 +1462,7 @@ class WordSegmenterTestSpec(unittest.TestCase):
         ])
 
         model = pipeline.fit(self.train)
-        model.transform(self.data).show(truncate=False)                                   
+        model.transform(self.data).show(truncate=False)
 
 class LanguageDetectorDLTestSpec(unittest.TestCase):
 
@@ -1422,7 +1476,7 @@ class LanguageDetectorDLTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
-        
+
         sentence_detector = SentenceDetectorDLModel.pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
@@ -1500,7 +1554,7 @@ class T5TransformerSummaryTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        t5 = T5Transformer.pretrained()\
+        t5 = T5Transformer.pretrained() \
             .setTask("summarize:") \
             .setMaxOutputLength(200) \
             .setInputCols(["documents"]) \
@@ -1510,4 +1564,289 @@ class T5TransformerSummaryTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries")
+
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setTopK(0)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setTopK(50) \
+            .setTemperature(0.7)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setTopK(0) \
+            .setTopP(0.7)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        data = self.spark.createDataFrame([
+            [1, """Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness
+              of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons
+             of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until
+             browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside.
+             Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until
+             softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the
+             time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a
+              large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush
+             with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C
+             /fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6,
+              uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.
+              """.strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        t5 = T5Transformer.pretrained() \
+            .setTask("summarize:") \
+            .setMaxOutputLength(50) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("summaries") \
+            .setRepetitionPenalty(2)
+
+        pipeline = Pipeline().setStages([document_assembler, t5])
+        results = pipeline.fit(data).transform(data)
+
+        results.select("summaries.result").show(truncate=False)
+
+
+class GraphExtractionTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.data_set = self.spark.createDataFrame([["Peter Parker is a nice person and lives in New York"]]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        word_embeddings = WordEmbeddingsModel.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("embeddings")
+
+        ner_model = NerDLModel.pretrained() \
+            .setInputCols(["document", "token", "embeddings"]) \
+            .setOutputCol("ner")
+
+        pos_tagger = PerceptronModel.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("pos")
+
+        dependency_parser = DependencyParserModel.pretrained() \
+            .setInputCols(["document", "pos", "token"]) \
+            .setOutputCol("dependency")
+
+        typed_dependency_parser = TypedDependencyParserModel.pretrained() \
+            .setInputCols(["token", "pos", "dependency"]) \
+            .setOutputCol("labdep")
+
+        graph_extraction = GraphExtraction() \
+            .setInputCols(["document", "token", "ner"]) \
+            .setOutputCol("graph") \
+            .setRelationshipTypes(["person-PER", "person-LOC"])
+
+        graph_finisher = GraphFinisher() \
+            .setInputCol("graph") \
+            .setOutputCol("finisher")
+
+        pipeline = Pipeline().setStages([document_assembler, tokenizer,
+                                         word_embeddings, ner_model, pos_tagger,
+                                         dependency_parser, typed_dependency_parser])
+
+        test_data_set = pipeline.fit(self.data_set).transform(self.data_set)
+        pipeline_finisher = Pipeline().setStages([graph_extraction, graph_finisher])
+
+        graph_data_set = pipeline_finisher.fit(test_data_set).transform(test_data_set)
+        graph_data_set.show(truncate=False)
+
+
+class BertForTokenClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        token_classifier = BertForTokenClassification.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("ner")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            token_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class RoBertaSentenceEmbeddingsTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_embeddings = RoBertaSentenceEmbeddings.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence_embeddings")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
 

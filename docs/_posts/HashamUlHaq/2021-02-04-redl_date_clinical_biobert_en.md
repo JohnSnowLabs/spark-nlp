@@ -6,7 +6,7 @@ name: redl_date_clinical_biobert
 date: 2021-02-04
 task: Relation Extraction
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -16,12 +16,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Identify if tests were conducted on a particular date or any diagnosis was made on a specific date by checking relations between clinical entities and dates.
+Identify if tests were conducted on a particular date or any diagnosis was made on a specific date by checking relations between clinical entities and dates. `1` : Shows date and the clinical entity are related, `0` : Shows date and the clinical entity are not related.
 
 ## Predicted Entities
 
-`1` : Shows date and the clinical entity are related.
-`0` : Shows date and the clinical entity are not related.
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -107,7 +106,8 @@ val re_model = RelationExtractionDLModel()
     .setOutputCol("relations")
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94."].toDS.toDF("text")).transform(data)
+val data = Seq("This 73 y/o patient had CT on 1/12/95, with progressive memory and cognitive decline since 8/11/94.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>
@@ -128,7 +128,7 @@ val result = pipeline.fit(Seq.empty["This 73 y/o patient had CT on 1/12/95, with
 {:.table-model}
 |---|---|
 |Model Name:|redl_date_clinical_biobert|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:|Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

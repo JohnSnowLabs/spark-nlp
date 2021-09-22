@@ -57,7 +57,7 @@ pipeline = Pipeline(stages=[
         posTagger
     ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."]}))
+example = spark.createDataFrame([['비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다.']], ["text"])
 
 result = pipeline.fit(example).transform(example)
 ```
@@ -80,7 +80,8 @@ val pos = PerceptronModel.pretrained("pos_ud_kaist", "ko")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, word_segmenter, pos))
 
-val result = pipeline.fit(Seq.empty["비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다."].toDS.toDF("text")).transform(data)
+val data = Seq("비파를탄주하는그늙은명인의시는아름다운화음이었고완벽한음악으로순간적인조화를이룬세계의울림이었다.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

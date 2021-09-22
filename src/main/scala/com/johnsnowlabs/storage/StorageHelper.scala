@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.storage
 
 import java.io.File
@@ -19,7 +35,7 @@ object StorageHelper {
             withinStorage: Boolean
           ): RocksDBConnection = {
 
-    val dbFolder = StorageHelper.resolveStorageName(database.toString, storageRef)
+    val dbFolder = StorageHelper.resolveStorageName(database, storageRef)
     val src = StorageLocator.getStorageSerializedPath(storageSourcePath.replaceAllLiterally("\\", "/"), dbFolder, withinStorage)
 
     val locator = StorageLocator(database, storageRef, spark)
@@ -30,12 +46,14 @@ object StorageHelper {
   }
 
   def save(path: String, connection: RocksDBConnection, spark: SparkSession, withinStorage: Boolean): Unit = {
-    val indexUri = "file://"+(new java.net.URI(connection.findLocalIndex.replaceAllLiterally("\\", "/")).getPath)
+    val indexUri = "file://" + (new java.net.URI(connection.findLocalIndex.replaceAllLiterally("\\", "/")).getPath)
     val index = new Path(indexUri)
 
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
-    val dst = new Path(path+{if (withinStorage) "/storage/" else ""})
+    val dst = new Path(path + {
+      if (withinStorage) "/storage/" else ""
+    })
 
     save(fs, index, dst)
   }
@@ -46,11 +64,11 @@ object StorageHelper {
     fs.copyFromLocalFile(false, true, index, dst)
   }
 
-  def sendToCluster(source: Path, clusterFilePath: Path, clusterFileName: String, destinationScheme: String, sparkContext: SparkContext): Unit = {
-    if (destinationScheme == "file") {
-      copyIndexToLocal(source, new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
-    } else {
-      copyIndexToCluster(source, clusterFilePath, sparkContext)
+  def sendToCluster(source: Path, clusterFilePath: Path, clusterFileName: String, destinationScheme: String,
+                    sparkContext: SparkContext): Unit = {
+    destinationScheme match {
+      case "file" => copyIndexToLocal(source, new Path(RocksDBConnection.getLocalPath(clusterFileName)), sparkContext)
+      case _ => copyIndexToCluster(source, clusterFilePath, sparkContext)
     }
   }
 

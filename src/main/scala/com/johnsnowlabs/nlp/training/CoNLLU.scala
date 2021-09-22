@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence
@@ -13,6 +29,27 @@ case class CoNLLUDocument(text: String,
                           lemma: Seq[PosTaggedSentence]
                         )
 
+/** Instantiates the class to read a CoNLL-U dataset.
+ *
+ * The dataset should be in the format of [[https://universaldependencies.org/format.html CoNLL-U]]
+ * and needs to be specified with `readDataset`, which will create a dataframe with the data.
+ *
+ * ==Example==
+ * {{{
+ * import com.johnsnowlabs.nlp.training.CoNLLU
+ *
+ * val conlluFile = "src/test/resources/conllu/en.test.conllu"
+ * val conllDataSet = CoNLLU(false).readDataset(ResourceHelper.spark, conlluFile)
+ * conllDataSet.selectExpr("text", "form.result as form", "upos.result as upos", "xpos.result as xpos", "lemma.result as lemma")
+ *   .show(1, false)
+ * +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+ * |text                                   |form                                          |upos                                         |xpos                          |lemma                                       |
+ * +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+ * |What if Google Morphed Into GoogleOS?  |[What, if, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, if, Google, morph, into, GoogleOS, ?]|
+ * +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+
+ * }}}
+ * @param explodeSentences Whether to split each sentence into a separate row
+ */
 case class CoNLLU(explodeSentences: Boolean = true) {
 
   private val annotationType = ArrayType(Annotation.dataType)

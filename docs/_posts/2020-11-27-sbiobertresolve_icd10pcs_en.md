@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver for ICD10-PCS (``sbiobert_base_cased_mli`` embeddings)
+title: Sentence Entity Resolver for ICD10-PCS (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
 name: sbiobertresolve_icd10pcs
 language: en
@@ -39,7 +39,7 @@ ICD10-PCS Codes and their normalized definition with ``sbiobert_base_cased_mli``
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
  
@@ -60,7 +60,7 @@ results = model.transform(data)
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
  
@@ -71,7 +71,8 @@ val icd10pcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icd10pcs_resolver))
 
-val result = pipeline.fit(Seq.empty["This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."].toDS.toDF("text")).transform(data)
+val data = Seq("This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU .").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.h2_title}

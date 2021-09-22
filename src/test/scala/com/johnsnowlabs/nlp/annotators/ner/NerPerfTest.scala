@@ -1,14 +1,31 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ner
 
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfApproach
 import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NerPerfTest extends FlatSpec {
+class NerPerfTest extends AnyFlatSpec {
 
   "NerCRF Approach" should "be fast to train" taggedAs SlowTest in {
 
@@ -194,8 +211,14 @@ class NerPerfTest extends FlatSpec {
       setInputCols("document", "token").
       setOutputCol("pos")
 
+    val word_embeddings = WordEmbeddingsModel.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+
+    //document, token, pos, word_embeddings
     val ner = NerCrfModel.pretrained().
-      setInputCols("sentence", "token", "pos").
+      setInputCols("sentence", "token", "pos", "word_embeddings").
       setOutputCol("ner")
 
     val converter = new NerConverter()
@@ -211,6 +234,7 @@ class NerPerfTest extends FlatSpec {
         sentenceDetector,
         tokenizer,
         pos,
+        word_embeddings,
         ner,
         converter,
         finisher

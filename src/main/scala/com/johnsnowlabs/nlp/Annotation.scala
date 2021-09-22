@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -8,12 +24,13 @@ import org.apache.spark.sql.functions.udf
 import scala.collection.Map
 
 /**
-  * represents annotator's output parts and their details
-  * @param annotatorType the type of annotation
-  * @param begin the index of the first character under this annotation
-  * @param end the index after the last character under this annotation
-  * @param metadata associated metadata for this annotation
-  */
+ * represents annotator's output parts and their details
+ *
+ * @param annotatorType the type of annotation
+ * @param begin         the index of the first character under this annotation
+ * @param end           the index after the last character under this annotation
+ * @param metadata      associated metadata for this annotation
+ */
 case class Annotation(annotatorType: String,
                       begin: Int,
                       end: Int,
@@ -53,14 +70,16 @@ object Annotation {
 
   object extractors {
     /** annotation container ready for extraction */
-    protected class AnnotationData(dataset: Dataset[Row]){
+    protected class AnnotationData(dataset: Dataset[Row]) {
       def collect(column: String): Array[Array[Annotation]] = {
         Annotation.collect(dataset, column)
       }
+
       def take(column: String, howMany: Int): Array[Array[Annotation]] = {
         Annotation.take(dataset, column, howMany)
       }
     }
+
     implicit def data2andata(dataset: Dataset[Row]): AnnotationData = new AnnotationData(dataset)
   }
 
@@ -78,13 +97,14 @@ object Annotation {
     StructField(EMBEDDINGS, ArrayType(FloatType, false), true)
   ))
 
-  val arrayType = new ArrayType(dataType, false)
+  val arrayType = new ArrayType(dataType, true)
 
   /**
-    * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
-    * @param row spark row to be converted
-    * @return annotation
-    */
+   * This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
+   *
+   * @param row spark row to be converted
+   * @return annotation
+   */
   def apply(row: Row): Annotation = {
     Annotation(
       row.getString(0),
@@ -105,7 +125,7 @@ object Annotation {
     Array.emptyFloatArray
   )
 
-  /** dataframe collect of a specific annotation column*/
+  /** dataframe collect of a specific annotation column */
   def collect(dataset: Dataset[Row], column: String): Array[Array[Annotation]] = {
     require(dataset.columns.contains(column), s"column $column not present in data")
     import dataset.sparkSession.implicits._
@@ -120,7 +140,7 @@ object Annotation {
   def collect(dataset: Dataset[Row], column: String, columns: String*): Array[Array[Annotation]] = {
 
     dataset
-      .select(column, columns :_*)
+      .select(column, columns: _*)
       .collect()
       .map { row =>
         (0 to columns.length)
@@ -149,56 +169,60 @@ object Annotation {
       .take(howMany)
   }
 
-  /** dataframe annotation flatmap of results into strings*/
+  /** dataframe annotation flatmap of results into strings */
   def flatten(vSep: String, aSep: String, parseEmbeddings: Boolean): UserDefinedFunction = {
     udf {
-      annotations: Seq[Row] => annotations.map(r =>
-        r.getString(0) match {
-          case (AnnotatorType.WORD_EMBEDDINGS |
-               AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(vSep)
-          case _ => r.getString(3)
-        }
-      ).mkString(aSep)
+      annotations: Seq[Row] =>
+        annotations.map(r =>
+          r.getString(0) match {
+            case (AnnotatorType.WORD_EMBEDDINGS |
+                  AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(vSep)
+            case _ => r.getString(3)
+          }
+        ).mkString(aSep)
     }
   }
 
   /** dataframe annotation flatmap of results and metadata key values into strings */
   def flattenDetail(vSep: String, aSep: String, parseEmbeddings: Boolean): UserDefinedFunction = {
     udf {
-      annotations: Seq[Row] => annotations.map(r =>
-        r.getString(0) match {
-          case (AnnotatorType.WORD_EMBEDDINGS |
-               AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) =>
-            (r.getMap[String, String](4) ++
-              Map(RESULT -> r.getString(3)) ++
-              Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
-              ).mkString(vSep).replace(" -> ", "->")
-          case _ => (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
-        }
+      annotations: Seq[Row] =>
+        annotations.map(r =>
+          r.getString(0) match {
+            case (AnnotatorType.WORD_EMBEDDINGS |
+                  AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) =>
+              (r.getMap[String, String](4) ++
+                Map(RESULT -> r.getString(3)) ++
+                Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep))
+                ).mkString(vSep).replace(" -> ", "->")
+            case _ => (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3))).mkString(vSep).replace(" -> ", "->")
+          }
 
-      ).mkString(aSep)
+        ).mkString(aSep)
     }
   }
 
   /** dataframe annotation flatmap of result values as ArrayType */
   def flattenArray(parseEmbeddings: Boolean): UserDefinedFunction = {
     udf {
-      annotations: Seq[Row] => annotations.map(r =>
-        r.getString(0) match {
-          case (AnnotatorType.WORD_EMBEDDINGS |
-               AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(" ")
-          case _ => r.getString(3)
-        }
-      )
+      annotations: Seq[Row] =>
+        annotations.map(r =>
+          r.getString(0) match {
+            case (AnnotatorType.WORD_EMBEDDINGS |
+                  AnnotatorType.SENTENCE_EMBEDDINGS) if (parseEmbeddings) => r.getSeq[Float](5).mkString(" ")
+            case _ => r.getString(3)
+          }
+        )
     }
   }
 
   /** dataframe annotation flatmap of metadata values as ArrayType */
   def flattenArrayMetadata: UserDefinedFunction = {
     udf {
-      annotations: Seq[Row] => annotations.flatMap(r => {
-        r.getMap[String, String](4)
-      })
+      annotations: Seq[Row] =>
+        annotations.flatMap(r => {
+          r.getMap[String, String](4)
+        })
     }
   }
 
@@ -219,7 +243,7 @@ object Annotation {
 
     val k = (l + r) / 2
 
-    if (l  >= r)
+    if (l >= r)
       getAnswers(l)
     else if (begin < annotations(k).begin)
       searchLabel(annotations, l, k - 1, begin, end)

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ner
 
 import org.apache.spark.ml.param.{IntParam, Param, Params, StringArrayParam}
@@ -15,7 +31,7 @@ import org.apache.spark.ml.param.{IntParam, Param, Params, StringArrayParam}
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 trait NerApproach[T <: NerApproach[_]] extends Params {
 
@@ -44,7 +60,7 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
     * @group param
     **/
   val randomSeed = new IntParam(this, "randomSeed", "Random seed")
-  /** Level of verbosity during training
+  /** Level of verbosity during training (Default: `Verbose.Silent.id`)
     *
     * @group param
     **/

@@ -5,6 +5,9 @@ title: Structures and helpers
 permalink: /docs/en/ocr_structures
 key: docs-ocr-structures
 modify_date: "2020-04-08"
+show_nav: true
+sidebar:
+    nav: spark-ocr
 ---
 
 <div class="h3-box" markdown="1">
@@ -70,7 +73,8 @@ element: struct (containsNull = true)
 | y | float |  The lower left y coordinate |
 | width | float |  The width of the rectangle |
 | height | float |  The height of the rectangle |
-
+| score | float |  The score of the object |
+| label | string |  The label of the object |
 
 <div class="h3-box" markdown="1">
 
@@ -161,6 +165,7 @@ element: struct (containsNull = true)
   * ***SPA***: Spanish
   * ***RUS***: Russian
   * ***DEU***: German
+  * ***VIE***: Vietnamese
   
 </div><div class="h3-box" markdown="1">
 
@@ -229,13 +234,39 @@ element: struct (containsNull = true)
  
 </div><div class="h3-box" markdown="1">
 
+
+### AdaptiveThresholdingMethod
+
+ * ***GAUSSIAN***
+ * ***MEAN***
+ * ***MEDIAN***
+ * ***WOLF***
+ * ***SINGH***
+ 
+</div><div class="h3-box" markdown="1">
+
 ### TresholdingMethod
 
  * ***GAUSSIAN***
  * ***OTSU***
  * ***SAUVOLA***
+ * ***WOLF***
  
 </div><div class="h3-box" markdown="1">
+
+
+### CellDetectionAlgos
+
+ * ***CONTOURS*** - Detect cells in bordered tables
+ * ***MORPHOPS*** - Detected calls in: bordered, borderless and combined tables
+
+</div><div class="h3-box" markdown="1">
+ 
+ 
+### TableOutputFormat
+
+ * ***TABLE*** - Table struct format
+ * ***CSV*** - Comma separated CSV
 
 ## OCR implicits
 
@@ -324,13 +355,161 @@ Show images on Databrics notebook.
 
 </div><div class="h3-box" markdown="1">
 
+## Jupyter Python helpers
+
+### display_image
+
+Show single image with methadata in Jupyter notebook.
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_image
+from sparkocr.transformers import BinaryToImage
+
+images_path = "/tmp/ocr/images/*.tif"
+images_example_df = spark.read.format("binaryFile").load(images_path).cache()
+
+display_image(BinaryToImage().transform(images_example_df).collect()[0].image)
+```
+
+### display_images
+
+Show images from dataframe.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| field | string | image | input column name with image struct |
+| limit | integer | 5 | count of rows for display  |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_images
+from sparkocr.transformers import BinaryToImage
+
+images_path = "/tmp/ocr/images/*.tif"
+images_example_df = spark.read.format("binaryFile").load(images_path).cache()
+
+display_images(BinaryToImage().transform(images_example_df), limit=3)
+```
+![image](/assets/images/ocr/showImage1.png)
+
+
+### display_images_horizontal
+
+Show one or more images per row from dataframe.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| fields | string | image | comma separated input column names with image struct |
+| limit | integer | 5 | count of rows for display  |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_images_horizontal
+
+display_images_horizontal(df_with_few_image_fields, fields="images, image_with_regions", limit=10)
+```
+
+![image](/assets/images/ocr/display_images_horizontal.png)
+
+### display_pdf
+
+Show pdf from dataframe.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| field | string | content | input column with binary representation of pdf|
+| limit | integer | 5 | count of rows for display  |
+| width | string | "600" | width of image |
+| show_meta | boolean | true | enable/disable displaying methadata of image |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_pdf
+
+pdf_df = spark.read.format("binaryFile").load(pdf_path)
+display_pdf(pdf_df)
+```
+
+![image](/assets/images/ocr/display_pdf.png)
+
+### display_pdf_file
+
+Show pdf file using embedded pdf viewer.
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| pdf | string | | Path to the file name |
+| size | integer | size=(600, 500) | count of rows for display  |
+
+
+**Example:**
+
+```python
+from sparkocr.utils import display_pdf_file
+
+display_pdf_file("path to the pdf file")
+```
+
+**Example output:**
+
+![image](/assets/images/ocr/display_pdf_file.png)
+
+### display_table
+
+Display table from the dataframe.
+
+### display_tables
+
+Display tables from the dataframe. It is useful for display results
+of table recognition from the multipage documents/few tables per page.
+
+**Example output:**
+
+![image](/assets/images/ocr/display_table.png)
+
+
 ## Databricks Python helpers
 
 ### display_images
 
-Show images.
+Show images from dataframe.
 
-</div>
 
 #### Parameters
 

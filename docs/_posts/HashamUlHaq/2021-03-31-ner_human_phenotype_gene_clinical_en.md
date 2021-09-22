@@ -57,7 +57,8 @@ val ner = MedicalNerModel.pretrained("ner_human_phenotype_gene_clinical", "en", 
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
-val result = pipeline.fit(Seq.empty["Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3)."].toDS.toDF("text")).transform(data)
+val data = Seq("Here we presented a case (BS type) of a 17 years old female presented with polyhydramnios, polyuria, nephrocalcinosis and hypokalemia, which was alleviated after treatment with celecoxib and vitamin D(3).").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

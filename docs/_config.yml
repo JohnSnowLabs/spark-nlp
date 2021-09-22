@@ -213,6 +213,7 @@ defaults:
       aside:
         toc: true  
       license: false
+      demomenu: false
       show_edit_on_github: true
       show_date: true
       header:

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common._
@@ -6,21 +22,22 @@ import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import scala.collection.JavaConverters._
 
 /**
-  * The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala]] for further reference on how to use this API.
-  *
-  * @param tensorflow       USE Model wrapper with TensorFlow Wrapper
-  * @param configProtoBytes Configuration for TensorFlow session
-  *
-  *                         Sources :
-  *
-  *                         [[https://arxiv.org/abs/1803.11175]]
-  *
-  *                         [[https://tfhub.dev/google/universal-sentence-encoder/2]]
-  */
+ * The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks.
+ *
+ * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala]] for further reference on how to use this API.
+ *
+ * @param tensorflow       USE Model wrapper with TensorFlow Wrapper
+ * @param configProtoBytes Configuration for TensorFlow session
+ *
+ *                         Sources :
+ *
+ *                         [[https://arxiv.org/abs/1803.11175]]
+ *
+ *                         [[https://tfhub.dev/google/universal-sentence-encoder/2]]
+ */
 class TensorflowUSE(val tensorflow: TensorflowWrapper,
-                    configProtoBytes: Option[Array[Byte]] = None
+                    configProtoBytes: Option[Array[Byte]] = None,
+                    loadSP: Boolean = false
                    ) extends Serializable {
 
   private val inputKey = "input"
@@ -31,13 +48,13 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
     val tensors = new TensorResources()
     val batchSize = sentences.length
 
-    val sentencesContent = sentences.map{ x=>
+    val sentencesContent = sentences.map { x =>
       x.content
     }.toArray
 
     val sentenceTensors = tensors.createTensor(sentencesContent)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
 
     runner
       .feed(inputKey, sentenceTensors)

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: onto_recognize_entities_electra_large
 date: 2021-03-23
 tags: [open_source, english, onto_recognize_entities_electra_large, pipeline, en]
+supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: en
 edition: Spark NLP 3.0.0

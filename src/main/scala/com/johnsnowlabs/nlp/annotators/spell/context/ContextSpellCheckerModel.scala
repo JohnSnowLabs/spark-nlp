@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.util
@@ -16,7 +32,89 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 
-
+/** Implements a deep-learning based Noisy Channel Model Spell Algorithm.
+ * Correction candidates are extracted combining context information and word information.
+ *
+ * Spell Checking is a sequence to sequence mapping problem. Given an input sequence, potentially containing a
+ * certain number of errors, `ContextSpellChecker` will rank correction sequences according to three things:
+ *  1. Different correction candidates for each word — '''word level'''.
+ *  1. The surrounding text of each word, i.e. it’s context — '''sentence level'''.
+ *  1. The relative cost of different correction candidates according to the edit operations at the character level it requires — '''subword level'''.
+ *
+ * For an in-depth explanation of the module see the article [[https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc Applying Context Aware Spell Checking in Spark NLP]].
+ *
+ * This is the instantiated model of the [[ContextSpellCheckerApproach]].
+ * For training your own model, please see the documentation of that class.
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val spellChecker = ContextSpellCheckerModel.pretrained()
+ *   .setInputCols("token")
+ *   .setOutputCol("checked")
+ * }}}
+ * The default model is `"spellcheck_dl"`, if no name is provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Spell+Check Models Hub]].
+ *
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb Spark NLP Workshop]]
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala ContextSpellCheckerTestSpec]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("doc")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols(Array("doc"))
+ *   .setOutputCol("token")
+ *
+ * val spellChecker = ContextSpellCheckerModel
+ *   .pretrained()
+ *   .setTradeOff(12.0f)
+ *   .setInputCols("token")
+ *   .setOutputCol("checked")
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   tokenizer,
+ *   spellChecker
+ * ))
+ *
+ * val data = Seq("It was a cold , dreary day and the country was white with smow .").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.select("checked.result").show(false)
+ * +--------------------------------------------------------------------------------+
+ * |result                                                                          |
+ * +--------------------------------------------------------------------------------+
+ * |[It, was, a, cold, ,, dreary, day, and, the, country, was, white, with, snow, .]|
+ * +--------------------------------------------------------------------------------+
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel NorvigSweetingModel]]
+ *      and [[com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel SymmetricDeleteModel]]
+ *      for alternative approaches to spell checking
+ * @param uid required uid for storing annotator to disk
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[ContextSpellCheckerModel] with HasSimpleAnnotate[ContextSpellCheckerModel]
   with WeightedLevenshtein
   with WriteTensorflowModel
@@ -26,7 +124,9 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   private val logger = LoggerFactory.getLogger("ContextSpellCheckerModel")
 
   val transducer = new TransducerFeature(this, "mainVocabularyTransducer")
-  def setVocabTransducer(trans:ITransducer[Candidate]): this.type = {
+
+  /** @group setParam */
+  def setVocabTransducer(trans: ITransducer[Candidate]): this.type = {
     val main = new MainVocab()
     main.transducer = trans
 
@@ -34,90 +134,190 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   }
 
   val specialTransducers = new TransducerSeqFeature(this, "specialClassesTransducers")
+
+  /** @group setParam */
   def setSpecialClassesTransducers(transducers: Seq[SpecialClassParser]): this.type = {
     set(specialTransducers, transducers.toArray)
   }
 
-  val vocabFreq  = new MapFeature[String, Double](this, "vocabFreq")
-  def setVocabFreq(v: Map[String, Double]): this.type = set(vocabFreq,v)
+  /** Frequency words from the vocabulary
+   *
+   * @group param
+   */
+  val vocabFreq = new MapFeature[String, Double](this, "vocabFreq")
 
+  /** @group setParam */
+  def setVocabFreq(v: Map[String, Double]): this.type = set(vocabFreq, v)
+
+  /** Mapping of ids to vocabulary
+   *
+   * @group param
+   */
   val idsVocab = new MapFeature[Int, String](this, "idsVocab")
+
+  /** Mapping of vocabulary to ids
+   *
+   * @group param
+   */
   val vocabIds = new MapFeature[String, Int](this, "vocabIds")
 
+  /** @group setParam */
   def setVocabIds(v: Map[String, Int]): this.type = {
     set(idsVocab, v.map(_.swap))
     set(vocabIds, v)
   }
 
+  /** Classes the spell checker recognizes
+   *
+   * @group param
+   */
   val classes: MapFeature[Int, (Int, Int)] = new MapFeature(this, "classes")
-  def setClasses(c:Map[Int, (Int, Int)]): this.type = set(classes, c)
 
+  /** @group setParam */
+  def setClasses(c: Map[Int, (Int, Int)]): this.type = set(classes, c)
+
+  /** Maximum distance for the generated candidates for every word, minimum 1.
+   *
+   * @group param
+   */
   val wordMaxDistance = new IntParam(this, "wordMaxDistance", "Maximum distance for the generated candidates for every word, minimum 1.")
-  def setWordMaxDist(k: Int):this.type = set(wordMaxDistance, k)
 
+  /** @group setParam */
+  def setWordMaxDistance(k: Int): this.type = set(wordMaxDistance, k)
+
+  /** Maximum number of candidates for every word (Default: `6`).
+   *
+   * @group param
+   */
   val maxCandidates = new IntParam(this, "maxCandidates", "Maximum number of candidates for every word.")
-  def setMaxCandidates(k: Int):this.type = set(maxCandidates, k)
 
+  /** @group setParam */
+  def setMaxCandidates(k: Int): this.type = set(maxCandidates, k)
+
+  /** What case combinations to try when generating candidates (Default: `CandidateStrategy.ALL`).
+   *
+   * @group param
+   */
   val caseStrategy = new IntParam(this, "caseStrategy", "What case combinations to try when generating candidates.")
-  def setCaseStrategy(k: Int):this.type = set(caseStrategy, k)
 
+  /** @group setParam */
+  def setCaseStrategy(k: Int): this.type = set(caseStrategy, k)
+
+  /** Threshold perplexity for a word to be considered as an error.
+   *
+   * @group param
+   */
   val errorThreshold = new FloatParam(this, "errorThreshold", "Threshold perplexity for a word to be considered as an error.")
-  def setErrorThreshold(t: Float):this.type = set(errorThreshold, t)
 
+  /** @group setParam */
+  def setErrorThreshold(t: Float): this.type = set(errorThreshold, t)
+
+  /** Tradeoff between the cost of a word and a transition in the language model (Default: `18.0f`).
+   *
+   * @group param
+   */
   val tradeoff = new FloatParam(this, "tradeoff", "Tradeoff between the cost of a word and a transition in the language model.")
-  def setTradeOff(lambda: Float):this.type = set(tradeoff, lambda)
 
+  /** @group setParam */
+  def setTradeOff(lambda: Float): this.type = set(tradeoff, lambda)
+
+  /** Controls the influence of individual word frequency in the decision (Default: `120.0f`).
+   *
+   * @group param
+   */
   val gamma = new FloatParam(this, "gamma", "Controls the influence of individual word frequency in the decision.")
-  def setGamma(g: Float):this.type = set(gamma, g)
+
+  /** @group setParam */
+  def setGamma(g: Float): this.type = set(gamma, g)
 
   val weights: MapFeature[String, Map[String, Float]] = new MapFeature[String, Map[String, Float]](this, "levenshteinWeights")
-  def setWeights(w:Map[String, Map[String, Float]]): this.type = set(weights, w)
+
+  /** @group setParam */
+  def setWeights(w: Map[String, Map[String, Float]]): this.type = set(weights, w)
 
   // for Python access
-  def setWeights(w:util.HashMap[String, util.HashMap[String, Double]]): this.type = {
+
+  /** @group setParam */
+  def setWeights(w: util.HashMap[String, util.HashMap[String, Double]]): this.type = {
     import scala.collection.JavaConverters._
     val ws = w.asScala.mapValues(_.asScala.mapValues(_.toFloat).toMap).toMap
     set(weights, ws)
   }
 
+  /** When set to true new lines will be treated as any other character (Default: `false`).
+   * When set to false correction is applied on paragraphs as defined by newline characters.
+   *
+   * @group param
+   */
   val useNewLines = new BooleanParam(this, "trim", "When set to true new lines will be treated as any other character, when set to false" +
     " correction is applied on paragraphs as defined by newline characters.")
-  def setUseNewLines(useIt: Boolean):this.type = set(useNewLines, useIt)
 
+  /** @group setParam */
+  def setUseNewLines(useIt: Boolean): this.type = set(useNewLines, useIt)
+
+  /** Maximum size for the window used to remember history prior to every correction (Default: `5`).
+   *
+   * @group param
+   */
   val maxWindowLen = new IntParam(this, "maxWindowLen", "Maximum size for the window used to remember history prior to every correction.")
-  def setMaxWindowLen(w: Int):this.type = set(maxWindowLen, w)
 
+  /** @group setParam */
+  def setMaxWindowLen(w: Int): this.type = set(maxWindowLen, w)
+
+  /** ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
+   *
+   * @group param
+   */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
-  def setConfigProtoBytes(bytes: Array[Int]) = set(this.configProtoBytes, bytes)
+
+  /** @group setParam */
+  def setConfigProtoBytes(bytes: Array[Int]): ContextSpellCheckerModel.this.type = set(this.configProtoBytes, bytes)
+
+  /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
+  /** Whether to correct special symbols or skip spell checking for them
+   *
+   * @group param
+   */
   val correctSymbols: BooleanParam = new BooleanParam(this, "correctSymbols", "Whether to correct special symbols or skip spell checking for them")
+
+  /** @group setParam */
   def setCorrectSymbols(value: Boolean): this.type = set(correctSymbols, value)
+
   setDefault(
     correctSymbols -> false
   )
 
+  /** If true will compare tokens in low case with vocabulary (Default: `false`)
+   *
+   * @group param
+   */
   val compareLowcase: BooleanParam = new BooleanParam(this, "compareLowcase", "If true will compare tokens in low case with vocabulary")
+
+  /** @group setParam */
   def setCompareLowcase(value: Boolean): this.type = set(compareLowcase, value)
+
   setDefault(
     compareLowcase -> false
   )
 
+  /** @group getParam */
   def getWordClasses() = $$(specialTransducers).map {
-    case transducer:RegexParser =>
-     (transducer.label, "RegexParser")
-    case transducer:VocabParser =>
+    case transducer: RegexParser =>
+      (transducer.label, "RegexParser")
+    case transducer: VocabParser =>
       (transducer.label, "VocabParser")
   }
 
   /* update a regex class */
-  def updateRegexClass(label: String, regex:String) = {
+  def updateRegexClass(label: String, regex: String): ContextSpellCheckerModel = {
     val classes = $$(specialTransducers)
     require(classes.count(_.label == label) == 1,
       s"Not found regex class $label. You can only update existing classes.")
 
     classes.filter(_.label.equals(label)).head match {
-      case r:RegexParser =>
+      case r: RegexParser =>
         r.regex = regex
         r.transducer = r.generateTransducer
       case _ => require(false, s"Class $label is not a regex class.")
@@ -126,15 +326,15 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   }
 
   /* update a vocabulary class */
-  def updateVocabClass(label: String, vocabList:util.ArrayList[String], append:Boolean=true) = {
-    val vocab =  scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
+  def updateVocabClass(label: String, vocabList: util.ArrayList[String], append: Boolean = true): ContextSpellCheckerModel = {
+    val vocab = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
     val classes = $$(specialTransducers)
     require(classes.count(_.label == label) == 1,
       s"Not found vocab class $label. You can only update existing classes.")
 
     classes.filter(_.label.equals(label)).head match {
-      case v:VocabParser =>
-        val newSet = if(append) v.vocab ++ vocab else vocab
+      case v: VocabParser =>
+        val newSet = if (append) v.vocab ++ vocab else vocab
         v.vocab = newSet
         v.transducer = v.generateTransducer
       case _ => require(false, s"Class $label is not a vocabulary class.")
@@ -174,13 +374,14 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
 
   /* trellis goes like (label, weight, candidate)*/
-  def decodeViterbi(trellis: Array[Array[(String, Double, String)]]):(Array[String], Double) = {
+  def decodeViterbi(trellis: Array[Array[(String, Double, String)]]): (Array[String], Double) = {
 
     // encode words with ids
     val encTrellis = Array(Array(($$(vocabIds)("_BOS_"), bosScore, "_BOS_"))) ++
-      trellis.map(_.map{case (label, weight, cand) =>
+      trellis.map(_.map { case (label, weight, cand) =>
         // at this point we keep only those candidates that are in the vocabulary
-        ($$(vocabIds).get(label), weight, cand)}.filter(_._1.isDefined).map{case (x,y,z) => (x.get, y, z)}) ++
+        ($$(vocabIds).get(label), weight, cand)
+      }.filter(_._1.isDefined).map { case (x, y, z) => (x.get, y, z) }) ++
       Array(Array(($$(vocabIds)("_EOS_"), eosScore, "_EOS_")))
 
     // init
@@ -188,22 +389,22 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     var pathWords = Array(Array("_BOS_"))
     var costs = Array(bosScore) // cost for each of the paths
 
-    for(i <- 1 until encTrellis.length if pathsIds.forall(_.nonEmpty)) {
+    for (i <- 1 until encTrellis.length if pathsIds.forall(_.nonEmpty)) {
 
-      var newPaths:Array[Array[Int]] = Array()
+      var newPaths: Array[Array[Int]] = Array()
       var newWords: Array[Array[String]] = Array()
       var newCosts = Array[Double]()
 
       /* compute all the costs for all transitions in current step */
       val expPaths = pathsIds.
-        map{p => p :+ p.head}. // we need a placeholder, put the head.
+        map { p => p :+ p.head }. // we need a placeholder, put the head.
         map(_.takeRight($(maxWindowLen)))
-      val cids = expPaths.map(_.map{id => $$(classes).apply(id)._1})
-      val cwids = expPaths.map(_.map{id => $$(classes).apply(id)._2})
+      val cids = expPaths.map(_.map { id => $$(classes).apply(id)._1 })
+      val cwids = expPaths.map(_.map { id => $$(classes).apply(id)._2 })
 
-      val candCids = encTrellis(i).map(_._1).map{id => $$(classes).apply(id)._1}
-      val candWids = encTrellis(i).map(_._1).map{id => $$(classes).apply(id)._2}
-      val expPathsCosts_ = getModelIfNotSet.predict_(pathsIds.map(_.takeRight($(maxWindowLen))), cids, cwids, candCids, candWids, configProtoBytes=getConfigProtoBytes).toArray
+      val candCids = encTrellis(i).map(_._1).map { id => $$(classes).apply(id)._1 }
+      val candWids = encTrellis(i).map(_._1).map { id => $$(classes).apply(id)._2 }
+      val expPathsCosts_ = getModelIfNotSet.predict_(pathsIds.map(_.takeRight($(maxWindowLen))), cids, cwids, candCids, candWids, configProtoBytes = getConfigProtoBytes).toArray
 
 
       for {((state, wcost, cand), idx) <- encTrellis(i).zipWithIndex} {
@@ -221,7 +422,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
           val cost = pathCost + ppl_
           logger.debug(s"${$$(idsVocab).apply(path.last)} -> $cand, $ppl_, $cost")
 
-          if (cost < minCost){
+          if (cost < minCost) {
             minCost = cost
             minPath = path :+ state
             minWords = cands :+ cand
@@ -236,7 +437,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       costs = newCosts
 
       // log paths and costs
-      pathWords.zip(costs).foreach{ case (path, cost) =>
+      pathWords.zip(costs).foreach { case (path, cost) =>
         logger.debug(s"${path.toList}, $cost")
       }
 
@@ -250,9 +451,9 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       (minPath, minCost)
   }
 
-  def getClassCandidates(transducer: ITransducer[Candidate], token:String, label:String, maxDist:Int, limit:Int = 2) = {
+  def getClassCandidates(transducer: ITransducer[Candidate], token: String, label: String, maxDist: Int, limit: Int = 2) = {
     import scala.collection.JavaConversions._
-    transducer.transduce(token, maxDist).map {cand =>
+    transducer.transduce(token, maxDist).map { cand =>
 
       // if weights are available, we use them
       val weight = weights.get.
@@ -263,7 +464,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     }.toSeq.sortBy(_._3).take(limit)
   }
 
-  def getVocabCandidates(token: String, maxDist:Int) = {
+  def getVocabCandidates(token: String, maxDist: Int) = {
     import scala.collection.JavaConversions._
     val trans = $$(transducer).transducer
     // we use all case information as it comes
@@ -281,7 +482,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       trans.transduce(token.toLowerCase).toList.map(
         c => (c.term.toUpperCase, c.term, c.distance.toFloat)
       )
-    } else if(token.isFirstLetterCapitalized && tryFirstCapitalized) {
+    } else if (token.isFirstLetterCapitalized && tryFirstCapitalized) {
       trans.transduce(token.toLowerCase).toList.map(
         c => (c.term.capitalizeFirstLetter, c.term, c.distance.toFloat)
       )
@@ -292,10 +493,13 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   implicit class StringTools(s: String) {
     def isUpperCase() = s.toUpperCase.equals(s)
+
     def isLowerCase() = s.toLowerCase.equals(s)
+
     def isFirstLetterCapitalized() =
-      s.headOption.map{fl => fl.isUpper && s.tail.isLowerCase}.
+      s.headOption.map { fl => fl.isUpper && s.tail.isLowerCase }.
         getOrElse(false)
+
     def capitalizeFirstLetter() = s.head.toUpper + s.tail
   }
 
@@ -306,15 +510,15 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   }
 
   /**
-    * takes a document and annotations and produces new annotations of this annotator's annotation type
-    *
-    * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
-    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
-    */
+   * takes a document and annotations and produces new annotations of this annotator's annotation type
+   *
+   * @param annotations Annotations that correspond to inputAnnotationCols generated by previous annotators if any
+   * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
+   */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val decodedSentPaths = annotations.groupBy(_.metadata.getOrElse("sentence", "0")).mapValues{ sentTokens =>
+    val decodedSentPaths = annotations.groupBy(_.metadata.getOrElse("sentence", "0")).mapValues { sentTokens =>
       val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { _ =>
-        val idxs = Seq(-1) ++ sentTokens.zipWithIndex.filter { case (a, _) => a.result.equals(System.lineSeparator) || a.result.equals(System.lineSeparator*2) }.
+        val idxs = Seq(-1) ++ sentTokens.zipWithIndex.filter { case (a, _) => a.result.equals(System.lineSeparator) || a.result.equals(System.lineSeparator * 2) }.
           map(_._2) ++ Seq(annotations.length)
         idxs.zip(idxs.tail).map { case (s, e) =>
           decodeViterbi(computeTrellis(sentTokens.slice(s + 1, e), computeMask(sentTokens.slice(s + 1, e))))
@@ -324,8 +528,9 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       }.getOrElse(decodeViterbi(computeTrellis(sentTokens, computeMask(sentTokens))))
       //ToDo: This is a backup plan for empty DecodedPath -- fix me!!
       if (decodedPath.nonEmpty)
-        sentTokens.zip(decodedPath).map{case (orig, correct) =>
-          orig.copy(result = correct, metadata = orig.metadata.updated("cost", cost.toString))}
+        sentTokens.zip(decodedPath).map { case (orig, correct) =>
+          orig.copy(result = correct, metadata = orig.metadata.updated("cost", cost.toString))
+        }
       else
         sentTokens.map(orig =>
           orig.copy(metadata = orig.metadata.updated("cost", "0"))
@@ -335,8 +540,8 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
     decodedSentPaths.values.flatten.toSeq
   }
 
-  def toOption(boolean:Boolean) = {
-    if(boolean)
+  def toOption(boolean: Boolean): Option[Boolean] = {
+    if (boolean)
       Some(boolean)
     else
       None
@@ -348,72 +553,82 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
    *
    * two causes for a word to need correction, 1. high perplexity or 2. out of vocabulary
    * */
-  def computeMask(annotations:Seq[Annotation]): Array[Boolean] = {
+  def computeMask(annotations: Seq[Annotation]): Array[Boolean] = {
     val threshold = getOrDefault(errorThreshold)
     val unkCode = $$(vocabIds).get("_UNK_").get
 
     /* try to decide whether words need correction or not */
     // first pass - perplexities
-    val encodedSent = Array($$(vocabIds)("_BOS_"))  ++ annotations.map{ ann =>
+    val encodedSent = Array($$(vocabIds)("_BOS_")) ++ annotations.map { ann =>
       if ($(compareLowcase))
         $$(vocabIds).get(ann.result).getOrElse($$(vocabIds).get(ann.result.toLowerCase).getOrElse(unkCode))
       else
         $$(vocabIds).get(ann.result).getOrElse(unkCode)
     } ++ Array($$(vocabIds)("_EOS_"))
 
-    val cids = encodedSent.map{id => $$(classes).apply(id)._1}
-    val cwids = encodedSent.map{id => $$(classes).apply(id)._2}
+    val cids = encodedSent.map { id => $$(classes).apply(id)._1 }
+    val cwids = encodedSent.map { id => $$(classes).apply(id)._2 }
 
     val perplexities = getModelIfNotSet.pplEachWord(Array(encodedSent), Array(cids), Array(cwids)).map(_ > threshold)
 
     perplexities.zip(perplexities.tail).zip(encodedSent.tail).
       // if the word to the right needs correction, this word needs it too and is word in vocabulary ?
-      map {case ((needCorrection, nextNeedCorrection), code) =>
-          if(nextNeedCorrection) true else needCorrection || code == unkCode
-    }
+      map { case ((needCorrection, nextNeedCorrection), code) =>
+        if (nextNeedCorrection) true else needCorrection || code == unkCode
+      }
   }
 
-  def computeTrellis(annotations:Seq[Annotation], mask: Seq[Boolean]) = {
+  def computeTrellis(annotations: Seq[Annotation], mask: Seq[Boolean]) = {
     annotations.zip(mask).map { case (annotation, needCorrection) =>
       val token = annotation.result
       var correctionCondition = needCorrection
-      if (! $(correctSymbols))
+      if (!$(correctSymbols))
         correctionCondition = needCorrection & token.replaceAll("[^A-Za-z0-9]+", "").length > 0
 
-      if(correctionCondition) {
-            // ask each token class for candidates, keep the one with lower cost
-            var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
-              if (specialParser.transducer == null)
-                throw new RuntimeException(s"${specialParser.label}")
-              getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
-            } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance) - 1)
+      if (correctionCondition) {
+        // ask each token class for candidates, keep the one with lower cost
+        var candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
+          if (specialParser.transducer == null)
+            throw new RuntimeException(s"${specialParser.label}")
+          getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance) - 1)
+        } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance) - 1)
 
-            // now try to relax distance requirements for candidates
-            if (token.length > 4 && candLabelWeight.isEmpty)
-              candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
-                getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
-              } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance))
+        // now try to relax distance requirements for candidates
+        if (token.length > 4 && candLabelWeight.isEmpty)
+          candLabelWeight = $$(specialTransducers).flatMap { specialParser =>
+            getClassCandidates(specialParser.transducer, token, specialParser.label, getOrDefault(wordMaxDistance))
+          } ++ getVocabCandidates(token, getOrDefault(wordMaxDistance))
 
-            if (candLabelWeight.isEmpty)
-              candLabelWeight = Array((token, "_UNK_", 3.0f))
+        if (candLabelWeight.isEmpty)
+          candLabelWeight = Array((token, "_UNK_", 3.0f))
 
-            // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
-            val labelWeightCand = candLabelWeight.map { case (term, label, dist) =>
-              // optional re-ranking of candidates according to special distance
-              val d = get(weights).map { w => wLevenshteinDist(term, token, w) }.getOrElse(dist)
-              val weight = d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
-              (label, weight, term)
-            }.sortBy(_._2).take(getOrDefault(maxCandidates))
-            logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
-            labelWeightCand.toArray //[(String, Double, String)]
-      } else {Array(("_UNK_", .2, token))}
- 	}.toArray
+        // label is a dictionary word for the main transducer, or a label such as _NUM_ for special classes
+        val labelWeightCand = candLabelWeight.map { case (term, label, dist) =>
+          // optional re-ranking of candidates according to special distance
+          val d = get(weights).map { w => wLevenshteinDist(term, token, w) }.getOrElse(dist)
+          val weight = d - $$(vocabFreq).getOrElse(label, 0.0) / getOrDefault(gamma)
+          (label, weight, term)
+        }.sortBy(_._2).take(getOrDefault(maxCandidates))
+        logger.debug(s"""$token -> ${labelWeightCand.toList.take(getOrDefault(maxCandidates))}""")
+        labelWeightCand.toArray //[(String, Double, String)]
+      } else {
+        Array(("_UNK_", .2, token))
+      }
+    }.toArray
   }
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("SPELL"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /** Input Annotator Types: TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.TOKEN)
+  /** Output Annotator Types: TOKEN
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -437,11 +652,18 @@ trait ReadsLanguageModelGraph extends ParamsAndFeaturesReadable[ContextSpellChec
 
 trait ReadablePretrainedContextSpell extends ReadsLanguageModelGraph with HasPretrained[ContextSpellCheckerModel] {
   override val defaultModelName: Some[String] = Some("spellcheck_dl")
+
   /** Java compliant-overrides */
   override def pretrained(): ContextSpellCheckerModel = super.pretrained()
+
   override def pretrained(name: String): ContextSpellCheckerModel = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): ContextSpellCheckerModel = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): ContextSpellCheckerModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[ContextSpellCheckerModel]]. Please refer to that class for the documentation.
+ */
 object ContextSpellCheckerModel extends ReadablePretrainedContextSpell

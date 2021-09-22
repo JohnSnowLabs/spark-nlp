@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams" />
+          <title>Spark NLP 3.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams</title>
+          <meta name="description" content="Spark NLP 3.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams" />
+          <meta name="keywords" content="Spark NLP 3.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -170,13 +170,13 @@
                         <a class="trait" href="ReadablePretrainedSymmetric.html" title=""></a>
                         <a href="ReadablePretrainedSymmetric.html" title="">ReadablePretrainedSymmetric</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="SymmetricDeleteApproach$.html" title=""></a>
-                        <a class="class" href="SymmetricDeleteApproach.html" title="Created by danilo 16/04/2018, Symmetric Delete spelling correction algorithm."></a>
-                        <a href="SymmetricDeleteApproach.html" title="Created by danilo 16/04/2018, Symmetric Delete spelling correction algorithm.">SymmetricDeleteApproach</a>
+                        <a class="object" href="SymmetricDeleteApproach$.html" title="This is the companion object of SymmetricDeleteApproach."></a>
+                        <a class="class" href="SymmetricDeleteApproach.html" title="Trains a Symmetric Delete spelling correction algorithm."></a>
+                        <a href="SymmetricDeleteApproach.html" title="Trains a Symmetric Delete spelling correction algorithm.">SymmetricDeleteApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="SymmetricDeleteModel$.html" title=""></a>
-                        <a class="class" href="SymmetricDeleteModel.html" title="Created by danilo 16/04/2018,"></a>
-                        <a href="SymmetricDeleteModel.html" title="Created by danilo 16/04/2018,">SymmetricDeleteModel</a>
+                        <a class="object" href="SymmetricDeleteModel$.html" title="This is the companion object of SymmetricDeleteModel."></a>
+                        <a class="class" href="SymmetricDeleteModel.html" title="Symmetric Delete spelling correction algorithm."></a>
+                        <a href="SymmetricDeleteModel.html" title="Symmetric Delete spelling correction algorithm.">SymmetricDeleteModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="" title=""></a>
@@ -473,9 +473,9 @@
         <span class="name">deletesThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0
+      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
 </p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#dupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#dupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="dupsLimit:org.apache.spark.ml.param.IntParam"></a><a id="dupsLimit:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteParams.html#dupsLimit:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -490,8 +490,7 @@
         <span class="name">dupsLimit</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>maximum duplicate of characters in a word to consider. Defaults to 2
-</p></div></div>
+      <p class="shortcomment cmt">Maximum duplicate of characters in a word to consider (Default: <code>2</code>).</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -625,7 +624,7 @@
         <span class="name">frequencyThreshold</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.
+      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="get[T](Param[T]):Option[T]"></a>
@@ -693,9 +692,9 @@
         <span class="name">getDeletesThreshold</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0
+      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
 </p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getDupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getDupsLimit:Int"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteParams.html#getDupsLimit:Int" title="Permalink">
@@ -710,8 +709,7 @@
         <span class="name">getDupsLimit</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>maximum duplicate of characters in a word to consider. Defaults to 2
-</p></div></div>
+      <p class="shortcomment cmt">Maximum duplicate of characters in a word to consider (Default: <code>2</code>).</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getFrequencyThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getFrequencyThreshold:Int"></a>
       <span class="permalink">
@@ -727,7 +725,7 @@
         <span class="name">getFrequencyThreshold</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.
+      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#getMaxEditDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getMaxEditDistance:Int"></a>
@@ -744,7 +742,7 @@
         <span class="name">getMaxEditDistance</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">max edit distance characters to derive strings from a word
+      <p class="shortcomment cmt">Max edit distance characters to derive strings from a word
 </p>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
@@ -892,7 +890,7 @@
         <span class="name">longestWordLength</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">length of longest word in corpus
+      <p class="shortcomment cmt">Length of longest word in corpus
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#maxEditDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxEditDistance:org.apache.spark.ml.param.IntParam"></a><a id="maxEditDistance:IntParam"></a>
@@ -909,7 +907,7 @@
         <span class="name">maxEditDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">max edit distance characters to derive strings from a word
+      <p class="shortcomment cmt">Max edit distance characters to derive strings from a word (Default: <code>3</code>)
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#maxFrequency" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="maxFrequency:org.apache.spark.ml.param.LongParam"></a><a id="maxFrequency:LongParam"></a>
@@ -926,7 +924,7 @@
         <span class="name">maxFrequency</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.LongParam">LongParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">maximum frequency of a word in the corpus
+      <p class="shortcomment cmt">Maximum frequency of a word in the corpus
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#minFrequency" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="minFrequency:org.apache.spark.ml.param.LongParam"></a><a id="minFrequency:LongParam"></a>
@@ -943,7 +941,7 @@
         <span class="name">minFrequency</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.LongParam">LongParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of a word in the corpus
+      <p class="shortcomment cmt">Minimum frequency of a word in the corpus
 </p>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
@@ -1110,9 +1108,9 @@
         <span class="name">setDeletesThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE. Defaults to 0
+      <p class="shortcomment cmt">Minimum frequency of corrections a word needs to have to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of corrections a word needs to have to be considered from training. Increase if training set is LARGE (Default: <code>0</code>).
 </p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setDupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setDupsLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setDupsLimit(value:Int):SymmetricDeleteParams.this.type"></a><a id="setDupsLimit(Int):SymmetricDeleteParams.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteParams.html#setDupsLimit(value:Int):SymmetricDeleteParams.this.type" title="Permalink">
@@ -1127,7 +1125,8 @@
         <span class="name">setDupsLimit</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">maximum duplicate of characters in a word to consider.</p><div class="fullcomment"><div class="comment cmt"><p>maximum duplicate of characters in a word to consider. Defaults to 2</p></div></div>
+      <p class="shortcomment cmt">Maximum duplicate of characters in a word to consider (Default: <code>2</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setFrequencyThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setFrequencyThreshold(value:Int):SymmetricDeleteParams.this.type"></a><a id="setFrequencyThreshold(Int):SymmetricDeleteParams.this.type"></a>
       <span class="permalink">
@@ -1143,7 +1142,7 @@
         <span class="name">setFrequencyThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>minimum frequency of words to be considered from training. Increase if training set is LARGE. Defaults to 0.
+      <p class="shortcomment cmt">Minimum frequency of words to be considered from training.</p><div class="fullcomment"><div class="comment cmt"><p>Minimum frequency of words to be considered from training. Increase if training set is LARGE (Default: <code>0</code>)
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setLongestWordLength" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setLongestWordLength(value:Int):SymmetricDeleteParams.this.type"></a><a id="setLongestWordLength(Int):SymmetricDeleteParams.this.type"></a>
@@ -1160,7 +1159,7 @@
         <span class="name">setLongestWordLength</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">length of longest word in corpus
+      <p class="shortcomment cmt">Length of longest word in corpus
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMaxEditDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxEditDistance(value:Int):SymmetricDeleteParams.this.type"></a><a id="setMaxEditDistance(Int):SymmetricDeleteParams.this.type"></a>
@@ -1177,7 +1176,7 @@
         <span class="name">setMaxEditDistance</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">max edit distance characters to derive strings from a word
+      <p class="shortcomment cmt">Max edit distance characters to derive strings from a word
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMaxFrequency" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMaxFrequency(value:Long):SymmetricDeleteParams.this.type"></a><a id="setMaxFrequency(Long):SymmetricDeleteParams.this.type"></a>
@@ -1194,7 +1193,7 @@
         <span class="name">setMaxFrequency</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">maximum frequency of a word in the corpus
+      <p class="shortcomment cmt">Maximum frequency of a word in the corpus
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams#setMinFrequency" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMinFrequency(value:Long):SymmetricDeleteParams.this.type"></a><a id="setMinFrequency(Long):SymmetricDeleteParams.this.type"></a>
@@ -1211,7 +1210,7 @@
         <span class="name">setMinFrequency</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteParams">SymmetricDeleteParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">minimum frequency of a word in the corpus
+      <p class="shortcomment cmt">Minimum frequency of a word in the corpus
 </p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
@@ -1342,7 +1341,7 @@
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

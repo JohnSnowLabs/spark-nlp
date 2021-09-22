@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Clinical Entities, Assign Assertion and Find Relations.
+title: Detect Clinical Entities, Assign Assertion and Find Relations
 author: John Snow Labs
 name: explain_clinical_doc_era
 date: 2020-09-30

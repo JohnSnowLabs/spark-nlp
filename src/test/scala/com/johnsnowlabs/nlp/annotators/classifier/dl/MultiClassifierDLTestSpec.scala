@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.annotator._
@@ -7,9 +23,9 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, udf}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class MultiClassifierDLTestSpec extends FlatSpec {
+class MultiClassifierDLTestSpec extends AnyFlatSpec {
 
   val spark = ResourceHelper.getActiveSparkSession
 
@@ -48,6 +64,7 @@ class MultiClassifierDLTestSpec extends FlatSpec {
       .setLr(1e-3f)
       .setThreshold(0.5f)
       .setValidationSplit(0.1f)
+      .setRandomSeed(44)
 
     val pipeline = new Pipeline()
       .setStages(

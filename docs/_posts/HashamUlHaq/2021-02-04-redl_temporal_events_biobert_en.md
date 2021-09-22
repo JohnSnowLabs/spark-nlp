@@ -6,7 +6,7 @@ name: redl_temporal_events_biobert
 date: 2021-02-04
 task: Relation Extraction
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -20,7 +20,7 @@ Extract relations between clinical events in terms of time. If an event occurred
 
 ## Predicted Entities
 
-`After`, `Before`, `Overlap`
+`AFTER`, `BEFORE`, `OVERLAP`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/){:.button.button-orange}
@@ -106,7 +106,8 @@ val re_model = RelationExtractionDLModel()
     .setOutputCol("relations")
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"].toDS.toDF("text")).transform(data)
+val data = Seq("She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>
@@ -128,7 +129,7 @@ val result = pipeline.fit(Seq.empty["She is diagnosed with cancer in 1991. Then 
 {:.table-model}
 |---|---|
 |Model Name:|redl_temporal_events_biobert|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:|Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

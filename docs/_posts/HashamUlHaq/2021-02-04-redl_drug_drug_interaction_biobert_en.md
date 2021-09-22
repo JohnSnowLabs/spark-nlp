@@ -6,7 +6,7 @@ name: redl_drug_drug_interaction_biobert
 date: 2021-02-04
 task: Relation Extraction
 language: en
-edition: Spark NLP 2.7.3
+edition: Spark NLP for Healthcare 2.7.3
 tags: [licensed, clinical, en, relation_extraction]
 supported: true
 article_header:
@@ -109,7 +109,8 @@ val re_model = RelationExtractionDLModel()
     .setOutputCol("relations")
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated"].toDS.toDF("text")).transform(data)
+val data = Seq("When carbamazepine is withdrawn from the combination therapy, aripiprazole dose should then be reduced. If additional adrenergic drugs are to be administered by any route, they should be used with caution because the pharmacologically predictable sympathetic effects of Metformin may be potentiated").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>
@@ -129,7 +130,7 @@ val result = pipeline.fit(Seq.empty["When carbamazepine is withdrawn from the co
 {:.table-model}
 |---|---|
 |Model Name:|redl_drug_drug_interaction_biobert|
-|Compatibility:|Spark NLP 2.7.3+|
+|Compatibility:|Spark NLP for Healthcare 2.7.3+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

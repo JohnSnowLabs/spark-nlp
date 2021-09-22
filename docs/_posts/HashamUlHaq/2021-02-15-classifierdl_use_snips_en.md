@@ -58,7 +58,8 @@ val classifier = ClassifierDLModel('classifierdl_use_snips', 'en').setInputCols(
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings, classifier))
 
-val result = pipeline.fit(Seq.empty["i want to bring six of us to a bistro in town that serves hot chicken sandwich that is within the same area", "show weather forcast for t h  stone memorial st  joseph peninsula state park on one hour from now"].toDS.toDF("text")).transform(data)
+val data = Seq("i want to bring six of us to a bistro in town that serves hot chicken sandwich that is within the same area", "show weather forcast for t h  stone memorial st  joseph peninsula state park on one hour from now").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

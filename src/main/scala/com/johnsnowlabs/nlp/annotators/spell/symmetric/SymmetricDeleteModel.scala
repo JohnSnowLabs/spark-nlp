@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.spell.symmetric
 
 import com.johnsnowlabs.nlp.annotators.spell.util.Utilities
@@ -10,30 +26,77 @@ import scala.collection.immutable.HashSet
 import scala.collection.mutable.{Map => MMap}
 import scala.util.control.Breaks._
 
-/** Created by danilo 16/04/2018,
-  *
-  * Inspired on https://github.com/wolfgarbe/SymSpell
-  *
-  * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
-  * dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
-  * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala]] for further reference.
-  *
-  * @groupname anno Annotator types
-  * @groupdesc anno Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
-  **/
+/** Symmetric Delete spelling correction algorithm.
+ *
+ * The Symmetric Delete spelling correction algorithm reduces the complexity of edit candidate generation and
+ * dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of magnitude faster
+ * (than the standard approach with deletes + transposes + replaces + inserts) and language independent.
+ *
+ * Inspired by [[https://github.com/wolfgarbe/SymSpell SymSpell]].
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val spell = SymmetricDeleteModel.pretrained()
+ *   .setInputCols("token")
+ *   .setOutputCol("spell")
+ * }}}
+ * The default model is `"spellcheck_sd"`, if no name is provided.
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Spell+Check Models Hub]].
+ *
+ * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala SymmetricDeleteModelTestSpec]] for further reference.
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols("document")
+ *   .setOutputCol("token")
+ *
+ * val spellChecker = SymmetricDeleteModel.pretrained()
+ *   .setInputCols("token")
+ *   .setOutputCol("spell")
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   tokenizer,
+ *   spellChecker
+ * ))
+ *
+ * val data = Seq("spmetimes i wrrite wordz erong.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ * result.select("spell.result").show(false)
+ * +--------------------------------------+
+ * |result                                |
+ * +--------------------------------------+
+ * |[sometimes, i, write, words, wrong, .]|
+ * +--------------------------------------+
+ * }}}
+ *
+ * @see [[com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel NorvigSweetingModel]] for an alternative approach to spell checking
+ * @see [[com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel ContextSpellCheckerModel]] for a DL based approach
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ * */
 class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[SymmetricDeleteModel] with HasSimpleAnnotate[SymmetricDeleteModel]
   with SymmetricDeleteParams {
 
@@ -43,22 +106,20 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
 
   /** Output annotator type: TOKEN
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val outputAnnotatorType: AnnotatorType = TOKEN
 
   /** Input annotator type: TOKEN
-    *
-    * @group anno
-    **/
+   *
+   * @group anno
+   * */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
-  /** @group param */
   protected val derivedWords: MapFeature[String, (List[String], Long)] =
     new MapFeature(this, "derivedWords")
 
-  /** @group param */
   protected val dictionary: MapFeature[String, Long] = new MapFeature(this, "dictionary")
 
   /** @group setParam */
@@ -87,9 +148,10 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
         token.begin,
         token.end,
         verifiedWord._1,
-        Map("confidence"->verifiedWord._2.toString)
+        Map("confidence" -> verifiedWord._2.toString)
       )
-    }}
+    }
+    }
   }
 
   def checkSpellWord(originalWord: String): (String, Double) = {
@@ -116,7 +178,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     val noisyWordRegex = "[^a-zA-Z]".r
     val matchNoisyWord = noisyWordRegex.findFirstMatchIn(word)
 
-    if (matchNoisyWord.isEmpty){
+    if (matchNoisyWord.isEmpty) {
       false
     } else {
       true
@@ -129,9 +191,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
     var caseType = UPPERCASE
 
-    word.foreach{letter =>
+    word.foreach { letter =>
       val matchUpperCase = "[A-Z]".r.findFirstMatchIn(letter.toString)
-      if (matchUpperCase.isEmpty){
+      if (matchUpperCase.isEmpty) {
         if (matchUpperCaseFirstLetter.nonEmpty) {
           caseType = CAPITAL
         } else {
@@ -143,22 +205,22 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     caseType
   }
 
-  def transformToOriginalCaseType(caseType: Char, word: String): String ={
+  def transformToOriginalCaseType(caseType: Char, word: String): String = {
 
     var transformedWord = word
 
-    if (caseType == CAPITAL){
+    if (caseType == CAPITAL) {
       val firstLetter = word(0).toString
       transformedWord = word.replaceFirst(firstLetter, firstLetter.toUpperCase)
-    } else if(caseType == UPPERCASE) {
+    } else if (caseType == UPPERCASE) {
       transformedWord = word.toUpperCase
     }
     transformedWord
   }
 
   /** Return list of suggested corrections for potentially incorrectly
-    * spelled word
-    * */
+   * spelled word
+   * */
 
   def getSuggestedCorrections(word: String): Option[SuggestedWord] = {
     val cleanWord = Utilities.limitDuplicates($(dupsLimit), word)
@@ -194,6 +256,9 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
     }
     if (value < $(minFrequency)) {
       return 0
+    }
+    if ($(maxFrequency) == $(minFrequency)) {
+      return 1
     }
     val normalizedValue = (value - $(maxFrequency)).toDouble / ($(maxFrequency) - $(minFrequency)).toDouble
     BigDecimal(normalizedValue).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble
@@ -257,7 +322,7 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
             if (itemDist <= $(maxEditDistance)) {
               suggestedWordsWeight = $$(derivedWords).getOrElse(lowercaseScItem, (List(""), 0))
-              if (suggestedWordsWeight._2 > 0){
+              if (suggestedWordsWeight._2 > 0) {
                 suggestDict(lowercaseScItem) = (suggestedWordsWeight._2,
                   itemDist)
                 if (itemDist < minSuggestLen) {
@@ -299,10 +364,10 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
   private def getSuggestedWord(suggestion: Option[(String, (Long, Int))], score: Double):
   Option[SuggestedWord] = {
     if (suggestion.isDefined) {
-      val realScore = if(score == -1) suggestion.get._2._2.toDouble / $(maxEditDistance).toDouble else score
+      val realScore = if (score == -1) suggestion.get._2._2.toDouble / $(maxEditDistance).toDouble else score
       Some(SuggestedWord(correction = suggestion.get._1, frequency = suggestion.get._2._1,
-                         distance = suggestion.get._2._2,
-                         score = BigDecimal(realScore).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble))
+        distance = suggestion.get._2._2,
+        score = BigDecimal(realScore).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble))
     } else {
       None
     }
@@ -312,11 +377,18 @@ class SymmetricDeleteModel(override val uid: String) extends AnnotatorModel[Symm
 
 trait ReadablePretrainedSymmetric extends ParamsAndFeaturesReadable[SymmetricDeleteModel] with HasPretrained[SymmetricDeleteModel] {
   override val defaultModelName = Some("spellcheck_sd")
+
   /** Java compliant-overrides */
   override def pretrained(): SymmetricDeleteModel = super.pretrained()
+
   override def pretrained(name: String): SymmetricDeleteModel = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): SymmetricDeleteModel = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): SymmetricDeleteModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[SymmetricDeleteModel]]. Please refer to that class for the documentation.
+ */
 object SymmetricDeleteModel extends ReadablePretrainedSymmetric

@@ -5,6 +5,9 @@ title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
 modify_date: "2020-09-10"
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 Pretrained Pipelines moved to its own dedicated repository.
@@ -22,18 +25,18 @@ Please follow this link for updated list:
 {:.table-model-big}
 | Pipelines            | Name                   |
 | -------------------- | ---------------------- |
-| [Explain Document ML](#explain_document_ml)  | `explain_document_ml`
-| [Explain Document DL](#explain_document_dl)  | `explain_document_dl`
-| Explain Document DL Win | `explain_document_dl_noncontrib`
+| [Explain Document ML](#explaindocumentml)  | `explain_document_ml`
+| [Explain Document DL](#explaindocumentdl)  | `explain_document_dl`
+| [Explain Document DL Win]() | `explain_document_dl_noncontrib`
 | Explain Document DL Fast | `explain_document_dl_fast`
 | Explain Document DL Fast Win | `explain_document_dl_fast_noncontrib`  |
-| [Recognize Entities DL](#recognize_entities_dl) | `recognize_entities_dl` |
+| [Recognize Entities DL](#recognizeentitiesdl) | `recognize_entities_dl` |
 | Recognize Entities DL Win | `recognize_entities_dl_noncontrib` |
-| [OntoNotes Entities Small](#onto_recognize_entities_sm) | `onto_recognize_entities_sm` |
-| [OntoNotes Entities Large](#onto_recognize_entities_lg) | `onto_recognize_entities_lg` |
-| [Match Datetime](#match_datetime) | `match_datetime` |
-| [Match Pattern](#match_pattern) | `match_pattern` |
-| [Match Chunk](#match_chunks) | `match_chunks` |
+| [OntoNotes Entities Small](#ontorecognizeentitiessm) | `onto_recognize_entities_sm` |
+| [OntoNotes Entities Large](#ontorecognizeentitieslg) | `onto_recognize_entities_lg` |
+| [Match Datetime](#matchdatetime) | `match_datetime` |
+| [Match Pattern](#matchpattern) | `match_pattern` |
+| [Match Chunk](#matchchunks) | `match_chunks` |
 | Match Phrases | `match_phrases`|
 | Clean Stop | `clean_stop`|
 | Clean Pattern | `clean_pattern`|

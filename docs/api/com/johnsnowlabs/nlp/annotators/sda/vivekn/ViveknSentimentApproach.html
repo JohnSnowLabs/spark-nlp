@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach" />
+          <title>Spark NLP 3.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach</title>
+          <meta name="description" content="Spark NLP 3.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach" />
+          <meta name="keywords" content="Spark NLP 3.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -171,12 +171,12 @@
                         <a href="ReadablePretrainedVivekn.html" title="">ReadablePretrainedVivekn</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
-                        <a class="class" href="" title="Inspired on vivekn sentiment analysis algorithm https://github.com/vivekn/sentiment/."></a>
-                        <a href="" title="Inspired on vivekn sentiment analysis algorithm https://github.com/vivekn/sentiment/.">ViveknSentimentApproach</a>
+                        <a class="class" href="" title="Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/."></a>
+                        <a href="" title="Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.">ViveknSentimentApproach</a>
                       </li><li class="current-entities indented6">
-                        <a class="object" href="ViveknSentimentModel$.html" title=""></a>
-                        <a class="class" href="ViveknSentimentModel.html" title="Inspired on vivekn sentiment analysis algorithm https://github.com/vivekn/sentiment/."></a>
-                        <a href="ViveknSentimentModel.html" title="Inspired on vivekn sentiment analysis algorithm https://github.com/vivekn/sentiment/.">ViveknSentimentModel</a>
+                        <a class="object" href="ViveknSentimentModel$.html" title="This is the companion object of ViveknSentimentModel."></a>
+                        <a class="class" href="ViveknSentimentModel.html" title="Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/."></a>
+                        <a href="ViveknSentimentModel.html" title="Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.">ViveknSentimentModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ViveknSentimentUtils.html" title=""></a>
@@ -209,8 +209,63 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Inspired on vivekn sentiment analysis algorithm <a href="https://github.com/vivekn/sentiment/" target="_blank">https://github.com/vivekn/sentiment/</a>.</p><p>requires sentence boundaries to give score in context. Tokenization to make sure tokens are within bounds. Transitivity requirements are also required.</p><p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn</a> for further reference on how to use this API.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan <a href="https://github.com/vivekn/sentiment/" target="_blank">https://github.com/vivekn/sentiment/</a>.</p><p>The algorithm is based on the paper
+<a href="https://arxiv.org/abs/1305.6143" target="_blank">&quot;Fast and accurate sentiment classification using an enhanced Naive Bayes model&quot;</a>.</p><p>The analyzer requires sentence boundaries to give a score in context.
+Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.</p><p>The training data needs to consist of a column for normalized text and a label column (either <code>&quot;positive&quot;</code> or <code>&quot;negative&quot;</code>).</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb" target="_blank">Spark NLP Workshop</a>
+and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn" target="_blank">ViveknSentimentTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Normalizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
+<span class="kw">import</span> com.johnsnowlabs.nlp.Finisher
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> token = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> normalizer = <span class="kw">new</span> Normalizer()
+  .setInputCols(<span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"normal"</span>)
+
+<span class="kw">val</span> vivekn = <span class="kw">new</span> ViveknSentimentApproach()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"normal"</span>)
+  .setSentimentCol(<span class="lit">"train_sentiment"</span>)
+  .setOutputCol(<span class="lit">"result_sentiment"</span>)
+
+<span class="kw">val</span> finisher = <span class="kw">new</span> Finisher()
+  .setInputCols(<span class="lit">"result_sentiment"</span>)
+  .setOutputCols(<span class="lit">"final_sentiment"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, token, normalizer, vivekn, finisher))
+
+<span class="kw">val</span> training = <span class="std">Seq</span>(
+  (<span class="lit">"I really liked this movie!"</span>, <span class="lit">"positive"</span>),
+  (<span class="lit">"The cast was horrible"</span>, <span class="lit">"negative"</span>),
+  (<span class="lit">"Never going to watch this again or recommend it to anyone"</span>, <span class="lit">"negative"</span>),
+  (<span class="lit">"It's a waste of time"</span>, <span class="lit">"negative"</span>),
+  (<span class="lit">"I loved the protagonist"</span>, <span class="lit">"positive"</span>),
+  (<span class="lit">"The music was really really good"</span>, <span class="lit">"positive"</span>)
+).toDF(<span class="lit">"text"</span>, <span class="lit">"train_sentiment"</span>)
+<span class="kw">val</span> pipelineModel = pipeline.fit(training)
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  <span class="lit">"I recommend this movie"</span>,
+  <span class="lit">"Dont waste your time!!!"</span>
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipelineModel.transform(data)
+
+result.select(<span class="lit">"final_sentiment"</span>).show(<span class="kw">false</span>)
++---------------+
+|final_sentiment|
++---------------+
+|[positive]     |
+|[negative]     |
++---------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="../pragmatic/SentimentDetector.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetector">SentimentDetector</a> for an alternative approach to sentiment detection</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -665,7 +720,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#featureLimit" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#featureLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="featureLimit:org.apache.spark.ml.param.IntParam"></a><a id="featureLimit:IntParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#featureLimit:org.apache.spark.ml.param.IntParam" title="Permalink">
@@ -680,8 +735,8 @@
         <span class="name">featureLimit</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">content feature limit, to boost performance in very dirt text.</p><div class="fullcomment"><div class="comment cmt"><p>content feature limit, to boost performance in very dirt text. Default disabled with -1
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt">content feature limit, to boost performance in very dirt text (Default: Disabled with <code>-1</code>)
+</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -839,7 +894,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#getFeatureLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#getFeatureLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getFeatureLimit(v:Int):Int"></a><a id="getFeatureLimit(Int):Int"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#getFeatureLimit(v:Int):Int" title="Permalink">
@@ -854,9 +909,9 @@
         <span class="name">getFeatureLimit</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get content feature limit, to boost performance in very dirt text.</p><div class="fullcomment"><div class="comment cmt"><p>Get content feature limit, to boost performance in very dirt text. Default disabled with -1
-</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#getImportantFeatureRatio" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <p class="shortcomment cmt">Get content feature limit, to boost performance in very dirt text (Default: Disabled with <code>-1</code>)
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#getImportantFeatureRatio" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getImportantFeatureRatio(v:Double):Double"></a><a id="getImportantFeatureRatio(Double):Double"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#getImportantFeatureRatio(v:Double):Double" title="Permalink">
@@ -871,8 +926,8 @@
         <span class="name">getImportantFeatureRatio</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get Proportion of feature content to be considered relevant.</p><div class="fullcomment"><div class="comment cmt"><p>Get Proportion of feature content to be considered relevant. Defaults to 0.5
-</p></div></div>
+      <p class="shortcomment cmt">Get Proportion of feature content to be considered relevant (Default: Disabled with <code>0.5</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -953,7 +1008,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#getUnimportantFeatureStep" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#getUnimportantFeatureStep" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getUnimportantFeatureStep(v:Double):Double"></a><a id="getUnimportantFeatureStep(Double):Double"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#getUnimportantFeatureStep(v:Double):Double" title="Permalink">
@@ -968,8 +1023,8 @@
         <span class="name">getUnimportantFeatureStep</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Double">Double</span></span>
       </span>
       
-      <p class="shortcomment cmt">Get Proportion to lookahead in unimportant features.</p><div class="fullcomment"><div class="comment cmt"><p>Get Proportion to lookahead in unimportant features. Defaults to 0.025
-</p></div></div>
+      <p class="shortcomment cmt">Get Proportion to lookahead in unimportant features (Default: <code>0.025</code>)
+</p>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1021,7 +1076,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#importantFeatureRatio" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#importantFeatureRatio" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="importantFeatureRatio:org.apache.spark.ml.param.DoubleParam"></a><a id="importantFeatureRatio:DoubleParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#importantFeatureRatio:org.apache.spark.ml.param.DoubleParam" title="Permalink">
@@ -1036,8 +1091,8 @@
         <span class="name">importantFeatureRatio</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">proportion of feature content to be considered relevant.</p><div class="fullcomment"><div class="comment cmt"><p>proportion of feature content to be considered relevant. Defaults to 0.5
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt">Proportion of feature content to be considered relevant (Default: <code>0.5</code>)
+</p>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">
@@ -1482,6 +1537,22 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optionalInputAnnotatorTypes:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#optionalInputAnnotatorTypes:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optionalInputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:ViveknSentimentApproach.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
@@ -1547,7 +1618,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">pruneCorpus</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Removes unfrequent scenarios from scope.</p><div class="fullcomment"><div class="comment cmt"><p>Removes unfrequent scenarios from scope. The higher the better performance. Defaults 1
+      <p class="shortcomment cmt">Removes unfrequent scenarios from scope.</p><div class="fullcomment"><div class="comment cmt"><p>Removes unfrequent scenarios from scope. The higher the better performance (Default: <code>1</code>)
 </p></div></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
@@ -1591,7 +1662,7 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">sentimentCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">column with the sentiment result of every row.</p><div class="fullcomment"><div class="comment cmt"><p>column with the sentiment result of every row. Must be 'positive' or 'negative'
+      <p class="shortcomment cmt">Column with the sentiment result of every row.</p><div class="fullcomment"><div class="comment cmt"><p>Column with the sentiment result of every row. Must be <code>&quot;positive&quot;</code> or <code>&quot;negative&quot;</code>
 </p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set(paramPair:org.apache.spark.ml.param.ParamPair[_]):Params.this.type"></a><a id="set(ParamPair[_]):ViveknSentimentApproach.this.type"></a>
@@ -1641,23 +1712,6 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setCorpusPrune" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setCorpusPrune(value:Int):ViveknSentimentApproach.this.type"></a><a id="setCorpusPrune(Int):ViveknSentimentApproach.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#setCorpusPrune(value:Int):ViveknSentimentApproach.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setCorpusPrune</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach">ViveknSentimentApproach</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt">when training on small data you may want to disable this to not cut off infrequent words
-</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):ViveknSentimentApproach.this.type"></a>
       <span class="permalink">
@@ -1690,7 +1744,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setFeatureLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setFeatureLimit" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setFeatureLimit(v:Int):ViveknSentimentApproach.this.type"></a><a id="setFeatureLimit(Int):ViveknSentimentApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#setFeatureLimit(v:Int):ViveknSentimentApproach.this.type" title="Permalink">
@@ -1705,9 +1759,9 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setFeatureLimit</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach">ViveknSentimentApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set content feature limit, to boost performance in very dirt text.</p><div class="fullcomment"><div class="comment cmt"><p>Set content feature limit, to boost performance in very dirt text. Default disabled with -1
-</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setImportantFeatureRatio" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <p class="shortcomment cmt">Set content feature limit, to boost performance in very dirt text (Default: Disabled with <code>-1</code>)
+</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setImportantFeatureRatio" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setImportantFeatureRatio(v:Double):ViveknSentimentApproach.this.type"></a><a id="setImportantFeatureRatio(Double):ViveknSentimentApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#setImportantFeatureRatio(v:Double):ViveknSentimentApproach.this.type" title="Permalink">
@@ -1722,8 +1776,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setImportantFeatureRatio</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach">ViveknSentimentApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set Proportion of feature content to be considered relevant.</p><div class="fullcomment"><div class="comment cmt"><p>Set Proportion of feature content to be considered relevant. Defaults to 0.5
-</p></div></div>
+      <p class="shortcomment cmt">Set Proportion of feature content to be considered relevant (Default: <code>0.5</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):ViveknSentimentApproach.this.type"></a>
       <span class="permalink">
@@ -1788,6 +1842,23 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setPruneCorpus" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setPruneCorpus(value:Int):ViveknSentimentApproach.this.type"></a><a id="setPruneCorpus(Int):ViveknSentimentApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#setPruneCorpus(value:Int):ViveknSentimentApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setPruneCorpus</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach">ViveknSentimentApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">when training on small data you may want to disable this to not cut off infrequent words
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setSentimentCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setSentimentCol(value:String):ViveknSentimentApproach.this.type"></a><a id="setSentimentCol(String):ViveknSentimentApproach.this.type"></a>
       <span class="permalink">
@@ -1805,7 +1876,7 @@ AnnotatorType is used both as input and output columns if not specified
       
       <p class="shortcomment cmt">Column with sentiment analysis row’s result for training.</p><div class="fullcomment"><div class="comment cmt"><p>Column with sentiment analysis row’s result for training. If not set, external sources need to be set instead. Column with the sentiment result of every row. Must be 'positive' or 'negative'
 </p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setUnimportantFeatureStep" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#setUnimportantFeatureStep" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setUnimportantFeatureStep(v:Double):ViveknSentimentApproach.this.type"></a><a id="setUnimportantFeatureStep(Double):ViveknSentimentApproach.this.type"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#setUnimportantFeatureStep(v:Double):ViveknSentimentApproach.this.type" title="Permalink">
@@ -1820,8 +1891,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">setUnimportantFeatureStep</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach">ViveknSentimentApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Set Proportion to lookahead in unimportant features.</p><div class="fullcomment"><div class="comment cmt"><p>Set Proportion to lookahead in unimportant features. Defaults to 0.025
-</p></div></div>
+      <p class="shortcomment cmt">Set Proportion to lookahead in unimportant features (Default: <code>0.025</code>)
+</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -1921,7 +1992,7 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach">ViveknSentimentApproach</a> → Identifiable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#unimportantFeatureStep" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach#unimportantFeatureStep" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="unimportantFeatureStep:org.apache.spark.ml.param.DoubleParam"></a><a id="unimportantFeatureStep:DoubleParam"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.html#unimportantFeatureStep:org.apache.spark.ml.param.DoubleParam" title="Permalink">
@@ -1936,8 +2007,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">unimportantFeatureStep</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.DoubleParam">DoubleParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">proportion to lookahead in unimportant features.</p><div class="fullcomment"><div class="comment cmt"><p>proportion to lookahead in unimportant features. Defaults to 0.025
-</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+      <p class="shortcomment cmt">Proportion to lookahead in unimportant features (Default: <code>0.025</code>)
+</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
@@ -1953,7 +2024,8 @@ AnnotatorType is used both as input and output columns if not specified
         <span class="name">validate</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
+</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2089,7 +2161,7 @@ AnnotatorType is used both as input and output columns if not specified
         <div id="groupedMembers">
         <div class="group" name="param">
               <h3>Parameters</h3>
-              
+              <div class="comment cmt"><p>A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.</p></div>
             </div><div class="group" name="anno">
               <h3>Annotator types</h3>
               <div class="comment cmt"><p>Required input and expected output annotator types</p></div>

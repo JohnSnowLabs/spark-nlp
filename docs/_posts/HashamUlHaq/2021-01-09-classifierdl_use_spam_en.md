@@ -60,7 +60,8 @@ val document_classifier = ClassifierDLModel.pretrained('classifierdl_use_spam', 
   .setOutputCol("class")
 val pipeline = new Pipeline().setStages(Array(documentAssembler, use, document_classifier))
 
-val result = pipeline.fit(Seq.empty["Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now."].toDS.toDF("text")).transform(data)
+val data = Seq("Congratulations! You've won a $1,000 Walmart gift card. Go to http://bit.ly/1234 to claim now.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

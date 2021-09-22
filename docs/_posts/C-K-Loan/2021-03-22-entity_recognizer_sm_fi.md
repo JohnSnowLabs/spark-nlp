@@ -5,6 +5,7 @@ author: John Snow Labs
 name: entity_recognizer_sm
 date: 2021-03-22
 tags: [open_source, finnish, entity_recognizer_sm, pipeline, fi]
+supported: true
 task: [Named Entity Recognition, Lemmatization, Part of Speech Tagging]
 language: fi
 edition: Spark NLP 3.0.0

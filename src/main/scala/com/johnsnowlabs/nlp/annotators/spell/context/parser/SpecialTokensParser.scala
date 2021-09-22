@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.spell.context.parser
 
 import java.io.{IOException, ObjectInputStream, ObjectOutputStream}
@@ -12,9 +28,9 @@ import com.johnsnowlabs.nlp.annotators.spell.context.WeightedLevenshtein
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
-import scala.collection.JavaConversions._
-import scala.collection.mutable
 import scala.collection.mutable.Set
+import collection.JavaConverters._
+
 
 
 class TransducerSeqFeature(model: HasFeatures, override val name: String)
@@ -39,7 +55,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
   }
 
   override def deserializeObject(spark: SparkSession, path: String, field: String): Option[Seq[SpecialClassParser]] = {
-    import scala.collection.JavaConversions._
+
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
@@ -116,18 +132,18 @@ trait SpecialClassParser {
   def generateTransducer: ITransducer[Candidate]
 
   def replaceWithLabel(tmp: String): String = {
-    if(transducer.transduce(tmp, 0).toList.isEmpty)
+    if(!transducer.transduce(tmp, 0).iterator.hasNext)
       tmp
     else
       label
   }
 
   def setTransducer(t: ITransducer[Candidate]) = {
-      transducer = t
-      this
+    transducer = t
+    this
   }
 
-  def inVocabulary(word:String): Boolean = !transducer.transduce(word, 0).toList.isEmpty
+  def inVocabulary(word:String): Boolean = transducer.transduce(word, 0).iterator.hasNext
 }
 
 trait RegexParser extends SpecialClassParser {
@@ -135,15 +151,14 @@ trait RegexParser extends SpecialClassParser {
   var regex:String
 
   override def generateTransducer: ITransducer[Candidate] = {
-    import scala.collection.JavaConversions._
 
     // first step, enumerate the regular language
     val generator = new GreexGenerator(regex)
-    val matches = generator.generateAll
+    val matches = generator.generateAll.asScala
 
     // second step, create the transducer
     new TransducerBuilder().
-      dictionary(matches.toList.sorted, true).
+      dictionary(matches.toList.sorted.asJava, true).
       algorithm(Algorithm.STANDARD).
       defaultMaxDistance(maxDist).
       includeDistance(true).
@@ -157,11 +172,10 @@ trait VocabParser extends SpecialClassParser {
   var vocab: Set[String]
 
   def generateTransducer: ITransducer[Candidate] = {
-    import scala.collection.JavaConversions._
 
     // second step, create the transducer
     new TransducerBuilder().
-      dictionary(vocab.toList.sorted, true).
+      dictionary(vocab.toList.sorted.asJava, true).
       algorithm(Algorithm.STANDARD).
       defaultMaxDistance(maxDist).
       includeDistance(true).
@@ -256,7 +270,6 @@ class MainVocab() extends VocabParser with SerializableClass {
     serializeTransducer(aOutputStream, transducer)
   }
 }
-
 
 
 class NamesClass extends VocabParser with SerializableClass {

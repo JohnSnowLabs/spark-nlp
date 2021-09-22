@@ -37,9 +37,9 @@ This model can be used to detect symptoms, treatments and other entities in medi
 ```python
 ...
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
-   .setInputCols(["document","token"])\
+   .setInputCols(["sentence","token"])\
    .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_healthcare", "en", "clinical/models") \
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models") \
   .setInputCols(["sentence", "token", "embeddings"]) \
   .setOutputCol("ner")
 ...
@@ -50,14 +50,15 @@ annotations = light_pipeline.fullAnnotate("Das Kleinzellige Bronchialkarzinom (K
 ```scala
 ...
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")
-   .setInputCols(Array("document","token"))
+   .setInputCols(Array("sentence","token"))
    .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_healthcare", "en", "clinical/models") 
+val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models") 
   .setInputCols("sentence", "token", "embeddings") 
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, clinical_ner_converter))
-val result = pipeline.fit(Seq.empty["Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom"].toDS.toDF("text")).transform(data)
+val data = Seq("Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist ein hochmalignes bronchogenes Karzinom").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

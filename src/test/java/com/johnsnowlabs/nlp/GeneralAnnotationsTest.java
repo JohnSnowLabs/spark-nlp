@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp;
 
 import com.johnsnowlabs.nlp.annotators.LemmatizerModel;
@@ -24,13 +40,20 @@ public class GeneralAnnotationsTest {
         document.setCleanupMode("disabled");
 
         Tokenizer tokenizer = new Tokenizer();
-        tokenizer.setInputCols(new String[] {"document"});
+        tokenizer.setInputCols(new String[]{"document"});
         tokenizer.setOutputCol("token");
 
         Pipeline pipeline = new Pipeline();
-        pipeline.setStages(new PipelineStage[] {document, tokenizer});
+        pipeline.setStages(new PipelineStage[]{document, tokenizer});
 
-        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(false, false, false, "16G");
+        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(
+                false,
+                false,
+                false,
+                "16G",
+                "",
+                "",
+                "");
 
         LinkedList<String> text = new java.util.LinkedList<>();
 
@@ -47,7 +70,7 @@ public class GeneralAnnotationsTest {
         pretrained.transform(data).show();
 
         LemmatizerModel lemmatizer = LemmatizerModel.pretrained("lemma_antbnc");
-        lemmatizer.setInputCols(new String[] {"token"});
+        lemmatizer.setInputCols(new String[]{"token"});
         lemmatizer.setOutputCol("lemma");
 
         lemmatizer.transform(transformed).show();
@@ -70,7 +93,7 @@ public class GeneralAnnotationsTest {
                 "random",
                 "random_ref",
                 false
-                );
+        );
 
         System.out.println("\nFinished testing Spark NLP on JAVA");
 

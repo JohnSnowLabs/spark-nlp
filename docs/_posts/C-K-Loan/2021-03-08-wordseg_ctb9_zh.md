@@ -37,7 +37,7 @@ use_language_switcher: "Python-Scala-Java"
 word_segmenter = WordSegmenterModel.pretrained("wordseg_ctb9", "zh")        .setInputCols(["sentence"])        .setOutputCol("token")
 pipeline = Pipeline(stages=[document_assembler, word_segmenter])
 ws_model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-example = spark.createDataFrame(pd.DataFrame({'text': [""从John Snow Labs你好！ ""]}))
+example = spark.createDataFrame([['从John Snow Labs你好！ ']], ["text"])
 result = ws_model.transform(example)
 
 ```
@@ -47,7 +47,8 @@ val word_segmenter = WordSegmenterModel.pretrained("wordseg_ctb9", "zh")
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 val pipeline = new Pipeline().setStages(Array(document_assembler, word_segmenter))
-val result = pipeline.fit(Seq.empty["从John Snow Labs你好！ "].toDS.toDF("text")).transform(data)
+val data = Seq("从John Snow Labs你好！ ").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 ```
 

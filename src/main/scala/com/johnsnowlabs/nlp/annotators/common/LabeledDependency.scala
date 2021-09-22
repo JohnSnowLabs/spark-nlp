@@ -1,16 +1,31 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.common
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-
 
 object LabeledDependency extends Annotated[ConllSentence] {
 
   val ROOT_HEAD: Int = -1
   val ROOT_INDEX: Int = 1
 
-  override def annotatorType: String = AnnotatorType.POS
+  override def annotatorType: String = AnnotatorType.LABELED_DEPENDENCY
 
   override def unpack(annotations: Seq[Annotation]): Seq[ConllSentence] = {
-    val posTagged = annotations.filter(_.annotatorType == annotatorType).toArray
+    val posTagged = annotations.filter(_.annotatorType == AnnotatorType.POS).toArray
     val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN).toArray
     val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
 
@@ -26,17 +41,39 @@ object LabeledDependency extends Annotated[ConllSentence] {
    conll
   }
 
+  def unpackHeadAndRelation(annotations: Seq[Annotation]): Seq[DependencyInfo] = {
+
+    val tokens = annotations.filter(_.annotatorType == AnnotatorType.TOKEN)
+    val unlabeledDependencies = annotations.filter(_.annotatorType == AnnotatorType.DEPENDENCY).toArray
+    val labeledDependency = annotations.filter(_.annotatorType == annotatorType).toArray
+
+    if (unlabeledDependencies.length != labeledDependency.length) {
+      throw new IndexOutOfBoundsException("Dependency and Typed Dependency Parser have different length.")
+    }
+
+    unlabeledDependencies.zipWithIndex.map{ case (unlabeledDependency, index) =>
+      val token = tokens(index)
+      val headIndex = unlabeledDependency.metadata("head").toInt
+      val headBegin = unlabeledDependency.metadata("head.begin").toInt
+      val headEnd = unlabeledDependency.metadata("head.end").toInt
+      val head = if (headIndex == 0) "*" + unlabeledDependency.result + "*" else unlabeledDependency.result
+      val relation = if (headIndex == 0) "*" + labeledDependency(index).result + "*" else labeledDependency(index).result
+
+      DependencyInfo(token.begin, token.end, token.result, headBegin, headEnd, headIndex, head, relation)
+    }
+  }
+
   override def pack(conllSentences: Seq[ConllSentence]): Seq[Annotation] = {
 
     val root = conllSentences.last
     val arrangedSentences = moveToFront(root, conllSentences.toList)
 
-    val annotations = arrangedSentences.map{arrangedSentence =>
+    val annotations = arrangedSentences.map{ arrangedSentence =>
       val head = arrangedSentence.head
       if (head != ROOT_HEAD) {
         val label = arrangedSentence.deprel
-        Annotation(AnnotatorType.LABELED_DEPENDENCY, arrangedSentence.begin, arrangedSentence.end,
-          label, Map())
+        Annotation(annotatorType, arrangedSentence.begin, arrangedSentence.end,
+          label, Map("sentence" -> arrangedSentence.sentence.toString))
       }
     }
     annotations.drop(ROOT_INDEX).asInstanceOf[Seq[Annotation]]
@@ -48,5 +85,8 @@ object LabeledDependency extends Annotated[ConllSentence] {
       case _           => xs
     }
   }
+
+  case class DependencyInfo(beginToken: Int, endToken: Int, token: String, beginHead: Int, endHead: Int, headIndex: Int,
+                            head: String, relation: String)
 
 }

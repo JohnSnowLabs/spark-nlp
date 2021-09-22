@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common._
@@ -12,7 +28,7 @@ import org.apache.spark.ml.util.Identifiable
   *
   * This class represents an already fitted Tokenizer model.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala Tokenizer test class]] for examples examples of usage.
+  * See the main class [[Tokenizer]] for more examples of usage.
   *
   * @param uid required uid for storing annotator to disk
   * @groupname anno Annotator types
@@ -27,7 +43,7 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class TokenizerModel(override val uid: String) extends AnnotatorModel[TokenizerModel] with HasSimpleAnnotate[TokenizerModel] {
 
@@ -309,4 +325,7 @@ trait ReadablePretrainedTokenizer extends ParamsAndFeaturesReadable[TokenizerMod
   override def pretrained(name: String, lang: String, remoteLoc: String): TokenizerModel = super.pretrained(name, lang, remoteLoc)
 }
 
+/**
+ * This is the companion object of [[TokenizerModel]]. Please refer to that class for the documentation.
+ */
 object TokenizerModel extends ReadablePretrainedTokenizer

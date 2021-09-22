@@ -1,18 +1,31 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, ParamsAndFeaturesReadable, HasSimpleAnnotate}
-import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesReadable}
+import org.apache.spark.ml.param.{BooleanParam, IntParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 
 /**
-  * Annotator that cleans out tokens. Requires stems, hence tokens.
+  * Instantiated Model of the [[Normalizer]]. For usage and examples, please see the documentation of that class.
   *
-  * Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
-  *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NormalizerTestSpec.scala]] for examples on how to use the API
-  *
+  * @see [[Normalizer]] for the base class
   * @param uid required internal uid for saving annotator
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -26,19 +39,19 @@ import org.apache.spark.ml.util.Identifiable
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   */
 class NormalizerModel(override val uid: String) extends AnnotatorModel[NormalizerModel] with HasSimpleAnnotate[NormalizerModel] {
 
   /** Output annotator type : TOKEN
     *
     * @group anno
-    **/
+    */
   override val outputAnnotatorType: AnnotatorType = TOKEN
   /** Input annotator type : TOKEN
     *
     * @group anno
-    **/
+    */
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   case class TokenizerAndNormalizerMap(beginTokenizer: Int, endTokenizer: Int, token: String,
@@ -47,66 +60,117 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   /** normalization regex patterns which match will be removed from token
     *
     * @group param
-    **/
+    */
   val cleanupPatterns = new StringArrayParam(this, "cleanupPatterns", "normalization regex patterns which match will be removed from token")
+
+  /**
+    * @group setParam
+    */
+  def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
+
+  /**
+    * @group setParam
+    */
+  def getCleanupPatterns: Array[String] = $(cleanupPatterns)
+
   /** whether to convert strings to lowercase
     *
     * @group param
-    **/
+    */
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
+
+  /**
+    *
+    * @group setParam
+    */
+  def setLowercase(value: Boolean): this.type = set(lowercase, value)
+
+  /**
+    *
+    * @group setParam
+    */
+  def getLowercase: Boolean = $(lowercase)
+
   /** slangDict
     *
     * @group param
-    **/
+    */
   protected val slangDict: MapFeature[String, String] = new MapFeature(this, "slangDict")
+
   /** whether or not to be case sensitive to match slangs. Defaults to false.
     *
     * @group param
-    **/
+    */
   val slangMatchCase = new BooleanParam(this, "slangMatchCase", "whether or not to be case sensitive to match slangs. Defaults to false.")
+
+  /**
+    *
+    * @group setParam
+    */
+  def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
+
+  /**
+    *
+    * @group getParam
+    */
+  def getSlangMatchCase: Boolean = $(slangMatchCase)
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  /** Regular expressions list for normalization, defaults [^A-Za-z]
-    * @group setParam
-    **/
-  def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /** Regular expressions list for normalization, defaults [^A-Za-z]
-    * @group setParam
-    **/
-  def getCleanupPatterns: Array[String] = $(cleanupPatterns)
-
-  /** Lowercase tokens, default true
+  /**
     *
     * @group setParam
-    **/
-  def setLowercase(value: Boolean): this.type = set(lowercase, value)
-
-  /** Lowercase tokens, default true
-    *
-    * @group setParam
-    **/
-  def getLowercase: Boolean = $(lowercase)
-
-
-  /** Txt file with delimited words to be transformed into something else
-    *
-    * @group setParam
-    **/
+    */
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
 
-  /** Whether to convert string to lowercase or not while checking
+
+  /** Set the minimum allowed length for each token
+    *
+    * @group param
+    */
+  val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
+
+  /**
     *
     * @group setParam
-    **/
-  def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
+    */
+  def setMinLength(value: Int): this.type = {
+    require(value >= 0, "minLength must be greater equal than 0")
+    require(value.isValidInt, "minLength must be Int")
+    set(minLength, value)
+  }
 
-  /** Whether to convert string to lowercase or not while checking
+  /**
     *
     * @group getParam
-    **/
-  def getSlangMatchCase: Boolean = $(slangMatchCase)
+    */
+  def getMinLength: Int = $(minLength)
+
+
+  /** Set the maximum allowed length for each token
+    *
+    * @group param
+    */
+  val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
+
+  /**
+    *
+    * @group setParam
+    */
+  def setMaxLength(value: Int): this.type = {
+    require(value >= ${
+      minLength
+    }, "maxLength must be greater equal than minLength")
+    require(value.isValidInt, "minLength must be Int")
+    set(maxLength, value)
+  }
+
+  /**
+    *
+    * @group getParam
+    */
+  def getMaxLength: Int = $(maxLength)
 
   def applyRegexPatterns(word: String): String = {
 
@@ -121,7 +185,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
   /** Txt file with delimited words to be transformed into something else
     *
     * @group getParam
-    **/
+    */
   protected def getSlangDict: Map[String, String] = $$(slangDict)
 
   /** ToDo: Review implementation, Current implementation generates spaces between non-words, potentially breaking tokens */
@@ -145,7 +209,7 @@ class NormalizerModel(override val uid: String) extends AnnotatorModel[Normalize
 
       val cased = if ($(lowercase)) cleaned.map(_.toLowerCase) else cleaned
 
-      cased.filter(_.nonEmpty).map { finalToken => {
+      cased.filter(t => t.nonEmpty && t.length >= $(minLength) && get(maxLength).forall(m => t.length <= m)).map { finalToken => {
         Annotation(
           outputAnnotatorType,
           originalToken.begin,

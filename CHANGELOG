@@ -1,4 +1,254 @@
 ========
+3.2.3
+========
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Add delimiter feature to CoNLL() class to support other delimiters in CoNLL files https://github.com/JohnSnowLabs/spark-nlp/pull/5934
+* Add support for IOB in addition to IOB2 format in GraphExctraction https://github.com/JohnSnowLabs/spark-nlp/pull/6101
+* Change YakeModel output type from KEYWORD to CHUNK to have more available features after the YakeModel annotator such as Chunk2Doc or ChunkEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/6065
+* Fix the default language for XlmRoBertaSentenceEmbeddings pretrained model in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6057
+* Fix SentenceEmbeddings issue concatenating sentences instead of each correspondent sentence https://github.com/JohnSnowLabs/spark-nlp/pull/6060
+* Fix GraphExctraction usage in LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6101
+* Fix compatibility issue in `explain_document_ml` pipeline 
+* Better import process for corrupted merges file in Longformer tokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6083
+
+
+========
+3.2.2
+========
+
+----------------
+New Features
+----------------
+* A new RoBertaSentenceEmbeddings annotator for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
+* A new XlmRoBertaSentenceEmbeddings annotator for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
+* Add support for AWS MFA via Spark NLP configuration
+* Add new AWS configs to Spark NLP configuration when using a private S3 bucket to store logs for training models or access TF graphs needed in NerDLApproach
+  * spark.jsl.settings.aws.credentials.access_key_id
+  * spark.jsl.settings.aws.credentials.secret_access_key
+  * spark.jsl.settings.aws.credentials.session_token
+  * spark.jsl.settings.aws.s3_bucket
+  * spark.jsl.settings.aws.region
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Improve loading merges file for RoBERTa tokenizer
+* Remove batchSize param from broadcast in XlmRoBertaEmbeddings to be set after it is created
+* Preserve previsouly generated metadata in BertSentenceEmbeddings annotator
+* Set `elmo` as a default poolingLayer in ElmoEmbeddings
+* Fix special tokens ids in XlmRoBertaEmbeddings annotator
+* Fix distilbert_base_token_classifier_ontonotes model
+* Fix distilbert_base_token_classifier_conll03 model
+* Fix distilbert_base_token_classifier_few_nerd model
+* Fix distilbert_token_classifier_persian_ner model
+* Fix ner_conll_longformer_base_4096 model
+
+
+========
+3.2.1
+========
+----------------
+Patch release
+----------------
+* Fix "unsupported model" error in pretrained function for LongformerEmbeddings, BertForTokenClassification, and DistilBertForTokenClassification
+
+
+========
+3.2.0
+========
+
+----------------
+Major features and improvements
+----------------
+
+* **NEW:** Introducing **LongformerEmbeddings** annotator
+* **NEW:** Introducing **BertForTokenClassification** annotator
+* **NEW:** Introducing **DistilBertForTokenClassification** annotator
+* **NEW:** Introducing **GraphExctraction** and **GraphFinisher** annotators.
+* **NEW:** Introducing support for multilingual **DateMatcher** and **MultiDateMatcher** annotators. These two annotators will support **English**, **French**, **Italian**, **Spanish**, **German**, and **Portuguese** languages
+* **NEW:** Introducing new **Python APIs** and fully documented **Pydoc**
+* **NEW:** Introducing new **Spark NLP configurations** via spark.conf() by deprecating `application.conf` usage
+* Add support for S3 to `log_folder` Spark NLP config and `outputLogsPath` param in `NerDLApproach`, `ClassifierDlApproach`, `MultiClassifierDlApproach`, and `SentimentDlApproach` annotators
+* Added examples to all Spark NLP Scaladoc
+* Added examples to all Spark NLP Pydoc
+* Welcoming new Databricks runtimes to our Spark NLP family:
+  * Databricks 8.4 ML & GPU
+* Fix printing a wrong version return in sparknlp.version()
+
+========
+3.1.3
+========
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix serialization issue in NorvigSweetingModel
+* Fix the issue with BertSentenceEmbeddings model in TF v2
+* Update ArrayType structure to fix Finisher failing to clean up some annotators
+
+========
+3.1.2
+========
+
+----------------
+New Features
+----------------
+* Migrate XlnetEmbeddings to TensorFlow v2. This allows the importing of HuggingFace XLNet models to Spark NLP
+* Migrate XlnetEmbeddings to BatchAnnotate to allow better performance on accelerated hardware such as GPU
+* Dynamically extract special tokens from SentencePiece model in XlmRoBertaEmbeddings
+* Add setIncludeAllConfidenceScores param in NerDLModel to merge confidence scores per label to only predicted label
+* Sync Python params with Scala params in ContextSpellCheckerApproach, WordSegmenterApproach, RegexMatcher, and ViveknSentimentApproach, 
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix issue with SymmetricDeleteModel
+* Fix issue with encoding unknown bytes in RoBertaEmbeddings
+* Fix issue with multi-lingual UniversalSentenceEncoder models 
+
+----------------
+Backward compatibility
+----------------
+
+We have migrated XlnetEmbeddings to TensorFlow v2, the earlier models prior to 3.1.2 won't work after this release. 
+We have already updated the models and uploaded them on Models Hub. You can use `pretrained()` that takes care of it automatically or please make sure you download the new models manually.
+
+========
+3.1.1
+========
+
+----------------
+New Features
+----------------
+* Migrate AlbertEmbeddings to TensorFlow v2. This allows the importing of HuggingFace ALBERT models to Spark NLP
+* Migrate AlbertEmbeddings to BatchAnnotate to allow better performance on accelerated hardware such as GPU
+* Enable stdout/stderr in real-time for child processes `sparknlp.start()`. Thanks to PySpark 3.x, this is now possible with `sparknlp.start(real_time_output=True)` to have the outputs of Spark NLP (such as metrics during training) right in your Jupyter, Colab, and Kaggle notebooks.
+* Complete examples for all annotators in Scaladoc APIs https://github.com/JohnSnowLabs/spark-nlp/pull/5668
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix YakeModel issue with empty token https://github.com/JohnSnowLabs/spark-nlp/pull/5683 thanks to @shaddoxac
+* Fix getAnchorDateMonth method in DateMatcher and MultiDateMatcher https://github.com/JohnSnowLabs/spark-nlp/pull/5693
+* Fix the broken PubTutor class in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5702
+* Fix relative dates in DateMatcher and MultiDateMatcher such as `day after tomorrow` or `day before yesterday` https://github.com/JohnSnowLabs/spark-nlp/pull/5706
+* Add isPaddedToken param to PubTutor https://github.com/JohnSnowLabs/spark-nlp/pull/5702
+* Fix issue with `logger` inside session on some setup https://github.com/JohnSnowLabs/spark-nlp/pull/5715
+* Add signatures to TF session to handle inputs/outputs more dynamically in BertEmbeddings, DistilBertEmbeddings, RoBertaEmbeddings, and XlmRoBertaEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/5715
+* Fix XlmRoBertaEmbeddings issue with `init_all_tables` https://github.com/JohnSnowLabs/spark-nlp/pull/5715
+* Add missing random seed param to ClassifierDLApproach, MultiClassifierDLApproach, and SentimentDLApproach https://github.com/JohnSnowLabs/spark-nlp/pull/5697
+* Make the Java Exceptions appear before Py4J exceptions for ease of debugging in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5709 
+* Make sure batchSize set in NerDLModel is the same internally to feed TensorFlow https://github.com/JohnSnowLabs/spark-nlp/pull/5716
+
+----------------
+Backward compatibility
+----------------
+
+We have migrated AlbertEmbeddings to TensorFlow v2, the earlier models prior to 3.1.1 won't work after this release. 
+We have already updated the models and uploaded them on Models Hub. You can use `pretrained()` that takes care of it automatically or please make sure you download the new models manually.
+
+========
+3.1.0
+========
+
+----------------
+New Features
+----------------
+* **NEW:** Introducing DistiBertEmbeddings annotator. DistilBERT is a small, fast, cheap, and light Transformer model trained by distilling BERT base. It has 40% fewer parameters than `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT’s performances
+* **NEW:** Introducing RoBERTaEmbeddings annotator. RoBERTa (Robustly Optimized BERT-Pretraining Approach) models deliver state-of-the-art performance on NLP/NLU tasks and a sizable performance improvement on the GLUE benchmark. With a score of 88.5, RoBERTa reached the top position on the GLUE leaderboard
+* **NEW:** Introducing XlmRoBERTaEmbeddings annotator. XLM-RoBERTa (Unsupervised Cross-lingual Representation Learning at Scale) is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data with 100 different languages. It also outperforms multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for Swahili and 9.2% for Urdu over the previous XLM model
+* **NEW:** Introducing support for HuggingFace exported models in equivalent Spark NLP annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, and XLM-RoBERTa models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release - For more information please visit [this discussion](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
+* **NEW:** Migrate MarianTransformer to BatchAnnotate to control the throughput when you are on accelerated hardware such as GPU to fully utilize it
+* Upgrade to TensorFlow v2.4.1 with native support for Java to take advantage of many optimizations for CPU/GPU and new features/models introduced in TF v2.x
+* Update to CUDA11 and cuDNN 8.0.2 for GPU support
+* Implement ModelSignatureManager to automatically detect inputs, outputs, save and restore tensors from SavedModel in TF v2. This allows Spark NLP 3.1.x to extend support for external Encoders such as HuggingFace and TF Hub (coming soon!)
+* Implement a new BPE tokenizer for RoBERTa and XLM models. This tokenizer will use the custom tokens from `Tokenizer` or `RegexTokenizer` and generates token pieces, encodes, and decodes the results
+* Welcoming new Databricks runtimes to our Spark NLP family:
+  * Databricks 8.1 ML & GPU
+  * Databricks 8.2 ML & GPU
+  * Databricks 8.3 ML & GPU
+* Welcoming a new EMR 6.x series to our Spark NLP family: 
+  * EMR 6.3.0 (Apache Spark 3.1.1 / Hadoop 3.2.1)
+
+----------------
+Backward compatibility
+----------------
+
+* We have updated our MarianTransformer annotator to be compatible with TF v2 models. This change is not compatible with previous models/pipelines. However, we have updated and uploaded all the models and pipelines for `3.1.x` release. You can either use `MarianTransformer.pretrained(MODEL_NAME)` and it will automatically download the compatible model or you can visit [Models Hub](https://nlp.johnsnowlabs.com/models) to download the compatible models for offline use via `MarianTransformer.load(PATH)`
+
+========
+3.0.3
+========
+
+----------------
+New Features
+----------------
+* Add new functionalities for text generation in T5Transformer
+
+----------------
+Bug Fixes
+----------------
+* Fix ChunkEmbeddings Array out of bounds exception
+* Fix pretrained tfhub_use_multi and tfhub_use_multi_lg models in UniversalSentenceEncoder
+* Fix anchorDateMonth in Python and case sensitivity in relative dates
+
+
+========
+3.0.2
+========
+
+----------------
+New Features and Enhancements
+----------------
+* Experimental support for community models and pipelines https://github.com/JohnSnowLabs/spark-nlp/pull/2743
+* Add proper conversions for Scala 2.11/2.12 in ContextSpellChecker to use models from Spark 2.x in Spark 3.x https://github.com/JohnSnowLabs/spark-nlp/pull/2758
+* Provide confidence scores for all available tags in NerDLModel and NerCrfModel https://github.com/JohnSnowLabs/spark-nlp/pull/2760
+```
+# Previously in NerDLModel and NerCrfModel 
+[[named_entity, 0, 4, B-LOC, [word -> Japan, confidence -> 0.9998], []]
+```
+
+```
+# In Spark NLP 3.0.2
+[[named_entity, 0, 4, B-LOC, [B-LOC -> 0.9998, I-ORG -> 0.0, I-MISC -> 0.0, I-LOC -> 0.0, I-PER -> 0.0, B-MISC -> 0.0, B-ORG -> 1.0E-4, word -> Japan, O -> 0.0, B-PER -> 0.0], []]
+```
+* Add confidence score to NerConverter metadata https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+```
+[chunk, 30, 37, john, [entity -> PERSON, sentence -> 0, chunk -> 0, confidence -> 0.44035]
+```
+* Refactoring SentencePiece encoding in AlbertEmbeddings and XlnetEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+----------------
+Bug Fixes
+----------------
+* Fix an exception in NerConverter when the documents/sentences don't carry the used tokens in NerDLModel https://github.com/JohnSnowLabs/spark-nlp/pull/2784
+* Fix an exception in AlbertEmbeddings when the original tokens are longer than the piece tokens https://github.com/JohnSnowLabs/spark-nlp/pull/2777
+
+
+========
+3.0.1
+========
+
+----------------
+New Features
+----------------
+* Add minLength and maxLength parameters to Normalizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/2614
+* 1 line to setup [Google Colab](https://github.com/JohnSnowLabs/spark-nlp#google-colab-notebook)
+* 1 line to setup [Kaggle Kernel](https://github.com/JohnSnowLabs/spark-nlp#kaggle-kernel)
+
+----------------
+Enhancements
+----------------
+* Adjust shading rule for amazon AWS to support sub-projects from Spark NLP Fat JAR https://github.com/JohnSnowLabs/spark-nlp/pull/2613
+* Fix the missing variables in BertSentenceEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/2615
+* Restrict loading Sentencepiece ops only to supported models https://github.com/JohnSnowLabs/spark-nlp/pull/2623
+* improve dependency management and resolvers https://github.com/JohnSnowLabs/spark-nlp/pull/2479
+
+
+========
 3.0.0
 ========
 ----------------

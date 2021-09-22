@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
@@ -8,10 +24,80 @@ import scala.util.matching.Regex
 
 
 /**
-  * This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document
+  * This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.
+  * Extracted part-of-speech tags are mapped onto the sentence, which can then be parsed by regular expressions.
+  * The part-of-speech tags are wrapped by angle brackets `<>` to be easily distinguishable in the text itself.
+  * This example sentence will result in the form:
+  * {{{
+  * "Peter Pipers employees are picking pecks of pickled peppers."
+  * "<NNP><NNP><NNS><VBP><VBG><NNS><IN><JJ><NNS><.>"
+  * }}}
+  * To then extract these tags, `regexParsers` need to be set with e.g.:
+  * {{{
+  * val chunker = new Chunker()
+  *   .setInputCols("sentence", "pos")
+  *   .setOutputCol("chunk")
+  *   .setRegexParsers(Array("<NNP>+", "<NNS>+"))
+  * }}}
+  * When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
+  * `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can also be set with `addRegexParsers`.
   *
-  * See [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala]] for reference on how to use this API.
+  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * and the  [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala ChunkerTestSpec]].
   *
+  * ==Example==
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.DocumentAssembler
+  * import com.johnsnowlabs.nlp.annotators.{Chunker, Tokenizer}
+  * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
+  * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val documentAssembler = new DocumentAssembler()
+  *   .setInputCol("text")
+  *   .setOutputCol("document")
+  *
+  * val sentence = new SentenceDetector()
+  *   .setInputCols("document")
+  *   .setOutputCol("sentence")
+  *
+  * val tokenizer = new Tokenizer()
+  *   .setInputCols(Array("sentence"))
+  *   .setOutputCol("token")
+  *
+  * val POSTag = PerceptronModel.pretrained()
+  *   .setInputCols("document", "token")
+  *   .setOutputCol("pos")
+  *
+  * val chunker = new Chunker()
+  *   .setInputCols("sentence", "pos")
+  *   .setOutputCol("chunk")
+  *   .setRegexParsers(Array("<NNP>+", "<NNS>+"))
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(
+  *     documentAssembler,
+  *     sentence,
+  *     tokenizer,
+  *     POSTag,
+  *     chunker
+  *   ))
+  *
+  * val data = Seq("Peter Pipers employees are picking pecks of pickled peppers.").toDF("text")
+  * val result = pipeline.fit(data).transform(data)
+  *
+  * result.selectExpr("explode(chunk) as result").show(false)
+  * +-------------------------------------------------------------+
+  * |result                                                       |
+  * +-------------------------------------------------------------+
+  * |[chunk, 0, 11, Peter Pipers, [sentence -> 0, chunk -> 0], []]|
+  * |[chunk, 13, 21, employees, [sentence -> 0, chunk -> 1], []]  |
+  * |[chunk, 35, 39, pecks, [sentence -> 0, chunk -> 2], []]      |
+  * |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
+  * +-------------------------------------------------------------+
+  * }}}
+  * @see [[com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel PerceptronModel]] for Part-Of-Speech tagging
   * @param uid internal uid required to generate writable annotators
   * @groupname anno Annotator types
   * @groupdesc anno Required input and expected output annotator types
@@ -25,7 +111,7 @@ import scala.util.matching.Regex
   * @groupprio Ungrouped 3
   * @groupprio setParam  4
   * @groupprio getParam  5
-  * @groupdesc Parameters A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
   **/
 class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with HasSimpleAnnotate[Chunker] {
 
@@ -154,4 +240,7 @@ class Chunker(override val uid: String) extends AnnotatorModel[Chunker] with Has
 
 }
 
+/**
+ * This is the companion object of [[Chunker]]. Please refer to that class for the documentation.
+ */
 object Chunker extends DefaultParamsReadable[Chunker]

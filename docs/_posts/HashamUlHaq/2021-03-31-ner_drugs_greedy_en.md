@@ -57,7 +57,8 @@ val clinical_ner = MedicalNerModel.pretrained("ner_drugs_greedy", "en", "clinica
     .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter))
-val result = pipeline.fit(Seq.empty["DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated."].toDS.toDF("text")).transform(data)
+val data = Seq("DOSAGE AND ADMINISTRATION The initial dosage of hydrocortisone tablets may vary from 20 mg to 240 mg of hydrocortisone per day depending on the specific disease entity being treated.").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

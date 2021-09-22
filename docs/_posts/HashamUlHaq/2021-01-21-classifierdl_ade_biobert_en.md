@@ -22,14 +22,14 @@ Classify text/sentence in two categories:
 
 - `False` : The sentences doesn’t have any information about an ADE.
 
-## Classified Labels
+## Predicted Entities
 
 `True`, `False`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_biobert_ade_en_2.7.1_2.4_1611243410222.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_ade_biobert_en_2.7.1_2.4_1611243410222.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -66,7 +66,8 @@ val classifier = ClassifierDLModel.pretrained('classifierdl_ade_biobert', 'en', 
     .setInputCols(Array('document', 'token', 'sentence_embeddings')).setOutputCol('class')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, sentence_embeddings, classifier))
-val result = pipeline.fit(Seq.empty["I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol"].toDS.toDF("text")).transform(data)
+val data = Seq("I feel a bit drowsy & have a little blurred vision after taking an insulin", "I feel great after taking tylenol").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 </div>

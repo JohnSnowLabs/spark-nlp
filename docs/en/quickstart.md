@@ -5,7 +5,9 @@ title: Quick Start
 permalink: /docs/en/quickstart
 key: docs-quickstart
 modify_date: "2021-03-20"
-header: true
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 <div class="main-docs" markdown="1">
@@ -42,7 +44,7 @@ Install Spark NLP in
 Join our channel, to ask for help and share your feedback. Developers and users can help each other getting started here.
 
 {:.btn-block}
-[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/zt-lutct9gm-kuUazcyFKhuGY3_0AMkxqA){:.button.button--info.button--rounded.button--md}
+[Spark NLP Slack](https://www.johnsnowlabs.com/slack-redirect){:.button.button--info.button--rounded.button--md}
 
 </div><div class="block-box" markdown="1">
 

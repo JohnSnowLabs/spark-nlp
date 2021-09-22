@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.0.0 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLL</title>
-          <meta name="description" content="Spark NLP 3.0.0 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLL" />
-          <meta name="keywords" content="Spark NLP 3.0.0 ScalaDoc com.johnsnowlabs.nlp.training.CoNLL" />
+          <title>Spark NLP 3.2.3 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLL</title>
+          <meta name="description" content="Spark NLP 3.2.3 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLL" />
+          <meta name="keywords" content="Spark NLP 3.2.3 ScalaDoc com.johnsnowlabs.nlp.training.CoNLL" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -135,8 +135,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp">nlp</a></dd></dl></div>
     </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">CoNLL</a>
+                        <a class="class" href="" title="Helper class to load a CoNLL type dataset for training."></a>
+                        <a href="" title="Helper class to load a CoNLL type dataset for training.">CoNLL</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="CoNLL2003NerReader.html" title="Helper class for to work with CoNLL 2003 dataset for NER task Class is made for easy use from Java"></a>
@@ -151,8 +151,8 @@
                         <a href="CoNLLHelper$.html" title="">CoNLLHelper</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="CoNLLU.html" title=""></a>
-                        <a href="CoNLLU.html" title="">CoNLLU</a>
+                        <a class="class" href="CoNLLU.html" title="Instantiates the class to read a CoNLL-U dataset."></a>
+                        <a href="CoNLLU.html" title="Instantiates the class to read a CoNLL-U dataset.">CoNLLU</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="object" href="CoNLLUCols$.html" title=""></a>
@@ -163,12 +163,12 @@
                         <a href="CoNLLUDocument.html" title="">CoNLLUDocument</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="POS.html" title=""></a>
-                        <a href="POS.html" title="">POS</a>
+                        <a class="class" href="POS.html" title="Helper class for creating DataFrames for training a part-of-speech tagger."></a>
+                        <a href="POS.html" title="Helper class for creating DataFrames for training a part-of-speech tagger.">POS</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="object" href="PubTator$.html" title=""></a>
-                        <a href="PubTator$.html" title="">PubTator</a>
+                        <a class="class" href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks."></a>
+                        <a href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.">PubTator</a>
                       </li>
               </ul>
             </div>
@@ -192,12 +192,81 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="delimiter">delimiter: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Helper class to load a CoNLL type dataset for training.</p><p>The dataset should be in the format of <a href="https://www.clips.uantwerpen.be/conll2003/ner/" target="_blank">CoNLL 2003</a>
+and needs to be specified with <code>readDataset</code>. Other CoNLL datasets are not supported.</p><h4>Example</h4><pre><span class="kw">val</span> trainingData = CoNLL().readDataset(spark, <span class="lit">"src/test/resources/conll2003/eng.train"</span>)
+trainingData.selectExpr(<span class="lit">"text"</span>, <span class="lit">"token.result as tokens"</span>, <span class="lit">"pos.result as pos"</span>, <span class="lit">"label.result as label"</span>)
+  .show(<span class="num">3</span>, <span class="kw">false</span>)
++------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+|text                                            |tokens                                                    |pos                                  |label                                    |
++------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+|EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|
+|Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |
+|BRUSSELS <span class="num">1996</span>-<span class="num">08</span>-<span class="num">22</span>                             |[BRUSSELS, <span class="num">1996</span>-<span class="num">08</span>-<span class="num">22</span>]                                    |[NNP, CD]                            |[B-LOC, O]                               |
++------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+
+
+trainingData.printSchema
+root
+ |-- text: string (nullable = <span class="kw">true</span>)
+ |-- document: array (nullable = <span class="kw">false</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- begin: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- end: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)
+ |    |    |-- embeddings: array (nullable = <span class="kw">true</span>)
+ |    |    |    |-- element: float (containsNull = <span class="kw">false</span>)
+ |-- sentence: array (nullable = <span class="kw">false</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- begin: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- end: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)
+ |    |    |-- embeddings: array (nullable = <span class="kw">true</span>)
+ |    |    |    |-- element: float (containsNull = <span class="kw">false</span>)
+ |-- token: array (nullable = <span class="kw">false</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- begin: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- end: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)
+ |    |    |-- embeddings: array (nullable = <span class="kw">true</span>)
+ |    |    |    |-- element: float (containsNull = <span class="kw">false</span>)
+ |-- pos: array (nullable = <span class="kw">false</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- begin: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- end: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)
+ |    |    |-- embeddings: array (nullable = <span class="kw">true</span>)
+ |    |    |    |-- element: float (containsNull = <span class="kw">false</span>)
+ |-- label: array (nullable = <span class="kw">false</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- begin: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- end: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: string (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)
+ |    |    |-- embeddings: array (nullable = <span class="kw">true</span>)
+ |    |    |    |-- element: float (containsNull = <span class="kw">false</span>)</pre></div><dl class="paramcmts block"><dt class="param">documentCol</dt><dd class="cmt"><p>Name of the <code>DOCUMENT</code> Annotator type column</p></dd><dt class="param">sentenceCol</dt><dd class="cmt"><p>Name of the Sentences of <code>DOCUMENT</code> Annotator type column</p></dd><dt class="param">tokenCol</dt><dd class="cmt"><p>Name of the <code>TOKEN</code> Annotator type column</p></dd><dt class="param">posCol</dt><dd class="cmt"><p>Name of the <code>POS</code> Annotator type column</p></dd><dt class="param">conllLabelIndex</dt><dd class="cmt"><p>Index of the column for NER Label in the dataset</p></dd><dt class="param">conllPosIndex</dt><dd class="cmt"><p>Index of the column for the POS tags in the dataset</p></dd><dt class="param">conllTextCol</dt><dd class="cmt"><p>Index of the column for the text in the dataset</p></dd><dt class="param">labelCol</dt><dd class="cmt"><p>Name of the <code>NAMED_ENTITY</code> Annotator type column</p></dd><dt class="param">explodeSentences</dt><dd class="cmt"><p>Whether to explode each sentence to a separate row</p></dd><dt class="param">delimiter</dt><dd class="cmt"><p>Delimiter used to separate columns inside CoNLL file</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -247,10 +316,10 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.johnsnowlabs.nlp.training.CoNLL#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllTextCol:String,labelCol:String,explodeSentences:Boolean):com.johnsnowlabs.nlp.training.CoNLL"></a><a id="&lt;init&gt;:CoNLL"></a>
+              <ol><li name="com.johnsnowlabs.nlp.training.CoNLL#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllTextCol:String,labelCol:String,explodeSentences:Boolean,delimiter:String):com.johnsnowlabs.nlp.training.CoNLL"></a><a id="&lt;init&gt;:CoNLL"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllTextCol:String,labelCol:String,explodeSentences:Boolean):com.johnsnowlabs.nlp.training.CoNLL" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllTextCol:String,labelCol:String,explodeSentences:Boolean,delimiter:String):com.johnsnowlabs.nlp.training.CoNLL" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -259,10 +328,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span>
+        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="delimiter">delimiter: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">documentCol</dt><dd class="cmt"><p>Name of the <code>DOCUMENT</code> Annotator type column</p></dd><dt class="param">sentenceCol</dt><dd class="cmt"><p>Name of the Sentences of <code>DOCUMENT</code> Annotator type column</p></dd><dt class="param">tokenCol</dt><dd class="cmt"><p>Name of the <code>TOKEN</code> Annotator type column</p></dd><dt class="param">posCol</dt><dd class="cmt"><p>Name of the <code>POS</code> Annotator type column</p></dd><dt class="param">conllLabelIndex</dt><dd class="cmt"><p>Index of the column for NER Label in the dataset</p></dd><dt class="param">conllPosIndex</dt><dd class="cmt"><p>Index of the column for the POS tags in the dataset</p></dd><dt class="param">conllTextCol</dt><dd class="cmt"><p>Index of the column for the text in the dataset</p></dd><dt class="param">labelCol</dt><dd class="cmt"><p>Name of the <code>NAMED_ENTITY</code> Annotator type column</p></dd><dt class="param">explodeSentences</dt><dd class="cmt"><p>Whether to explode each sentence to a separate row</p></dd><dt class="param">delimiter</dt><dd class="cmt"><p>Delimiter used to separate columns inside CoNLL file</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -438,6 +507,22 @@
       </span>
       <span class="symbol">
         <span class="name">conllTextCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.training.CoNLL#delimiter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="delimiter:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#delimiter:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">delimiter</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       

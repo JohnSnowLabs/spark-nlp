@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect Person, Organization, Location, Facilitie, Product and Event entities in Persian (persian_w2v_cc_300d)
+title: Detect Person, Organization, Location, Facility, Product and Event entities in Persian (persian_w2v_cc_300d)
 author: John Snow Labs
 name: personer_cc_300d
 date: 2020-12-07
@@ -59,7 +59,8 @@ val ner_model = NerDLModel.pretrained("personer_cc_300d", "fa")
         .setOutputCol("ner")
 val ner_converter = NerConverter().setInputCols(Array("sentence", "token", "ner")).setOutputCol("ner_chunk")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter))
-val result = pipeline.fit(Seq.empty["به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند"].toDS.toDF("text")).transform(data)
+val data = Seq("به گزارش خبرنگار ایرنا ، بر اساس تصمیم این مجمع ، محمد قمی نماینده مردم پاکدشت به عنوان رئیس و علی‌اکبر موسوی خوئینی و شمس‌الدین وهابی نمایندگان مردم تهران به عنوان نواب رئیس انتخاب شدند").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: explain_document_dl
 date: 2021-03-23
 tags: [open_source, english, explain_document_dl, pipeline, en]
+supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: en
 edition: Spark NLP 3.0.0
@@ -23,7 +24,7 @@ The explain_document_dl is a pretrained pipeline that we can use to process text
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_3.0.0_3.0_1616473268265.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_3.0.0_3.0_1626763223904.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 

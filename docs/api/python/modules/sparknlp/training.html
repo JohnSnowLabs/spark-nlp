@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.training &#8212; Spark NLP 3.2.3 documentation</title>
+    
+  <link href="../../static/css/theme.css" rel="stylesheet" />
+  <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../../static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
+    <script src="../../static/jquery.js"></script>
+    <script src="../../static/underscore.js"></script>
+    <script src="../../static/doctools.js"></script>
+    <script src="../../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../static/logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../getting_started/index.html">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <h1>Source code for sparknlp.training</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2021 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Contains helper classes to make training with specific datasets easier.</span>
+
+<span class="sd">To load a specific dataset, the class has to be instantiated, then the data</span>
+<span class="sd">can be loaded with ``readDataset``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
+<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">ExternalResource</span><span class="p">,</span> <span class="n">ReadAs</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">DataFrame</span>
+
+
+<div class="viewcode-block" id="CoNLL"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL">[docs]</a><span class="k">class</span> <span class="nc">CoNLL</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Instantiates the class to read a CoNLL dataset.</span>
+
+<span class="sd">    The dataset should be in the format of `CoNLL 2003</span>
+<span class="sd">    &lt;https://www.clips.uantwerpen.be/conll2003/ner/&gt;`_ and needs to be specified</span>
+<span class="sd">    with :meth:`.readDataset`, which will create a dataframe with the data.</span>
+
+<span class="sd">    Can be used to train a :class:`NerDLApproach</span>
+<span class="sd">    &lt;sparknlp.annotator.NerDLApproach&gt;`.</span>
+
+<span class="sd">    **Input File Format**::</span>
+
+<span class="sd">        -DOCSTART- -X- -X- O</span>
+
+<span class="sd">        EU NNP B-NP B-ORG</span>
+<span class="sd">        rejects VBZ B-VP O</span>
+<span class="sd">        German JJ B-NP B-MISC</span>
+<span class="sd">        call NN I-NP O</span>
+<span class="sd">        to TO B-VP O</span>
+<span class="sd">        boycott VB I-VP O</span>
+<span class="sd">        British JJ B-NP B-MISC</span>
+<span class="sd">        lamb NN I-NP O</span>
+<span class="sd">        . . O O</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    documentCol : str, optional</span>
+<span class="sd">        Name of the :class:`.DocumentAssembler` column, by default &#39;document&#39;</span>
+<span class="sd">    sentenceCol : str, optional</span>
+<span class="sd">        Name of the :class:`.SentenceDetector` column, by default &#39;sentence&#39;</span>
+<span class="sd">    tokenCol : str, optional</span>
+<span class="sd">        Name of the :class:`.Tokenizer` column, by default &#39;token&#39;</span>
+<span class="sd">    posCol : str, optional</span>
+<span class="sd">        Name of the :class:`.PerceptronModel` column, by default &#39;pos&#39;</span>
+<span class="sd">    conllLabelIndex : int, optional</span>
+<span class="sd">        Index of the label column in the dataset, by default 3</span>
+<span class="sd">    conllPosIndex : int, optional</span>
+<span class="sd">        Index of the POS tags in the dataset, by default 1</span>
+<span class="sd">    textCol : str, optional</span>
+<span class="sd">        Index of the text column in the dataset, by default &#39;text&#39;</span>
+<span class="sd">    labelCol : str, optional</span>
+<span class="sd">        Name of the label column, by default &#39;label&#39;</span>
+<span class="sd">    explodeSentences : bool, optional</span>
+<span class="sd">        Whether to explode sentences to separate rows, by default True</span>
+<span class="sd">    delimiter: str, optional</span>
+<span class="sd">        Delimiter used to separate columns inside CoNLL file</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import CoNLL</span>
+<span class="sd">    &gt;&gt;&gt; trainingData = CoNLL().readDataset(spark, &quot;src/test/resources/conll2003/eng.train&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; trainingData.selectExpr(</span>
+<span class="sd">    ...     &quot;text&quot;,</span>
+<span class="sd">    ...     &quot;token.result as tokens&quot;,</span>
+<span class="sd">    ...     &quot;pos.result as pos&quot;,</span>
+<span class="sd">    ...     &quot;label.result as label&quot;</span>
+<span class="sd">    ... ).show(3, False)</span>
+<span class="sd">    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="sd">    |text                                            |tokens                                                    |pos                                  |label                                    |</span>
+<span class="sd">    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="sd">    |EU rejects German call to boycott British lamb .|[EU, rejects, German, call, to, boycott, British, lamb, .]|[NNP, VBZ, JJ, NN, TO, VB, JJ, NN, .]|[B-ORG, O, B-MISC, O, O, O, B-MISC, O, O]|</span>
+<span class="sd">    |Peter Blackburn                                 |[Peter, Blackburn]                                        |[NNP, NNP]                           |[B-PER, I-PER]                           |</span>
+<span class="sd">    |BRUSSELS 1996-08-22                             |[BRUSSELS, 1996-08-22]                                    |[NNP, CD]                            |[B-LOC, O]                               |</span>
+<span class="sd">    +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">documentCol</span><span class="o">=</span><span class="s1">&#39;document&#39;</span><span class="p">,</span>
+                 <span class="n">sentenceCol</span><span class="o">=</span><span class="s1">&#39;sentence&#39;</span><span class="p">,</span>
+                 <span class="n">tokenCol</span><span class="o">=</span><span class="s1">&#39;token&#39;</span><span class="p">,</span>
+                 <span class="n">posCol</span><span class="o">=</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span>
+                 <span class="n">conllLabelIndex</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                 <span class="n">conllPosIndex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">textCol</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                 <span class="n">labelCol</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span>
+                 <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span>
+                 <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CoNLL</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CoNLL&quot;</span><span class="p">,</span>
+                                    <span class="n">documentCol</span><span class="p">,</span>
+                                    <span class="n">sentenceCol</span><span class="p">,</span>
+                                    <span class="n">tokenCol</span><span class="p">,</span>
+                                    <span class="n">posCol</span><span class="p">,</span>
+                                    <span class="n">conllLabelIndex</span><span class="p">,</span>
+                                    <span class="n">conllPosIndex</span><span class="p">,</span>
+                                    <span class="n">textCol</span><span class="p">,</span>
+                                    <span class="n">labelCol</span><span class="p">,</span>
+                                    <span class="n">explodeSentences</span><span class="p">,</span>
+                                    <span class="n">delimiter</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CoNLL.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">):</span>
+        <span class="c1"># ToDo Replace with std pyspark</span>
+        <span class="sd">&quot;&quot;&quot;Reads the dataset from an external resource.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        spark : :class:`pyspark.sql.SparkSession`</span>
+<span class="sd">            Initiated Spark Session with Spark NLP</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the resource</span>
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">            Spark Dataframe with the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
+
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CoNLLU"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLLU.html#sparknlp.training.CoNLLU">[docs]</a><span class="k">class</span> <span class="nc">CoNLLU</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Instantiates the class to read a CoNLL-U dataset.</span>
+
+<span class="sd">    The dataset should be in the format of `CoNLL-U</span>
+<span class="sd">    &lt;https://universaldependencies.org/format.html&gt;`_ and needs to be specified</span>
+<span class="sd">    with :meth:`.readDataset`, which will create a dataframe with the data.</span>
+
+<span class="sd">    Can be used to train a :class:`DependencyParserApproach</span>
+<span class="sd">    &lt;sparknlp.annotator.DependencyParserApproach&gt;`</span>
+
+<span class="sd">    **Input File Format**::</span>
+
+<span class="sd">        -DOCSTART- -X- -X- O</span>
+
+<span class="sd">        EU NNP B-NP B-ORG</span>
+<span class="sd">        rejects VBZ B-VP O</span>
+<span class="sd">        German JJ B-NP B-MISC</span>
+<span class="sd">        call NN I-NP O</span>
+<span class="sd">        to TO B-VP O</span>
+<span class="sd">        boycott VB I-VP O</span>
+<span class="sd">        British JJ B-NP B-MISC</span>
+<span class="sd">        lamb NN I-NP O</span>
+<span class="sd">        . . O O</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import CoNLLU</span>
+<span class="sd">    &gt;&gt;&gt; conlluFile = &quot;src/test/resources/conllu/en.test.conllu&quot;</span>
+<span class="sd">    &gt;&gt;&gt; conllDataSet = CoNLLU(False).readDataset(spark, conlluFile)</span>
+<span class="sd">    &gt;&gt;&gt; conllDataSet.selectExpr(</span>
+<span class="sd">    ...     &quot;text&quot;,</span>
+<span class="sd">    ...     &quot;form.result as form&quot;,</span>
+<span class="sd">    ...     &quot;upos.result as upos&quot;,</span>
+<span class="sd">    ...     &quot;xpos.result as xpos&quot;,</span>
+<span class="sd">    ...     &quot;lemma.result as lemma&quot;</span>
+<span class="sd">    ... ).show(1, False)</span>
+<span class="sd">    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+</span>
+<span class="sd">    |text                                   |form                                          |upos                                         |xpos                          |lemma                                       |</span>
+<span class="sd">    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+</span>
+<span class="sd">    |What if Google Morphed Into GoogleOS?  |[What, if, Google, Morphed, Into, GoogleOS, ?]|[PRON, SCONJ, PROPN, VERB, ADP, PROPN, PUNCT]|[WP, IN, NNP, VBD, IN, NNP, .]|[what, if, Google, morph, into, GoogleOS, ?]|</span>
+<span class="sd">    +---------------------------------------+----------------------------------------------+---------------------------------------------+------------------------------+--------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CoNLLU</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CoNLLU&quot;</span><span class="p">,</span> <span class="n">explodeSentences</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CoNLLU.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLLU.html#sparknlp.training.CoNLLU.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reads the dataset from an external resource.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        spark : :class:`pyspark.sql.SparkSession`</span>
+<span class="sd">            Initiated Spark Session with Spark NLP</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the resource</span>
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">            Spark Dataframe with the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># ToDo Replace with std pyspark</span>
+        <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
+
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="POS"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.POS.html#sparknlp.training.POS">[docs]</a><span class="k">class</span> <span class="nc">POS</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper class for creating DataFrames for training a part-of-speech</span>
+<span class="sd">    tagger.</span>
+
+<span class="sd">    The dataset needs to consist of sentences on each line, where each word is</span>
+<span class="sd">    delimited with its respective tag.</span>
+
+<span class="sd">    **Input File Format**::</span>
+
+<span class="sd">        A|DT few|JJ months|NNS ago|RB you|PRP received|VBD a|DT letter|NN</span>
+
+
+<span class="sd">    The sentence can then be parsed with :meth:`.readDataset` into a column with</span>
+<span class="sd">    annotations of type ``POS``.</span>
+
+<span class="sd">    Can be used to train a :class:`PerceptronApproach</span>
+<span class="sd">    &lt;sparknlp.annotator.PerceptronApproach&gt;`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    In this example, the file ``test-training.txt`` has the content of the</span>
+<span class="sd">    sentence above.</span>
+
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import POS</span>
+<span class="sd">    &gt;&gt;&gt; pos = POS()</span>
+<span class="sd">    &gt;&gt;&gt; path = &quot;src/test/resources/anc-pos-corpus-small/test-training.txt&quot;</span>
+<span class="sd">    &gt;&gt;&gt; posDf = pos.readDataset(spark, path, &quot;|&quot;, &quot;tags&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; posDf.selectExpr(&quot;explode(tags) as tags&quot;).show(truncate=False)</span>
+<span class="sd">    +---------------------------------------------+</span>
+<span class="sd">    |tags                                         |</span>
+<span class="sd">    +---------------------------------------------+</span>
+<span class="sd">    |[pos, 0, 5, NNP, [word -&gt; Pierre], []]       |</span>
+<span class="sd">    |[pos, 7, 12, NNP, [word -&gt; Vinken], []]      |</span>
+<span class="sd">    |[pos, 14, 14, ,, [word -&gt; ,], []]            |</span>
+<span class="sd">    |[pos, 16, 17, CD, [word -&gt; 61], []]          |</span>
+<span class="sd">    |[pos, 19, 23, NNS, [word -&gt; years], []]      |</span>
+<span class="sd">    |[pos, 25, 27, JJ, [word -&gt; old], []]         |</span>
+<span class="sd">    |[pos, 29, 29, ,, [word -&gt; ,], []]            |</span>
+<span class="sd">    |[pos, 31, 34, MD, [word -&gt; will], []]        |</span>
+<span class="sd">    |[pos, 36, 39, VB, [word -&gt; join], []]        |</span>
+<span class="sd">    |[pos, 41, 43, DT, [word -&gt; the], []]         |</span>
+<span class="sd">    |[pos, 45, 49, NN, [word -&gt; board], []]       |</span>
+<span class="sd">    |[pos, 51, 52, IN, [word -&gt; as], []]          |</span>
+<span class="sd">    |[pos, 47, 47, DT, [word -&gt; a], []]           |</span>
+<span class="sd">    |[pos, 56, 67, JJ, [word -&gt; nonexecutive], []]|</span>
+<span class="sd">    |[pos, 69, 76, NN, [word -&gt; director], []]    |</span>
+<span class="sd">    |[pos, 78, 81, NNP, [word -&gt; Nov.], []]       |</span>
+<span class="sd">    |[pos, 83, 84, CD, [word -&gt; 29], []]          |</span>
+<span class="sd">    |[pos, 81, 81, ., [word -&gt; .], []]            |</span>
+<span class="sd">    +---------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">POS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.POS&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="POS.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.POS.html#sparknlp.training.POS.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">outputPosCol</span><span class="o">=</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="n">outputDocumentCol</span><span class="o">=</span><span class="s2">&quot;document&quot;</span><span class="p">,</span>
+                    <span class="n">outputTextCol</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">):</span>
+        <span class="c1"># ToDo Replace with std pyspark</span>
+        <span class="sd">&quot;&quot;&quot;Reads the dataset from an external resource.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        spark : :class:`pyspark.sql.SparkSession`</span>
+<span class="sd">            Initiated Spark Session with Spark NLP</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the resource</span>
+<span class="sd">        delimiter : str, optional</span>
+<span class="sd">            Delimiter of word and POS, by default &quot;|&quot;</span>
+<span class="sd">        outputPosCol : str, optional</span>
+<span class="sd">            Name of the output POS column, by default &quot;tags&quot;</span>
+<span class="sd">        outputDocumentCol : str, optional</span>
+<span class="sd">            Name of the output document column, by default &quot;document&quot;</span>
+<span class="sd">        outputTextCol : str, optional</span>
+<span class="sd">            Name of the output text column, by default &quot;text&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">            Spark Dataframe with the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
+
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">outputPosCol</span><span class="p">,</span> <span class="n">outputDocumentCol</span><span class="p">,</span> <span class="n">outputTextCol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="PubTator"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.PubTator.html#sparknlp.training.PubTator">[docs]</a><span class="k">class</span> <span class="nc">PubTator</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The PubTator format includes medical papers’ titles, abstracts, and</span>
+<span class="sd">    tagged chunks.</span>
+
+<span class="sd">    For more information see `PubTator Docs</span>
+<span class="sd">    &lt;http://bioportal.bioontology.org/ontologies/EDAM?p=classes&amp;conceptid=format_3783&gt;`_</span>
+<span class="sd">    and `MedMentions Docs &lt;http://github.com/chanzuckerberg/MedMentions&gt;`_.</span>
+
+<span class="sd">    :meth:`.readDataset` is used to create a Spark DataFrame from a PubTator</span>
+<span class="sd">    text file.</span>
+
+<span class="sd">    **Input File Format**::</span>
+
+<span class="sd">        25763772	0	5	DCTN4	T116,T123	C4308010</span>
+<span class="sd">        25763772	23	63	chronic Pseudomonas aeruginosa infection	T047	C0854135</span>
+<span class="sd">        25763772	67	82	cystic fibrosis	T047	C0010674</span>
+<span class="sd">        25763772	83	120	Pseudomonas aeruginosa (Pa) infection	T047	C0854135</span>
+<span class="sd">        25763772	124	139	cystic fibrosis	T047	C0010674</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import PubTator</span>
+<span class="sd">    &gt;&gt;&gt; pubTatorFile = &quot;./src/test/resources/corpus_pubtator_sample.txt&quot;</span>
+<span class="sd">    &gt;&gt;&gt; pubTatorDataSet = PubTator().readDataset(spark, pubTatorFile)</span>
+<span class="sd">    &gt;&gt;&gt; pubTatorDataSet.show(1)</span>
+<span class="sd">    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+</span>
+<span class="sd">    |  doc_id|      finished_token|        finished_pos|        finished_ner|finished_token_metadata|finished_pos_metadata|finished_label_metadata|</span>
+<span class="sd">    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+</span>
+<span class="sd">    |25763772|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, 0], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|</span>
+<span class="sd">    +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PubTator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.PubTator&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PubTator.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.PubTator.html#sparknlp.training.PubTator.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">isPaddedToken</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># ToDo Replace with std pyspark</span>
+        <span class="sd">&quot;&quot;&quot;Reads the dataset from an external resource.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        spark : :class:`pyspark.sql.SparkSession`</span>
+<span class="sd">            Initiated Spark Session with Spark NLP</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the resource</span>
+<span class="sd">        isPaddedToken : str, optional</span>
+<span class="sd">            Whether tokens are padded, by default True</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pyspark.sql.DataFrame`</span>
+<span class="sd">            Spark Dataframe with the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
+
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">isPaddedToken</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
+</pre></div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, John Snow Labs.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

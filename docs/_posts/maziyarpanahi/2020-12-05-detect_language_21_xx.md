@@ -22,6 +22,7 @@ We have designed and developed Deep Learning models using CNN architectures in T
 
 This pipeline can detect the following languages:
 
+## Predicted Entities
 `Bulgarian`, `Czech`, `Danish`, `German`, `Greek`, `English`, `Estonian`, `Finnish`, `French`, `Hungarian`, `Italian`, `Lithuanian`, `Latvian`, `Dutch`, `Polish`, `Portuguese`, `Romanian`, `Slovak`, `Slovenian`, `Spanish`, `Swedish`.
 
 {:.btn-box}

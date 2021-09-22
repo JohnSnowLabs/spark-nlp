@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.annotator.{PerceptronModel, SentenceDetector, Tokenizer}
@@ -8,9 +24,31 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 
-object PubTator {
+/** The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.
+ *
+ * For more information see [[http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783 PubTator Docs]]
+ * and [[http://github.com/chanzuckerberg/MedMentions MedMentions Docs]].
+ *
+ * `readDataset` is used to create a Spark DataFrame from a PubTator text file.
+ *
+ * ==Example==
+ * {{{
+ * import com.johnsnowlabs.nlp.training.PubTator
+ *
+ * val pubTatorFile = "./src/test/resources/corpus_pubtator_sample.txt"
+ * val pubTatorDataSet = PubTator().readDataset(ResourceHelper.spark, pubTatorFile)
+ * pubTatorDataSet.show(1)
+ * +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+ * |  doc_id|      finished_token|        finished_pos|        finished_ner|finished_token_metadata|finished_pos_metadata|finished_label_metadata|
+ * +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+ * |25763772|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, 0], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|
+ * +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+ * }}}
+ *
+ */
+case class PubTator() {
 
-  def readDataset(spark: SparkSession, path: String): DataFrame = {
+  def readDataset(spark: SparkSession, path: String, isPaddedToken: Boolean = true): DataFrame = {
     val pubtator = spark.sparkContext.textFile(path)
     val titles = pubtator.filter(x => x.contains("|a|") | x.contains("|t|"))
     val titlesText = titles.map(x => x.split("\\|")).groupBy(_.head)
@@ -37,16 +75,18 @@ object PubTator {
       val tokenAnnotations = tokens.map(Annotation(_))
       val labelAnnotations = chunkLabels.map(Annotation(_))
       tokenAnnotations.map(ta => {
-        val tokenLabel = labelAnnotations.filter(la => la.begin <= ta.begin && la.end >= ta.end).headOption
+        val tokenLabel = labelAnnotations.find(la => la.begin <= ta.begin && la.end >= ta.end)
         val tokenTag = {
           if (tokenLabel.isEmpty) "O"
           else {
-            val tokenCSV = tokenLabel.get.metadata.get("entity").get
+            val tokenCSV = tokenLabel.get.metadata("entity")
             if (tokenCSV == "UnknownType") "O"
             else {
               val tokenPrefix = if (ta.begin == tokenLabel.get.begin) "B-" else "I-"
-              val paddedTokenTag = "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
-              tokenPrefix + paddedTokenTag
+              val token = if (isPaddedToken) {
+                "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
+              } else tokenCSV
+              tokenPrefix + token
             }
           }
         }

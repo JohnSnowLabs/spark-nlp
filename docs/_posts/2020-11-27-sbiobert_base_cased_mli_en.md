@@ -36,7 +36,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 sbiobert_embeddings = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli",'en','clinical/models')\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 
@@ -45,7 +45,7 @@ sbiobert_embeddings = BertSentenceEmbeddings\
 ```scala
 
 val sbiobert_embeddings = BertSentenceEmbeddings
-    .pretrained("sbiobert_base_cased_mli",'en','clinical/models')
+    .pretrained("sbiobert_base_cased_mli","en","clinical/models")
     .setInputCols(Array("ner_chunk_doc"))
     .setOutputCol("sbert_embeddings")
 

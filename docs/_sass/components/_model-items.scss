@@ -13,8 +13,21 @@
   margin-bottom: 30px;
 }
 
-.model-items__total-results {
+.model-items__header {
   margin-top: 30px;
   margin-bottom: 30px;
-  display: block;
+  display: flex;
+  justify-content: space-between;
+}
+
+.model-items__header-total-results {
+  height: 34px;
+  font-family: Montserrat, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  color: #0098da;
+}
+
+.model-items__header-supported input {
+  vertical-align: text-bottom;
 }

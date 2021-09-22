@@ -10,6 +10,11 @@ layout: base
 {%- assign _header = __return -%}
 
 {%- include snippets/assign.html
+  target = site.data.variables.default.page.demomenu
+  source0=layout.demomenu source1=page.demomenu -%}
+{%- assign _demomenu = __return -%}
+
+{%- include snippets/assign.html
   target=layout.footer source0=page.footer -%}
 {%- assign _footer = __return -%}
 
@@ -82,7 +87,12 @@ layout: base
       {%- endif -%}
 
 
-        <div class="page__content">
+        <div class="page__content {% if _demomenu != false %} demopage_content{% endif %}">
+
+          {%- if _demomenu != false -%}
+            {%- include demomenu.html -%}
+          {%- endif -%}
+            
         {%- if _article_header_type == 'overlay' or _article_header_type == 'cover' -%}
 
           {%- if _article_header_type == 'overlay' -%}

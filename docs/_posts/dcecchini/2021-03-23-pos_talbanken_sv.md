@@ -5,6 +5,7 @@ author: John Snow Labs
 name: pos_talbanken
 date: 2021-03-23
 tags: [sv, open_source]
+supported: true
 task: Part of Speech Tagging
 language: sv
 edition: Spark NLP 2.7.5
@@ -64,7 +65,7 @@ pipeline = Pipeline(stages=[
   posTagger
 ])
 
-example = spark.createDataFrame(pd.DataFrame({'text': ["' Medicinsk bildtolk ' också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord ."]}))
+example = spark.createDataFrame([["' Medicinsk bildtolk ' också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord ."]], ["text"])
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -82,7 +83,8 @@ val pos = PerceptronModel.pretrained("pos_talbanken", "sv")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, pos))
 
-val result = pipeline.fit(Seq.empty["' Medicinsk bildtolk ' också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord ."].toDS.toDF("text")).transform(data)
+val data = Seq(" Medicinsk bildtolk " också skall fungera som hjälpmedel för läkaren att klarlägga sjukdomsbilden utan att patienten behöver säga ett ord .").toDF("text")
+val result = pipeline.fit(data).transform(data)
 ```
 
 {:.nlu-block}

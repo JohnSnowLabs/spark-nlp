@@ -20,30 +20,30 @@ Deidentify (Large) is a deidentification model. It identifies instances of prote
 
 ## Predicted Entities
 
-PHONE
-PATIENT
-COUNTRY
-USERNAME
-LOCATION-OTHER
-DATE
-ID
-DOCTOR
-HOSPITAL
-IDNUM
-AGE
-MEDICALRECORD
-CITY
-FAX
-ZIP
-HEALTHPLAN
-PROFESSION
-BIOID
-URL
-EMAIL
-STATE
-ORGANIZATION
-STREET
-DEVICE
+- PHONE
+- PATIENT
+- COUNTRY
+- USERNAME
+- LOCATION-OTHER
+- DATE
+- ID
+- DOCTOR
+- HOSPITAL
+- IDNUM
+- AGE
+- MEDICALRECORD
+- CITY
+- FAX
+- ZIP
+- HEALTHPLAN
+- PROFESSION
+- BIOID
+- URL
+- EMAIL
+- STATE
+- ORGANIZATION
+- STREET
+- DEVICE
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -75,7 +75,8 @@ obfusated_text = obfuscation.transform(result)
 ```scala
 val nlpPipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_sensitive_entities, nerConverter, de_identification))
 
-val result = pipeline.fit(Seq.empty["""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street'''""].toDS.toDF("text")).transform(data) 
+val data = Seq("A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street").toDF("text")
+val result = pipeline.fit(data).transform(data)
 
 val obfuscation = DeIdentificationModel.pretrained("deidentify_enriched_clinical", "en", "clinical/models")
         .setInputCols(Array("sentence", "token", "ner_chunk"))

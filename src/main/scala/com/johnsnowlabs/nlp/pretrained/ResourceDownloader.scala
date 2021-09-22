@@ -1,11 +1,23 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.pretrained
 
-import com.amazonaws.AmazonClientException
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{DefaultAWSCredentialsProviderChain, _}
-import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ClassifierDLModel, MultiClassifierDLModel, SentimentDLModel}
+import com.johnsnowlabs.nlp.annotators.classifier.dl.{BertForTokenClassification, ClassifierDLModel, DistilBertForTokenClassification, MultiClassifierDLModel, SentimentDLModel}
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -21,16 +33,18 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
-import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, BertEmbeddings, BertSentenceEmbeddings, ElmoEmbeddings, UniversalSentenceEncoder, WordEmbeddingsModel, XlnetEmbeddings}
+import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.{listPretrainedResources, publicLoc, showString}
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.{Build, ConfigHelper, FileHelper, Version}
+import com.johnsnowlabs.nlp.{DocumentAssembler, pretrained}
+import com.johnsnowlabs.util._
 import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
 
-import scala.collection.mutable.{ListBuffer, Map}
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -39,11 +53,11 @@ import scala.util.{Failure, Success}
 trait ResourceDownloader {
 
   /**
-    * Download resource to local file
-    *
-    * @param request Resource request
-    * @return downloaded file or None if resource is not found
-    */
+   * Download resource to local file
+   *
+   * @param request Resource request
+   * @return downloaded file or None if resource is not found
+   */
   def download(request: ResourceRequest): Option[String]
 
   def getDownloadSize(request: ResourceRequest): Option[Long]
@@ -51,74 +65,29 @@ trait ResourceDownloader {
   def clearCache(request: ResourceRequest): Unit
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
-  val fs = ResourceDownloader.fs
 
+  val fileSystem: FileSystem = ResourceDownloader.fileSystem
 
 }
 
-
 object ResourceDownloader {
 
-  val fs = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
+  val fileSystem: FileSystem = ConfigHelper.getFileSystem
 
-  def s3Bucket = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com")
+  def s3Bucket: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3BucketKey)
 
-  def s3Path = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedS3PathKey, "")
+  def s3BucketCommunity: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCommunityS3BucketKey)
 
-  def cacheFolder = ConfigHelper.getConfigValueOrElse(ConfigHelper.pretrainedCacheFolder, fs.getHomeDirectory + "/cache_pretrained")
+  def s3Path: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedS3PathKey)
 
-  def credentials: Option[AWSCredentials] = if (ConfigHelper.hasPath(ConfigHelper.awsCredentials)) {
-    val accessKeyId = ConfigHelper.getConfigValue(ConfigHelper.accessKeyId)
-    val secretAccessKey = ConfigHelper.getConfigValue(ConfigHelper.secretAccessKey)
-    val awsProfile = ConfigHelper.getConfigValue(ConfigHelper.awsProfileName)
-    if (awsProfile.isDefined) {
-      return Some(new ProfileCredentialsProvider(awsProfile.get).getCredentials)
-    }
-    if (accessKeyId.isEmpty || secretAccessKey.isEmpty) {
-      return fetchcredentials
-    }
-    else
-      return Some(new BasicAWSCredentials(accessKeyId.get, secretAccessKey.get))
-  }
-  else {
-    fetchcredentials
-  }
-
-  private def fetchcredentials(): Option[AWSCredentials] = {
-    try {
-      //check if default profile name works if not try 
-      return Some(new ProfileCredentialsProvider("spark_nlp").getCredentials)
-    } catch {
-      case e: Exception => {
-        try {
-
-          Some(new DefaultAWSCredentialsProviderChain().getCredentials)
-        } catch {
-          case awse: AmazonClientException => {
-            if (ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key") != null) {
-
-              val key = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
-              val secret = ResourceHelper.spark.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
-
-              Some(new BasicAWSCredentials(key, secret))
-            } else {
-              Some(new AnonymousAWSCredentials())
-            }
-          }
-          case e: Exception => throw e
-
-        }
-      }
-    }
-
-  }
+  def cacheFolder: String = ConfigLoader.getConfigStringValue(ConfigHelper.pretrainedCacheFolder)
 
   val publicLoc = "public/models"
 
-  private val cache = Map[ResourceRequest, PipelineStage]()
+  private val cache = mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
-    val spark_version=if(ResourceHelper.spark.version.startsWith("2.3")) "2.4.4" else ResourceHelper.spark.version
+    val spark_version = if (ResourceHelper.spark.version.startsWith("2.3")) "2.4.4" else ResourceHelper.spark.version
     Version.parse(spark_version)
   }
 
@@ -126,20 +95,21 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
-  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, Some(new AnonymousAWSCredentials()))
+  var defaultDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
+  var publicDownloader: ResourceDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
+  var communityDownloader: ResourceDownloader = new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
 
   /**
-    * Reset the cache and recreate ResourceDownloader S3 credentials
-    */
+   * Reset the cache and recreate ResourceDownloader S3 credentials
+   */
   def resetResourceDownloader(): Unit = {
     cache.empty
-    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, credentials)
+    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
   }
 
   /**
-    * List all pretrained models in public name_lang
-    */
+   * List all pretrained models in public name_lang
+   */
   def listPublicModels(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
@@ -152,9 +122,10 @@ object ResourceDownloader {
   def showPublicModels(lang: String, version: String): Unit = {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang, Version.parse(version)), ResourceType.MODEL))
   }
+
   /**
-    * List all pretrained pipelines in public
-    */
+   * List all pretrained pipelines in public
+   */
   def listPublicPipelines(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
@@ -167,11 +138,12 @@ object ResourceDownloader {
   def showPublicPipelines(lang: String, version: String): Unit = {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang, Version.parse(version)), ResourceType.PIPELINE))
   }
+
   /**
-    * Returns models or pipelines in metadata json which has not been categorized yet.
-    *
-    * @return list of models or piplelines which are not categorized in metadata json
-    */
+   * Returns models or pipelines in metadata json which has not been categorized yet.
+   *
+   * @return list of models or pipelines which are not categorized in metadata json
+   */
   def listUnCategorizedResources(): List[String] = {
     listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED)
   }
@@ -209,7 +181,6 @@ object ResourceDownloader {
     else
       sb.append("| " + "Pipeline/Model" + (" " * (max_length - 14)) + " | " + "lang" + " | " + "version" + " " * (max_length_version - 7) + " |\n")
 
-
     sb.append("+")
     sb.append("-" * (max_length + 2))
     sb.append("+")
@@ -220,7 +191,6 @@ object ResourceDownloader {
     for (data <- list) {
       val temp = data.split(":")
       sb.append("| " + temp(0) + (" " * (max_length - temp(0).length)) + " |  " + temp(1) + "  | " + temp(2) + " " * (max_length_version - temp(2).length) + " |\n")
-
     }
     //adding bottom
     sb.append("+")
@@ -233,13 +203,14 @@ object ResourceDownloader {
     sb.toString()
 
   }
+
   /**
-    * List all resources after parsing the metadata json from the given folder in the S3 location
-    *
-    * @param folder
-    * @param resourceType
-    * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
-    */
+   * List all resources after parsing the metadata json from the given folder in the S3 location
+   *
+   * @param folder       folder inside S3 bucket
+   * @param resourceType type of the resources, ml for models and pl for pipelines
+   * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
+   */
   def listPretrainedResources(folder: String, resourceType: ResourceType): List[String] = {
     val resourceList = new ListBuffer[String]()
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
@@ -289,58 +260,57 @@ object ResourceDownloader {
     }
     resourceList.result()
   }
+
   /**
-    * Loads resource to path
-    *
-    * @param name     Name of Resource
-    * @param folder   Subfolder in s3 where to search model (e.g. medicine)
-    * @param language Desired language of Resource
-    * @return path of downloaded resource
-    */
+   * Loads resource to path
+   *
+   * @param name     Name of Resource
+   * @param folder   Subfolder in s3 where to search model (e.g. medicine)
+   * @param language Desired language of Resource
+   * @return path of downloaded resource
+   */
   def downloadResource(name: String, language: Option[String] = None, folder: String = publicLoc): String = {
     downloadResource(ResourceRequest(name, language, folder))
   }
 
-
   /**
-    * Loads resource to path
-    *
-    * @param request Request for resource
-    * @return path of downloaded resource
-    */
+   * Loads resource to path
+   *
+   * @param request Request for resource
+   * @return path of downloaded resource
+   */
   def downloadResource(request: ResourceRequest): String = {
     val f = Future {
       if (request.folder.equals(publicLoc)) {
         publicDownloader.download(request)
+      } else if (request.folder.startsWith("@")) {
+        val actualLoc = request.folder.replace("@", "")
+        val updatedRequest = ResourceRequest(request.name, request.language, folder = actualLoc, request.libVersion, request.sparkVersion)
+        communityDownloader.download(updatedRequest)
       } else {
         defaultDownloader.download(request)
       }
     }
+
     var download_finished = false
     var path: Option[String] = None
-    println(request.name + " download started this may take some time.")
     val file_size = getDownloadSize(request.name, request.language, request.folder)
-    require(!file_size.equals("-1"), "Can not find the resource to download please check the name!")
+    require(!file_size.equals("-1"), s"Can not find ${request.name} inside ${request.folder} to download. Please make sure the name and location are correct!")
+    println(request.name + " download started this may take some time.")
     println("Approximate size to download " + file_size)
 
-    val states = Array(" | ", " / ", " — ", " \\ ")
     var nextc = 0
     while (!download_finished) {
-      // printf("[%s]", states(nextc % 4))
       nextc += 1
       f.onComplete {
-        case Success(value) => {
+        case Success(value) =>
           download_finished = true
           path = value
-        }
-        case Failure(e) => {
+        case Failure(_) =>
           download_finished = true
           path = None
-        }
       }
       Thread.sleep(1000)
-
-      //print("\b\b\b\b\b")
 
     }
 
@@ -392,6 +362,7 @@ object ResourceDownloader {
   def clearCache(request: ResourceRequest): Unit = {
     defaultDownloader.clearCache(request)
     publicDownloader.clearCache(request)
+    communityDownloader.clearCache(request)
     cache.remove(request)
   }
 
@@ -399,12 +370,15 @@ object ResourceDownloader {
     var size: Option[Long] = None
     if (folder.equals(publicLoc)) {
       size = publicDownloader.getDownloadSize(ResourceRequest(name, language, folder))
+    } else if (folder.startsWith("@")) {
+      val actualLoc = folder.replace("@", "")
+      size = communityDownloader.getDownloadSize(ResourceRequest(name, language, actualLoc))
     } else {
       size = defaultDownloader.getDownloadSize(ResourceRequest(name, language, folder))
     }
     size match {
-      case Some(downloadBytes) => return FileHelper.getHumanReadableFileSize(downloadBytes)
-      case None => return "-1"
+      case Some(downloadBytes) => FileHelper.getHumanReadableFileSize(downloadBytes)
+      case None => "-1"
 
 
     }
@@ -413,10 +387,11 @@ object ResourceDownloader {
 
 object ResourceType extends Enumeration {
   type ResourceType = Value
-  val MODEL = Value("ml")
-  val PIPELINE = Value("pl")
-  val NOT_DEFINED = Value("nd")
+  val MODEL: pretrained.ResourceType.Value = Value("ml")
+  val PIPELINE: pretrained.ResourceType.Value = Value("pl")
+  val NOT_DEFINED: pretrained.ResourceType.Value = Value("nd")
 }
+
 case class ResourceRequest
 (
   name: String,
@@ -426,11 +401,10 @@ case class ResourceRequest
   sparkVersion: Version = ResourceDownloader.sparkVersion
 )
 
-
 /* convenience accessor for Py4J calls */
 object PythonResourceDownloader {
 
-  val keyToReader: Map[String, DefaultParamsReadable[_]] = Map(
+  val keyToReader: mutable.Map[String, DefaultParamsReadable[_]] = mutable.Map(
     "DocumentAssembler" -> DocumentAssembler,
     "SentenceDetector" -> SentenceDetector,
     "TokenizerModel" -> TokenizerModel,
@@ -465,7 +439,15 @@ object PythonResourceDownloader {
     "SentenceDetectorDLModel" -> SentenceDetectorDLModel,
     "T5Transformer" -> T5Transformer,
     "MarianTransformer" -> MarianTransformer,
-    "WordSegmenterModel" -> WordSegmenterModel
+    "WordSegmenterModel" -> WordSegmenterModel,
+    "DistilBertEmbeddings" -> DistilBertEmbeddings,
+    "RoBertaEmbeddings" -> RoBertaEmbeddings,
+    "XlmRoBertaEmbeddings" -> XlmRoBertaEmbeddings,
+    "BertForTokenClassification" -> BertForTokenClassification,
+    "DistilBertForTokenClassification" -> DistilBertForTokenClassification,
+    "LongformerEmbeddings" -> LongformerEmbeddings,
+    "RoBertaSentenceEmbeddings" -> RoBertaSentenceEmbeddings,
+    "XlmRoBertaSentenceEmbeddings" -> XlmRoBertaSentenceEmbeddings
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
