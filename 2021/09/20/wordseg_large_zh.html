@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Drug Spell Checker- Spark NLP Model</title><meta name="description" content="DescriptionThis model detects and corrects spelling errors of drugs in your input text based on Norvig’s approach.Predicted EntitiesLive DemoOpen in ColabDow...">
-<link rel="canonical" href="/2021/09/15/spellcheck_drug_norvig_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Chinese Word Segmentation- Spark NLP Model</title><meta name="description" content="DescriptionWordSegmenterModel (WSM) is based on a maximum entropy probability model to detect word boundaries in Chinese text. Chinese text is written withou...">
+<link rel="canonical" href="/2021/09/20/wordseg_large_zh.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,19 +403,25 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 15, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-15T00:00:00+00:00"></div><header><h1>Drug Spell Checker</h1></header></div><meta itemprop="headline" content="Drug Spell Checker"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>spell</li><li>spell_checker</li><li>clinical</li><li>en</li><li>licensed</li><li>drug</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="spell,spell_checker,clinical,en,licensed,drug"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 20, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-20T00:00:00+00:00"></div><header><h1>Chinese Word Segmentation</h1></header></div><meta itemprop="headline" content="Chinese Word Segmentation"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>cn</li><li>zh</li><li>word_segmentation</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-20T00:00:00+00:00">
+    <meta itemprop="keywords" content="cn,zh,word_segmentation,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model detects and corrects spelling errors of drugs in your input text based on Norvig’s approach.</p>
+<p>WordSegmenterModel (WSM) is based on a maximum entropy probability model to detect word boundaries in Chinese text. Chinese text is written without white space between the words, and a computer-based application cannot know a priori which sequence of ideograms form a word. Many natural language processing tasks such as part-of-speech (POS) and named entity recognition (NER) require word segmentation as an initial step.</p>
+
+<p>Reference:</p>
+
+<blockquote>
+  <p>Xue, Nianwen. “Chinese word segmentation as character tagging.” International Journal of Computational Linguistics &amp; Chinese Language Processing, Volume 8, Number 1, February 2003: Special Issue on Word Formation and Chinese Language Processing. 2003.</p>
+</blockquote>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_drug_norvig_en_3.2.2_3.0_1631700986904.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wordseg_large_zh_3.0.0_3.0_1632144130387.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -423,56 +429,56 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+<span class="n">word_segmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"wordseg_large"</span><span class="p">,</span> <span class="s">"zh"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">word_segmenter</span>
+<span class="p">])</span>
 
-<span class="n">spell</span> <span class="o">=</span> <span class="n">NorvigSweetingModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"spellcheck_drug_norvig"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"spell"</span><span class="p">)</span>\
+<span class="n">ws_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'然而，这样的处理也衍生了一些问题。'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>    
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">spell</span><span class="p">])</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">))</span>
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"You have to take Neutrcare and colfosrinum and a bit of Fluorometholne &amp; Ribotril"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ws_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_large"</span><span class="o">,</span> <span class="s">"zh"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">word_segmenter</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">spell</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">NorvigSweetingModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"spellcheck_drug_norvig"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)\</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"spell"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"然而，这样的处理也衍生了一些问题。"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span><span class="n">tokenizer</span><span class="o">,</span><span class="n">spell</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 
-<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="ss">'tex</span><span class="n">t</span><span class="o">'))</span>
-<span class="k">val</span> <span class="nv">lp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipe</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'zh.segment_words.large'</span><span class="p">)</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">lp</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"You have to take Neutrcare and colfosrinum and a bit of Fluorometholne &amp; Ribotril"</span><span class="o">)</span>
+<span class="n">zh_data</span> <span class="o">=</span> <span class="p">[</span><span class="s">"然而，这样的处理也衍生了一些问题。"</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">zh_data</span> <span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">df</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Original text  : You have to take Neutrcare and colfosrinum and a bit of fluorometholne &amp; Ribotril
-
-Corrected text : You have to take Neutracare and colforsinum and a bit of fluorometholone &amp; Rivotril
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------+--------------------------------------------------------+
+|text                              |result                                                  |
++----------------------------------+--------------------------------------------------------+
+|然而，这样的处理也衍生了一些问题。|[然而, ，, 这样, 的, 处理, 也, 衍生, 了, 一些, 问题, 。]|
++----------------------------------+--------------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -481,15 +487,15 @@ Corrected text : You have to take Neutracare and colforsinum and a bit of fluoro
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>spellcheck_drug_norvig</td>
+      <td>wordseg_large</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.2.2+</td>
+      <td>Spark NLP 3.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -497,23 +503,34 @@ Corrected text : You have to take Neutracare and colforsinum and a bit of fluoro
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token]</td>
+      <td>[document]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[spell]</td>
+      <td>[token]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
+      <td>zh</td>
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-15T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="data-source">Data Source</h2>
+
+<p>We created a curated large data set obtained from Chinese Treebank, Weibo, and SIGHAM 2005 data sets.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Model         | precision    | recall       | f1-score     |
+|---------------|--------------|--------------|--------------|
+| WORSEG_CTB    |      0,6453  |      0,6341  |      0,6397  |
+| WORDSEG_WEIBO |      0,5454  |      0,5655  |      0,5553  |
+| WORDSEG_MSRA   |      0,5984  |      0,6088  |      0,6035  |
+| WORDSEG_PKU   |      0,6094  |      0,6321  |      0,6206  |
+| WORDSEG_LARGE |      0,6326  |      0,6269  |      0,6297  |
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-20T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -638,7 +655,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/15/ner_healthcare_de.html">Detect Symptoms, Treatments and Other Entities in German</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/16/bert_base_japanese_ja.html">Japanese BERT Base</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/16/bert_token_classifier_ner_jsl_en.html">Detect Clinical Entities (BertForTokenClassifier)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/20/bert_token_classifier_ner_drugs_en.html">Detect Drug Chemicals (BertForTokenClassifier)</a></div></div></div>
 
 </div>
 </div>
