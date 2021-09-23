@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>News Classifier of Turkish text- Spark NLP Model</title><meta name="description" content="DescriptionClassify Turkish news textsPredicted Entitieskultur, saglik, ekonomi, teknoloji, siyaset, spor.Live DemoOpen in ColabDownloadHow to use         Py...">
+<!-- End Google Tag Manager --><title>News Classifier of Turkish text- Spark NLP Model</title><meta name="description" content="DescriptionClassify Turkish news textsPredicted Entitieskultur, saglik, ekonomi, teknoloji, siyaset, sporLive DemoOpen in ColabDownloadHow to use         Pyt...">
 <link rel="canonical" href="/2021/05/03/classifierdl_bert_news_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -413,7 +413,7 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">kultur</code>, <code class="language-plaintext highlighter-rouge">saglik</code>, <code class="language-plaintext highlighter-rouge">ekonomi</code>, <code class="language-plaintext highlighter-rouge">teknoloji</code>, <code class="language-plaintext highlighter-rouge">siyaset</code>, <code class="language-plaintext highlighter-rouge">spor</code>.</p>
+<p><code class="language-plaintext highlighter-rouge">kultur</code>, <code class="language-plaintext highlighter-rouge">saglik</code>, <code class="language-plaintext highlighter-rouge">ekonomi</code>, <code class="language-plaintext highlighter-rouge">teknoloji</code>, <code class="language-plaintext highlighter-rouge">siyaset</code>, <code class="language-plaintext highlighter-rouge">spor</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
@@ -442,17 +442,17 @@ nlpPipeline = Pipeline(stages=[document, embeddings, document_classifier])
 light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("</span><span class="n">text</span><span class="s">")))
 result = light_pipeline.annotate('Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı'.)
 </span></code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span><span class="o">\</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"labse"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"labse"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_news"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span> <span class="o">\</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_news"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span> 
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> 
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">document_classifier</span><span class="o">))</span>

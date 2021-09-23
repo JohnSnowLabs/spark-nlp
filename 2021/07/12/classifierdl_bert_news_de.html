@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>News Classifier of German text- Spark NLP Model</title><meta name="description" content="DescriptionClassify German texts of newsPredicted EntitiesInland, International, Panorama, Sport, Web, Wirtschaft, Wissenschaft.Live DemoOpen in ColabDownloa...">
+<!-- End Google Tag Manager --><title>News Classifier of German text- Spark NLP Model</title><meta name="description" content="DescriptionClassify German texts of newsPredicted EntitiesInland, International, Panorama, Sport, Web, Wirtschaft, WissenschaftLive DemoOpen in ColabDownload...">
 <link rel="canonical" href="/2021/07/12/classifierdl_bert_news_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -413,7 +413,7 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Inland</code>, <code class="language-plaintext highlighter-rouge">International</code>, <code class="language-plaintext highlighter-rouge">Panorama</code>, <code class="language-plaintext highlighter-rouge">Sport</code>, <code class="language-plaintext highlighter-rouge">Web</code>, <code class="language-plaintext highlighter-rouge">Wirtschaft</code>, <code class="language-plaintext highlighter-rouge">Wissenschaft</code>.</p>
+<p><code class="language-plaintext highlighter-rouge">Inland</code>, <code class="language-plaintext highlighter-rouge">International</code>, <code class="language-plaintext highlighter-rouge">Panorama</code>, <code class="language-plaintext highlighter-rouge">Sport</code>, <code class="language-plaintext highlighter-rouge">Web</code>, <code class="language-plaintext highlighter-rouge">Wirtschaft</code>, <code class="language-plaintext highlighter-rouge">Wissenschaft</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
@@ -444,17 +444,17 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Niki Lauda in einem McLaren MP 4/2 TAG Turbo. Mit diesem Gefährt sicherte sich der Österreicher 1984 seinen dritten Weltmeistertitel, einen halben (!)"</span><span class="p">)</span>
 <span class="n">result</span><span class="p">[</span><span class="s">"class"</span><span class="p">]</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span><span class="o">\</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_bert_multi_cased"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> <span class="o">\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_bert_multi_cased"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_news"</span><span class="o">,</span> <span class="s">"de"</span><span class="o">)</span> <span class="o">\</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_news"</span><span class="o">,</span> <span class="s">"de"</span><span class="o">)</span> 
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> 
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">document_classifier</span><span class="o">))</span>
