@@ -586,7 +586,7 @@ class SymmetricDeleteTestSpec(unittest.TestCase):
         checked.show()
 
 
-class ContextSpellCheckerTestSpec(unittest.TestCase):
+class ContextSpellCheckerModelTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.prediction_data = SparkContextForTest.data
