@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>NLP Server - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Installation - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/nlp_server/nlp_server"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/nlp_server/installation"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -387,7 +387,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">NLP Server</li><li class="toc-h2 active"><a href="/docs/en/nlp_server/nlp_server">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/nlp_server/installation">Installation</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">NLP Server</li><li class="toc-h2"><a href="/docs/en/nlp_server/nlp_server">Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/nlp_server/installation">Installation</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -518,60 +518,70 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/nlp_products">NLP Products</a></li>
-    <li>NLP Server</li>
+    <li>Installation</li>
   </ul>
-</div></div><header><h1>NLP Server</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header><h1>Installation</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/nlp_server/nlp_server.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="NLP Server"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/nlp_server/installation.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Installation"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>This is a ready to use NLP Server for analyzing text documents using NLU library. Over 4000+ industry grade NLP Models in 300+ Languages  are available to use via a simple and intuitive UI, without writing a line of code. For more expert users and more complex tasks, NLP Server also provides a REST API that can be used to process high amounts of data.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="docker-setup">Docker Setup</h2>
 
-<p>The models, refered to as <code class="language-plaintext highlighter-rouge">spells</code>, are provided by the <a href="https://nlu.johnsnowlabs.com/">NLU library</a> and 
-powered by the most widely used NLP library in the industry, <a href="http://nlp.johnsnowlabs.com/">Spark NLP</a>.</p>
-
-<p>NLP Server is <code class="language-plaintext highlighter-rouge">free</code> for everyone to download and use. There is no limitation in the amout of text to analyze.</p>
-
-<p>You can setup NLP-Server as a Docker Machine in any enviroment or get it via the <code class="language-plaintext highlighter-rouge">AWS Marketplace</code> in just 1 click.</p>
-
-<h2 id="web-ui">Web UI</h2>
-<p>The Web UI is accessible at the followin URL: http://localhost:5000/
-It allows a very simple and intuitive interaction with the NLP Server. 
-As a first step the user chooses the spell from the first dropdown. All NLU spells are available. 
-Then the user has to provide a text document for analysis. This can be done by either copy/pasting text on the text box, or by uploading a csv/json file. 
-After selecting the grouping option, the user clicks on the <code class="language-plaintext highlighter-rouge">Preview</code> button to get the results for the first 10 rows of text.</p>
-
-<p><img class="image image--xl" src="/assets/images/nlp_server/web_UI.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-<h2 id="rest-api">REST API</h2>
-
-<p>NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL <a href="http://0.0.0.0:5000/docs">http://0.0.0.0:5000/docs</a>.</p>
-
-<p><img class="image image--xl" src="/assets/images/nlp_server/api_docs.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-<h2 id="how-to-use-in-python">How to use in Python</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
-<span class="c1"># Invoke Processing with tokenization spell
-</span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results'</span><span class="p">,</span><span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s">"spell"</span><span class="p">:</span> <span class="s">"tokenize"</span><span class="p">,</span><span class="s">"data"</span><span class="p">:</span> <span class="s">"I love NLU! &lt;3"</span><span class="p">})</span>
-<span class="c1"># Use the uuid to get your processed data
-</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">'uuid'</span><span class="p">]</span>
-
-
-<span class="c1"># Get status of processing
-</span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results/</span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s">'</span><span class="p">).</span><span class="n">json</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s">'sentence'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I love NLU! &lt;3'</span><span class="p">]},</span> <span class="s">'document'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="s">'I love NLU! &lt;3'</span><span class="p">},</span> <span class="s">'token'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I'</span><span class="p">,</span> <span class="s">'love'</span><span class="p">,</span> <span class="s">'NLU'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'&lt;3'</span><span class="p">]}}</span>
-
-<span class="c1"># Get status of processing
-</span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results/</span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s">/status'</span><span class="p">).</span><span class="n">json</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s">'status'</span><span class="p">:</span> <span class="p">{</span><span class="s">'code'</span><span class="p">:</span> <span class="s">'success'</span><span class="p">,</span> <span class="s">'message'</span><span class="p">:</span> <span class="bp">None</span><span class="p">}}</span>
+<p>For deploying NLP Server on your instance run the following command.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+docker run <span class="nt">-p</span> 5000:5000 johnsnowlabs/nlp-server:latest
 
 </code></pre></div></div>
+<p>This will check if the latest docker image is available on your local machine and if not it will automatically download and run it.</p>
 
+<h2 id="deploy-on-aws">Deploy on AWS</h2>
+
+<p>The steps you need to follow for deploying NLP Server on AWS are illustrated below. First make sure you have a valid AWS account and log in to AWS Marketplace using your credentials.</p>
+
+<p>NLP Server product is available <a href="https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm?sr=0-2&amp;ref_=beagle&amp;applicationId=AWSMPContessa">here</a>.</p>
+
+<p>1.Click on <code class="language-plaintext highlighter-rouge">Continue to subscribe</code> button for creating a subscription to the NLP Server product. The software is free of charge.</p>
+
+<p><img class="image image--xl" src="/assets/images/nlp_server/AWS_s1.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>2.Read the subscription EULA and click on <code class="language-plaintext highlighter-rouge">Accept terms</code> button if you want to continue.</p>
+
+<p><img class="image image--xl" src="/assets/images/nlp_server/AWS_s2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>3.In a couple of seconds the subscription becomes active.</p>
+
+<p><img class="image image--xl" src="/assets/images/nlp_server/AWS_s3.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" />
+Once it is active you see this screen. 
+<img class="image image--xl" src="/assets/images/nlp_server/AWS_s4.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>4.Go to AWS Marketplace &gt; Manage subscriptions and click on the <code class="language-plaintext highlighter-rouge">Launch new instance</code> button corresponding to the NLP Server subscription. 
+This will redirect you to the following screen. Click on <code class="language-plaintext highlighter-rouge">Continue to launch through EC2</code> button.
+<img class="image image--xl" src="/assets/images/nlp_server/EC2_0.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>5.From the available options select the instance type you want to use for the deployment. Then click on <code class="language-plaintext highlighter-rouge">Review and Lauch</code> button. 
+<img class="image image--xl" src="/assets/images/nlp_server/EC2_s2.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>6.Select an existing key pair or create a new one. This ensures a secured connection to the instance. If you create a new key make sure that you download and safely store it for future usage. Click on the <code class="language-plaintext highlighter-rouge">Launch</code> button.</p>
+
+<p><img class="image image--xl" src="/assets/images/nlp_server/EC2_s3.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>7.While the instance is starting you will see this screen.</p>
+
+<p><img class="image image--xl" src="/assets/images/nlp_server/EC2_s4.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>Then the instance will appear on your EC2 Instances list.</p>
+
+<p><img class="image image--xl" src="/assets/images/nlp_server/EC2_s5.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>The NLP Server can now be accessed via a web browser at http://PUBLIC_EC2_IP . 
+<img class="image image--xl" src="/assets/images/nlp_server/EC2_s6.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>API documentation is also available at http://PUBLIC_EC2_IP/docs
+<img class="image image--xl" src="/assets/images/nlp_server/EC2_s7.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-04-17T00:00:00+00:00">Apr 17, 2021</time>
+      <time itemprop="dateModified" datetime="2021-09-22T00:00:00+00:00">Sep 22, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -697,7 +707,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="next nav_link"><span>NEXT</span><a href="/docs/en/nlp_server/installation">Installation</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/nlp_server/nlp_server">Getting Started</a></div></div></div>
 
 </div>
 </div>
