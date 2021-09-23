@@ -19,7 +19,6 @@ package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Version
-
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.sql.Timestamp
@@ -90,4 +89,27 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
     BertEmbeddings.pretrained("small_bert_L2_128", lang = "en")
   }
 
+  "ResourceDownloader" should "list all pretrained models for an annotator using the class" in {
+    // TODO: Mock ResourceDownloader meta fetching, using updated metadata.json
+    import com.johnsnowlabs.nlp.pretrained.ResourceDownloader.libVersion
+
+
+    val resources = ResourceDownloader.listPretrainedResources(
+      folder = "public/models",
+      ResourceType.MODEL,
+      modelClass = Some("NerDLModel"),
+      lang = Some("en"),
+      Some(libVersion)
+    )
+
+    println(resources.length)
+    println(resources.mkString("\n"))
+  }
+
+  "ResourceDownloader" should "print all pretrained models for an annotator using class field" in {
+    // TODO: Use updated metadata.json
+    ResourceDownloader.showPublicModels("NerDLModel")
+    ResourceDownloader.showPublicModels("NerDLModel", "en")
+    ResourceDownloader.showPublicModels("NerDLModel", "en", "2.5.0")
+  }
 }

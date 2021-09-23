@@ -114,14 +114,51 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.MODEL)
   }
 
-
-  def showPublicModels(lang: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang), ResourceType.MODEL))
+  /**
+   * Prints all pretrained models for a particular annotator model, that are compatible with a version of Spark NLP.
+   * If any of the optional arguments are not set, the filter is not considered.
+   *
+   * @param modelClass Name of the model class, for example "NerDLModel"
+   * @param lang       Language of the pretrained models to display, for example "en"
+   * @param version    Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+   */
+  def showPublicModels(modelClass: String,
+                       lang: Option[String] = None,
+                       version: Option[String] = Some(Build.version)
+                      ): Unit = {
+    println(showString(
+      listPretrainedResources(
+        folder = publicLoc,
+        ResourceType.MODEL,
+        modelClass = Some(modelClass),
+        lang = lang,
+        version = version match {
+          case Some(ver) => Some(Version.parse(ver))
+          case None => None
+        }
+      ),
+      ResourceType.MODEL)
+    )
   }
 
-  def showPublicModels(lang: String, version: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL, lang, Version.parse(version)), ResourceType.MODEL))
-  }
+  /**
+   * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
+   *
+   * @param modelClass Name of the annotator class
+   * @param lang       Language of the pretrained models to display
+   */
+  def showPublicModels(modelClass: String, lang: String): Unit = showPublicModels(modelClass, Some(lang))
+
+  /**
+   * Prints all pretrained models for a particular annotator, that are compatible with a version of Spark NLP.
+   *
+   * @param modelClass Name of the model class, for example "NerDLModel"
+   * @param lang       Language of the pretrained models to display, for example "en"
+   * @param version    Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+   */
+  def showPublicModels(modelClass: String, lang: String, version: String): Unit =
+    showPublicModels(modelClass, Some(lang), Some(version))
+
 
   /**
    * List all pretrained pipelines in public
@@ -205,61 +242,56 @@ object ResourceDownloader {
   }
 
   /**
-   * List all resources after parsing the metadata json from the given folder in the S3 location
+   * Lists pretrained resource from metadata.json, depending on the set filters.
+   * The folder in the S3 location and the resourceType is necessary. The other filters are optional and will be ignored
+   * if not set.
    *
-   * @param folder       folder inside S3 bucket
-   * @param resourceType type of the resources, ml for models and pl for pipelines
-   * @return list of pipelines if resourceType is Pipeline or list of models if resourceType is Model
+   * @param folder       Folder in the S3 location
+   * @param resourceType Type of the Resource. Can Either `ResourceType.MODEL`, `ResourceType.PIPELINE` or
+   *                     `ResourceType.NOT_DEFINED`
+   * @param modelClass   Name of the model class
+   * @param lang         Language of the model
+   * @param version      Version that the model should be compatible with
+   * @return A list of the available resources
    */
-  def listPretrainedResources(folder: String, resourceType: ResourceType): List[String] = {
+  def listPretrainedResources(folder: String,
+                              resourceType: ResourceType,
+                              modelClass: Option[String] = None,
+                              lang: Option[String] = None,
+                              version: Option[Version] = None
+                             ): List[String] = {
     val resourceList = new ListBuffer[String]()
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
     for (meta <- resourceMetaData) {
-      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)) {
-        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      val isSameResourceType = meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)
+      val isCompatibleWithVersion = version match {
+        case Some(ver) => Version.isCompatible(ver, meta.libVersion)
+        case None => true
+      }
+      val isSameClass = modelClass match {
+        case Some(cls) => meta.`class`.getOrElse("").equalsIgnoreCase(cls)
+        case None => true
+      }
+      val isSameLanguage = lang match {
+        case Some(l) => meta.language.getOrElse("").equalsIgnoreCase(l)
+        case None => true
       }
 
+      if (isSameResourceType & isCompatibleWithVersion & isSameClass & isSameLanguage) {
+        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
+      }
     }
     resourceList.result()
   }
 
-  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String): List[String] = {
-    val resourceList = new ListBuffer[String]()
-    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
-    for (meta <- resourceMetaData) {
-      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & meta.language.getOrElse("").equalsIgnoreCase(lang)) {
-        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
-      }
+  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String): List[String] =
+    listPretrainedResources(folder, resourceType, lang = Some(lang))
 
-    }
-    resourceList.result()
-  }
+  def listPretrainedResources(folder: String, resourceType: ResourceType, version: Version): List[String] =
+    listPretrainedResources(folder, resourceType, version = Some(version))
 
-  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] = {
-    val resourceList = new ListBuffer[String]()
-    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
-    for (meta <- resourceMetaData) {
-
-      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & meta.language.getOrElse("").equalsIgnoreCase(lang) & Version.isCompatible(version, meta.libVersion)) {
-        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
-      }
-
-    }
-    resourceList.result()
-  }
-
-  def listPretrainedResources(folder: String, resourceType: ResourceType, version: Version): List[String] = {
-    val resourceList = new ListBuffer[String]()
-    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
-    for (meta <- resourceMetaData) {
-
-      if (meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString) & Version.isCompatible(version, meta.libVersion)) {
-        resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
-      }
-
-    }
-    resourceList.result()
-  }
+  def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] =
+    listPretrainedResources(folder, resourceType, lang = Some(lang), version = Some(version))
 
   /**
    * Loads resource to path
