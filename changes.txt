@@ -1,12 +1,2 @@
-docs/_posts/murat-gunay/2021-05-03-classifierdl_bert_news_tr.md
-docs/_posts/murat-gunay/2021-07-12-classifierdl_bert_news_de.md
-docs/_posts/murat-gunay/2021-07-21-classifierdl_berturk_cyberbullying_tr.md
-docs/_posts/murat-gunay/2021-08-13-classifierdl_berturk_cyberbullying_pipeline_tr.md
-docs/_posts/murat-gunay/2021-08-13-classifierdl_electra_questionpair_en.md
-docs/_posts/murat-gunay/2021-09-13-bert_token_classifier_ner_deid_en.md
-docs/_posts/murat-gunay/2021-05-03-classifierdl_bert_news_tr.md
-docs/_posts/murat-gunay/2021-07-12-classifierdl_bert_news_de.md
-docs/_posts/murat-gunay/2021-07-21-classifierdl_berturk_cyberbullying_tr.md
-docs/_posts/murat-gunay/2021-08-13-classifierdl_berturk_cyberbullying_pipeline_tr.md
-docs/_posts/murat-gunay/2021-08-13-classifierdl_electra_questionpair_en.md
-docs/_posts/murat-gunay/2021-09-13-bert_token_classifier_ner_deid_en.md
+docs/_posts/HashamUlHaq/2021-04-02-chunkresolve_loinc_clinical_en.md
+docs/_posts/HashamUlHaq/2021-04-02-chunkresolve_loinc_clinical_en.md
