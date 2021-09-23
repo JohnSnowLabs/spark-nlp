@@ -3,7 +3,7 @@ layout: docs
 header: true
 title: Annotation Lab
 excerpt: A lightning fast tool for document annotation.
-permalink: /docs/en/alab/alab
+permalink: /docs/en/alab/quickstart
 key: docs-quickstart
 modify_date: "2020-11-19"
 header: true
