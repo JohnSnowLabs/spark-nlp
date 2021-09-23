@@ -21,7 +21,7 @@ Classify German texts of news
 
 ## Predicted Entities
 
-`Inland`, `International`, `Panorama`, `Sport`, `Web`, `Wirtschaft`, `Wissenschaft`.
+`Inland`, `International`, `Panorama`, `Sport`, `Web`, `Wirtschaft`, `Wissenschaft`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -55,17 +55,17 @@ result = light_pipeline.annotate("Niki Lauda in einem McLaren MP 4/2 TAG Turbo. 
 result["class"]
 ```
 ```scala
-val document = DocumentAssembler()\
-    .setInputCol("text")\
+val document = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val embeddings = BertSentenceEmbeddings\
-    .pretrained("sent_bert_multi_cased", "xx") \
-    .setInputCols("document")\
+val embeddings = BertSentenceEmbeddings
+    .pretrained("sent_bert_multi_cased", "xx") 
+    .setInputCols("document")
     .setOutputCol("sentence_embeddings")
 
-val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "de") \
-  .setInputCols(Array("document", "sentence_embeddings")) \
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "de") 
+  .setInputCols(Array("document", "sentence_embeddings")) 
   .setOutputCol("class")
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))
