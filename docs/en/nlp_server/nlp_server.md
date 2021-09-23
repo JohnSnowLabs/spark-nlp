@@ -20,13 +20,7 @@ NLP Server is `free` for everyone to download and use. There is no limitation in
 
 You can setup NLP-Server as a Docker Machine in any enviroment or get it via the `AWS Marketplace` in just 1 click.
 
-## Docker Setup
 
-```shell
-
-docker run -p 5000:5000 johnsnowlabs/nlp-server:latest
-
-```
 ## Web UI
 The Web UI is accessible at the followin URL: http://localhost:5000/
 It allows a very simple and intuitive interaction with the NLP Server. 
