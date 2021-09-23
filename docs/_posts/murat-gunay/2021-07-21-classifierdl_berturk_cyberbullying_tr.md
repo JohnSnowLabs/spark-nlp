@@ -21,7 +21,7 @@ Identifies whether a Turkish text contains cyberbullying or not.
 
 ## Predicted Entities
 
-`Negatif`, `Pozitif`.
+`Negative`, `Positive`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -82,7 +82,7 @@ val result = light_pipeline.annotate("Gidişin olsun, dönüşün olmasın inşa
 ## Results
 
 ```bash
-['Negatif']
+['Negative']
 ```
 
 {:.model-param}
@@ -107,8 +107,8 @@ Trained on a custom dataset with Turkish Bert embeddings (BERTurk).
 ```bash
               precision    recall  f1-score   support
 
-     Negatif       0.83      0.80      0.81       970
-     Pozitif       0.84      0.87      0.86      1225
+     Negative       0.83      0.80      0.81       970
+     Positive       0.84      0.87      0.86      1225
 
     accuracy                           0.84      2195
    macro avg       0.84      0.83      0.84      2195

@@ -21,7 +21,7 @@ Deidentification NER is a Named Entity Recognition model that annotates text to 
 
 ## Predicted Entities
 
-`MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE.`
+`MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
@@ -43,7 +43,7 @@ tokenizer = Tokenizer()\
   .setInputCols("document")\
   .setOutputCol("token")
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_deid", "en")\
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_deid", "en", "clinical/models")\
   .setInputCols("token", "document")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)
@@ -68,7 +68,7 @@ val tokenizer = Tokenizer()
   .setInputCols("document")
   .setOutputCol("token")
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_deid", "en")
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_deid", "en", "clinical/models")
   .setInputCols("token", "document")
   .setOutputCol("ner")
   .setCaseSensitive(True)
