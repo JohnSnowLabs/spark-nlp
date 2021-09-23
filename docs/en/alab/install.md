@@ -19,15 +19,14 @@ You can install Annotation Lab on a Ubuntu 20+ machine.
 Annotation Lab expects ports 443 and 80 to be open by default. 
 
 ## Server requirements
-The minimal required configuration is 32GB RAM, 8 Core CPU, 512 SSD. 
-The ideal configuration in case model training and preannotations are required on a large number of tasks is 64 GiB, 16 Core CPU, 2TB HDD, 512 SSD. 
+The minimal required configuration is *32GB RAM, 8 Core CPU, 512 SSD*. 
+The ideal configuration in case model training and preannotations are required on a large number of tasks is *64 GiB, 16 Core CPU, 2TB HDD, 512 SSD*. 
 
 ## Web browser support
 Annotation Lab is tested with the latest version of Google Chrome and is expected to work in the latest versions of:
 •   Google Chrome
 •   Apple Safari
 •   Mozilla Firefox
-If using other web browsers or older versions of supported web browsers, unexpected behavior could occur.
 
 ## Install via script
 
@@ -52,12 +51,14 @@ The install/upgrade script display the login credentials for the admin user on t
 ## Custom installation 
 
 ### Get artifact
+
 ```bash
 Wget https://s3.amazonaws.com/auxdata.johnsnowlabs.com/annotationlab/annotationlab-"$VERSION".tar.gz
 ```
 replace $VERSION with the version you want to download and install. 
 
 ### Fresh installation
+
 ```bash
 $ sudo su
 $ ./annotationlab-installer.sh
@@ -69,6 +70,7 @@ $ sudo su
 $ ./annotationlab-updater.sh
 ```
 ### Work over proxy
+
 - Custom CA certificate
 
 You can provide a custom CA certificate chain to be included into the deployment. To do it add `--set-file custom_cacert=./cachain.pem` options to `helm install/upgrade` command inside `annotationlab-installer.sh` and `annotationlab-updater.sh` files.
@@ -83,7 +85,9 @@ cachain.pem must include a certificate in the following format:
 You can provide a proxy to use for external communications. To do it add `--set proxy.http=[protocol://]<host>[:port]`, `--set proxy.https=[protocol://]<host>[:port]`, `--set proxy.no=<comma-separated list of hosts/domains>` commands inside `annotationlab-installer.sh` and `annotationlab-updater.sh` files.
 
 ### Backup and restore
+
 - Backup
+
 You can enable daily backups by adding several variables with --set option to helm command in `annotationlab-updater.sh`:
 ```bash
 backup.enable=true
@@ -97,6 +101,7 @@ backup.s3_bucket_fullpath="<FULL_PATH>"
 `<FULL_PATH>` - full path to your backup in s3 bucket (f.e. s3://example.com/path/to/my/backup/dir)
 
 - Restore
+
 To restore from backup you need new clear installation of Annotation Lab. Do it with `annotationlab-install.sh`.
 Next, you need to download latest backup from your s3 bucket and unpack an archive. There should be 3 sql backup files:
 

@@ -162,7 +162,7 @@ annotation-lab:
   - title: Annotation Lab
     children:
       - title:  Getting Started
-        url:    /docs/en/alab/alab
+        url:    /docs/en/alab/quickstart
       - title:  Start Page 
         url:    /docs/en/alab/start_page
       - title:  Installation 
