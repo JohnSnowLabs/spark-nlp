@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
+import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, Name}
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
@@ -23,7 +24,19 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val patternsReader = getReader(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReader]
-    val result = patternsReader.lookup("John")
+    val tokenizedWithSentences = TokenizedWithSentence.unpack(annotations)
+
+    val entities = tokenizedWithSentences.map{ tokenizedWithSentence =>
+     tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
+       val entity = patternsReader.lookup(indexedToken.token)
+       val annotation = if (entity.isDefined) {
+         Some(Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
+           Map("entity" -> entity.get, "sentence" -> tokenizedWithSentence.sentenceIndex.toString)))
+       } else None
+       annotation
+     }
+    }
+
     Seq()
   }
 
