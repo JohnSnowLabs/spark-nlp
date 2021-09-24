@@ -121,6 +121,6 @@ ner_events_admission_clinical_chunks :  ['gestational diabetes mellitus', 'eight
 - SentenceDetectorDLModel
 - TokenizerModel
 - WordEmbeddingsModel
-- MedicalNerModel (x25)
-- NerConverter (x25)
+- MedicalNerModel (x48)
+- NerConverter (x48)
 - Finisher
