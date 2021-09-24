@@ -48,18 +48,18 @@ wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s -- --version VERSION
 ```
-Replace VERSION within the above on liners with the version you want to install.  
+Replace VERSION within the above one liners with the version you want to install.  
 
 After running the install/upgrade script the Annotation Lab is available at http://INSTANCE_IP  or https://INSTANCE_IP 
 
-The install/upgrade script display the login credentials for the admin user on the terminal. 
+The install/upgrade script displays the login credentials for the admin user on the terminal. 
 
 ## Custom installation 
 
 ### Get artifact
 
 ```bash
-Wget https://s3.amazonaws.com/auxdata.johnsnowlabs.com/annotationlab/annotationlab-VERSION.tar.gz
+wget https://s3.amazonaws.com/auxdata.johnsnowlabs.com/annotationlab/annotationlab-VERSION.tar.gz
 ```
 replace VERSION with the version you want to download and install. 
 
@@ -102,6 +102,7 @@ commands inside `annotationlab-installer.sh` and `annotationlab-updater.sh` file
 - Backup
 
 You can enable daily backups by adding several variables with --set option to helm command in `annotationlab-updater.sh`:
+
 ```bash
 backup.enable=true
 backup.s3_access_key="<ACCESS_KEY>"
