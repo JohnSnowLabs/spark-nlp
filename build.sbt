@@ -112,8 +112,7 @@ lazy val utilDependencies = Seq(
     exclude("org.apache.commons", "commons-lang3"),
   greex,
   json4s
-
-)
+) ++ circe
 
 lazy val typedDependencyParserDependencies = Seq(
   trove4j,

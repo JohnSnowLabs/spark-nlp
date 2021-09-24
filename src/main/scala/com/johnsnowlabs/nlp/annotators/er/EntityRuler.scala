@@ -2,12 +2,16 @@ package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
+import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorage, RocksDBConnection, StorageWriter}
+import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
+
+import scala.io.Source
 
 class EntityRuler(override val uid: String) extends AnnotatorApproach[EntityRulerModel] with HasStorage {
 
@@ -15,9 +19,18 @@ class EntityRuler(override val uid: String) extends AnnotatorApproach[EntityRule
 
   override val description: String = "Entity Ruler matches entities based on text patterns"
 
-  setDefault(storagePath -> new ExternalResource("", ReadAs.TEXT, Map()))
+  val patterns = new ExternalResourceParam(this, "patterns",
+    "Resource in JSON or CSV format to map entities to patterns")
+
+  def setPatterns(path: String, readAs: ReadAs.Format, options: Map[String, String] = Map("format" -> "JSON")): this.type =
+    set(patterns, ExternalResource(path, readAs, options))
+
+  setDefault(storagePath -> ExternalResource("", ReadAs.TEXT, Map()),
+    patterns -> null
+  )
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): EntityRulerModel = {
+
     new EntityRulerModel()
       .setStorageRef($(storageRef))
   }
@@ -30,13 +43,25 @@ class EntityRuler(override val uid: String) extends AnnotatorApproach[EntityRule
   override protected def index(fitDataset: Dataset[_], storageSourcePath: Option[String], readAs: Option[ReadAs.Value],
                                writers: Map[Name, StorageWriter[_]], readOptions: Option[Map[String, String]]): Unit = {
 
-    val tmpEntityPatterns = Map("John" -> "PER", "Snow" -> "PER", "John Snow" -> "PER")
+    require($(patterns) != null, "patterns parameter required")
 
     val patternsReaderWriter = writers(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReadWriter]
 
-    tmpEntityPatterns.foreach{ case (pattern, entity) =>
+    entityPatterns.foreach{ case (pattern, entity) =>
       patternsReaderWriter.lookup(pattern).getOrElse(patternsReaderWriter.add(pattern, entity))
     }
+  }
+
+  private lazy val entityPatterns: Map[String, String] = {
+
+    import io.circe.generic.auto._
+
+    val stream =  ResourceHelper.getResourceStream($(patterns).path)
+    val jsonContent = Source.fromInputStream(stream).mkString
+    val jsonParser = new JsonParser[EntityPattern]
+    val entityPatterns: Array[EntityPattern] = jsonParser.readJsonArray(jsonContent)
+
+    entityPatterns.flatMap(entityPattern => Map(entityPattern.pattern-> entityPattern.label)).toMap
   }
 
   override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
