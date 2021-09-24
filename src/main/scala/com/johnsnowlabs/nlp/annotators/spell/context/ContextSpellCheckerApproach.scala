@@ -381,7 +381,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       par.map { t => t.setTransducer(t.generateTransducer) }.seq
 
     // training
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Array[Byte]], Array.empty[Byte]), graph.toGraphDef.toByteArray)
     val model = new TensorflowSpell(tf, Verbose.Silent)
     model.train(encodeCorpus(train, word2ids, encodedClasses), encodeCorpus(validation, word2ids, encodedClasses),
       getOrDefault(epochs), getOrDefault(batchSize), getOrDefault(initialRate), getOrDefault(finalRate))
