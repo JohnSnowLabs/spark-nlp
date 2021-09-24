@@ -4,7 +4,7 @@ title: Named Entity Recognition Profiling (Biobert)
 author: John Snow Labs
 name: ner_profiling_biobert
 date: 2021-09-23
-tags: [ner, ner_profiling, clinial, licensed, en]
+tags: [ner, ner_profiling, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
 edition: Spark NLP for Healthcare 3.2.3
@@ -94,46 +94,6 @@ sentence :  ['A 28-year-old female with a history of gestational diabetes mellit
 - SentenceDetectorDLModel
 - TokenizerModel
 - BertEmbeddings
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
+- MedicalNerModel (x21)
+- NerConverter (x21)
 - Finisher
