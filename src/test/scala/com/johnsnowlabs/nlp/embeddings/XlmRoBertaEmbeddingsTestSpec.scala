@@ -62,10 +62,9 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
-    pipelineDF.show()
-//    Benchmark.time("Time to save BertEmbeddings results") {
-//      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
-//    }
+    Benchmark.time("Time to save BertEmbeddings results") {
+      pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
+    }
   }
 
   "XlmRoBertaEmbeddings" should "benchmark test" taggedAs SlowTest in {
@@ -125,8 +124,7 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = XlmRoBertaEmbeddings
-      .loadSavedModel("/Users/maziyar/Downloads/xlm-roberta-large", ResourceHelper.spark)
+    val embeddings = XlmRoBertaEmbeddings.pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
