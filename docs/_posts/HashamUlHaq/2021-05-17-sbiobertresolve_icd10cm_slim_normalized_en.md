@@ -24,7 +24,7 @@ This model maps clinical entities and concepts to ICD10 CM codes using `sbiobert
 ICD10 CM Codes. In this model, synonyms having low cosine similarity to unnormalized terms are dropped . It also returns the official resolution text within the brackets inside the metadata
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_slim_normalized_en_3.0.4_3.0_1621286250442.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
