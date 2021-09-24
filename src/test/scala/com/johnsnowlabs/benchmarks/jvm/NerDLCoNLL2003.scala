@@ -76,7 +76,7 @@ object NerDLCoNLL2003 extends App {
   val session = new Session(graph, ConfigProto.parseFrom(config))
 
 
-  val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
+  val tf = new TensorflowWrapper(Variables(Array.empty[Array[Byte]], Array.empty[Byte]), graph.toGraphDef.toByteArray)
 
 
   val ner = try {

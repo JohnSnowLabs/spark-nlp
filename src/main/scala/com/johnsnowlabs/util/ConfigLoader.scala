@@ -24,8 +24,8 @@ import scala.util.{Failure, Success, Try}
 object ConfigLoader {
 
   private lazy val fileSystem: FileSystem = ConfigHelper.getFileSystem
-  private lazy val homeDirectory = {
-    if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home") else fileSystem.getHomeDirectory
+  private lazy val homeDirectory: String = {
+    if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home") else fileSystem.getHomeDirectory.toString
   }
   private lazy val hadoopTmpDir: String = ConfigHelper.getHadoopTmpDir
 
