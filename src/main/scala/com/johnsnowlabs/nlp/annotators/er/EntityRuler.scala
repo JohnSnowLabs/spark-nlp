@@ -61,7 +61,9 @@ class EntityRuler(override val uid: String) extends AnnotatorApproach[EntityRule
     val jsonParser = new JsonParser[EntityPattern]
     val entityPatterns: Array[EntityPattern] = jsonParser.readJsonArray(jsonContent)
 
-    entityPatterns.flatMap(entityPattern => Map(entityPattern.pattern-> entityPattern.label)).toMap
+    entityPatterns.flatMap{ entityPattern =>
+      entityPattern.pattern.split("\\s").flatMap(pattern => Map(pattern -> entityPattern.label))
+    }.toMap
   }
 
   override protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
