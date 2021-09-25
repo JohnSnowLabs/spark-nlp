@@ -23,11 +23,12 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+
     val patternsReader = getReader(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReader]
     val tokenizedWithSentences = TokenizedWithSentence.unpack(annotations)
 
-    val entities = tokenizedWithSentences.map{ tokenizedWithSentence =>
-     tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
+    val entities = tokenizedWithSentences.par.flatMap{ tokenizedWithSentence =>
+     tokenizedWithSentence.indexedTokens.par.flatMap{ indexedToken =>
        val entity = patternsReader.lookup(indexedToken.token)
        val annotation = if (entity.isDefined) {
          Some(Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
@@ -37,7 +38,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
      }
     }
 
-    Seq()
+    entities.toList
   }
 
   override protected val databases: Array[Name] = EntityRulerModel.databases

@@ -1,14 +1,18 @@
 [
   {
     "label": "PERSON",
-    "pattern": "Abbotts"
+    "pattern": "Jon"
   },
   {
     "label": "PERSON",
-    "pattern": "Aberforth"
+    "pattern": "John"
   },
   {
     "label": "PERSON",
-    "pattern": "Aberforth Dumbledore"
+    "pattern": "John Snow"
+  },
+  {
+    "label": "LOCATION",
+    "pattern": "Winterfell"
   }
 ]
