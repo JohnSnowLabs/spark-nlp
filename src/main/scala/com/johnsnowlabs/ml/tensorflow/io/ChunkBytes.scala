@@ -25,22 +25,25 @@ object ChunkBytes {
   /**
    * readFileInByteChunks will read a file by chuning the size of BufferSize and return array of arrays of Byte
    *
-   * @param inputPath the path to an input file
-   * @param BuferSize the size of bytes in each chunk
+   * @param inputPath  the path to an input file
+   * @param BufferSize the size of bytes in each chunk
    * @return Array of Arrays of Byte
    */
   def readFileInByteChunks(inputPath: Path, BufferSize: Int = 1024 * 1024): Array[Array[Byte]] = {
 
     val varBytes = ArrayBuffer.empty[Array[Byte]]
     val fis = new FileInputStream(inputPath.toString)
-    var buffer = new Array[Byte](BufferSize)
 
-    var read = fis.read(buffer)
+    val buffer = Array.ofDim[Byte](BufferSize)
+    var read = fis.read(buffer, 0, BufferSize)
+    if (read > -1)
+      varBytes.append(buffer)
 
     while (read > -1) {
-      varBytes.append(buffer)
-      buffer = new Array[Byte](BufferSize)
-      read = fis.read(buffer)
+      val buffer = Array.ofDim[Byte](BufferSize)
+      read = fis.read(buffer, 0, BufferSize)
+      if (read > -1)
+        varBytes.append(buffer)
     }
     fis.close()
     varBytes.toArray
