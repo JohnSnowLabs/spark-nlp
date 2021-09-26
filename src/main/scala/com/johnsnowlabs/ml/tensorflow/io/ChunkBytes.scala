@@ -18,7 +18,6 @@ package com.johnsnowlabs.ml.tensorflow.io
 
 import java.io.{BufferedOutputStream, FileInputStream, FileOutputStream, IOException}
 import java.nio.file.{Files, Path}
-import scala.collection.mutable.ArrayBuffer
 
 object ChunkBytes {
 
@@ -43,7 +42,7 @@ object ChunkBytes {
     var index = 0
 
     while (read > -1) {
-      varBytes(index) = buffer.take(buffer.length)
+      varBytes(index) = buffer.clone()
       read = fis.read(buffer, 0, BufferSize)
       index += 1
     }
