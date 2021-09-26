@@ -31,25 +31,29 @@ object ChunkBytes {
   def readFileInByteChunks(inputPath: Path, BufferSize: Int = 1024 * 1024): Array[Array[Byte]] = {
 
     val fis = new FileInputStream(inputPath.toString)
+    val sbc = Files.newByteChannel(inputPath).size()
+    val MAX_FILE_SIZE = Integer.MAX_VALUE - 8
 
-    val sbc = Files.newByteChannel(inputPath)
-    val chunksCount = (sbc.size() / BufferSize).toInt + 1
+    if (sbc < MAX_FILE_SIZE) {
+      Array(Files.readAllBytes(inputPath))
+    } else {
+      val chunksCount = (sbc / BufferSize).toInt + 1
 
-    val varBytes = Array.ofDim[Array[Byte]](chunksCount)
-    val buffer = Array.ofDim[Byte](BufferSize)
+      val varBytes = Array.ofDim[Array[Byte]](chunksCount)
+      val buffer = Array.ofDim[Byte](BufferSize)
 
-    var read = fis.read(buffer, 0, BufferSize)
-    var index = 0
+      var read = fis.read(buffer, 0, BufferSize)
+      var index = 0
 
-    while (read > -1) {
-      varBytes(index) = buffer.clone()
-      read = fis.read(buffer, 0, BufferSize)
-      index += 1
+      while (read > -1) {
+        varBytes(index) = buffer.clone()
+        read = fis.read(buffer, 0, BufferSize)
+        index += 1
+      }
+      fis.close()
+      varBytes
     }
 
-    fis.close()
-
-    varBytes
   }
 
   /**
