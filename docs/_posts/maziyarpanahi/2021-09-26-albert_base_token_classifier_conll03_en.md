@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 `ALBERT Model` with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.
 
-**albert_base_token_classifier_conll03** is a fine-tuned BERT model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
+**albert_base_token_classifier_conll03** is a fine-tuned ALBERT model that is ready to use for **Named Entity Recognition** and achieves **state-of-the-art performance** for the NER task. This model has been trained to recognize four types of entities: location (LOC), organizations (ORG), person (PER), and Miscellaneous (MISC). 
 
 We used [TFAlbertForTokenClassification](https://huggingface.co/transformers/model_doc/albert.html#tfalbertfortokenclassification) to train this model and used `AlbertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
