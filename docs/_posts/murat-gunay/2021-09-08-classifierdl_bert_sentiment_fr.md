@@ -56,17 +56,17 @@ result2 = light_pipeline.annotate("Je me sens bien, je suis heureux d'être de r
 print(result1["class"], result2["class"], sep = "\n")
 ```
 ```scala
-val document = DocumentAssembler()\
-    .setInputCol("text")\
+val document = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val embeddings = BertSentenceEmbeddings\
-    .pretrained("labse", "xx") \
-    .setInputCols(Array("document"))\
+val embeddings = BertSentenceEmbeddings
+    .pretrained("labse", "xx") 
+    .setInputCols(Array("document"))
     .setOutputCol("sentence_embeddings")
 
-val sentimentClassifier = ClassifierDLModel.pretrained("classifierdl_bert_sentiment", "fr") \
-  .setInputCols(Array("document", "sentence_embeddings")) \
+val sentimentClassifier = ClassifierDLModel.pretrained("classifierdl_bert_sentiment", "fr") 
+  .setInputCols(Array("document", "sentence_embeddings")) 
   .setOutputCol("class")
 
 val fr_sentiment_pipeline = new Pipeline().setStages(Array(document, embeddings, sentimentClassifier))

@@ -21,7 +21,7 @@ This model is trained on Few-NERD/inter public dataset and it extracts 66 entiti
 
 ## Predicted Entities
 
-`building-theater`, `art-other`, `location-bodiesofwater`, `other-god`, `organization-politicalparty`, `product-other`, `building-sportsfacility`, `building-restaurant`, `organization-sportsleague`, `event-election`, `organization-media/newspaper`, `product-software`, `other-educationaldegree`, `person-politician`, `person-soldier`, `other-disease`, `product-airplane`, `person-athlete`, `location-mountain`, `organization-company`, `other-biologything`, `location-other`, `other-livingthing`, `person-actor`, `organization-other`, `event-protest`, `art-film`, `other-award`, `other-astronomything`, `building-airport`, `product-food`, `person-other`, `event-disaster`, `product-weapon`, `event-sportsevent`, `location-park`, `product-ship`, `building-library`, `art-painting`, `building-other`, `other-currency`, `organization-education`, `person-scholar`, `organization-showorganization`, `person-artist/author`, `product-train`, `location-GPE`, `product-car`, `art-writtenart`, `event-attack/battle/war/militaryconflict`, `other-law`, `other-medical`, `organization-sportsteam`, `art-broadcastprogram`, `art-music`, `organization-government/governmentagency`, `other-language`, `event-other`, `person-director`, `other-chemicalthing`, `product-game`, `organization-religion`, `location-road/railway/highway/transit`, `location-island`, `building-hotel`, `building-hospital`.
+`building-theater`, `art-other`, `location-bodiesofwater`, `other-god`, `organization-politicalparty`, `product-other`, `building-sportsfacility`, `building-restaurant`, `organization-sportsleague`, `event-election`, `organization-media/newspaper`, `product-software`, `other-educationaldegree`, `person-politician`, `person-soldier`, `other-disease`, `product-airplane`, `person-athlete`, `location-mountain`, `organization-company`, `other-biologything`, `location-other`, `other-livingthing`, `person-actor`, `organization-other`, `event-protest`, `art-film`, `other-award`, `other-astronomything`, `building-airport`, `product-food`, `person-other`, `event-disaster`, `product-weapon`, `event-sportsevent`, `location-park`, `product-ship`, `building-library`, `art-painting`, `building-other`, `other-currency`, `organization-education`, `person-scholar`, `organization-showorganization`, `person-artist/author`, `product-train`, `location-GPE`, `product-car`, `art-writtenart`, `event-attack/battle/war/militaryconflict`, `other-law`, `other-medical`, `organization-sportsteam`, `art-broadcastprogram`, `art-music`, `organization-government/governmentagency`, `other-language`, `event-other`, `person-director`, `other-chemicalthing`, `product-game`, `organization-religion`, `location-road/railway/highway/transit`, `location-island`, `building-hotel`, `building-hospital`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -65,7 +65,7 @@ val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
 val ner = NerDLModel.pretrained("nerdl_fewnerd_subentity_100d")
     .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
 
-val ner_converter = NerConverter.setInputCols(Array("document", "token", "ner")) \
+val ner_converter = NerConverter.setInputCols(Array("document", "token", "ner")) 
     .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))
