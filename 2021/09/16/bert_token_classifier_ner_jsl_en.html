@@ -463,7 +463,7 @@
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
 
-<span class="n">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span>
         <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 

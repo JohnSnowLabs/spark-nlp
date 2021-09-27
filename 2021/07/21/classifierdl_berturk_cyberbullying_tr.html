@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Cyberbullying Classifier in Turkish texts.- Spark NLP Model</title><meta name="description" content="DescriptionIdentifies whether a Turkish text contains cyberbullying or not.Predicted EntitiesNegative, Positive.Live DemoOpen in ColabDownloadHow to use     ...">
+<!-- End Google Tag Manager --><title>Cyberbullying Classifier in Turkish texts.- Spark NLP Model</title><meta name="description" content="DescriptionIdentifies whether a Turkish text contains cyberbullying or not.Predicted EntitiesNegative, PositiveLive DemoOpen in ColabDownloadHow to use      ...">
 <link rel="canonical" href="/2021/07/21/classifierdl_berturk_cyberbullying_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -413,7 +413,7 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Negative</code>, <code class="language-plaintext highlighter-rouge">Positive</code>.</p>
+<p><code class="language-plaintext highlighter-rouge">Negative</code>, <code class="language-plaintext highlighter-rouge">Positive</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
@@ -447,17 +447,17 @@
 <span class="n">result</span><span class="p">[</span><span class="s">"class"</span><span class="p">]</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="k">val</span> <span class="nv">berturk_embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_base_turkish_uncased"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"lemma"</span><span class="o">)</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">berturk_embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_base_turkish_uncased"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span> 
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"lemma"</span><span class="o">)</span> 
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddingsSentence</span> <span class="k">=</span> <span class="nc">SentenceEmbeddings</span><span class="o">()</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">embeddingsSentence</span> <span class="k">=</span> <span class="nc">SentenceEmbeddings</span><span class="o">()</span> 
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span> 
       <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_berturk_cyberbullying"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span> <span class="o">\</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">document_classifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_berturk_cyberbullying"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span> 
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> 
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">berturk_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">normalizer</span><span class="o">,</span> <span class="n">stopwords_cleaner</span><span class="o">,</span> <span class="n">lemma</span><span class="o">,</span> <span class="n">berturk_embeddings</span><span class="o">,</span> <span class="n">embeddingsSentence</span><span class="o">,</span> <span class="n">document_classifier</span><span class="o">))</span>
