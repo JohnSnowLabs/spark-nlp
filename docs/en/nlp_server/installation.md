@@ -15,7 +15,7 @@ sidebar:
 For deploying NLP Server on your instance run the following command. 
 ```shell
 
-docker run -p 5000:5000 johnsnowlabs/nlp-server:latest
+docker run --pull=always -p 5000:5000 johnsnowlabs/nlp-server:latest
 
 ```
 This will check if the latest docker image is available on your local machine and if not it will automatically download and run it. 
