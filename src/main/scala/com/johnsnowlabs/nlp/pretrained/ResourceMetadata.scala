@@ -42,7 +42,7 @@ case class ResourceMetadata
   isZipped: Boolean = false,
   category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
   checksum: String = "",
-  `class`: Option[String] = None
+  annotator: Option[String] = None
 ) {
 
 
