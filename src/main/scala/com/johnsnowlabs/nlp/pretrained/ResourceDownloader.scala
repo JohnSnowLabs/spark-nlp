@@ -118,11 +118,11 @@ object ResourceDownloader {
    * Prints all pretrained models for a particular annotator model, that are compatible with a version of Spark NLP.
    * If any of the optional arguments are not set, the filter is not considered.
    *
-   * @param modelClass Name of the model class, for example "NerDLModel"
-   * @param lang       Language of the pretrained models to display, for example "en"
-   * @param version    Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+   * @param annotator Name of the model class, for example "NerDLModel"
+   * @param lang      Language of the pretrained models to display, for example "en"
+   * @param version   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
    */
-  def showPublicModels(modelClass: String,
+  def showPublicModels(annotator: Option[String] = None,
                        lang: Option[String] = None,
                        version: Option[String] = Some(Build.version)
                       ): Unit = {
@@ -130,7 +130,7 @@ object ResourceDownloader {
       listPretrainedResources(
         folder = publicLoc,
         ResourceType.MODEL,
-        modelClass = Some(modelClass),
+        annotator = annotator,
         lang = lang,
         version = version match {
           case Some(ver) => Some(Version.parse(ver))
@@ -144,20 +144,27 @@ object ResourceDownloader {
   /**
    * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
    *
-   * @param modelClass Name of the annotator class
-   * @param lang       Language of the pretrained models to display
+   * @param annotator Name of the annotator class
    */
-  def showPublicModels(modelClass: String, lang: String): Unit = showPublicModels(modelClass, Some(lang))
+  def showPublicModels(annotator: String): Unit = showPublicModels(Some(annotator))
+
+  /**
+   * Prints all pretrained models for a particular annotator model, that are compatible with this version of Spark NLP.
+   *
+   * @param annotator Name of the annotator class
+   * @param lang      Language of the pretrained models to display
+   */
+  def showPublicModels(annotator: String, lang: String): Unit = showPublicModels(Some(annotator), Some(lang))
 
   /**
    * Prints all pretrained models for a particular annotator, that are compatible with a version of Spark NLP.
    *
-   * @param modelClass Name of the model class, for example "NerDLModel"
-   * @param lang       Language of the pretrained models to display, for example "en"
-   * @param version    Version of Spark NLP that the model should be compatible with, for example "3.2.3"
+   * @param annotator Name of the model class, for example "NerDLModel"
+   * @param lang      Language of the pretrained models to display, for example "en"
+   * @param version   Version of Spark NLP that the model should be compatible with, for example "3.2.3"
    */
-  def showPublicModels(modelClass: String, lang: String, version: String): Unit =
-    showPublicModels(modelClass, Some(lang), Some(version))
+  def showPublicModels(annotator: String, lang: String, version: String): Unit =
+    showPublicModels(Some(annotator), Some(lang), Some(version))
 
 
   /**
@@ -249,14 +256,14 @@ object ResourceDownloader {
    * @param folder       Folder in the S3 location
    * @param resourceType Type of the Resource. Can Either `ResourceType.MODEL`, `ResourceType.PIPELINE` or
    *                     `ResourceType.NOT_DEFINED`
-   * @param modelClass   Name of the model class
+   * @param annotator    Name of the model class
    * @param lang         Language of the model
    * @param version      Version that the model should be compatible with
    * @return A list of the available resources
    */
   def listPretrainedResources(folder: String,
                               resourceType: ResourceType,
-                              modelClass: Option[String] = None,
+                              annotator: Option[String] = None,
                               lang: Option[String] = None,
                               version: Option[Version] = None
                              ): List[String] = {
@@ -268,8 +275,8 @@ object ResourceDownloader {
         case Some(ver) => Version.isCompatible(ver, meta.libVersion)
         case None => true
       }
-      val isSameClass = modelClass match {
-        case Some(cls) => meta.`class`.getOrElse("").equalsIgnoreCase(cls)
+      val isSameAnnotator = annotator match {
+        case Some(cls) => meta.annotator.getOrElse("").equalsIgnoreCase(cls)
         case None => true
       }
       val isSameLanguage = lang match {
@@ -277,7 +284,7 @@ object ResourceDownloader {
         case None => true
       }
 
-      if (isSameResourceType & isCompatibleWithVersion & isSameClass & isSameLanguage) {
+      if (isSameResourceType & isCompatibleWithVersion & isSameAnnotator & isSameLanguage) {
         resourceList += meta.name + ":" + meta.language.getOrElse("-") + ":" + meta.libVersion.getOrElse("-")
       }
     }
@@ -292,6 +299,14 @@ object ResourceDownloader {
 
   def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] =
     listPretrainedResources(folder, resourceType, lang = Some(lang), version = Some(version))
+
+  def showAvailableAnnotators(folder: String = publicLoc): Unit = {
+    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+    val annotators = resourceMetaData.map(_.annotator.getOrElse(""))
+      .toSet.filter { a => !a.equals("") }
+      .toSeq.sorted
+    println(annotators.mkString("\n"))
+  }
 
   /**
    * Loads resource to path
@@ -506,8 +521,12 @@ object PythonResourceDownloader {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE), ResourceType.PIPELINE))
   }
 
-  def showPublicModels(): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.MODEL), ResourceType.MODEL))
+  def showPublicModels(annotator: String, lang: String): Unit = {
+    ResourceDownloader.showPublicModels(Option(annotator), Option(lang))
+  }
+
+  def showAvailableAnnotators(): Unit = {
+    ResourceDownloader.showAvailableAnnotators()
   }
 
   def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
