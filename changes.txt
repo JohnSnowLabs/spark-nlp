@@ -1,4 +1,4 @@
-docs/_posts/2020-05-16-chunkresolve_loinc_clinical_en.md
-docs/_posts/HashamUlHaq/2021-04-02-chunkresolve_loinc_clinical_en.md
-docs/_posts/2020-05-16-chunkresolve_loinc_clinical_en.md
-docs/_posts/HashamUlHaq/2021-04-02-chunkresolve_loinc_clinical_en.md
+docs/en/nlp_server/installation.md
+docs/en/nlp_server/nlp_server.md
+docs/en/nlp_server/installation.md
+docs/en/nlp_server/nlp_server.md

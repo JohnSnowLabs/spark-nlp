@@ -532,12 +532,12 @@
 <p>The models, refered to as <code class="language-plaintext highlighter-rouge">spells</code>, are provided by the <a href="https://nlu.johnsnowlabs.com/">NLU library</a> and 
 powered by the most widely used NLP library in the industry, <a href="http://nlp.johnsnowlabs.com/">Spark NLP</a>.</p>
 
-<p>NLP Server is <code class="language-plaintext highlighter-rouge">free</code> for everyone to download and use. There is no limitation in the amout of text to analyze.</p>
+<p>NLP Server is <code class="language-plaintext highlighter-rouge">free</code> for everyone to download and use. There is no limitation in the amount of text to analyze.</p>
 
 <p>You can setup NLP-Server as a Docker Machine in any enviroment or get it via the <code class="language-plaintext highlighter-rouge">AWS Marketplace</code> in just 1 click.</p>
 
 <h2 id="web-ui">Web UI</h2>
-<p>The Web UI is accessible at the followin URL: http://localhost:5000/
+<p>The Web UI is accessible at the following URL: http://localhost:5000/
 It allows a very simple and intuitive interaction with the NLP Server. 
 As a first step the user chooses the spell from the first dropdown. All NLU spells are available. 
 Then the user has to provide a text document for analysis. This can be done by either copy/pasting text on the text box, or by uploading a csv/json file. 
@@ -547,7 +547,7 @@ After selecting the grouping option, the user clicks on the <code class="languag
 
 <h2 id="rest-api">REST API</h2>
 
-<p>NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL <a href="http://0.0.0.0:5000/docs">http://0.0.0.0:5000/docs</a>.</p>
+<p>NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL <a href="http://localhost:5000/docs">http://localhost:5000/docs</a>.</p>
 
 <p><img class="image image--xl" src="/assets/images/nlp_server/api_docs.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
@@ -559,14 +559,13 @@ After selecting the grouping option, the user clicks on the <code class="languag
 <span class="c1"># Use the uuid to get your processed data
 </span><span class="n">uuid</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">'uuid'</span><span class="p">]</span>
 
-
-<span class="c1"># Get status of processing
-</span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results/</span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s">'</span><span class="p">).</span><span class="n">json</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s">'sentence'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I love NLU! &lt;3'</span><span class="p">]},</span> <span class="s">'document'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="s">'I love NLU! &lt;3'</span><span class="p">},</span> <span class="s">'token'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I'</span><span class="p">,</span> <span class="s">'love'</span><span class="p">,</span> <span class="s">'NLU'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'&lt;3'</span><span class="p">]}}</span>
-
 <span class="c1"># Get status of processing
 </span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results/</span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s">/status'</span><span class="p">).</span><span class="n">json</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s">'status'</span><span class="p">:</span> <span class="p">{</span><span class="s">'code'</span><span class="p">:</span> <span class="s">'success'</span><span class="p">,</span> <span class="s">'message'</span><span class="p">:</span> <span class="bp">None</span><span class="p">}}</span>
+
+<span class="c1"># Get results
+</span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s">'http://localhost:5000/api/results/</span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s">'</span><span class="p">).</span><span class="n">json</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="s">'sentence'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I love NLU! &lt;3'</span><span class="p">]},</span> <span class="s">'document'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="s">'I love NLU! &lt;3'</span><span class="p">},</span> <span class="s">'token'</span><span class="p">:</span> <span class="p">{</span><span class="s">'0'</span><span class="p">:</span> <span class="p">[</span><span class="s">'I'</span><span class="p">,</span> <span class="s">'love'</span><span class="p">,</span> <span class="s">'NLU'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'&lt;3'</span><span class="p">]}}</span>
 
 </code></pre></div></div>
 
