@@ -174,14 +174,43 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
-
-  def showPublicPipelines(lang: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang), ResourceType.PIPELINE))
+  /**
+   * Prints all Pipelines available for a language and a version of Spark NLP. By default shows all languages and uses
+   * the current version of Spark NLP.
+   *
+   * @param lang    Language of the Pipeline
+   * @param version Version of Spark NLP
+   */
+  def showPublicPipelines(lang: Option[String] = None, version: Option[String] = Some(Build.version)): Unit = {
+    println(
+      showString(listPretrainedResources(
+        folder = publicLoc,
+        ResourceType.PIPELINE,
+        annotator = None,
+        lang = lang,
+        version = version match {
+          case Some(ver) => Some(Version.parse(ver))
+          case None => None
+        }
+      ),
+        ResourceType.PIPELINE)
+    )
   }
 
-  def showPublicPipelines(lang: String, version: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang, Version.parse(version)), ResourceType.PIPELINE))
-  }
+  /**
+   * Prints all Pipelines available for a language and this version of Spark NLP.
+   *
+   * @param lang Language of the Pipeline
+   */
+  def showPublicPipelines(lang: String): Unit = showPublicPipelines(Some(lang))
+
+  /**
+   * Prints all Pipelines available for a language and a version of Spark NLP.
+   *
+   * @param lang    Language of the Pipeline
+   * @param version Version of Spark NLP
+   */
+  def showPublicPipelines(lang: String, version: String): Unit = showPublicPipelines(Some(lang), Some(version))
 
   /**
    * Returns models or pipelines in metadata json which has not been categorized yet.
@@ -522,12 +551,20 @@ object PythonResourceDownloader {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED), ResourceType.NOT_DEFINED))
   }
 
-  def showPublicPipelines(): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE), ResourceType.PIPELINE))
+  def showPublicPipelines(lang: String, version: String): Unit = {
+    val ver: Option[String] = version match {
+      case null => Some(Build.version)
+      case _ => Some(version)
+    }
+    ResourceDownloader.showPublicPipelines(Option(lang), ver)
   }
 
   def showPublicModels(annotator: String, lang: String, version: String): Unit = {
-    ResourceDownloader.showPublicModels(Option(annotator), Option(lang), Option(version))
+    val ver: Option[String] = version match {
+      case null => Some(Build.version)
+      case _ => Some(version)
+    }
+    ResourceDownloader.showPublicModels(Option(annotator), Option(lang), ver)
   }
 
   def showAvailableAnnotators(): Unit = {

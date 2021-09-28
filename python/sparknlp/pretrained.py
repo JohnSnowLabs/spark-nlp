@@ -95,8 +95,8 @@ class ResourceDownloader(object):
         _internal._ShowPublicModels(annotator, lang, version).apply()
 
     @staticmethod
-    def showPublicPipelines():
-        _internal._ShowPublicPipelines().apply()
+    def showPublicPipelines(lang=None, version=None):
+        _internal._ShowPublicPipelines(lang, version).apply()
 
     @staticmethod
     def showUnCategorizedResources():

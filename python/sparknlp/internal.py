@@ -239,9 +239,9 @@ class _ShowUnCategorizedResources(ExtendedJavaWrapper):
 
 
 class _ShowPublicPipelines(ExtendedJavaWrapper):
-    def __init__(self):
+    def __init__(self,lang, version):
         super(_ShowPublicPipelines, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicPipelines")
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicPipelines", lang, version)
 
 
 class _ShowPublicModels(ExtendedJavaWrapper):
