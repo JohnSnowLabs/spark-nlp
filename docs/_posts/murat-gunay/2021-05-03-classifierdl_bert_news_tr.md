@@ -21,7 +21,7 @@ Classify Turkish news texts
 
 ## Predicted Entities
 
-`kultur`, `saglik`, `ekonomi`, `teknoloji`, `siyaset`, `spor`.
+`kultur`, `saglik`, `ekonomi`, `teknoloji`, `siyaset`, `spor`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -53,17 +53,17 @@ light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toD
 result = light_pipeline.annotate('Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı'.)
 ```
 ```scala
-val document = DocumentAssembler()\
-    .setInputCol("text")\
+val document = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val embeddings = BertSentenceEmbeddings\
-    .pretrained("labse", "xx") \
-    .setInputCols("document")\
+val embeddings = BertSentenceEmbeddings
+    .pretrained("labse", "xx") 
+    .setInputCols("document")
     .setOutputCol("sentence_embeddings")
 
-val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "tr") \
-  .setInputCols(Array("document", "sentence_embeddings")) \
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "tr") 
+  .setInputCols(Array("document", "sentence_embeddings")) 
   .setOutputCol("class")
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))

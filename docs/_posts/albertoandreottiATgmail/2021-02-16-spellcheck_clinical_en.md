@@ -20,7 +20,7 @@ Contextual Spell Checker is a sequence-to-sequence model that detects and correc
 This model has been trained in a dataset containing data from different sources; MTSamples, i2b2 clinical notes, and PubMed. You can download the model that comes fully pretrained and ready to use. However, you can still customize it further without the need for re-training a new model from scratch. This can be accomplished by providing custom definitions for the word classes the model has been trained on, namely Dates, Numbers, Ages, Units, and Medications.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_en_2.7.2_2.4_1613505168792.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

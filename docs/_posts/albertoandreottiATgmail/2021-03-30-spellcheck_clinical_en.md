@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 Spell Checker is a sequence-to-sequence model that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton for generating candidate corrections and a Neural Language Model for ranking corrections.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_clinical_en_3.0.0_3.0_1617128886628.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

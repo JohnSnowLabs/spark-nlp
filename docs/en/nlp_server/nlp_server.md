@@ -16,19 +16,13 @@ This is a ready to use NLP Server for analyzing text documents using NLU library
 The models, refered to as `spells`, are provided by the [NLU library](https://nlu.johnsnowlabs.com/) and 
 powered by the most widely used NLP library in the industry, [Spark NLP](http://nlp.johnsnowlabs.com/). 
 
-NLP Server is `free` for everyone to download and use. There is no limitation in the amout of text to analyze. 
+NLP Server is `free` for everyone to download and use. There is no limitation in the amount of text to analyze. 
 
 You can setup NLP-Server as a Docker Machine in any enviroment or get it via the `AWS Marketplace` in just 1 click.
 
-## Docker Setup
 
-```shell
-
-docker run -p 5000:5000 johnsnowlabs/nlp-server:latest
-
-```
 ## Web UI
-The Web UI is accessible at the followin URL: http://localhost:5000/
+The Web UI is accessible at the following URL: http://localhost:5000/
 It allows a very simple and intuitive interaction with the NLP Server. 
 As a first step the user chooses the spell from the first dropdown. All NLU spells are available. 
 Then the user has to provide a text document for analysis. This can be done by either copy/pasting text on the text box, or by uploading a csv/json file. 
@@ -38,7 +32,7 @@ After selecting the grouping option, the user clicks on the `Preview` button to 
 
 ## REST API
 
-NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL [http://0.0.0.0:5000/docs](http://0.0.0.0:5000/docs).
+NLP Server includes a REST API which can be used to process any amount of data using NLU. Once you deploy the NLP Server, you can access the API documentation at the following URL [http://localhost:5000/docs](http://localhost:5000/docs).
 
 
 <img class="image image--xl" src="/assets/images/nlp_server/api_docs.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
@@ -53,14 +47,13 @@ r = requests.post(f'http://localhost:5000/api/results',json={"spell": "tokenize"
 # Use the uuid to get your processed data
 uuid = r.json()['uuid']
 
-
-# Get status of processing
-r = requests.get(f'http://localhost:5000/api/results/{uuid}').json()
->>> {'sentence': {'0': ['I love NLU! <3']}, 'document': {'0': 'I love NLU! <3'}, 'token': {'0': ['I', 'love', 'NLU', '!', '<3']}}
-
 # Get status of processing
 r = requests.get(f'http://localhost:5000/api/results/{uuid}/status').json
 >>> {'status': {'code': 'success', 'message': None}}
+
+# Get results
+r = requests.get(f'http://localhost:5000/api/results/{uuid}').json()
+>>> {'sentence': {'0': ['I love NLU! <3']}, 'document': {'0': 'I love NLU! <3'}, 'token': {'0': ['I', 'love', 'NLU', '!', '<3']}}
 
 ```
 

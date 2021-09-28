@@ -24,7 +24,7 @@ This model maps medication entities (like drugs/ingredients) to RxNorm codes and
 Predicts RxNorm Codes, their normalized definition for each chunk, and dispositions if any. In the result, look for the aux_label parameter in the metadata to get dispositions divided by `|`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_disposition_en_3.1.3_2.4_1628792971821.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
