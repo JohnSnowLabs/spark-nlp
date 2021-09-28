@@ -1033,6 +1033,49 @@ annotation.select("entities.result").show(false)
 */
 ```
 
+#### Showing Available Pipelines
+
+There are functions in Spark NLP that will list all of the available Pipelines
+of a particular language for you:
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+
+ResourceDownloader.showPublicPipelines(lang="en")
+/*
++--------------------------------------------+------+---------+
+| Pipeline                                   | lang | version |
++--------------------------------------------+------+---------+
+| dependency_parse                           |  en  | 2.0.2   |
+| analyze_sentiment_ml                       |  en  | 2.0.2   |
+| check_spelling                             |  en  | 2.1.0   |
+| match_datetime                             |  en  | 2.1.0   |
+                               ...
+| explain_document_ml                        |  en  | 3.1.3   |
++--------------------------------------------+------+---------+
+*/
+```
+
+Or if we want to check for a particular version:
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+
+ResourceDownloader.showPublicPipelines(lang="en", version="3.1.0")
+/*
++---------------------------------------+------+---------+
+| Pipeline                              | lang | version |
++---------------------------------------+------+---------+
+| dependency_parse                      |  en  | 2.0.2   |
+                               ...
+| clean_slang                           |  en  | 3.0.0   |
+| clean_pattern                         |  en  | 3.0.0   |
+| check_spelling                        |  en  | 3.0.0   |
+| dependency_parse                      |  en  | 3.0.0   |
++---------------------------------------+------+---------+
+*/
+```
+
 #### Please check out our Models Hub for the full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/models) with examples, demos, benchmarks, and more
 
 ### Models
@@ -1065,6 +1108,64 @@ val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_155653145734
       .setOutputCol("pos")
 ```
 
+#### Showing Available Models
+
+There are functions in Spark NLP that will list all the available Models
+of a particular Annotator and language for you:
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+
+ResourceDownloader.showPublicModels(annotator="NerDLModel", lang="en")
+/*
++---------------------------------------------+------+---------+
+| Model                                       | lang | version |
++---------------------------------------------+------+---------+
+| onto_100                                    |  en  | 2.1.0   |
+| onto_300                                    |  en  | 2.1.0   |
+| ner_dl_bert                                 |  en  | 2.2.0   |
+| onto_100                                    |  en  | 2.4.0   |
+                                ...
+| ner_conll_elmo                              |  en  | 3.2.2   |
++---------------------------------------------+------+---------+
+*/
+```
+
+Or if we want to check for a particular version:
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+
+ResourceDownloader.showPublicModels(annotator="NerDLModel", lang="en", version="3.1.0")
+/*
++----------------------------+------+---------+
+| Model                      | lang | version |
++----------------------------+------+---------+
+| onto_100                   |  en  | 2.1.0   |
+                               ...
+| ner_aspect_based_sentiment |  en  | 2.6.2   |
+| ner_weibo_glove_840B_300d  |  en  | 2.6.2   |
+| nerdl_atis_840b_300d       |  en  | 2.7.1   |
+| nerdl_snips_100d           |  en  | 2.7.3   |
++----------------------------+------+---------+
+*/
+```
+
+And to see a list of available annotators, you can use:
+
+```scala
+import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
+
+ResourceDownloader.showAvailableAnnotators()
+/*
+AlbertEmbeddings
+AlbertForTokenClassification
+AssertionDLModel
+...
+XlmRoBertaSentenceEmbeddings
+XlnetEmbeddings
+*/
+```
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
 
 ## Offline
