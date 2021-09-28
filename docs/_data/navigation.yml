@@ -162,9 +162,11 @@ annotation-lab:
   - title: Annotation Lab
     children:
       - title:  Getting Started
-        url:    /docs/en/alab/alab
+        url:    /docs/en/alab/quickstart
       - title:  Start Page 
         url:    /docs/en/alab/start_page
+      - title:  Installation 
+        url:    /docs/en/alab/install
       - title:  User Management
         url:    /docs/en/alab/user_management
       - title:  Project Setup
@@ -189,6 +191,8 @@ annotation-lab:
         url:    /docs/en/alab/workflow
       - title:  License Setup  
         url:    /docs/en/alab/byol
+      - title:  API Integration 
+        url:    /docs/en/alab/api
       - title:  Video Tutorials   
         url:    /docs/en/alab/tutorials
 
@@ -237,3 +241,5 @@ nlp-server:
     children:
       - title:  Getting Started
         url:    /docs/en/nlp_server/nlp_server
+      - title:  Installation
+        url:    /docs/en/nlp_server/installation

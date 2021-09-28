@@ -16,6 +16,7 @@ from test.annotators import *
 from test.functions import FunctionMapColumnsTestSpec, FunctionMapColumnTestSpec
 from test.misc import *
 from test.base import *
+from test.pretrained import *
 
 # Annotator tests
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
@@ -101,6 +102,7 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
+unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 
 # Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
