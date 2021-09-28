@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.tensorflow.io
 
 import java.io.{BufferedOutputStream, FileInputStream, FileOutputStream, IOException}
 import java.nio.file.{Files, Path}
+import scala.collection.mutable.ArrayBuffer
 
 object ChunkBytes {
 
@@ -37,23 +38,22 @@ object ChunkBytes {
     if (sbc < MAX_FILE_SIZE) {
       Array(Files.readAllBytes(inputPath))
     } else {
-      val chunksCount = (sbc / BufferSize).toInt + 1
 
-      val varBytes = Array.ofDim[Array[Byte]](chunksCount)
-      val buffer = Array.ofDim[Byte](BufferSize)
+      val varBytesBuffer = ArrayBuffer[Array[Byte]]()
+      val chunkBuffer = Array.ofDim[Byte](BufferSize)
 
-      var read = fis.read(buffer, 0, BufferSize)
+      var read = fis.read(chunkBuffer, 0, BufferSize)
       var index = 0
 
       while (read > -1) {
-        varBytes(index) = buffer.clone()
-        read = fis.read(buffer, 0, BufferSize)
+        varBytesBuffer.append(chunkBuffer)
+        read = fis.read(chunkBuffer, 0, BufferSize)
         index += 1
       }
       fis.close()
-      varBytes
-    }
 
+      varBytesBuffer.toArray
+    }
   }
 
   /**
