@@ -521,8 +521,8 @@ object PythonResourceDownloader {
     println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE), ResourceType.PIPELINE))
   }
 
-  def showPublicModels(annotator: String, lang: String): Unit = {
-    ResourceDownloader.showPublicModels(Option(annotator), Option(lang))
+  def showPublicModels(annotator: String, lang: String, version: String): Unit = {
+    ResourceDownloader.showPublicModels(Option(annotator), Option(lang), Option(version))
   }
 
   def showAvailableAnnotators(): Unit = {

@@ -91,8 +91,8 @@ class ResourceDownloader(object):
         _internal._ClearCache(name, language, remote_loc).apply()
 
     @staticmethod
-    def showPublicModels(annotator=None, lang=None):
-        _internal._ShowPublicModels(annotator, lang).apply()
+    def showPublicModels(annotator=None, lang=None, version=None):
+        _internal._ShowPublicModels(annotator, lang, version).apply()
 
     @staticmethod
     def showPublicPipelines():

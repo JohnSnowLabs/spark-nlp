@@ -245,9 +245,9 @@ class _ShowPublicPipelines(ExtendedJavaWrapper):
 
 
 class _ShowPublicModels(ExtendedJavaWrapper):
-    def __init__(self, annotator, lang):
+    def __init__(self, annotator, lang, version):
         super(_ShowPublicModels, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicModels", annotator, lang)
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicModels", annotator, lang, version)
 
 class _ShowAvailableAnnotators(ExtendedJavaWrapper):
     def __init__(self):

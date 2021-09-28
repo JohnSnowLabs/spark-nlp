@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Version
+
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.sql.Timestamp
@@ -26,35 +27,6 @@ import java.sql.Timestamp
 
 class ResourceDownloaderSpec extends AnyFlatSpec {
   val b: CloudTestResources.type = CloudTestResources
-
-  /**
-   * Mock class of the ResourceDownloader, that will use a local file instead of downloading the metadata.json from
-   * S3.
-   */
-  class MockResourceDownloader extends ResourceDownloader {
-    def download(request: ResourceRequest): Option[String] = {
-      Some("MockResourceDownloader")
-    }
-
-    def getDownloadSize(request: ResourceRequest): Option[Long] = {
-      Some(0)
-    }
-
-    def clearCache(request: ResourceRequest): Unit = {}
-
-    def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
-      val resourcePath = "src/test/resources/resource-downloader/test_metadata.json"
-      ResourceMetadata.readResources(resourcePath)
-    }
-  }
-
-  trait WithMockResourceDownloader {
-    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader
-    ResourceDownloader.defaultDownloader = mockResourceDownloader
-    ResourceDownloader.publicDownloader = mockResourceDownloader
-    ResourceDownloader.communityDownloader = mockResourceDownloader
-  }
-
 
   "CloudResourceMetadata" should "serialize and deserialize correctly" taggedAs FastTest in {
     val resource = new ResourceMetadata("name",
@@ -118,28 +90,4 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
     BertEmbeddings.pretrained("small_bert_L2_128", lang = "en")
   }
 
-  "ResourceDownloader" should "list all pretrained models for an annotator using the class" in new WithMockResourceDownloader {
-    private val resources = ResourceDownloader.listPretrainedResources(
-      folder = "public/models",
-      ResourceType.MODEL,
-      annotator = Some("NerDLModel"),
-      lang = Some("en"),
-      Some(ResourceDownloader.libVersion)
-    )
-
-    println(resources.length)
-    println(resources.mkString("\n"))
-  }
-
-  it should "print all pretrained models for an annotator using class field" in new WithMockResourceDownloader {
-    ResourceDownloader.showPublicModels()
-    ResourceDownloader.showPublicModels("BertForTokenClassification")
-    ResourceDownloader.showPublicModels("BertForTokenClassification", "en")
-    ResourceDownloader.showPublicModels("NerDLModel")
-    ResourceDownloader.showPublicModels("NerDLModel", "en", "3.1.1")
-  }
-
-  it should "list all available annotators" taggedAs FastTest in new WithMockResourceDownloader {
-    ResourceDownloader.showAvailableAnnotators()
-  }
 }
