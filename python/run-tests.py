@@ -97,7 +97,7 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
-# unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
+unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 
 # Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())

@@ -15,13 +15,13 @@ import unittest
 
 from sparknlp.pretrained import ResourceDownloader
 
+
 class ResourceDownloaderShowTestSpec(unittest.TestCase):
 
     def runTest(self):
-        ResourceDownloader.showPublicModels()
         ResourceDownloader.showPublicModels("NerDLModel")
         ResourceDownloader.showPublicModels("NerDLModel", "en")
+        ResourceDownloader.showPublicModels("NerDLModel", "en", "2.5.0")
         ResourceDownloader.showAvailableAnnotators()
         ResourceDownloader.showPublicPipelines()
         ResourceDownloader.showUnCategorizedResources()
-
