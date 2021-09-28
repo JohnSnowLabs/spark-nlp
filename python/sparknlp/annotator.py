@@ -54,6 +54,7 @@ keyword.yake = sys.modules[__name__]
 sentence_detector_dl = sys.modules[__name__]
 seq2seq = sys.modules[__name__]
 ws = sys.modules[__name__]
+er = sys.modules[__name__]
 
 
 class RecursiveTokenizer(AnnotatorApproach):
@@ -6605,7 +6606,7 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     ``"AVERAGE"`` or ``"SUM"``.
 
     For more extended examples see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb>`__..
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutoTials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb>`__..
 
     ============================= =======================
     Input Annotation types        Output Annotation type
@@ -14427,3 +14428,46 @@ class LongformerForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerForTokenClassification, name, lang, remote_loc)
+
+
+class EntityRuler(AnnotatorApproach, HasStorage):
+
+    name = "EntityRuler"
+
+    patterns = Param(Params._dummy(),
+                     "patterns",
+                     "Resource in JSON or CSV format to map entities to patterns",
+                     typeConverter=TypeConverters.identity)
+
+    @keyword_only
+    def __init__(self):
+        super(EntityRuler, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.er.EntityRuler")
+
+    def setPatterns(self, path, read_as=ReadAs.TEXT, options={"format": "JSON"}):
+        return self._set(patterns=ExternalResource(path, read_as, options))
+
+    def _create_model(self, java_model):
+        return EntityRulerModel(java_model=java_model)
+
+
+class EntityRulerModel(AnnotatorModel, HasStorageModel):
+
+    name = "EntityRulerModel"
+    database = ['ENTITY_PATTERNS']
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel", java_model=None):
+        super(EntityRulerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(EntityRulerModel, name, lang, remote_loc)
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        HasStorageModel.loadStorages(path, spark, storage_ref, EntityRulerModel.databases)
+

@@ -36,8 +36,8 @@ class JsonParserTest extends AnyFlatSpec {
     val stream =  ResourceHelper.getResourceStream("src/test/resources/entity-ruler/patterns.json")
     val jsonContent = Source.fromInputStream(stream).mkString
     val jsonParser = new JsonParser[EntityPattern]
-    val expectedResult = Array(EntityPattern("PERSON", "Abbotts"), EntityPattern("PERSON", "Aberforth"),
-      EntityPattern("PERSON", "Aberforth Dumbledore"))
+    val expectedResult = Array(EntityPattern("PERSON", "Jon"), EntityPattern("PERSON", "John"),
+      EntityPattern("PERSON", "John Snow"), EntityPattern("LOCATION", "Winterfell"))
 
     val actualResult: Array[EntityPattern] = jsonParser.readJsonArray(jsonContent)
 
