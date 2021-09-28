@@ -58,6 +58,7 @@ unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 unittest.TextTestRunner().run(GraphExtractionTestSpec())
+unittest.TextTestRunner().run(EntityRulerTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
