@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP - Release notes
+seotitle: Spark NLP
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes

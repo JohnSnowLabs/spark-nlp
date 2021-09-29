@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP - General Concepts
+seotitle: Spark NLP
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts

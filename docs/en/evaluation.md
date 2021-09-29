@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Healthcare NLP - Evaluation
+seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Evaluation
 permalink: /docs/en/evaluation
 key: docs-evaluation

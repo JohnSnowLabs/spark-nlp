@@ -1,7 +1,6 @@
 ---
 layout: docs
 header: true
-seotitle:
 title: Models
 permalink: /docs/en/models
 key: docs-models

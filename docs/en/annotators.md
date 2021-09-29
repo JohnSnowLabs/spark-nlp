@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP - Annotators
+seotitle: Spark NLP
 title: Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
