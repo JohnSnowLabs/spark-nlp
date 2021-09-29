@@ -18,11 +18,12 @@ package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{Pipeline, PipelineModel, Transformer}
+import org.apache.spark.sql.DataFrame
 
 
 object PipelineModels {
 
-  lazy val dummyDataset = {
+  lazy val dummyDataset: DataFrame = {
     import ResourceHelper.spark.implicits._
     ResourceHelper.spark.createDataset(Seq.empty[String]).toDF("text")
   }
