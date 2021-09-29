@@ -108,6 +108,11 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Multi-class Text Classification (Deep learning)
 - BERT for Token Classification
 - DistilBERT for Token Classification
+- ALBERT for Token Classification
+- RoBERTa for Token Classification
+- XLM-RoBERTa for Token Classification
+- XLNet for Token Classification
+- Longformer for Token Classification
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Named entity recognition (Deep learning)
@@ -193,6 +198,7 @@ Spark NLP *3.3.0* has been built on top of Apache Spark 3.x while fully supports
 
 | Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
 |-------------|-----------------------|--------------------|--------------------|--------------------|
+| 3.3.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.2.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.1.x       |YES                    |YES                 |YES                 |YES                 |
 | 3.0.x       |YES                    |YES                 |YES                 |YES                 |
@@ -241,6 +247,8 @@ Spark NLP 3.3.0 has been tested and is compatible with the following runtimes:
 - 8.4 ML
 - 9.0
 - 9.0 ML
+- 9.1
+- 9.01 ML
 
 **GPU:**
 
@@ -249,6 +257,7 @@ Spark NLP 3.3.0 has been tested and is compatible with the following runtimes:
 - 8.3 ML & GPU
 - 8.4 ML & GPU
 - 9.0 ML & GPU
+- 9.1 ML & GPU
 
 NOTE: Spark NLP 3.3.0 is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.x ML with GPU.
 
