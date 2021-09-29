@@ -1,4 +1,32 @@
 ========
+3.3.0
+========
+
+----------------
+Major features and improvements
+----------------
+* **NEW:** Beginning of Spark NLP 3.3.0 release there will be no limitation of size when you import TensorFlow models! You can now import TF Hub & HuggingFace models larger than 2G of size.
+* **NEW:** Up to 50x faster when saving Spark NLP models and pipelines! 🚀  We have improved the way we package TensorFlow SavedModel while saving Spark NLP models & pipelines. For instace, it used to take up to 10 minutes to save `xlm_roberta_base` model prior to Spark NLP 3.3.0, and now it only takes up to 15 seconds!
+* **NEW:** Introducing **AlbertForTokenClassification** annotator in Spark NLP 🚀. `AlbertForTokenClassification` can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForTokenClassification` or `TFAlbertForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **XlnetForTokenClassification** annotator in Spark NLP 🚀. `XlnetForTokenClassification` can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForTokenClassificationet` or `TFXLNetForTokenClassificationet` in HuggingFace 🤗 
+* **NEW:** Introducing **RoBertaForTokenClassification** annotator in Spark NLP 🚀. `RoBertaForTokenClassification` can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForTokenClassification` or `TFRobertaForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **XlmRoBertaForTokenClassification** annotator in Spark NLP 🚀. `XlmRoBertaForTokenClassification` can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForTokenClassification` or `TFXLMRobertaForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **LongformerForTokenClassification** annotator in Spark NLP 🚀. `LongformerForTokenClassification` can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForTokenClassification` or `TFLongformerForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing new ResourceDownloader functions to easily look for pretrained models & pipelines inside Spark NLP (Python and Scala). You can filter models or pipelines via `language`, `version`, or the name of the `annotator`
+* Welcoming [Databricks Runtime 9.1 LTS](https://docs.databricks.com/release-notes/runtime/9.1.html), 9.1 ML, and 9.1 ML with GPU
+* Fix printing a wrong version return in sparknlp.version()
+
+----------------
+Bug Fixes
+----------------
+* Fix a bug in RoBertaEmbeddings when all special tokens were identical
+* Fix a bug in RoBertaEmbeddings when special token contained valid regex
+* Fix a bug lead to memory leak inside NorvigSweeting spell checker. This issue caused issues with pretrained pipelines such as `explain_document_ml` and `explain_document_dl` when some inputs 
+* Fix the wrong types being assigned to `minCount` and `classCount` in Python for `ContextSpellCheckerApproach` annotator
+* Fix `explain_document_ml` pretrained pipeline for Spark NLP 3.x on Apache Spark 2.x
+
+
+========
 3.2.3
 ========
 
