@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark NLP - Pipelines
 title: Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines

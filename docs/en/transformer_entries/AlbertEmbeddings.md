@@ -170,7 +170,7 @@ result.select("ner.result").show(false)
 {%- endcapture -%}
 
 {%- capture training_python_example -%}
-import sparknlp
+import sparknlp1
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.training import *

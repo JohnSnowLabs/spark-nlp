@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle:
 title: Workflow Setup
 permalink: /docs/en/workflow
 key: docs-training
