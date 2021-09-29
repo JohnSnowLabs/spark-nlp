@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Annotation Lab - Quick Start
 title: Annotation Lab
 excerpt: A lightning fast tool for document annotation.
 permalink: /docs/en/alab/quickstart

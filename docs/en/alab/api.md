@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - API Integration
 title: API Integration
 permalink: /docs/en/alab/api
 key: docs-training

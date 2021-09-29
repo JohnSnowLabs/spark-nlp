@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Installation
 title: Installation
 permalink: /docs/en/alab/install
 key: docs-training
