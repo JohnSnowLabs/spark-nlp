@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 **xlm_roberta_base_finetuned_hausa** is a ** Hausa RoBERTa** model obtained by fine-tuning **xlm-roberta-base** model on Amharic language texts. It provides **better performance** than the XLM-RoBERTa on named entity recognition datasets.
   
-Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on the Amharic corpus.
+Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on the Hausa corpus.
 
 ## Predicted Entities
 
