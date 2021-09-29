@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Thai Word Segmentation- Spark NLP Model</title><meta name="description" content="DescriptionWordSegmenterModel (WSM) is based on maximum entropy probability model to detect word boundaries in Thai text. Thai text is written without white ...">
-<link rel="canonical" href="/2021/09/22/wordseg_best_th.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Named Entity Recognition Profiling (Biobert)- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up w...">
+<link rel="canonical" href="/2021/09/23/ner_profiling_biobert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,78 +403,65 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 22, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-22T00:00:00+00:00"></div><header><h1>Thai Word Segmentation</h1></header></div><meta itemprop="headline" content="Thai Word Segmentation"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>th</li><li>open_source</li><li>word_segmentation</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-22T00:00:00+00:00">
-    <meta itemprop="keywords" content="th,open_source,word_segmentation"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 23, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-23T00:00:00+00:00"></div><header><h1>Named Entity Recognition Profiling (Biobert)</h1></header></div><meta itemprop="headline" content="Named Entity Recognition Profiling (Biobert)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>ner_profiling</li><li>clinical</li><li>licensed</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-23T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,ner_profiling,clinical,licensed,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>WordSegmenterModel (WSM) is based on maximum entropy probability model to detect word boundaries in Thai text. Thai text is written without white space between the words, and a computer-based application cannot know <em>a priori</em> which sequence of ideograms form a word. In many natural language processing tasks such as part-of-speech (POS) and named entity recognition (NER) require word segmentation as a initial step.</p>
+<p>This pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up with the predictions coming out of each pretrained clinical NER model trained with <code class="language-plaintext highlighter-rouge">biobert_pubmed_base_cased</code>.</p>
 
-<p>References:</p>
-
-<blockquote>
-  <p>Xue, Nianwen. “Chinese word segmentation as character tagging.” International Journal of Computational Linguistics &amp; Chinese Language Processing, Volume 8, Number 1, February 2003: Special Issue on Word Formation and Chinese Language Processing. 2003.).</p>
-</blockquote>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>Here are the NER models that this pretrained pipeline includes: <code class="language-plaintext highlighter-rouge">ner_jsl_enriched_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_clinical_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_chemprot_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_greedy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_bionlp_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_human_phenotype_go_biobert</code>, <code class="language-plaintext highlighter-rouge">jsl_rd_ner_wip_greedy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_posology_large_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_risk_factors_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_anatomy_coarse_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_deid_enriched_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_human_phenotype_gene_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_events_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_deid_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_posology_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_diseases_biobert</code>, <code class="language-plaintext highlighter-rouge">jsl_ner_wip_greedy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_ade_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_anatomy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_cellular_biobert</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wordseg_best_th_3.0.0_3.0_1632311280102.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_profiling_biobert_en_3.2.3_2.4_1632427360617.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
-
-<p>Use as part of an nlp pipeline as a substitute of the Tokenizer stage.</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">word_segmenter</span> <span class="o">=</span> <span class="n">WordSegmenterModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'wordseg_best'</span><span class="p">,</span> <span class="s">'th'</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">ner_profiling_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'ner_profiling_biobert'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">word_segmenter</span><span class="p">])</span>
-
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span> <span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ner_profiling_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_best"</span><span class="o">,</span> <span class="s">"th"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_profiling_pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="ss">'ner_profiling_biober</span><span class="n">t</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="o">',</span> <span class="ss">'clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">word_segmenter</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipe</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'th.segment_words'</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s">"จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ"</span><span class="p">]</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span> <span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'token'</span><span class="p">)</span>
-<span class="n">df</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">ner_profiling_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------+---------------------------------------------------------+
-|text                               |result                                                   |
-+-----------------------------------+---------------------------------------------------------+
-|จวนจะถึงร้านที่คุณจองโต๊ะไว้แล้วจ้ะ|[จวน, จะ, ถึง, ร้าน, ที่, คุณ, จอง, โต๊ะ, ไว้, แล้ว, จ้ะ]|
-+-----------------------------------+---------------------------------------------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_cellular_biobert_chunks :  <span class="o">[]</span>
+ner_diseases_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_events_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years'</span>, <span class="s1">'presentation'</span>, <span class="s1">'type two diabetes mellitus ( T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years'</span>, <span class="s1">'presentation'</span>, <span class="s1">'an acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'a body mass index'</span>, <span class="s1">'BMI'</span>, <span class="s1">'presented'</span>, <span class="s1">'a one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_bionlp_biobert_chunks :  <span class="o">[]</span>
+ner_jsl_greedy_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years prior'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years prior'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_jsl_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years prior'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years prior'</span>, <span class="s1">'acute'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_anatomy_biobert_chunks :  <span class="o">[</span><span class="s1">'body'</span><span class="o">]</span>
+ner_jsl_enriched_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'acute'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_human_phenotype_go_biobert_chunks :  <span class="o">[</span><span class="s1">'obesity'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span><span class="o">]</span>
+ner_deid_biobert_chunks :  <span class="o">[</span><span class="s1">'eight years'</span>, <span class="s1">'three years'</span><span class="o">]</span>
+ner_deid_enriched_biobert_chunks :  <span class="o">[]</span>
+token :  <span class="o">[</span><span class="s1">'A'</span>, <span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'with'</span>, <span class="s1">'a'</span>, <span class="s1">'history'</span>, <span class="s1">'of'</span>, <span class="s1">'gestational'</span>, <span class="s1">'diabetes'</span>, <span class="s1">'mellitus'</span>, <span class="s1">'diagnosed'</span>, <span class="s1">'eight'</span>, <span class="s1">'years'</span>, <span class="s1">'prior'</span>, <span class="s1">'to'</span>, <span class="s1">'presentation'</span>, <span class="s1">'and'</span>, <span class="s1">'subsequent'</span>, <span class="s1">'type'</span>, <span class="s1">'two'</span>, <span class="s1">'diabetes'</span>, <span class="s1">'mellitus'</span>, <span class="s1">'('</span>, <span class="s1">'T2DM'</span>, <span class="s1">'),'</span>, <span class="s1">'one'</span>, <span class="s1">'prior'</span>, <span class="s1">'episode'</span>, <span class="s1">'of'</span>, <span class="s1">'HTG-induced'</span>, <span class="s1">'pancreatitis'</span>, <span class="s1">'three'</span>, <span class="s1">'years'</span>, <span class="s1">'prior'</span>, <span class="s1">'to'</span>, <span class="s1">'presentation'</span>, <span class="s1">','</span>, <span class="s1">'associated'</span>, <span class="s1">'with'</span>, <span class="s1">'an'</span>, <span class="s1">'acute'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">','</span>, <span class="s1">'and'</span>, <span class="s1">'obesity'</span>, <span class="s1">'with'</span>, <span class="s1">'a'</span>, <span class="s1">'body'</span>, <span class="s1">'mass'</span>, <span class="s1">'index'</span>, <span class="s1">'('</span>, <span class="s1">'BMI'</span>, <span class="s1">')'</span>, <span class="s1">'of'</span>, <span class="s1">'33.5'</span>, <span class="s1">'kg/m2'</span>, <span class="s1">','</span>, <span class="s1">'presented'</span>, <span class="s1">'with'</span>, <span class="s1">'a'</span>, <span class="s1">'one-week'</span>, <span class="s1">'history'</span>, <span class="s1">'of'</span>, <span class="s1">'polyuria'</span>, <span class="s1">','</span>, <span class="s1">'polydipsia'</span>, <span class="s1">','</span>, <span class="s1">'poor'</span>, <span class="s1">'appetite'</span>, <span class="s1">','</span>, <span class="s1">'and'</span>, <span class="s1">'vomiting'</span>, <span class="s1">'.'</span><span class="o">]</span>
+ner_clinical_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'subsequent type two diabetes mellitus ( T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'an acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'a body mass index ( BMI )'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_anatomy_coarse_biobert_chunks :  <span class="o">[</span><span class="s1">'body'</span><span class="o">]</span>
+ner_human_phenotype_gene_biobert_chunks :  <span class="o">[</span><span class="s1">'obesity'</span>, <span class="s1">'mass'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_posology_large_biobert_chunks :  <span class="o">[]</span>
+jsl_rd_ner_wip_greedy_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'33.5'</span>, <span class="s1">'kg/m2'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_posology_biobert_chunks :  <span class="o">[]</span>
+jsl_ner_wip_greedy_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years prior'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years prior'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_chemprot_biobert_chunks :  <span class="o">[]</span>
+ner_ade_biobert_chunks :  <span class="o">[</span><span class="s1">'pancreatitis'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_risk_factors_biobert_chunks :  <span class="o">[</span><span class="s1">'diabetes mellitus'</span>, <span class="s1">'subsequent type two diabetes mellitus'</span>, <span class="s1">'obesity'</span><span class="o">]</span>
+sentence :  <span class="o">[</span><span class="s1">'A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .'</span><span class="o">]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -483,56 +470,43 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>wordseg_best</td>
+      <td>ner_profiling_biobert</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.0.0+</td>
+      <td>Spark NLP for Healthcare 3.2.3+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[document]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[token]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
-      <td>th</td>
+      <td>en</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="data-source">Data Source</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p>The model was trained on the <a href="http://thailang.nectec.or.th/best">BEST</a> corpus from the National Electronics and Computer Technology Center (NECTEC).</p>
-
-<p>References:</p>
-
-<blockquote>
-  <p>Krit Kosawat, Monthika Boriboon, Patcharika Chootrakool, Ananlada Chotimongkol, Supon Klaithin, Sarawoot Kongyoung, Kanyanut Kriengket, Sitthaa Phaholphinyo, Sumonmas Purodakananda, Tipraporn Thanakulwarapas, and Chai Wutiwiwatchai, “BEST 2009: Thai word segmentation software contest,” in Proc. 8th Int. Symp. Natural Language Process. (SNLP), Bangkok, Thailand, Oct.20-22, 2009, pp.83-88.</p>
-</blockquote>
-
-<blockquote>
-  <p>Monthika Boriboon, Kanyanut Kriengket, Patcharika Chootrakool, Sitthaa Phaholphinyo, Sumonmas Purodakananda, Tipraporn Thanakulwarapas, and Krit Kosawat, “BEST corpus development and analysis,” in Proc. 2nd Int. Conf. Asian Language Process. (IALP), Singapore, Dec.7-9, 2009, pp.322-327.</p>
-</blockquote>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| Model        | precision | recall | f1-score |
-|--------------|-----------|--------|----------|
-| WORDSEG_BEST | 0.4791    | 0.6245 | 0.5422   |
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-22T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>BertEmbeddings</li>
+  <li>MedicalNerModel (x21)</li>
+  <li>NerConverter (x21)</li>
+  <li>Finisher</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-23T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -657,7 +631,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/20/bert_token_classifier_ner_drugs_en.html">Detect Drug Chemicals (BertForTokenClassifier)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/23/ner_profiling_biobert_en.html">Named Entity Recognition Profiling (Biobert)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/22/wordseg_best_th.html">Thai Word Segmentation</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/24/ner_profiling_clinical_en.html">Named Entity Recognition Profiling (Clinical)</a></div></div></div>
 
 </div>
 </div>
