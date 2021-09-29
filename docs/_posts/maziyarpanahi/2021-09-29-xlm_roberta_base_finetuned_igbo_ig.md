@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-**xlm_roberta_base_finetuned_igbo** is a **Igbo RoBERTa** model obtained by fine-tuning **xlm-roberta-base** model on Amharic language texts. It provides **better performance** than the XLM-RoBERTa on named entity recognition datasets.
+**xlm_roberta_base_finetuned_igbo** is a **Igbo RoBERTa** model obtained by fine-tuning **xlm-roberta-base** model on Igbo language texts. It provides **better performance** than the XLM-RoBERTa on named entity recognition datasets.
   
 Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on the Igbo corpus.
 
