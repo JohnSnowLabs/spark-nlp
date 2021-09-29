@@ -2,7 +2,7 @@ header:
   - title: Home
     url: /
   - title: Docs
-    url: /nlp_products
+    url: /docs
     key: docs
   - title: Learn
     url: /learn
