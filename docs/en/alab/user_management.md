@@ -2,7 +2,7 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab - User Management
+seotitle: Annotation Lab | John Snow Labs
 title: User Management
 permalink: /docs/en/alab/user_management
 key: docs-training

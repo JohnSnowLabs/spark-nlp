@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR - Structures and helpers
+seotitle: Spark OCR | John Snow Labs
 title: Structures and helpers
 permalink: /docs/en/ocr_structures
 key: docs-ocr-structures

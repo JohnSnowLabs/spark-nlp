@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP - Developers Guideline
+seotitle: Spark NLP
 title: Developers Guideline
 permalink: /docs/en/developers
 key: docs-developers

@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Healthcare NLP - Licensed Models
+seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Licensed Models
 permalink: /docs/en/licensed_models
 key: docs-licensed-models

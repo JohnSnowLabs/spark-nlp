@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR - Installation
+seotitle: Spark OCR | John Snow Labs
 title: Installation
 permalink: /docs/en/ocr_install
 key: docs-ocr-install

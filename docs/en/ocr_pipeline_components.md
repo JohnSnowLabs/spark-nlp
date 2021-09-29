@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR - Pipeline components
+seotitle: Spark OCR | John Snow Labs
 title: Pipeline components
 permalink: /docs/en/ocr_pipeline_components
 key: docs-ocr-pipeline-components

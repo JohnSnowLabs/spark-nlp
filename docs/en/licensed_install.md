@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Healthcare NLP - Getting started
+seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Healthcare NLP
 permalink: /docs/en/licensed_install
 key: docs-licensed-install

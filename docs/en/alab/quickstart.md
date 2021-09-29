@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Annotation Lab - Quick Start
+seotitle: Annotation Lab | John Snow Labs
 title: Annotation Lab
 excerpt: A lightning fast tool for document annotation.
 permalink: /docs/en/alab/quickstart

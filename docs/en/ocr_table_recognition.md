@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR - Table recognition
+seotitle: Spark OCR | John Snow Labs
 title: Table recognition
 permalink: /docs/en/ocr_table_recognition
 key: docs-ocr-table-recognition

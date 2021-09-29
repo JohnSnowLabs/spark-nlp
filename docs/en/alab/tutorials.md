@@ -2,7 +2,7 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab - Video Tutorials
+seotitle: Annotation Lab | John Snow Labs
 title: Video Tutorials
 permalink: /docs/en/alab/tutorials
 key: docs-training
