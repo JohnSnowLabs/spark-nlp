@@ -92,19 +92,19 @@ class ResourceDownloader(object):
 
     @staticmethod
     def showPublicModels(annotator=None, lang=None, version=None):
-        _internal._ShowPublicModels(annotator, lang, version).apply()
+        print(_internal._ShowPublicModels(annotator, lang, version).apply())
 
     @staticmethod
-    def showPublicPipelines():
-        _internal._ShowPublicPipelines().apply()
+    def showPublicPipelines(lang=None, version=None):
+        print(_internal._ShowPublicPipelines(lang, version).apply())
 
     @staticmethod
     def showUnCategorizedResources():
-        _internal._ShowUnCategorizedResources().apply()
+        print(_internal._ShowUnCategorizedResources().apply())
 
     @staticmethod
     def showAvailableAnnotators():
-        _internal._ShowAvailableAnnotators().apply()
+        print(_internal._ShowAvailableAnnotators().apply())
 
 
 class PretrainedPipeline:

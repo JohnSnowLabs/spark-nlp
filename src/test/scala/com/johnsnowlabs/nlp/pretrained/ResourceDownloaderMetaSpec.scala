@@ -248,7 +248,17 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     ).nonEmpty)
     assert(extractTableContent(
       captureOutput {
+        ResourceDownloader.showPublicPipelines()
+      }
+    ).nonEmpty)
+    assert(extractTableContent(
+      captureOutput {
         ResourceDownloader.showPublicPipelines("en")
+      }
+    ).nonEmpty)
+    assert(extractTableContent(
+      captureOutput {
+        ResourceDownloader.showPublicPipelines("en", "2.5.0")
       }
     ).nonEmpty)
     assert(extractTableContent(

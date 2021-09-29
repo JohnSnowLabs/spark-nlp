@@ -975,47 +975,80 @@ This script requires three arguments:
 
 **Quick example:**
 
-```scala
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
+```python
+import sparknlp
+from sparknlp.pretrained import PretrainedPipeline
 
-SparkNLP.version()
+spark = sparknlp.start()
 
-val testData = spark.createDataFrame(Seq(
+testData = spark.createDataFrame([
 (1, "Google has announced the release of a beta version of the popular TensorFlow machine learning library"),
 (2, "Donald John Trump (born June 14, 1946) is the 45th and current president of the United States")
-)).toDF("id", "text")
+]).toDF("id", "text")
 
-val pipeline = PretrainedPipeline("explain_document_dl", lang="en")
+pipeline = PretrainedPipeline("explain_document_dl", lang="en")
 
-val annotation = pipeline.transform(testData)
+annotation = pipeline.transform(testData)
 
 annotation.show()
-/*
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.nlp.SparkNLP
-2.5.0
-testData: org.apache.spark.sql.DataFrame = [id: int, text: string]
-pipeline: com.johnsnowlabs.nlp.pretrained.PretrainedPipeline = PretrainedPipeline(explain_document_dl,en,public/models)
-annotation: org.apache.spark.sql.DataFrame = [id: int, text: string ... 10 more fields]
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-| id|                text|            document|               token|            sentence|             checked|               lemma|                stem|                 pos|          embeddings|                 ner|            entities|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-|  1|Google has announ...|[[document, 0, 10...|[[token, 0, 5, Go...|[[document, 0, 10...|[[token, 0, 5, Go...|[[token, 0, 5, Go...|[[token, 0, 5, go...|[[pos, 0, 5, NNP,...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 0, 5, Go...|
-|  2|The Paris metro w...|[[document, 0, 11...|[[token, 0, 2, Th...|[[document, 0, 11...|[[token, 0, 2, Th...|[[token, 0, 2, Th...|[[token, 0, 2, th...|[[pos, 0, 2, DT, ...|[[word_embeddings...|[[named_entity, 0...|[[chunk, 4, 8, Pa...|
-+---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
-*/
+# +---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+# | id|                text|            document|            sentence|               token|             checked|               lemma|                stem|                 pos|          embeddings|                 ner|            entities|
+# +---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
+# |  1|Google has announ...|[{document, 0, 10...|[{document, 0, 10...|[{token, 0, 5, Go...|[{token, 0, 5, Go...|[{token, 0, 5, Go...|[{token, 0, 5, go...|[{pos, 0, 5, NNP,...|[{word_embeddings...|[{named_entity, 0...|[{chunk, 0, 5, Go...|
+# |  2|Donald John Trump...|[{document, 0, 92...|[{document, 0, 92...|[{token, 0, 5, Do...|[{token, 0, 5, Do...|[{token, 0, 5, Do...|[{token, 0, 5, do...|[{pos, 0, 5, NNP,...|[{word_embeddings...|[{named_entity, 0...|[{chunk, 0, 16, D...|
+# +---+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+
 
-annotation.select("entities.result").show(false)
 
-/*
-+----------------------------------+
-|result                            |
-+----------------------------------+
-|[Google, TensorFlow]              |
-|[Donald John Trump, United States]|
-+----------------------------------+
-*/
+annotation.select("entities.result").show(truncate=False)
+# +----------------------------------+
+# |result                            |
+# +----------------------------------+
+# |[Google, TensorFlow]              |
+# |[Donald John Trump, United States]|
+# +----------------------------------+
+```
+
+#### Showing Available Pipelines
+
+There are functions in Spark NLP that will list all of the available Pipelines
+of a particular language for you:
+
+```python
+import sparknlp
+from sparknlp.pretrained import ResourceDownloader
+spark = sparknlp.start()
+
+ResourceDownloader.showPublicPipelines(lang="en")
+# +--------------------------------------------+------+---------+
+# | Pipeline                                   | lang | version |
+# +--------------------------------------------+------+---------+
+# | dependency_parse                           |  en  | 2.0.2   |
+# | analyze_sentiment_ml                       |  en  | 2.0.2   |
+# | check_spelling                             |  en  | 2.1.0   |
+# | match_datetime                             |  en  | 2.1.0   |
+#                                ...
+# | explain_document_ml                        |  en  | 3.1.3   |
+# +--------------------------------------------+------+---------+
+```
+
+Or if we want to check for a particular version:
+
+```python
+import sparknlp
+from sparknlp.pretrained import ResourceDownloader
+spark = sparknlp.start()
+
+ResourceDownloader.showPublicPipelines(lang="en", version="3.1.0")
+# +---------------------------------------+------+---------+
+# | Pipeline                              | lang | version |
+# +---------------------------------------+------+---------+
+# | dependency_parse                      |  en  | 2.0.2   |
+#                                ...
+# | clean_slang                           |  en  | 3.0.0   |
+# | clean_pattern                         |  en  | 3.0.0   |
+# | check_spelling                        |  en  | 3.0.0   |
+# | dependency_parse                      |  en  | 3.0.0   |
+# +---------------------------------------+------+---------+
 ```
 
 #### Please check out our Models Hub for the full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/models) with examples, demos, benchmarks, and more
@@ -1027,27 +1060,78 @@ annotation.select("entities.result").show(false)
 **Quick online example:**
 
 ```python
+from sparknlp.annotator import NerDLModel
+
 # load NER model trained by deep learning approach and GloVe word embeddings
 ner_dl = NerDLModel.pretrained('ner_dl')
 # load NER model trained by deep learning approach and BERT word embeddings
 ner_bert = NerDLModel.pretrained('ner_dl_bert')
 ```
 
-```scala
-// load French POS tagger model trained by Universal Dependencies
-val french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
-// load Italain LemmatizerModel
-val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang="it")
-````
-
 **Quick offline example:**
 
 - Loading `PerceptronModel` annotator model inside Spark NLP Pipeline
 
-```scala
-val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-      .setInputCols("document", "token")
-      .setOutputCol("pos")
+```python
+from sparknlp.annotator import PerceptronModel
+
+french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/") \
+    .setInputCols("document", "token") \
+    .setOutputCol("pos")
+```
+
+#### Showing Available Models
+
+There are functions in Spark NLP that will list all the available Models
+of a particular Annotator and language for you:
+
+```python
+from sparknlp.pretrained import ResourceDownloader
+
+ResourceDownloader.showPublicModels(annotator="NerDLModel", lang="en")
+# +---------------------------------------------+------+---------+
+# | Model                                       | lang | version |
+# +---------------------------------------------+------+---------+
+# | onto_100                                    |  en  | 2.1.0   |
+# | onto_300                                    |  en  | 2.1.0   |
+# | ner_dl_bert                                 |  en  | 2.2.0   |
+# | onto_100                                    |  en  | 2.4.0   |
+#                                 ...
+# | ner_conll_elmo                              |  en  | 3.2.2   |
+# +---------------------------------------------+------+---------+
+```
+
+Or if we want to check for a particular version:
+
+```python
+from sparknlp.pretrained import ResourceDownloader
+
+ResourceDownloader.showPublicModels(annotator="NerDLModel", lang="en", version="3.1.0")
+# +----------------------------+------+---------+
+# | Model                      | lang | version |
+# +----------------------------+------+---------+
+# | onto_100                   |  en  | 2.1.0   |
+#                                ...
+# | ner_aspect_based_sentiment |  en  | 2.6.2   |
+# | ner_weibo_glove_840B_300d  |  en  | 2.6.2   |
+# | nerdl_atis_840b_300d       |  en  | 2.7.1   |
+# | nerdl_snips_100d           |  en  | 2.7.3   |
+# +----------------------------+------+---------+
+```
+
+And to see a list of available annotators, you can use:
+
+```python
+from sparknlp.pretrained import ResourceDownloader
+
+ResourceDownloader.showAvailableAnnotators()
+# AlbertEmbeddings
+# AlbertForTokenClassification
+# AssertionDLModel
+# ...
+# XlmRoBertaSentenceEmbeddings
+# XlnetEmbeddings
+
 ```
 
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
