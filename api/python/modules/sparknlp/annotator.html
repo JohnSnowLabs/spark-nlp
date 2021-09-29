@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.2.3 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.3.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -8815,7 +8815,7 @@
     <span class="n">minCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;minCount&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Min number of times a token should appear to be included in vocab.&quot;</span><span class="p">,</span>
-                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
     <span class="n">compoundCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                           <span class="s2">&quot;compoundCount&quot;</span><span class="p">,</span>
@@ -8825,7 +8825,7 @@
     <span class="n">classCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;classCount&quot;</span><span class="p">,</span>
                        <span class="s2">&quot;Min number of times the word need to appear in corpus to not be considered of a special class.&quot;</span><span class="p">,</span>
-                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
     <span class="n">tradeoff</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                      <span class="s2">&quot;tradeoff&quot;</span><span class="p">,</span>
@@ -8959,7 +8959,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        count : int</span>
+<span class="sd">        count : float</span>
 <span class="sd">            Min number of times a token should appear to be included in vocab</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minCount</span><span class="o">=</span><span class="n">count</span><span class="p">)</span></div>
@@ -8982,7 +8982,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        count : int</span>
+<span class="sd">        count : float</span>
 <span class="sd">            Min number of times the word need to appear in corpus to not be</span>
 <span class="sd">            considered of a special class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -9137,9 +9137,6 @@
 <span class="sd">    tradeoff</span>
 <span class="sd">        Tradeoff between the cost of a word error and a transition in the</span>
 <span class="sd">        language model.</span>
-<span class="sd">    weightedDistPath</span>
-<span class="sd">        The path to the file containing the weights for the levenshtein</span>
-<span class="sd">        distance.</span>
 <span class="sd">    maxWindowLen</span>
 <span class="sd">        Maximum size for the window used to remember history prior to every</span>
 <span class="sd">        correction.</span>
@@ -9217,11 +9214,6 @@
                      <span class="s2">&quot;tradeoff&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;Tradeoff between the cost of a word error and a transition in the language model.&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
-
-    <span class="n">weightedDistPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                             <span class="s2">&quot;weightedDistPath&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;The path to the file containing the weights for the levenshtein distance.&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
     <span class="n">maxWindowLen</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;maxWindowLen&quot;</span><span class="p">,</span>
@@ -12531,7 +12523,7 @@
 <span class="sd">        name : str, optional</span>
 <span class="sd">            Name of the pretrained model, by default &quot;xlm_roberta_base&quot;</span>
 <span class="sd">        lang : str, optional</span>
-<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">            Language of the pretrained model, by default &quot;xx&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
@@ -12948,9 +12940,9 @@
 <span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
 <span class="sd">    ...     .setCaseSensitive(True)</span>
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
-<span class="sd">    &gt;&gt;&gt; ...     documentAssembler,</span>
-<span class="sd">    &gt;&gt;&gt; ...     tokenizer,</span>
-<span class="sd">    &gt;&gt;&gt; ...     tokenClassifier</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
 <span class="sd">    ... ])</span>
 <span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived</span>
 <span class="sd">    &gt;&gt;&gt; in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
@@ -13790,6 +13782,791 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">XlmRoBertaSentenceEmbeddings</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RoBertaForTokenClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">RoBertaForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                    <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                    <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;RoBertaForTokenClassification can load RoBerta Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; token_classifier = RoBertaForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;roberta_base_token_classifier_conll03&quot;``, if no name</span>
+<span class="sd">    is provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = RoBertaForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                              |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RoBertaForTokenClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RoBertaForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoBertaForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RoBertaForTokenClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="RoBertaForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        RoBertaForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_RoBertaTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_RoBertaTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">RoBertaForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RoBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;roberta_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;roberta_base_token_classifier_conll03&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        RoBertaForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RoBertaForTokenClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XlmRoBertaForTokenClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">XlmRoBertaForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                       <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                       <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; token_classifier = XlmRoBertaForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+<span class="sd">    The default model is ``&quot;xlm_roberta_base_token_classifier_conll03&quot;``, if no</span>
+<span class="sd">    name is provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = XlmRoBertaForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                              |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;XlmRoBertaForTokenClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XlmRoBertaForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XlmRoBertaForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">XlmRoBertaForTokenClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="XlmRoBertaForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        XlmRoBertaForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_XlmRoBertaTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_XlmRoBertaTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">XlmRoBertaForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XlmRoBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xlm_roberta_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;xlm_roberta_base_token_classifier_conll03&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        XlmRoBertaForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">XlmRoBertaForTokenClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="AlbertForTokenClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">AlbertForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                   <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                   <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;AlbertForTokenClassification can load ALBERT Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; token_classifier = AlbertForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;albert_base_token_classifier_conll03&quot;``, if no name</span>
+<span class="sd">    is provided.</span>
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = AlbertForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                              |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AlbertForTokenClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AlbertForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AlbertForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AlbertForTokenClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AlbertForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AlbertForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_AlbertTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_AlbertTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">AlbertForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AlbertForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;albert_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;albert_base_token_classifier_conll03&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AlbertForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AlbertForTokenClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="XlnetForTokenClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">XlnetForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                  <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                  <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;XlnetForTokenClassification can load XLNet Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; token_classifier = XlnetForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;xlnet_base_token_classifier_conll03&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = XlnetForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                              |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;XlnetForTokenClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XlnetForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XlnetForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">XlnetForTokenClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="XlnetForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        XlnetForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_XlnetTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_XlnetTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">XlnetForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XlnetForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xlnet_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;xlnet_base_token_classifier_conll03&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        XlnetForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">XlnetForTokenClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LongformerForTokenClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">LongformerForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                       <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                       <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;LongformerForTokenClassification can load Longformer Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; token_classifier = LongformerForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;xlnet_base_token_classifier_conll03&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = LongformerForTokenClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                              |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;LongformerForTokenClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LongformerForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LongformerForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LongformerForTokenClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="LongformerForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LongformerForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_LongformerTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_LongformerTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">LongformerForTokenClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LongformerForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;longformer_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;longformer_base_token_classifier_conll03&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LongformerForTokenClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">LongformerForTokenClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>
