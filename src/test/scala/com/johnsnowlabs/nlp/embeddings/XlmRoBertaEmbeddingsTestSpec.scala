@@ -147,8 +147,8 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_xlmroberta_pipeline")
     loadedPipelineModel.transform(ddd).show()
 
-    val loadedDistilBertModel = XlmRoBertaEmbeddings.load("./tmp_xlmroberta_model")
-    loadedDistilBertModel.getDimension
+    val loadedModel = XlmRoBertaEmbeddings.load("./tmp_xlmroberta_model")
+    loadedModel.getDimension
 
   }
 
