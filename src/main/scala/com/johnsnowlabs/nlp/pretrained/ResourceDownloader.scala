@@ -126,19 +126,7 @@ object ResourceDownloader {
                        lang: Option[String] = None,
                        version: Option[String] = Some(Build.version)
                       ): Unit = {
-    println(showString(
-      listPretrainedResources(
-        folder = publicLoc,
-        ResourceType.MODEL,
-        annotator = annotator,
-        lang = lang,
-        version = version match {
-          case Some(ver) => Some(Version.parse(ver))
-          case None => None
-        }
-      ),
-      ResourceType.MODEL)
-    )
+    println(publicResourceString(annotator = annotator, lang = lang, version = version, resourceType = ResourceType.MODEL))
   }
 
   /**
@@ -174,14 +162,31 @@ object ResourceDownloader {
     listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE)
   }
 
-
-  def showPublicPipelines(lang: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang), ResourceType.PIPELINE))
+  /**
+   * Prints all Pipelines available for a language and a version of Spark NLP. By default shows all languages and uses
+   * the current version of Spark NLP.
+   *
+   * @param lang    Language of the Pipeline
+   * @param version Version of Spark NLP
+   */
+  def showPublicPipelines(lang: Option[String] = None, version: Option[String] = Some(Build.version)): Unit = {
+    println(publicResourceString(annotator = None, lang = lang, version = version, resourceType = ResourceType.PIPELINE))
   }
 
-  def showPublicPipelines(lang: String, version: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE, lang, Version.parse(version)), ResourceType.PIPELINE))
-  }
+  /**
+   * Prints all Pipelines available for a language and this version of Spark NLP.
+   *
+   * @param lang Language of the Pipeline
+   */
+  def showPublicPipelines(lang: String): Unit = showPublicPipelines(Some(lang))
+
+  /**
+   * Prints all Pipelines available for a language and a version of Spark NLP.
+   *
+   * @param lang    Language of the Pipeline
+   * @param version Version of Spark NLP
+   */
+  def showPublicPipelines(lang: String, version: String): Unit = showPublicPipelines(Some(lang), Some(version))
 
   /**
    * Returns models or pipelines in metadata json which has not been categorized yet.
@@ -194,11 +199,12 @@ object ResourceDownloader {
 
 
   def showUnCategorizedResources(lang: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED, lang), ResourceType.NOT_DEFINED))
+    println(publicResourceString(None, Some(lang), None, resourceType = ResourceType.NOT_DEFINED))
   }
 
   def showUnCategorizedResources(lang: String, version: String): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED, lang, Version.parse(version)), ResourceType.NOT_DEFINED))
+    println(publicResourceString(None, Some(lang), Some(version), resourceType = ResourceType.NOT_DEFINED))
+
   }
 
   def showString(list: List[String], resourceType: ResourceType): String = {
@@ -246,6 +252,23 @@ object ResourceDownloader {
     sb.append("+\n")
     sb.toString()
 
+  }
+
+  def publicResourceString(annotator: Option[String] = None,
+                           lang: Option[String] = None,
+                           version: Option[String] = Some(Build.version),
+                           resourceType: ResourceType
+                          ): String = {
+    showString(listPretrainedResources(
+      folder = publicLoc,
+      resourceType,
+      annotator = annotator,
+      lang = lang,
+      version = version match {
+        case Some(ver) => Some(Version.parse(ver))
+        case None => None
+      }),
+      resourceType)
   }
 
   /**
@@ -300,12 +323,15 @@ object ResourceDownloader {
   def listPretrainedResources(folder: String, resourceType: ResourceType, lang: String, version: Version): List[String] =
     listPretrainedResources(folder, resourceType, lang = Some(lang), version = Some(version))
 
-  def showAvailableAnnotators(folder: String = publicLoc): Unit = {
+  def listAvailableAnnotators(folder: String = publicLoc): List[String] = {
     val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
-    val annotators = resourceMetaData.map(_.annotator.getOrElse(""))
+    resourceMetaData.map(_.annotator.getOrElse(""))
       .toSet.filter { a => !a.equals("") }
-      .toSeq.sorted
-    println(annotators.mkString("\n"))
+      .toList.sorted
+  }
+
+  def showAvailableAnnotators(folder: String = publicLoc): Unit = {
+    println(listAvailableAnnotators(folder).mkString("\n"))
   }
 
   /**
@@ -518,20 +544,28 @@ object PythonResourceDownloader {
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
   }
 
-  def showUnCategorizedResources(): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.NOT_DEFINED), ResourceType.NOT_DEFINED))
+  def showUnCategorizedResources(): String = {
+    ResourceDownloader.publicResourceString(annotator = None, lang = None, version = None, resourceType = ResourceType.NOT_DEFINED)
   }
 
-  def showPublicPipelines(): Unit = {
-    println(showString(listPretrainedResources(folder = publicLoc, ResourceType.PIPELINE), ResourceType.PIPELINE))
+  def showPublicPipelines(lang: String, version: String): String = {
+    val ver: Option[String] = version match {
+      case null => Some(Build.version)
+      case _ => Some(version)
+    }
+    ResourceDownloader.publicResourceString(annotator = None, lang = Option(lang), version = ver, resourceType = ResourceType.PIPELINE)
   }
 
-  def showPublicModels(annotator: String, lang: String, version: String): Unit = {
-    ResourceDownloader.showPublicModels(Option(annotator), Option(lang), Option(version))
+  def showPublicModels(annotator: String, lang: String, version: String): String = {
+    val ver: Option[String] = version match {
+      case null => Some(Build.version)
+      case _ => Some(version)
+    }
+    ResourceDownloader.publicResourceString(annotator = Option(annotator), lang = Option(lang), version = ver, resourceType = ResourceType.MODEL)
   }
 
-  def showAvailableAnnotators(): Unit = {
-    ResourceDownloader.showAvailableAnnotators()
+  def showAvailableAnnotators(): String = {
+    ResourceDownloader.listAvailableAnnotators().mkString("\n")
   }
 
   def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
