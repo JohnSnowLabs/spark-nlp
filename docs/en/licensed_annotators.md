@@ -1,7 +1,8 @@
 ---
 layout: docs
 header: true
-title: Spark NLP for Healthcare Annotators
+seotitle: Healthcare NLP - Annotators
+title: Healthcare NLP Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
 modify_date: "2020-08-10"

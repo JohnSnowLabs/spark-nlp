@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Healthcare NLP - Licensed Models
 title: Licensed Models
 permalink: /docs/en/licensed_models
 key: docs-licensed-models

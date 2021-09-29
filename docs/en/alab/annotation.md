@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Text Annotation
 title: Text Annotation
 permalink: /docs/en/alab/annotation
 key: docs-training

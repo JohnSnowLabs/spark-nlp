@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Bring Your Own License
 title: Bring Your Own License
 permalink: /docs/en/alab/byol
 key: docs-training

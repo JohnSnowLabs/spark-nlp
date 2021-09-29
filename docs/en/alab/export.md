@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Export Data
 title: Export Data
 permalink: /docs/en/alab/export
 key: docs-training

@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Project Setup
 title: Project Setup 
 permalink: /docs/en/alab/project_setup
 key: docs-training

@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR - Installation
 title: Installation
 permalink: /docs/en/ocr_install
 key: docs-ocr-install

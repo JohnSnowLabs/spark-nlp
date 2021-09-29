@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR - Structures and helpers
 title: Structures and helpers
 permalink: /docs/en/ocr_structures
 key: docs-ocr-structures

@@ -6,10 +6,10 @@ EmbeddingsFinisher
 Extracts embeddings from Annotations into a more easily usable form.
 
 This is useful for example:
-[WordEmbeddings](/docs/en/annotators#wordembeddings),
-[BertEmbeddings](/docs/en/transformers#bertembeddings),
-[SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) and
-[ChunkEmbeddings](/docs/en/annotators#chunkembeddings).
+[WordEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddings),
+[BertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings),
+[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) and
+[ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings).
 
 By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or vectors which are
 compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require

@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Video Tutorials
 title: Video Tutorials
 permalink: /docs/en/alab/tutorials
 key: docs-training

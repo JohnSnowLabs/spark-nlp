@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Analytics
 title: Analytics  
 permalink: /docs/en/alab/analytics
 key: docs-training

@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - Workflow Setup
 title: Workflow Setup
 permalink: /docs/en/alab/workflow
 key: docs-training

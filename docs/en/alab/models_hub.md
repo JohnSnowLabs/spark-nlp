@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab - NLP Models Hub
 title: NLP Models Hub
 permalink: /docs/en/alab/models_hub
 key: docs-training

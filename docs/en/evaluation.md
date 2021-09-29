@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Healthcare NLP - Evaluation
 title: Evaluation
 permalink: /docs/en/evaluation
 key: docs-evaluation

@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark NLP - Transformers
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers

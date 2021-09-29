@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR - Object detection
 title: Object detection
 permalink: /docs/en/ocr_object_detection
 key: docs-ocr-object-detection
