@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.johnsnowlabs.util
 
 import org.apache.hadoop.fs.FileSystem
@@ -23,33 +24,33 @@ import scala.util.{Failure, Success, Try}
 object ConfigLoader {
 
   private lazy val fileSystem: FileSystem = ConfigHelper.getFileSystem
-  private lazy val homeDirectory = {
-    if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home") else fileSystem.getHomeDirectory
+  private lazy val homeDirectory: String = {
+    if (fileSystem.getScheme.equals("dbfs")) System.getProperty("user.home") else fileSystem.getHomeDirectory.toString
   }
   private lazy val hadoopTmpDir: String = ConfigHelper.getHadoopTmpDir
 
   private lazy val configData: Map[String, String] = {
 
     getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
-    getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
-    getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
-    getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
-    getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
-    getConfigInfo(ConfigHelper.accessKeyId, "") ++
-    getConfigInfo(ConfigHelper.secretAccessKey, "") ++
-    getConfigInfo(ConfigHelper.sessionToken, "") ++
-    getConfigInfo(ConfigHelper.awsProfileName, "") ++
-    getConfigInfo(ConfigHelper.awsRegion, "") ++
-    getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
-    getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
-    getConfigInfo(ConfigHelper.serializationMode, "object") ++
-    getConfigInfo(ConfigHelper.useBroadcast, "true") ++
-    getConfigInfo(ConfigHelper.awsExternalAccessKeyId, "") ++
-    getConfigInfo(ConfigHelper.awsExternalSecretAccessKey, "") ++
-    getConfigInfo(ConfigHelper.awsExternalSessionToken, "") ++
-    getConfigInfo(ConfigHelper.awsExternalProfileName, "") ++
-    getConfigInfo(ConfigHelper.awsExternalS3BucketKey, "") ++
-    getConfigInfo(ConfigHelper.awsExternalRegion, "")
+      getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
+      getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
+      getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
+      getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
+      getConfigInfo(ConfigHelper.accessKeyId, "") ++
+      getConfigInfo(ConfigHelper.secretAccessKey, "") ++
+      getConfigInfo(ConfigHelper.sessionToken, "") ++
+      getConfigInfo(ConfigHelper.awsProfileName, "") ++
+      getConfigInfo(ConfigHelper.awsRegion, "") ++
+      getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
+      getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
+      getConfigInfo(ConfigHelper.serializationMode, "object") ++
+      getConfigInfo(ConfigHelper.useBroadcast, "true") ++
+      getConfigInfo(ConfigHelper.awsExternalAccessKeyId, "") ++
+      getConfigInfo(ConfigHelper.awsExternalSecretAccessKey, "") ++
+      getConfigInfo(ConfigHelper.awsExternalSessionToken, "") ++
+      getConfigInfo(ConfigHelper.awsExternalProfileName, "") ++
+      getConfigInfo(ConfigHelper.awsExternalS3BucketKey, "") ++
+      getConfigInfo(ConfigHelper.awsExternalRegion, "")
   }
 
   private def getConfigInfo(property: String, defaultValue: String): Map[String, String] = {

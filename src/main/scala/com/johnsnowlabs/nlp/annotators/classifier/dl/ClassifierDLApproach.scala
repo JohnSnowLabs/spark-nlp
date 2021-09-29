@@ -425,7 +425,7 @@ class ClassifierDLApproach(override val uid: String)
       TensorflowWrapper
         .readZippedSavedModel("/classifier-dl", tags = Array("serve"), initAllTables = true)
 
-    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
+    wrapper.variables = Variables(Array.empty[Array[Byte]], Array.empty[Byte])
     wrapper
   }
 }

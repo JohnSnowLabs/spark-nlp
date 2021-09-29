@@ -169,7 +169,6 @@ class NorvigSweetingModel(override val uid: String) extends AnnotatorModel[Norvi
     logger.debug(s"spell checker target word: $input")
     val possibility = getBestSpellingSuggestion(input)
     if (possibility._1.isDefined) return (possibility._1.get, possibility._2)
-
     val listedSuggestions = suggestions(input)
     val sortedFrequencies = getSortedWordsByFrequency(listedSuggestions, input)
     val sortedHamming = getSortedWordsByHamming(listedSuggestions, input)

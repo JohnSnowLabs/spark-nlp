@@ -394,7 +394,7 @@ class SentimentDLApproach(override val uid: String)
 
     val wrapper =
       TensorflowWrapper.readZippedSavedModel("/sentiment-dl", tags = Array("serve"), initAllTables = true)
-    wrapper.variables = Variables(Array.empty[Byte], Array.empty[Byte])
+    wrapper.variables = Variables(Array.empty[Array[Byte]], Array.empty[Byte])
     wrapper
   }
 }

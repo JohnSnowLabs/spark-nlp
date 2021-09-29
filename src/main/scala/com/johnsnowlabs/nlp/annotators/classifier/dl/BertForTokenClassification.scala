@@ -36,13 +36,13 @@ import java.io.File
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val labels = BertForTokenClassification.pretrained()
+ * val tokenClassifier = BertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
  * The default model is `"bert_base_token_classifier_conll03"`, if no name is provided.
  *
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
  *
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
@@ -108,10 +108,21 @@ class BertForTokenClassification(override val uid: String)
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("BERT_FOR_TOKEN_CLASSIFICATION"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /**
+   * Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
+  /**
+   * Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
   /** @group setParam */

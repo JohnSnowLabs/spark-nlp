@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer</title>
-          <meta name="description" content="Spark NLP 3.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
-          <meta name="keywords" content="Spark NLP 3.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
+          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer</title>
+          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
+          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -171,6 +171,10 @@
                         <a href="BpeTokenizer$.html" title="">BpeTokenizer</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
+                        <a class="class" href="Gpt2Tokenizer.html" title=""></a>
+                        <a href="Gpt2Tokenizer.html" title="">Gpt2Tokenizer</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
                         <a class="class" href="" title=""></a>
                         <a href="" title="">RobertaTokenizer</a>
                       </li><li class="current-entities indented6">
@@ -200,7 +204,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">RobertaTokenizer</span><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer">BpeTokenizer</span></span>
+        <span class="name">RobertaTokenizer</span><span class="result"> extends <a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a></span>
       </span>
       </h4>
 
@@ -209,7 +213,7 @@
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer">BpeTokenizer</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a>, <span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer">BpeTokenizer</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -235,7 +239,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer"><span>RobertaTokenizer</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer"><span>BpeTokenizer</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer"><span>RobertaTokenizer</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer"><span>Gpt2Tokenizer</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer"><span>BpeTokenizer</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -556,9 +560,7 @@ If not possible, the word is split into smaller subwords, until they are known.
       </span>
       
       <p class="shortcomment cmt">Create a sequence of byte-pairs of the word
-TODO: XLM has to append to end
 </p><div class="fullcomment"><div class="comment cmt"><p>Create a sequence of byte-pairs of the word
-TODO: XLM has to append to end
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
@@ -630,6 +632,22 @@ TODO: XLM has to append to end
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#merges" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="merges:Map[(String,String),Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#merges:Map[(String,String),Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">merges</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[(<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>), <span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -684,6 +702,22 @@ TODO: XLM has to append to end
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#padWithSentenceTokens" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="padWithSentenceTokens:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#padWithSentenceTokens:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">padWithSentenceTokens</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#performMerges" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="performMerges(wordChars:Array[String],charPairs:Array[(String,String)]):Array[String]"></a><a id="performMerges(Array[String],Array[(String,String)]):Array[String]"></a>
       <span class="permalink">
@@ -700,7 +734,7 @@ TODO: XLM has to append to end
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer#preProcessTokenForBpe" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer#preProcessTokenForBpe" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="preProcessTokenForBpe(token:String):String"></a><a id="preProcessTokenForBpe(String):String"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#preProcessTokenForBpe(token:String):String" title="Permalink">
@@ -715,8 +749,8 @@ TODO: XLM has to append to end
         <span class="name">preProcessTokenForBpe</span><span class="params">(<span name="token">token: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer">RobertaTokenizer</a> → BpeTokenizer</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer#prependForPieceId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a> → BpeTokenizer</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer#prependForPieceId" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="prependForPieceId:Option[String]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#prependForPieceId:Option[String]" title="Permalink">
@@ -731,7 +765,7 @@ TODO: XLM has to append to end
         <span class="name">prependForPieceId</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer">RobertaTokenizer</a> → BpeTokenizer</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a> → BpeTokenizer</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#sentencePadding" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sentencePadding:(String,String)"></a>
       <span class="permalink">
@@ -750,6 +784,22 @@ TODO: XLM has to append to end
       <p class="shortcomment cmt">Special tokens of the model for processing
 </p><div class="fullcomment"><div class="comment cmt"><p>Special tokens of the model for processing
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#specialTokens" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="specialTokens:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens"></a><a id="specialTokens:SpecialTokens"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#specialTokens:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">specialTokens</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialTokens">SpecialTokens</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#splitOnSpecialToken" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="splitOnSpecialToken(specialToken:com.johnsnowlabs.nlp.annotators.tokenizer.bpe.SpecialToken,text:String):scala.collection.mutable.ListBuffer[String]"></a><a id="splitOnSpecialToken(SpecialToken,String):ListBuffer[String]"></a>
       <span class="permalink">
@@ -767,7 +817,7 @@ TODO: XLM has to append to end
       
       <p class="shortcomment cmt">Split the the individual sub texts on special tokens, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>Split the the individual sub texts on special tokens, e.g. masking etc.
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer#splitPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer#splitPattern" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="splitPattern:scala.util.matching.Regex"></a><a id="splitPattern:Regex"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#splitPattern:scala.util.matching.Regex" title="Permalink">
@@ -782,7 +832,7 @@ TODO: XLM has to append to end
         <span class="name">splitPattern</span><span class="result">: <span class="extype" name="scala.util.matching.Regex">Regex</span></span>
       </span>
       
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -833,7 +883,7 @@ TODO: XLM has to append to end
       <p class="shortcomment cmt">Tokenize considering special tokens and split algorithm
 </p><div class="fullcomment"><div class="comment cmt"><p>Tokenize considering special tokens and split algorithm
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer#tokenizeSubText" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer#tokenizeSubText" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tokenizeSubText(text:String,indexOffset:Int):Array[com.johnsnowlabs.nlp.annotators.common.IndexedToken]"></a><a id="tokenizeSubText(String,Int):Array[IndexedToken]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#tokenizeSubText(text:String,indexOffset:Int):Array[com.johnsnowlabs.nlp.annotators.common.IndexedToken]" title="Permalink">
@@ -850,7 +900,23 @@ TODO: XLM has to append to end
       
       <p class="shortcomment cmt">Needs to be implemented
 </p><div class="fullcomment"><div class="comment cmt"><p>Needs to be implemented
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.RobertaTokenizer">RobertaTokenizer</a> → BpeTokenizer</dd></dl></div>
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a> → BpeTokenizer</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer#vocab" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="vocab:Map[String,Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/bpe/RobertaTokenizer.html#vocab:Map[String,Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">vocab</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>BpeTokenizer</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -929,7 +995,9 @@ TODO: XLM has to append to end
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer">
+        <div class="parent" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">
+              <h3>Inherited from <a href="Gpt2Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer">Gpt2Tokenizer</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer">
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer">BpeTokenizer</span></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
