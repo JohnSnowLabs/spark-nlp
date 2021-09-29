@@ -38,22 +38,20 @@ object ChunkBytes {
     if (sbc < MAX_FILE_SIZE) {
       Array(Files.readAllBytes(inputPath))
     } else {
-
-      val varBytesBuffer = ArrayBuffer[Array[Byte]]()
-      val chunkBuffer = Array.ofDim[Byte](BufferSize)
-
-      var read = fis.read(chunkBuffer, 0, BufferSize)
-      var index = 0
-
-      while (read > -1) {
-        varBytesBuffer.append(chunkBuffer)
+      val varBytesBuffer = new ArrayBuffer[Array[Byte]]()
+      var read = 0
+      do {
+        var chunkBuffer = new Array[Byte](BufferSize)
         read = fis.read(chunkBuffer, 0, BufferSize)
-        index += 1
+        varBytesBuffer append chunkBuffer
+        chunkBuffer = null
       }
-      fis.close()
+      while (read > -1)
 
+      fis.close()
       varBytesBuffer.toArray
     }
+
   }
 
   /**
