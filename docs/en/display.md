@@ -1,7 +1,6 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
 title: Spark NLP Display
 permalink: /docs/en/display
 key: docs-display

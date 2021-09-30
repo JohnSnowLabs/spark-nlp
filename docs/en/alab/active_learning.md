@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Model Training  
 permalink: /docs/en/alab/active_learning
 key: docs-training

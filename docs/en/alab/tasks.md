@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Tasks
 permalink: /docs/en/alab/tasks
 key: docs-training

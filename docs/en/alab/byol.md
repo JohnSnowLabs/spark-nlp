@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Bring Your Own License
 permalink: /docs/en/alab/byol
 key: docs-training

@@ -6,13 +6,13 @@ GraphExtraction
 Extracts a dependency graph between entities.
 
 The GraphExtraction class takes e.g. extracted entities from a
-[NerDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel) and creates a dependency tree which describes how
+[NerDLModel](/docs/en/annotators#nerdl) and creates a dependency tree which describes how
 the entities relate to each other. For that a triple store format is used. Nodes represent the entities and the
 edges represent the relations between those entities. The graph can then be used to find relevant relationships
 between words.
 
-Both the [DependencyParserModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel) and
-[TypedDependencyParserModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel) need to be
+Both the [DependencyParserModel](/docs/en/annotators#dependencyparser) and
+[TypedDependencyParserModel](/docs/en/annotators#typeddependencyparser) need to be
 present in the pipeline. There are two ways to set them:
 
   1. Both Annotators are present in the pipeline already. The dependencies are taken implicitly from these two
@@ -31,7 +31,7 @@ present in the pipeline. There are two ways to set them:
      ```
 
 To transform the resulting graph into a more generic form such as RDF, see the
-[GraphFinisher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/GraphFinisher).
+[GraphFinisher](/docs/en/annotators#graphfinisher).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
