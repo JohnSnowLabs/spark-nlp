@@ -195,6 +195,8 @@ annotation-lab:
         url:    /docs/en/alab/byol
       - title:  API Integration 
         url:    /docs/en/alab/api
+      - title:  Security and Privacy 
+        url:    /docs/en/alab/security  
       - title:  Video Tutorials   
         url:    /docs/en/alab/tutorials
 
