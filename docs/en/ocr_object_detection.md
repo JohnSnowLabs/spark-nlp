@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Object detection
 permalink: /docs/en/ocr_object_detection
 key: docs-ocr-object-detection
