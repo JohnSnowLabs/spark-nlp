@@ -16,6 +16,7 @@ from test.annotators import *
 from test.functions import FunctionMapColumnsTestSpec, FunctionMapColumnTestSpec
 from test.misc import *
 from test.base import *
+from test.pretrained import *
 
 # Annotator tests
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
@@ -39,7 +40,7 @@ unittest.TextTestRunner().run(PipelineTestSpec())
 unittest.TextTestRunner().run(SpellCheckerTestSpec())
 unittest.TextTestRunner().run(NorvigSweetingModelTestSpec())
 unittest.TextTestRunner().run(SymmetricDeleteTestSpec())
-unittest.TextTestRunner().run(ContextSpellCheckerTestSpec())
+unittest.TextTestRunner().run(ContextSpellCheckerModelTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
 unittest.TextTestRunner().run(DependencyParserTreeBankTestSpec())
 unittest.TextTestRunner().run(DependencyParserConllUTestSpec())
@@ -91,13 +92,18 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
 # unittest.TextTestRunner().run(BertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(RoBertaSentenceEmbeddingsTestSpec())
+# unittest.TextTestRunner().run(RoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlmRoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
 
 # Misc tests
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
+unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 
 # Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
-

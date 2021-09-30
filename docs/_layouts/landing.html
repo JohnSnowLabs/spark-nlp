@@ -201,22 +201,22 @@ article_header:
                   <div class="highlight-box">
     {% highlight bash %}
     # Install Spark NLP from PyPI
-    $ pip install spark-nlp==3.2.3 pyspark
+    $ pip install spark-nlp==3.3.0 pyspark
   
     # Install Spark NLP from Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
   
     # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
+    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.0
   
     # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
+    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.0
   
     # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3
+    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.0
   
     # Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`
-    $ spark-shell --jar spark-nlp-assembly-3.2.3
+    $ spark-shell --jar spark-nlp-assembly-3.3.0
     {% endhighlight %}
                     </div>
                 </div>
@@ -298,10 +298,10 @@ article_header:
                     <li><strong>Part-of-speech</strong> tagging</li>
                     <li>Sentence Detector (DL models)</li>
                     <li><strong>Dependency</strong> parsing</li>
-                  </ul>
-                  <ul class="list1">                    
                     <li><strong>Sentiment</strong> Detection (ML models)</li>
                     <li><strong>Spell</strong> Checker (ML and DL models)</li>
+                  </ul>
+                  <ul class="list1">                    
                     <li>Word Embeddings (<strong>GloVe</strong> and <strong>Word2Vec</strong>)</li>
                     <li><strong>BERT</strong> Embeddings</li>
                     <li><strong>DistilBERT</strong> Embeddings</li>
@@ -314,17 +314,22 @@ article_header:
                     <li><strong>Universal Sentence</strong> Encoder</li>
                     <li><strong>Sentence</strong> Embeddings</li>
                     <li><strong>Chunk</strong> Embeddings</li>
-                  </ul>
-                  <ul class="list1">                    
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
+                  </ul>
+                  <ul class="list1">                                        
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>
-                    <li>BERT <strong>for </strong>Token Classification</li>
-                    <li>DistilBERT <strong>for </strong>Token Classification</li>
+                    <li>BERT for <strong>Token Classification</strong></li>
+                    <li>DistilBERT for <strong>Token Classification</strong></li>
+                    <li>ALBERT for <strong>Token Classification</strong></li>
+                    <li>RoBERTa for <strong>Token Classification</strong></li>
+                    <li>XLM-RoBERTa for <strong>Token Classification</strong></li>
+                    <li>XLNet for <strong>Token Classification</strong></li>
+                    <li>Longformer for <strong>Token Classification</strong></li>
                     <li><strong>Named entity</strong> recognition (DL model)</li>
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>

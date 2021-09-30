@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.BertForTokenClassification &#8212; Spark NLP 3.2.3 documentation</title>
+    <title>sparknlp.annotator.BertForTokenClassification &#8212; Spark NLP 3.3.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -132,6 +132,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.AlbertEmbeddings.html">
      sparknlp.annotator.AlbertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.AlbertForTokenClassification.html">
+     sparknlp.annotator.AlbertForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -265,6 +270,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LongformerForTokenClassification.html">
+     sparknlp.annotator.LongformerForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.MarianTransformer.html">
      sparknlp.annotator.MarianTransformer
     </a>
@@ -382,6 +392,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html">
      sparknlp.annotator.RoBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RoBertaForTokenClassification.html">
+     sparknlp.annotator.RoBertaForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -535,6 +550,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForTokenClassification.html">
+     sparknlp.annotator.XlmRoBertaForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlmRoBertaSentenceEmbeddings.html">
      sparknlp.annotator.XlmRoBertaSentenceEmbeddings
     </a>
@@ -542,6 +562,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html">
      sparknlp.annotator.XlnetEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlnetForTokenClassification.html">
+     sparknlp.annotator.XlnetForTokenClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -808,9 +833,9 @@ Max sentence length to process, by default 128</p>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>     <span class="n">documentAssembler</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>     <span class="n">tokenizer</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>     <span class="n">tokenClassifier</span>
+<span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenClassifier</span>
 <span class="gp">... </span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;John Lenon was born in London and lived</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="ow">in</span> <span class="n">Paris</span><span class="o">.</span> <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Sarah</span> <span class="ow">and</span> <span class="n">I</span> <span class="n">live</span> <span class="ow">in</span> <span class="n">London</span><span class="s2">&quot;]]).toDF(&quot;</span><span class="n">text</span><span class="s2">&quot;)</span>

@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
@@ -40,7 +41,7 @@ import scala.util.{Failure, Success, Try}
 import org.slf4j.{Logger, LoggerFactory}
 
 
-case class Variables(variables: Array[Byte], index: Array[Byte])
+case class Variables(variables: Array[Array[Byte]], index: Array[Byte])
 
 case class ModelSignature(operation: String,
                           value: String,
@@ -69,7 +70,7 @@ class TensorflowWrapper(var variables: Variables,
       val folder = path.toAbsolutePath.toString
 
       val varData = Paths.get(folder, TensorflowWrapper.VariablesPathValue)
-      Files.write(varData, variables.variables)
+      ChunkBytes.writeByteChunksInFile(varData, variables.variables)
 
       // save the binary data of variables to file - variables' index
       val varIdx = Paths.get(folder, TensorflowWrapper.VariablesIdxValue)
@@ -111,7 +112,7 @@ class TensorflowWrapper(var variables: Variables,
       val path = Files.createTempDirectory(UUID.randomUUID().toString.takeRight(12) + TensorflowWrapper.TFVarsSuffix)
       val folder = path.toAbsolutePath.toString
       val varData = Paths.get(folder, TensorflowWrapper.VariablesPathValue)
-      Files.write(varData, variables.variables)
+      ChunkBytes.writeByteChunksInFile(varData, variables.variables)
 
       // save the binary data of variables to file - variables' index
       val varIdx = Paths.get(folder, TensorflowWrapper.VariablesIdxValue)
@@ -241,7 +242,7 @@ class TensorflowWrapper(var variables: Variables,
       val variablesDir = tfChkPointsVars(1).toString
 
       val varData = Paths.get(folder, TensorflowWrapper.VariablesPathValue)
-      Files.write(varData, variables.variables)
+      ChunkBytes.writeByteChunksInFile(varData, variables.variables)
 
       val varIdx = Paths.get(folder, TensorflowWrapper.VariablesIdxValue)
       Files.write(varIdx, variables.index)
@@ -282,6 +283,10 @@ object TensorflowWrapper {
 
   // TF vars suffix folder
   val TFVarsSuffix = "_tf_vars"
+
+  // size of bytes store in each chunk/array
+  // (Integer.MAX_VALUE - 8) * BUFFER_SIZE = store over 2 Petabytes
+  private val BUFFER_SIZE = 1024 * 1024
 
   /** Utility method to load the TF saved model bundle */
   def withSafeSavedModelBundleLoader(tags: Array[String], savedModelDir: String): SavedModelBundle = {
@@ -428,7 +433,7 @@ object TensorflowWrapper {
         (graph, session, varPath, idxPath, None)
       }
 
-    val varBytes = Files.readAllBytes(varPath)
+    val varBytes = ChunkBytes.readFileInByteChunks(varPath, BUFFER_SIZE)
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
@@ -476,7 +481,7 @@ object TensorflowWrapper {
         (graph, session, varPath, idxPath)
       }
 
-    val varBytes = Files.readAllBytes(varPath)
+    val varBytes = ChunkBytes.readFileInByteChunks(varPath, BUFFER_SIZE)
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
@@ -548,7 +553,7 @@ object TensorflowWrapper {
 
     if (initAllTables) session.runner().addTarget(InitAllTableOP)
 
-    val varBytes = Files.readAllBytes(varPath)
+    val varBytes = ChunkBytes.readFileInByteChunks(varPath, BUFFER_SIZE)
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 6. Remove tmp folder
@@ -601,7 +606,7 @@ object TensorflowWrapper {
 
     processInitAllTableOp(initAllTables, t, session, variablesDir, variablesKey = "part-00000-of-00001")
 
-    val varBytes = Files.readAllBytes(varPath)
+    val varBytes = ChunkBytes.readFileInByteChunks(varPath, BUFFER_SIZE)
     val idxBytes = Files.readAllBytes(idxPath)
 
     // 4. Remove tmp folder
@@ -625,7 +630,7 @@ object TensorflowWrapper {
       .run()
 
     val varPath = Paths.get(folder, VariablesPathValue)
-    val varBytes = Files.readAllBytes(varPath)
+    val varBytes = ChunkBytes.readFileInByteChunks(varPath, BUFFER_SIZE)
 
     val idxPath = Paths.get(folder, VariablesIdxValue)
     val idxBytes = Files.readAllBytes(idxPath)

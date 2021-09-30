@@ -91,17 +91,20 @@ class ResourceDownloader(object):
         _internal._ClearCache(name, language, remote_loc).apply()
 
     @staticmethod
-    def showPublicModels():
-        _internal._ShowPublicModels().apply()
+    def showPublicModels(annotator=None, lang=None, version=None):
+        print(_internal._ShowPublicModels(annotator, lang, version).apply())
 
     @staticmethod
-    def showPublicPipelines():
-        _internal._ShowPublicPipelines().apply()
-
+    def showPublicPipelines(lang=None, version=None):
+        print(_internal._ShowPublicPipelines(lang, version).apply())
 
     @staticmethod
     def showUnCategorizedResources():
-        _internal._ShowUnCategorizedResources().apply()
+        print(_internal._ShowUnCategorizedResources().apply())
+
+    @staticmethod
+    def showAvailableAnnotators():
+        print(_internal._ShowAvailableAnnotators().apply())
 
 
 class PretrainedPipeline:

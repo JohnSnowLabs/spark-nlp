@@ -166,15 +166,15 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
   }
 
   "weighted Levenshtein distance" should "handle insertions and deletions" taggedAs SlowTest in new Scope {
-    override val weights = loadWeights("src/test/resources/distance.psv")
+    override val weights: Map[String, Map[String, Float]] = loadWeights("src/test/resources/distance.psv")
 
-    val cost1 = weights("F")("P") + weights("a")("e")
+    val cost1: Float = weights("F")("P") + weights("a")("e")
     assert(wLevenshteinDist("Procedure", "Frocedura", weights) == cost1)
 
-    val cost2 = weights("v")("y") + weights("iƐ")("if")
+    val cost2: Float = weights("v")("y") + weights("iƐ")("if")
     assert(wLevenshteinDist("qualifying", "qualiving", weights) == cost2)
 
-    val cost3 = weights("a")("o") + weights("^Ɛ")("^t")
+    val cost3: Float = weights("a")("o") + weights("^Ɛ")("^t")
     assert(wLevenshteinDist("to", "a", weights) == cost3)
   }
 
@@ -356,7 +356,7 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
     val spellChecker = ContextSpellCheckerModel
       .pretrained()
-      .updateVocabClass("_LOC_", meds, false)
+      .updateVocabClass("_LOC_", meds, append = false)
       .setInputCols("token")
       .setOutputCol("checked")
       .setUseNewLines(true)
@@ -386,8 +386,8 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     // cope with potential change in element order in list
     val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)
 
-    assert(sortedTransducers(0).label == "_DATE_")
-    assert(sortedTransducers(0).generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+    assert(sortedTransducers.head.label == "_DATE_")
+    assert(sortedTransducers.head.generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
 
     assert(sortedTransducers(1).label == "_NUM_")
     assert(sortedTransducers(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))
