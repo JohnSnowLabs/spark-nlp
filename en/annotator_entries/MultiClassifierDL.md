@@ -6,10 +6,10 @@ MultiClassifierDL
 MultiClassifierDL for Multi-label Text Classification.
 
 MultiClassifierDL Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes.
-The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art
-[UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
-[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings).
+The input to MultiClassifierDL are Sentence Embeddings such as state-of-the-art
+[UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder),
+[BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings) or
+[SentenceEmbeddings](/docs/en/annotators#sentenceembeddings).
 
 This is the instantiated model of the MultiClassifierDLApproach.
 For training your own model, please see the documentation of that class.
@@ -21,7 +21,7 @@ val multiClassifier = MultiClassifierDLModel.pretrained()
   .setOutputCol("categories")
 ```
 The default model is `"multiclassifierdl_use_toxic"`, if no name is provided. It uses embeddings from the
-[UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder) and classifies toxic comments.
+[UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder) and classifies toxic comments.
 The data is based on the
 [Jigsaw Toxic Comment Classification Challenge](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview).
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
@@ -150,9 +150,9 @@ up to 100 classes.
 For instantiated/pretrained models, see MultiClassifierDLModel.
 
 The input to `MultiClassifierDL` are Sentence Embeddings such as the state-of-the-art
-[UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
-[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings).
+[UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder),
+[BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings) or
+[SentenceEmbeddings](/docs/en/annotators#sentenceembeddings).
 
 In machine learning, multi-label classification and the strongly related problem of multi-output classification are
 variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
@@ -161,12 +161,6 @@ instances into precisely one of more than two classes; in the multi-label proble
 of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).
-
-**Notes**:
-  - This annotator requires an array of labels in type of String.
-  - [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
-    [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
-    [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) can be used for the `inputCol`.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
 and the [MultiClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala).
@@ -181,10 +175,6 @@ CATEGORY
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
 # In this example, the training data has the form
 #
 # +----------------+--------------------+--------------------+
@@ -195,6 +185,11 @@ from pyspark.ml import Pipeline
 # |24b0d6c8733c2abe|Thanks  - thanks ...|            [insult]|
 # |8c4478fb239bcfc0|" Gee, 5 minutes ...|[toxic, obscene, ...|
 # +----------------+--------------------+--------------------+
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 # Process training data to create text with associated array of labels
 
@@ -248,6 +243,7 @@ pipelineModel = pipeline.fit(trainDataset)
 // ...
 //
 // It needs some pre-processing first, so the labels are of type `Array[String]`. This can be done like so:
+
 import spark.implicits._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach
 import com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -339,5 +335,5 @@ approach_scala_example=approach_scala_example
 approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
-approach_note="This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol"
+approach_note="This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, SentenceEmbeddings or other sentence based embeddings can be used for the inputCol"
 %}

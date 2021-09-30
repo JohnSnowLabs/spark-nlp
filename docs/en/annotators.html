@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Annotators</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Annotators - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
 <link rel="canonical" href="/docs/en/annotators"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
@@ -502,7 +502,7 @@
 " href="/">Spark NLP</a> -->
           <!---->
         </div></div><nav class="navigation top_navigation">
-        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/docs">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
+        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/nlp_products">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
       </nav><a class="responsive_btn" href="#" id="aside_menu">          
         <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
@@ -517,7 +517,7 @@
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
-    <li><a href="/docs">Documentation</a></li>
+    <li><a href="/nlp_products">NLP Products</a></li>
     <li>Annotators</li>
   </ul>
 </div></div><header><h1>Annotators</h1></header><span class="split-space">&nbsp;</span>
@@ -966,125 +966,6 @@ in the DataFrames.</li>
 });
  </script>
 
-<div class="h3-box model-content">
-
-  <h2 id="bertfortokenclassification">BertForTokenClassification</h2>
-
-  <p>BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
-e.g. for Named-Entity-Recognition (NER) tasks.</p>
-
-  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val labels = BertForTokenClassification.pretrained()
-  .setInputCols("token", "document")
-  .setOutputCol("label")
-</code></pre></div>  </div>
-  <p>The default model is <code class="language-plaintext highlighter-rouge">"bert_base_token_classifier_conll03"</code>, if no name is provided.</p>
-
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
-
-  <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala">BertForTokenClassificationTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
-
-  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
-
-  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
-
-  <table>
-    <tbody>
-      <tr>
-        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.BertForTokenClassification.html">BertForTokenClassification</a></td>
-        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassification">BertForTokenClassification</a></td>
-        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassification.scala">BertForTokenClassification</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <details>
-
-<summary class="button"><b>Show Example</b></summary>
-
-<div class="tabs-box">
-
-      <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">tokenClassifier</span>
-<span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-</code></pre></div>      </div>
-
-      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
-<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
-
-<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-  <span class="n">documentAssembler</span><span class="o">,</span>
-  <span class="n">tokenizer</span><span class="o">,</span>
-  <span class="n">tokenClassifier</span>
-<span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|[</span><span class="kt">B-PER</span>, <span class="kt">I-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span><span class="o">]|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-</code></pre></div>      </div>
-
-    </div>
-
-</details>
-
-</div>
-
 <div class="tabs-box">
 
   <h2 id="bigtextmatcher">BigTextMatcher</h2>
@@ -1332,8 +1213,8 @@ For usage and examples see the documentation of the main class.</p>
   <h2 id="chunkembeddings">ChunkEmbeddings</h2>
 
   <p>This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Chunker">Chunker</a>, <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator">NGramGenerator</a>,
-or <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter">NerConverter</a> outputs.</p>
+<a href="/docs/en/annotators#chunker">Chunker</a>, <a href="/docs/en/annotators#ngramgenerator">NGramGenerator</a>,
+or <a href="/docs/en/annotators#nerconverter">NerConverter</a> outputs.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala">ChunkEmbeddingsTestSpec</a>.</p>
@@ -1834,14 +1715,6 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 
     <p>For instantiated/pretrained models, see ClassifierDLModel.</p>
 
-    <p><strong>Notes</strong>:</p>
-    <ul>
-      <li>This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.</li>
-      <li><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings">SentenceEmbeddings</a> can be used for the <code class="language-plaintext highlighter-rouge">inputCol</code>.</li>
-    </ul>
-
     <p>For extended examples of usage, see the Spark NLP Workshop
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala">[1] </a>
 <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb">[2] </a>
@@ -1875,11 +1748,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the training data `"sentiment.csv"` has the form of
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data `"sentiment.csv"` has the form of
 #
 # text,label
 # This movie is the best movie I have wached ever! In my opinion this movie can win an award.,0
@@ -1888,6 +1757,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 #
 # Then traning can be done like so:
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="n">smallCorpus</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"header"</span><span class="p">,</span><span class="s">"True"</span><span class="p">).</span><span class="n">csv</span><span class="p">(</span><span class="s">"src/test/resources/classifier/sentiment.csv"</span><span class="p">)</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
@@ -1927,6 +1801,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="c1">// ...</span>
 <span class="c1">//</span>
 <span class="c1">// Then traning can be done like so:</span>
+
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach</span>
@@ -1986,7 +1861,7 @@ For training your own model, please see the documentation of that class.</p>
   .setOutputCol("classification")
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"classifierdl_use_trec6"</code>, if no name is provided. It uses embeddings from the
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a> and is trained on the
+<a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a> and is trained on the
 <a href="https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels">TREC-6</a> dataset.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
 
@@ -2174,12 +2049,12 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For this example, we use the first Sherlock Holmes book as the training dataset.
+</span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># For this example, we use the first Sherlock Holmes book as the training dataset.
-</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
@@ -2212,6 +2087,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 </code></pre></div>        </div>
 
         <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// For this example, we use the first Sherlock Holmes book as the training dataset.</span>
+
 <span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
@@ -2610,125 +2486,6 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="h3-box model-content">
 
-  <h2 id="distilbertfortokenclassification">DistilBertForTokenClassification</h2>
-
-  <p>DistilBertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
-e.g. for Named-Entity-Recognition (NER) tasks.</p>
-
-  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val labels = DistilBertForTokenClassification.pretrained()
-  .setInputCols("token", "document")
-  .setOutputCol("label")
-</code></pre></div>  </div>
-  <p>The default model is <code class="language-plaintext highlighter-rouge">"distilbert_base_token_classifier_conll03"</code>, if no name is provided.</p>
-
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
-
-  <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala">DistilBertForTokenClassificationTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
-
-  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
-
-  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
-
-  <table>
-    <tbody>
-      <tr>
-        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForTokenClassification.html">DistilBertForTokenClassification</a></td>
-        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification">DistilBertForTokenClassification</a></td>
-        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification.scala">DistilBertForTokenClassification</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <details>
-
-<summary class="button"><b>Show Example</b></summary>
-
-<div class="tabs-box">
-
-      <div class="top_tab_li">   
-    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
-</div>
-
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">DistilBertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">tokenClassifier</span>
-<span class="p">])</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-</code></pre></div>      </div>
-
-      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
-<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
-
-<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-  <span class="n">documentAssembler</span><span class="o">,</span>
-  <span class="n">tokenizer</span><span class="o">,</span>
-  <span class="n">tokenClassifier</span>
-<span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|[</span><span class="kt">B-PER</span>, <span class="kt">I-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span><span class="o">]|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-</code></pre></div>      </div>
-
-    </div>
-
-</details>
-
-</div>
-
-<div class="h3-box model-content">
-
   <h2 id="doc2chunk">Doc2Chunk</h2>
 
   <p>Converts <code class="language-plaintext highlighter-rouge">DOCUMENT</code> type annotations into <code class="language-plaintext highlighter-rouge">CHUNK</code> type with the contents of a <code class="language-plaintext highlighter-rouge">chunkCol</code>.
@@ -3065,10 +2822,10 @@ Can apply lower case normalization.</p>
   <p>Extracts embeddings from Annotations into a more easily usable form.</p>
 
   <p>This is useful for example:
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddings">WordEmbeddings</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings">BertEmbeddings</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings">SentenceEmbeddings</a> and
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings">ChunkEmbeddings</a>.</p>
+<a href="/docs/en/annotators#wordembeddings">WordEmbeddings</a>,
+<a href="/docs/en/transformers#bertembeddings">BertEmbeddings</a>,
+<a href="/docs/en/annotators#sentenceembeddings">SentenceEmbeddings</a> and
+<a href="/docs/en/annotators#chunkembeddings">ChunkEmbeddings</a>.</p>
 
   <p>By using <code class="language-plaintext highlighter-rouge">EmbeddingsFinisher</code> you can easily transform your embeddings into array of floats or vectors which are
 compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
@@ -3334,13 +3091,13 @@ Pipelines. The Finisher outputs annotation(s) values into <code class="language-
   <p>Extracts a dependency graph between entities.</p>
 
   <p>The GraphExtraction class takes e.g. extracted entities from a
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel">NerDLModel</a> and creates a dependency tree which describes how
+<a href="/docs/en/annotators#nerdl">NerDLModel</a> and creates a dependency tree which describes how
 the entities relate to each other. For that a triple store format is used. Nodes represent the entities and the
 edges represent the relations between those entities. The graph can then be used to find relevant relationships
 between words.</p>
 
-  <p>Both the <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel">DependencyParserModel</a> and
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel">TypedDependencyParserModel</a> need to be
+  <p>Both the <a href="/docs/en/annotators#dependencyparser">DependencyParserModel</a> and
+<a href="/docs/en/annotators#typeddependencyparser">TypedDependencyParserModel</a> need to be
 present in the pipeline. There are two ways to set them:</p>
 
   <ol>
@@ -3361,7 +3118,7 @@ automatically. The specific models can also be set with <code class="language-pl
   </ol>
 
   <p>To transform the resulting graph into a more generic form such as RDF, see the
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/GraphFinisher">GraphFinisher</a>.</p>
+<a href="/docs/en/annotators#graphfinisher">GraphFinisher</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, NAMED_ENTITY</code></p>
 
@@ -3750,8 +3507,7 @@ The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">LemmatizerModel.pretrained</code>.</p>
 
     <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Lemmatization">Models Hub</a>.
-For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>
-and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala">LemmatizerTestSpec</a>.</p>
+For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -3777,11 +3533,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the lemma dictionary `lemmas_small.txt` has the form of
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the lemma dictionary `lemmas_small.txt` has the form of
 #
 # ...
 # pick	-&gt;	pick	picks	picking	picked
@@ -3792,6 +3544,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 #
 # where each key is delimited by `-&gt;` and values are delimited by `\t`
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -3931,9 +3688,9 @@ up to 100 classes.</p>
     <p>For instantiated/pretrained models, see MultiClassifierDLModel.</p>
 
     <p>The input to <code class="language-plaintext highlighter-rouge">MultiClassifierDL</code> are Sentence Embeddings such as the state-of-the-art
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings">SentenceEmbeddings</a>.</p>
+<a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a>,
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a> or
+<a href="/docs/en/annotators#sentenceembeddings">SentenceEmbeddings</a>.</p>
 
     <p>In machine learning, multi-label classification and the strongly related problem of multi-output classification are
 variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
@@ -3943,14 +3700,6 @@ of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).</p>
 
-    <p><strong>Notes</strong>:</p>
-    <ul>
-      <li>This annotator requires an array of labels in type of String.</li>
-      <li><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings">SentenceEmbeddings</a> can be used for the <code class="language-plaintext highlighter-rouge">inputCol</code>.</li>
-    </ul>
-
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala">MultiClassifierDLTestSpec</a>.</p>
 
@@ -3959,7 +3708,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CATEGORY</code></p>
 
     <blockquote>
-      <p><strong>Note:</strong> This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol</p>
+      <p><strong>Note:</strong> This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, SentenceEmbeddings or other sentence based embeddings can be used for the inputCol</p>
     </blockquote>
 
     <table>
@@ -3982,11 +3731,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the training data has the form
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data has the form
 #
 # +----------------+--------------------+--------------------+
 # |              id|                text|              labels|
@@ -3997,6 +3742,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 # |8c4478fb239bcfc0|" Gee, 5 minutes ...|[toxic, obscene, ...|
 # +----------------+--------------------+--------------------+
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="c1"># Process training data to create text with associated array of labels
 </span>
 <span class="n">trainDataset</span><span class="p">.</span><span class="n">printSchema</span><span class="p">()</span>
@@ -4047,6 +3797,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="c1">// ...</span>
 <span class="c1">//</span>
 <span class="c1">// It needs some pre-processing first, so the labels are of type `Array[String]`. This can be done like so:</span>
+
 <span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
@@ -4117,10 +3868,10 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <p>MultiClassifierDL for Multi-label Text Classification.</p>
 
     <p>MultiClassifierDL Bidirectional GRU with Convolution model we have built inside TensorFlow and supports up to 100 classes.
-The input to MultiClassifierDL is Sentence Embeddings such as state-of-the-art
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings">SentenceEmbeddings</a>.</p>
+The input to MultiClassifierDL are Sentence Embeddings such as state-of-the-art
+<a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a>,
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a> or
+<a href="/docs/en/annotators#sentenceembeddings">SentenceEmbeddings</a>.</p>
 
     <p>This is the instantiated model of the MultiClassifierDLApproach.
 For training your own model, please see the documentation of that class.</p>
@@ -4131,7 +3882,7 @@ For training your own model, please see the documentation of that class.</p>
   .setOutputCol("categories")
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"multiclassifierdl_use_toxic"</code>, if no name is provided. It uses embeddings from the
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a> and classifies toxic comments.
+<a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a> and classifies toxic comments.
 The data is based on the
 <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview">Jigsaw Toxic Comment Classification Challenge</a>.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
@@ -4641,15 +4392,16 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
     <p>For instantiated/pretrained models, see NerCrfModel.</p>
 
     <p>This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
-algorithm. The training data should be a labeled Spark Dataset, e.g. <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/CoNLL">CoNLL</a> 2003 IOB with
+algorithm. The training data should be a labeled Spark Dataset, e.g. <a href="/docs/en/training#conll-dataset">CoNLL</a> 2003 IOB with
 <code class="language-plaintext highlighter-rouge">Annotation</code> type columns. The data should have columns of type <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS</code> and an
 additional label column of annotator type <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code>.
 Excluding the label, this can be done with for example</p>
     <ul>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector">SentenceDetector</a>,</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer">Tokenizer</a>,</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel">PerceptronModel</a> and</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddingsModel</a>.</li>
+      <li>a <a href="/docs/en/annotators#sentencedetector">SentenceDetector</a>,</li>
+      <li>a <a href="/docs/en/annotators#tokenizer">Tokenizer</a> and</li>
+      <li>a <a href="/docs/en/annotators#postagger-part-of-speech-tagger">PerceptronModel</a> and</li>
+      <li>a <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>
+  (any word embeddings can be chosen, e.g. <a href="/docs/en/transformers#bertembeddings">BertEmbeddings</a> for BERT based embeddings).</li>
     </ul>
 
     <p>Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.</p>
@@ -4681,14 +4433,15 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
+# If a custom dataset is used, these need to be defined.
+</span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
-# If a custom dataset is used, these need to be defined.
-</span>
+
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -4722,6 +4475,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
         <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.</span>
 <span class="c1">// If a custom dataset is used, these need to be defined.</span>
+
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.NerCrfApproach</span>
@@ -4773,9 +4527,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 algorithm. The data should have columns of type <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS</code>.
 These can be extracted with for example</p>
     <ul>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector">SentenceDetector</a>,</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer">Tokenizer</a> and</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel">PerceptronModel</a>.</li>
+      <li>a <a href="/docs/en/annotators#sentencedetector">SentenceDetector</a>,</li>
+      <li>a <a href="/docs/en/annotators#tokenizer">Tokenizer</a> and</li>
+      <li>a <a href="/docs/en/annotators#postagger-part-of-speech-tagger">PerceptronModel</a></li>
     </ul>
 
     <p>This is the instantiated model of the NerCrfApproach.
@@ -4826,15 +4580,16 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
 
     <p>For instantiated/pretrained models, see NerDLModel.</p>
 
-    <p>The training data should be a labeled Spark Dataset, in the format of <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/CoNLL">CoNLL</a>
+    <p>The training data should be a labeled Spark Dataset, in the format of <a href="/docs/en/training#conll-dataset">CoNLL</a>
 2003 IOB with <code class="language-plaintext highlighter-rouge">Annotation</code> type columns. The data should have columns of type <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code> and an
 additional label column of annotator type <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code>.
 Excluding the label, this can be done with for example</p>
     <ul>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector">SentenceDetector</a>,</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer">Tokenizer</a> and</li>
-      <li>a <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddingsModel</a>
-  (any embeddings can be chosen, e.g. <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings">BertEmbeddings</a> for BERT based embeddings).</li>
+      <li>a <a href="/docs/en/annotators#sentencedetector">SentenceDetector</a>,</li>
+      <li>a <a href="/docs/en/annotators#tokenizer">Tokenizer</a> and</li>
+      <li>a <a href="/docs/en/annotators#postagger-part-of-speech-tagger">PerceptronModel</a> and</li>
+      <li>a <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>
+  (any word embeddings can be chosen, e.g. <a href="/docs/en/transformers#bertembeddings">BertEmbeddings</a> for BERT based embeddings).</li>
     </ul>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner">Spark NLP Workshop</a>
@@ -4987,7 +4742,7 @@ Additionally, pretrained pipelines are available for this module, see <a href="h
 
     <p>Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
 For example, the default model <code class="language-plaintext highlighter-rouge">"ner_dl"</code> requires the
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddings</a> <code class="language-plaintext highlighter-rouge">"glove_100d"</code>.</p>
+<a href="/docs/en/annotators#wordembeddings">WordEmbeddings</a> <code class="language-plaintext highlighter-rouge">"glove_100d"</code>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala">NerDLSpec</a>.</p>
@@ -5407,11 +5162,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the dictionary `"words.txt"` has the form of
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the dictionary `"words.txt"` has the form of
 #
 # ...
 # gummy
@@ -5423,6 +5174,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 #
 # This dictionary is then set to be the basis of the spell checker.
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -5456,6 +5212,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="c1">// ...</span>
 <span class="c1">//</span>
 <span class="c1">// This dictionary is then set to be the basis of the spell checker.</span>
+
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach</span>
@@ -5550,7 +5307,7 @@ Sets a POS tag to each word within a sentence.</p>
     <p>The training data needs to be in a Spark DataFrame, where the column needs to consist of
 <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation">Annotations</a> of type <code class="language-plaintext highlighter-rouge">POS</code>. The <code class="language-plaintext highlighter-rouge">Annotation</code> needs to have member <code class="language-plaintext highlighter-rouge">result</code>
 set to the POS tag and have a <code class="language-plaintext highlighter-rouge">"word"</code> mapping to its word inside of member <code class="language-plaintext highlighter-rouge">metadata</code>.
-This DataFrame for training can easily created by the helper class <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/POS">POS</a>.</p>
+This DataFrame for training can easily created by the helper class <a href="/docs/en/training#pos-dataset">POS</a>.</p>
     <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(false)
 +---------------------------------------------+
 |tags                                         |
@@ -5695,8 +5452,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scal
     <p>Averaged Perceptron model to tag words part-of-speech.
 Sets a POS tag to each word within a sentence.</p>
 
-    <p>This is the instantiated model of the
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach">PerceptronApproach</a>.
+    <p>This is the instantiated model of the PerceptronApproach.
 For training your own model, please see the documentation of that class.</p>
 
     <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
@@ -6242,7 +5998,7 @@ using a CNN architecture. We also modified the original implementation a little 
     <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala">SentenceDetectorDLSpec</a>.</p>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb">Spark NLP Workshop</a> and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala">SentenceDetectorDLSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -6268,11 +6024,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># The training process needs data, where each data point is a sentence.
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># The training process needs data, where each data point is a sentence.
 # In this example the `train.txt` file has the form of
 #
 # ...
@@ -6283,6 +6035,11 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 # where each line is one sentence.
 # Training can then be started like so:
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="n">trainingData</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">text</span><span class="p">(</span><span class="s">"train.txt"</span><span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
@@ -6339,7 +6096,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
     <p>Annotator that detects sentence boundaries using a deep learning approach.</p>
 
-    <p>Instantiated Model of the <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach">SentenceDetectorDLApproach</a>.
+    <p>Instantiated Model of the SentenceDetectorDLApproach.
 Detects sentence boundaries using a deep learning approach.</p>
 
     <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
@@ -6573,11 +6330,13 @@ of a text. A common example is if either a product review or tweet can be interp
 
       <p><strong>Notes</strong>:</p>
       <ul>
-        <li>This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-So positive sentiment can be expressed as either <code class="language-plaintext highlighter-rouge">"positive"</code> or <code class="language-plaintext highlighter-rouge">0</code>, negative sentiment as <code class="language-plaintext highlighter-rouge">"negative"</code> or <code class="language-plaintext highlighter-rouge">1</code>.</li>
-        <li><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder">UniversalSentenceEncoder</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings">BertSentenceEmbeddings</a>, or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings">SentenceEmbeddings</a> can be used for the <code class="language-plaintext highlighter-rouge">inputCol</code>.</li>
+        <li>This annotator accepts a label column of a single item in either type of
+String, Int, Float, or Double. So positive sentiment can be expressed as
+either <code class="language-plaintext highlighter-rouge">"positive"</code> or <code class="language-plaintext highlighter-rouge">0</code>, negative sentiment as <code class="language-plaintext highlighter-rouge">"negative"</code> or <code class="language-plaintext highlighter-rouge">1</code>.</li>
+        <li><a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a>,
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>,
+<a href="/docs/en/annotators#sentenceembeddings">SentenceEmbeddings</a> or other
+sentence based embeddings can be used</li>
       </ul>
 
       <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb">Spark NLP Workshop</a>
@@ -6786,11 +6545,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, the dictionary `default-sentiment-dict.txt` has the form of
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the dictionary `default-sentiment-dict.txt` has the form of
 #
 # ...
 # cool,positive
@@ -6801,6 +6556,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 #
 # where each sentiment keyword is delimited by `","`.
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -6851,6 +6611,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="c1">// ...</span>
 <span class="c1">//</span>
 <span class="c1">// where each sentiment keyword is delimited by `","`.</span>
+
 <span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.Tokenizer</span>
@@ -7964,7 +7725,7 @@ Its input is either a CoNLL2009 or ConllU dataset.</p>
 the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
 you find precise answers to specific questions.</p>
 
-        <p>The parser requires the dependant tokens beforehand with e.g. <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel">DependencyParser</a>.
+        <p>The parser requires the dependant tokens beforehand with e.g. <a href="/docs/en/annotators#dependencyparser">DependencyParser</a>.
 The required training data can be set in two different ways (only one can be chosen for a particular model):</p>
         <ul>
           <li>Dataset in the <a href="https://ufal.mff.cuni.cz/conll2009-st/trial-data.html">CoNLL 2009 format</a> set with <code class="language-plaintext highlighter-rouge">setConll2009</code></li>
@@ -8108,7 +7869,7 @@ Its input is either a CoNLL2009 or ConllU dataset.</p>
 the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
 you find precise answers to specific questions.</p>
 
-        <p>The parser requires the dependant tokens beforehand with e.g. <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel">DependencyParser</a>.</p>
+        <p>The parser requires the dependant tokens beforehand with e.g. <a href="/docs/en/annotators#dependencyparser">DependencyParser</a>.</p>
 
         <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
         <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val typedDependencyParser = TypedDependencyParserModel.pretrained()
@@ -8309,7 +8070,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
         <p>The algorithm is based on the paper
 <a href="https://arxiv.org/abs/1305.6143">“Fast and accurate sentiment classification using an enhanced Naive Bayes model”</a>.</p>
 
-        <p>This is the instantiated model of the <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach">ViveknSentimentApproach</a>.
+        <p>This is the instantiated model of the ViveknSentimentApproach.
 For training your own model, please see the documentation of that class.</p>
 
         <p>The analyzer requires sentence boundaries to give a score in context.
@@ -8586,7 +8347,7 @@ impossible. The WordSegmenter is trained to understand these languages and split
 into a dataframe, where the column is an <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation">Annotation</a> of type <code class="language-plaintext highlighter-rouge">"POS"</code>. This can be
 set with <code class="language-plaintext highlighter-rouge">setPosColumn</code>.</p>
 
-        <p><strong>Tip</strong>: The helper class <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/POS">POS</a> might be useful to read training data into data frames.</p>
+        <p><strong>Tip</strong>: The helper class <a href="/docs/en/training#pos-dataset">POS</a> might be useful to read training data into data frames.</p>
 
         <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation">Spark NLP Workshop</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala">WordSegmenterTest</a>.</p>
@@ -8615,17 +8376,18 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
 </div>
 
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="c1"># In this example, `"chinese_train.utf8"` is in the form of
+            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, `"chinese_train.utf8"` is in the form of
 #
 # 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
 #
 # and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
 </span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -8654,6 +8416,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="c1">// 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR</span>
 <span class="c1">//</span>
 <span class="c1">// and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.</span>
+
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.training.POS</span>

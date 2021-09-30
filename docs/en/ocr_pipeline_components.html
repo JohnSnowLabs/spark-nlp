@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark OCR | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Pipeline components - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
 <link rel="canonical" href="/docs/en/ocr_pipeline_components"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
@@ -502,7 +502,7 @@
 " href="/">Spark NLP</a> -->
           <!---->
         </div></div><nav class="navigation top_navigation">
-        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/docs">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
+        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/nlp_products">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
       </nav><a class="responsive_btn" href="#" id="aside_menu">          
         <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
@@ -517,7 +517,7 @@
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
-    <li><a href="/docs">Documentation</a></li>
+    <li><a href="/nlp_products">NLP Products</a></li>
     <li>Pipeline components</li>
   </ul>
 </div></div><header><h1>Pipeline components</h1></header><span class="split-space">&nbsp;</span>
@@ -2025,13 +2025,205 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 </div>
 
+<h3 id="ppttotexttable">PptToTextTable</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PptToTextTable</code> extracts table data from the PPT and PPTX documents.</p>
+
+<h5 id="input-columns-10">Input Columns</h5>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCol</td>
+      <td>string</td>
+      <td>text</td>
+      <td>binary representation of the PPT document</td>
+    </tr>
+    <tr>
+      <td>originCol</td>
+      <td>string</td>
+      <td>path</td>
+      <td>path to the original file</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="output-columns-10">Output Columns</h5>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>TableContainer</td>
+      <td>tables</td>
+      <td>Extracted tables</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="info">NOTE: For setting parameters use <code class="language-plaintext highlighter-rouge">setParamName</code> method.</p>
+
+<p><strong>Example</strong></p>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PptToTextTable</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read PPT file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PptToTextTable</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"tables"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1"># Read PPT file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
+
+<span class="n">transformer</span> <span class="o">=</span> <span class="n">PptToTextTable</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tables"</span><span class="p">)</span> 
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"tables"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+</div>
+
+<h3 id="ppttopdf">PptToPdf</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PptToPdf</code> convert PPT and PPTX document to PDF document.</p>
+
+<h5 id="input-columns-11">Input Columns</h5>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCol</td>
+      <td>string</td>
+      <td>text</td>
+      <td>binary representation of the PPT document</td>
+    </tr>
+    <tr>
+      <td>originCol</td>
+      <td>string</td>
+      <td>path</td>
+      <td>path to the original file</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="output-columns-11">Output Columns</h5>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>string</td>
+      <td>text</td>
+      <td>binary representation of the PDF document</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="info">NOTE: For setting parameters use <code class="language-plaintext highlighter-rouge">setParamName</code> method.</p>
+
+<p><strong>Example</strong></p>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.PptToPdf</span>
+
+<span class="k">val</span> <span class="nv">docPath</span> <span class="k">=</span> <span class="s">"path to docx with text layout"</span>
+
+<span class="c1">// Read PPT file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">docPath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">transformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PptToPdf</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">transformer</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"pdf"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">docPath</span> <span class="o">=</span> <span class="s">"path to PPT with text layout"</span>
+
+<span class="c1"># Read DOCX file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
+
+<span class="n">transformer</span> <span class="o">=</span> <span class="n">PptToPdf</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">)</span> 
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"pdf"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+</div>
+
 <h2 id="dicom-processing">Dicom processing</h2>
 
 <h3 id="dicomtoimage">DicomToImage</h3>
 
 <p><code class="language-plaintext highlighter-rouge">DicomToImage</code> transforms dicom object (loaded as binary file) to image struct.</p>
 
-<h5 id="input-columns-10">Input Columns</h5>
+<h5 id="input-columns-12">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2058,7 +2250,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-10">Output Columns</h5>
+<h5 id="output-columns-12">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2139,7 +2331,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">ImageToDicom</code> transforms image to Dicom document.</p>
 
-<h5 id="input-columns-11">Input Columns</h5>
+<h5 id="input-columns-13">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2172,7 +2364,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-11">Output Columns</h5>
+<h5 id="output-columns-13">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2252,7 +2444,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
 
 <p><code class="language-plaintext highlighter-rouge">BinaryToImage</code> transforms image (loaded as binary file) to image struct.</p>
 
-<h5 id="input-columns-12">Input Columns</h5>
+<h5 id="input-columns-14">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2279,7 +2471,7 @@ As output generate column with tables and tables text chunks coordinates (rows/c
   </tbody>
 </table>
 
-<h5 id="output-columns-12">Output Columns</h5>
+<h5 id="output-columns-14">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2393,7 +2585,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h5 id="input-columns-13">Input Columns</h5>
+<h5 id="input-columns-15">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2441,7 +2633,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h5 id="output-columns-13">Output Columns</h5>
+<h5 id="output-columns-15">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2533,7 +2725,7 @@ one of the methods with params:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageBinarizer</code> transforms image to binary color schema by threshold.</p>
 
-<h5 id="input-columns-14">Input Columns</h5>
+<h5 id="input-columns-16">Input Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2575,7 +2767,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h5 id="output-columns-14">Output Columns</h5>
+<h5 id="output-columns-16">Output Columns</h5>
 
 <table class="table-model-big">
   <thead>
@@ -2666,7 +2858,7 @@ one of the methods with params:</p>
   <li>Sauvola</li>
 </ul>
 
-<h4 id="input-columns-15">Input Columns</h4>
+<h4 id="input-columns-17">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2726,7 +2918,7 @@ one of the methods with params:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-15">Output Columns</h4>
+<h4 id="output-columns-17">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2841,7 +3033,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
   <li><strong><em>SINGH</em></strong></li>
 </ul>
 
-<h4 id="input-columns-16">Input Columns</h4>
+<h4 id="input-columns-18">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2907,7 +3099,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
   </tbody>
 </table>
 
-<h4 id="output-columns-16">Output Columns</h4>
+<h4 id="output-columns-18">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -2988,7 +3180,7 @@ the weighted mean for the local neighborhood of a pixel subtracted by a constant
 <p><code class="language-plaintext highlighter-rouge">ImageScaler</code> scales image by provided scale factor or needed output size.
 It supports keeping original ratio of image by padding the image in case fixed output size.</p>
 
-<h4 id="input-columns-17">Input Columns</h4>
+<h4 id="input-columns-19">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3048,7 +3240,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-17">Output Columns</h4>
+<h4 id="output-columns-19">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3122,7 +3314,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><code class="language-plaintext highlighter-rouge">ImageAdaptiveScaler</code> detects font size and scales image for have desired font size.</p>
 
-<h4 id="input-columns-18">Input Columns</h4>
+<h4 id="input-columns-20">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3164,7 +3356,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-18">Output Columns</h4>
+<h4 id="output-columns-20">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3238,7 +3430,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><code class="language-plaintext highlighter-rouge">ImageSkewCorrector</code> detects skew of the image and rotates it.</p>
 
-<h4 id="input-columns-19">Input Columns</h4>
+<h4 id="input-columns-21">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3298,7 +3490,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-19">Output Columns</h4>
+<h4 id="output-columns-21">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3380,7 +3572,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
 
 <p><code class="language-plaintext highlighter-rouge">ImageNoiseScorer</code> computes noise score for each region.</p>
 
-<h4 id="input-columns-20">Input Columns</h4>
+<h4 id="input-columns-22">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3428,7 +3620,7 @@ It supports keeping original ratio of image by padding the image in case fixed o
   </tbody>
 </table>
 
-<h4 id="output-columns-20">Output Columns</h4>
+<h4 id="output-columns-22">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3559,7 +3751,7 @@ It support removing:</p>
   <li>objects more then <em>maxSizeObject</em></li>
 </ul>
 
-<h4 id="input-columns-21">Input Columns</h4>
+<h4 id="input-columns-23">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3639,7 +3831,7 @@ It support removing:</p>
 
 <p>[*] : <em>None</em> value disables removing objects.</p>
 
-<h4 id="output-columns-21">Output Columns</h4>
+<h4 id="output-columns-23">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3714,7 +3906,7 @@ It support removing:</p>
   <li>Closing</li>
 </ul>
 
-<h4 id="input-columns-22">Input Columns</h4>
+<h4 id="input-columns-24">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3768,7 +3960,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-22">Output Columns</h4>
+<h4 id="output-columns-24">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3853,7 +4045,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageCropper</code>is a transformer for cropping image.</p>
 
-<h4 id="input-columns-23">Input Columns</h4>
+<h4 id="input-columns-25">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3901,7 +4093,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-23">Output Columns</h4>
+<h4 id="output-columns-25">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -3992,7 +4184,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageLayoutAnalyzer</code> analyzes the image and determines regions of text.</p>
 
-<h4 id="input-columns-24">Input Columns</h4>
+<h4 id="input-columns-26">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4046,7 +4238,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-24">Output Columns</h4>
+<h4 id="output-columns-26">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4132,7 +4324,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageSplitRegions</code> splits image to regions.</p>
 
-<h4 id="input-columns-25">Input Columns</h4>
+<h4 id="input-columns-27">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4180,7 +4372,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-25">Output Columns</h4>
+<h4 id="output-columns-27">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4287,7 +4479,7 @@ It support removing:</p>
 
 <p><code class="language-plaintext highlighter-rouge">ImageDrawRegions</code> draw regions with label and score to the image.</p>
 
-<h4 id="input-columns-26">Input Columns</h4>
+<h4 id="input-columns-28">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4341,7 +4533,7 @@ It support removing:</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-26">Output Columns</h4>
+<h4 id="output-columns-28">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4452,7 +4644,7 @@ It support removing:</p>
 <p><code class="language-plaintext highlighter-rouge">ImageToText</code> runs OCR for input image, return recognized text
 to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.</p>
 
-<h4 id="input-columns-27">Input Columns</h4>
+<h4 id="input-columns-29">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4560,7 +4752,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-27">Output Columns</h4>
+<h4 id="output-columns-29">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4665,7 +4857,7 @@ others. One could almost say they feed on and grow on ideas.
 <p><code class="language-plaintext highlighter-rouge">ImageToTextPdf</code> runs OCR for input image, render recognized text to 
 the PDF as an invisible text layout with an original image.</p>
 
-<h4 id="input-columns-28">Input Columns</h4>
+<h4 id="input-columns-30">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4719,7 +4911,7 @@ the PDF as an invisible text layout with an original image.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-28">Output Columns</h4>
+<h4 id="output-columns-30">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4800,7 +4992,7 @@ the PDF as an invisible text layout with an original image.</p>
 <p><code class="language-plaintext highlighter-rouge">ImageToHocr</code> runs OCR for input image, return recognized text and bounding boxes
 to <em>outputCol</em> column in HOCR format.</p>
 
-<h4 id="input-columns-29">Input Columns</h4>
+<h4 id="input-columns-31">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -4872,7 +5064,7 @@ to <em>outputCol</em> column in HOCR format.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-29">Output Columns</h4>
+<h4 id="output-columns-31">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5031,7 +5223,7 @@ to <em>outputCol</em> column in HOCR format.</p>
 <p><code class="language-plaintext highlighter-rouge">ImageBrandsToText</code> runs OCR for specified brands of input image, return recognized text
 to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.</p>
 
-<h4 id="input-columns-30">Input Columns</h4>
+<h4 id="input-columns-32">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5115,7 +5307,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-30">Output Columns</h4>
+<h4 id="output-columns-32">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5256,7 +5448,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <p><code class="language-plaintext highlighter-rouge">PositionFinder</code> find position of input text entities in original document.</p>
 
-<h4 id="input-columns-31">Input Columns</h4>
+<h4 id="input-columns-33">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5316,7 +5508,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-31">Output Columns</h4>
+<h4 id="output-columns-33">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5460,7 +5652,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <p><code class="language-plaintext highlighter-rouge">UpdateTextPosition</code> update output text and keep old coordinates of original document.</p>
 
-<h4 id="input-columns-32">Input Columns</h4>
+<h4 id="input-columns-34">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5487,7 +5679,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-32">Output Columns</h4>
+<h4 id="output-columns-34">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5636,7 +5828,7 @@ Current implementation support parsing patient info, genomic, biomarker findings
 from appendix.
 Output format is json.</p>
 
-<h4 id="input-columns-33">Input Columns</h4>
+<h4 id="input-columns-35">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5663,7 +5855,7 @@ Output format is json.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-33">Output Columns</h4>
+<h4 id="output-columns-35">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>

@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP for Healthcare | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Spark NLP for Healthcare Annotators - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
 <link rel="canonical" href="/docs/en/licensed_annotators"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
@@ -502,7 +502,7 @@
 " href="/">Spark NLP</a> -->
           <!---->
         </div></div><nav class="navigation top_navigation">
-        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/docs">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
+        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/nlp_products">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
       </nav><a class="responsive_btn" href="#" id="aside_menu">          
         <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
@@ -517,14 +517,14 @@
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
-    <li><a href="/docs">Documentation</a></li>
-    <li>Healthcare NLP Annotators</li>
+    <li><a href="/nlp_products">NLP Products</a></li>
+    <li>Spark NLP for Healthcare Annotators</li>
   </ul>
-</div></div><header><h1>Healthcare NLP Annotators</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header><h1>Spark NLP for Healthcare Annotators</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
             href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_annotators.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Healthcare NLP Annotators"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Annotators"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
@@ -800,9 +800,9 @@ For pretrained models please use AssertionDLModel and see the
     <p>AssertionDL is a deep Learning based approach used to extract Assertion Status
 from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
 annotator inputs, which can be obtained by e.g a
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler">DocumentAssembler</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter">NerConverter</a>
-and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddingsModel</a>.
+<a href="/docs/en/annotators#documentassembler">DocumentAssembler</a>,
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>
+and <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>.
 The result is an assertion status annotation for each recognized entity.
 Possible values include <code class="language-plaintext highlighter-rouge">“present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”</code> etc.</p>
 
@@ -1212,9 +1212,9 @@ Contains all the methods for training a AssertionLogRegModel, together with trai
     <p>This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status
 from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
 annotator inputs, which can be obtained by e.g a
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler">DocumentAssembler</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter">NerConverter</a>
-and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel">WordEmbeddingsModel</a>.
+<a href="/docs/en/annotators#documentassembler">DocumentAssembler</a>,
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>
+and <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>.
 The result is an assertion status annotation for each recognized entity.
 Possible values are <code class="language-plaintext highlighter-rouge">"Negated", "Affirmed" and "Historical"</code>.</p>
 
@@ -2212,11 +2212,11 @@ setRefFileFormat and setRefSep.</p>
 </code></pre></div>    </div>
 
     <p>Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TextMatcher">TextMatchers</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RegexMatcher">RegexMatchers</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/DateMatcher">DateMatchers</a>,
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach">NerCRFs</a> or
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach">NerDLs</a></p>
+<a href="/docs/en/annotators#textmatcher">TextMatchers</a>,
+<a href="/docs/en/annotators#regexmatcher">RegexMatchers</a>,
+<a href="/docs/en/annotators#datematcher">DateMatchers</a>,
+<a href="/docs/en/annotators#nercrf">NerCRFs</a> or
+<a href="/docs/en/annotators#nerdl">NerDLs</a></p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, CHUNK</code></p>
 
@@ -2885,8 +2885,8 @@ Requires the FeaturesAssembler to create the input.</p>
 
   <p>Merges token tags and NER labels from chunks in the specified format.
 For example output columns as inputs from
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html">NerConverter</a>
-and <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer">Tokenizer</a> can be used to merge.</p>
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>
+and <a href="/docs/en/annotators#tokenizer">Tokenizer</a> can be used to merge.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, CHUNK</code></p>
 
@@ -3275,8 +3275,8 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
 a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),
 mentions, or surface forms.
 The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings.html">SentenceEmbeddings</a> and
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html">NerConverter</a>.</p>
+<a href="/docs/en/annotators#sentenceembeddings">SentenceEmbeddings</a> and
+<a href="/docs/en/annotators#nerconverter">NerConverter</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">CHUNK, SENTENCE_EMBEDDINGS</code></p>
 
@@ -4333,7 +4333,7 @@ For pretrained models please see the
 
     <p>Contains all the parameters and methods to train a SentenceEntityResolverModel.
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html">BertSentenceEmbeddings</a>
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)</p>
 
@@ -4451,7 +4451,7 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <div class="h3-box model-content" style="display: none;">
 
     <p>The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-<a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html">BertSentenceEmbeddings</a>
+<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)</p>
 
