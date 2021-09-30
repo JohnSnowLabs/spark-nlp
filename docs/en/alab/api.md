@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab | John Snow Labs
 title: API Integration
 permalink: /docs/en/alab/api
 key: docs-training

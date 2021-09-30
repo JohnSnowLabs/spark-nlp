@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Spark OCR
 permalink: /docs/en/ocr
 key: docs-ocr

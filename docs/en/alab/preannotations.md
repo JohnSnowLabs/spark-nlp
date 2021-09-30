@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab | John Snow Labs
 title: Preannotations with Spark NLP  
 permalink: /docs/en/alab/preannotations
 key: docs-training

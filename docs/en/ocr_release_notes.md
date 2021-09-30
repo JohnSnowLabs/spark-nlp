@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Spark OCR release notes
 permalink: /docs/en/ocr_release_notes
 key: docs-ocr-release-notes
