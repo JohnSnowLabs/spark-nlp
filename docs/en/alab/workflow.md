@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Workflow Setup
 permalink: /docs/en/alab/workflow
 key: docs-training

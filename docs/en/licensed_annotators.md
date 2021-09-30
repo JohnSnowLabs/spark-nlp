@@ -1,8 +1,7 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP for Healthcare | John Snow Labs
-title: Healthcare NLP Annotators
+title: Spark NLP for Healthcare Annotators
 permalink: /docs/en/licensed_annotators
 key: docs-licensed-annotators
 modify_date: "2020-08-10"

@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Analytics  
 permalink: /docs/en/alab/analytics
 key: docs-training

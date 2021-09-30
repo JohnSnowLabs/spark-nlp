@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: NLP Models Hub
 permalink: /docs/en/alab/models_hub
 key: docs-training

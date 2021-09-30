@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Export Data
 permalink: /docs/en/alab/export
 key: docs-training

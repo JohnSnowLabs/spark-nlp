@@ -1,7 +1,6 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
 title: Helper functions
 permalink: /docs/en/auxiliary
 key: docs-auxiliary

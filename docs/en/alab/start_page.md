@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Start Page
 permalink: /docs/en/alab/start_page
 key: docs-training

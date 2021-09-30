@@ -1,7 +1,6 @@
 ---
 layout: docs
 header: true
-seotitle: NLP Server | John Snow Labs
 title: Installation
 permalink: /docs/en/nlp_server/installation
 key: docs-nlp-server
@@ -25,11 +24,7 @@ This will check if the latest docker image is available on your local machine an
 
 The steps you need to follow for deploying NLP Server on AWS are illustrated below. First make sure you have a valid AWS account and log in to AWS Marketplace using your credentials. 
 
-NLP Server is available on AWS Marketplace at [this URL](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm?sr=0-2&ref_=beagle&applicationId=AWSMPContessa). 
-
-For deploying NLP Server on AWS, follow the video instructions or the seven steps described below.
-
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='oDFXmFCMpXY' -%}<div class="video-descr">Deploy NLP Server via AWS Marketplace</div></div></div>
+NLP Server product is available [here](https://aws.amazon.com/marketplace/pp/prodview-4ohxjejvg7vwm?sr=0-2&ref_=beagle&applicationId=AWSMPContessa). 
 
 1.Click on `Continue to subscribe` button for creating a subscription to the NLP Server product. The software is free of charge.
 
@@ -70,4 +65,3 @@ The NLP Server can now be accessed via a web browser at http://PUBLIC_EC2_IP .
 
 API documentation is also available at http://PUBLIC_EC2_IP/docs
 <img class="image image--xl" src="/assets/images/nlp_server/EC2_s7.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-

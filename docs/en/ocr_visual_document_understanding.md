@@ -1,7 +1,6 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR | John Snow Labs
 title: Visual document understanding
 permalink: /docs/en/ocr_visual_document_understanding
 key: docs-ocr-visual-document-understanding

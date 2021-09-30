@@ -2,7 +2,6 @@
 layout: docs
 comment: no
 header: true
-seotitle: Annotation Lab | John Snow Labs
 title: Project Setup 
 permalink: /docs/en/alab/project_setup
 key: docs-training
