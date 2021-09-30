@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: NLP Server | John Snow Labs
 title: NLP Server
 permalink: /docs/en/nlp_server/nlp_server
 key: docs-nlp-server
