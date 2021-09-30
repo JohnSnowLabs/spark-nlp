@@ -16,8 +16,8 @@
 {%- include snippets/get-article-title.html article=page -%}
 <title>{%- if __return -%}{{ __return }}{%- endif -%} - Spark NLP Model</title>
 {%- else -%}
-{%- include snippets/get-article-title.html article=page -%}
-<title>{%- if __return -%}{{ __return }} - {{ site.title }}{%- else -%}{{ site.title }}{%- endif -%}</title>
+{%- include snippets/get-article-seotitle.html article=page -%}
+<title>{%- if __return -%}{{ __return }}{%- endif -%}</title>
 {%- endif -%}
 
 <meta name="description" content="{%- if page.excerpt -%}{{ page.excerpt | strip_html | strip_newlines | strip | truncate: 160 }}{%- else -%}{{ site.description }}{%- endif -%}">

@@ -155,12 +155,12 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-# For this example, we use the first Sherlock Holmes book as the training dataset.
-
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
+# For this example, we use the first Sherlock Holmes book as the training dataset.
+
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -195,7 +195,6 @@ pipelineModel = pipeline.fit(dataset)
 
 {%- capture approach_scala_example -%}
 // For this example, we use the first Sherlock Holmes book as the training dataset.
-
 import spark.implicits._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
