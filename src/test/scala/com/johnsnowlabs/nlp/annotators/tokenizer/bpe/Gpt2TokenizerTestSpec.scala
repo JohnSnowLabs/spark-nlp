@@ -1,0 +1,92 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
+
+import org.scalatest.flatspec.AnyFlatSpec
+
+class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
+  val vocab: Map[String, Int] =
+    Array(
+      "<|endoftext|>",
+      "ĠI",
+      "Ġunamb",
+      "ig",
+      "ou",
+      "os",
+      "ly",
+      "Ġgood",
+      "Ġ3",
+      "ĠAs",
+      "d",
+      "Ġ!"
+    ).zipWithIndex.toMap
+
+  val merges: Map[(String, String), Int] = Array(
+    "o u",
+    "l y",
+    "Ġ g",
+    "a m",
+    "i g",
+    "Ġ u",
+    "o d",
+    "u n",
+    "o s",
+    "Ġg o",
+    "Ġu n",
+    "o od",
+    "A s",
+    "m b",
+    "g o",
+    "o o",
+    "n a",
+    "am b",
+    "s l",
+    "n am",
+    "b i",
+    "b ig",
+    "u o",
+    "s d",
+    "Ġun amb",
+    "Ġgo od",
+    "Ġ 3"
+  ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
+
+  val modelType: String = "gpt2"
+  val tokenizer: BpeTokenizer = BpeTokenizer.forModel(
+    modelType,
+    merges,
+    vocab
+  )
+
+  override val replaceCharBeforeAssertion: Some[String] = Some("Ġ")
+
+  "Gpt2Tokenizer" should behave like correctBpeTokenizer(
+    tokenizer = tokenizer,
+    text = "I unambigouosly good 3Asd!",
+    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+  )
+
+  it should behave like correctBpeTokenizerInFringeSituations(tokenizer = tokenizer)
+
+  it should behave like correctBpeTokenizerSpecialTokens(
+    tokenizer = tokenizer,
+    text = "I unambigouosly <|endoftext|> good 3Asd <|endoftext|>",
+    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>"),
+    expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0)
+  )
+}

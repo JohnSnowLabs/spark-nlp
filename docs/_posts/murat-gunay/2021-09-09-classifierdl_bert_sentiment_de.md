@@ -58,17 +58,17 @@ result2 = light_pipeline.annotate("Habe gestern am Mittwoch den #werder Podcast 
 print(result1["class"], result2["class"], sep = "\n")
 ```
 ```scala
-val document = DocumentAssembler()\
-    .setInputCol("text")\
+val document = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val embeddings = BertSentenceEmbeddings\
-    .pretrained("labse", "xx") \
-    .setInputCols(Array("document"))\
+val embeddings = BertSentenceEmbeddings
+    .pretrained("labse", "xx") 
+    .setInputCols(Array("document"))
     .setOutputCol("sentence_embeddings")
 
-val sentimentClassifier = ClassifierDLModel.pretrained("classifierdl_bert_sentiment", "de") \
-  .setInputCols(Array("document", "sentence_embeddings")) \
+val sentimentClassifier = ClassifierDLModel.pretrained("classifierdl_bert_sentiment", "de") 
+  .setInputCols(Array("document", "sentence_embeddings")) 
   .setOutputCol("class")
 
 val fr_sentiment_pipeline = new Pipeline().setStages(Array(document, embeddings, sentimentClassifier))
