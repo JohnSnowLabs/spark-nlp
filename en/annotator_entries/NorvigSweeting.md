@@ -146,6 +146,10 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 # In this example, the dictionary `"words.txt"` has the form of
 #
 # ...
@@ -157,11 +161,6 @@ TOKEN
 # ...
 #
 # This dictionary is then set to be the basis of the spell checker.
-
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -198,7 +197,6 @@ pipelineModel = pipeline.fit(trainingData)
 // ...
 //
 // This dictionary is then set to be the basis of the spell checker.
-
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach

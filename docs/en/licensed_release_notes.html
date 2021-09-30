@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP for Healthcare Release Notes - Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Spark NLP for Healthcare | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
 <link rel="canonical" href="/docs/en/licensed_release_notes"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
@@ -502,7 +502,7 @@
 " href="/">Spark NLP</a> -->
           <!---->
         </div></div><nav class="navigation top_navigation">
-        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/nlp_products">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
+        <ul class="top-menu"><li class="navigation__item "><a href="/">Home</a></li><li class="navigation__item navigation__item--active"><a href="/docs">Docs</a></li><li class="navigation__item "><a href="/learn">Learn</a></li><li class="navigation__item "><a href="/models">Models</a></li><li class="navigation__item "><a href="/demos">Demo</a></li><li class="navigation__item "><a href="https://github.com/JohnSnowLabs/spark-nlp"><span style="color: #FF8A00;"><i class="fab fa-github fa-2x"></i></span></a></li><li class="navigation__item "><a href="https://www.johnsnowlabs.com/slack-redirect/"><span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span></a></li></ul>
       </nav><a class="responsive_btn" href="#" id="aside_menu">          
         <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
@@ -517,7 +517,7 @@
 
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
-    <li><a href="/nlp_products">NLP Products</a></li>
+    <li><a href="/docs">Documentation</a></li>
     <li>Spark NLP for Healthcare Release Notes</li>
   </ul>
 </div></div><header><h1>Spark NLP for Healthcare Release Notes</h1></header><span class="split-space">&nbsp;</span>
@@ -527,292 +527,10 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="323">3.2.3</h2>
-<p>We are glad to announce that Spark NLP Healthcare 3.2.3 has been released!.</p>
-
-<h4 id="highlights">Highlights</h4>
-<ul>
-  <li>New BERT-Based Deidentification NER Model</li>
-  <li>New Sentence Entity Resolver Models For German Language</li>
-  <li>New Spell Checker Model For Drugs</li>
-  <li>Allow To Use Disambiguator Pretrained Model</li>
-  <li>Allow To Use Seeds in StructuredDeidentification</li>
-  <li>Added Compatibility with Tensorflow 1.15 For Graph Generation.</li>
-  <li>New Setup Videos</li>
-</ul>
-
-<h4 id="new-bert-based-deidentification-ner-model">New BERT-Based Deidentification NER Model</h4>
-
-<p>We have a new <code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_deid</code> model that is BERT-based version of <code class="language-plaintext highlighter-rouge">ner_deid_subentity_augmented</code> and annotates text to find protected health information that may need to be de-identified. It can detect 23 different entities (<code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">HEALTHPLAN</code>, <code class="language-plaintext highlighter-rouge">URL</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">LOCATION-OTHER</code>, <code class="language-plaintext highlighter-rouge">STATE</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">DEVICE</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">SREET</code>, <code class="language-plaintext highlighter-rouge">BIOID</code>, <code class="language-plaintext highlighter-rouge">FAX</code>, <code class="language-plaintext highlighter-rouge">AGE</code>).</p>
-
-<p><em>Example</em>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
-  .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
-  .setOutputCol<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>
-  
-tokenizer <span class="o">=</span> Tokenizer<span class="o">()</span><span class="se">\</span>
-  .setInputCols<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
-  .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-  
-tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_deid"</span>, <span class="s2">"en"</span><span class="o">)</span><span class="se">\</span>
-  .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
-  .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
-  .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
-  
-ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
-  .setInputCols<span class="o">([</span><span class="s2">"document"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
-  .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-        
-pipeline <span class="o">=</span>  Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
-p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
-
-text <span class="o">=</span> <span class="s2">"""A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""</span>
-result <span class="o">=</span> p_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span>text]<span class="o">})))</span>
-</code></pre></div></div>
-
-<p><em>Results</em>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------+-------------+
-|chunk                        |ner_label    |
-+-----------------------------+-------------+
-|2093-01-13                   |DATE         |
-|David Hale                   |DOCTOR       |
-|Hendrickson, Ora             |PATIENT      |
-|7194334                      |MEDICALRECORD|
-|Oliveira                     |PATIENT      |
-|Cocke County Baptist Hospital|HOSPITAL     |
-|0295 Keats Street            |STREET       |
-|302<span class="o">)</span> 786-5227                |PHONE        |
-|Brothers Coal-Mine           |ORGANIZATION |
-+-----------------------------+-------------+
-</code></pre></div></div>
-
-<h4 id="new-sentence-entity-resolver-models-for-german-language">New Sentence Entity Resolver Models For German Language</h4>
-
-<p>We are releasing two new Sentence Entity Resolver Models for German language that use <code class="language-plaintext highlighter-rouge">sent_bert_base_cased</code> (de) embeddings.</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">sbertresolve_icd10gm</code> : This model maps extracted medical entities to ICD10-GM codes for the German language.</li>
-</ul>
-
-<p><em>Example</em>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
-    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-    
-sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s2">"sent_bert_base_cased"</span>, <span class="s2">"de"</span><span class="o">)</span><span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"sbert_embeddings"</span><span class="o">)</span>
-
-icd10gm_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbertresolve_icd10gm"</span>, <span class="s2">"de"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sbert_embeddings"</span><span class="o">])</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"icd10gm_code"</span><span class="o">)</span>
-
-icd10gm_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span> stages <span class="o">=</span> <span class="o">[</span>documentAssembler, sbert_embedder, icd10gm_resolver]<span class="o">)</span>
-
-icd_lp <span class="o">=</span> LightPipeline<span class="o">(</span>icd10gm_pipelineModel<span class="o">)</span>
-icd_lp.fullAnnotate<span class="o">(</span><span class="s2">"Dyspnoe"</span><span class="o">)</span>
-</code></pre></div></div>
-
-<p><em>Results</em> :</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>chunk</th>
-      <th>code</th>
-      <th>resolutions</th>
-      <th>all_codes</th>
-      <th>all_distances</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Dyspnoe</td>
-      <td>C671</td>
-      <td>Dyspnoe, Schlafapnoe, Dysphonie, Frühsyphilis, Hyperzementose, Hypertrichose, …</td>
-      <td>[R06.0, G47.3, R49.0, A51, K03.4, L68, …]</td>
-      <td>[0.0000, 2.5602, 3.0529, 3.3310, 3.4645, 3.7148, …]</td>
-    </tr>
-  </tbody>
-</table>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">sbertresolve_snomed</code> : This model maps extracted medical entities to SNOMED codes for the German language.</li>
-</ul>
-
-<p><em>Example</em>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\ </span>
-    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\ </span>
-    .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-    
-sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s2">"sent_bert_base_cased"</span>, <span class="s2">"de"</span><span class="o">)</span><span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"sbert_embeddings"</span><span class="o">)</span>
-
-snomed_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbertresolve_snomed"</span>, <span class="s2">"de"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sbert_embeddings"</span><span class="o">])</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"snomed_code"</span><span class="o">)</span>
-
-snomed_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span> stages <span class="o">=</span> <span class="o">[</span> documentAssembler, sbert_embedder, snomed_resolver]<span class="o">)</span>
-
-snomed_lp <span class="o">=</span> LightPipeline<span class="o">(</span>snomed_pipelineModel<span class="o">)</span>
-snomed_lp.fullAnnotate<span class="o">(</span><span class="s2">"Bronchialkarzinom "</span><span class="o">)</span>
-</code></pre></div></div>
-
-<p><em>Results</em> :</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>chunk</th>
-      <th>code</th>
-      <th>resolutions</th>
-      <th>all_codes</th>
-      <th>all_distances</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Bronchialkarzinom</td>
-      <td>22628</td>
-      <td>Bronchialkarzinom, Bronchuskarzinom, Rektumkarzinom, Klavikulakarzinom, Lippenkarzinom, Urothelkarzinom, …</td>
-      <td>[22628, 111139, 18116, 107569, 18830, 22909, …]</td>
-      <td>[0.0000, 0.0073, 0.0090, 0.0098, 0.0098, 0.0102, …]</td>
-    </tr>
-  </tbody>
-</table>
-
-<h4 id="new-spell-checker-model-for-drugs">New Spell Checker Model For Drugs</h4>
-
-<p>We are releasing new <code class="language-plaintext highlighter-rouge">spellcheck_drug_norvig</code> model that detects and corrects spelling errors of drugs in a text based on the Norvig’s approach.</p>
-
-<p><em>Example</em> :</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\ </span>
-    .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\ </span>
-    .setOutputCol<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span>
-    
-tokenizer <span class="o">=</span> Tokenizer<span class="o">()</span>
-    .setInputCols<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-
-spell <span class="o">=</span> NorvigSweetingModel.pretrained<span class="o">(</span><span class="s2">"spellcheck_drug_norvig"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
-    .setInputCols<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"spell"</span><span class="o">)</span><span class="se">\</span>
-
-pipeline <span class="o">=</span> Pipeline<span class="o">(</span> stages <span class="o">=</span> <span class="o">[</span>documentAssembler,
-tokenizer, spell]<span class="o">)</span>
-
-model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s1">''</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s1">'text'</span><span class="o">))</span> 
-lp <span class="o">=</span> LightPipeline<span class="o">(</span>model<span class="o">)</span>
-
-lp.annotate<span class="o">(</span><span class="s2">"You have to take Neutrcare and colfosrinum and a bit of Fluorometholne &amp; Ribotril"</span><span class="o">)</span>
-</code></pre></div></div>
-
-<p><em>Results</em> :</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Original text  : You have to take Neutrcare and colfosrinum and a bit of fluorometholne &amp; Ribotril
-Corrected text : You have to take Neutracare and colforsinum and a bit of fluorometholone &amp; Rivotril
-
-</code></pre></div></div>
-
-<h4 id="allow-to-use-disambiguator-pretrained-model">Allow to use Disambiguator pretrained model.</h4>
-
-<p>Now we can use the NerDisambiguatorModel as a pretrained model to disambiguate person entities.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">text</span> <span class="o">=</span> <span class="s">"The show also had a contestant named Brad Pitt"</span> \
-        <span class="o">+</span> <span class="s">"who later defeated Christina Aguilera on the way to become Female Vocalist Champion in the 1989 edition of Star Search in the United States. "</span>
- <span class="n">data</span> <span class="o">=</span> <span class="n">SparkContextForTest</span><span class="p">.</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-     <span class="p">[</span><span class="n">text</span><span class="p">]])</span> \
-     <span class="p">.</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
- <span class="n">da</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
- 
- <span class="n">sd</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
- 
- <span class="n">tk</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
- 
- <span class="n">emb</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">().</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embs"</span><span class="p">)</span>
- 
- <span class="n">semb</span> <span class="o">=</span> <span class="n">SentenceEmbeddings</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"embs"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
- 
- <span class="n">ner</span> <span class="o">=</span> <span class="n">NerDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embs"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
- 
- <span class="n">nc</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"PER"</span><span class="p">])</span>
- 
- <span class="n">NerDisambiguatorModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"disambiguation"</span><span class="p">)</span>
- 
- <span class="n">pl</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">da</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">tk</span><span class="p">,</span> <span class="n">emb</span><span class="p">,</span> <span class="n">semb</span><span class="p">,</span> <span class="n">ner</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">disambiguator</span><span class="p">])</span>
- 
- <span class="n">data</span> <span class="o">=</span> <span class="n">pl</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
- <span class="n">data</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"disambiguation"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|disambiguation                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[[disambiguation, 65, 82, http://en.wikipedia.org/?curid<span class="o">=</span>144171, http://en.wikipedia.org/?curid<span class="o">=</span>6636454, <span class="o">[</span>chunk -&gt; Christina Aguilera, titles -&gt; christina aguilera ::::: christina aguilar, links -&gt; http://en.wikipedia.org/?curid<span class="o">=</span>144171 ::::: http://en.wikipedia.org/?curid<span class="o">=</span>6636454, beginInText -&gt; 65, scores -&gt; 0.9764155197864447, 0.9727793647472524, categories -&gt; Musicians, Singers, Actors, Businesspeople, Musicians, Singers, ids -&gt; 144171, 6636454, endInText -&gt; 82], <span class="o">[]]]</span>|
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-<span class="nt">----------------------</span>
-
-</code></pre></div></div>
-<h4 id="allow-to-use-seeds-in-structureddeidentification">Allow to use seeds in StructuredDeidentification</h4>
-
-<p>Now, we can use a seed for a specific column. The seed is used to randomly select the entities used during obfuscation mode. By providing the same seed, you can replicate the same mapping multiple times.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-            <span class="p">[</span><span class="s">"12"</span><span class="p">,</span> <span class="s">"12"</span><span class="p">,</span> <span class="s">"Juan García"</span><span class="p">],</span>
-            <span class="p">[</span><span class="s">"24"</span><span class="p">,</span> <span class="s">"56"</span><span class="p">,</span> <span class="s">"Will Smith"</span><span class="p">],</span>
-            <span class="p">[</span><span class="s">"56"</span><span class="p">,</span> <span class="s">"32"</span><span class="p">,</span> <span class="s">"Pedro Ximénez"</span><span class="p">]</span>
-        <span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"ID1"</span><span class="p">,</span> <span class="s">"ID2"</span><span class="p">,</span> <span class="s">"NAME"</span><span class="p">)</span>
-        
-<span class="n">obfuscator</span> <span class="o">=</span> <span class="n">StructuredDeidentification</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">"ID1"</span><span class="p">:</span> <span class="s">"ID"</span><span class="p">,</span> <span class="s">"ID2"</span><span class="p">:</span> <span class="s">"ID"</span><span class="p">,</span> <span class="s">"NAME"</span><span class="p">:</span> <span class="s">"PATIENT"</span><span class="p">},</span>
-                                                <span class="n">columnsSeed</span><span class="o">=</span><span class="p">{</span><span class="s">"ID1"</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="s">"ID2"</span><span class="p">:</span> <span class="mi">23</span><span class="p">},</span>
-                                                <span class="n">obfuscateRefSource</span><span class="o">=</span><span class="s">"faker"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">obfuscator</span><span class="p">.</span><span class="n">obfuscateColumns</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">result</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>      
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------+----------+----------------+
-|ID1       |ID2       |NAME            |
-+----------+----------+----------------+
-|[D3379888]|[D3379888]|[Raina Cleaves] |
-|[R8448971]|[M8851891]|[Jennell Barre] |
-|[M8851891]|[L5448098]|[Norene Salines]|
-+----------+----------+----------------+
-
-Here, you can see that as we have provided the same seed <span class="sb">`</span>23<span class="sb">`</span> <span class="k">for </span>columns <span class="sb">`</span>ID1<span class="sb">`</span>, and <span class="sb">`</span>ID2<span class="sb">`</span>, the number <span class="sb">`</span>12<span class="sb">`</span> which is appears twice <span class="k">in </span>the first row is mapped to the same randomly generated <span class="nb">id</span> <span class="sb">`</span>D3379888<span class="sb">`</span> each time.
-</code></pre></div></div>
-<h4 id="added-compatibility-with-tensorflow-115-for-graph-generation">Added compatibility with Tensorflow 1.15 for graph generation</h4>
-<p>Some users reported problems while using graphs generated by Tensorflow 2.x. We provide compatibility with Tensorflow 1.15 in the <code class="language-plaintext highlighter-rouge">tf_graph_1x</code> module, that can be used like this,</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp_jsl.training import tf_graph_1x
-
-</code></pre></div></div>
-
-<p>In next releases, we will provide full support for graph generation using Tensorflow 2.x.</p>
-
-<h4 id="new-setup-videos">New Setup Videos</h4>
-
-<p>Now we have videos showing how to setup Spark NLP, Spark NLP for Healthcare and Spark OCR on UBUNTU.</p>
-
-<ul>
-  <li><a href="https://www.youtube.com/watch?v=ZnFENM-yNfQ">How to Setup Spark NLP on UBUNTU</a></li>
-  <li><a href="https://www.youtube.com/watch?v=yKnF-_oz0GE">How to Setup Spark NLP for HEALTHCARE on UBUNTU</a></li>
-  <li><a href="https://www.youtube.com/watch?v=cmt4WIcL0nI">How to Setup Spark OCR on UBUNTU</a></li>
-</ul>
-
-<p><strong>To see more, please check</strong>: <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare">Spark NLP Healthcare Workshop Repo</a></p>
-
-<h2 id="322">3.2.2</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="322">3.2.2</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.2 has been released!.</p>
 
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights">Highlights</h4>
 <ul>
   <li>New NER Model For Detecting Drugs, Posology, and Administration Cycles</li>
   <li>New Sentence Entity Resolver Models</li>
@@ -1059,7 +777,7 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 <h2 id="321">3.2.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.1 has been released!.</p>
 
-<h4 id="highlights-2">Highlights</h4>
+<h4 id="highlights-1">Highlights</h4>
 
 <ul>
   <li>Deprecated ChunkEntityResolver.</li>
@@ -1441,7 +1159,7 @@ medicaid: If the patient is in Medicaid or not.
 <h2 id="320">3.2.0</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.0 has been released!.</p>
 
-<h4 id="highlights-3">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 
 <ul>
   <li>New Sentence Boundary Detection Model for Healthcare text</li>
@@ -2133,7 +1851,7 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-4">Highlights</h4>
+<h4 id="highlights-3">Highlights</h4>
 <ul>
   <li>New Relation Extraction model and a Pretrained pipeline for extracting and linking ADEs</li>
   <li>New Entity Resolver model for SNOMED codes</li>
@@ -2246,7 +1964,7 @@ Relations:
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.2 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-5">Highlights</h4>
+<h4 id="highlights-4">Highlights</h4>
 <ul>
   <li>Support for Fine-tuning of Ner models.</li>
   <li>More builtin(pre-defined) graphs for MedicalNerApproach.</li>
@@ -2432,7 +2150,7 @@ print(compatibility.findVersion('sentence_detector_dl_healthcare'))
 <h2 id="311">3.1.1</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!</p>
 
-<h4 id="highlights-6">Highlights</h4>
+<h4 id="highlights-5">Highlights</h4>
 <ul>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code>.</li>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code>.</li>
@@ -2532,7 +2250,7 @@ results = model.transform(spark.createDataFrame([["The patient is a very pleasan
 
 <h2 id="310">3.1.0</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
-<h4 id="highlights-7">Highlights</h4>
+<h4 id="highlights-6">Highlights</h4>
 <ul>
   <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
   <li>New JSL Bert Models.</li>
@@ -3094,7 +2812,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights-8">Highlights</h4>
+<h4 id="highlights-7">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -3177,7 +2895,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-9">Highlights</h4>
+<h4 id="highlights-8">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -3199,7 +2917,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-10">Highlights:</h4>
+<h4 id="highlights-9">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -3327,11 +3045,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-11">Highlights:</h4>
+<h4 id="highlights-10">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-12">Highlights:</h4>
+<h4 id="highlights-11">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -3439,7 +3157,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-13">Highlights:</h4>
+<h4 id="highlights-12">Highlights:</h4>
 
 <ul>
   <li>
@@ -3740,7 +3458,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-14">Highlights:</h4>
+<h4 id="highlights-13">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -3930,7 +3648,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-15">Highlights:</h4>
+<h4 id="highlights-14">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -4014,7 +3732,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-16">Highlights:</h4>
+<h4 id="highlights-15">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>
