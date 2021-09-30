@@ -1,7 +1,6 @@
 ---
 layout: docs
 header: true
-seotitle: Spark OCR | John Snow Labs
 title: Version Compatibility
 permalink: /docs/en/version_compatibility
 key: version_compatibility
@@ -26,3 +25,4 @@ sidebar:
 | 3.1.3          | 3.5.0     | 3.1.3     |
 | 3.1.3          | 3.6.0     | 3.1.3     |
 | 3.2.0          | 3.7.0     | 3.2.0     |
+| 3.2.1          | 3.8.0     | 3.2.1     |

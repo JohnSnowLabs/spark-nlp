@@ -2,7 +2,7 @@ header:
   - title: Home
     url: /
   - title: Docs
-    url: /docs
+    url: /nlp_products
     key: docs
   - title: Learn
     url: /learn
@@ -77,8 +77,6 @@ docs-en:
         url:    /docs/en/alab/workflow
       - title:  License Setup  
         url:    /docs/en/alab/byol
-      - title:  Security and Privacy
-        url:    /docs/en/alab/security        
       - title:  Video Tutorials   
         url:    /docs/en/alab/tutorials        
   - title: Spark NLP for Healthcare
@@ -165,10 +163,10 @@ annotation-lab:
     children:
       - title:  Getting Started
         url:    /docs/en/alab/quickstart
-      - title:  Installation 
-        url:    /docs/en/alab/install
       - title:  Start Page 
         url:    /docs/en/alab/start_page
+      - title:  Installation 
+        url:    /docs/en/alab/install
       - title:  User Management
         url:    /docs/en/alab/user_management
       - title:  Project Setup
