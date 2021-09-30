@@ -6,7 +6,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Installation
 permalink: /docs/en/alab/install
 key: docs-training
-modify_date: "2021-09-22"
+modify_date: "2021-09-29"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -30,6 +30,12 @@ Annotation Lab is tested with the latest version of Google Chrome and is expecte
 •   Google Chrome
 •   Apple Safari
 •   Mozilla Firefox
+
+## Deploy on AWS 
+
+Visit the [product page on AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) and follow the instructions on the video below to subscribe and deploy. 
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ebaewU4BcQA' -%}<div class="video-descr">Deploy Annotation Lab via AWS Marketplace</div></div></div>
 
 ## Install via script
 
