@@ -137,13 +137,11 @@ of a text. A common example is if either a product review or tweet can be interp
 For the instantiated/pretrained models, see SentimentDLModel.
 
 **Notes**:
-  - This annotator accepts a label column of a single item in either type of
-    String, Int, Float, or Double. So positive sentiment can be expressed as
-    either `"positive"` or `0`, negative sentiment as `"negative"` or `1`.
-  - [UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder),
-    [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings),
-    [SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) or other
-    sentence based embeddings can be used
+  - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
+    So positive sentiment can be expressed as either `"positive"` or `0`, negative sentiment as `"negative"` or `1`.
+  - [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
+    [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
+    [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) can be used for the `inputCol`.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).

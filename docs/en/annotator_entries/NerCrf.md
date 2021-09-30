@@ -8,9 +8,9 @@ Extracts Named Entities based on a CRF Model.
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
 algorithm. The data should have columns of type `DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS`.
 These can be extracted with for example
-  - a [SentenceDetector](/docs/en/annotators#sentencedetector),
-  - a [Tokenizer](/docs/en/annotators#tokenizer) and
-  - a [PerceptronModel](/docs/en/annotators#postagger-part-of-speech-tagger)
+  - a [SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector),
+  - a [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer) and
+  - a [PerceptronModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel).
 
 This is the instantiated model of the NerCrfApproach.
 For training your own model, please see the documentation of that class.
@@ -163,15 +163,14 @@ Algorithm for training a Named Entity Recognition Model
 For instantiated/pretrained models, see NerCrfModel.
 
 This Named Entity recognition annotator allows for a generic model to be trained by utilizing a CRF machine learning
-algorithm. The training data should be a labeled Spark Dataset, e.g. [CoNLL](/docs/en/training#conll-dataset) 2003 IOB with
+algorithm. The training data should be a labeled Spark Dataset, e.g. [CoNLL](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/CoNLL) 2003 IOB with
 `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS` and an
 additional label column of annotator type `NAMED_ENTITY`.
 Excluding the label, this can be done with for example
-  - a [SentenceDetector](/docs/en/annotators#sentencedetector),
-  - a [Tokenizer](/docs/en/annotators#tokenizer) and
-  - a [PerceptronModel](/docs/en/annotators#postagger-part-of-speech-tagger) and
-  - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
-  (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
+  - a [SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector),
+  - a [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer),
+  - a [PerceptronModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel) and
+  - a [WordEmbeddingsModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel).
 
 Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.
 
@@ -188,14 +187,13 @@ NAMED_ENTITY
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-# This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
-# If a custom dataset is used, these need to be defined.
-
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.training import *
 from pyspark.ml import Pipeline
+# This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
+# If a custom dataset is used, these need to be defined.
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -232,7 +230,6 @@ pipelineModel = pipeline.fit(trainingData)
 {%- capture approach_scala_example -%}
 // This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
 // If a custom dataset is used, these need to be defined.
-
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.annotator.NerCrfApproach

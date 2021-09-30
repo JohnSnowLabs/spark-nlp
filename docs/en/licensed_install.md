@@ -1,7 +1,8 @@
 ---
 layout: docs
 header: true
-title: Spark NLP for Healthcare
+seotitle: Spark NLP for Healthcare | John Snow Labs
+title: Healthcare NLP
 permalink: /docs/en/licensed_install
 key: docs-licensed-install
 modify_date: "2021-03-09"
@@ -42,7 +43,7 @@ The library offers access to several clinical and biomedical transformers: JSL-B
 
 <br/>
 
-### Install Spark NLP for Healthcare
+### Install Healthcare NLP
 
 You can install the Spark NLP for Healthcare package by using:
 

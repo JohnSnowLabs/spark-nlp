@@ -2,6 +2,7 @@
 layout: docs
 comment: no
 header: true
+seotitle: Annotation Lab | John Snow Labs
 title: Import Documents 
 permalink: /docs/en/alab/import
 key: docs-training

@@ -6,9 +6,9 @@ AssertionLogReg
 This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status
 from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
 annotator inputs, which can be obtained by e.g a
-[DocumentAssembler](/docs/en/annotators#documentassembler),
-[NerConverter](/docs/en/annotators#nerconverter)
-and [WordEmbeddingsModel](/docs/en/annotators#wordembeddings).
+[DocumentAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler),
+[NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter)
+and [WordEmbeddingsModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel).
 The result is an assertion status annotation for each recognized entity.
 Possible values are `"Negated", "Affirmed" and "Historical"`.
 

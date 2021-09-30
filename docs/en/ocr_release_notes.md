@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Spark OCR release notes
 permalink: /docs/en/ocr_release_notes
 key: docs-ocr-release-notes
@@ -9,26 +10,6 @@ show_nav: true
 sidebar:
     nav: spark-ocr
 ---
-
-## 3.8.0
-
-Release date: 14-09-2021
-
-#### Overview
-
-Support Microsoft PPT and PPTX documents.
-
-#### New Features
-
-* Added [PptToPdf](ocr_pipeline_components#ppttopdf) transformer for convert PPT and PPTX slides to the PDF document.
-* Added [PptToTextTable](ocr_pipeline_components#ppttotexttable) transformer for extract tables from PPT and PPTX slides.
-
-
-#### New and updated notebooks
-
-* [Convert PPT to PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToPdf.ipynb) (New)
-* [Extract tables from PPT](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToTextTable.ipynb) (New)
-
 
 ## 3.7.0
 
