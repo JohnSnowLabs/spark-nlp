@@ -19,7 +19,6 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -37,34 +36,27 @@ class TensorflowXlmRoBertaClassification(val tensorflowWrapper: TensorflowWrappe
                                          configProtoBytes: Option[Array[Byte]] = None,
                                          tags: Map[String, Int],
                                          signatures: Option[Map[String, String]] = None
-                                        ) extends Serializable {
+                                        ) extends Serializable with TensorflowTokenClassification {
 
   val _tfXlmRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  private val SentenceStartTokenId = 0
-  private val SentenceEndTokenId = 2
-  private val SentencePadTokenId = 1
-  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  protected val sentenceStartTokenId: Int = 0
+  protected val sentenceEndTokenId: Int = 2
+  protected val sentencePadTokenId: Int = 1
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary */
-  def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) => wpTokSentence.tokens.length }.max).min
+  private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
+  def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean):
+  Seq[WordpieceTokenizedSentence] = {
 
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(SentenceEndTokenId) ++ padding
-      }
-  }
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdFromZero = true)
 
-  def calcluateSoftmax(scores: Array[Float]): Array[Float] = {
-    val exp = scores.map(x => math.exp(x))
-    exp.map(x => x / exp.sum).map(_.toFloat)
+    val sentecneTokenPieces = sentences.map { s =>
+      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
+      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+    sentecneTokenPieces
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -83,7 +75,7 @@ class TensorflowXlmRoBertaClassification(val tensorflowWrapper: TensorflowWrappe
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == SentencePadTokenId) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
     val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
@@ -105,72 +97,16 @@ class TensorflowXlmRoBertaClassification(val tensorflowWrapper: TensorflowWrappe
 
     val dim = rawScores.length / (batchLength * maxSentenceLength)
     val batchScores: Array[Array[Array[Float]]] = rawScores.grouped(dim).map(scores =>
-      calcluateSoftmax(scores)).toArray.grouped(maxSentenceLength).toArray
+      calculateSoftmax(scores)).toArray.grouped(maxSentenceLength).toArray
 
     batchScores
   }
 
-  def predict(tokenizedSentences: Seq[TokenizedSentence],
-              batchSize: Int,
-              maxSentenceLength: Int,
-              caseSensitive: Boolean
-             ): Seq[Annotation] = {
-
-    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
-
-    /*Run calculation by batches*/
-    wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val encoded = prepareBatchInputs(batch, maxSentenceLength)
-      val logits = tag(encoded)
-
-      /*Combine tokens and calculated logits*/
-      batch.zip(logits).flatMap { case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.tokens.length
-
-        /*All wordpiece logits*/
-        val tokenLogits = tokenVectors.slice(1, tokenLength + 1)
-
-        /*Word-level and span-level alignment with Tokenizer
-        https://github.com/google-research/bert#tokenization
-
-        ### Input
-        orig_tokens = ["John", "Johanson", "'s",  "house"]
-        labels      = ["NNP",  "NNP",      "POS", "NN"]
-
-        # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
-        # orig_to_tok_map == [1, 2, 4, 6]*/
-
-        val labelsWithScores = sentence._1.tokens.zip(tokenLogits).flatMap {
-          case (token, scores) =>
-            tokenizedSentences(sentence._2).indexedTokens.find(
-              p => p.begin == token.begin && token.isWordStart).map {
-              token =>
-                val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-                val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-                Annotation(
-                  annotatorType = AnnotatorType.NAMED_ENTITY,
-                  begin = token.begin,
-                  end = token.end,
-                  result = label,
-                  metadata = Map("sentence" -> sentence._2.toString) ++ meta
-                )
-            }
-        }
-        labelsWithScores.toSeq
-      }
-    }.toSeq
+  def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], sentence: (WordpieceTokenizedSentence, Int),
+                                tokenPiece: TokenPiece): Option[IndexedToken] = {
+    tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin && tokenPiece.isWordStart)
   }
 
-  def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdFromZero = true)
-
-    val sentecneTokenPieces = sentences.map { s =>
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
-      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-    sentecneTokenPieces
-  }
 }
 
 

@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import scala.collection.mutable
 
 
-private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
+private [johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)
