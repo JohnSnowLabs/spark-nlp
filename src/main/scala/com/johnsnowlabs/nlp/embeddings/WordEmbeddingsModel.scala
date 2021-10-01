@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{TokenPieceEmbeddings, TokenizedWithSentence, WordpieceEmbeddingsSentence}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, ParamsAndFeaturesWritable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable}
 import org.apache.spark.ml.param.IntParam
@@ -44,7 +44,7 @@ import org.apache.spark.sql.{DataFrame, Row}
   *   - `withCoverageColumn(dataset, embeddingsCol, outputCol)`:
   *     Adds a custom column with word coverage stats for the embedded field:
   *     (`coveredWords`, `totalWords`, `coveragePercentage`). This creates a new column with statistics for each row.
-  *     {{{
+  * {{{
   *     val wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, "embeddings", "cov_embeddings")
   *     wordsCoverage.select("text","cov_embeddings").show(false)
   *     +-------------------+--------------+
@@ -52,14 +52,14 @@ import org.apache.spark.sql.{DataFrame, Row}
   *     +-------------------+--------------+
   *     |This is a sentence.|[5, 5, 1.0]   |
   *     +-------------------+--------------+
-  *     }}}
+  * }}}
   *   - `overallCoverage(dataset, embeddingsCol)`:
   *     Calculates overall word coverage for the whole data in the embedded field.
   *     This returns a single coverage object considering all rows in the field.
-  *     {{{
+  * {{{
   *     val wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,"embeddings").percentage
   *     1.0
-  *     }}}
+  * }}}
   *
   * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
   * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
@@ -142,24 +142,24 @@ class WordEmbeddingsModel(override val uid: String)
   /** Output annotator type : WORD_EMBEDDINGS
     *
     * @group anno
-    **/
+    * */
   override val outputAnnotatorType: AnnotatorType = WORD_EMBEDDINGS
   /** Input annotator type : DOCUMENT, TOKEN
     *
     * @group anno
-    **/
+    * */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
 
   /** Cache size for items retrieved from storage. Increase for performance but higher memory consumption
     *
     * @group param
-    **/
+    * */
   val readCacheSize = new IntParam(this, "readCacheSize", "cache size for items retrieved from storage. Increase for performance but higher memory consumption")
 
   /** Set cache size for items retrieved from storage. Increase for performance but higher memory consumption
     *
     * @group setParam
-    **/
+    * */
   def setReadCacheSize(value: Int): this.type = set(readCacheSize, value)
 
   /**
@@ -170,7 +170,7 @@ class WordEmbeddingsModel(override val uid: String)
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
-    val withEmbeddings = sentences.map{ s =>
+    val withEmbeddings = sentences.map { s =>
       val tokens = s.indexedTokens.map { token =>
         val vectorOption = getReader(Database.EMBEDDINGS).lookup(token.token)
         TokenPieceEmbeddings(
@@ -196,7 +196,7 @@ class WordEmbeddingsModel(override val uid: String)
 
   private def bufferSizeFormula = {
     scala.math.min( // LRU Cache Size, pick the smallest value up to 50k to reduce memory blue print as dimension grows
-      (100.0/$(dimension))*200000,
+      (100.0 / $(dimension)) * 200000,
       50000
     ).toInt
   }
@@ -207,19 +207,30 @@ class WordEmbeddingsModel(override val uid: String)
       $(caseSensitive),
       $(dimension),
       get(readCacheSize).getOrElse(bufferSizeFormula)
-      )
+    )
+  }
+
+  def getEveryWordInDb(): List[String] = {
+    //Returns a array of String Indexes. These represent every Word coverd by the Embedding Object via RocksDb
+    getEveryIndexInDb(Database.EMBEDDINGS)
   }
 
   override val databases: Array[Database.Name] = WordEmbeddingsModel.databases
+
+
 }
 
 trait ReadablePretrainedWordEmbeddings extends StorageReadable[WordEmbeddingsModel] with HasPretrained[WordEmbeddingsModel] {
   override val databases: Array[Name] = Array(Database.EMBEDDINGS)
   override val defaultModelName: Option[String] = Some("glove_100d")
+
   /** Java compliant-overrides */
   override def pretrained(): WordEmbeddingsModel = super.pretrained()
+
   override def pretrained(name: String): WordEmbeddingsModel = super.pretrained(name)
+
   override def pretrained(name: String, lang: String): WordEmbeddingsModel = super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): WordEmbeddingsModel = super.pretrained(name, lang, remoteLoc)
 }
 
@@ -255,7 +266,7 @@ trait EmbeddingsCoverage {
 }
 
 /**
- * This is the companion object of [[WordEmbeddingsModel]]. Please refer to that class for the documentation.
- */
+  * This is the companion object of [[WordEmbeddingsModel]]. Please refer to that class for the documentation.
+  */
 object WordEmbeddingsModel extends ReadablePretrainedWordEmbeddings with EmbeddingsCoverage
 

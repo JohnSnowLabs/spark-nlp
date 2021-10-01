@@ -50,4 +50,11 @@ trait HasStorageModel extends HasStorageReader with HasExcludableStorage {
       })
   }
 
+
+   def getEveryIndexInDb(database : Database.Name): List[String] = {
+    //Returns a array of String Indexes. These represent every Word coverd by the Embedding Object via RocksDb
+    getReader(database).getEveryDbIndex()
+  }
+
+
 }

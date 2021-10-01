@@ -15,12 +15,13 @@
  */
 
 package com.johnsnowlabs.storage
-
 import com.johnsnowlabs.nlp.util.LruMap
+import scala.collection.mutable
 
 trait StorageReader[A] extends HasConnection {
 
   protected val caseSensitiveIndex: Boolean
+
   protected def readCacheSize: Int
 
   @transient private val lru = new LruMap[String, Option[A]](readCacheSize)
@@ -58,6 +59,22 @@ trait StorageReader[A] extends HasConnection {
 
   def clear(): Unit = {
     lru.clear()
+  }
+
+  def getEveryDbIndex(): List[String] = {
+    //Returns a array of String Indexes. These represent every Word coverd by the Embedding Object via RocksDb
+    val dbIterator = connection.getDb.newIterator()
+    dbIterator.seekToFirst()
+    val firstKey = dbIterator.key
+    dbIterator.seekToLast()
+    val allTokensCoverdByEmbedding = mutable.MutableList[String]()
+    while (dbIterator.key().deep != firstKey.deep) {
+      val k = new String(dbIterator.key())
+      allTokensCoverdByEmbedding += k
+      dbIterator.prev()
+    }
+
+    allTokensCoverdByEmbedding.toList
   }
 
 }

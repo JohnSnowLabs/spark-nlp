@@ -16,20 +16,23 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
+import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
+import java.io.BufferedWriter
+import scala.collection.mutable
+
 class WordEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs SlowTest in {
-
     val words = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/clinical_words.txt")
     val notWords = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/not_words.txt")
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("word")
       .setOutputCol("document")
@@ -49,7 +52,6 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec {
         tokenizer,
         embeddings
       ))
-
     val wordsP = pipeline.fit(words).transform(words).cache()
     val notWordsP = pipeline.fit(notWords).transform(notWords).cache()
 
@@ -72,46 +74,11 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec {
     assert(notWordsOverallCoverage == 0)
   }
 
-  "Word Embeddings" should "store and load from disk" taggedAs FastTest in {
-
-    val data =
-      ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/clinical_words.txt")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("word")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
-    val embeddings = new WordEmbeddings()
-      .setStoragePath("src/test/resources/random_embeddings_dim4.txt", ReadAs.TEXT)
-      .setDimension(4)
-      .setStorageRef("glove_4d")
-      .setInputCols("document", "token")
-      .setOutputCol("embeddings")
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings
-      ))
-
-    val model = pipeline.fit(data)
-
-    model.write.overwrite().save("./tmp_embeddings_pipeline")
-
-    model.transform(data).show(1)
-
-    val loadedPipeline1 = PipelineModel.load("./tmp_embeddings_pipeline")
-
-    loadedPipeline1.transform(data).show(1)
-
-    val loadedPipeline2 = PipelineModel.load("./tmp_embeddings_pipeline")
-
-    loadedPipeline2.transform(data).show(1)
+  "Word Embeddings" should "list all stored embedding keys" taggedAs FastTest in {
+    val embeddings = WordEmbeddingsModel.pretrained()
+    val r = embeddings.getEveryWordInDb()
+    print(r)
   }
+
 
 }
