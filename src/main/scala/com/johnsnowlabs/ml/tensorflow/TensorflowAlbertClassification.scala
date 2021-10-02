@@ -108,7 +108,7 @@ class TensorflowAlbertClassification(val tensorflowWrapper: TensorflowWrapper,
   }
 
   def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], sentence: (WordpieceTokenizedSentence, Int),
-                                tokenPiece: TokenPiece): Option[IndexedToken] = {
+                       tokenPiece: TokenPiece): Option[IndexedToken] = {
 
     tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin && tokenPiece.isWordStart)
   }
