@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer</title>
-          <meta name="description" content="Spark NLP 3.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
-          <meta name="keywords" content="Spark NLP 3.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
+          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer</title>
+          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
+          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -704,7 +704,7 @@ result.select(<span class="lit">"filtered.result"</span>).show(<span class="num"
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer#criteria" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer#criteria" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="criteria:org.apache.spark.ml.param.Param[String]"></a><a id="criteria:Param[String]"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html#criteria:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -719,7 +719,10 @@ result.select(<span class="lit">"filtered.result"</span>).show(<span class="num"
         <span class="name">criteria</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Tag representing dates in the obfuscate reference file (Default: <code>&quot;assertion&quot;</code>)</p>
+      <p class="shortcomment cmt">Tag representing what is the criteria to filter the chunks.</p><div class="fullcomment"><div class="comment cmt"><p>Tag representing what is the criteria to filter the chunks. possibles values (assertion|isIn|regex)
+ assertion: Filter by the assertion
+ isIn : Filter by the chunk
+ regex : Filter using a regex</p><p>(Default: <code>&quot;assertion&quot;</code>)</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
