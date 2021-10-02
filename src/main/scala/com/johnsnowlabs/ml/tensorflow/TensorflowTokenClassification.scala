@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece, TokenizedSentence, WordpieceTokenizedSentence}
@@ -61,14 +77,14 @@ trait TensorflowTokenClassification {
   }
 
   /** Word-level and span-level alignment with Tokenizer
-    https://github.com/google-research/bert#tokenization
-
-    ### Input
-    orig_tokens = ["John", "Johanson", "'s",  "house"]
-    labels      = ["NNP",  "NNP",      "POS", "NN"]
-
-    # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
-    # orig_to_tok_map == [1, 2, 4, 6]
+   * https://github.com/google-research/bert#tokenization
+   *
+   * ### Input
+   * orig_tokens = ["John", "Johanson", "'s",  "house"]
+   * labels      = ["NNP",  "NNP",      "POS", "NN"]
+   *
+   * # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
+   * # orig_to_tok_map == [1, 2, 4, 6]
    */
   def wordAndSpanLevelAlignmentWithTokenizer(tokenLogits: Array[Array[Float]], tokenizedSentences: Seq[TokenizedSentence],
                                              sentence: (WordpieceTokenizedSentence, Int), tags: Map[String, Int]): Seq[Annotation] = {

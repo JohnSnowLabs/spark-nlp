@@ -19,7 +19,6 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
