@@ -52,7 +52,7 @@ pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, st
 
 data = spark.createDataFrame([["The patient complains of ankle pain after falling from stairs. She has been advised Arthroscopy by her primary care pyhsician"]]).toDF("text")
 
-p_model = pipeline_loinc.fit(data)
+p_model = pipeline.fit(data)
 results = p_model.transform(data)
 ```
 ```scala
