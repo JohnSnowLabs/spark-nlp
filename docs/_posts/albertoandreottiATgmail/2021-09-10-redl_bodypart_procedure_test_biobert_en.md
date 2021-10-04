@@ -26,7 +26,7 @@ Relation extraction between body parts entities like ‘Internal_organ_or_compon
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_bodypart_procedure_test_biobert_en_3.0.3_2.4_en_3.0.3_2.4_1631307197287.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_bodypart_procedure_test_biobert_en_3.0.3_2.4_1631307197287.zip){:.button.button-orange.button-orange-trans.arr.button-icon} 
 
 ## How to use
 
