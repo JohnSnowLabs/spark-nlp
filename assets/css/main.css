@@ -6971,6 +6971,8 @@ code {
     box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15); }
     .docs-wrapper .table-model-big.w7 {
       width: 750px; }
+    .docs-wrapper .table-model-big.db {
+      display: block; }
     .docs-wrapper .table-model-big thead tr th {
       color: #ffffff;
       background: #3E4095;

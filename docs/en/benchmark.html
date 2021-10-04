@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Spark NLP for Healthcare | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/licensed_models"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/benchmark"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -387,7 +387,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/licensed_install">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scaladoc</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Benchmark</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/licensed_install">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scaladoc</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2 active"><a href="/docs/en/benchmark">Benchmark</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -518,25 +518,898 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Licensed Models</li>
+    <li>Developers Guideline</li>
   </ul>
-</div></div><header><h1>Licensed Models</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header><h1>Developers Guideline</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_models.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Licensed Models"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/benchmark.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Developers Guideline"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="pretrained-models">Pretrained Models</h2>
+  <h2 id="ner-benchmark-experiment">NER BENCHMARK EXPERIMENT</h2>
 
-  <p class="success">We are currently in the process of moving the pretrained models and pipelines to a Model Hub that you can explore here: 
-<a href="/models">Models Hub</a></p>
+  <h3 id="explanation-of-benchmark-experiment">Explanation of Benchmark Experiment</h3>
+
+  <ul>
+    <li><strong>Dataset :</strong> 1000 Clinical Texts from MTSamples Oncology Dataset, approx. 500 tokens per text.</li>
+    <li><strong>Driver :</strong> Standard_D4s_v3 - 16 GB Memory - 4 Cores</li>
+    <li><strong>Enable Autoscaling :</strong> False</li>
+    <li><strong>Cluster Mode :</strong> Standart</li>
+    <li><strong>Worker :</strong>
+      <ul>
+        <li>Standard_D4s_v3 - 16 GB Memory - 4 Cores</li>
+        <li>Standard_D4s_v2 - 28 GB Memory - 8 Cores</li>
+      </ul>
+    </li>
+    <li><strong>Versions :</strong>
+      <ul>
+        <li><strong>Databricks Runtime Version :</strong> 8.3(Scala 2.12, Spark 3.1.1)</li>
+        <li><strong>spark-nlp Version:</strong> v3.2.3</li>
+        <li><strong>spark-nlp-jsl Version :</strong> v3.2.3</li>
+        <li><strong>Spark Version :</strong> v3.1.1</li>
+      </ul>
+    </li>
+    <li>
+      <p><strong>Spark NLP Pipeline :</strong></p>
+
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nlpPipeline = Pipeline(stages=[
+      documentAssembler,
+      sentenceDetector,
+      tokenizer,  
+      embeddings_clinical,  
+      clinical_ner,  
+      ner_converter
+      ])
+
+</code></pre></div>      </div>
+    </li>
+  </ul>
+
+  <p><strong>The first experiment with 5 different cluster configurations :</strong> <code class="language-plaintext highlighter-rouge">ner_chunk</code>  as a column in Spark NLP Pipeline (<code class="language-plaintext highlighter-rouge">ner_converter</code>) output data frame, exploded (lazy evaluation) as <code class="language-plaintext highlighter-rouge">ner_chunk</code> and <code class="language-plaintext highlighter-rouge">ner_label</code>. Then results were written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
+
+  <p><strong>A second experiment with 2 different cluster configuration :</strong> Spark NLP Pipeline output data frame (except <code class="language-plaintext highlighter-rouge">word_embeddings</code> column) was written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
+
+  <p>In the first experiment with the most basic driver node and worker <strong>(1 worker x 4 cores)</strong> configuration selection, it took <strong>4.64 mins</strong> and <strong>4.53 mins</strong> to write <strong>4 partitioned data</strong> as parquet and delta formats respectively.</p>
+
+  <p>With basic driver node and <strong>8 workers (x8 cores)</strong> configuration selection, it took <strong>40 seconds</strong> and <strong>22 seconds</strong> to write <strong>1000 partitioned data</strong> as parquet and delta formats respectively.</p>
+
+  <p>In the second experiment with basic driver node and <strong>4 workers (x 4 cores)</strong> configuration selection, it took <strong>1.41 mins</strong> as parquet and <strong>1.42 mins</strong> as delta format to write <strong>16 partitioned (exploded results) data</strong>.  <strong>Without explode it took 1.08 mins as parquet and 1.12 mins as delta format to write the data frame.</strong></p>
+
+  <p>Since given computation durations are highly dependent on different parameters including driver node and worker node configurations as well as partitions, <strong>results show that explode method increases duration  %10-30  on chosen configurations.</strong></p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="benchmark-tables">BENCHMARK TABLES</h3>
+
+  <table class="table-model-big db">
+    <thead>
+      <tr>
+        <th>driver_name</th>
+        <th>driver_memory</th>
+        <th>driver_cores</th>
+        <th>worker_name</th>
+        <th>worker_memory</th>
+        <th>worker_cores</th>
+        <th>input_data_rows</th>
+        <th>output_data_rows</th>
+        <th>action</th>
+        <th>total_worker_number</th>
+        <th>total_cores</th>
+        <th>partition</th>
+        <th>duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>1</td>
+        <td>4</td>
+        <td>4</td>
+        <td>4.64 min</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>1</td>
+        <td>4</td>
+        <td>4</td>
+        <td>4.53 min</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>1</td>
+        <td>4</td>
+        <td>10</td>
+        <td>4.42 min</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>1</td>
+        <td>4</td>
+        <td>10</td>
+        <td>4.55 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>1</td>
+        <td>4</td>
+        <td>100</td>
+        <td>4.19 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>1</td>
+        <td>4</td>
+        <td>100</td>
+        <td>4.18 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>1</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>5.01 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>1</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>4.99 mins</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-model-big db">
+    <thead>
+      <tr>
+        <th>driver_name</th>
+        <th>driver_memory</th>
+        <th>driver_cores</th>
+        <th>worker_name</th>
+        <th>worker_memory</th>
+        <th>worker_cores</th>
+        <th>input_data_rows</th>
+        <th>output_data_rows</th>
+        <th>action</th>
+        <th>total_worker_number</th>
+        <th>total_cores</th>
+        <th>partition</th>
+        <th>duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>2</td>
+        <td>8</td>
+        <td>10</td>
+        <td>2.82 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>2</td>
+        <td>8</td>
+        <td>10</td>
+        <td>2.82 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>2</td>
+        <td>8</td>
+        <td>100</td>
+        <td>2.27 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>2</td>
+        <td>8</td>
+        <td>100</td>
+        <td>2.25 min</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>2</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>2.65 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>2</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>2.7 mins</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-model-big db">
+    <thead>
+      <tr>
+        <th>driver_name</th>
+        <th>driver_memory</th>
+        <th>driver_cores</th>
+        <th>worker_name</th>
+        <th>worker_memory</th>
+        <th>worker_cores</th>
+        <th>input_data_rows</th>
+        <th>output_data_rows</th>
+        <th>action</th>
+        <th>total_worker_number</th>
+        <th>total_cores</th>
+        <th>partition</th>
+        <th>duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>10</td>
+        <td>1.4 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>10</td>
+        <td>1.76 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>16</td>
+        <td>1.41 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>16</td>
+        <td>1.42 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>32</td>
+        <td>1.36 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>32</td>
+        <td>1.35 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>100</td>
+        <td>1.21 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>100</td>
+        <td>1.24 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>1000</td>
+        <td>1.42 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>1000</td>
+        <td>1.46 mins</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-model-big db">
+    <thead>
+      <tr>
+        <th>driver_name</th>
+        <th>driver_memory</th>
+        <th>driver_cores</th>
+        <th>worker_name</th>
+        <th>worker_memory</th>
+        <th>worker_cores</th>
+        <th>input_data_rows</th>
+        <th>output_data_rows</th>
+        <th>action</th>
+        <th>total_worker_number</th>
+        <th>total_cores</th>
+        <th>partition</th>
+        <th>duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>10</td>
+        <td>1.39 min</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>10</td>
+        <td>1.33 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>16</td>
+        <td>1.08 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>16</td>
+        <td>1,12 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>32</td>
+        <td>1.09 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>32</td>
+        <td>1.23 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>100</td>
+        <td>1.05 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>100</td>
+        <td>1.11 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_parquet</td>
+        <td>4</td>
+        <td>16</td>
+        <td>1000</td>
+        <td>1.37 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>1000</td>
+        <td>write_deltalake</td>
+        <td>4</td>
+        <td>16</td>
+        <td>1000</td>
+        <td>1.29 mins</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-model-big db">
+    <thead>
+      <tr>
+        <th>driver_name</th>
+        <th>driver_memory</th>
+        <th>driver_cores</th>
+        <th>worker_name</th>
+        <th>worker_memory</th>
+        <th>worker_cores</th>
+        <th>input_data_rows</th>
+        <th>output_data_rows</th>
+        <th>action</th>
+        <th>total_worker_number</th>
+        <th>total_cores</th>
+        <th>partition</th>
+        <th>duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>8</td>
+        <td>32</td>
+        <td>32</td>
+        <td>1.21 mins</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>8</td>
+        <td>32</td>
+        <td>32</td>
+        <td>55.8 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>8</td>
+        <td>32</td>
+        <td>100</td>
+        <td>41 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>8</td>
+        <td>32</td>
+        <td>100</td>
+        <td>48 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>8</td>
+        <td>32</td>
+        <td>1000</td>
+        <td>1.36 min</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>8</td>
+        <td>32</td>
+        <td>1000</td>
+        <td>48 sec</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table-model-big db">
+    <thead>
+      <tr>
+        <th>driver_name</th>
+        <th>driver_memory</th>
+        <th>driver_cores</th>
+        <th>worker_name</th>
+        <th>worker_memory</th>
+        <th>worker_cores</th>
+        <th>input_data_rows</th>
+        <th>output_data_rows</th>
+        <th>action</th>
+        <th>total_worker_number</th>
+        <th>total_cores</th>
+        <th>partition</th>
+        <th>duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v2</td>
+        <td>28 GB</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>8</td>
+        <td>64</td>
+        <td>64</td>
+        <td>36 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v2</td>
+        <td>28 GB</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>8</td>
+        <td>64</td>
+        <td>64</td>
+        <td>19 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v2</td>
+        <td>28 GB</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>8</td>
+        <td>64</td>
+        <td>100</td>
+        <td>21 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v2</td>
+        <td>28 GB</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>8</td>
+        <td>64</td>
+        <td>100</td>
+        <td>41 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v2</td>
+        <td>28 GB</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_parquet</td>
+        <td>8</td>
+        <td>64</td>
+        <td>1000</td>
+        <td>40 sec</td>
+      </tr>
+      <tr>
+        <td>Standard_D4s_v3</td>
+        <td>16 GB</td>
+        <td>4</td>
+        <td>Standard_D4s_v2</td>
+        <td>28 GB</td>
+        <td>8</td>
+        <td>1000</td>
+        <td>78000</td>
+        <td>write_deltalake</td>
+        <td>8</td>
+        <td>64</td>
+        <td>1000</td>
+        <td>22 sec</td>
+      </tr>
+    </tbody>
+  </table>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2020-04-22T00:00:00+00:00">Apr 22, 2020</time>
+      <time itemprop="dateModified" datetime="2021-10-04T00:00:00+00:00">Oct 04, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -662,7 +1535,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_annotators">Annotators</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/evaluation">Evaluation</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_release_notes">Release Notes</a></div></div></div>
 
 </div>
 </div>
