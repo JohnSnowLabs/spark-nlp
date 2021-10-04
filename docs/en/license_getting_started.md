@@ -2,7 +2,7 @@
 layout: docs
 header: true
 title: Spark NLP for Healthcare
-permalink: /docs/en/getting_started
+permalink: /docs/en/license_getting_started
 key: docs-licensed-install
 modify_date: "2021-03-09"
 show_nav: true

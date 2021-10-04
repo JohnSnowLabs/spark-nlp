@@ -84,7 +84,7 @@ docs-en:
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
-        url:    /docs/en/getting_started
+        url:    /docs/en/license_getting_started
       - title: Installation
         url: /docs/en/licensed_install
       - title:  Annotators
@@ -214,7 +214,7 @@ sparknlp-healthcare:
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
-        url:    /docs/en/getting_started
+        url:    /docs/en/license_getting_started
       - title: Installation
         url: /docs/en/licensed_install
       - title:  Annotators
