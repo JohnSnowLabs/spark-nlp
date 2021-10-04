@@ -19,12 +19,12 @@ GEM
     concurrent-ruby (1.1.9)
     dnsruby (1.61.7)
       simpleidn (~> 0.1)
-    elasticsearch (7.13.3)
-      elasticsearch-api (= 7.13.3)
-      elasticsearch-transport (= 7.13.3)
-    elasticsearch-api (7.13.3)
+    elasticsearch (7.15.0)
+      elasticsearch-api (= 7.15.0)
+      elasticsearch-transport (= 7.15.0)
+    elasticsearch-api (7.15.0)
       multi_json
-    elasticsearch-transport (7.13.3)
+    elasticsearch-transport (7.15.0)
       faraday (~> 1)
       multi_json
     em-websocket (0.5.2)
@@ -35,7 +35,7 @@ GEM
     eventmachine (1.2.7)
     eventmachine (1.2.7-x64-mingw32)
     execjs (2.8.1)
-    faraday (1.5.1)
+    faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -43,6 +43,7 @@ GEM
       faraday-net_http (~> 1.0)
       faraday-net_http_persistent (~> 1.1)
       faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords (>= 0.0.4)
     faraday-em_http (1.0.0)
@@ -52,6 +53,7 @@ GEM
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
+    faraday-rack (1.0.0)
     ffi (1.15.4)
     ffi (1.15.4-x64-mingw32)
     forwardable-extended (2.6.0)
@@ -291,4 +293,4 @@ DEPENDENCIES
   nokogiri (>= 1.12.5)
 
 BUNDLED WITH
-   2.2.22
+   2.2.28
