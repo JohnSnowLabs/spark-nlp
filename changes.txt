@@ -1,6 +1,2 @@
-docs/_data/navigation.yml
-docs/_sass/custom.scss
-docs/en/benchmark.md
-docs/_data/navigation.yml
-docs/_sass/custom.scss
-docs/en/benchmark.md
+docs/_posts/albertoandreottiATgmail/2021-09-10-redl_bodypart_procedure_test_biobert_en.md
+docs/_posts/albertoandreottiATgmail/2021-09-10-redl_bodypart_procedure_test_biobert_en.md
