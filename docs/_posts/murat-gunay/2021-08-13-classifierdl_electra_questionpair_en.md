@@ -45,7 +45,7 @@ embeddings = BertSentenceEmbeddings.pretrained("sent_electra_large_uncased", "en
       .setInputCols("document") \
       .setOutputCol("sentence_embeddings")
 
-document_classifier = ClassifierDLModel.pretrained('classifierdl_electra_questionpair') \
+document_classifier = ClassifierDLModel.pretrained('classifierdl_electra_questionpair', 'en') \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
@@ -67,7 +67,7 @@ val embeddings = BertSentenceEmbeddings.pretrained("sent_electra_large_uncased",
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
-val document_classifier = ClassifierDLModel.pretrained("classifierdl_electra_questionpair")
+val document_classifier = ClassifierDLModel.pretrained("classifierdl_electra_questionpair", 'en')
   .setInputCols(Array("document", "sentence_embeddings"))
   .setOutputCol("class")
 
@@ -102,7 +102,7 @@ val result_2 = light_pipeline.annotate("q1: What is your favorite movie? q2: Whi
 
 ## Data Source
 
-A custom dataset is used based on this source : "https://www.kaggle.com/c/quora-question-pairs/data".
+A custom dataset is used based on this source : "https://quoradata.quora.com/First-Quora-Dataset-Release-Question-Pairs".
 
 ## Benchmarking
 

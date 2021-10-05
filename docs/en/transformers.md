@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark NLP
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
@@ -26,7 +27,7 @@ sidebar:
 
 ### Overview
 
-Spark NLP 🚀  3.1.0 is out! We have extended support for HuggingFace 🤗  exported models in equivalent Spark NLP annotators. Starting this release, you can easily use `saved_model` feature in HuggingFace within a few lines of codes and import any BERT, DistilBERT, RoBERTa, XLM-RoBERTa, Longformer, BertForTokenClassification, and DistilBertForTokenClassification models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
+We have extended support for HuggingFace 🤗  exported models since Spark NLP 🚀  3.1.0  for equivalent Spark NLP annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any `BERT`, `DistilBERT`, `RoBERTa`, `XLM-RoBERTa`, `Longformer`, `BertForTokenClassification`, `DistilBertForTokenClassification`, `AlbertForTokenClassification`, `RoBertaForTokenClassification`, `XlmRoBertaForTokenClassification`, `XlnetForTokenClassification`, and `LongformerForTokenClassification`  models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
 
 ### Compatibility
 
@@ -51,10 +52,15 @@ XlmRoBertaEmbeddings |   | ✅   | XLM-RoBERTa
 AlbertEmbeddings | ✅  |  ✅   |  ALBERT
 XlnetEmbeddings |   | ✅  |  XLNet
 LongformerEmbeddings |   | ✅  | Longformer
-BertForTokenClassification |   | ✅  |  BERT - Small BERT - ELECTRA
-DistilBertForTokenClassification |   | ✅  |  DistilBERT
 ElmoEmbeddings | ❎  |  ❎  |
 UniversalSentenceEncoder |  ❎ |   |
+BertForTokenClassification |   | ✅  |  TFBertForTokenClassification
+DistilBertForTokenClassification |   | ✅  |  TFDistilBertForTokenClassification
+AlbertForTokenClassification |   | ✅  |  TFAlbertForTokenClassification
+RoBertaForTokenClassification |   | ✅  |  TFRobertaForTokenClassification
+XlmRoBertaForTokenClassification |   | ✅  |  TFXLMRobertaForTokenClassification
+XlnetForTokenClassification |   | ✅  |  TFXLNetForTokenClassificationet
+LongformerForTokenClassification |   | ✅  |  TFLongformerForTokenClassification
 T5Transformer |   |  ❌ |
 MarianTransformer|   | ❌  |
 
@@ -74,6 +80,9 @@ XlnetEmbeddings|[HuggingFace in Spark NLP - XLNet](https://github.com/JohnSnowLa
 LongformerEmbeddings|[HuggingFace in Spark NLP - Longformer](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20Longformer.ipynb)
 BertForTokenClassification|[HuggingFace in Spark NLP - BertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb)
 DistilBertForTokenClassification|[HuggingFace in Spark NLP - DistilBertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb)
+AlbertForTokenClassification|[HuggingFace in Spark NLP - AlbertForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb)
+RoBertaForTokenClassification|[HuggingFace in Spark NLP - RoBertaForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb)
+XlmRoBertaForTokenClassification|[HuggingFace in Spark NLP - XlmRoBertaForTokenClassification](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb)
 
 #### TF Hub to Spark NLP
 
@@ -82,8 +91,3 @@ Spark NLP | TF Hub Notebooks | Colab
 BertEmbeddings |  [TF Hub in Spark NLP - BERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT.ipynb)
 BertSentenceEmbeddings |  [TF Hub in Spark NLP - BERT Sentence](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
 AlbertEmbeddings |  [TF Hub in Spark NLP - ALBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/TF%20Hub%20in%20Spark%20NLP%20-%20ALBERT.ipynb)
-
-### Limitations
-
-- If you are importing models from HuggingFace as Embeddings they must be for the `Fill-Mask` task. Meaning you cannot use a model in BertEmbeddings if they were trained or fine-tuned on token/text classification tasks in HuggingFace. They have a different architecture.
-- There is a 2G size limitation with loading a TF SavedModel model in Spark NLP. Your model cannot be larger than 2G size or you will see the following error: `Required array size too large.` (We are working on going around this Java limitation, however, for the time being, there are some models which are over 2G and they are not compatible)

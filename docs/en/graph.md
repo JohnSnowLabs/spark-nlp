@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle:
 title: Tensorflow Graph
 permalink: /docs/en/graph
 key: docs-graph

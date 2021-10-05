@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
-          <meta name="description" content="Spark NLP 3.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
-          <meta name="keywords" content="Spark NLP 3.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
+          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
+          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
+          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -776,7 +776,7 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="Utility class that helps to obfuscate tabular data." href="StructuredDeidentification.html"><span class="name">StructuredDeidentification</span></a><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="Utility class that helps to obfuscate tabular data." href="StructuredDeidentification.html"><span class="name">StructuredDeidentification</span></a><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       <p class="shortcomment cmt">Utility class that helps to obfuscate tabular data.</p><div class="fullcomment"><div class="comment cmt"><p>Utility class that helps to obfuscate tabular data.
@@ -788,7 +788,9 @@ The default entities are:</p><table class="doctbl">
       </thead>
       <tbody><tr><td class="doctbl-right"><p>location-other</p></td><td class="doctbl-right"><p> A location that is not country, street,hospital,city or state</p></td></tr><tr><td class="doctbl-right"><p>street</p></td><td class="doctbl-right"><p> A street</p></td></tr><tr><td class="doctbl-right"><p>hospital</p></td><td class="doctbl-right"><p> The name of a hospital.</p></td></tr><tr><td class="doctbl-right"><p>city</p></td><td class="doctbl-right"><p> A city</p></td></tr><tr><td class="doctbl-right"><p>state</p></td><td class="doctbl-right"><p>A state</p></td></tr><tr><td class="doctbl-right"><p>zip</p></td><td class="doctbl-right"><p> The zip code</p></td></tr><tr><td class="doctbl-right"><p>country</p></td><td class="doctbl-right"><p> A country</p></td></tr><tr><td class="doctbl-right"><p>contact</p></td><td class="doctbl-right"><p> The contact of one person</p></td></tr><tr><td class="doctbl-right"><p>username</p></td><td class="doctbl-right"><p>A username </p></td></tr><tr><td class="doctbl-right"><p>phone</p></td><td class="doctbl-right"><p> A number phone.</p></td></tr><tr><td class="doctbl-right"><p>fax</p></td><td class="doctbl-right"><p> The number fax</p></td></tr><tr><td class="doctbl-right"><p>url</p></td><td class="doctbl-right"><p> A url for internet</p></td></tr><tr><td class="doctbl-right"><p>email</p></td><td class="doctbl-right"><p> The email of one person</p></td></tr><tr><td class="doctbl-right"><p>profession</p></td><td class="doctbl-right"><p> A profession of one person</p></td></tr><tr><td class="doctbl-right"><p>name</p></td><td class="doctbl-right"><p> The name opf one person</p></td></tr><tr><td class="doctbl-right"><p>doctor</p></td><td class="doctbl-right"><p>The name of a doctor</p></td></tr><tr><td class="doctbl-right"><p>patient</p></td><td class="doctbl-right"><p> The name of the patient</p></td></tr><tr><td class="doctbl-right"><p>id</p></td><td class="doctbl-right"><p> A general Id number</p></td></tr><tr><td class="doctbl-right"><p>bioid</p></td><td class="doctbl-right"><p>Is a system to screen for protein interactions as they occur in living cells</p></td></tr><tr><td class="doctbl-right"><p>age</p></td><td class="doctbl-right"><p>The age of something or someone</p></td></tr><tr><td class="doctbl-right"><p>organization</p></td><td class="doctbl-right"><p> Name of one organization o company</p></td></tr><tr><td class="doctbl-right"><p>healthplan</p></td><td class="doctbl-right"><p> The id that identify the healthplan</p></td></tr><tr><td class="doctbl-right"><p>medicalrecord</p></td><td class="doctbl-right"><p> The identification of a medical record</p></td></tr><tr><td class="doctbl-right"><p>device</p></td><td class="doctbl-right"><p>The id that identified a device</p></td></tr><tr><td class="doctbl-right"><p>date</p></td><td class="doctbl-right"><p> A general date</p></td></tr>
           </tbody>
-    </table><p>If is not present will be masked.</p></dd><dt class="param">obfuscateRefFile</dt><dd class="cmt"><p>This is an optional parameter that allows to add your own terms to be used for obfuscation.
+    </table><p>If is not present will be masked.</p></dd><dt class="param">seedMap</dt><dd class="cmt"><p>: Allow to add a seed to the column that you want to obfuscate.
+               The seed used to randomly select the entities used during obfuscation mode.
+               By providing the same seed, you can replicate the same mapping multiple times.</p></dd><dt class="param">obfuscateRefFile</dt><dd class="cmt"><p>This is an optional parameter that allows to add your own terms to be used for obfuscation.
                         The file contains as a key the entity and as the value the terms that will be used in the \
                         obfuscation.</p></dd><dt class="param">obfuscateRefSource</dt><dd class="cmt"><p>The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.
 The allowed values are the following:

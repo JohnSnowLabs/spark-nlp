@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.disambiguation</title>
-          <meta name="description" content="Spark NLP 3.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation" />
-          <meta name="keywords" content="Spark NLP 3.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation" />
+          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.disambiguation</title>
+          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation" />
+          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -319,6 +319,14 @@
                         <a href="NerDisambiguatorModel.html" title="Instantiated / pretrained model of the NerDisambiguator.">NerDisambiguatorModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadDisambiguator.html" title=""></a>
+                        <a href="ReadDisambiguator.html" title="">ReadDisambiguator</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadPretrainedNerDisambiguator.html" title=""></a>
+                        <a href="ReadPretrainedNerDisambiguator.html" title="">ReadPretrainedNerDisambiguator</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="class" href="SimpleDisambiguationPipeline.html" title=""></a>
                         <a href="SimpleDisambiguationPipeline.html" title="">SimpleDisambiguationPipeline</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.embeddings" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -497,7 +505,7 @@
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="NerDisambiguatorextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]withKvKnowledgeExtractorwithDisambiguatorModelParams"></a><a id="NerDisambiguator:NerDisambiguator"></a>
+      <a id="NerDisambiguatorextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]withDisambiguatorModelParams"></a><a id="NerDisambiguator:NerDisambiguator"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html" title="Permalink">
         <i class="material-icons"></i>
@@ -508,7 +516,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB)." href="NerDisambiguator.html"><span class="name">NerDisambiguator</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="logic/KvKnowledgeExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">KvKnowledgeExtractor</a> with <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></span>
+        <a title="Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB)." href="NerDisambiguator.html"><span class="name">NerDisambiguator</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></span>
       </span>
       
       <p class="shortcomment cmt">Links words of interest, such as names of persons, locations and companies, from an input text document to
@@ -566,7 +574,7 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
 |Christina Aguilera|http:<span class="cmt">//en.wikipedia.org/?curid=144171, http://en.wikipedia.org/?curid=6636454                                           |</span>
 +------------------+------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="NerDisambiguatorModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]withAnnotationLogicwithPoolingLogicBasewithDisambiguatorModelParamswithSwitchableEmbeddingsExtractorwithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]"></a><a id="NerDisambiguatorModel:NerDisambiguatorModel"></a>
+      <a id="NerDisambiguatorModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]withAnnotationLogicwithPoolingLogicBasewithKvKnowledgeExtractorwithDisambiguatorModelParamswithSwitchableEmbeddingsExtractorwithRocksDbReaderwithHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]withCheckLicense"></a><a id="NerDisambiguatorModel:NerDisambiguatorModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguatorModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -577,7 +585,7 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Instantiated / pretrained model of the NerDisambiguator." href="NerDisambiguatorModel.html"><span class="name">NerDisambiguatorModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="logic/AnnotationLogic.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.AnnotationLogic">AnnotationLogic</a> with <a href="logic/embeddings/impl/PoolingLogicBase.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.embeddings.impl.PoolingLogicBase">PoolingLogicBase</a> with <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a> with <a href="logic/embeddings/impl/SwitchableEmbeddingsExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.embeddings.impl.SwitchableEmbeddingsExtractor">SwitchableEmbeddingsExtractor</a> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>]</span>
+        <a title="Instantiated / pretrained model of the NerDisambiguator." href="NerDisambiguatorModel.html"><span class="name">NerDisambiguatorModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="logic/AnnotationLogic.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.AnnotationLogic">AnnotationLogic</a> with <a href="logic/embeddings/impl/PoolingLogicBase.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.embeddings.impl.PoolingLogicBase">PoolingLogicBase</a> with <a href="logic/KvKnowledgeExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">KvKnowledgeExtractor</a> with <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a> with <a href="logic/embeddings/impl/SwitchableEmbeddingsExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.embeddings.impl.SwitchableEmbeddingsExtractor">SwitchableEmbeddingsExtractor</a> with <a href="util/read/RocksDbReader.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.read.RocksDbReader">RocksDbReader</a> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">Instantiated / pretrained model of the <a href="NerDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiated / pretrained model of the <a href="NerDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.
@@ -585,6 +593,38 @@ Links words of interest, such as names of persons, locations and companies, from
 a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),
 mentions, or surface forms.
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="NerDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> for how to use the model</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.ReadDisambiguator" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadDisambiguatorextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]"></a><a id="ReadDisambiguator:ReadDisambiguator"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/ReadDisambiguator.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadDisambiguator.html"><span class="name">ReadDisambiguator</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.ReadPretrainedNerDisambiguator" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadPretrainedNerDisambiguatorextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel]"></a><a id="ReadPretrainedNerDisambiguator:ReadPretrainedNerDisambiguator"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/ReadPretrainedNerDisambiguator.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadPretrainedNerDisambiguator.html"><span class="name">ReadPretrainedNerDisambiguator</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.SimpleDisambiguationPipeline" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SimpleDisambiguationPipelineextendsSerializable"></a><a id="SimpleDisambiguationPipeline:SimpleDisambiguationPipeline"></a>
       <span class="permalink">
@@ -637,7 +677,7 @@ mentions, or surface forms.
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="NerDisambiguatorModel$.html"><span class="name">NerDisambiguatorModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="" href="NerDisambiguatorModel$.html"><span class="name">NerDisambiguatorModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="ReadDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.ReadDisambiguator">ReadDisambiguator</a> with <a href="ReadPretrainedNerDisambiguator.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.ReadPretrainedNerDisambiguator">ReadPretrainedNerDisambiguator</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

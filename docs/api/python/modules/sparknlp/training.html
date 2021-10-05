@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.training &#8212; Spark NLP 3.2.3 documentation</title>
+    <title>sparknlp.training &#8212; Spark NLP 3.3.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet" />
   <link href="../../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -289,17 +289,14 @@
 
 <span class="sd">    **Input File Format**::</span>
 
-<span class="sd">        -DOCSTART- -X- -X- O</span>
-
-<span class="sd">        EU NNP B-NP B-ORG</span>
-<span class="sd">        rejects VBZ B-VP O</span>
-<span class="sd">        German JJ B-NP B-MISC</span>
-<span class="sd">        call NN I-NP O</span>
-<span class="sd">        to TO B-VP O</span>
-<span class="sd">        boycott VB I-VP O</span>
-<span class="sd">        British JJ B-NP B-MISC</span>
-<span class="sd">        lamb NN I-NP O</span>
-<span class="sd">        . . O O</span>
+<span class="sd">        # sent_id = 1</span>
+<span class="sd">        # text = They buy and sell books.</span>
+<span class="sd">        1   They     they    PRON    PRP    Case=Nom|Number=Plur               2   nsubj   2:nsubj|4:nsubj   _</span>
+<span class="sd">        2   buy      buy     VERB    VBP    Number=Plur|Person=3|Tense=Pres    0   root    0:root            _</span>
+<span class="sd">        3   and      and     CONJ    CC     _                                  4   cc      4:cc              _</span>
+<span class="sd">        4   sell     sell    VERB    VBP    Number=Plur|Person=3|Tense=Pres    2   conj    0:root|2:conj     _</span>
+<span class="sd">        5   books    book    NOUN    NNS    Number=Plur                        2   obj     2:obj|4:obj       SpaceAfter=No</span>
+<span class="sd">        6   .        .       PUNCT   .      _                                  2   punct   2:punct           _</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>

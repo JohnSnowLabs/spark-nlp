@@ -71,10 +71,10 @@ object TrainingHelper {
       case _: java.io.IOException => //file lock may prevent deletion, ignore and continue
     }
 
-      // 6. Add to metadata.json info about resource
-      val metadataFile = Paths.get(folder, "metadata.json").toString
-      ResourceMetadata.addMetadataToFile(metadataFile, meta)
-    }
+    // 6. Add to metadata.json info about resource
+    val metadataFile = Paths.get(folder, "metadata.json").toString
+    ResourceMetadata.addMetadataToFile(metadataFile, meta)
+  }
 
   def hasColumn(dataSet: Dataset[_], column: String): Boolean = Try(dataSet(column)).isSuccess
 

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.2 ScalaDoc  - com.johnsnowlabs.nlp.Router</title>
-          <meta name="description" content="Spark NLP 3.2.2 ScalaDoc - com.johnsnowlabs.nlp.Router" />
-          <meta name="keywords" content="Spark NLP 3.2.2 ScalaDoc com.johnsnowlabs.nlp.Router" />
+          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.Router</title>
+          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.Router" />
+          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.Router" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -203,8 +203,8 @@
                         <a href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns.">FeaturesAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">Router</a>
+                        <a class="class" href="" title="This class allows to filter any annotation based on the medatata fields."></a>
+                        <a href="" title="This class allows to filter any annotation based on the medatata fields.">Router</a>
                       </li>
               </ul>
             </div>
@@ -233,7 +233,44 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class allows to filter any annotation based on the medatata fields.</p><pre><span class="kw">val</span> testData = ResourceHelper.spark.createDataFrame(<span class="std">Seq</span>(
+   (<span class="num">1</span>, <span class="lit">"\"Jesus live in Leon. Madrid is the capital of Spain"</span>)
+ )).toDF(<span class="lit">"id"</span>, <span class="lit">"text"</span>)
+
+ <span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+   .setInputCol(<span class="lit">"text"</span>)
+   .setOutputCol(<span class="lit">"document"</span>)
+
+ <span class="kw">val</span> sentence = <span class="kw">new</span> SentenceDetector()
+   .setInputCols(<span class="lit">"document"</span>)
+   .setOutputCol(<span class="lit">"sentence"</span>)
+
+ <span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher()
+   .setExternalRules(ExternalResource(<span class="lit">"src/test/resources/regex-matcher/rules2.txt"</span>, ReadAs.TEXT, <span class="std">Map</span>(<span class="lit">"delimiter"</span> -&gt; <span class="lit">","</span>)))
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence"</span>))
+   .setOutputCol(<span class="lit">"regex"</span>)
+   .setStrategy(<span class="lit">"MATCH_ALL"</span>)
+
+ <span class="kw">val</span> chunk2Doc = <span class="kw">new</span> Chunk2Doc().setInputCols(<span class="lit">"regex"</span>).setOutputCol(<span class="lit">"doc_chunk"</span>)
+
+ <span class="kw">val</span> embeddings = BertSentenceEmbeddings.pretrained(<span class="lit">"sent_small_bert_L2_128"</span>)
+   .setInputCols(<span class="lit">"doc_chunk"</span>)
+   .setOutputCol(<span class="lit">"bert"</span>)
+   .setCaseSensitive(<span class="kw">false</span>)
+   .setMaxSentenceLength(<span class="num">32</span>)
+
+ <span class="kw">val</span> routerName = <span class="kw">new</span> Router()
+   .setInputType(<span class="lit">"sentence_embeddings"</span>)
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"bert"</span>))
+   .setMetadataField(<span class="lit">"identifier"</span>)
+   .setFilterFieldsElements(<span class="std">Array</span>(<span class="lit">"name"</span>))
+   .setOutputCol(<span class="lit">"names"</span>)
+ <span class="kw">val</span> routerCity = <span class="kw">new</span> Router()
+   .setInputType(<span class="lit">"sentence_embeddings"</span>)
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"bert"</span>))
+   .setMetadataField(<span class="lit">"identifier"</span>)
+   .setFilterFieldsElements(<span class="std">Array</span>(<span class="lit">"city"</span>))
+   .setOutputCol(<span class="lit">"cities"</span>)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -254,7 +291,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -299,7 +336,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.Router#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.Router#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.Router"></a><a id="&lt;init&gt;:Router"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/Router.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.Router" title="Permalink">
@@ -314,7 +351,7 @@
         <span class="name">Router</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -880,7 +917,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasFeatures</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.Router#filterFieldsElements" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.Router#filterFieldsElements" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="filterFieldsElements:org.apache.spark.ml.param.StringArrayParam"></a><a id="filterFieldsElements:StringArrayParam"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/Router.html#filterFieldsElements:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
@@ -895,7 +932,8 @@
         <span class="name">filterFieldsElements</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">The filterfieldsElements are the allowed values for the metadata field that is being used
+</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -1292,7 +1330,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.Router#inputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.Router#inputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="inputType:org.apache.spark.ml.param.Param[String]"></a><a id="inputType:Param[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/Router.html#inputType:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1307,7 +1345,8 @@
         <span class="name">inputType</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">The type of the entity that you want to filter by default sentence_embeddings.Possible values document|token|wordpiece|word_embeddings|
+sentence_embeddings|category|date|sentiment|pos|chunk|named_entity|regex|dependency|labeled_dependency|language|keyword</p>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -1596,7 +1635,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.Router#metadataField" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.Router#metadataField" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="metadataField:org.apache.spark.ml.param.Param[String]"></a><a id="metadataField:Param[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/nlp/Router.html#metadataField:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1611,7 +1650,8 @@
         <span class="name">metadataField</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">The metadataField is the field that in metadata that you want to filter (by default 'entity')
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1698,6 +1738,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>ParamsAndFeaturesWritable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optionalInputAnnotatorTypes:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/Router.html#optionalInputAnnotatorTypes:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optionalInputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.Router#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputAnnotatorType:Router.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
@@ -2461,8 +2517,11 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div>
         </div>

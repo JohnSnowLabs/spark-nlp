@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.2.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator</title>
-          <meta name="description" content="Spark NLP 3.2.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
-          <meta name="keywords" content="Spark NLP 3.2.2 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
+          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator</title>
+          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
+          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.2.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -223,6 +223,14 @@
                         <a href="NerDisambiguatorModel.html" title="Instantiated / pretrained model of the NerDisambiguator.">NerDisambiguatorModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadDisambiguator.html" title=""></a>
+                        <a href="ReadDisambiguator.html" title="">ReadDisambiguator</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadPretrainedNerDisambiguator.html" title=""></a>
+                        <a href="ReadPretrainedNerDisambiguator.html" title="">ReadPretrainedNerDisambiguator</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="class" href="SimpleDisambiguationPipeline.html" title=""></a>
                         <a href="SimpleDisambiguationPipeline.html" title="">SimpleDisambiguationPipeline</a>
                       </li>
@@ -250,7 +258,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">NerDisambiguator</span><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="logic/KvKnowledgeExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">KvKnowledgeExtractor</a> with <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></span>
+        <span class="name">NerDisambiguator</span><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>] with <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></span>
       </span>
       </h4>
 
@@ -311,7 +319,7 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <a href="logic/KvKnowledgeExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">KvKnowledgeExtractor</a>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a>, <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span>, <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>], <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span>, <span class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</span>, <span class="extype" name="org.apache.spark.ml.Estimator">Estimator</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>], <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -337,7 +345,7 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator"><span>NerDisambiguator</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams"><span>DisambiguatorModelParams</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor"><span>KvKnowledgeExtractor</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorApproach"><span>AnnotatorApproach</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="org.apache.spark.ml.Estimator"><span>Estimator</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator"><span>NerDisambiguator</span></li><li class="in" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams"><span>DisambiguatorModelParams</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorApproach"><span>AnnotatorApproach</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="org.apache.spark.ml.Estimator"><span>Estimator</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -578,7 +586,7 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit" title="Permalink">
@@ -593,7 +601,7 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
         <span class="name">beforeTraining</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a> → AnnotatorApproach</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -794,22 +802,6 @@ The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor#extractKnowledgeFromKv" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="extractKnowledgeFromKv(id2record:com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.DataId=&gt;Option[com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.ContextMappingsSchema.Record],chunk2id:com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.Chunk=&gt;Option[List[com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.DataId]]):com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge"></a><a id="extractKnowledgeFromKv((DataId)⇒Option[Record],(Chunk)⇒Option[List[DataId]]):Knowledge"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#extractKnowledgeFromKv(id2record:com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.DataId=&gt;Option[com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.ContextMappingsSchema.Record],chunk2id:com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.Chunk=&gt;Option[List[com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.DataId]]):com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">extractKnowledgeFromKv</span><span class="params">(<span name="id2record">id2record: (<a href="datatypes/LinalgAliases$.html#DataId=Int" class="extmbr" name="com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.DataId">DataId</a>) ⇒ <span class="extype" name="scala.Option">Option</span>[<a href="datatypes/ContextMappingsSchema$$Record.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.ContextMappingsSchema.Record">Record</a>]</span>, <span name="chunk2id">chunk2id: (<a href="datatypes/LinalgAliases$.html#Chunk=String" class="extmbr" name="com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.Chunk">Chunk</a>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.List">List</span>[<a href="datatypes/LinalgAliases$.html#DataId=Int" class="extmbr" name="com.johnsnowlabs.nlp.annotators.disambiguation.datatypes.LinalgAliases.DataId">DataId</a>]]</span>)</span><span class="result">: <a href="logic/Knowledge.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge">Knowledge</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="logic/KvKnowledgeExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">KvKnowledgeExtractor</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#extractParamMap" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extractParamMap():org.apache.spark.ml.param.ParamMap"></a><a id="extractParamMap():ParamMap"></a>
       <span class="permalink">
@@ -1468,22 +1460,6 @@ len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><
       </span>
       
       <p class="shortcomment cmt">Knowledge base path</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#knowledgeBaseStructure" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="knowledgeBaseStructure:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge]"></a><a id="knowledgeBaseStructure:StructFeature[Knowledge]"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#knowledgeBaseStructure:com.johnsnowlabs.nlp.serialization.StructFeature[com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">knowledgeBaseStructure</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.StructFeature">StructFeature</span>[<a href="logic/Knowledge.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge">Knowledge</a>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#lazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="lazyAnnotator:org.apache.spark.ml.param.BooleanParam"></a><a id="lazyAnnotator:BooleanParam"></a>
       <span class="permalink">
@@ -1844,6 +1820,22 @@ len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnnotatorApproach</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#optionalInputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="optionalInputAnnotatorTypes:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#optionalInputAnnotatorTypes:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">optionalInputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:NerDisambiguator.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
@@ -1908,19 +1900,19 @@ len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><
       </span>
       
       <p class="shortcomment cmt">Limit on amount of predictions N for topN predictions (Default: 100)</p><div class="fullcomment"><div class="comment cmt"><p>Limit on amount of predictions N for topN predictions (Default: 100)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#rocksDbReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="rocksDbReader:com.johnsnowlabs.nlp.annotators.disambiguation.util.read.RocksDbReader"></a><a id="rocksDbReader:RocksDbReader"></a>
+    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator#resolveStorageName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="resolveStorageName(database:String):String"></a><a id="resolveStorageName(String):String"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#rocksDbReader:com.johnsnowlabs.nlp.annotators.disambiguation.util.read.RocksDbReader" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#resolveStorageName(database:String):String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">lazy val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">rocksDbReader</span><span class="result">: <a href="util/read/RocksDbReader.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.read.RocksDbReader">RocksDbReader</a></span>
+        <span class="name">resolveStorageName</span><span class="params">(<span name="database">database: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       
@@ -2239,22 +2231,6 @@ len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><
       </span>
       
       <p class="shortcomment cmt">Knowledge base path</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams#setKnowledgeBaseStructure" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="setKnowledgeBaseStructure(kb:com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge):DisambiguatorModelParams.this.type"></a><a id="setKnowledgeBaseStructure(Knowledge):NerDisambiguator.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator.html#setKnowledgeBaseStructure(kb:com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge):DisambiguatorModelParams.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setKnowledgeBaseStructure</span><span class="params">(<span name="kb">kb: <a href="logic/Knowledge.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.Knowledge">Knowledge</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguator">NerDisambiguator</a>.this.type</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):NerDisambiguator.this.type"></a>
       <span class="permalink">
@@ -2630,8 +2606,6 @@ len(candidate) - len(entity chunk) &gt; nearMatchingGap (Default: 4).</p></div><
               <h3>Inherited from <a href="util/DisambiguatorModelParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.util.DisambiguatorModelParams">DisambiguatorModelParams</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.HasFeatures">
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</span></h3>
-            </div><div class="parent" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">
-              <h3>Inherited from <a href="logic/KvKnowledgeExtractor.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.logic.KvKnowledgeExtractor">KvKnowledgeExtractor</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.AnnotatorApproach">
               <h3>Inherited from <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="NerDisambiguatorModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.disambiguation.NerDisambiguatorModel">NerDisambiguatorModel</a>]</h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.CanBeLazy">

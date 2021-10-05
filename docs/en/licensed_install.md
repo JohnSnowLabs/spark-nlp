@@ -1,6 +1,7 @@
 ---
 layout: docs
 header: true
+seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Spark NLP for Healthcare
 permalink: /docs/en/licensed_install
 key: docs-licensed-install

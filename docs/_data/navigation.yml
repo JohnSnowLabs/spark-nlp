@@ -2,7 +2,7 @@ header:
   - title: Home
     url: /
   - title: Docs
-    url: /nlp_products
+    url: /docs
     key: docs
   - title: Learn
     url: /learn
@@ -77,6 +77,8 @@ docs-en:
         url:    /docs/en/alab/workflow
       - title:  License Setup  
         url:    /docs/en/alab/byol
+      - title:  Security and Privacy
+        url:    /docs/en/alab/security        
       - title:  Video Tutorials   
         url:    /docs/en/alab/tutorials        
   - title: Spark NLP for Healthcare
@@ -127,7 +129,7 @@ extras:
 
 
 sparknlp:
-  - title:     Spark NLP
+  - title: Spark NLP
     children:
       - title:  Getting Started
         url:    /docs/en/quickstart
@@ -162,7 +164,9 @@ annotation-lab:
   - title: Annotation Lab
     children:
       - title:  Getting Started
-        url:    /docs/en/alab/alab
+        url:    /docs/en/alab/quickstart
+      - title:  Installation 
+        url:    /docs/en/alab/install
       - title:  Start Page 
         url:    /docs/en/alab/start_page
       - title:  User Management
@@ -189,6 +193,10 @@ annotation-lab:
         url:    /docs/en/alab/workflow
       - title:  License Setup  
         url:    /docs/en/alab/byol
+      - title:  API Integration 
+        url:    /docs/en/alab/api
+      - title:  Security and Privacy 
+        url:    /docs/en/alab/security  
       - title:  Video Tutorials   
         url:    /docs/en/alab/tutorials
 
@@ -209,6 +217,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_version_compatibility
       - title: Release Notes
         url: /docs/en/licensed_release_notes
+      - title: Cluster Speed Benchmarks
+        url: /docs/en/benchmark
 
 spark-ocr:
   - title: Spark OCR
@@ -237,3 +247,5 @@ nlp-server:
     children:
       - title:  Getting Started
         url:    /docs/en/nlp_server/nlp_server
+      - title:  Installation
+        url:    /docs/en/nlp_server/installation

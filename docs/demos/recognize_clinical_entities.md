@@ -116,13 +116,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb
-        - title: Detect tumor characteristics
+        - title: Detect biological concepts
           id: detect_tumor_characteristics
           image: 
               src: /assets/images/Detect_tumor_characteristics.svg
           image2: 
               src: /assets/images/Detect_tumor_characteristics_f.svg
-          excerpt: Automatically identify <b>tumor characteristics</b> such as <b>Anatomical systems, Cancer, Cells, Cellular components, Genes and gene products, Multi-tissue structures, Organs, Organisms, Organism subdivisions, Simple chemicals, Tissues</b> from clinical documents using our pretrained Spark NLP model.
+          excerpt: Automatically identify <b>biological</b> entities such as <b>Amino_acids, Anatomical systems, Cancer, Cells or Cellular components</b> using our pertained Spark NLP model.
           actions:
           - text: Live Demo
             type: normal

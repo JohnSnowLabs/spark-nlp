@@ -34,6 +34,7 @@ LOINC Codes with ``clinical_embeddings``.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 ...    
 loinc_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinical", "en", "clinical/models") \
@@ -44,10 +45,13 @@ loinc_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinica
   
 pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, loinc_resolver])
 
-model = pipeline_rxnorm.fit(spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""]]).toDF("text"))
+data = spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""]]).toDF("text")
+
+model = pipeline_loinc.fit(data)
 
 results = model.transform(data)
 ```
+
 ```scala
 ...
 val loinc_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinical", "en", "clinical/models")
@@ -56,10 +60,11 @@ val loinc_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_cli
   .setDistanceFunction("COSINE")
   .setNeighbours(5)
   
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, loinc_resolver))
+val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, loinc_resolver))
 
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting.").toDF("text")
-val result = pipeline.fit(data).transform(data)
+
+val result = pipeline_loinc.fit(data).transform(data)
 ```
 </div>
 
