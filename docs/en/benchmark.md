@@ -13,7 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## NER BENCHMARK EXPERIMENT
+## Cluster Speed Benchmarks
 
 ### Explanation of Benchmark Experiment
 
