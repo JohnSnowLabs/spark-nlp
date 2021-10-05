@@ -95,6 +95,6 @@ val res = rxnorm_ndc_pipelineModel.transform(Seq("activated charcoal 30000 mg po
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
-|Output Labels:|[ndc_code]|
+|Output Labels:|[rxnorm_code]|
 |Language:|en|
 |Case sensitive:|false|
