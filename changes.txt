@@ -1,2 +1,2 @@
-docs/_posts/murat-gunay/2021-09-08-classifierdl_bert_sentiment_fr.md
-docs/_posts/murat-gunay/2021-09-08-classifierdl_bert_sentiment_fr.md
+docs/en/licensed_version_compatibility.md
+docs/en/licensed_version_compatibility.md

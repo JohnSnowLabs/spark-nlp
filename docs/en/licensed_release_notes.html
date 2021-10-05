@@ -809,10 +809,718 @@ Here, you can see that as we have provided the same seed <span class="sb">`</spa
 
 <p><strong>To see more, please check</strong>: <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare">Spark NLP Healthcare Workshop Repo</a></p>
 
+<h2 id="330">3.3.0</h2>
+<p>We are glad to announce that Spark NLP Healthcare 3.3.0 has been released!.</p>
+
+<h4 id="highlights-1">Highlights</h4>
+<ul>
+  <li>NER Finder Pretrained Pipelines to Run Run 48 different Clinical NER and 21 Different Biobert Models At Once Over the Input Text</li>
+  <li>3 New Sentence Entity Resolver Models (3-char ICD10CM, RxNorm_NDC, HCPCS)</li>
+  <li>Updated UMLS Entity Resolvers (Dropping Invalid Codes)</li>
+  <li>5 New Clinical NER Models (Trained By BertForTokenClassification Approach)</li>
+  <li>Radiology NER Model Trained On cheXpert Dataset</li>
+  <li>New Speed Benchmarks on Databricks</li>
+  <li>NerConverterInternal Fixes</li>
+  <li>Simplified Setup and Recommended Use of start() Function</li>
+  <li>NER Evaluation Metrics Fix</li>
+  <li>New Notebooks (Including How to Use SparkNLP with Neo4J)</li>
+</ul>
+
+<h4 id="ner-finder-pretrained-pipelines-to-run-run-48-different-clinical-ner-and-21-different-biobert-models-at-once-over-the-input-text">NER Finder Pretrained Pipelines to Run Run 48 different Clinical NER and 21 Different Biobert Models At Once Over the Input Text</h4>
+
+<p>We are releasing two new NER Pretrained Pipelines that can be used to explore all the available pretrained NER models at once. You can check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb">NER Profiling Notebook</a> to see how to use these pretrained pipelines.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_profiling_clinical</code> : When you run this pipeline over your text, you will end up with the predictions coming out of each of the 48 pretrained clinical NER models trained with <code class="language-plaintext highlighter-rouge">embeddings_clinical</code>.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Clinical NER Model List</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ner_ade_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_posology_greedy</td>
+    </tr>
+    <tr>
+      <td>ner_risk_factors</td>
+    </tr>
+    <tr>
+      <td>jsl_ner_wip_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_human_phenotype_gene_clinical</td>
+    </tr>
+    <tr>
+      <td>jsl_ner_wip_greedy_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_cellular</td>
+    </tr>
+    <tr>
+      <td>ner_cancer_genetics</td>
+    </tr>
+    <tr>
+      <td>jsl_ner_wip_modifier_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_drugs_greedy</td>
+    </tr>
+    <tr>
+      <td>ner_deid_sd_large</td>
+    </tr>
+    <tr>
+      <td>ner_diseases</td>
+    </tr>
+    <tr>
+      <td>nerdl_tumour_demo</td>
+    </tr>
+    <tr>
+      <td>ner_deid_subentity_augmented</td>
+    </tr>
+    <tr>
+      <td>ner_jsl_enriched</td>
+    </tr>
+    <tr>
+      <td>ner_genetic_variants</td>
+    </tr>
+    <tr>
+      <td>ner_bionlp</td>
+    </tr>
+    <tr>
+      <td>ner_measurements_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_diseases_large</td>
+    </tr>
+    <tr>
+      <td>ner_radiology</td>
+    </tr>
+    <tr>
+      <td>ner_deid_augmented</td>
+    </tr>
+    <tr>
+      <td>ner_anatomy</td>
+    </tr>
+    <tr>
+      <td>ner_chemprot_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_posology_experimental</td>
+    </tr>
+    <tr>
+      <td>ner_drugs</td>
+    </tr>
+    <tr>
+      <td>ner_deid_sd</td>
+    </tr>
+    <tr>
+      <td>ner_posology_large</td>
+    </tr>
+    <tr>
+      <td>ner_deid_large</td>
+    </tr>
+    <tr>
+      <td>ner_posology</td>
+    </tr>
+    <tr>
+      <td>ner_deidentify_dl</td>
+    </tr>
+    <tr>
+      <td>ner_deid_enriched</td>
+    </tr>
+    <tr>
+      <td>ner_bacterial_species</td>
+    </tr>
+    <tr>
+      <td>ner_drugs_large</td>
+    </tr>
+    <tr>
+      <td>ner_clinical_large</td>
+    </tr>
+    <tr>
+      <td>jsl_rd_ner_wip_greedy_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_medmentions_coarse</td>
+    </tr>
+    <tr>
+      <td>ner_radiology_wip_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_chemicals</td>
+    </tr>
+    <tr>
+      <td>ner_deid_synthetic</td>
+    </tr>
+    <tr>
+      <td>ner_events_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_posology_small</td>
+    </tr>
+    <tr>
+      <td>ner_anatomy_coarse</td>
+    </tr>
+    <tr>
+      <td>ner_human_phenotype_go_clinical</td>
+    </tr>
+    <tr>
+      <td>ner_jsl_slim</td>
+    </tr>
+    <tr>
+      <td>ner_jsl</td>
+    </tr>
+    <tr>
+      <td>ner_jsl_greedy</td>
+    </tr>
+    <tr>
+      <td>ner_events_admission_clinical</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ner_profiling_biobert</code> : When you run this pipeline over your text, you will end up with the predictions coming out of each of the 21 pretrained clinical NER models trained with <code class="language-plaintext highlighter-rouge">biobert_pubmed_base_cased</code>.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>BioBert NER Model List</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ner_cellular_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_diseases_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_events_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_bionlp_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_jsl_greedy_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_jsl_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_anatomy_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_jsl_enriched_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_human_phenotype_go_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_deid_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_deid_enriched_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_clinical_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_anatomy_coarse_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_human_phenotype_gene_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_posology_large_biobert</td>
+    </tr>
+    <tr>
+      <td>jsl_rd_ner_wip_greedy_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_posology_biobert</td>
+    </tr>
+    <tr>
+      <td>jsl_ner_wip_greedy_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_chemprot_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_ade_biobert</td>
+    </tr>
+    <tr>
+      <td>ner_risk_factors_biobert</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can also check <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a> page for more information about all these NER models and more.</p>
+
+<p><em>Example</em> :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sparknlp.pretrained import PretrainedPipeline
+ner_profiling_pipeline = PretrainedPipeline('ner_profiling_biobert', 'en', 'clinical/models')
+
+result = ner_profiling_pipeline.annotate("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .")
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sentence :  <span class="o">[</span><span class="s1">'A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .'</span><span class="o">]</span>
+token :  <span class="o">[</span><span class="s1">'A'</span>, <span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'with'</span>, <span class="s1">'a'</span>, <span class="s1">'history'</span>, <span class="s1">'of'</span>, <span class="s1">'gestational'</span>, <span class="s1">'diabetes'</span>, <span class="s1">'mellitus'</span>, <span class="s1">'diagnosed'</span>, <span class="s1">'eight'</span>, <span class="s1">'years'</span>, <span class="s1">'prior'</span>, <span class="s1">'to'</span>, <span class="s1">'presentation'</span>, <span class="s1">'and'</span>, <span class="s1">'subsequent'</span>, <span class="s1">'type'</span>, <span class="s1">'two'</span>, <span class="s1">'diabetes'</span>, <span class="s1">'mellitus'</span>, <span class="s1">'('</span>, <span class="s1">'T2DM'</span>, <span class="s1">'),'</span>, <span class="s1">'one'</span>, <span class="s1">'prior'</span>, <span class="s1">'episode'</span>, <span class="s1">'of'</span>, <span class="s1">'HTG-induced'</span>, <span class="s1">'pancreatitis'</span>, <span class="s1">'three'</span>, <span class="s1">'years'</span>, <span class="s1">'prior'</span>, <span class="s1">'to'</span>, <span class="s1">'presentation'</span>, <span class="s1">','</span>, <span class="s1">'associated'</span>, <span class="s1">'with'</span>, <span class="s1">'an'</span>, <span class="s1">'acute'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">','</span>, <span class="s1">'and'</span>, <span class="s1">'obesity'</span>, <span class="s1">'with'</span>, <span class="s1">'a'</span>, <span class="s1">'body'</span>, <span class="s1">'mass'</span>, <span class="s1">'index'</span>, <span class="s1">'('</span>, <span class="s1">'BMI'</span>, <span class="s1">')'</span>, <span class="s1">'of'</span>, <span class="s1">'33.5'</span>, <span class="s1">'kg/m2'</span>, <span class="s1">','</span>, <span class="s1">'presented'</span>, <span class="s1">'with'</span>, <span class="s1">'a'</span>, <span class="s1">'one-week'</span>, <span class="s1">'history'</span>, <span class="s1">'of'</span>, <span class="s1">'polyuria'</span>, <span class="s1">','</span>, <span class="s1">'polydipsia'</span>, <span class="s1">','</span>, <span class="s1">'poor'</span>, <span class="s1">'appetite'</span>, <span class="s1">','</span>, <span class="s1">'and'</span>, <span class="s1">'vomiting'</span>, <span class="s1">'.'</span><span class="o">]</span>
+ner_cellular_biobert_chunks :  <span class="o">[]</span>
+ner_diseases_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_events_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years'</span>, <span class="s1">'presentation'</span>, <span class="s1">'type two diabetes mellitus ( T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years'</span>, <span class="s1">'presentation'</span>, <span class="s1">'an acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'a body mass index'</span>, <span class="s1">'BMI'</span>, <span class="s1">'presented'</span>, <span class="s1">'a one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_bionlp_biobert_chunks :  <span class="o">[]</span>
+ner_jsl_greedy_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years prior'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years prior'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_jsl_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years prior'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years prior'</span>, <span class="s1">'acute'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_anatomy_biobert_chunks :  <span class="o">[</span><span class="s1">'body'</span><span class="o">]</span>
+ner_jsl_enriched_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'acute'</span>, <span class="s1">'hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_human_phenotype_go_biobert_chunks :  <span class="o">[</span><span class="s1">'obesity'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span><span class="o">]</span>
+ner_deid_biobert_chunks :  <span class="o">[</span><span class="s1">'eight years'</span>, <span class="s1">'three years'</span><span class="o">]</span>
+ner_deid_enriched_biobert_chunks :  <span class="o">[]</span>
+ner_clinical_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'subsequent type two diabetes mellitus ( T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'an acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'a body mass index ( BMI )'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_anatomy_coarse_biobert_chunks :  <span class="o">[</span><span class="s1">'body'</span><span class="o">]</span>
+ner_human_phenotype_gene_biobert_chunks :  <span class="o">[</span><span class="s1">'obesity'</span>, <span class="s1">'mass'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_posology_large_biobert_chunks :  <span class="o">[]</span>
+jsl_rd_ner_wip_greedy_biobert_chunks :  <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'33.5'</span>, <span class="s1">'kg/m2'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_posology_biobert_chunks :  <span class="o">[]</span>
+jsl_ner_wip_greedy_biobert_chunks :  <span class="o">[</span><span class="s1">'28-year-old'</span>, <span class="s1">'female'</span>, <span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'eight years prior'</span>, <span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'T2DM'</span>, <span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'three years prior'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'obesity'</span>, <span class="s1">'body mass index'</span>, <span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'one-week'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_chemprot_biobert_chunks :  <span class="o">[]</span>
+ner_ade_biobert_chunks :  <span class="o">[</span><span class="s1">'pancreatitis'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'polyuria'</span>, <span class="s1">'polydipsia'</span>, <span class="s1">'poor appetite'</span>, <span class="s1">'vomiting'</span><span class="o">]</span>
+ner_risk_factors_biobert_chunks :  <span class="o">[</span><span class="s1">'diabetes mellitus'</span>, <span class="s1">'subsequent type two diabetes mellitus'</span>, <span class="s1">'obesity'</span><span class="o">]</span>
+</code></pre></div></div>
+
+<h4 id="3-new-sentence-entity-resolver-models-3-char-icd10cm-rxnorm_ndc-hcpcs">3 New Sentence Entity Resolver Models (3-char ICD10CM, RxNorm_NDC, HCPCS)</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_hcpcs</code> : This model maps extracted medical entities to <a href="https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS/index.html#:~:text=The%20Healthcare%20Common%20Procedure%20Coding,%2C%20supplies%2C%20products%20and%20services.">Healthcare Common Procedure Coding System (HCPCS)</a>
+ codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings. It also returns the domain information of the codes in the <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> parameter in the metadata of the result.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
+      .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s1">'sbiobert_base_cased_mli'</span>, <span class="s1">'en'</span>,<span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"sentence_embeddings"</span><span class="o">)</span>
+
+hcpcs_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_hcpcs"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sentence_embeddings"</span><span class="o">])</span> <span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"hcpcs_code"</span><span class="o">)</span><span class="se">\</span>
+      .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
+hcpcs_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span>
+    stages <span class="o">=</span> <span class="o">[</span>
+        documentAssembler,
+        sbert_embedder,
+        hcpcs_resolver]<span class="o">)</span>
+
+res <span class="o">=</span> hcpcs_pipelineModel.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s2">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ner_chunk</th>
+      <th>hcpcs_code</th>
+      <th>all_codes</th>
+      <th>all_resolutions</th>
+      <th>domain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type</td>
+      <td>L8001</td>
+      <td>[L8001, L8002, L8000, L8033, L8032, …]</td>
+      <td>‘Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type’, ‘Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, bilateral, any size, any type’, ‘Breast prosthesis, mastectomy bra, without integrated breast prosthesis form, any size, any type’, ‘Nipple prosthesis, custom fabricated, reusable, any material, any type, each’, …</td>
+      <td>Device, Device, Device, Device, Device, …</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_icd10cm_generalised</code> : This model maps medical entities to 3 digit ICD10CM codes (according to ICD10 code structure the first three characters represent general type of the injury or disease). Difference in results (compared with <code class="language-plaintext highlighter-rouge">sbiobertresolve_icd10cm</code>) can be observed in the example below.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
+      .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s1">'sbiobert_base_cased_mli'</span>, <span class="s1">'en'</span>,<span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"sentence_embeddings"</span><span class="o">)</span>
+
+icd_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_icd10cm_generalised"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sentence_embeddings"</span><span class="o">])</span> <span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"icd_code"</span><span class="o">)</span><span class="se">\</span>
+      .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
+      
+icd_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span>
+    stages <span class="o">=</span> <span class="o">[</span>
+        documentAssembler,
+        sbert_embedder,
+        icd_resolver]<span class="o">)</span>
+
+res <span class="o">=</span> icd_pipelineModel.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s2">"82 - year-old male with a history of hypertension , chronic renal insufficiency , COPD , and gastritis"</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                       | entity  | code_3char | code_desc_3char                               | code_full | code_full_description                     |  distance | all_k_resolutions_3char                                                    | all_k_codes_3char                              |
+|---:|:----------------------------|:--------|:-----------|:----------------------------------------------|:----------|:------------------------------------------|----------:|:---------------------------------------------------------------------------|:-----------------------------------------------|
+|  0 | hypertension                | SYMPTOM | I10        | hypertension                                  | I150      | Renovascular hypertension                 |    0      | <span class="o">[</span>hypertension, hypertension <span class="o">(</span>high blood pressure<span class="o">)</span>, h/o: hypertension, ...] | <span class="o">[</span>I10, I15, Z86, Z82, I11, R03, Z87, E27]       |
+|  1 | chronic renal insufficiency | SYMPTOM | N18        | chronic renal impairment                      | N186      | End stage renal disease                   |    0.014  | <span class="o">[</span>chronic renal impairment, renal insufficiency, renal failure, anaemi ...] | <span class="o">[</span>N18, P96, N19, D63, N28, Z87, N17, N25, R94]  |
+|  2 | COPD                        | SYMPTOM | J44        | chronic obstructive lung disease <span class="o">(</span>disorder<span class="o">)</span>   | I2781     | Cor pulmonale <span class="o">(</span>chronic<span class="o">)</span>                   |    0.1197 | <span class="o">[</span>chronic obstructive lung disease <span class="o">(</span>disorder<span class="o">)</span>, chronic obstructive pul ...] | <span class="o">[</span>J44, Z76, J81, J96, R06, I27, Z87]            |
+|  3 | gastritis                   | SYMPTOM | K29        | gastritis                                     | K5281     | Eosinophilic gastritis or gastroenteritis |    0      | gastritis:::bacterial gastritis:::parasitic gastritis                      | <span class="o">[</span>K29, B96, K93]                                |
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sbiobertresolve_rxnorm_ndc</code> : This model maps <code class="language-plaintext highlighter-rouge">DRUG</code> entities to rxnorm codes and their <a href="https://www.drugs.com/ndc.html#:~:text=The%20NDC%2C%20or%20National%20Drug,and%20the%20commercial%20package%20size.">National Drug Codes (NDC)</a>
+ using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings. You can find all NDC codes of drugs seperated by <code class="language-plaintext highlighter-rouge">|</code> in the <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> parameter of the metadata.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
+      .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+      
+sbert_embedder <span class="o">=</span> BertSentenceEmbeddings.pretrained<span class="o">(</span><span class="s1">'sbiobert_base_cased_mli'</span>, <span class="s1">'en'</span>,<span class="s1">'clinical/models'</span><span class="o">)</span><span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"sentence_embeddings"</span><span class="o">)</span>
+
+rxnorm_ndc_resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_rxnorm_ndc"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
+      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sentence_embeddings"</span><span class="o">])</span> <span class="se">\</span>
+      .setOutputCol<span class="o">(</span><span class="s2">"rxnorm_code"</span><span class="o">)</span><span class="se">\</span>
+      .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
+      
+rxnorm_ndc_pipelineModel <span class="o">=</span> PipelineModel<span class="o">(</span>
+    stages <span class="o">=</span> <span class="o">[</span>
+        documentAssembler,
+        sbert_embedder,
+        rxnorm_ndc_resolver]<span class="o">)</span>
+
+res <span class="o">=</span> rxnorm_ndc_pipelineModel.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s2">"activated charcoal 30000 mg powder for oral suspension"</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>chunk</th>
+      <th>rxnorm_code</th>
+      <th>all_codes</th>
+      <th>resolutions</th>
+      <th>all_k_aux_labels</th>
+      <th>all_distances</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>activated charcoal 30000 mg powder for oral suspension</td>
+      <td>1440919</td>
+      <td>1440919, 808917, 1088194, 1191772, 808921,…</td>
+      <td>activated charcoal 30000 MG Powder for Oral Suspension, Activated Charcoal 30000 MG Powder for Oral Suspension, wheat dextrin 3000 MG Powder for Oral Solution [Benefiber], cellulose 3000 MG Oral Powder [Unifiber], fosfomycin 3000 MG Powder for Oral Solution [Monurol] …</td>
+      <td>69784030828, 00395052791, 08679001362|86790016280|00067004490, 46017004408|68220004416, 00456430001,…</td>
+      <td>0.0000, 0.0000, 0.1128, 0.1148, 0.1201,…</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="updated-umls-entity-resolvers-dropping-invalid-codes">Updated UMLS Entity Resolvers (Dropping Invalid Codes)</h4>
+
+<p>UMLS model <code class="language-plaintext highlighter-rouge">sbiobertresolve_umls_findings</code> and <code class="language-plaintext highlighter-rouge">sbiobertresolve_umls_major_concepts</code> were updated by dropping the invalid codes using the <a href="https://www.nlm.nih.gov/pubs/techbull/mj21/mj21_umls_2021aa_release.html">latest UMLS release</a> done May 2021.</p>
+
+<h4 id="5-new-clinical-ner-models-trained-by-bertfortokenclassification-approach">5 New Clinical NER Models (Trained By BertForTokenClassification Approach)</h4>
+
+<p>We are releasing four new BERT-based NER models.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_ade</code> : This model is BERT-Based version of <code class="language-plaintext highlighter-rouge">ner_ade_clinical</code> model and performs 5% better. It can detect drugs and adverse reactions of drugs in reviews, tweets, and medical texts using <code class="language-plaintext highlighter-rouge">DRUG</code> and <code class="language-plaintext highlighter-rouge">ADE</code> labels.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_ade"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+    .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
+    .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
+
+ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
+        .setInputCols<span class="o">([</span><span class="s2">"document"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
+        .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+
+pipeline <span class="o">=</span>  Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
+p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
+
+test_sentence <span class="o">=</span> <span class="s2">"""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""</span>
+result <span class="o">=</span> p_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span>test_sentence]<span class="o">})))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------+---------+
+|chunk         |ner_label|
++--------------+---------+
+|Lipitor       |DRUG     |
+|severe fatigue|ADE      |
+|voltaren      |DRUG     |
+|cramps        |ADE      |
++--------------+---------+
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_jsl_slim</code> : This model is BERT-Based version of <code class="language-plaintext highlighter-rouge">ner_jsl_slim</code> model and 2% better than the legacy NER model (MedicalNerModel) that is based on BiLSTM-CNN-Char architecture. It can detect <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Medical_Device</code>, <code class="language-plaintext highlighter-rouge">Vital_Sign</code>, <code class="language-plaintext highlighter-rouge">Alergen</code>, <code class="language-plaintext highlighter-rouge">Drug</code>, <code class="language-plaintext highlighter-rouge">Clinical_Dept</code>, <code class="language-plaintext highlighter-rouge">Lifestyle</code>, <code class="language-plaintext highlighter-rouge">Symptom</code>, <code class="language-plaintext highlighter-rouge">Body_Part</code>, <code class="language-plaintext highlighter-rouge">Physical_Measurement</code>, <code class="language-plaintext highlighter-rouge">Admission_Discharge</code>, <code class="language-plaintext highlighter-rouge">Date_Time</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">Birth_Entity</code>, <code class="language-plaintext highlighter-rouge">Header</code>, <code class="language-plaintext highlighter-rouge">Oncological</code>, <code class="language-plaintext highlighter-rouge">Substance_Quantity</code>, <code class="language-plaintext highlighter-rouge">Test_Result</code>, <code class="language-plaintext highlighter-rouge">Test</code>, <code class="language-plaintext highlighter-rouge">Procedure</code>, <code class="language-plaintext highlighter-rouge">Treatment</code>, <code class="language-plaintext highlighter-rouge">Disease_Syndrome_Disorder</code>, <code class="language-plaintext highlighter-rouge">Pregnancy_Newborn</code>, <code class="language-plaintext highlighter-rouge">Demographics</code> entities.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_jsl_slim"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+    .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
+    .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
+
+ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
+    .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+
+pipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
+p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
+
+test_sentence <span class="o">=</span> <span class="s2">"""HISTORY: 30-year-old female presents for digital bilateral mammography secondary to a soft tissue lump palpated by the patient in the upper right shoulder. The patient has a family history of breast cancer within her mother at age 58. Patient denies personal history of breast cancer."""</span>
+result <span class="o">=</span> p_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span>test_sentence]<span class="o">})))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------+------------+
+|chunk           |ner_label   |
++----------------+------------+
+|HISTORY:        |Header      |
+|30-year-old     |Age         |
+|female          |Demographics|
+|mammography     |Test        |
+|soft tissue lump|Symptom     |
+|shoulder        |Body_Part   |
+|breast cancer   |Oncological |
+|her mother      |Demographics|
+|age 58          |Age         |
+|breast cancer   |Oncological |
++----------------+------------+
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_drugs</code> : This model is BERT-based version of <code class="language-plaintext highlighter-rouge">ner_drugs</code> model and detects drug chemicals. This new model is 3% better than the legacy NER model (MedicalNerModel) that is based on BiLSTM-CNN-Char architecture.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_drugs"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+  .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"sentence"</span><span class="o">)</span><span class="se">\</span>
+  .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
+  .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
+
+ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
+        .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
+        .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+
+pipeline <span class="o">=</span>  Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
+model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
+
+test_sentence <span class="o">=</span> <span class="s2">"""The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein-activated inwardly rectifying potassium (GIRK) channel family. Here we describe the genomicorganization of the KCNJ9 locus on chromosome 1q21-23 as a candidate gene forType II diabetes mellitus in the Pima Indian population. The gene spansapproximately 7.6 kb and contains one noncoding and two coding exons separated byapproximately 2.2 and approximately 2.6 kb introns, respectively. We identified14 single nucleotide polymorphisms (SNPs), including one that predicts aVal366Ala substitution, and an 8 base-pair (bp) insertion/deletion. Ourexpression studies revealed the presence of the transcript in various humantissues including pancreas, and two major insulin-responsive tissues: fat andskeletal muscle. The characterization of the KCNJ9 gene should facilitate furtherstudies on the function of the KCNJ9 protein and allow evaluation of thepotential role of the locus in Type II diabetes.BACKGROUND: At present, it is one of the most important issues for the treatment of breast cancer to develop the standard therapy for patients previously treated with anthracyclines and taxanes. With the objective of determining the usefulnessof vinorelbine monotherapy in patients with advanced or recurrent breast cancerafter standard therapy, we evaluated the efficacy and safety of vinorelbine inpatients previously treated with anthracyclines and taxanes."""</span>
+result <span class="o">=</span> model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span>test_sentence]<span class="o">})))</span>
+</code></pre></div></div>
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------+---------+
+|chunk         |ner_label|
++--------------+---------+
+|potassium     |DrugChem |
+|nucleotide    |DrugChem |
+|anthracyclines|DrugChem |
+|taxanes       |DrugChem |
+|vinorelbine   |DrugChem |
+|vinorelbine   |DrugChem |
+|anthracyclines|DrugChem |
+|taxanes       |DrugChem |
++--------------+---------+
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_anatomy</code> : This model is BERT-Based version of <code class="language-plaintext highlighter-rouge">ner_anatomy</code> model and 3% better. It can detect <code class="language-plaintext highlighter-rouge">Anatomical_system</code>, <code class="language-plaintext highlighter-rouge">Cell</code>, <code class="language-plaintext highlighter-rouge">Cellular_component</code>, <code class="language-plaintext highlighter-rouge">Developing_anatomical_structure</code>, <code class="language-plaintext highlighter-rouge">Immaterial_anatomical_entity</code>, <code class="language-plaintext highlighter-rouge">Multi-tissue_structure</code>, <code class="language-plaintext highlighter-rouge">Organ</code>, <code class="language-plaintext highlighter-rouge">Organism_subdivision</code>, <code class="language-plaintext highlighter-rouge">Organism_substance</code>, <code class="language-plaintext highlighter-rouge">Pathological_formation</code>, <code class="language-plaintext highlighter-rouge">Tissue</code> entities.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_anatomy"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+    .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"sentence"</span><span class="o">)</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
+    .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
+
+ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
+    .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+
+pipeline <span class="o">=</span>  Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
+pp_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
+
+test_sentence <span class="o">=</span> <span class="s2">"""This is an 11-year-old female who comes in for two different things. 1. She was seen by the allergist. No allergies present, so she stopped her Allegra, but she is still real congested and does a lot of snorting. They do not notice a lot of snoring at night though, but she seems to be always like that. 2. On her right great toe, she has got some redness and erythema. Her skin is kind of peeling a little bit, but it has been like that for about a week and a half now.</span><span class="se">\n</span><span class="s2">General: Well-developed female, in no acute distress, afebrile.</span><span class="se">\n</span><span class="s2">HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Nares patent. A little bit of swelling of the turbinates on the left. Oropharynx is essentially clear. Mucous membranes are moist.</span><span class="se">\n</span><span class="s2">Neck: No lymphadenopathy.</span><span class="se">\n</span><span class="s2">Chest: Clear.</span><span class="se">\n</span><span class="s2">Abdomen: Positive bowel sounds and soft.</span><span class="se">\n</span><span class="s2">Dermatologic: She has got redness along her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."""</span>
+result <span class="o">=</span> pp_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span>test_sentence]<span class="o">})))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------+----------------------+
+|chunk              |ner_label             |
++-------------------+----------------------+
+|great toe          |Multi-tissue_structure|
+|skin               |Organ                 |
+|conjunctivae       |Multi-tissue_structure|
+|Extraocular muscles|Multi-tissue_structure|
+|Nares              |Multi-tissue_structure|
+|turbinates         |Multi-tissue_structure|
+|Oropharynx         |Multi-tissue_structure|
+|Mucous membranes   |Tissue                |
+|Neck               |Organism_subdivision  |
+|bowel              |Organ                 |
+|great toe          |Multi-tissue_structure|
+|skin               |Organ                 |
+|toenails           |Organism_subdivision  |
+|foot               |Organism_subdivision  |
+|great toe          |Multi-tissue_structure|
+|toenails           |Organism_subdivision  |
++-------------------+----------------------+
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_bacteria</code> : This model is BERT-Based version of <code class="language-plaintext highlighter-rouge">ner_bacterial_species</code> model and detects different types of species of bacteria in clinical texts using <code class="language-plaintext highlighter-rouge">SPECIES</code> label.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_bacteria"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+    .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
+    .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
+
+ner_converter <span class="o">=</span> NerConverter<span class="o">()</span><span class="se">\</span>
+    .setInputCols<span class="o">([</span><span class="s2">"document"</span>,<span class="s2">"token"</span>,<span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
+    .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
+
+pipeline <span class="o">=</span>  Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>documentAssembler, tokenizer, tokenClassifier, ner_converter]<span class="o">)</span>
+p_model <span class="o">=</span> pipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span><span class="s1">''</span><span class="o">]})))</span>
+
+test_sentence <span class="o">=</span> <span class="s2">"""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents </span><span class="se">\</span><span class="s2">
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica </span><span class="se">\</span><span class="s2">
+sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""</span>
+result <span class="o">=</span> p_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">(</span>pd.DataFrame<span class="o">({</span><span class="s1">'text'</span>: <span class="o">[</span>test_sentence]<span class="o">})))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------+---------+
+|chunk                  |ner_label|
++-----------------------+---------+
+|SMSP <span class="o">(</span>T<span class="o">)</span>               |SPECIES  |
+|Methanoregula formicica|SPECIES  |
+|SMSP <span class="o">(</span>T<span class="o">)</span>               |SPECIES  |
++-----------------------+---------+
+</code></pre></div></div>
+
+<h4 id="radiology-ner-model-trained-on-chexpert-dataset">Radiology NER Model Trained On cheXpert Dataset</h4>
+
+<ul>
+  <li>Ner NER model <code class="language-plaintext highlighter-rouge">ner_chexpert</code> trained on Radiology Chest reports to extract anatomical sites and observation entities. The model achieves 92.8% and 77.4% micro and macro f1 scores on the cheXpert dataset.</li>
+</ul>
+
+<p><em>Example</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+embeddings_clinical <span class="o">=</span> WordEmbeddingsModel.pretrained<span class="o">(</span><span class="s2">"embeddings_clinical"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span>  .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span><span class="o">])</span>  .setOutputCol<span class="o">(</span><span class="s2">"embeddings"</span><span class="o">)</span>
+clinical_ner <span class="o">=</span> MedicalNerModel.pretrained<span class="o">(</span><span class="s2">"ner_chexpert"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span>   .setInputCols<span class="o">([</span><span class="s2">"sentence"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span>   .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span>
+...
+nlpPipeline <span class="o">=</span> Pipeline<span class="o">(</span><span class="nv">stages</span><span class="o">=[</span>document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter]<span class="o">)</span>
+model <span class="o">=</span> nlpPipeline.fit<span class="o">(</span>spark.createDataFrame<span class="o">([[</span><span class="s2">""</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
+EXAMPLE_TEXT <span class="o">=</span> <span class="s2">"""FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
+FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base."""</span>
+results <span class="o">=</span> model.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>EXAMPLE_TEXT]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
+</code></pre></div></div>
+
+<p><em>Results</em> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                    | label   |
+|---:|:-------------------------|:--------|
+|  0 | endotracheal tube        | OBS     |
+|  1 | Swan - Ganz catheter     | OBS     |
+|  2 | left chest               | ANAT    |
+|  3 | tube                     | OBS     |
+|  4 | <span class="k">in </span>place                 | OBS     |
+|  5 | pneumothorax             | OBS     |
+|  6 | Mild atelectatic changes | OBS     |
+|  7 | left base                | ANAT    |
+</code></pre></div></div>
+
+<h4 id="new-speed-benchmarks-on-databricks">New Speed Benchmarks on Databricks</h4>
+
+<p>We prepared a speed benchmark table by running a NER pipeline on various number of cluster configurations (worker number, driver node, specs etc) and also writing the results to parquet or delta formats. You can find all the details of these tries in here : <a href="https://nlp.johnsnowlabs.com/docs/en/benchmark">Speed Benchmark Table</a></p>
+
+<h4 id="nerconverterinternal-fixes">NerConverterInternal Fixes</h4>
+<p>Now NerConverterInternal can deal with tags that have some dash (<code class="language-plaintext highlighter-rouge">-</code>) charachter like B-GENE-N and B-GENE-Y.</p>
+
+<h4 id="simplified-setup-and-recommended-use-of-start-function">Simplified Setup and Recommended Use of start() Function</h4>
+<p>Starting with this release, we are shipping AWS credentials inside Spark NLP Healthcare’s license. This removes the requirement of setting the <code class="language-plaintext highlighter-rouge">AWS_ACCESS_KEY_ID</code> and <code class="language-plaintext highlighter-rouge">AWS_SECRET_ACCESS_KEY</code> environment variables.
+To use this feature, you just need to make sure that you always call the start() function at the beginning of your program,</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">start</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">start</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.util.start</span>
+<span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nf">start</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p>If for some reason you don’t want to use this mechanism, the keys will continue to be shipped separately, and the environment variables will continue to work as they did in the past.</p>
+
+<h4 id="ner-evaluation-metrics-fix">Ner Evaluation Metrics Fix</h4>
+
+<p>Bug fixed in the <code class="language-plaintext highlighter-rouge">NerDLMetrics</code> package. Previously, the <code class="language-plaintext highlighter-rouge">full_chunk</code> option was using greedy approach to merge chunks for a strict evaluation, which has been fixed to merge chunks using IOB scheme to get accurate entities boundaries and metrics. Also, the <code class="language-plaintext highlighter-rouge">tag</code> option has been fixed to get metrics that align with the default NER logs.</p>
+
+<h4 id="new-notebooks">New Notebooks</h4>
+
+<ul>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.2.Clinical_RE_Knowledge_Graph_with_Neo4j.ipynb">Clinical Relation Extraction Knowledge Graph with Neo4j Notebook</a></li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb">NER Profiling Pretrained Pipelines Notebook</a></li>
+  <li>New Databricks <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/databricks/python/healthcare_case_studies/Detecting%20Adverse%20Drug%20Events%20From%20Conversational%20Texts.ipynb">Detecting Adverse Drug Events From Conversational Texts</a> case study notebook.</li>
+</ul>
+
+<p><strong>To see more, please check :</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare">Spark NLP Healthcare Workshop Repo</a></p>
+
 <h2 id="322">3.2.2</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.2 has been released!.</p>
 
-<h4 id="highlights-1">Highlights</h4>
+<h4 id="highlights-2">Highlights</h4>
 <ul>
   <li>New NER Model For Detecting Drugs, Posology, and Administration Cycles</li>
   <li>New Sentence Entity Resolver Models</li>
@@ -1059,7 +1767,7 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
 <h2 id="321">3.2.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.1 has been released!.</p>
 
-<h4 id="highlights-2">Highlights</h4>
+<h4 id="highlights-3">Highlights</h4>
 
 <ul>
   <li>Deprecated ChunkEntityResolver.</li>
@@ -1441,7 +2149,7 @@ medicaid: If the patient is in Medicaid or not.
 <h2 id="320">3.2.0</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.2.0 has been released!.</p>
 
-<h4 id="highlights-3">Highlights</h4>
+<h4 id="highlights-4">Highlights</h4>
 
 <ul>
   <li>New Sentence Boundary Detection Model for Healthcare text</li>
@@ -2133,7 +2841,7 @@ results = model.transform(spark.createDataFrame([[text]], ["text"]))
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.3 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-4">Highlights</h4>
+<h4 id="highlights-5">Highlights</h4>
 <ul>
   <li>New Relation Extraction model and a Pretrained pipeline for extracting and linking ADEs</li>
   <li>New Entity Resolver model for SNOMED codes</li>
@@ -2246,7 +2954,7 @@ Relations:
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.2 has been released!.
 This release comes with new features, new models, bug fixes, and examples.</p>
 
-<h4 id="highlights-5">Highlights</h4>
+<h4 id="highlights-6">Highlights</h4>
 <ul>
   <li>Support for Fine-tuning of Ner models.</li>
   <li>More builtin(pre-defined) graphs for MedicalNerApproach.</li>
@@ -2432,7 +3140,7 @@ print(compatibility.findVersion('sentence_detector_dl_healthcare'))
 <h2 id="311">3.1.1</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.1 has been released!</p>
 
-<h4 id="highlights-6">Highlights</h4>
+<h4 id="highlights-7">Highlights</h4>
 <ul>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">includeAllConfidenceScores</code>.</li>
   <li>MedicalNerModel new parameter <code class="language-plaintext highlighter-rouge">inferenceBatchSize</code>.</li>
@@ -2532,7 +3240,7 @@ results = model.transform(spark.createDataFrame([["The patient is a very pleasan
 
 <h2 id="310">3.1.0</h2>
 <p>We are glad to announce that Spark NLP for Healthcare 3.1.0 has been released!</p>
-<h4 id="highlights-7">Highlights</h4>
+<h4 id="highlights-8">Highlights</h4>
 <ul>
   <li>Improved load time &amp; memory consumption for SentenceResolver models.</li>
   <li>New JSL Bert Models.</li>
@@ -3083,7 +3791,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 </code></pre></div></div>
 <p>This will result in <code class="language-plaintext highlighter-rouge">oncology_ner_20210605_141701.log</code> filename being used, in which the <code class="language-plaintext highlighter-rouge">20210605_141701</code> is a timestamp.</p>
 
-<h4 id="new-notebooks">New Notebooks</h4>
+<h4 id="new-notebooks-1">New Notebooks</h4>
 
 <ul>
   <li>A <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.4.Biomedical_NER_SparkNLP_paper_reproduce.ipynb">new notebook</a>  to reproduce our peer-reviewed NER paper (https://arxiv.org/abs/2011.06315)</li>
@@ -3094,7 +3802,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are glad to announce that Spark NLP for Healthcare 3.0.3 has been released!</p>
 
-<h4 id="highlights-8">Highlights</h4>
+<h4 id="highlights-9">Highlights</h4>
 
 <ul>
   <li>Five new entity resolution models to cover UMLS, HPO and LIONC terminologies.</li>
@@ -3177,7 +3885,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.2</strong> has been released! This release includes bug fixes and some compatibility improvements.</p>
 
-<h4 id="highlights-9">Highlights</h4>
+<h4 id="highlights-10">Highlights</h4>
 
 <ul>
   <li>Dictionaries for Obfuscator were augmented with more than 10K names.</li>
@@ -3199,7 +3907,7 @@ Given the sentence <code class="language-plaintext highlighter-rouge">The patien
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.1</strong> has been released!</p>
 
-<h4 id="highlights-10">Highlights:</h4>
+<h4 id="highlights-11">Highlights:</h4>
 
 <ul>
   <li>Fixed problem in Assertion Status internal tokenization (reported in Spark-NLP #2470).</li>
@@ -3327,11 +4035,11 @@ Return obfuscated documents in a repeatable manner based on the same seed.</p>
 
 <p>We are very excited to announce that <strong>Spark NLP for Healthcare 3.0.0</strong> has been released! This has been one of the biggest releases we have ever done and we are so proud to share this with our customers.</p>
 
-<h4 id="highlights-11">Highlights:</h4>
+<h4 id="highlights-12">Highlights:</h4>
 
 <p>Spark NLP for Healthcare 3.0.0 extends the support for Apache Spark 3.0.x and 3.1.x major releases on Scala 2.12 with both Hadoop 2.7. and 3.2. We now support all 4 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, and 3.1.x helping the customers to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP support.</p>
 
-<h4 id="highlights-12">Highlights:</h4>
+<h4 id="highlights-13">Highlights:</h4>
 <ul>
   <li>Support for Apache Spark and PySpark 3.0.x on Scala 2.12</li>
   <li>Support for Apache Spark and PySpark 3.1.x on Scala 2.12</li>
@@ -3439,7 +4147,7 @@ print(compatibility.findVersion("ner_deid"))
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.6 has been released!</p>
 
-<h4 id="highlights-13">Highlights:</h4>
+<h4 id="highlights-14">Highlights:</h4>
 
 <ul>
   <li>
@@ -3740,7 +4448,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.5 has been released!</p>
 
-<h4 id="highlights-14">Highlights:</h4>
+<h4 id="highlights-15">Highlights:</h4>
 
 <ul>
   <li>New pretrained <strong>Relation Extraction</strong> model to link clinical tests to test results and dates to clinical entities: <code class="language-plaintext highlighter-rouge">re_test_result_date</code></li>
@@ -3930,7 +4638,7 @@ text =''' Provider: David Hale, M.D.
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.4 has been released!</p>
 
-<h4 id="highlights-15">Highlights:</h4>
+<h4 id="highlights-16">Highlights:</h4>
 
 <ul>
   <li>Introducing a new annotator to extract chunks with NER tags using regex-like patterns: <strong>NerChunker</strong>.</li>
@@ -4014,7 +4722,7 @@ text = 'Patient with severe fever and sore throat, but no stomach pain.'
 
 <p>We are glad to announce that Spark NLP for Healthcare 2.7.3 has been released!</p>
 
-<h4 id="highlights-16">Highlights:</h4>
+<h4 id="highlights-17">Highlights:</h4>
 
 <ul>
   <li>Introducing a brand-new <strong>RelationExtractionDL Annotator</strong> – Achieving SOTA results in clinical relation extraction using <strong>BioBert</strong>.</li>
