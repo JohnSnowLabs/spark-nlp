@@ -129,7 +129,7 @@ extras:
 
 
 sparknlp:
-  - title:     Spark NLP
+  - title: Spark NLP
     children:
       - title:  Getting Started
         url:    /docs/en/quickstart
@@ -219,6 +219,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_version_compatibility
       - title: Release Notes
         url: /docs/en/licensed_release_notes
+      - title: Cluster Speed Benchmarks
+        url: /docs/en/benchmark
 
 spark-ocr:
   - title: Spark OCR
