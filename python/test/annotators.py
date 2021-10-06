@@ -1985,6 +1985,8 @@ class LongformerForTokenClassificationTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
 class EntityRulerTestSpec(unittest.TestCase):
 
     def setUp(self):

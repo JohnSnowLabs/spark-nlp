@@ -16,4 +16,4 @@
 
 package com.johnsnowlabs.nlp.annotators.er
 
-case class EntityPattern(label: String, pattern: String)
+case class EntityPattern(label: String, patterns: Seq[String], id: Option[String] = None)

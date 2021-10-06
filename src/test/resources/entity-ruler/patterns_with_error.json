@@ -1,6 +1,6 @@
 [
   {
     "label": "PERSON"
-    "pattern": ""
+    "patterns": ["Jon"]
   }
 ]
