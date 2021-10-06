@@ -46,7 +46,7 @@ See [User Management Page](https://nlp.johnsnowlabs.com/docs/en/alab/user_manage
 
 ## API access to Annotation Lab 
 
-Access to Annotation Lab REST API requires an access token that is specific to a user account. To obtain your access token please follow the steps illustrated here. 
+Access to Annotation Lab REST API requires an access token that is specific to a user account. To obtain your access token please follow the steps illustrated [here](https://nlp.johnsnowlabs.com/docs/en/alab/api#get-client-secret). 
 
 ## Complete project audit trail 
 
