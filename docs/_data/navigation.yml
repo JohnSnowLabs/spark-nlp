@@ -185,12 +185,14 @@ annotation-lab:
         url:    /docs/en/alab/tasks
       - title:  Annotate
         url:    /docs/en/alab/annotation
+      - title:  Annotation Settings   
+        url:    /docs/en/alab/settings        
       - title:  Analytics   
         url:    /docs/en/alab/analytics        
       - title:  Export Data  
         url:    /docs/en/alab/export
       - title:  Workflow Setup   
-        url:    /docs/en/alab/workflow
+        url:    /docs/en/alab/workflow      
       - title:  License Setup  
         url:    /docs/en/alab/byol
       - title:  API Integration 
