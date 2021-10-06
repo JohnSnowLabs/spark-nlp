@@ -504,14 +504,31 @@
               )
               .reduce(
                 (acc, item) => {
-                  acc.push(item);
+                  if (
+                    item.key !== 'Spark NLP' &&
+                    item.key !== 'Spark NLP for Healthcare'
+                  ) {
+                    acc.push(item);
+                  }
                   return acc;
                 },
                 [
+                  e('option', { key: 'all', value: '' }, 'All versions'),
                   e(
                     'option',
-                    { key: 'all', value: '' },
+                    {
+                      key: 'All Spark NLP versions',
+                      value: 'Spark NLP',
+                    },
                     'All Spark NLP versions'
+                  ),
+                  e(
+                    'option',
+                    {
+                      key: 'All Spark NLP for Healthcare versions',
+                      value: 'Spark NLP for Healthcare',
+                    },
+                    'All Spark NLP for Healthcare versions'
                   ),
                 ]
               )
