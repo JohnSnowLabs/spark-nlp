@@ -24,8 +24,8 @@ This model is trained on Few-NERD/inter public dataset and it extracts 66 entiti
 `building-theater`, `art-other`, `location-bodiesofwater`, `other-god`, `organization-politicalparty`, `product-other`, `building-sportsfacility`, `building-restaurant`, `organization-sportsleague`, `event-election`, `organization-media/newspaper`, `product-software`, `other-educationaldegree`, `person-politician`, `person-soldier`, `other-disease`, `product-airplane`, `person-athlete`, `location-mountain`, `organization-company`, `other-biologything`, `location-other`, `other-livingthing`, `person-actor`, `organization-other`, `event-protest`, `art-film`, `other-award`, `other-astronomything`, `building-airport`, `product-food`, `person-other`, `event-disaster`, `product-weapon`, `event-sportsevent`, `location-park`, `product-ship`, `building-library`, `art-painting`, `building-other`, `other-currency`, `organization-education`, `person-scholar`, `organization-showorganization`, `person-artist/author`, `product-train`, `location-GPE`, `product-car`, `art-writtenart`, `event-attack/battle/war/militaryconflict`, `other-law`, `other-medical`, `organization-sportsteam`, `art-broadcastprogram`, `art-music`, `organization-government/governmentagency`, `other-language`, `event-other`, `person-director`, `other-chemicalthing`, `product-game`, `organization-religion`, `location-road/railway/highway/transit`, `location-island`, `building-hotel`, `building-hospital`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_FEW_NERD/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FewNERD.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nerdl_fewnerd_subentity_100d_en_3.1.1_2.4_1626970707030.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

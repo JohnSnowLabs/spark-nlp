@@ -31,7 +31,7 @@ This pre-trained pipeline classifies German texts of news.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-pipeline = PretrainedPipeline("classifierdl_bert_news_pipeline", lange = "de")
+pipeline = PretrainedPipeline("classifierdl_bert_news_pipeline", lang = "de")
 
 result = pipeline.fullAnnotate("""Niki Lauda in einem McLaren MP 4/2 TAG Turbo. Mit diesem Gefährt sicherte sich der Österreicher 1984 seinen dritten Weltmeistertitel, einen halben (!)""")
 ```
