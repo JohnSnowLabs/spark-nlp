@@ -14434,18 +14434,26 @@ class EntityRuler(AnnotatorApproach, HasStorage):
 
     name = "EntityRuler"
 
-    patterns = Param(Params._dummy(),
-                     "patterns",
-                     "Resource in JSON or CSV format to map entities to patterns",
-                     typeConverter=TypeConverters.identity)
+    patternsResource = Param(Params._dummy(),
+                             "patternsResource",
+                             "Resource in JSON or CSV format to map entities to patterns",
+                             typeConverter=TypeConverters.identity)
+
+    enablePatternRegex = Param(Params._dummy(),
+                               "enablePatternRegex",
+                               "Enables regex pattern match",
+                               typeConverter=TypeConverters.toBoolean)
 
     @keyword_only
     def __init__(self):
         super(EntityRuler, self).__init__(
             classname="com.johnsnowlabs.nlp.annotators.er.EntityRuler")
 
-    def setPatterns(self, path, read_as=ReadAs.TEXT, options={"format": "JSON"}):
-        return self._set(patterns=ExternalResource(path, read_as, options))
+    def setPatternsResource(self, path, read_as=ReadAs.TEXT, options={"format": "JSON"}):
+        return self._set(patternsResource=ExternalResource(path, read_as, options))
+
+    def setEnablePatternRegex(self, value):
+        return self._set(enablePatternRegex=value)
 
     def _create_model(self, java_model):
         return EntityRulerModel(java_model=java_model)

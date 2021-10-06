@@ -1,18 +1,18 @@
 [
   {
     "label": "PERSON",
-    "pattern": "Jon"
+    "patterns": ["Jon", "John", "John Snow"]
   },
   {
     "label": "PERSON",
-    "pattern": "John"
+    "patterns": ["Stark", "Snow"]
   },
   {
     "label": "PERSON",
-    "pattern": "John Snow"
+    "patterns": ["Eddard", "Eddard Stark"]
   },
   {
     "label": "LOCATION",
-    "pattern": "Winterfell"
+    "patterns": ["Winterfell"]
   }
 ]

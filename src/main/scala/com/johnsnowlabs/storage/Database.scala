@@ -39,4 +39,7 @@ object Database {
   val ENTITY_PATTERNS: Name = new Name {
     override val name: String = "ENTITY_PATTERNS"
   }
+  val ENTITY_REGEX_PATTERNS: Name = new Name {
+    override val name: String = "ENTITY_REGEX_PATTERNS"
+  }
 }

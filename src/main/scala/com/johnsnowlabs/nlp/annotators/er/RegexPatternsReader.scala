@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.storage.{RocksDBConnection, StorageReader}
 
-class PatternsReader(protected val connection: RocksDBConnection) extends StorageReader[String] {
+import java.io.{ByteArrayInputStream, ObjectInputStream}
 
-  override protected val caseSensitiveIndex: Boolean = false
+class RegexPatternsReader(protected val connection: RocksDBConnection) extends StorageReader[Seq[String]] {
 
-  override protected def readCacheSize: Int = 50000
+  protected val caseSensitiveIndex: Boolean = false
 
-  override def emptyValue: String = ""
+  protected def readCacheSize: Int = 50000
 
-  override def fromBytes(source: Array[Byte]): String = {
-    new String(source)
+  def emptyValue: Seq[String] = Seq()
+
+  def fromBytes(source: Array[Byte]): Seq[String] = {
+    val objectInputStream = new ObjectInputStream(new ByteArrayInputStream(source))
+    val value = objectInputStream.readObject().asInstanceOf[Seq[String]]
+    objectInputStream.close()
+    value
   }
+
 
 }

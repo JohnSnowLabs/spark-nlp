@@ -20,7 +20,6 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
-
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
@@ -29,8 +28,7 @@ import java.io._
 import java.net.{URL, URLDecoder}
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
-
-import scala.collection.mutable.{ArrayBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
 import scala.io.BufferedSource
 
 /**
@@ -212,12 +210,18 @@ object ResourceHelper {
     externalResource.readAs match {
       case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
-        val res = sourceStream.content.flatMap(c => c.map(line => {
+        val keyValueStore = MMap.empty[String, List[String]]
+        sourceStream.content.foreach(content => content.foreach{ line => {
           val keyValues = line.split(externalResource.options("delimiter"))
-          (keyValues.head.trim, keyValues.drop(1).toList)
-        })).toMap
+          val key = keyValues.head
+          val value = keyValues.drop(1).toList
+          val storedValue = keyValueStore.get(key)
+          if (storedValue.isDefined && !storedValue.contains(value)) {
+            keyValueStore.update(key, storedValue.get ++ value)
+          } else keyValueStore(key) = value
+        }})
         sourceStream.close()
-        res
+        keyValueStore.toMap
     }
   }
 
