@@ -37,14 +37,14 @@ This is a pretrained named entity recognition deep learning model for clinical t
 ```python
 ...
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")
-.setInputCols("token", "document")
-.setOutputCol("ner")
-.setCaseSensitive(True)
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
 
-ner_converter = NerConverter()
-.setInputCols(["sentence","token","ner"])
-.setOutputCol("ner_chunk")
+ner_converter = NerConverter()\
+        .setInputCols(["sentence","token","ner"])\
+        .setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter])
 
