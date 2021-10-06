@@ -24,8 +24,8 @@ This model identifies the sentiments (positive or negative) in German texts.
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_DE/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_De_SENTIMENT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_sentiment_de_3.2.0_2.4_1631184887201.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
