@@ -434,14 +434,14 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
-<span class="n">document_classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_bert_news"</span><span class="p">,</span> <span class="s">"tr) </span><span class="se">\
-</span><span class="s">  .setInputCols(["</span><span class="n">document</span><span class="s">", "</span><span class="n">sentence_embeddings</span><span class="s">"]) </span><span class="se">\
-</span><span class="s">  .setOutputCol("</span><span class="n">class</span><span class="s">")
+<span class="n">document_classifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_bert_news"</span><span class="p">,</span> <span class="s">"tr"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-nlpPipeline = Pipeline(stages=[document, embeddings, document_classifier])
-light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("</span><span class="n">text</span><span class="s">")))
-result = light_pipeline.annotate('Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı'.)
-</span></code></pre></div>  </div>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">document_classifier</span><span class="p">])</span>
+<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">'Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı.'</span><span class="p">)</span>
+</code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
