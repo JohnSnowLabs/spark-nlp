@@ -605,14 +605,12 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val availableGraphs = ResourceHelper.listResourceDirectory("/spell_nlm")
 
     // get the one that better matches the class count
-    val candidates = availableGraphs.map { filename =>
-      filename match {
-        // not looking into innerLayerSize or layerCount
-        case graphFilePattern(classCount, vSize) =>
-          val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
-          val score = classCount.toFloat / requiredClassCount
-          (filename, score, isValid)
-      } // keep the valid, and pick the best
+    val candidates = availableGraphs.map {
+      // not looking into innerLayerSize or layerCount
+      case filename@graphFilePattern(_, _, classCount, vSize) =>
+        val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
+        val score = classCount.toFloat / requiredClassCount
+        (filename, score, isValid)
     }.filter(_._3)
 
     require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")
