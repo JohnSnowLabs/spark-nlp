@@ -38,6 +38,8 @@ class JsonParserTest extends AnyFlatSpec {
     val jsonParser = new JsonParser[EntityPattern]
     val expectedResult = Array(
       EntityPattern("PERSON", Seq("Jon", "John", "John Snow")),
+      EntityPattern("PERSON", Seq("Stark", "Snow")),
+      EntityPattern("PERSON", Seq("Eddard", "Eddard Stark")),
       EntityPattern("LOCATION", Seq("Winterfell")))
 
     val actualResult: Array[EntityPattern] = jsonParser.readJsonArray(jsonContent)
