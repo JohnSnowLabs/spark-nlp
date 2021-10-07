@@ -13,44 +13,21 @@ sidebar:
     nav: annotation-lab
 ---
 
-## System requirements
-You can install Annotation Lab on a Ubuntu 20+ machine.
-
-## Port requirements
-Annotation Lab expects ports 443 and 80 to be open by default. 
-
-## Server requirements
-The minimal required configuration is **32GB RAM, 8 Core CPU, 512 SSD**. 
-The ideal configuration in case model training and preannotations are required on a large number of tasks is **64 GiB, 16 Core CPU, 2TB HDD, 512 SSD**. 
-
-## Web browser support
-
-Annotation Lab is tested with the latest version of Google Chrome and is expected to work in the latest versions of:
-
-•   Google Chrome
-•   Apple Safari
-•   Mozilla Firefox
-
-## Deploy on AWS 
-
-Visit the [product page on AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) and follow the instructions on the video below to subscribe and deploy. 
-
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ebaewU4BcQA' -%}<div class="video-descr">Deploy Annotation Lab via AWS Marketplace</div></div></div>
-
-## Install via script
-
-### Install prerequisite
+## Deploy on a dedicated server
 
 Install Annotation Lab on a dedicated server to reduce the likelihood of conflicts or unexpected behavior.
 
-### One liner install 
+### Fresh install
 
 To install Annotation Lab run the following command:
+
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s -- --version VERSION
 ```
 
-### One liner upgrade
+To upgrade your Annotation Lab installation to a newer version, run the following command on a terminal:
+
+### Upgrade 
 
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s -- --version VERSION
@@ -61,7 +38,14 @@ After running the install/upgrade script the Annotation Lab is available at http
 
 The install/upgrade script displays the login credentials for the admin user on the terminal. 
 
-## Custom installation 
+## Deploy on the AWS Marketplace
+
+Visit the [product page on AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) and follow the instructions on the video below to subscribe and deploy. 
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ebaewU4BcQA' -%}<div class="video-descr">Deploy Annotation Lab via AWS Marketplace</div></div></div>
+
+
+## Deploy on AirGap environment 
 
 ### Get artifact
 
@@ -147,3 +131,19 @@ kubectl get secret -l app.kubernetes.io/name=keycloak-postgres -o jsonpath='{.it
 ```
 Now you can restore your databases with `psql`, `pg_restore`, etc.
 
+## Recommended Configurations
+
+**System requirements**. You can install Annotation Lab on a Ubuntu 20+ machine.
+
+**Port requirements**. Annotation Lab expects ports 443 and 80 to be open by default. 
+
+**Server requirements**. The minimal required configuration is **32GB RAM, 8 Core CPU, 512 SSD**. 
+The ideal configuration in case model training and preannotations are required on a large number of tasks is **64 GiB, 16 Core CPU, 2TB HDD, 512 SSD**. 
+
+**Web browser support**. Annotation Lab is tested with the latest version of Google Chrome and is expected to work in the latest versions of:
+
+•   Google Chrome
+
+•   Apple Safari
+
+•   Mozilla Firefox
