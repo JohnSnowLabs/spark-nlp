@@ -1,2 +1,2 @@
-docs/en/alab/install.md
-docs/en/alab/install.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
