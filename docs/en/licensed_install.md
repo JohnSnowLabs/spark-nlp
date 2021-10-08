@@ -151,7 +151,7 @@ If you want to download the source files (jar and whl files) locally, you can fo
 
 3. In `Libraries` tab inside your cluster you need to follow these steps:
  - Install New -> PyPI -> `spark-nlp` -> Install
- - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.5` -> Install
+ - Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:${version}` -> Install
  - Please add following jars:
         - Install New -> Python Whl -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl`
         - Install New -> Jar -> upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar`
