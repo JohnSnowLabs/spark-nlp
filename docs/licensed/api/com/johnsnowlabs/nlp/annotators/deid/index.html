@@ -575,6 +575,7 @@ Example of pipeline for deidentification.</p><h4>Example</h4><pre><span class="k
 ))
 <span class="kw">val</span> result = pipeline.fit(data).transform(data)
 
+
 result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)</pre><p>Show Results</p><pre>result.select(<span class="lit">"dei.result"</span>).show(truncate = <span class="kw">false</span>)
 +--------------------------------------------------------------------------------------------------+
 |result                                                                                            |
