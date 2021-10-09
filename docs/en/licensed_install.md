@@ -110,6 +110,27 @@ spark = SparkSession.builder \
 
 If you want to download the source files (jar and whl files) locally, you can follow the instructions <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/SparkNLP_offline_installation.ipynb">here</a>.
 
+
+### Spark NLP for Healthcare Cheat Sheet
+
+```bash
+# Install Spark NLP from PyPI
+pip install spark-nlp==3.2.3
+
+#install Spark NLP helathcare
+
+pip install spark-nlp-jsl==${version} --extra-index-url https://pypi.johnsnowlabs.com/${secret.code} --upgrade
+
+# Load Spark NLP with Spark Shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 --jars spark-nlp-jsl-${version}.jar
+
+# Load Spark NLP with PySpark
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3  --jars spark-nlp-jsl-${version}.jar
+
+# Load Spark NLP with Spark Submit
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 --jars spark-nlp-jsl-${version}.jar
+```
+
 ### Install Spark NLP for Healthcare on Databricks
 
 1. Create a cluster if you don't have one already
@@ -244,3 +265,52 @@ spark = start(SECRET)
 
 As you see, we did not set `.master('local[*]')` explicitly to let YARN manage the cluster.
 Or you can set `.master('yarn')`.
+
+## Google Colab Notebook
+
+Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.
+
+Run the following code in Google Colab notebook and start using spark-nlp right away.
+
+The first thing that you need is to create the json file with the credentials and the configuration iun your local system.
+
+```json
+{
+  "PUBLIC_VERSION": "3.2.3",
+  "JSL_VERSION": "{version}",
+  "SECRET": "{version}-{secret.code}",
+  "SPARK_NLP_LICENSE": "xxxxx",
+  "AWS_ACCESS_KEY_ID": "yyyy",
+  "AWS_SECRET_ACCESS_KEY": "zzzz"
+}
+```
+
+Then you need to write that piece of code to load the credentials that you created before.
+
+```python
+
+import json
+
+from google.colab import files
+
+license_keys = files.upload()
+
+with open(list(license_keys.keys())[0]) as f:
+    license_keys = json.load(f)
+```
+
+```sh
+# This is only to setup PySpark and Spark NLP on Colab
+!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
+```
+
+This script comes with the two options to define `pyspark`,`spark-nlp` and `spark-nlp-jsl` versions via options:
+
+```sh
+# -p is for pyspark
+# -s is for spark-nlp
+# by default they are set to the latest
+!bash jsl_colab_setup.sh
+```
+
+[Spark NLP quick start on Google Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) is a live demo on Google Colab that performs named entity recognitions for HealthCare.
