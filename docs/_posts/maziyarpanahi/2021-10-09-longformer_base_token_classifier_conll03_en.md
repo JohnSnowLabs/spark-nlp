@@ -47,8 +47,8 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-tokenClassifier = XlmRoBertaForTokenClassification \
-      .pretrained('xlm_roberta_base_token_classifier_conll03', 'en') \
+tokenClassifier = LongformerForTokenClassification \
+      .pretrained('longformer_base_token_classifier_conll03', 'en') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('ner') \
       .setCaseSensitive(True) \
@@ -78,7 +78,7 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_base_token_classifier_conll03", "en")
+val tokenClassifier = LongformerForTokenClassification.pretrained("longformer_base_token_classifier_conll03", "en")
       .setInputCols("document", "token")
       .setOutputCol("ner")
       .setCaseSensitive(true)
