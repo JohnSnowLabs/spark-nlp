@@ -387,7 +387,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/licensed_install">Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scaladoc</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -613,6 +613,10 @@ At the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/e0614171
     <tr>
       <td><a href="#nerdisambiguator">NerDisambiguator</a></td>
       <td>Links words of interest, such as names of persons, locations and companies, from an input text document to a corresponding unique entity in a target Knowledge Base (KB).</td>
+    </tr>
+    <tr>
+      <td><a href="#medicalner">MedicalNer</a></td>
+      <td>This Named Entity recognition annotator is a generic NER model based on Neural Networks..</td>
     </tr>
     <tr>
       <td><a href="#renerchunksfilter">RENerChunksFilter</a></td>
@@ -2981,6 +2985,336 @@ and <a href="/docs/en/annotators#tokenizer">Tokenizer</a> can be used to merge.<
 
 </div>
 
+<div class="tabs-box">
+
+  <h2 id="medicalner">MedicalNer</h2>
+
+  <div class="top_tab_li" style="text-align: center;">
+    <button class="tab-li code-selector-active approach-button">Approach</button>
+    <button class="tab-li code-selector-un-active model-button">Model</button>
+</div>
+
+  <div class="h3-box approach-content">
+
+    <p>This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.</p>
+
+    <p>The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achieves state-of-the-art in most datasets.</p>
+
+    <p>For instantiated/pretrained models, see NerDLModel.</p>
+
+    <p>The training data should be a labeled Spark Dataset, in the format of <a href="/docs/en/training#conll-dataset">CoNLL</a>
+2003 IOB with <code class="language-plaintext highlighter-rouge">Annotation</code> type columns. The data should have columns of type <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code> and an
+additional label column of annotator type <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code>.
+Excluding the label, this can be done with for example</p>
+    <ul>
+      <li>a <a href="/docs/en/annotators#sentencedetector">SentenceDetector</a>,</li>
+      <li>a <a href="/docs/en/annotators#tokenizer">Tokenizer</a> and</li>
+      <li>a <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a> with clinical embeddings
+(any <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">clinical word embeddings</a> can be chosen).</li>
+    </ul>
+
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Spark NLP Workshop</a>
+(sections starting with <code class="language-plaintext highlighter-rouge">Training a Clinical NER</code>)</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/MedicalNerApproach.html">MedicalNerApproach</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+        <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># First extract the prerequisites for the NerDLApproach
+</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">clinical_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'embeddings_clinical'</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="c1"># Then the training can start
+</span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setEnableOutputLogs</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setIncludeConfidence</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s">'ner_logs'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setGraphFolder</span><span class="p">(</span><span class="s">'medical_ner_graphs'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setEnableMemoryOptimizer</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> <span class="c1">#&gt;&gt; if you have a limited memory and a large conll file, you can set this True to train batch by batch
+</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">sentence</span><span class="p">,</span>
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">clinical_embeddings</span><span class="p">,</span>
+<span class="n">nerTagger</span>
+<span class="p">])</span>
+
+<span class="c1"># We use the text and labels from the CoNLL dataset
+</span><span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
+<span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="p">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="p">)</span>
+
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</code></pre></div>        </div>
+
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.training.CoNLL</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="c1">// First extract the prerequisites for the NerDLApproach</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="c1">// Then the training can start</span>
+<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=new</span> <span class="nc">MedicalNerApproach</span><span class="o">()</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setLabelColumn</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setMaxEpochs</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setLr</span><span class="o">(</span><span class="mf">0.003f</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">8</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setRandomSeed</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setVerbose</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setEvaluationLogExtended</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setEnableOutputLogs</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setIncludeConfidence</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">sentence</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">nerTagger</span>
+<span class="o">))</span>
+
+<span class="c1">// We use the text and labels from the CoNLL dataset</span>
+<span class="k">val</span> <span class="nv">conll</span> <span class="k">=</span> <span class="nc">CoNLL</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">trainingData</span> <span class="k">=</span> <span class="nv">conll</span><span class="o">.</span><span class="py">readDataset</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">trainingData</span><span class="o">)</span>
+</code></pre></div>        </div>
+
+      </div>
+
+</details>
+
+  </div>
+
+  <div class="h3-box model-content" style="display: none;">
+
+    <p>This Named Entity recognition annotator is a generic NER model based on Neural Networks.</p>
+
+    <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val nerModel = NerDLModel.pretrained()
+  .setInputCols("sentence", "token", "embeddings")
+  .setOutputCol("ner")
+</code></pre></div>    </div>
+    <p>The default model is <code class="language-plaintext highlighter-rouge">"ner_clinical"</code>, if no name is provided.</p>
+
+    <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.
+Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
+
+    <p>Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
+For example, the default model <code class="language-plaintext highlighter-rouge">"ner_dl"</code> requires the
+<a href="/docs/en/annotators#wordembeddings">WordEmbeddings</a> <code class="language-plaintext highlighter-rouge">"ner_clinical"</code>.</p>
+
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Spark NLP Workshop</a>
+(sections starting with <code class="language-plaintext highlighter-rouge">Training a Clinical NER</code>)</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/MedicalNerModel.html">MedicalNerModel</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+        <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># First extract the prerequisites for the NerDLModel
+</span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># First extract the prerequisites for the NerDLApproach
+</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">clinical_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'embeddings_clinical'</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="c1"># Then the training can start
+</span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">MedicalNerApproach</span><span class="p">()</span>\
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+<span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+<span class="p">.</span><span class="n">setEnableOutputLogs</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setIncludeConfidence</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s">'ner_logs'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setGraphFolder</span><span class="p">(</span><span class="s">'medical_ner_graphs'</span><span class="p">)</span>\
+<span class="p">.</span><span class="n">setEnableMemoryOptimizer</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> <span class="c1">#&gt;&gt; if you have a limited memory and a large conll file, you can set this True to train batch by batch
+</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">documentAssembler</span><span class="p">,</span>
+<span class="n">sentence</span><span class="p">,</span>
+<span class="n">tokenizer</span><span class="p">,</span>
+<span class="n">clinical_embeddings</span><span class="p">,</span>
+<span class="n">nerTagger</span>
+<span class="p">])</span>
+
+
+<span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
+<span class="n">conll_data</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">().</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">'NER_NCBIconlltrain.txt'</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>        </div>
+
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.ner.dl.MedicalNerModel</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="c1">// First extract the prerequisites for the NerDLModel</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span>
+   <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="c1">// Then NER can be extracted</span>
+<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span> <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">sentence</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">nerTagger</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to"</span> <span class="o">+</span>
+<span class="s">" presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced."</span> <span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="n">conll</span> <span class="k">=</span> <span class="nc">CoNLL</span><span class="o">()</span>
+<span class="n">conll_data</span> <span class="k">=</span> <span class="nc">CoNLL</span><span class="o">().</span><span class="py">readDataset</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="ss">'NER_NCBIconlltrain</span><span class="o">.</span><span class="py">txt</span><span class="o">')</span>
+
+<span class="n">ner_model</span> <span class="k">=</span> <span class="nv">ner_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">conll_data</span><span class="o">)</span>
+</code></pre></div>        </div>
+
+      </div>
+
+</details>
+
+  </div>
+
+</div>
+
 <div class="h3-box model-content">
 
   <h2 id="nerchunker">NerChunker</h2>
@@ -4763,7 +5097,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_install">Getting Started</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/licensed_models">Models</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_install">Installation</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/licensed_training">Training</a></div></div></div>
 
 </div>
 </div>
