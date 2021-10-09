@@ -50,7 +50,7 @@ Relation Extraction model based on syntactic features using deep learning. Model
 
 reModel = RelationExtractionModel.pretrained("re_clinical","en","clinical/models")\
     .setInputCols(["word_embeddings","chunk","pos","dependency"])\
-    .setOutput("relations")
+    .setOutputCol("relations")
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependency_parser, reModel])
 model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
