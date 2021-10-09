@@ -16,14 +16,14 @@
 
 package com.johnsnowlabs.nlp.annotators.ld.dl
 
-import java.io.File
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 
-import com.johnsnowlabs.ml.tensorflow._
+import java.io.File
+import com.johnsnowlabs.ml.tensorflow.{TensorflowWrapper, _}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
@@ -215,7 +215,7 @@ class LanguageDetectorDL(override val uid: String)
   def getModelIfNotSet: TensorflowLD = _model.get.value
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TFWrapper[_]): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(

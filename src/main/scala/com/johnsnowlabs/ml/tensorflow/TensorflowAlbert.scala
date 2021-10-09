@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.ndarray.buffer.DataBuffers
 
@@ -59,7 +60,7 @@ import scala.collection.JavaConverters._
  * @param configProtoBytes Configuration for TensorFlow session
  */
 
-class TensorflowAlbert(val tensorflow: TensorflowWrapper,
+class TensorflowAlbert(val tensorflow: TFWrapper[_],
                        val spp: SentencePieceWrapper,
                        batchSize: Int,
                        configProtoBytes: Option[Array[Byte]] = None,

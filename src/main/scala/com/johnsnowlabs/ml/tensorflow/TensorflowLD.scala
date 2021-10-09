@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
 
@@ -36,7 +37,7 @@ import scala.collection.mutable
   * @param orderedAlphabets     ordered ListMap of alphabets to be used to encode the inputs
   *
   **/
-class TensorflowLD(val tensorflow: TensorflowWrapper,
+class TensorflowLD(val tensorflow: TFWrapper[_],
                    configProtoBytes: Option[Array[Byte]] = None,
                    orderedLanguages: ListMap[String, Int],
                    orderedAlphabets: ListMap[String, Int]

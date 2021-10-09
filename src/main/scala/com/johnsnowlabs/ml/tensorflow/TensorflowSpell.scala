@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.TensorResources._
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.LangModelSentence
 import org.tensorflow.Graph
@@ -25,7 +26,7 @@ import scala.collection.JavaConversions.asScalaBuffer
 
 
 class TensorflowSpell(
-  val tensorflow: TensorflowWrapper,
+  val tensorflow: TFWrapper[_],
   val verboseLevel: Verbose.Value
   ) extends Logging with Serializable {
 

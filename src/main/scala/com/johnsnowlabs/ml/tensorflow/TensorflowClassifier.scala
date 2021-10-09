@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
@@ -25,7 +26,7 @@ import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowClassifier(
-                            val tensorflow: TensorflowWrapper,
+                            val tensorflow: TFWrapper[_],
                             val encoder: ClassifierDatasetEncoder,
                             override val verboseLevel: Verbose.Value
                           )

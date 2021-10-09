@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
@@ -27,7 +28,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 
-class TensorflowNer(val tensorflow: TensorflowWrapper,
+class TensorflowNer(val tensorflow: TFWrapper[_],
                     val encoder: NerDatasetEncoder,
                     override val verboseLevel: Verbose.Value
                    ) extends Serializable with Logging {

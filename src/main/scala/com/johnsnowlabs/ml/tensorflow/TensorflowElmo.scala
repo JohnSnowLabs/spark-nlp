@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -48,7 +49,7 @@ import scala.collection.JavaConverters._
   *
   */
 
-class TensorflowElmo(val tensorflow: TensorflowWrapper,
+class TensorflowElmo(val tensorflow: TFWrapper[_],
                      batchSize: Int,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {

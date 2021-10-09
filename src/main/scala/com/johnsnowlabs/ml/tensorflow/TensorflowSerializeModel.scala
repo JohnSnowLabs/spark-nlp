@@ -17,13 +17,13 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
+import com.johnsnowlabs.ml.tensorflow.wrap.{TFWrapper, TensorflowWrapperWithTfIo}
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.util.FileHelper
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
-
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
@@ -34,7 +34,7 @@ trait WriteTensorflowModel {
   def writeTensorflowModel(
                             path: String,
                             spark: SparkSession,
-                            tensorflow: TensorflowWrapper,
+                            tensorflow: TFWrapper[_],
                             suffix: String, filename: String,
                             configProtoBytes: Option[Array[Byte]] = None
                           ): Unit = {
@@ -61,7 +61,7 @@ trait WriteTensorflowModel {
   def writeTensorflowModelV2(
                               path: String,
                               spark: SparkSession,
-                              tensorflow: TensorflowWrapper,
+                              tensorflow: TFWrapper[_],
                               suffix: String, filename: String,
                               configProtoBytes: Option[Array[Byte]] = None,
                               savedSignatures: Option[Map[String, String]] = None
@@ -126,7 +126,7 @@ trait ReadTensorflowModel {
                            tags: Array[String] = Array.empty,
                            initAllTables: Boolean = false,
                            savedSignatures: Option[Map[String, String]] = None
-                         ): TensorflowWrapper = {
+                         ): TFWrapper[_] = {
 
     LoadsContrib.loadContribToCluster(spark)
 
@@ -141,7 +141,7 @@ trait ReadTensorflowModel {
     fs.copyToLocalFile(new Path(path, tfFile), new Path(tmpFolder))
 
     // 3. Read Tensorflow state
-    val (tf, _) = TensorflowWrapper.read(new Path(tmpFolder, tfFile).toString,
+    val (tf, _) = TensorflowWrapperWithTfIo.read(new Path(tmpFolder, tfFile).toString,
       zipped, tags = tags, useBundle = useBundle, initAllTables = initAllTables, savedSignatures = savedSignatures)
 
     // 4. Remove tmp folder

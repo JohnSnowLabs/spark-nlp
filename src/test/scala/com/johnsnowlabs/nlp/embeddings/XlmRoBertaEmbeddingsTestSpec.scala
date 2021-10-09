@@ -16,13 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -201,5 +201,54 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
     assert(totalTokens == totalEmbeddings)
 
+  }
+
+  "XlmRoBertaEmbeddings" should "load a larger than 2G model" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "This is just a simple sentence for the testing purposes!"
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tfModelPathBase = "/home/wolliqeonii/workspace/dev/jsl/hugs/perfs/xlm-roberta"
+    //    val savedModelPath = s"$tfModelPathBase/xlm-roberta-large-finetuned-conll03-english/saved_model/1"
+    //    val embeddings =
+    //      XlmRoBertaEmbeddings
+    //        .loadSavedModel(savedModelPath,
+    //          ResourceHelper.spark,
+    //          useTfIo = "true")
+    //
+    //    val configuredSavedModelEmbeddings: embeddings.type = embeddings.setInputCols(Array("sentence","token"))
+    //      .setOutputCol("embeddings")
+    //      .setCaseSensitive(true)
+    //      .setDimension(768)
+    //      .setStorageRef("xlm_roberta_large")
+
+    val sparkModelPath = s"$tfModelPathBase/xlm_roberta_large_finetuned_conll03_english_spk"
+    //    configuredSavedModelEmbeddings.save(sparkModelPath)
+
+    //    System.setProperty("org.bytedeco.javacpp.logger.debug", "true")
+    //    System.setProperty("org.bytedeco.javacpp.maxphysicalbytes", "8192M")
+    //    System.setProperty("org.bytedeco.javacpp.maxbytes", "0")
+
+    val sparkModelEmbeddings = XlmRoBertaEmbeddings.load(sparkModelPath)
+
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, sparkModelEmbeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
   }
 }

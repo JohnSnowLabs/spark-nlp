@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
@@ -56,7 +57,7 @@ import scala.collection.JavaConverters._
  * @param sentenceEndTokenId   Id of sentence end Token.
  * @param configProtoBytes     Configuration for TensorFlow session
  */
-class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
+class TensorflowDistilBert(val tensorflowWrapper: TFWrapper[_],
                            sentenceStartTokenId: Int,
                            sentenceEndTokenId: Int,
                            configProtoBytes: Option[Array[Byte]] = None,

@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 
@@ -41,7 +42,7 @@ import scala.collection.JavaConverters._
  * @param sppSrc           Contains the vocabulary for the target language.
  * @param sppTrg           Contains the vocabulary for the source language
  */
-class TensorflowMarian(val tensorflow: TensorflowWrapper,
+class TensorflowMarian(val tensorflow: TFWrapper[_],
                        val sppSrc: SentencePieceWrapper,
                        val sppTrg: SentencePieceWrapper,
                        configProtoBytes: Option[Array[Byte]] = None,

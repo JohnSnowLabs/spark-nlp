@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -23,7 +24,7 @@ import org.apache.spark.ml.util.Identifiable
 
 import scala.util.Random
 
-class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: ClassifierDatasetEncoder, override val verboseLevel: Verbose.Value)
+class TensorflowMultiClassifier(val tensorflow: TFWrapper[_], val encoder: ClassifierDatasetEncoder, override val verboseLevel: Verbose.Value)
   extends Serializable with Logging {
 
   private val inputKey = "inputs:0"

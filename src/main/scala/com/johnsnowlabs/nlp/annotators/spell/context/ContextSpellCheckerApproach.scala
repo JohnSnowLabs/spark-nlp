@@ -18,8 +18,8 @@ package com.johnsnowlabs.nlp.annotators.spell.context
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
-
-import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper, Variables}
+import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.wrap.Variables
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper

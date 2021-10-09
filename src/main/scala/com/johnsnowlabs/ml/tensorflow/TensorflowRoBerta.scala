@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
@@ -32,7 +33,7 @@ import scala.collection.JavaConverters._
  * @param configProtoBytes     ProtoBytes for TensorFlow session config
  * @param signatures           Model's inputs and output(s) signatures
  */
-class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
+class TensorflowRoBerta(val tensorflowWrapper: TFWrapper[_],
                         sentenceStartTokenId: Int,
                         sentenceEndTokenId: Int,
                         padTokenId: Int,

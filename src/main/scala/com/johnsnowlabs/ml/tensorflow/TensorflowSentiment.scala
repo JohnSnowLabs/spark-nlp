@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -25,7 +26,7 @@ import scala.collection.mutable
 import scala.util.Random
 
 class TensorflowSentiment(
-                           val tensorflow: TensorflowWrapper,
+                           val tensorflow: TFWrapper[_],
                            val encoder: ClassifierDatasetEncoder,
                            override val verboseLevel: Verbose.Value
                          )

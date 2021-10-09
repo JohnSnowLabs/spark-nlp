@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.{Session, Tensor}
 
@@ -33,7 +34,7 @@ import scala.math._
  * @param configProtoBytes Configuration for TensorFlow session
  */
 
-class TensorflowT5(val tensorflow: TensorflowWrapper,
+class TensorflowT5(val tensorflow: TFWrapper[_],
                    val spp: SentencePieceWrapper,
                    configProtoBytes: Option[Array[Byte]] = None
                   ) extends Serializable {

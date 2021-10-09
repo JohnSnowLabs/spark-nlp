@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.{TFWrapper, TensorflowWrapperWithTfIo}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.ndarray.buffer.DataBuffers
@@ -60,7 +61,7 @@ import scala.collection.JavaConverters._
  * @param signatures        Model's inputs and output(s) signatures
  */
 
-class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
+class TensorflowXlmRoberta(val tensorflowWrapper: TFWrapper[_],
                            val spp: SentencePieceWrapper,
                            caseSensitive: Boolean = true,
                            configProtoBytes: Option[Array[Byte]] = None,
@@ -120,7 +121,8 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflowWrapper.asInstanceOf[TensorflowWrapperWithTfIo]
+      .getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)

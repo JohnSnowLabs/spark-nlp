@@ -17,14 +17,15 @@
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 
-import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
+import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper}
+import com.johnsnowlabs.ml.tensorflow.wrap.Variables
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.io.IOUtils
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{FloatParam, IntParam, Param, StringArrayParam, BooleanParam}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.functions.col

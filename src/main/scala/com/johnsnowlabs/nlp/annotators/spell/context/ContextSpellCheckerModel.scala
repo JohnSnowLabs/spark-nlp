@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp.annotators.spell.context
 
 import java.util
-
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer}
-import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
+import com.johnsnowlabs.ml.tensorflow.{TensorflowWrapper, _}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.serialization._
 import com.johnsnowlabs.nlp._
@@ -358,7 +358,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   def getModelIfNotSet: TensorflowSpell = _model.get.value
 
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TFWrapper[_]): this.type = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(

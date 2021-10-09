@@ -18,6 +18,7 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
@@ -32,7 +33,7 @@ import scala.collection.JavaConverters._
  * @param tags              labels which model was trained with in order
  * @param signatures        TF v2 signatures in Spark NLP
  * */
-class TensorflowXlnetClassification(val tensorflowWrapper: TensorflowWrapper,
+class TensorflowXlnetClassification(val tensorflowWrapper: TFWrapper[_],
                                     val spp: SentencePieceWrapper,
                                     configProtoBytes: Option[Array[Byte]] = None,
                                     tags: Map[String, Int],

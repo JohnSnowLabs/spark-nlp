@@ -17,10 +17,10 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
@@ -328,7 +328,7 @@ class T5Transformer(override val uid: String)
   private var _tfModel: Option[Broadcast[TensorflowT5]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper, spp: SentencePieceWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession, tfWrapper: TFWrapper[_], spp: SentencePieceWrapper): this.type = {
     if (_tfModel.isEmpty) {
       _tfModel = Some(
         spark.sparkContext.broadcast(

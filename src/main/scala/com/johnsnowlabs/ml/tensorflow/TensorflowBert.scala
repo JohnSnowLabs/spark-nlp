@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
@@ -40,7 +41,7 @@ import scala.collection.JavaConverters._
  *
  *                             Source:  [[https://github.com/google-research/bert]]
  * */
-class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
+class TensorflowBert(val tensorflowWrapper: TFWrapper[_],
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,
                      configProtoBytes: Option[Array[Byte]] = None,

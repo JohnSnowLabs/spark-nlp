@@ -16,13 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import java.io.File
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 
-import com.johnsnowlabs.ml.tensorflow._
+import java.io.File
+import com.johnsnowlabs.ml.tensorflow.{TensorflowWrapper, _}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
@@ -238,7 +238,7 @@ class ElmoEmbeddings(override val uid: String)
     dimension -> 512
   )
 
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(spark: SparkSession, tensorflow: TFWrapper[_]): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(

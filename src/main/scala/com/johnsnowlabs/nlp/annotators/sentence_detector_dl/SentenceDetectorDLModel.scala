@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
-
+import com.johnsnowlabs.ml.tensorflow.wrap.TFWrapper
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowSentenceDetectorDL, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
@@ -226,7 +226,7 @@ class SentenceDetectorDLModel(override val uid: String)
 
   private var _tfClassifier: Option[Broadcast[TensorflowSentenceDetectorDL]] = None
 
-  def setupTFClassifier(spark: SparkSession, tfWrapper: TensorflowWrapper): this.type = {
+  def setupTFClassifier(spark: SparkSession, tfWrapper: TFWrapper[_]): this.type = {
     if (_tfClassifier.isEmpty) {
       _tfClassifier = Some(
         spark.sparkContext.broadcast(
