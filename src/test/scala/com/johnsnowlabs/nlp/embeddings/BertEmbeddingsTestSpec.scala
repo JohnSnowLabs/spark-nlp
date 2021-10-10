@@ -62,10 +62,10 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
-    val bertDDD = pipeline.fit(ddd).transform(ddd)
-    val bertDF1 = pipeline.fit(data1).transform(data1)
-    val bertDF2 = pipeline.fit(data2).transform(data2)
-    val bertDF3 = pipeline.fit(data3).transform(data3)
+    pipeline.fit(ddd).transform(ddd)
+    pipeline.fit(data1).transform(data1)
+    pipeline.fit(data2).transform(data2)
+    pipeline.fit(data3).transform(data3)
 
   }
 
@@ -109,7 +109,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
   "Bert Embeddings" should "benchmark test" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
-    val conll = CoNLL()
+    val conll = CoNLL(explodeSentences = false)
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
     val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
@@ -176,5 +176,59 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
 
     pipelineModel.transform(ddd)
+  }
+
+  "Bert Embeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "EU rejects German call to boycott British lamb .",
+      "TORONTO 1996-08-21",
+      " carbon emissions have come down without impinging on our growth. .  . .",
+      "\\u2009.carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
+
+    ).toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = BertEmbeddings.pretrained("small_bert_L2_128")
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+      .setMaxSentenceLength(512)
+      .setBatchSize(12)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    println("tokens: ")
+    pipelineDF.select("token.result").show(false)
+    println("embeddings: ")
+    pipelineDF.select("embeddings.result").show(false)
+    pipelineDF
+      .withColumn("token_size", size(col("token")))
+      .withColumn("embed_size", size(col("embeddings")))
+      .where(col("token_size") =!= col("embed_size"))
+      .select("token_size", "embed_size", "token.result", "embeddings.result")
+      .show(false)
+
+    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+
+    println(s"total tokens: $totalTokens")
+    println(s"total embeddings: $totalEmbeddings")
+
+    assert(totalTokens == totalEmbeddings)
+
   }
 }
