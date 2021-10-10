@@ -111,3 +111,7 @@ val result = pipeline.fit(data).transform(data)
 |Output Labels:|[rxnorm_code]|
 |Language:|en|
 |Case sensitive:|false|
+
+## Data Source
+
+Trained on 02 August 2021 RxNorm dataset.
