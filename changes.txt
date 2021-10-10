@@ -1,4 +1,2 @@
-docs/Gemfile
-docs/Gemfile.lock
-docs/Gemfile
-docs/Gemfile.lock
+docs/_posts/HashamUlHaq/2021-03-31-ner_jsl_enriched_en.md
+docs/_posts/HashamUlHaq/2021-03-31-ner_jsl_enriched_en.md
