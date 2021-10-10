@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import scala.collection.mutable
 
 
-private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
+private[nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)
@@ -45,7 +45,7 @@ private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
       (cp >= 91 && cp <= 96) || (cp >= 123 && cp <= 126))
       return true
 
-    try{
+    try {
       val charCategory: String = Character.getName(char.toInt)
       val charCategoryString = charCategory match {
         case x: String => x
@@ -53,8 +53,9 @@ private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
       }
       charCategoryString.contains("PUNCTUATION")
     }
-    catch { case _: Exception =>
-      false
+    catch {
+      case _: Exception =>
+        false
     }
 
   }
@@ -103,8 +104,8 @@ private [nlp] class BasicTokenizer(caseSensitive: Boolean = false) {
       val text = s.substring(start, end)
       val normalized = normalize(text)
 
-      if (!normalized.isEmpty) {
-        val token = IndexedToken(normalized, start + sentence.start, end - 1 + sentence.start)
+      if (normalized.nonEmpty) {
+        val token = IndexedToken(normalized, sentence.start, end - 1 + sentence.start)
         tokens.append(token)
       }
     }
