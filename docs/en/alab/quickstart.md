@@ -32,7 +32,7 @@ All that **without writing a line of code**!
 
 Included with every Spark NLP subscription, or can be purchased on its own.  
 {:.btn-block}
-[Try Free](https://aws.amazon.com/marketplace/pp/John-Snow-Labs-John-Snow-Labs-Annotation-Lab/B08JV9R384){:.button.button--primary.button--rounded.button--md}
+[Try Free](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa){:.button.button--primary.button--rounded.button--md}
 
 </div>
 

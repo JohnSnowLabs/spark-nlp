@@ -44,13 +44,13 @@ embeddings = BertSentenceEmbeddings\
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
 
-document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "tr) \
+document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news", "tr") \
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
 nlpPipeline = Pipeline(stages=[document, embeddings, document_classifier])
 light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([['']]).toDF("text")))
-result = light_pipeline.annotate('Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı'.)
+result = light_pipeline.annotate('Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı.')
 ```
 ```scala
 val document = DocumentAssembler()
