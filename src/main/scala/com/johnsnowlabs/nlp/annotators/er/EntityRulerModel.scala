@@ -17,26 +17,37 @@
 package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenizedWithSentence}
+import com.johnsnowlabs.nlp.annotators.common.TokenizedWithSentence
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
-import com.johnsnowlabs.storage.{Database, HasStorageModel, RocksDBConnection, StorageReadable, StorageReader}
-import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
+import com.johnsnowlabs.storage._
+import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
+import org.slf4j.{Logger, LoggerFactory}
 
 class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRulerModel]
   with HasSimpleAnnotate[EntityRulerModel] with HasStorageModel {
 
   def this() = this(Identifiable.randomUID("ENTITY_RULER"))
 
+  private val logger: Logger = LoggerFactory.getLogger("Credentials")
+
   val enablePatternRegex = new BooleanParam(this, "enablePatternRegex",
     "Enables regex pattern match")
 
   private[er] val regexEntities = new StringArrayParam(this, "regexEntities", "entities defined in regex patterns")
 
+  val optimizeMemory = new BooleanParam(this, "optimizeMemory", "Optimize memory by using disk storage")
+
+  val entitiesMap = new Param[Map[String, String]](this, "entitiesMap", "Entities map")
+
   def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   private[er] def setRegexEntities(value: Array[String]): this.type = set(regexEntities, value)
+
+  def setEntitiesMap(value: Map[String, String]): this.type = set(entitiesMap, value)
+
+  def setOptimizeMemory(value: Boolean): this.type = set(optimizeMemory, value)
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
@@ -68,17 +79,32 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
         }
       }
     } else {
-      val patternsReader = getReader(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReader]
 
-      annotatedEntities = tokenizedWithSentences.flatMap{ tokenizedWithSentence =>
-        tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
-          val labelData = patternsReader.lookup(indexedToken.token)
-          val annotation = if (labelData.isDefined) {
-            val entityMetadata = getEntityMetadata(labelData)
-            Some(Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
-              entityMetadata ++ Map("sentence" -> tokenizedWithSentence.sentenceIndex.toString)))
-          } else None
-          annotation
+      if ($(optimizeMemory)) {
+        val patternsReader = getReader(Database.ENTITY_PATTERNS).asInstanceOf[PatternsReader]
+
+        annotatedEntities = tokenizedWithSentences.flatMap{ tokenizedWithSentence =>
+          tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
+            val labelData = patternsReader.lookup(indexedToken.token)
+            val annotation = if (labelData.isDefined) {
+              val entityMetadata = getEntityMetadata(labelData)
+              Some(Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
+                entityMetadata ++ Map("sentence" -> tokenizedWithSentence.sentenceIndex.toString)))
+            } else None
+            annotation
+          }
+        }
+      } else {
+        annotatedEntities = tokenizedWithSentences.flatMap{ tokenizedWithSentence =>
+          tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
+            val labelData = $(entitiesMap).get(indexedToken.token)
+            val annotation = if (labelData.isDefined) {
+              val entityMetadata = getEntityMetadata(labelData)
+              Some(Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
+                entityMetadata ++ Map("sentence" -> tokenizedWithSentence.sentenceIndex.toString)))
+            } else None
+            annotation
+          }
         }
       }
     }
@@ -108,8 +134,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
     }.toSeq
 
     if (matchesByEntity.size > 1 ) {
-      //TODO: Refactor as a log
-      println("Warning more than one entity found. Sending the first element of the array")
+      logger.warn("More than one entity found. Sending the first element of the array")
     }
 
     matchesByEntity.headOption
