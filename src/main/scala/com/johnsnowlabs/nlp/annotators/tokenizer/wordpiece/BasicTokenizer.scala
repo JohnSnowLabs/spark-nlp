@@ -25,7 +25,7 @@ import scala.collection.mutable
  * @param caseSensitive whether or not content should be case sensitive or not
  * @param hasBeginEnd   whether or not the input sentence has already been tokenized before like in BERT and DistilBERT
  */
-private[nlp] class BasicTokenizer(caseSensitive: Boolean = false, hasBeginEnd: Boolean = true) {
+private[johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false, hasBeginEnd: Boolean = true) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)

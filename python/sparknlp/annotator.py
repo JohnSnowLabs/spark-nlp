@@ -4355,13 +4355,25 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
 
-    This CoNLL dataset already includes the sentence, token, pos and label
+    This CoNLL dataset already includes a sentence, token, POS tags and label
     column with their respective annotator types. If a custom dataset is used,
-    these need to be defined.
+    these need to be defined with for example:
 
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("pos")
+
+    Then training can start:
+
     >>> embeddings = WordEmbeddingsModel.pretrained() \\
     ...     .setInputCols(["sentence", "token"]) \\
     ...     .setOutputCol("embeddings") \\
@@ -4371,14 +4383,14 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     ...     .setLabelColumn("label") \\
     ...     .setMinEpochs(1) \\
     ...     .setMaxEpochs(3) \\
-    ...     .setC0(34) \\
-    ...     .setL2(3.0) \\
     ...     .setOutputCol("ner")
     >>> pipeline = Pipeline().setStages([
-    ...     documentAssembler,
     ...     embeddings,
     ...     nerTagger
     ... ])
+
+    We use the sentences, tokens, POS tags and labels from the CoNLL dataset.
+
     >>> conll = CoNLL()
     >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
     >>> pipelineModel = pipeline.fit(trainingData)
@@ -4716,7 +4728,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
 
-    First extract the prerequisites for the NerDLApproach
+    This CoNLL dataset already includes a sentence, token and label
+    column with their respective annotator types. If a custom dataset is used,
+    these need to be defined with for example:
 
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
@@ -4727,12 +4741,12 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     >>> tokenizer = Tokenizer() \\
     ...     .setInputCols(["sentence"]) \\
     ...     .setOutputCol("token")
-    >>> embeddings = BertEmbeddings.pretrained() \\
-    ...     .setInputCols(["sentence", "token"]) \\
-    ...     .setOutputCol("embeddings")
 
     Then the training can start
 
+    >>> embeddings = BertEmbeddings.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("embeddings")
     >>> nerTagger = NerDLApproach() \\
     ...     .setInputCols(["sentence", "token", "embeddings"]) \\
     ...     .setLabelColumn("label") \\
@@ -4741,14 +4755,11 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     ...     .setRandomSeed(0) \\
     ...     .setVerbose(0)
     >>> pipeline = Pipeline().setStages([
-    ...     documentAssembler,
-    ...     sentence,
-    ...     tokenizer,
     ...     embeddings,
     ...     nerTagger
     ... ])
 
-    We use the text and labels from the CoNLL dataset
+    We use the sentences, tokens, and labels from the CoNLL dataset.
 
     >>> conll = CoNLL()
     >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
