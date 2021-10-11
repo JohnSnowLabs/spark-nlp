@@ -370,7 +370,7 @@ package object annotator {
 
   object LongformerForTokenClassification extends ReadablePretrainedLongformerForTokenModel with ReadLongformerForTokenTensorflowModel
   
-  type EntityRuler = com.johnsnowlabs.nlp.annotators.er.EntityRuler
+  type EntityRuler = com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
 
   type EntityRulerModel = com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 

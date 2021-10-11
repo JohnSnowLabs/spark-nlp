@@ -80,11 +80,6 @@ object Dependencies {
   val json4sVersion = "3.5.3"
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
-  val circeVersion = "0.12.0-M3"
-  val circe = Seq("io.circe" %% "circe-parser" % circeVersion,
-    "io.circe" %% "circe-core" % circeVersion,
-    "io.circe" %% "circe-generic" % circeVersion)
-
   val trove4jVersion = "3.0.3"
   val trove4j = "net.sf.trove4j" % "trove4j" % trove4jVersion
 
