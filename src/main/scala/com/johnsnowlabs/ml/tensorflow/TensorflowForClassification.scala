@@ -19,7 +19,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece, TokenizedSentence, WordpieceTokenizedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
-trait TensorflowTokenClassification {
+trait TensorflowForClassification {
 
   protected val sentencePadTokenId: Int
   protected val sentenceStartTokenId: Int
@@ -54,7 +54,6 @@ trait TensorflowTokenClassification {
   /** Encode the input sequence to indexes IDs adding padding where necessary
    * */
   def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
-    //aka prepareBatchInputs
     val maxSentenceLength =
       Array(
         maxSequenceLength - 2,

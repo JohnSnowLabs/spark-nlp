@@ -39,7 +39,7 @@ class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrappe
                                          tags: Map[String, Int],
                                          signatures: Option[Map[String, String]] = None,
                                          vocabulary: Map[String, Int]
-                                        ) extends Serializable with TensorflowTokenClassification {
+                                        ) extends Serializable with TensorflowForClassification {
 
   val _tfDistilBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 

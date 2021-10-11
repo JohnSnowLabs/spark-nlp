@@ -19,7 +19,6 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
@@ -42,7 +41,7 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
                                       signatures: Option[Map[String, String]] = None,
                                       merges: Map[(String, String), Int],
                                       vocabulary: Map[String, Int]
-                                     ) extends Serializable with TensorflowTokenClassification {
+                                     ) extends Serializable with TensorflowForClassification {
 
   val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
