@@ -36,7 +36,7 @@ class TensorflowAlbertClassification(val tensorflowWrapper: TensorflowWrapper,
                                      configProtoBytes: Option[Array[Byte]] = None,
                                      tags: Map[String, Int],
                                      signatures: Option[Map[String, String]] = None
-                                    ) extends Serializable with TensorflowTokenClassification {
+                                    ) extends Serializable with TensorflowForClassification {
 
   val _tfAlbertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
