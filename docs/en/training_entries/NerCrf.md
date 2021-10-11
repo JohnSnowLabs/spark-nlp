@@ -30,61 +30,89 @@ NAMED_ENTITY
 {%- endcapture -%}
 
 {%- capture python_example -%}
-# This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
-# If a custom dataset is used, these need to be defined.
-
 import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.training import *
 from pyspark.ml import Pipeline
 
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
+# This CoNLL dataset already includes a sentence, token, POS tags and label
+# column with their respective annotator types. If a custom dataset is used,
+# these need to be defined with for example:
+
+documentAssembler = DocumentAssembler() \\
+    .setInputCol("text") \\
     .setOutputCol("document")
 
-embeddings = WordEmbeddingsModel.pretrained() \
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("embeddings") \
+sentence = SentenceDetector() \\
+    .setInputCols(["document"]) \\
+    .setOutputCol("sentence")
+
+tokenizer = Tokenizer() \\
+    .setInputCols(["sentence"]) \\
+    .setOutputCol("token")
+
+posTagger = PerceptronModel.pretrained() \\
+    .setInputCols(["sentence", "token"]) \\
+    .setOutputCol("pos")
+
+Then training can start:
+
+embeddings = WordEmbeddingsModel.pretrained() \\
+    .setInputCols(["sentence", "token"]) \\
+    .setOutputCol("embeddings") \\
     .setCaseSensitive(False)
 
-nerTagger = NerCrfApproach() \
-    .setInputCols(["sentence", "token", "pos", "embeddings"]) \
-    .setLabelColumn("label") \
-    .setMinEpochs(1) \
-    .setMaxEpochs(3) \
-    .setC0(34) \
-    .setL2(3.0) \
+nerTagger = NerCrfApproach() \\
+    .setInputCols(["sentence", "token", "pos", "embeddings"]) \\
+    .setLabelColumn("label") \\
+    .setMinEpochs(1) \\
+    .setMaxEpochs(3) \\
     .setOutputCol("ner")
 
 pipeline = Pipeline().setStages([
-    documentAssembler,
     embeddings,
     nerTagger
 ])
 
+# We use the sentences, tokens, POS tags and labels from the CoNLL dataset.
 
 conll = CoNLL()
 trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
-
 pipelineModel = pipeline.fit(trainingData)
-
 {%- endcapture -%}
 
 {%- capture scala_example -%}
-// This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
-// If a custom dataset is used, these need to be defined.
-
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
-import com.johnsnowlabs.nlp.annotator.NerCrfApproach
+import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.training.CoNLL
+import com.johnsnowlabs.nlp.annotator.NerCrfApproach
 import org.apache.spark.ml.Pipeline
+
+// This CoNLL dataset already includes a sentence, token, POS tags and label
+// column with their respective annotator types. If a custom dataset is used,
+// these need to be defined with for example:
 
 val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
+val sentence = new SentenceDetector()
+  .setInputCols("document")
+  .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+  .setInputCols("sentence")
+  .setOutputCol("token")
+
+val posTagger = PerceptronModel.pretrained()
+  .setInputCols("sentence", "token")
+  .setOutputCol("pos")
+
+// Then the training can start
 val embeddings = WordEmbeddingsModel.pretrained()
   .setInputCols("sentence", "token")
   .setOutputCol("embeddings")
@@ -95,22 +123,18 @@ val nerTagger = new NerCrfApproach()
   .setLabelColumn("label")
   .setMinEpochs(1)
   .setMaxEpochs(3)
-  .setC0(34)
-  .setL2(3.0)
   .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
   embeddings,
   nerTagger
 ))
 
-
+// We use the sentences, tokens, POS tags and labels from the CoNLL dataset.
 val conll = CoNLL()
 val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
 
 val pipelineModel = pipeline.fit(trainingData)
-
 {%- endcapture -%}
 
 {%- capture api_link -%}
