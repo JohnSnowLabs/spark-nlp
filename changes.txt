@@ -1,2 +1,4 @@
-docs/_posts/HashamUlHaq/2021-03-31-ner_jsl_enriched_en.md
-docs/_posts/HashamUlHaq/2021-03-31-ner_jsl_enriched_en.md
+docs/_posts/2020-09-28-ner_healthcare_de.md
+docs/_posts/HashamUlHaq/2021-04-01-ner_healthcare_slim_de.md
+docs/_posts/2020-09-28-ner_healthcare_de.md
+docs/_posts/HashamUlHaq/2021-04-01-ner_healthcare_slim_de.md
