@@ -14430,9 +14430,9 @@ class LongformerForTokenClassification(AnnotatorModel,
         return ResourceDownloader.downloadModel(LongformerForTokenClassification, name, lang, remote_loc)
 
 
-class EntityRuler(AnnotatorApproach, HasStorage):
+class EntityRulerApproach(AnnotatorApproach, HasStorage):
 
-    name = "EntityRuler"
+    name = "EntityRulerApproach"
 
     patternsResource = Param(Params._dummy(),
                              "patternsResource",
@@ -14444,16 +14444,24 @@ class EntityRuler(AnnotatorApproach, HasStorage):
                                "Enables regex pattern match",
                                typeConverter=TypeConverters.toBoolean)
 
+    useStorage = Param(Params._dummy(),
+                       "useStorage",
+                       "Whether to use RocksDB storage to serialize patterns",
+                       typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
-        super(EntityRuler, self).__init__(
-            classname="com.johnsnowlabs.nlp.annotators.er.EntityRuler")
+        super(EntityRulerApproach, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach")
 
     def setPatternsResource(self, path, read_as=ReadAs.TEXT, options={"format": "JSON"}):
         return self._set(patternsResource=ExternalResource(path, read_as, options))
 
     def setEnablePatternRegex(self, value):
         return self._set(enablePatternRegex=value)
+
+    def setUseStorage(self, value):
+        return self._set(useStorage=value)
 
     def _create_model(self, java_model):
         return EntityRulerModel(java_model=java_model)

@@ -25,7 +25,7 @@ import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage._
 import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.BooleanParam
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.collect_set
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -40,15 +40,14 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
   private var entities: Array[String] = Array()
   private var patterns: Map[String, String] = Map()
-  private var regexPatterns: Map[String, List[String]] = Map()
+  private var regexPatterns: Map[String, Seq[String]] = Map()
 
   val patternsResource = new ExternalResourceParam(this, "patternsResource",
     "Resource in JSON or CSV format to map entities to patterns")
 
-  val enablePatternRegex = new BooleanParam(this, "enablePatternRegex",
-    "Enables regex pattern match")
+  val enablePatternRegex = new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
-  val optimizeMemory = new BooleanParam(this, "optimizeMemory", "Optimize memory by using disk storage")
+  val useStorage = new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
 
   def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
@@ -56,33 +55,44 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
                           options: Map[String, String] = Map("format" -> "JSON")): this.type =
     set(patternsResource, ExternalResource(path, readAs, options))
 
-  def setOptimizeMemory(value: Boolean): this.type = set(optimizeMemory, value)
+  def setUseStorage(value: Boolean): this.type = set(useStorage, value)
 
   setDefault(storagePath -> ExternalResource("", ReadAs.TEXT, Map()),
-    patternsResource -> null, enablePatternRegex -> false, optimizeMemory -> true
+    patternsResource -> null, enablePatternRegex -> false, useStorage -> true
   )
 
   private val AVAILABLE_FORMATS = Array("JSON", "JSONL", "CSV")
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): EntityRulerModel = {
 
-    if ($(optimizeMemory)) {
-      val entityRuler = new EntityRulerModel()
-        .setStorageRef($(storageRef))
-        .setEnablePatternRegex($(enablePatternRegex))
+    val entityRuler = new EntityRulerModel()
 
-      if ($(enablePatternRegex)) {
-        entityRuler.setRegexEntities(entities)
-      }
-      entityRuler
+    if ($(useStorage)) {
+      entityRuler.setStorageRef($(storageRef))
+        .setEnablePatternRegex($(enablePatternRegex))
+        .setUseStorage($(useStorage))
+
     } else {
-      println("Under construction")
       validateParameters()
-//      getEntityPatterns()
-      new EntityRulerModel()
-        .setEntitiesMap(entityPatterns)
-        .setOptimizeMemory($(optimizeMemory))
+      resourceFormats match {
+        case "JSON&TEXT" => storePatternsFromJson(None)
+        case "JSONL&TEXT" => storePatternsFromJsonl(None)
+        case "JSON&SPARK" => storePatternsFromJSONDataFrame(None, "JSON")
+        case "JSONL&SPARK" => storePatternsFromJSONDataFrame(None, "JSONL")
+        case "CSV&TEXT" => computePatternsFromCSV()
+        case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(None)
+        case _ @ format => throw new IllegalArgumentException(s"format $format not available")
+      }
+
+      entityRuler.setUseStorage($(useStorage))
+        .setPatterns(patterns)
+        .setRegexPatterns(regexPatterns)
     }
+
+    if ($(enablePatternRegex)) {
+      entityRuler.setRegexEntities(entities)
+    }
+    entityRuler
 
   }
 
@@ -94,7 +104,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
   protected def index(fitDataset: Dataset[_], storageSourcePath: Option[String], readAs: Option[ReadAs.Value],
                                writers: Map[Name, StorageWriter[_]], readOptions: Option[Map[String, String]]): Unit = {
 
-    if ($(optimizeMemory)) {
+    if ($(useStorage)) {
       validateParameters()
 
       var storageWriter: StorageReadWriter[_] = null
@@ -106,12 +116,12 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
       }
 
       resourceFormats match {
-        case "JSON&TEXT" => storePatternsFromJson(storageWriter)
-        case "JSONL&TEXT" => storePatternsFromJsonl(storageWriter)
-        case "JSON&SPARK" => storePatternsFromJSONDataFrame(storageWriter, "JSON")
-        case "JSONL&SPARK" => storePatternsFromJSONDataFrame(storageWriter, "JSONL")
+        case "JSON&TEXT" => storePatternsFromJson(Some(storageWriter))
+        case "JSONL&TEXT" => storePatternsFromJsonl(Some(storageWriter))
+        case "JSON&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSON")
+        case "JSONL&SPARK" => storePatternsFromJSONDataFrame(Some(storageWriter), "JSONL")
         case "CSV&TEXT" => storePatternsFromCSV(storageWriter)
-        case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(storageWriter)
+        case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(Some(storageWriter))
         case _ @ format => throw new IllegalArgumentException(s"format $format not available")
       }
     }
@@ -131,7 +141,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
   private lazy val resourceFormats: String = $(patternsResource).options("format").toUpperCase() + "&" +  $(patternsResource).readAs
 
-  private def storePatternsFromJson(storageReadWriter: StorageReadWriter[_]): Unit = {
+  private def storePatternsFromJson(storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
 
     val stream =  ResourceHelper.getResourceStream($(patternsResource).path)
     val jsonContent = Source.fromInputStream(stream).mkString
@@ -139,22 +149,24 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
     entityPatterns.foreach{ entityPattern =>
       val entity = if (entityPattern.id.isDefined) s"${entityPattern.label},${entityPattern.id.get}" else entityPattern.label
-      storageReadWriter match {
+      storageReadWriter.getOrElse(None) match {
         case patternsWriter: PatternsReadWriter => storePatterns(entityPattern.patterns.toIterator, entity, patternsWriter)
         case regexPatternsWriter: RegexPatternsReadWriter => storeRegexPattern(entityPattern.patterns, entity, regexPatternsWriter)
+        case None => computePatterns(entityPattern.patterns, entity)
       }
     }
   }
 
-  private def storePatternsFromJsonl(storageReadWriter: StorageReadWriter[_]): Unit = {
+  private def storePatternsFromJsonl(storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
 
     val sourceStream = ResourceHelper.SourceStream($(patternsResource).path)
     sourceStream.content.foreach( content => content.foreach{ line =>
       val entityPattern: EntityPattern = JsonParser.parseObject[EntityPattern](line)
       val entity = if (entityPattern.id.isDefined) s"${entityPattern.label},${entityPattern.id.get}" else entityPattern.label
-      storageReadWriter match {
+      storageReadWriter.getOrElse(None) match {
         case patternsWriter: PatternsReadWriter => storePatterns(entityPattern.patterns.toIterator, entity, patternsWriter)
         case regexPatternsWriter: RegexPatternsReadWriter => storeRegexPattern(entityPattern.patterns, entity, regexPatternsWriter)
+        case None => computePatterns(entityPattern.patterns, entity)
       }
     })
   }
@@ -170,7 +182,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
     }
   }
 
-  private def storeEntityPatternsFromCSVDataFrame(storageReadWriter: StorageReadWriter[_]): Unit = {
+  private def storeEntityPatternsFromCSVDataFrame(storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
 
     val patternOptions = $(patternsResource).options
     var patternsDataFrame = spark.read.options(patternOptions)
@@ -187,7 +199,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
   }
 
-  private def storePatternsFromJSONDataFrame(storageReadWriter: StorageReadWriter[_], format: String): Unit = {
+  private def storePatternsFromJSONDataFrame(storageReadWriter: Option[StorageReadWriter[_]], format: String): Unit = {
 
     val path = $(patternsResource).path
     var patternsDataFrame = spark.read.option("multiline", "true").json(path)
@@ -199,7 +211,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
     storeFromDataFrame(patternsDataFrame, storageReadWriter)
   }
 
-  private def storeFromDataFrame(patternsDataFrame: DataFrame, storageReadWriter: StorageReadWriter[_]): Unit = {
+  private def storeFromDataFrame(patternsDataFrame: DataFrame, storageReadWriter: Option[StorageReadWriter[_]]): Unit = {
     val fieldId = patternsDataFrame.schema.fields.filter(field => field.name == "id")
     var id = ""
 
@@ -210,9 +222,10 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
         id = row.getAs[String]("id")
       }
       val entity = if (fieldId.nonEmpty) s"$label,$id" else label
-      storageReadWriter match {
+      storageReadWriter.getOrElse(None) match {
         case patternsWriter: PatternsReadWriter => storePatterns(patterns.toIterator, entity, patternsWriter)
         case regexPatternsWriter: RegexPatternsReadWriter => storeRegexPattern(patterns, entity, regexPatternsWriter)
+        case None => computePatterns(patterns, entity)
       }
     }
   }
@@ -242,20 +255,28 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
   }
 
   override def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
-    if ($(optimizeMemory)) {
+    if ($(useStorage)) {
       super.indexStorage(fitDataset, resource)
-    } else {
-      println("Don't use RocksDB")
     }
   }
 
-  private def getEntityPatterns(storageReadWriter: StorageReadWriter[_]): Map[String, String] = {
-    //TODO: RegexEntityPatterns
-    storageReadWriter match {
-      case patternsWriter: PatternsReadWriter =>
-        val entityPatterns: Map[String, String] = ResourceHelper.parseKeyValueText($(patternsResource))
-        entityPatterns.flatMap{ case (key, value) => Map(value -> key) }
+  private def computePatternsFromCSV(): Unit = {
+    if ($(enablePatternRegex)) {
+      regexPatterns = ResourceHelper.parseKeyListValues($(patternsResource))
+      entities = regexPatterns.keys.toArray
+    } else {
+      patterns = ResourceHelper.parseKeyValueText($(patternsResource)).flatMap { case (key, value) => Map(value -> key) }
+    }
+  }
 
+  private def computePatterns(patterns: Seq[String], entity: String): Unit = {
+    if ($(enablePatternRegex)) {
+      regexPatterns = regexPatterns ++ Map(entity -> patterns)
+      if (!entities.contains(entity)) {
+        entities = entities ++ Array(entity)
+      }
+    } else {
+      patterns.foreach(pattern => this.patterns = this.patterns ++ Map(pattern -> entity))
     }
   }
 

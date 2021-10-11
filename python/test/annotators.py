@@ -1997,10 +1997,10 @@ class EntityRulerTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        entity_ruler = EntityRuler() \
+        entity_ruler = EntityRulerApproach() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("entity") \
-            .setPatterns(self.path)
+            .setPatternsResource(self.path)
 
         pipeline = Pipeline(stages=[document_assembler, tokenizer, entity_ruler])
         model = pipeline.fit(self.data)
