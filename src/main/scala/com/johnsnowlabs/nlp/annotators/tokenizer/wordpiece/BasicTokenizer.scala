@@ -20,8 +20,12 @@ import java.text.Normalizer
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import scala.collection.mutable
 
-
-private [johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false) {
+/**
+ *
+ * @param caseSensitive whether or not content should be case sensitive or not
+ * @param hasBeginEnd   whether or not the input sentence has already been tokenized before like in BERT and DistilBERT
+ */
+private[johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false, hasBeginEnd: Boolean = true) {
 
   def isWhitespace(char: Char): Boolean = {
     char == ' ' || char == '\t' || char == '\n' || char == '\r' || Character.isWhitespace(char)
@@ -45,7 +49,7 @@ private [johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false) {
       (cp >= 91 && cp <= 96) || (cp >= 123 && cp <= 126))
       return true
 
-    try{
+    try {
       val charCategory: String = Character.getName(char.toInt)
       val charCategoryString = charCategory match {
         case x: String => x
@@ -53,8 +57,9 @@ private [johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false) {
       }
       charCategoryString.contains("PUNCTUATION")
     }
-    catch { case _: Exception =>
-      false
+    catch {
+      case _: Exception =>
+        false
     }
 
   }
@@ -92,6 +97,11 @@ private [johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false) {
       result.toLowerCase
   }
 
+  /**
+   *
+   * @param sentence input Sentence which can be a full sentence or just a token in type of Sentence
+   * @return
+   */
   def tokenize(sentence: Sentence): Array[IndexedToken] = {
 
     val tokens = mutable.ArrayBuffer[IndexedToken]()
@@ -103,8 +113,11 @@ private [johnsnowlabs] class BasicTokenizer(caseSensitive: Boolean = false) {
       val text = s.substring(start, end)
       val normalized = normalize(text)
 
-      if (!normalized.isEmpty) {
-        val token = IndexedToken(normalized, start + sentence.start, end - 1 + sentence.start)
+      if (normalized.nonEmpty) {
+        val token = if (hasBeginEnd)
+          IndexedToken(normalized, sentence.start, end - 1 + sentence.start)
+        else
+          IndexedToken(normalized, start + sentence.start, end - 1 + sentence.start)
         tokens.append(token)
       }
     }
