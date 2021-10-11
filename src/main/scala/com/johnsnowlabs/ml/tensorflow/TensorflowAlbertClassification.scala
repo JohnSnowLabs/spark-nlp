@@ -52,12 +52,12 @@ class TensorflowAlbertClassification(val tensorflowWrapper: TensorflowWrapper,
 
     val encoder = new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId)
 
-    val sentecneTokenPieces = sentences.map { s =>
+    val sentenceTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
       val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentecneTokenPieces
+    sentenceTokenPieces
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
