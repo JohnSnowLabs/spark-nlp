@@ -242,7 +242,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
             val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin).map {
+              p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
               token =>
                 val originalTokenWithEmbedding = TokenPieceEmbeddings(
                   TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
