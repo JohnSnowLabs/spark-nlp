@@ -284,6 +284,12 @@ class NamesClass extends VocabParser with SerializableClass {
     transducer = generateTransducer
   }
 
+  def this(v:Set[String]) = {
+    this()
+    vocab = v
+    transducer = generateTransducer
+  }
+
   @throws[IOException]
   private def readObject(aInputStream: ObjectInputStream): Unit = {
     transducer = deserializeTransducer(aInputStream)

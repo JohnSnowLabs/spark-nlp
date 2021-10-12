@@ -71,8 +71,8 @@ object ZipArchiveUtil {
           b = in.read(data, 0, Buffer)
         }
         in.close()
-        zip.closeEntry()
       })
+      zip.closeEntry()
       zip.close()
       zipFileOS.close()
 
