@@ -467,4 +467,51 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     entityRulerPipeline
   }
 
+  "An Entity Ruler" should "serialize and deserialize a model" taggedAs FastTest in {
+    val textDataSet = Seq("Lord Eddard Stark was the head of House Stark").toDS.toDF("text")
+    tokenizer.setExceptions(Array("Eddard Stark"))
+    val entityRuler = new EntityRulerApproach()
+      .setInputCols("document", "token")
+      .setOutputCol("entities")
+      .setPatternsResource(s"$testPath/regex_patterns.json", readAs = ReadAs.TEXT)
+      .setEnablePatternRegex(true)
+    val entityRulerModel = entityRuler.fit(emptyDataSet)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 5, 16, "Eddard Stark", Map("entity" -> "PERSON", "id" -> "person-regex", "sentence" -> "0"))
+    ))
+
+    entityRulerModel.write.overwrite().save("tmp_entity_ruler_model_storage")
+    val loadedEntityRulerModel = EntityRulerModel.load("tmp_entity_ruler_model_storage")
+    val entityRulerPipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, loadedEntityRulerModel))
+
+    val resultDataSet = entityRulerPipeline.fit(emptyDataSet).transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "serialize and deserialize a model without storage" in {
+    val textDataSet = Seq("Lord Eddard Stark was the head of House Stark").toDS.toDF("text")
+    tokenizer.setExceptions(Array("Eddard Stark"))
+    val entityRuler = new EntityRulerApproach()
+      .setInputCols("document", "token")
+      .setOutputCol("entities")
+      .setPatternsResource(s"$testPath/regex_patterns.json", readAs = ReadAs.TEXT)
+      .setEnablePatternRegex(true)
+      .setUseStorage(false)
+    val entityRulerModel = entityRuler.fit(emptyDataSet)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 5, 16, "Eddard Stark", Map("entity" -> "PERSON", "id" -> "person-regex", "sentence" -> "0"))
+    ))
+
+    entityRulerModel.write.overwrite().save("tmp_entity_ruler_model")
+    val loadedEntityRulerModel = EntityRulerModel.load("tmp_entity_ruler_model")
+    val entityRulerPipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, loadedEntityRulerModel))
+
+    val resultDataSet = entityRulerPipeline.fit(emptyDataSet).transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
 }

@@ -83,10 +83,9 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
         case "CSV&SPARK" => storeEntityPatternsFromCSVDataFrame(None)
         case _ @ format => throw new IllegalArgumentException(s"format $format not available")
       }
-
+      val entityRulerFeatures = EntityRulerFeatures(patterns, regexPatterns)
       entityRuler.setUseStorage($(useStorage))
-        .setPatterns(patterns)
-        .setRegexPatterns(regexPatterns)
+        .setEntityRulerFeatures(entityRulerFeatures)
     }
 
     if ($(enablePatternRegex)) {

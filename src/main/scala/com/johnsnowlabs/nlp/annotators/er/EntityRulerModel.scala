@@ -19,10 +19,10 @@ package com.johnsnowlabs.nlp.annotators.er
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasFeatures, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
 import com.johnsnowlabs.storage._
-import org.apache.spark.ml.param.{BooleanParam, Param, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
@@ -41,19 +41,14 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
 
   private[er] val regexEntities = new StringArrayParam(this, "regexEntities", "entities defined in regex patterns")
 
-  private[er] val patterns = new Param[Map[String, String]](this, "patterns",
-    "variable that stores patterns defined")
-
-  private[er] val regexPatterns = new Param[Map[String, Seq[String]]](this, "regexPatterns",
-    "variable that stores regex patterns defined")
+  private[er] val entityRulerFeatures: StructFeature[EntityRulerFeatures] =
+    new StructFeature[EntityRulerFeatures](this, "Structure to store data when RocksDB is not used")
 
   private[er] def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   private[er] def setRegexEntities(value: Array[String]): this.type = set(regexEntities, value)
 
-  private[er] def setPatterns(value: Map[String, String]): this.type = set(patterns, value)
-
-  private[er] def setRegexPatterns(value: Map[String, Seq[String]]): this.type = set(regexPatterns, value)
+  private[er] def setEntityRulerFeatures(value: EntityRulerFeatures): this.type = set(entityRulerFeatures, value)
 
   private[er] def setUseStorage(value: Boolean): this.type = set(useStorage, value)
 
@@ -105,7 +100,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
     val matchesByEntity = $(regexEntities).flatMap{ regexEntity =>
       val regexPatterns: Option[Seq[String]] = regexPatternsReader match {
         case Some(rpr) => rpr.lookup(regexEntity)
-        case None => $(this.regexPatterns).get(regexEntity)
+        case None => $$(entityRulerFeatures).regexPatterns.get(regexEntity)
       }
       if (regexPatterns.isDefined) {
         val matches = regexPatterns.get.flatMap(regexPattern => regexPattern.r.findFirstIn(token))
@@ -126,7 +121,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
       tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
         val labelData: Option[String] = patternsReader match {
           case Some(pr) => pr.lookup(indexedToken.token)
-          case None => $(patterns).get(indexedToken.token)
+          case None => $$(entityRulerFeatures).patterns.get(indexedToken.token)
         }
         val annotation = if (labelData.isDefined) {
           val entityMetadata = getEntityMetadata(labelData)
@@ -154,6 +149,12 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
   override def deserializeStorage(path: String, spark: SparkSession): Unit = {
     if ($(useStorage)) {
       super.deserializeStorage(path: String, spark: SparkSession)
+    }
+  }
+
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    if ($(useStorage)) {
+      super.onWrite(path, spark)
     }
   }
 
