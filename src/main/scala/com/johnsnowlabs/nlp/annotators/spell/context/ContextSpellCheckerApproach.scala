@@ -343,7 +343,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       transducer = generateTransducer
       override val maxDist: Int = userDist
     }
-    setSpecialClasses(getOrDefault(specialClasses) :+ newClass)
+    val nc = new NamesClass(scala.collection.mutable.Set[String]("Jennifer", "Brian", "Yoni"))
+    setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
   /** Adds a new class of words to correct, based on regex.
