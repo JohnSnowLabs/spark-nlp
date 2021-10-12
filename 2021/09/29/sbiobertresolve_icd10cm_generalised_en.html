@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>XLM-RoBERTa Base for Amharic (xlm_roberta_base_finetuned_amharic)- Spark NLP Model</title><meta name="description" content="Descriptionxlm_roberta_base_finetuned_amharic is a Amharic RoBERTa model obtained by fine-tuning xlm-roberta-base model on Amharic language texts. It provide...">
-<link rel="canonical" href="/2021/09/29/xlm_roberta_base_finetuned_amharic_am.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for ICD10-CM (general 3 character codes)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD10-CM codes using sbiobert_base_cased_mli Sentence Bert Embeddings. It predicts ICD codes up to 3...">
+<link rel="canonical" href="/2021/09/29/sbiobertresolve_icd10cm_generalised_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,20 +404,18 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 29, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-29T00:00:00+00:00"></div><header><h1>XLM-RoBERTa Base for Amharic (xlm_roberta_base_finetuned_amharic)</h1></header></div><meta itemprop="headline" content="XLM-RoBERTa Base for Amharic (xlm_roberta_base_finetuned_amharic)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>xlm_roberta</li><li>embeddings</li><li>am</li><li>amharic</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-29T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,xlm_roberta,embeddings,am,amharic"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-29T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for ICD10-CM (general 3 character codes)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for ICD10-CM (general 3 character codes)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>en</li><li>entity_resolution</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-29T00:00:00+00:00">
+    <meta itemprop="keywords" content="licensed,clinical,en,entity_resolution"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p><strong>xlm_roberta_base_finetuned_amharic</strong> is a <strong>Amharic RoBERTa</strong> model obtained by fine-tuning <strong>xlm-roberta-base</strong> model on Amharic language texts. It provides <strong>better performance</strong> than the XLM-RoBERTa on named entity recognition datasets.</p>
-
-<p>Specifically, this model is an <em>xlm-roberta-base</em> model that was fine-tuned on the Amharic corpus.</p>
+<p>This model maps extracted medical entities to ICD10-CM codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings. It predicts ICD codes up to 3 characters (according to ICD10 code structure the first three characters represent general type of the injury or disease).</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_base_finetuned_amharic_am_3.3.0_3.0_1632912241061.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_generalised_en_3.2.1_3.0_1632938859569.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -425,15 +423,60 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"xlm_roberta_base_finetuned_amharic"</span><span class="p">,</span> <span class="s">"am"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">chunk2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
+ 
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
+     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
+ 
+<span class="n">icd10_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icd10cm_generalised"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">chunk2doc</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">icd10_resolver</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret</span><span class="se">\'</span><span class="s">s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlm_roberta_base_finetuned_amharic"</span><span class="o">,</span> <span class="s">"am"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">chunk2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
+ 
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
+     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
+ 
+<span class="k">val</span> <span class="nv">icd10_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icd10cm_generalised"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">chunk2doc</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">icd10_resolver</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                       |   begin |   end | entity   | code   | code_desc                                                |   distance | all_k_resolutions                                                                                                                                                                                                                                                                                                                                       | all_k_codes                                                                 |
+|---:|:----------------------------|--------:|------:|:---------|:-------|:---------------------------------------------------------|-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------|
+|  0 | hypertension                |      68 |    79 | PROBLEM  | I10    | hypertension                                             |     0      | hypertension:::hypertension <span class="o">(</span>high blood pressure<span class="o">)</span>:::h/o: hypertension:::fh: hypertension:::hypertensive heart disease:::labile hypertension:::history of hypertension <span class="o">(</span>situation<span class="o">)</span>:::endocrine hypertension                                                                                                                                              | I10:::I15:::Z86:::Z82:::I11:::R03:::Z87:::E27                               |
+|  1 | chronic renal insufficiency |      83 |   109 | PROBLEM  | N18    | chronic renal impairment                                 |     0.014  | chronic renal impairment:::renal insufficiency:::renal failure:::anaemia of chronic renal insufficiency:::impaired renal <span class="k">function </span>disorder:::history of renal insufficiency:::prerenal renal failure:::abnormal renal <span class="k">function</span>:::abnormal renal <span class="k">function</span>                                                                                                | N18:::P96:::N19:::D63:::N28:::Z87:::N17:::N25:::R94                         |
+|  2 | COPD                        |     113 |   116 | PROBLEM  | J44    | chronic obstructive lung disease <span class="o">(</span>disorder<span class="o">)</span>              |     0.1197 | chronic obstructive lung disease <span class="o">(</span>disorder<span class="o">)</span>:::chronic obstructive pulmonary disease leaflet given:::chronic pulmonary congestion <span class="o">(</span>disorder<span class="o">)</span>:::chronic respiratory failure <span class="o">(</span>disorder<span class="o">)</span>:::chronic respiratory insufficiency:::cor pulmonale <span class="o">(</span>chronic<span class="o">)</span>:::history of - chronic lung disease <span class="o">(</span>situation<span class="o">)</span>                                                      | J44:::Z76:::J81:::J96:::R06:::I27:::Z87                                     |
+|  3 | gastritis                   |     120 |   128 | PROBLEM  | K29    | gastritis                                                |     0      | gastritis:::bacterial gastritis:::parasitic gastritis                                                                                                                                                                                                                                                                                                   | K29:::B96:::K93                                                             |
+|  4 | TIA                         |     136 |   138 | PROBLEM  | S06    | cerebral concussion                                      |     0.1662 | cerebral concussion:::transient ischemic attack <span class="o">(</span>disorder<span class="o">)</span>:::thalamic stroke:::cerebral trauma:::stroke:::traumatic amputation:::spinal cord stroke                                                                                                                                                                                                     | S06:::G45:::I63:::S09:::I64:::T14:::G95                                     |
+|  5 | a non-ST elevation MI       |     182 |   202 | PROBLEM  | I21    | non-st elevation <span class="o">(</span>nstemi<span class="o">)</span> myocardial infarction          |     0.1615 | non-st elevation <span class="o">(</span>nstemi<span class="o">)</span> myocardial infarction:::nonruptured cerebral artery dissection:::acute stroke, nonatherosclerotic:::nontraumatic ischemic infarction of muscle, unsp shoulder:::history of nonatherosclerotic stroke without residual deficits:::non-traumatic cerebral hemorrhage                                                            | I21:::I67:::I63:::M62:::Z86:::I61                                           |
+|  6 | Guaiac positive stools      |     208 |   229 | PROBLEM  | R85    | abnormal anal pap                                        |     0.1807 | abnormal anal pap:::straining at stool <span class="o">(</span>finding<span class="o">)</span>:::amine <span class="nb">test </span>positive:::appendiceal colic:::fecal smearing:::epiploic appendagitis:::diverticulosis of intestine <span class="o">(</span>finding<span class="o">)</span>:::appendicitis <span class="o">(</span>disorder<span class="o">)</span>:::colostomy present <span class="o">(</span>finding<span class="o">)</span>:::thickened anal verge <span class="o">(</span>finding<span class="o">)</span>:::anal fissure:::amoebic enteritis:::zenkers diverticulum                          | R85:::R19:::Z78:::K38:::R15:::K65:::K57:::K37:::Z93:::K62:::K60:::A06:::K22 |
+|  7 | mid LAD lesion              |     332 |   345 | PROBLEM  | I21    | stemi involving left anterior descending coronary artery |     0.1595 | stemi involving left anterior descending coronary artery:::divided left atrium:::disorder of left atrium:::double inlet left ventricle:::left os acromiale:::furuncle of left upper limb:::left anterior fascicular hemiblock <span class="o">(</span>heart rhythm<span class="o">)</span>:::aberrant origin of left subclavian artery:::stent <span class="k">in </span>circumflex branch of left coronary artery <span class="o">(</span>finding<span class="o">)</span> | I21:::Q24:::I51:::Q20:::M89:::L02:::I44:::Q27:::Z95                         |
+|  8 | hypotension                 |     362 |   372 | PROBLEM  | I95    | hypotension                                              |     0      | hypotension:::supine hypotensive syndrome                                                                                                                                                                                                                                                                                                               | I95:::O26                                                                   |
+|  9 | bradycardia                 |     378 |   388 | PROBLEM  | R00    | bradycardia                                              |     0      | bradycardia:::bradycardia <span class="o">(</span>finding<span class="o">)</span>:::drug-induced bradycardia:::bradycardia <span class="o">(</span>disorder<span class="o">)</span>                                                                                                                                                                                                                                                                 | R00:::P29:::T50:::P20                                                       |
+| 10 | vagal reaction              |     466 |   479 | PROBLEM  | G52    | vagus nerve finding                                      |     0.0926 | vagus nerve finding:::vasomotor reaction:::vesicular breathing <span class="o">(</span>finding<span class="o">)</span>:::abdominal muscle tone - finding:::agonizing state:::paresthesia <span class="o">(</span>finding<span class="o">)</span>:::glossolalia <span class="o">(</span>finding<span class="o">)</span>:::tactile alteration <span class="o">(</span>finding<span class="o">)</span>                                                                                                                                             | G52:::I73:::R09:::R19:::R45:::R20:::R41:::R44                               |
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -441,15 +484,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>xlm_roberta_base_finetuned_amharic</td>
+      <td>sbiobertresolve_icd10cm_generalised</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.0+</td>
+      <td>Spark NLP for Healthcare 3.2.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -457,35 +500,26 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, sentence]</td>
+      <td>[sentence_chunk_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[embeddings]</td>
+      <td>[icd10cm_code]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>am</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/Davlan/xlm-roberta-base-finetuned-amharic">https://huggingface.co/Davlan/xlm-roberta-base-finetuned-amharic</a></p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Eval results on the Test set (F-score, average over 5 runs)</span>
-
-Dataset| XLM-R F1 | am_roberta F1
--|-|-
-<span class="o">[</span>MasakhaNER]<span class="o">(</span>https://github.com/masakhane-io/masakhane-ner<span class="o">)</span> | 70.96 | 77.97
-</code></pre></div></div>
+<p>Trained on ICD10 Clinical Modification dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings. https://www.icd10data.com/ICD10CM/Codes/</p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-29T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -611,7 +645,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/29/sbiobertresolve_icd10cm_generalised_en.html">Sentence Entity Resolver for ICD10-CM (general 3 character codes)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/29/xlm_roberta_base_finetuned_hausa_ha.html">XLM-RoBERTa Base for Hausa (xlm_roberta_base_finetuned_hausa)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/28/nerdl_fewnerd_subentity_100d_pipeline_en.html">Pre-trained Pipeline for Few-NERD NER Model</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/29/xlm_roberta_base_finetuned_amharic_am.html">XLM-RoBERTa Base for Amharic (xlm_roberta_base_finetuned_amharic)</a></div></div></div>
 
 </div>
 </div>

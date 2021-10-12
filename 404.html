@@ -424,8 +424,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for HCPCS Codes- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to Healthcare Common Procedure Coding System (HCPCS) codes using ‘sbiobert_base_cased_mli’ sentence emb...">
-<link rel="canonical" href="/2021/09/29/sbiobertresolve_hcpcs_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for UMLS CUI Codes (Disease or Syndrome)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities to UMLS CUI codes. It is trained on 2021AB UMLS dataset. The complete dataset has 127 different categories, and ...">
+<link rel="canonical" href="/2021/10/11/sbiobertresolve_umls_disease_syndrome_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -818,22 +818,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 29, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-29T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for HCPCS Codes</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for HCPCS Codes"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>entity_resolution</li><li>hcpcs</li><li>licensed</li><li>en</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-29T00:00:00+00:00">
-    <meta itemprop="keywords" content="entity_resolution,hcpcs,licensed,en,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 11, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-11T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for UMLS CUI Codes (Disease or Syndrome)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for UMLS CUI Codes (Disease or Syndrome)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>entity_resolution</li><li>licensed</li><li>clinical</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-11T00:00:00+00:00">
+    <meta itemprop="keywords" content="entity_resolution,licensed,clinical,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps extracted medical entities to <a href="https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS/index.html#:~:text=The%20Healthcare%20Common%20Procedure%20Coding,%2C%20supplies%2C%20products%20and%20services.">Healthcare Common Procedure Coding System (HCPCS)</a>
- codes using ‘sbiobert_base_cased_mli’ sentence embeddings. It also returns the domain information of the codes in the <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> parameter in the metadata of the result.</p>
+<p>This model maps clinical entities to UMLS CUI codes. It is trained on <code class="language-plaintext highlighter-rouge">2021AB</code> UMLS dataset. The complete dataset has 127 different categories, and this model is trained on the <code class="language-plaintext highlighter-rouge">Disease or Syndrome</code> category using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> embeddings.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">HCPCS Codes</code></p>
+<p><code class="language-plaintext highlighter-rouge">Predicts UMLS codes for Diseases &amp; Syndromes medical concepts</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_hcpcs_en_3.2.3_2.4_1632909577033.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_umls_disease_syndrome_en_3.2.3_3.0_1633911418710.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -841,54 +840,58 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">chunk2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-    
-<span class="n">hcpcs_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_hcpcs"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hcpcs_code"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
+     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
 
-<span class="n">hcpcs_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sbert_embedder</span><span class="p">,</span>
-        <span class="n">hcpcs_resolver</span><span class="p">])</span>
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_umls_disease_syndrome"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">hcpcs_pipelineModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">stopwords</span><span class="p">,</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">chunk2doc</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">resolver</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">chunk2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'sbiobert_base_cased_ml</span><span class="n">i</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk_doc</span><span class="err">"</span><span class="o">])\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
     
-<span class="k">val</span> <span class="nv">hcpcs_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_hcpcs"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sentence_embeddings</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hcpcs_code"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_umls_disease_syndrome"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk_doc</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sbert_embeddings</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)\</span>
       <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">hcpcs_pipelineModel</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">hcpcs_resolver</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">p_model</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">stopwords</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">chunk2doc</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">resolver</span><span class="o">))</span>
     
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>    
-<span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">hcpcs_pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">""</span><span class="n">A</span> <span class="mi">28</span><span class="o">-</span><span class="n">year</span><span class="o">-</span><span class="n">old</span> <span class="n">female</span> <span class="k">with</span> <span class="n">a</span> <span class="n">history</span> <span class="n">of</span> <span class="n">gestational</span> <span class="n">diabetes</span> <span class="n">mellitus</span> <span class="n">diagnosed</span> <span class="n">eight</span> <span class="n">years</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span> <span class="n">and</span> <span class="n">subsequent</span> <span class="k">type</span> <span class="kt">two</span> <span class="kt">diabetes</span> <span class="kt">mellitus</span> <span class="o">(</span><span class="kt">T2DM</span><span class="o">),</span> <span class="n">one</span> <span class="n">prior</span> <span class="n">episode</span> <span class="n">of</span> <span class="nc">HTG</span><span class="o">-</span><span class="n">induced</span> <span class="n">pancreatitis</span> <span class="n">three</span> <span class="n">years</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span><span class="o">,</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">an</span> <span class="n">acute</span> <span class="n">hepatitis</span><span class="o">,</span> <span class="n">and</span> <span class="n">obesity</span> <span class="k">with</span> <span class="n">a</span> <span class="n">body</span> <span class="n">mass</span> <span class="nf">index</span> <span class="o">(</span><span class="nc">BMI</span><span class="o">)</span> <span class="n">of</span> <span class="mf">33.5</span> <span class="n">kg</span><span class="o">/</span><span class="n">m2</span><span class="o">,</span> <span class="n">presented</span> <span class="k">with</span> <span class="n">a</span> <span class="n">one</span><span class="o">-</span><span class="n">week</span> <span class="n">history</span> <span class="n">of</span> <span class="n">polyuria</span><span class="o">,</span> <span class="n">polydipsia</span><span class="o">,</span> <span class="n">poor</span> <span class="n">appetite</span><span class="o">,</span> <span class="n">and</span> <span class="n">vomiting</span><span class="o">.</span><span class="s">""</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">p_model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--+---------------------------------------------------------------------------------------------------------+----------+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------+
-|  |ner_chunk                                                                                                |hcpcs_code|all_codes                               |resolutions                                                                                                                                                                                                                                                                                                                                                                                                     |domain                                     |
-+--+---------------------------------------------------------------------------------------------------------+----------+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------+
-|0 |Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any <span class="nb">type</span>|L8001     |[L8001, L8002, L8000, L8033, L8032, ...]|<span class="s1">'Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type'</span>, <span class="s1">'Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, bilateral, any size, any type'</span>, <span class="s1">'Breast prosthesis, mastectomy bra, without integrated breast prosthesis form, any size, any type'</span>, <span class="s1">'Nipple prosthesis, custom fabricated, reusable, any material, any type, each'</span>, ...|Device, Device, Device, Device, Device, ...|
-+--+---------------------------------------------------------------------------------------------------------+----------+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                                 | code     | code_description                      | all_k_code_desc                                              | all_k_codes                                                                                                                                                                                              |
+|---:|:--------------------------------------|:---------|:--------------------------------------|:-------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  0 | gestational diabetes mellitus         | C0085207 | gestational diabetes mellitus         | <span class="o">[</span><span class="s1">'C0085207'</span>, <span class="s1">'C0032969'</span>, <span class="s1">'C2063017'</span>, <span class="s1">'C1283034'</span>, <span class="s1">'C0271663'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'pregnancy diabetes mellitus'</span>, <span class="s1">'pregnancy complicated by diabetes mellitus'</span>, <span class="s1">'maternal diabetes mellitus'</span>, <span class="s1">'gestational diabetes mellitus, a2'</span><span class="o">]</span>                        |
+|  1 | subsequent <span class="nb">type </span>two diabetes mellitus | C0348921 | pre-existing <span class="nb">type </span>2 diabetes mellitus | <span class="o">[</span><span class="s1">'C0348921'</span>, <span class="s1">'C1719939'</span>, <span class="s1">'C0011860'</span>, <span class="s1">'C0877302'</span>, <span class="s1">'C0271640'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'pre-existing type 2 diabetes mellitus'</span>, <span class="s1">'disorder associated with type 2 diabetes mellitus'</span>, <span class="s1">'diabetes mellitus, type 2'</span>, <span class="s1">'insulin-requiring type 2 diabetes mellitus'</span>, <span class="s1">'secondary diabetes mellitus'</span><span class="o">]</span> |
+|  2 | HTG-induced pancreatitis              | C0376670 | alcohol-induced pancreatitis          | <span class="o">[</span><span class="s1">'C0376670'</span>, <span class="s1">'C1868971'</span>, <span class="s1">'C4302243'</span>, <span class="s1">'C0267940'</span>, <span class="s1">'C2350449'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'alcohol-induced pancreatitis'</span>, <span class="s1">'toxic pancreatitis'</span>, <span class="s1">'igg4-related pancreatitis'</span>, <span class="s1">'hemorrhage pancreatitis'</span>, <span class="s1">'graft pancreatitis'</span><span class="o">]</span>                                                                     |
+|  3 | an acute hepatitis                    | C0019159 | acute hepatitis                       | <span class="o">[</span><span class="s1">'C0019159'</span>, <span class="s1">'C0276434'</span>, <span class="s1">'C0267797'</span>, <span class="s1">'C1386146'</span>, <span class="s1">'C2063407'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'acute hepatitis a'</span>, <span class="s1">'acute hepatitis a'</span>, <span class="s1">'acute hepatitis'</span>, <span class="s1">'acute infectious hepatitis'</span>, <span class="s1">'acute hepatitis e'</span><span class="o">]</span>                                                                                         |
+|  4 | obesity                               | C0028754 | obesity                               | <span class="o">[</span><span class="s1">'C0028754'</span>, <span class="s1">'C0342940'</span>, <span class="s1">'C0342942'</span>, <span class="s1">'C0857116'</span>, <span class="s1">'C1561826'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'obesity'</span>, <span class="s1">'abdominal obesity'</span>, <span class="s1">'generalized obesity'</span>, <span class="s1">'obesity gross'</span>, <span class="s1">'overweight and obesity'</span><span class="o">]</span>                                                                                                       |
+|  5 | polyuria                              | C0018965 | hematuria                             | <span class="o">[</span><span class="s1">'C0018965'</span>, <span class="s1">'C0151582'</span>, <span class="s1">'C3888890'</span>, <span class="s1">'C0268556'</span>, <span class="s1">'C2936921'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'hematuria'</span>, <span class="s1">'uricosuria'</span>, <span class="s1">'polyuria-polydipsia syndrome'</span>, <span class="s1">'saccharopinuria'</span>, <span class="s1">'saccharopinuria'</span><span class="o">]</span>                                                                                                        |
+|  6 | polydipsia                            | C0268813 | primary polydipsia                    | <span class="o">[</span><span class="s1">'C0268813'</span>, <span class="s1">'C0030508'</span>, <span class="s1">'C3888890'</span>, <span class="s1">'C0393777'</span>, <span class="s1">'C0206085'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'primary polydipsia'</span>, <span class="s1">'parasomnia'</span>, <span class="s1">'polyuria-polydipsia syndrome'</span>, <span class="s1">'hypnogenic paroxysmal dystonias'</span>, <span class="s1">'periodic hypersomnias'</span><span class="o">]</span>                                                                         |
+|  7 | poor appetite                         | C0003123 | lack of appetite                      | <span class="o">[</span><span class="s1">'C0003123'</span>, <span class="s1">'C0011168'</span>, <span class="s1">'C0162429'</span>, <span class="s1">'C1282895'</span>, <span class="s1">'C0039338'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'lack of appetite'</span>, <span class="s1">'poor swallowing'</span>, <span class="s1">'poor nutrition'</span>, <span class="s1">'neurologic unpleasant taste'</span>, <span class="s1">'taste dis'</span><span class="o">]</span>                                                                                                    |
+|  8 | vomiting                              | C0152164 | periodic vomiting                     | <span class="o">[</span><span class="s1">'C0152164'</span>, <span class="s1">'C0267172'</span>, <span class="s1">'C0152517'</span>, <span class="s1">'C0011119'</span>, <span class="s1">'C0152227'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'periodic vomiting'</span>, <span class="s1">'habit vomiting'</span>, <span class="s1">'viral vomiting'</span>, <span class="s1">'choking'</span>, <span class="s1">'tearing'</span><span class="o">]</span>                                                                                                                          |
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -897,7 +900,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_hcpcs</td>
+      <td>sbiobertresolve_umls_disease_syndrome</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -913,11 +916,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[sentence_chunk_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[hcpcs_code]</td>
+      <td>[output]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -929,7 +932,11 @@
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-29T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="data-source">Data Source</h2>
+
+<p>Trained on <code class="language-plaintext highlighter-rouge">2021AB</code> UMLS dataset’s ‘ Disease or Syndrome` category. https://www.nlm.nih.gov/research/umls/index.html</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1054,7 +1061,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/29/xlm_roberta_large_xx.html">XLM-RoBERTa Large (xlm_roberta_large)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/11/sbiobertresolve_umls_clinical_drugs_en.html">Sentence Entity Resolver for UMLS CUI Codes (Clinical Drug)</a></div></div></div>
 
 </div>
 </div>

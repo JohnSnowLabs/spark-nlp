@@ -1,4 +1,2 @@
-docs/_posts/2020-09-28-ner_healthcare_de.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_healthcare_slim_de.md
-docs/_posts/2020-09-28-ner_healthcare_de.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_healthcare_slim_de.md
+docs/_posts/HashamUlHaq/2021-10-11-sbiobertresolve_umls_clinical_drugs_en.md
+docs/_posts/HashamUlHaq/2021-10-11-sbiobertresolve_umls_clinical_drugs_en.md
