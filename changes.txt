@@ -1,2 +1,2 @@
-docs/_posts/HashamUlHaq/2021-10-11-sbiobertresolve_umls_clinical_drugs_en.md
-docs/_posts/HashamUlHaq/2021-10-11-sbiobertresolve_umls_clinical_drugs_en.md
+README.md
+README.md
