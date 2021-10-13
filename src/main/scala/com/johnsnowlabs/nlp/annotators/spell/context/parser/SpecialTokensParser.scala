@@ -284,12 +284,6 @@ class NamesClass extends VocabParser with SerializableClass {
     transducer = generateTransducer
   }
 
-  def this(v:Set[String]) = {
-    this()
-    vocab = v
-    transducer = generateTransducer
-  }
-
   @throws[IOException]
   private def readObject(aInputStream: ObjectInputStream): Unit = {
     transducer = deserializeTransducer(aInputStream)
@@ -399,4 +393,38 @@ class DateToken extends RegexParser with WeightedLevenshtein with SerializableCl
     serializeTransducer(aOutputStream, transducer)
   }
 
+}
+
+
+class GenericVocabParser(override var vocab: Set[String],
+                         override val label: String,
+                         override val maxDist: Int = 3)  extends VocabParser with SerializableClass {
+  transducer = generateTransducer
+
+  @throws[IOException]
+  private def readObject(aInputStream: ObjectInputStream): Unit = {
+    transducer = deserializeTransducer(aInputStream)
+  }
+
+  @throws[IOException]
+  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
+    serializeTransducer(aOutputStream, transducer)
+  }
+}
+
+class GenericRegexParser(override var regex: String,
+                         override val label: String,
+                         override val maxDist: Int = 3) extends RegexParser with WeightedLevenshtein with SerializableClass {
+
+  transducer = generateTransducer
+
+  @throws[IOException]
+  private def readObject(aInputStream: ObjectInputStream): Unit = {
+    transducer = deserializeTransducer(aInputStream)
+  }
+
+  @throws[IOException]
+  private def writeObject(aOutputStream: ObjectOutputStream): Unit = {
+    serializeTransducer(aOutputStream, transducer)
+  }
 }
