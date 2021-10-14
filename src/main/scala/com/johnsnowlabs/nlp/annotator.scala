@@ -19,20 +19,21 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
+import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
-import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
-import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings._
-import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
 import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
+import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.embeddings._
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -368,5 +369,11 @@ package object annotator {
   type LongformerForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification
 
   object LongformerForTokenClassification extends ReadablePretrainedLongformerForTokenModel with ReadLongformerForTokenTensorflowModel
+  
+  type EntityRuler = com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
+
+  type EntityRulerModel = com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
+
+  object EntityRulerModel extends ReadablePretrainedEntityRuler
 
 }
