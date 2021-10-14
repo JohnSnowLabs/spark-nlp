@@ -45,7 +45,7 @@ class YakeTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
       .setContextChars(Array("(", ")", "?", "!", ".", ","))
 
-    val keywords = new YakeModel()
+    val keywords = new YakeKeywordExtraction()
       .setInputCols("token")
       .setOutputCol("keywords")
       .setThreshold(0.6f)
