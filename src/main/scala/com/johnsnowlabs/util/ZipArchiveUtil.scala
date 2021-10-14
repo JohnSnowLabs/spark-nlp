@@ -57,7 +57,8 @@ object ZipArchiveUtil {
     val Buffer = 2 * 1024
     val data = new Array[Byte](Buffer)
     try {
-      val zip = new ZipOutputStream(new FileOutputStream(outputFilename))
+      val zipFileOS = new FileOutputStream(outputFilename)
+      val zip = new ZipOutputStream(zipFileOS)
       zip.setLevel(0)
       filePaths.foreach((name: String) => {
         val zipEntry = addFileToZipEntry(name, parentPath, filePaths.size)
@@ -70,9 +71,10 @@ object ZipArchiveUtil {
           b = in.read(data, 0, Buffer)
         }
         in.close()
-        zip.closeEntry()
       })
+      zip.closeEntry()
       zip.close()
+      zipFileOS.close()
 
     } catch {
       case e: IOException =>
