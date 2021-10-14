@@ -1262,10 +1262,6 @@ We appreciate any sort of contributions:
 
 Clone the repo and submit your pull-requests! Or directly create issues in this repo.
 
-## Contact
-
-nlp@johnsnowlabs.com
-
 ## John Snow Labs
 
 [http://johnsnowlabs.com](http://johnsnowlabs.com)

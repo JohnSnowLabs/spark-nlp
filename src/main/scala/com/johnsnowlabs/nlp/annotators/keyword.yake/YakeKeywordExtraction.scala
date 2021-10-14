@@ -73,7 +73,7 @@ import scala.math.sqrt
  * import spark.implicits._
  * import com.johnsnowlabs.nlp.base.DocumentAssembler
  * import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
- * import com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+ * import com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction
  * import org.apache.spark.ml.Pipeline
  *
  * val documentAssembler = new DocumentAssembler()
@@ -89,7 +89,7 @@ import scala.math.sqrt
  *   .setOutputCol("token")
  *   .setContextChars(Array("(", ")", "?", "!", ".", ","))
  *
- * val keywords = new YakeModel()
+ * val keywords = new YakeKeywordExtraction()
  *   .setInputCols("token")
  *   .setOutputCol("keywords")
  *   .setThreshold(0.6f)
@@ -140,14 +140,14 @@ import scala.math.sqrt
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class YakeModel(override val uid: String) extends AnnotatorModel[YakeModel] with HasSimpleAnnotate[YakeModel] with YakeParams {
+class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[YakeKeywordExtraction] with HasSimpleAnnotate[YakeKeywordExtraction] with YakeParams {
 
   /**
    * Annotator reference id. Used to identify elements in metadata or to refer to this annotator type
    */
   def this() = this(Identifiable.randomUID("YAKE"))
 
-  private val logger = LoggerFactory.getLogger("YakeModel")
+  private val logger = LoggerFactory.getLogger("YakeKeywordExtraction")
 
   /** Output Annotator Types: KEYWORD
    *
@@ -437,4 +437,4 @@ class YakeModel(override val uid: String) extends AnnotatorModel[YakeModel] with
   }
 }
 
-object YakeModel extends ParamsAndFeaturesReadable[YakeModel]
+object YakeKeywordExtraction extends ParamsAndFeaturesReadable[YakeKeywordExtraction]

@@ -10372,7 +10372,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
         return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
 
 
-class YakeModel(AnnotatorModel):
+class YakeKeywordExtraction(AnnotatorModel):
     """Yake is an Unsupervised, Corpus-Independent, Domain and
     Language-Independent and Single-Document keyword extraction algorithm.
 
@@ -10469,7 +10469,7 @@ class YakeModel(AnnotatorModel):
     ...     .setInputCols(["sentence"]) \\
     ...     .setOutputCol("token") \\
     ...     .setContextChars(["(", "]", "?", "!", ".", ","])
-    >>> keywords = YakeModel() \\
+    >>> keywords = YakeKeywordExtraction() \\
     ...     .setInputCols(["token"]) \\
     ...     .setOutputCol("keywords") \\
     ...     .setThreshold(0.6) \\
@@ -10501,18 +10501,18 @@ class YakeModel(AnnotatorModel):
     |anthony goldbloom    |0.41584827825302534|
     +---------------------+-------------------+
     """
-    name = "YakeModel"
+    name = "YakeKeywordExtraction"
 
     @keyword_only
     def __init__(self):
-        super(YakeModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel")
+        super(YakeKeywordExtraction, self).__init__(classname="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction")
         self._setDefault(
             minNGrams=2,
             maxNGrams=3,
             nKeywords=30,
             windowSize=3,
             threshold=-1,
-            stopWords=YakeModel.loadDefaultStopWords("english")
+            stopWords=YakeKeywordExtraction.loadDefaultStopWords("english")
         )
 
     minNGrams = Param(Params._dummy(), "minNGrams", "Minimum N-grams a keyword should have",

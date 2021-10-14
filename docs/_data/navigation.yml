@@ -84,15 +84,23 @@ docs-en:
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
-        url:    /docs/en/licensed_install
+        url:    /docs/en/license_getting_started
+      - title: Installation
+        url: /docs/en/licensed_install
       - title:  Annotators
         url:    /docs/en/licensed_annotators
+      - title: Training
+        url: /docs/en/licensed_annotators
       - title:  Models
         url:    /docs/en/licensed_models
       - title:  Evaluation
         url:    /docs/en/evaluation
-      - title: Scaladoc
+      - title: Scala API (Scaladoc)
         url: /licensed/api/
+      - title: Python API (Sphinx)
+        url: /licensed/api/python
+      - title:  Version Compatibility
+        url:    /docs/en/licensed_version_compatibility
       - title: Release Notes
         url: /docs/en/licensed_release_notes
   - title: Spark OCR
@@ -206,21 +214,28 @@ sparknlp-healthcare:
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
-        url:    /docs/en/licensed_install
+        url:    /docs/en/license_getting_started
+      - title: Installation
+        url: /docs/en/licensed_install
       - title:  Annotators
         url:    /docs/en/licensed_annotators
+      - title: Training
+        url: /docs/en/licensed_training
       - title:  Models
         url:    /docs/en/licensed_models
       - title:  Evaluation
         url:    /docs/en/evaluation
-      - title: Scaladoc
+      - title: Scala API (Scaladoc)
         url: /licensed/api/
+      - title: Python API (Sphinx)
+        url: /licensed/api/python
       - title: Version Compatibility
         url: /docs/en/licensed_version_compatibility
       - title: Release Notes
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
         url: /docs/en/benchmark
+
 
 spark-ocr:
   - title: Spark OCR

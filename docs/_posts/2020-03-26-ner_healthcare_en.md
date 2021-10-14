@@ -39,7 +39,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")\
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") \
@@ -56,7 +56,7 @@ results = model.transform(data)
 
 ```scala
 ...
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") 
@@ -105,7 +105,7 @@ The output is a dataframe with a sentence per row and a ``"ner"`` column contain
 
 {:.h2_title}
 ## Data Source
-Trained on 2010 i2b2 challenge data with 'embeddings_clinical'.
+Trained on 2010 i2b2 challenge data with 'embeddings_healthcare_100d'.
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 {:.h2_title}
