@@ -1364,7 +1364,7 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
         print(multi_classsifierdl_model.getClasses())
 
 
-class YakeModelTestSpec(unittest.TestCase):
+class YakeKeywordExtractionTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([
             [1,
@@ -1406,7 +1406,7 @@ class YakeModelTestSpec(unittest.TestCase):
             .setOutputCol("token") \
             .setContextChars(["(", ")", "?", "!", ".", ","])
 
-        keywords = YakeModel() \
+        keywords = YakeKeywordExtraction() \
             .setInputCols("token") \
             .setOutputCol("keywords") \
             .setMinNGrams(2) \
