@@ -112,7 +112,6 @@ lazy val utilDependencies = Seq(
     exclude("org.apache.commons", "commons-lang3"),
   greex,
   json4s
-
 )
 
 lazy val typedDependencyParserDependencies = Seq(
