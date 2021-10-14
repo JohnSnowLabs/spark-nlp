@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "github-pages", "218"
+gem "github-pages", "220"
 gem "nokogiri", ">= 1.12.5"
 
 gem "elasticsearch", "~> 7.10"

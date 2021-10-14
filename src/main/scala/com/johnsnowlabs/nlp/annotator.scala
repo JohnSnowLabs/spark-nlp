@@ -270,9 +270,9 @@ package object annotator {
 
   object SentimentDLModel extends ReadablePretrainedSentimentDL with ReadSentimentDLTensorflowModel
 
-  type YakeModel = com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+  type YakeKeywordExtraction = com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction
 
-  object YakeModel extends ParamsAndFeaturesReadable[YakeModel]
+  object YakeKeywordExtraction extends ParamsAndFeaturesReadable[YakeKeywordExtraction]
 
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 
