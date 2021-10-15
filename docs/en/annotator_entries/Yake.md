@@ -1,5 +1,5 @@
 {%- capture title -%}
-Yake
+YakeKeywordExtraction
 {%- endcapture -%}
 
 {%- capture description -%}
@@ -20,7 +20,7 @@ first sent through a Sentence Boundary Detector and then a tokenizer.
 Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
 Therefore to filter the keywords, an upper bound for the score can be set with `setThreshold`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/8.Keyword_Extraction_YAKE_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb)
 and the [YakeTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala).
 
  **Sources** :
@@ -163,15 +163,15 @@ scores.orderBy("score").show(5, truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[YakeModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeModel)
+[YakeKeywordExtraction](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeKeywordExtraction)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[YakeModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.YakeModel.html)
+[YakeKeywordExtraction](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.YakeKeywordExtraction.html)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[YakeModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeModel.scala)
+[YakeKeywordExtraction](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeKeywordExtraction.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
