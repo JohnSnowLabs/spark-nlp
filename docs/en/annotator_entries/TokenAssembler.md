@@ -8,7 +8,7 @@ lemmatized, normalized, spell checked, etc, in order to use this document annota
 Requires `DOCUMENT` and `TOKEN` type annotations as input.
 
 For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb).
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

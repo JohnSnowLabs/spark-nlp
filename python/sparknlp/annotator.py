@@ -6617,7 +6617,7 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     ``"AVERAGE"`` or ``"SUM"``.
 
     For more extended examples see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutoTials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb>`__..
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb>`__..
 
     ============================= =======================
     Input Annotation types        Output Annotation type
@@ -11249,7 +11249,7 @@ class T5Transformer(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models?q=t5>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.Question_Answering_and_Summarization_with_T5.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

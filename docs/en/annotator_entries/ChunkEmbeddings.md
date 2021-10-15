@@ -7,7 +7,7 @@ This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk em
 [Chunker](/docs/en/annotators#chunker), [NGramGenerator](/docs/en/annotators#ngramgenerator),
 or [NerConverter](/docs/en/annotators#nerconverter) outputs.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
 and the [ChunkEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 
