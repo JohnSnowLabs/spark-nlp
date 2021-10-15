@@ -126,7 +126,7 @@ val result = pipeline.fit(data).transform(data)
 ## Data Source
 
 Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013 with `embeddings_clinical`.
-http://2013.bionlp-st.org/tasks/cancer-genetics
+https://aclanthology.org/W13-2008/
 
 ## Benchmarking
 
