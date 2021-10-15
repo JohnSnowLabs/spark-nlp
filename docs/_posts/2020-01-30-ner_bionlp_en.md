@@ -119,7 +119,7 @@ The output is a dataframe with a sentence per row and a ``"ner_label"`` column c
 {:.h2_title}
 ## Data Source
 Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013 with ``embeddings_clinical``.
-http://2013.bionlp-st.org/tasks/cancer-genetics
+https://aclanthology.org/W13-2008/
 
 {:.h2_title}
 ## Benchmarking

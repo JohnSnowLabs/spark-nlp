@@ -93,7 +93,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="ViveknSentiment" summary="Sentiment analyser inspired by the algorithm by Vivek Narayanan."%}
 {% include templates/anno_table_entry.md path="" name="WordEmbeddings" summary="Word Embeddings lookup annotator that maps tokens to vectors."%}
 {% include templates/anno_table_entry.md path="" name="WordSegmenter" summary="Tokenizes non-english or non-whitespace separated texts."%}
-{% include templates/anno_table_entry.md path="" name="Yake" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
+{% include templates/anno_table_entry.md path="" name="YakeKeywordExtraction" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
 
 ## Available Transformers
 Additionally, these transformers are available to generate embeddings.

@@ -49,7 +49,7 @@ Please report any [issues](https://github.com/liabru/jquery-match-height/issues)
 Where `byRow` is a boolean that enables or disables row detection, default is `true`.<br>
 You should apply this on the [DOM ready](http://api.jquery.com/ready/) event.
 
-See the included [test.html](https://github.com/liabru/jquery-match-height/blob/master/test.html) for a working example.
+See the included [test.html](https://github.com/liabru/jquery-match-height/blob/0.7.2/test/page/test.html) for a working example.
 
 ### Examples
 
