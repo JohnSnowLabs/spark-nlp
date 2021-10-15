@@ -19,10 +19,10 @@ package com.johnsnowlabs.nlp.annotators.er
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
 import com.johnsnowlabs.nlp.serialization.StructFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasFeatures, HasPretrained, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
 import com.johnsnowlabs.storage._
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
@@ -116,7 +116,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
 
   private def getMatchedEntity(token: String, regexPatternsReader: Option[RegexPatternsReader]): Option[String] = {
 
-    val matchesByEntity = $(regexEntities).flatMap{ regexEntity =>
+    val matchesByEntity = $(regexEntities).flatMap { regexEntity =>
       val regexPatterns: Option[Seq[String]] = regexPatternsReader match {
         case Some(rpr) => rpr.lookup(regexEntity)
         case None => $$(entityRulerFeatures).regexPatterns.get(regexEntity)
@@ -127,7 +127,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
       } else None
     }.toSeq
 
-    if (matchesByEntity.size > 1 ) {
+    if (matchesByEntity.size > 1) {
       logger.warn("More than one entity found. Sending the first element of the array")
     }
 
@@ -136,8 +136,8 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
 
   private def annotateEntitiesFromPatterns(tokenizedWithSentences: Seq[TokenizedSentence],
                                            patternsReader: Option[PatternsReader]): Seq[Annotation] = {
-    val annotatedEntities = tokenizedWithSentences.flatMap{ tokenizedWithSentence =>
-      tokenizedWithSentence.indexedTokens.flatMap{ indexedToken =>
+    val annotatedEntities = tokenizedWithSentences.flatMap { tokenizedWithSentence =>
+      tokenizedWithSentence.indexedTokens.flatMap { indexedToken =>
         val labelData: Option[String] = patternsReader match {
           case Some(pr) => pr.lookup(indexedToken.token)
           case None => $$(entityRulerFeatures).patterns.get(indexedToken.token)
@@ -156,10 +156,10 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
 
   private def getEntityMetadata(labelData: Option[String]): Map[String, String] = {
 
-    val entityMetadata = labelData.get.split(",").zipWithIndex.flatMap{ case(metadata, index) =>
+    val entityMetadata = labelData.get.split(",").zipWithIndex.flatMap { case (metadata, index) =>
       if (index == 0) {
-        Map("entity"-> metadata)
-      } else Map("id"-> metadata)
+        Map("entity" -> metadata)
+      } else Map("id" -> metadata)
     }.toMap
 
     entityMetadata

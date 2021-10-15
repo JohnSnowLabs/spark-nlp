@@ -25,7 +25,7 @@ import com.johnsnowlabs.storage.Database.Name
 import com.johnsnowlabs.storage._
 import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.BooleanParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.collect_set
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -159,6 +159,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
   /**
    * Resource in JSON or CSV format to map entities to patterns (Default: `null`).
+   *
    * @group param
    */
   val patternsResource = new ExternalResourceParam(this, "patternsResource",
@@ -166,12 +167,14 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
   /**
    * Enables regex pattern match (Default: `false`).
+   *
    * @group param
    */
   val enablePatternRegex = new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
   /**
    * Whether to use RocksDB storage to serialize patterns (Default: `true`).
+   *
    * @group param
    */
   val useStorage = new BooleanParam(this, "useStorage", "Whether to use RocksDB storage to serialize patterns")
