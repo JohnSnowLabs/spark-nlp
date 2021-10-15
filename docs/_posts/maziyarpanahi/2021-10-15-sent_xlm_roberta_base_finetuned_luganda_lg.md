@@ -24,7 +24,7 @@ Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on t
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_xlm_roberta_base_finetuned_luganda_lg_3.3.1_3.0_1634303739311.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_xlm_roberta_base_finetuned_luganda_lg_3.3.1_3.0_1634304217516.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -34,7 +34,7 @@ Specifically, this model is an *xlm-roberta-base* model that was fine-tuned on t
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
                 
-documentAssembler = DocumentAssembler()\ 
+document = DocumentAssembler()\ 
     .setInputCol("text")\ 
     .setOutputCol("document")
 
@@ -42,14 +42,14 @@ sentencerDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
     .setInputCols(["document"])\ 
     .setOutputCol("sentence")
 
-marian = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base_finetuned_luganda", "lg")\ 
+sentece_embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base_finetuned_luganda", "lg")\ 
     .setInputCols(["sentence"])\ 
     .setOutputCol("sentence_embeddings")
 
 ```
 ```scala
 
-val documentAssembler = new DocumentAssembler()
+val document = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
@@ -57,7 +57,7 @@ val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
   .setInputCols("document")
   .setOutputCol("sentence")
 
-val marian = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base_finetuned_luganda", "lg")
+val senteceEmbeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base_finetuned_luganda", "lg")
     .setInputCols("sentence")
     .setOutputCol("sentence_embeddings")
 ```
