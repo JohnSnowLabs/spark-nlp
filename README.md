@@ -39,6 +39,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
 - [Apache Spark Support](#apache-spark-support)
+- [Scala & Python Support](#scala-and-python-support)
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
 - [Using Spark NLP](#usage)  
@@ -196,26 +197,43 @@ For more examples, you can visit our dedicated [repository](https://github.com/J
 
 Spark NLP *3.3.1* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x and Apache Spark 2.4.x:
 
-| Spark NLP   |   Apache Spark 2.3.x  | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
-|-------------|-----------------------|--------------------|--------------------|--------------------|
-| 3.3.x       |YES                    |YES                 |YES                 |YES                 |
-| 3.2.x       |YES                    |YES                 |YES                 |YES                 |
-| 3.1.x       |YES                    |YES                 |YES                 |YES                 |
-| 3.0.x       |YES                    |YES                 |YES                 |YES                 |
-| 2.7.x       |YES                    |YES                 |NO                  |NO                  |
-| 2.6.x       |YES                    |YES                 |NO                  |NO                  |
-| 2.5.x       |YES                    |YES                 |NO                  |NO                  |
-| 2.4.x       |Partially              |YES                 |NO                  |NO                  |
-| 1.8.x       |Partially              |YES                 |NO                  |NO                  |
-| 1.7.x       |YES                    |NO                  |NO                  |NO                  |
-| 1.6.x       |YES                    |NO                  |NO                  |NO                  |
-| 1.5.x       |YES                    |NO                  |NO                  |NO                  |
+| Spark NLP   | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x |
+|-------------|----------------|-------------|-------------|-------------|
+| 3.3.x       |YES             |YES          |YES          |YES          |
+| 3.2.x       |YES             |YES          |YES          |YES          |
+| 3.1.x       |YES             |YES          |YES          |YES          |
+| 3.0.x       |YES             |YES          |YES          |YES          |
+| 2.7.x       |YES             |YES          |NO           |NO           |
+| 2.6.x       |YES             |YES          |NO           |NO           |
+| 2.5.x       |YES             |YES          |NO           |NO           |
+| 2.4.x       |Partially       |YES          |NO           |NO           |
+| 1.8.x       |Partially       |YES          |NO           |NO           |
+| 1.7.x       |YES             |NO           |NO           |NO           |
+| 1.6.x       |YES             |NO           |NO           |NO           |
+| 1.5.x       |YES             |NO           |NO           |NO           |
 
-**NOTE:** Starting 3.0.0 release, the default `spark-nlp` and `spark-nlp-gpu` pacakges are based on Scala 2.12 and Apache Spark 3.x by default.
+- Starting 3.0.0 release, the default `spark-nlp` and `spark-nlp-gpu` pacakges are based on Scala 2.12 and Apache Spark 3.x by default.
 
-**NOTE:** Starting the 3.0.0 release, we support all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x, Apache Spark 3.0.x, and Apache Spark 3.1.x
+- Starting the 3.0.0 release, we support all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x, Apache Spark 3.0.x, and Apache Spark 3.1.x
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
+
+## Scala and Python Support
+
+| Spark NLP | Python 3.6  | Python 3.7  | Python 3.8  | Scala 2.11 | Scala 2.12 |
+|-----------|-------------|-------------|-------------|------------|------------|
+| 3.3.x     |YES          |YES          |YES          |YES          |YES        |
+| 3.2.x     |YES          |YES          |YES          |YES          |YES        |
+| 3.1.x     |YES          |YES          |YES          |YES          |YES        |
+| 3.0.x     |YES          |YES          |YES          |YES          |YES        |
+| 2.7.x     |YES          |YES          |NO           |YES          |NO         |
+| 2.6.x     |YES          |YES          |NO           |YES          |NO         |
+| 2.5.x     |YES          |YES          |NO           |YES          |NO         |
+| 2.4.x     |YES          |YES          |NO           |YES          |NO         |
+| 1.8.x     |YES          |YES          |NO           |YES          |NO         |
+| 1.7.x     |YES          |YES          |NO           |YES          |NO         |
+| 1.6.x     |YES          |YES          |NO           |YES          |NO         |
+| 1.5.x     |YES          |YES          |NO           |YES          |NO         |
 
 ## Databricks Support
 
@@ -248,7 +266,7 @@ Spark NLP 3.3.1 has been tested and is compatible with the following runtimes:
 - 9.0
 - 9.0 ML
 - 9.1
-- 9.01 ML
+- 9.1 ML
 
 **GPU:**
 
