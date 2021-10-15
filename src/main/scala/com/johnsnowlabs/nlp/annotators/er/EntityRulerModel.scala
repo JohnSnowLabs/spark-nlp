@@ -27,6 +27,25 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
+/**
+ * Instantiated model of the [[EntityRulerApproach]].
+ * For usage and examples see the documentation of the main class.
+ *
+ * @param uid internally renquired UID to make it writable
+ * @groupname anno Annotator types
+ * @groupdesc anno Required input and expected output annotator types
+ * @groupname Ungrouped Members
+ * @groupname param Parameters
+ * @groupname setParam Parameter setters
+ * @groupname getParam Parameter getters
+ * @groupname Ungrouped Members
+ * @groupprio param  1
+ * @groupprio anno  2
+ * @groupprio Ungrouped 3
+ * @groupprio setParam  4
+ * @groupprio getParam  5
+ * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
+ */
 class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRulerModel]
   with HasSimpleAnnotate[EntityRulerModel] with HasStorageModel {
 
