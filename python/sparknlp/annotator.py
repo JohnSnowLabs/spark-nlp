@@ -14530,7 +14530,7 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
         ...     .setPatternsResource(
         ...       "patterns.csv",
         ...       ReadAs.TEXT,
-        ...       {"format": "csv", "delimiter": "\\|"}
+        ...       {"format": "csv", "delimiter": "\\\\|"}
         ...     ) \\
         ...     .setEnablePatternRegex(True)
         >>> pipeline = Pipeline().setStages([
