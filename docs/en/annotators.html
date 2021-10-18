@@ -8782,7 +8782,7 @@ texts of different sizes, languages, and domains.</em></p>
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">"("</span><span class="p">,</span> <span class="s">"]"</span><span class="p">,</span> <span class="s">"?"</span><span class="p">,</span> <span class="s">"!"</span><span class="p">,</span> <span class="s">"."</span><span class="p">,</span> <span class="s">","</span><span class="p">])</span>
 
-<span class="n">keywords</span> <span class="o">=</span> <span class="n">YakeModel</span><span class="p">()</span> \
+<span class="n">keywords</span> <span class="o">=</span> <span class="n">YakeKeywordExtraction</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"keywords"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span> \
@@ -8822,7 +8822,7 @@ texts of different sizes, languages, and domains.</em></p>
         <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.</span><span class="o">{</span><span class="nc">SentenceDetector</span><span class="o">,</span> <span class="nc">Tokenizer</span><span class="o">}</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
@@ -8838,7 +8838,7 @@ texts of different sizes, languages, and domains.</em></p>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setContextChars</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"("</span><span class="o">,</span> <span class="s">")"</span><span class="o">,</span> <span class="s">"?"</span><span class="o">,</span> <span class="s">"!"</span><span class="o">,</span> <span class="s">"."</span><span class="o">,</span> <span class="s">","</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">keywords</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">YakeModel</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">keywords</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">YakeKeywordExtraction</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"keywords"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setThreshold</span><span class="o">(</span><span class="mf">0.6f</span><span class="o">)</span>
