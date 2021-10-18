@@ -244,7 +244,8 @@ class XlmRoBertaForTokenClassification(override val uid: String)
         tokenizedSentences,
         $(batchSize),
         $(maxSentenceLength),
-        $(caseSensitive)
+        $(caseSensitive),
+        getLabels
       )
     }) else {
       Seq(Seq.empty[Annotation])

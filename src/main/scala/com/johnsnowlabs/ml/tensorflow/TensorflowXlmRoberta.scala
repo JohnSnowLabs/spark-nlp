@@ -270,21 +270,21 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
 
   def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
 
-    val sentecneTokenPieces = sentences.map { s =>
+    val sentenceTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
       val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentecneTokenPieces
+    sentenceTokenPieces
   }
 
   def tokenizeSentence(sentences: Seq[Sentence], maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
 
-    val sentecneTokenPieces = sentences.map { s =>
+    val sentenceTokenPieces = sentences.map { s =>
       val wordpieceTokens = encoder.encodeSentence(s, maxLength = maxSeqLength).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentecneTokenPieces
+    sentenceTokenPieces
   }
 
 }

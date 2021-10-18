@@ -152,7 +152,7 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "XlmRoBertaEmbeddings" should "be aligned with custome tokens from Tokenizer" taggedAs SlowTest in {
+  "XlmRoBertaEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -161,7 +161,9 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       "Rare Hendrix song draft sells for almost $17,000 .",
       "EU rejects German call to boycott British lamb .",
       "EU rejects German call to boycott British lamb.",
-      "TORONTO 1996-08-21"
+      "TORONTO 1996-08-21",
+      " carbon emissions have come down without impinging on our growth . . .",
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
     ).toDF("text")
 
     val document = new DocumentAssembler()

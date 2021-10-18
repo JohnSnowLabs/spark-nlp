@@ -1,4 +1,28 @@
 ========
+3.3.1
+========
+----------------
+New Features
+----------------
+* Introducing EntityRuler annotator to receive either a JSON or CSV ontology file that maps entities to patterns. You can implement a purely rule-based entity recognition system by using EntityRuler, it can be saved as a Model and reused in other pipelines to annotate your document against your knowledge base.
+
+----------------
+Bug Fixes
+----------------
+* Fix compatibility issue between NerOverwriter and AlbertForTokenClassification, BertForTokenClassification, DistilBertForTokenClassification, LongformerForTokenClassification, RoBertaForTokenClassification, XlmRoBertaForTokenClassification, XlnetForTokenClassification annotators
+* Fix a bug in ContextSpellCheckerApproach annotator failing to find an appropriate TF graph
+* Fix a bug in ContextSpellCheckerModel not being able to load a trained model
+* Fix token alignment with token pieces in BertEmbeddings resulting in missing vectors with Unicode characters
+* Add the missing pretrained NER models for the XlmRoBertaForTokenClassification annotator
+* Add the missing pretrained NER models for the LongformerForTokenClassification annotator
+
+----------------
+Backward compatibility
+----------------
+* Renaming YakeModel to YakeKeywordExtraction to represent the actual purpose of this annotator more clearly.
+
+
+========
 3.3.0
 ========
 

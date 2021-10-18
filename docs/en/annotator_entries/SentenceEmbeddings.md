@@ -10,11 +10,10 @@ or document embeddings by either summing up or averaging all the word embeddings
 This can be configured with `setPoolingStrategy`, which either be `"AVERAGE"` or `"SUM"`.
 
 For more extended examples see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/databricks_notebooks/12.%20Named_Entity_Disambiguation_v3.0.ipynb).
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb).
 and the [SentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala).
 
-> **NOTE:** If you choose `document` as your input for `Tokenizer`, `WordEmbeddings`/`BertEmbeddings`, and `SentenceEmbeddings` then it averages/sums all the embeddings into one array of embeddings. However, if you choose `sentence` as `inputCols` then for each sentence `SentenceEmbeddings` generates one array of embeddings.
-> **TIP:** Here is how you can explode and convert these embeddings into `Vectors` or what's known as `Feature` column so it can be used in Spark ML regression or clustering functions
+**TIP:** Here is how you can explode and convert these embeddings into `Vectors` or what's known as `Feature` column so it can be used in Spark ML regression or clustering functions:
 
 <div class="tabs-box" markdown="1">
 
@@ -46,6 +45,7 @@ val convertToVectorUDF = udf((matrix : Seq[Float]) => {
 pipelineDF.select(explode($"sentence_embeddings.embeddings").as("sentence_embedding"))
 .withColumn("features", convertToVectorUDF($"sentence_embedding"))
 ```
+</div>
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -104,6 +104,10 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 |[-0.22093398869037628,0.25130119919776917,0.41810303926467896,-0.380883991718...|
 +--------------------------------------------------------------------------------+
 
+{%- endcapture -%}
+
+{%- capture note -%}
+If you choose `document` as your input for `Tokenizer`, `WordEmbeddings`/`BertEmbeddings`, and `SentenceEmbeddings` then it averages/sums all the embeddings into one array of embeddings. However, if you choose `sentence` as `inputCols` then for each sentence `SentenceEmbeddings` generates one array of embeddings.
 {%- endcapture -%}
 
 {%- capture scala_example -%}
@@ -181,4 +185,5 @@ scala_example=scala_example
 python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
+note=note
 %}

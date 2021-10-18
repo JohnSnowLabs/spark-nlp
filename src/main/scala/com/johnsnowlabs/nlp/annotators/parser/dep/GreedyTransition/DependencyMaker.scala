@@ -71,7 +71,7 @@ class DependencyMaker(tagger:Tagger) extends Serializable {
 
     def getGoldMoves(goldHeads:Vector[Int]): Set[Move] = {
       // See :  Goldberg and Nivre (2013) :: Training Deterministic Parsers with Non-Deterministic Oracles, TACL 2013
-      //        http://www.transacl.org/wp-content/uploads/2013/10/paperno33.pdf
+      //        https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00237/43216/Training-Deterministic-Parsers-with-Non
       //        Method implemented == "dynamic-oracle Arc-Hybrid" (bottom left of page 405, top right of page 411)
       def depsBetween(target:Int, others:List[Int]) = {
         others.exists( word => goldHeads(word)==target || goldHeads(target) == word)

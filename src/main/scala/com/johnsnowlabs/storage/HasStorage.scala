@@ -33,12 +33,19 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
   protected val databases: Array[Database.Name]
 
+  /**
+   * Path to the external resource.
+   * @group param
+   */
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
+  /** @group setParam */
   def setStoragePath(path: String, readAs: String): this.type = set(storagePath, new ExternalResource(path, readAs, Map.empty[String, String]))
 
+  /** @group setParam */
   def setStoragePath(path: String, readAs: ReadAs.Value): this.type = setStoragePath(path, readAs.toString)
 
+  /** @group getParam */
   def getStoragePath: Option[ExternalResource] = get(storagePath)
 
   protected val missingRefMsg: String = s"Please set storageRef param in $this."

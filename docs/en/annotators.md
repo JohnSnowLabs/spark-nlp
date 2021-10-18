@@ -58,6 +58,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="Doc2Chunk" summary="Converts `DOCUMENT` type annotations into `CHUNK` type with the contents of a `chunkCol`."%}
 {% include templates/anno_table_entry.md path="" name="DocumentAssembler" summary="Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
+{% include templates/anno_table_entry.md path="" name="EntityRuler" summary="Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity."%}
 {% include templates/anno_table_entry.md path="" name="EmbeddingsFinisher" summary="Extracts embeddings from Annotations into a more easily usable form."%}
 {% include templates/anno_table_entry.md path="" name="Finisher" summary="Converts annotation results into a format that easier to use. It is useful to extract the results from Spark NLP Pipelines."%}
 {% include templates/anno_table_entry.md path="" name="GraphExtraction" summary="Extracts a dependency graph between entities."%}
@@ -93,7 +94,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="ViveknSentiment" summary="Sentiment analyser inspired by the algorithm by Vivek Narayanan."%}
 {% include templates/anno_table_entry.md path="" name="WordEmbeddings" summary="Word Embeddings lookup annotator that maps tokens to vectors."%}
 {% include templates/anno_table_entry.md path="" name="WordSegmenter" summary="Tokenizes non-english or non-whitespace separated texts."%}
-{% include templates/anno_table_entry.md path="" name="Yake" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
+{% include templates/anno_table_entry.md path="" name="YakeKeywordExtraction" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
 
 ## Available Transformers
 Additionally, these transformers are available to generate embeddings.

@@ -52,6 +52,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
 
 annotators = annotator
 embeddings = annotator
@@ -115,7 +116,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "3.3.0"
+    current_version = "3.3.1"
 
     class SparkNLPConfig:
 
@@ -266,4 +267,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '3.3.0'
+    return '3.3.1'

@@ -71,7 +71,10 @@ import scala.util.Random
  * import com.johnsnowlabs.nlp.training.CoNLL
  * import org.apache.spark.ml.Pipeline
  *
- * // First extract the prerequisites for the NerDLApproach
+ * // This CoNLL dataset already includes a sentence, token and label
+ * // column with their respective annotator types. If a custom dataset is used,
+ * // these need to be defined with for example:
+ *
  * val documentAssembler = new DocumentAssembler()
  *   .setInputCol("text")
  *   .setOutputCol("document")
@@ -84,11 +87,11 @@ import scala.util.Random
  *   .setInputCols("sentence")
  *   .setOutputCol("token")
  *
+ * // Then the training can start
  * val embeddings = BertEmbeddings.pretrained()
  *   .setInputCols("sentence", "token")
  *   .setOutputCol("embeddings")
  *
- * // Then the training can start
  * val nerTagger = new NerDLApproach()
  *   .setInputCols("sentence", "token", "embeddings")
  *   .setLabelColumn("label")
@@ -98,14 +101,11 @@ import scala.util.Random
  *   .setVerbose(0)
  *
  * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   sentence,
- *   tokenizer,
  *   embeddings,
  *   nerTagger
  * ))
  *
- * // We use the text and labels from the CoNLL dataset
+ * // We use the sentences, tokens and labels from the CoNLL dataset
  * val conll = CoNLL()
  * val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
  *
