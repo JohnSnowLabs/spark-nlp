@@ -149,7 +149,7 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
 
   private val logger = LoggerFactory.getLogger("YakeKeywordExtraction")
 
-  /** Output Annotator Types: KEYWORD
+  /** Output Annotator Types: CHUNK
    *
    * @group anno
    */

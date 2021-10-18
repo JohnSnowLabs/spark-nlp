@@ -44,7 +44,7 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture output_anno -%}
-KEYWORD
+CHUNK
 {%- endcapture -%}
 
 {%- capture python_example -%}
