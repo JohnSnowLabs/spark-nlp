@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Annotators &#8212; Spark NLP 3.3.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Annotators &#8212; Spark NLP 3.3.1 documentation</title>
     
-  <link href="../static/css/theme.css" rel="stylesheet" />
-  <link href="../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../static/css/theme.css" rel="stylesheet">
+  <link href="../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -23,10 +24,10 @@
 
     
     <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/blank.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
     <script src="../static/jquery.js"></script>
@@ -39,7 +40,10 @@
     <link rel="next" title="Setting up your own pipeline" href="custom_pipelines.html" />
     <link rel="prev" title="Annotation" href="annotation.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -227,11 +231,11 @@
               
               <div>
                 
-  <div class="section" id="annotators">
+  <section id="annotators">
 <h1>Annotators<a class="headerlink" href="#annotators" title="Permalink to this headline">¶</a></h1>
 <p>Annotators are the spearhead of NLP functions in Spark NLP. Let’s take the <code class="docutils literal notranslate"><span class="pre">ClassifierDL</span></code>
 Annotators as an example. There are two forms of annotators:</p>
-<div class="section" id="annotator-approaches">
+<section id="annotator-approaches">
 <h2>Annotator Approaches<a class="headerlink" href="#annotator-approaches" title="Permalink to this headline">¶</a></h2>
 <p>Annotator Approaches are those who represent a Spark ML Estimator and require a training stage.
 They have a function called <code class="docutils literal notranslate"><span class="pre">fit(data)</span></code> which trains a model based on some data. They produce the
@@ -283,8 +287,8 @@ the Annotator also requires a label column, set with <code class="docutils liter
 </pre></div>
 </div>
 <p>The result is a <code class="docutils literal notranslate"><span class="pre">PipelineModel</span></code> that can be used with <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> to classify sentiment.</p>
-</div>
-<div class="section" id="annotator-models">
+</section>
+<section id="annotator-models">
 <h2>Annotator Models<a class="headerlink" href="#annotator-models" title="Permalink to this headline">¶</a></h2>
 <p>Annotator Models are Spark models or transformers, meaning they have a <code class="docutils literal notranslate"><span class="pre">transform(data)</span></code> function.
 This function takes as input a dataframe to which it adds a new column containing the result of the
@@ -294,7 +298,7 @@ or delete previous information.</p>
 be automatically executed in the defined order and will transform the data accordingly. A Pipeline
 is turned into a <code class="docutils literal notranslate"><span class="pre">PipelineModel</span></code> after the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> stage. The Pipeline can be saved to disk and re-loaded
 at any time.</p>
-<div class="section" id="note">
+<section id="note">
 <h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">Model</span></code> suffix is explicitly stated when the annotator is the result of a training process.
 Some annotators, such as <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code> are transformers, but do not contain the word Model since
@@ -347,9 +351,9 @@ also be inserted.</p>
 <span class="go">+-------------------------------------------------------------------------------+-------+</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="pretrained-models">
+</section>
+</section>
+<section id="pretrained-models">
 <h2>Pretrained Models<a class="headerlink" href="#pretrained-models" title="Permalink to this headline">¶</a></h2>
 <p>Model annotators have a <code class="docutils literal notranslate"><span class="pre">pretrained()</span></code> on it’s static object, to retrieve the public pre-trained
 version of a model.</p>
@@ -363,8 +367,8 @@ version of a model.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pretrained(name,</span> <span class="pre">language,</span> <span class="pre">extra_location)</span></code> will by default, bring a default pre-trained model.
 Sometimes we offer more than one model, in which case, you may have to use name, language or extra
 location to download them.</p>
-</div>
-<div class="section" id="common-functions">
+</section>
+<section id="common-functions">
 <h2>Common Functions<a class="headerlink" href="#common-functions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><dl class="simple">
@@ -382,23 +386,34 @@ generated by the current annotator.</p>
 </dl>
 </li>
 </ul>
-</div>
-<div class="section" id="available-annotators">
+</section>
+<section id="available-annotators">
 <h2>Available Annotators<a class="headerlink" href="#available-annotators" title="Permalink to this headline">¶</a></h2>
 <p>For all available Annotators refer to the full API reference <a class="reference internal" href="../reference/autosummary/sparknlp.annotator.html#module-sparknlp.annotator" title="sparknlp.annotator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator</span></code></a>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
               </div>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="annotation.html" title="previous page">Annotation</a>
-    <a class='right-next' id="next-link" href="custom_pipelines.html" title="next page">Setting up your own pipeline</a>
-
-              </div>
+              <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="annotation.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Annotation</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="custom_pipelines.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Setting up your own pipeline</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
               
           </main>
           
@@ -406,20 +421,19 @@ generated by the current annotator.</p>
       </div>
     </div>
   
-  <script src="../static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
-  <footer class="footer mt-5 mt-md-0">
+  <script src="../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+<footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
       <p class="copyright">
-    &copy; Copyright 2021, John Snow Labs.<br/>
+    &copy; Copyright 2021, John Snow Labs.<br>
 </p>
     </div>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
 </p>
     </div>
     
