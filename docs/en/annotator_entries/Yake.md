@@ -66,7 +66,7 @@ token = Tokenizer() \
     .setOutputCol("token") \
     .setContextChars(["(", "]", "?", "!", ".", ","])
 
-keywords = YakeModel() \
+keywords = YakeKeywordExtraction() \
     .setInputCols(["token"]) \
     .setOutputCol("keywords") \
     .setThreshold(0.6) \
@@ -108,7 +108,7 @@ scores.orderBy("score").show(5, truncate = False)
 import spark.implicits._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
-import com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+import com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
@@ -124,7 +124,7 @@ val token = new Tokenizer()
   .setOutputCol("token")
   .setContextChars(Array("(", ")", "?", "!", ".", ","))
 
-val keywords = new YakeModel()
+val keywords = new YakeKeywordExtraction()
   .setInputCols("token")
   .setOutputCol("keywords")
   .setThreshold(0.6f)
