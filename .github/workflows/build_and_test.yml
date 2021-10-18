@@ -11,15 +11,18 @@ on:
       - 'master'
       - '*release*'
       - 'main'
+      - 'release/**'
   pull_request:
     paths-ignore:
       - 'docs/**'
       - 'conda/**'
       - 'scripts/**'
-      - 'example/**'      
+      - 'example/**'
     branches:
       - 'master'
       - 'main'
+      - '*release*'
+      - 'release/**'
 
 jobs:
   spark24:
