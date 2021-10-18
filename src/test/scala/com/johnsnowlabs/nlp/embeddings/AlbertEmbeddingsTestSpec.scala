@@ -120,14 +120,16 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  "AlbertEmbeddings" should "be aligned with custome tokens from Tokenizer" taggedAs SlowTest in {
+  "AlbertEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
     val ddd = Seq(
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
+      "TORONTO 1996-08-21",
+      " carbon emissions have come down without impinging on our growth . . .",
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
     ).toDF("text")
 
     val document = new DocumentAssembler()
@@ -163,6 +165,8 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
 
     println(s"total tokens: $totalTokens")
     println(s"total embeddings: $totalEmbeddings")
+
+    assert(totalTokens == totalEmbeddings)
 
   }
 }

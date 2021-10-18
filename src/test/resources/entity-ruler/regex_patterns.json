@@ -1,0 +1,12 @@
+[
+  {
+    "id": "person-regex",
+    "label": "PERSON",
+    "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"]
+  },
+  {
+    "id": "locations-words",
+    "label": "LOCATION",
+    "patterns": ["Winterfell"]
+  }
+]

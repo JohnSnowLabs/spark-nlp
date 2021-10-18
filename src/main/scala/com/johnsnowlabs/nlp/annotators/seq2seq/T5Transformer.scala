@@ -48,7 +48,7 @@ import java.io.File
  * The default model is `"t5_small"`, if no name is provided.
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?q=t5 Models Hub]].
  *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb Spark NLP Workshop]]
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.Question_Answering_and_Summarization_with_T5.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala T5TestSpec]].
  *
  * '''Sources:'''

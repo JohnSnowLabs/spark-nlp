@@ -17,17 +17,14 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
-import com.johnsnowlabs.util.Version
+import com.johnsnowlabs.util.{JsonParser, Version}
+import org.json4s.ext.EnumNameSerializer
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.write
+import org.json4s.{Formats, NoTypeHints}
 
 import java.io.{FileWriter, InputStream}
 import java.sql.Timestamp
-
-import org.json4s.{Formats, NoTypeHints}
-import org.json4s.ext.EnumNameSerializer
-import org.json4s.jackson.JsonMethods.parse
-import org.json4s.jackson.Serialization
-import org.json4s.jackson.Serialization.write
-
 import scala.io.Source
 
 
@@ -78,8 +75,8 @@ object ResourceMetadata {
   }
 
   def parseJson(json: String): ResourceMetadata = {
-    val parsed = parse(json)
-    parsed.extract[ResourceMetadata]
+    JsonParser.formats = formats
+    JsonParser.parseObject[ResourceMetadata](json)
   }
 
   def resolveResource(candidates: List[ResourceMetadata],

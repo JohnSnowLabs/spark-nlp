@@ -55,7 +55,7 @@ class WordpieceTestSpec extends AnyFlatSpec {
   }
 
   "stripAccents" should "work correct" taggedAs FastTest in {
-    val test =   "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ ÔÕÖ×ØÙÚÛ ÜÝ Þßàáâãäåæçèéêëìíîïð ñòóôõö÷ø ùúûüýþÿ"
+    val test = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓ ÔÕÖ×ØÙÚÛ ÜÝ Þßàáâãäåæçèéêëìíîïð ñòóôõö÷ø ùúûüýþÿ"
     val result = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾ ¿AAAAAAÆCEEEEIIIIÐNOO OOO×ØUUU UY Þßaaaaaaæceeeeiiiið nooooo÷ø uuuuyþy"
 
     assert(basicTokenizer.stripAccents(test) == result)
@@ -81,17 +81,18 @@ class WordpieceTestSpec extends AnyFlatSpec {
 
     val sentence = Sentence(text, 10, text.length + 9, 0)
     val result = Array("Hello", ",", "I", "won", "'", "t", "be", "from", "New", "York", "in", "the", "U", ".", "S", ".",
-      "A", ".", "(", "and", "you", "know","it","heroe", ")", ".", "Give", "me", "my", "horse", "!", "or",
+      "A", ".", "(", "and", "you", "know", "it", "heroe", ")", ".", "Give", "me", "my", "horse", "!", "or",
       "$", "100", "\"", "+", "\"", "bucks", "'", "He", "said", "'", ",", "I", "'", "ll", "defeat", "markus",
       "-", "crassus", ".", "You", "understand", ".", "Goodbye", "George", "E", ".", "Bush", ".", "www", ".",
       "google", ".", "com", ".")
 
-    val tokenizer = new BasicTokenizer(caseSensitive = true)
+    val tokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
+    val tokenizerLowercase = new BasicTokenizer(caseSensitive = false, hasBeginEnd = false)
     val tokens = tokenizer.tokenize(sentence)
     // 1. Check number of tokens
     assert(tokens.length == result.length)
 
-    val lowercaseTokens = basicTokenizer.tokenize(sentence)
+    val lowercaseTokens = tokenizerLowercase.tokenize(sentence)
     // 2. Check that lowercased returns the same number of tokens
     assert(lowercaseTokens.length == result.length)
 
@@ -137,8 +138,8 @@ class WordpieceTestSpec extends AnyFlatSpec {
     val expected = Array("I", "un", "##am", "##bi", "##gouos", "##ly", "good", "[UNK]", "!")
 
     val tokenizer = new BertSentenceEmbeddings()
-        .setCaseSensitive(true)
-        .setVocabulary(vocabulary)
+      .setCaseSensitive(true)
+      .setVocabulary(vocabulary)
 
     val tokenized = tokenizer.tokenize(Seq(sentence))
     val tokens = tokenized.head.tokens

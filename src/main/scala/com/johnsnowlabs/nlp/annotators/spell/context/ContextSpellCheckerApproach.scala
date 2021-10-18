@@ -337,13 +337,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    * @return
    */
   def addVocabClass(usrLabel: String, vocabList: util.ArrayList[String], userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
-    val newClass = new VocabParser with SerializableClass {
-      override var vocab: mutable.Set[String] = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
-      override val label: String = usrLabel
-      transducer = generateTransducer
-      override val maxDist: Int = userDist
-    }
-    setSpecialClasses(getOrDefault(specialClasses) :+ newClass)
+    import scala.collection.JavaConverters._
+    val vocab = vocabList.asScala.to[collection.mutable.Set]
+    val nc = new GenericVocabParser(vocab, usrLabel, userDist)
+    setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
   /** Adds a new class of words to correct, based on regex.
@@ -354,13 +351,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    * @return
    */
   def addRegexClass(usrLabel: String, usrRegex: String, userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
-    val newClass = new RegexParser with SerializableClass {
-      override var regex: String = usrRegex
-      override val label: String = usrLabel
-      transducer = generateTransducer
-      override val maxDist: Int = userDist
-    }
-    setSpecialClasses(getOrDefault(specialClasses) :+ newClass)
+    val nc = new GenericRegexParser(usrRegex, usrLabel, userDist)
+    setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ContextSpellCheckerModel = {
@@ -605,14 +597,12 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val availableGraphs = ResourceHelper.listResourceDirectory("/spell_nlm")
 
     // get the one that better matches the class count
-    val candidates = availableGraphs.map { filename =>
-      filename match {
-        // not looking into innerLayerSize or layerCount
-        case graphFilePattern(classCount, vSize) =>
-          val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
-          val score = classCount.toFloat / requiredClassCount
-          (filename, score, isValid)
-      } // keep the valid, and pick the best
+    val candidates = availableGraphs.map {
+      // not looking into innerLayerSize or layerCount
+      case filename@graphFilePattern(_, _, classCount, vSize) =>
+        val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
+        val score = classCount.toFloat / requiredClassCount
+        (filename, score, isValid)
     }.filter(_._3)
 
     require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")

@@ -200,12 +200,12 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
   def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
     val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = SentencePieceDelimiterId)
 
-    val sentecneTokenPieces = sentences.map { s =>
+    val sentenceTokenPieces = sentences.map { s =>
       val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
       val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentecneTokenPieces
+    sentenceTokenPieces
   }
 
 }

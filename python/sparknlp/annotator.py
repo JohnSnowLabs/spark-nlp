@@ -54,6 +54,7 @@ keyword.yake = sys.modules[__name__]
 sentence_detector_dl = sys.modules[__name__]
 seq2seq = sys.modules[__name__]
 ws = sys.modules[__name__]
+er = sys.modules[__name__]
 
 
 class RecursiveTokenizer(AnnotatorApproach):
@@ -4355,13 +4356,25 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
 
-    This CoNLL dataset already includes the sentence, token, pos and label
+    This CoNLL dataset already includes a sentence, token, POS tags and label
     column with their respective annotator types. If a custom dataset is used,
-    these need to be defined.
+    these need to be defined with for example:
 
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
+    >>> sentence = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("sentence")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
+    ...     .setOutputCol("token")
+    >>> posTagger = PerceptronModel.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("pos")
+
+    Then training can start:
+
     >>> embeddings = WordEmbeddingsModel.pretrained() \\
     ...     .setInputCols(["sentence", "token"]) \\
     ...     .setOutputCol("embeddings") \\
@@ -4371,14 +4384,14 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     ...     .setLabelColumn("label") \\
     ...     .setMinEpochs(1) \\
     ...     .setMaxEpochs(3) \\
-    ...     .setC0(34) \\
-    ...     .setL2(3.0) \\
     ...     .setOutputCol("ner")
     >>> pipeline = Pipeline().setStages([
-    ...     documentAssembler,
     ...     embeddings,
     ...     nerTagger
     ... ])
+
+    We use the sentences, tokens, POS tags and labels from the CoNLL dataset.
+
     >>> conll = CoNLL()
     >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
     >>> pipelineModel = pipeline.fit(trainingData)
@@ -4716,7 +4729,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     >>> from sparknlp.training import *
     >>> from pyspark.ml import Pipeline
 
-    First extract the prerequisites for the NerDLApproach
+    This CoNLL dataset already includes a sentence, token and label
+    column with their respective annotator types. If a custom dataset is used,
+    these need to be defined with for example:
 
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
@@ -4727,12 +4742,12 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     >>> tokenizer = Tokenizer() \\
     ...     .setInputCols(["sentence"]) \\
     ...     .setOutputCol("token")
-    >>> embeddings = BertEmbeddings.pretrained() \\
-    ...     .setInputCols(["sentence", "token"]) \\
-    ...     .setOutputCol("embeddings")
 
     Then the training can start
 
+    >>> embeddings = BertEmbeddings.pretrained() \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("embeddings")
     >>> nerTagger = NerDLApproach() \\
     ...     .setInputCols(["sentence", "token", "embeddings"]) \\
     ...     .setLabelColumn("label") \\
@@ -4741,14 +4756,11 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     ...     .setRandomSeed(0) \\
     ...     .setVerbose(0)
     >>> pipeline = Pipeline().setStages([
-    ...     documentAssembler,
-    ...     sentence,
-    ...     tokenizer,
     ...     embeddings,
     ...     nerTagger
     ... ])
 
-    We use the text and labels from the CoNLL dataset
+    We use the sentences, tokens, and labels from the CoNLL dataset.
 
     >>> conll = CoNLL()
     >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
@@ -6605,7 +6617,7 @@ class SentenceEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasStorageRef)
     ``"AVERAGE"`` or ``"SUM"``.
 
     For more extended examples see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb>`__..
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb>`__..
 
     ============================= =======================
     Input Annotation types        Output Annotation type
@@ -10360,7 +10372,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
         return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
 
 
-class YakeModel(AnnotatorModel):
+class YakeKeywordExtraction(AnnotatorModel):
     """Yake is an Unsupervised, Corpus-Independent, Domain and
     Language-Independent and Single-Document keyword extraction algorithm.
 
@@ -10457,7 +10469,7 @@ class YakeModel(AnnotatorModel):
     ...     .setInputCols(["sentence"]) \\
     ...     .setOutputCol("token") \\
     ...     .setContextChars(["(", "]", "?", "!", ".", ","])
-    >>> keywords = YakeModel() \\
+    >>> keywords = YakeKeywordExtraction() \\
     ...     .setInputCols(["token"]) \\
     ...     .setOutputCol("keywords") \\
     ...     .setThreshold(0.6) \\
@@ -10489,18 +10501,18 @@ class YakeModel(AnnotatorModel):
     |anthony goldbloom    |0.41584827825302534|
     +---------------------+-------------------+
     """
-    name = "YakeModel"
+    name = "YakeKeywordExtraction"
 
     @keyword_only
     def __init__(self):
-        super(YakeModel, self).__init__(classname="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel")
+        super(YakeKeywordExtraction, self).__init__(classname="com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction")
         self._setDefault(
             minNGrams=2,
             maxNGrams=3,
             nKeywords=30,
             windowSize=3,
             threshold=-1,
-            stopWords=YakeModel.loadDefaultStopWords("english")
+            stopWords=YakeKeywordExtraction.loadDefaultStopWords("english")
         )
 
     minNGrams = Param(Params._dummy(), "minNGrams", "Minimum N-grams a keyword should have",
@@ -11237,7 +11249,7 @@ class T5Transformer(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models?q=t5>`__.
 
     For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.T5_Workshop_with_Spark_NLP.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.Question_Answering_and_Summarization_with_T5.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -14427,3 +14439,200 @@ class LongformerForTokenClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(LongformerForTokenClassification, name, lang, remote_loc)
+
+
+class EntityRulerApproach(AnnotatorApproach, HasStorage):
+    """Fits an Annotator to match exact strings or regex patterns provided in a
+    file against a Document and assigns them an named entity. The definitions
+    can contain any number of named entities.
+
+    There are multiple ways and formats to set the extraction resource. It is
+    possible to set it either as a "JSON", "JSONL" or "CSV" file. A path to the
+    file needs to be provided to ``setPatternsResource``. The file format needs
+    to be set as the "format" field in the ``option`` parameter map and
+    depending on the file type, additional parameters might need to be set.
+
+    To enable regex extraction, ``setEnablePatternRegex(True)`` needs to be
+    called.
+
+    If the file is in a JSON format, then the rule definitions need to be given
+    in a list with the fields "id", "label" and "patterns"::
+
+         [
+            {
+              "id": "person-regex",
+              "label": "PERSON",
+              "patterns": ["\\w+\\s\\w+", "\\w+-\\w+"]
+            },
+            {
+              "id": "locations-words",
+              "label": "LOCATION",
+              "patterns": ["Winterfell"]
+            }
+        ]
+
+    The same fields also apply to a file in the JSONL format::
+
+        {"id": "names-with-j", "label": "PERSON", "patterns": ["Jon", "John", "John Snow"]}
+        {"id": "names-with-s", "label": "PERSON", "patterns": ["Stark", "Snow"]}
+        {"id": "names-with-e", "label": "PERSON", "patterns": ["Eddard", "Eddard Stark"]}
+
+    In order to use a CSV file, an additional parameter "delimiter" needs to be
+    set. In this case, the delimiter might be set by using
+    ``.setPatternsResource("patterns.csv", ReadAs.TEXT, {"format": "csv", "delimiter": "|")})``::
+
+        PERSON|Jon
+        PERSON|John
+        PERSON|John Snow
+        LOCATION|Winterfell
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CHUNK``
+    ====================== ======================
+
+    Parameters
+    ----------
+    patternsResource
+        Resource in JSON or CSV format to map entities to patterns
+    enablePatternRegex
+        Enables regex pattern match
+    useStorage
+        Whether to use RocksDB storage to serialize patterns
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from sparknlp.common import *
+    >>> from pyspark.ml import Pipeline
+
+    In this example, the entities file as the form of::
+
+        PERSON|Jon
+        PERSON|John
+        PERSON|John Snow
+        LOCATION|Winterfell
+
+    where each line represents an entity and the associated string delimited by "|".
+
+        >>> documentAssembler = DocumentAssembler() \\
+        ...     .setInputCol("text") \\
+        ...     .setOutputCol("document")
+        >>> tokenizer = Tokenizer() \\
+        ...     .setInputCols(["document"]) \\
+        ...     .setOutputCol("token")
+        >>> entityRuler = EntityRulerApproach() \\
+        ...     .setInputCols(["document", "token"]) \\
+        ...     .setOutputCol("entities") \\
+        ...     .setPatternsResource(
+        ...       "patterns.csv",
+        ...       ReadAs.TEXT,
+        ...       {"format": "csv", "delimiter": "\\\\|"}
+        ...     ) \\
+        ...     .setEnablePatternRegex(True)
+        >>> pipeline = Pipeline().setStages([
+        ...     documentAssembler,
+        ...     tokenizer,
+        ...     entityRuler
+        ... ])
+        >>> data = spark.createDataFrame([["Jon Snow wants to be lord of Winterfell."]]).toDF("text")
+        >>> result = pipeline.fit(data).transform(data)
+        >>> result.selectExpr("explode(entities)").show(truncate=False)
+    +--------------------------------------------------------------------+
+    |col                                                                 |
+    +--------------------------------------------------------------------+
+    |[chunk, 0, 2, Jon, [entity -> PERSON, sentence -> 0], []]           |
+    |[chunk, 29, 38, Winterfell, [entity -> LOCATION, sentence -> 0], []]|
+    +--------------------------------------------------------------------+
+    """
+    name = "EntityRulerApproach"
+
+    patternsResource = Param(Params._dummy(),
+                             "patternsResource",
+                             "Resource in JSON or CSV format to map entities to patterns",
+                             typeConverter=TypeConverters.identity)
+
+    enablePatternRegex = Param(Params._dummy(),
+                               "enablePatternRegex",
+                               "Enables regex pattern match",
+                               typeConverter=TypeConverters.toBoolean)
+
+    useStorage = Param(Params._dummy(),
+                       "useStorage",
+                       "Whether to use RocksDB storage to serialize patterns",
+                       typeConverter=TypeConverters.toBoolean)
+
+    @keyword_only
+    def __init__(self):
+        super(EntityRulerApproach, self).__init__(
+            classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach")
+
+    def setPatternsResource(self, path, read_as=ReadAs.TEXT, options={"format": "JSON"}):
+        """Sets Resource in JSON or CSV format to map entities to patterns.
+
+        Parameters
+        ----------
+        path : str
+            Path to the resource
+        read_as : str, optional
+            How to interpret the resource, by default ReadAs.TEXT
+        options : dict, optional
+            Options for parsing the resource, by default {"format": "JSON"}
+        """
+        return self._set(patternsResource=ExternalResource(path, read_as, options))
+
+    def setEnablePatternRegex(self, value):
+        """Sets whether to enable regex pattern matching.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to enable regex pattern matching.
+        """
+        return self._set(enablePatternRegex=value)
+
+    def setUseStorage(self, value):
+        """Sets whether to use RocksDB storage to serialize patterns.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use RocksDB storage to serialize patterns.
+        """
+        return self._set(useStorage=value)
+
+    def _create_model(self, java_model):
+        return EntityRulerModel(java_model=java_model)
+
+
+class EntityRulerModel(AnnotatorModel, HasStorageModel):
+    """Instantiated model of the EntityRulerApproach.
+    For usage and examples see the documentation of the main class.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CHUNK``
+    ====================== ======================
+    """
+    name = "EntityRulerModel"
+    database = ['ENTITY_PATTERNS']
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel", java_model=None):
+        super(EntityRulerModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def pretrained(name, lang="en", remote_loc=None):
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(EntityRulerModel, name, lang, remote_loc)
+
+    @staticmethod
+    def loadStorage(path, spark, storage_ref):
+        HasStorageModel.loadStorages(path, spark, storage_ref, EntityRulerModel.databases)
+
