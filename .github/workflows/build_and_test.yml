@@ -10,8 +10,8 @@ on:
     branches:
       - 'master'
       - '*release*'
-      - 'main'
       - 'release/**'
+      - 'main'
   pull_request:
     paths-ignore:
       - 'docs/**'
@@ -21,8 +21,6 @@ on:
     branches:
       - 'master'
       - 'main'
-      - '*release*'
-      - 'release/**'
 
 jobs:
   spark24:

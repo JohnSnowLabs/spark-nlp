@@ -3,9 +3,7 @@ name: Publish APIs
 on:
   push:
     branches:
-      - 'master'
       - '*release*'
-      - 'main'
       - 'release/**'
   pull_request:
     branches:
