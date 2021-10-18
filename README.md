@@ -966,6 +966,7 @@ NOTE: If this is an existing cluster, after adding new configs or changing exist
 ### S3 Integration
 
 In Spark NLP we can define S3 locations to:
+
 - Export log files of training models
 - Store tensorflow graphs used in `NerDLApproach`
 
@@ -1190,6 +1191,7 @@ XlmRoBertaSentenceEmbeddings
 XlnetEmbeddings
 */
 ```
+
 #### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
 
 ## Offline
