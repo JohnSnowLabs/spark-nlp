@@ -102,7 +102,7 @@ val result = pipeline.fit(data).transform(data)
 
 ## Data Source
 
-This model is trained on a custom dataset by John Snow Labs.
+This model is trained on a [ChemProt corpus](https://biocreative.bioinformatics.udel.edu/).
 
 ## Benchmarking
 
