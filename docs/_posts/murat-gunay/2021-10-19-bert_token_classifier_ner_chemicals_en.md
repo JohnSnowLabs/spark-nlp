@@ -111,10 +111,10 @@ This model is trained on a custom dataset by John Snow Labs.
 ```bash
               precision    recall  f1-score   support
 
-      B-CHEM       0.94      0.92      0.93     30731
-      I-CHEM       0.95      0.93      0.94     31270
+      B-CHEM       0.99      0.92      0.95     30731
+      I-CHEM       0.99      0.93      0.96     31270
 
-    accuracy                           0.99    892386
+    accuracy                           0.93    892386
    macro avg       0.96      0.95      0.96    892386
 weighted avg       0.99      0.93      0.96    892386
 ```
