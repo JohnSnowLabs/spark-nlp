@@ -1,4 +1,12 @@
-docs/_plugins/search_index.rb
-docs/assets/js/models.js
-docs/_plugins/search_index.rb
-docs/assets/js/models.js
+docs/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeKeywordExtraction.html
+docs/api/python/modules/sparknlp/annotator.html
+docs/api/python/reference/autosummary/sparknlp.annotator.YakeKeywordExtraction.html
+docs/en/annotator_entries/Yake.md
+python/sparknlp/annotator.py
+src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeKeywordExtraction.scala
+docs/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeKeywordExtraction.html
+docs/api/python/modules/sparknlp/annotator.html
+docs/api/python/reference/autosummary/sparknlp.annotator.YakeKeywordExtraction.html
+docs/en/annotator_entries/Yake.md
+python/sparknlp/annotator.py
+src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeKeywordExtraction.scala
