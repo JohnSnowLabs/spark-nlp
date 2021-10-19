@@ -114,7 +114,7 @@ This model is trained on a custom dataset by John Snow Labs.
       B-CHEM       0.99      0.92      0.95     30731
       I-CHEM       0.99      0.93      0.96     31270
 
-    accuracy                           0.93    892386
-   macro avg       0.96      0.95      0.96    892386
-weighted avg       0.99      0.93      0.96    892386
+    accuracy                           0.93    62001
+   macro avg       0.96      0.95      0.96    62001
+weighted avg       0.99      0.93      0.96    62001
 ```
