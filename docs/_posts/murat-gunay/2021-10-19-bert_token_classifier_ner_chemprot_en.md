@@ -109,14 +109,14 @@ This model is trained on a [ChemProt corpus](https://biocreative.bioinformatics.
 ```bash
               precision    recall  f1-score   support
 
-  B-CHEMICAL       0.80      0.79      0.80      8649
-    B-GENE-N       0.53      0.56      0.54      2752
-    B-GENE-Y       0.71      0.73      0.72      5490
-  I-CHEMICAL       0.82      0.79      0.81      1313
-    I-GENE-N       0.62      0.62      0.62      1993
-    I-GENE-Y       0.75      0.72      0.74      2420
+  B-CHEMICAL       0.93      0.79      0.85      8649
+    B-GENE-N       0.63      0.56      0.59      2752
+    B-GENE-Y       0.82      0.73      0.77      5490
+  I-CHEMICAL       0.90      0.79      0.84      1313
+    I-GENE-N       0.72      0.62      0.67      1993
+    I-GENE-Y       0.81      0.72      0.77      2420
 
-    accuracy                           0.96    207587
-   macro avg       0.75      0.74      0.75    207587
-weighted avg       0.83      0.73      0.78    207587
+    accuracy                           0.73     22617
+   macro avg       0.75      0.74      0.75     22617
+weighted avg       0.83      0.73      0.78     22617
 ```
