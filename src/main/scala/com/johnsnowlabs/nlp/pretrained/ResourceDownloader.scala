@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -524,7 +525,8 @@ object PythonResourceDownloader {
     "XlmRoBertaForTokenClassification" -> XlmRoBertaForTokenClassification,
     "AlbertForTokenClassification" -> AlbertForTokenClassification,
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
-    "LongformerForTokenClassification" -> LongformerForTokenClassification
+    "LongformerForTokenClassification" -> LongformerForTokenClassification,
+    "EntityRulerModel" -> EntityRulerModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
