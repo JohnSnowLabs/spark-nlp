@@ -1,0 +1,122 @@
+---
+layout: model
+title: Detect Chemical Compounds and Genes (BertForTokenClassifier)
+author: John Snow Labs
+name: bert_token_classifier_ner_chemprot
+date: 2021-10-19
+tags: [berfortokenclassification, ner, chemprot, en, licensed]
+task: Named Entity Recognition
+language: en
+edition: Spark NLP for Healthcare 3.3.0
+spark_version: 2.4
+supported: true
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+Detect chemical compounds and genes in the medical text using the pretrained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
+
+## Predicted Entities
+
+`CHEMICAL`, `GENE-Y`, `GENE-N`
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_chemprot_en_3.3.0_2.4_1634644903577.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+...
+
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
+
+ner_converter = NerConverter()\
+        .setInputCols(["document","token","ner"])\
+        .setOutputCol("ner_chunk")
+pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
+
+p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
+
+test_sentence = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
+
+result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
+```
+```scala
+...
+
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")
+  .setInputCols("token", "document")
+  .setOutputCol("ner")
+  .setCaseSensitive(True)
+
+val ner_converter = NerConverter()
+        .setInputCols(Array("document","token","ner"))
+        .setOutputCol("ner_chunk")
+
+val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
+
+val data = Seq("Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium.").toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
+</div>
+
+## Results
+
+```bash
++-------------------------------+---------+
+|chunk                          |ner_label|
++-------------------------------+---------+
+|Keratinocyte growth factor     |GENE-Y   |
+|acidic fibroblast growth factor|GENE-Y   |
++-------------------------------+---------+
+
+```
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|bert_token_classifier_ner_chemprot|
+|Compatibility:|Spark NLP for Healthcare 3.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[ner]|
+|Language:|en|
+|Case sensitive:|true|
+|Max sentense length:|512|
+
+## Data Source
+
+This model is trained on a custom dataset by John Snow Labs.
+
+## Benchmarking
+
+```bash
+              precision    recall  f1-score   support
+
+  B-CHEMICAL       0.80      0.79      0.80      8649
+    B-GENE-N       0.53      0.56      0.54      2752
+    B-GENE-Y       0.71      0.73      0.72      5490
+  I-CHEMICAL       0.82      0.79      0.81      1313
+    I-GENE-N       0.62      0.62      0.62      1993
+    I-GENE-Y       0.75      0.72      0.74      2420
+
+    accuracy                           0.96    207587
+   macro avg       0.75      0.74      0.75    207587
+weighted avg       0.83      0.73      0.78    207587
+```
