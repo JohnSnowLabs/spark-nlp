@@ -2599,6 +2599,128 @@ data.show()
 
 </div>
 
+### ImageDrawAnnotations
+
+`ImageDrawAnnotations` draw annotations with label and score to the image.
+
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| inputChunksCol | string | region | array of Annotation|
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineWidth | Int | 4 | Line width for draw rectangles |
+| fontSize | Int | 12 | Font size for render labels and score |
+| rectColor | Color | Color.black | Color of lines |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image_with_chunks | image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val tokenizer = new HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val draw_annotations = new ImageDrawAnnotations()
+  .setInputCol("image")
+  .setInputChunksCol("token")
+  .setOutputCol("image_with_annotations")
+  .setFilledRect(False)
+  .setFontSize(40)
+  .setRectColor(Color.red)
+
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  tokenizer,
+  draw_annotations
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+tokenizer = HocrTokenizer() \
+    .setInputCol("hocr") \
+    .setOutputCol("token")
+
+draw_annotations = ImageDrawAnnotations() \
+    .setInputCol("image") \
+    .setInputChunksCol("token") \
+    .setOutputCol("image_with_annotations") \
+    .setFilledRect(False) \
+    .setFontSize(40) \
+    .setRectColor(Color.red)
+
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    tokenizer,
+    image_with_annotations
+])
+
+result = pipeline.transform(df)
+```
+
+</div>
+
 ### ImageDrawRegions
 
 `ImageDrawRegions` draw regions with label and score to the image.
@@ -2735,7 +2857,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY| OCR engine mode |
 | language | [Language](ocr_structures#language) | Language.ENG | language |
 | confidenceThreshold | int | 0 | Confidence threshold. |
-| ignoreResolution | bool | true | Ignore resolution from metadata of image. |
+| ignoreResolution | bool | false | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 | pdfCoordinates | bool | false | Transform coordinates in positions to PDF points. |
 | modelData | string | | Path to the local model data. |
@@ -3634,4 +3756,226 @@ Output:
     "additional_assays" : [ "Tumor Mutation  Burden  (TMB)", "Microsatellite  Status  (MS)" ]
   }
 }
+```
+
+## HocrDocumentAssembler
+
+`HocrDocumentAssembler ` prepares data into a format that is processable by Spark NLP.
+
+**Output Annotator Type:** DOCUMENT
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document |
+
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | document | Name of output column. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val hocrDocumentAssembler = HocrDocumentAssembler()
+  .setInputCol("hocr")
+  .setOutputCol("document")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  hocrDocumentAssembler
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("document").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+hocr_document_assembler = HocrDocumentAssembler() \
+  .setInputCol("hocr") \
+  .setOutputCol("document") 
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    hocr_document_assembler
+])
+
+result = pipeline.transform(df)
+result.select("document").show()
+```
+
+</div>
+
+Output:
+
+```
++--------------------------------------------------------------------+
+| document                                                           |
++--------------------------------------------------------------------+
+| [[document, 0, 4392, Patient Nam Financial Numbe Random Hospital...|
++--------------------------------------------------------------------+
+
+```
+
+
+## HocrTokenizer
+
+`HocrTokenizer` prepares into a format that is processable by Spark NLP.\
+HocrTokenizer puts to metadata coordinates and ocr confidence.
+
+**Output Annotator Type:** TOKEN
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | token | Name of output column. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val tokenizer = HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  tokenizer
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("token").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+tokenizer = HocrTokenizer() \
+    .setInputCol("hocr") \
+    .setOutputCol("token")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    tokenizer
+])
+
+result = pipeline.transform(df)
+result.select("token").show()
+```
+
+</div>
+
+Output:
+
+```
++--------------------------------------------------------------------+
+| token                                                              |
++--------------------------------------------------------------------+
+| [[token, 0, 6, patient, [x -> 2905, y -> 527, height -> 56,        |
+| confidence -> 95, word -> Patient, width -> 230], []], [token, 8,  |
+|10, nam, [x -> 3166, y -> 526, height -> 55, confidence -> 95, word |
+|-> Nam, width -> 158], []] ...                                      |
++--------------------------------------------------------------------+
+
 ```

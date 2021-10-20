@@ -31,6 +31,7 @@ It based on CascadeTabNet which used Cascade mask Region-based CNN High-Resoluti
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | scoreThreshold | float | 0.9 | Score threshold for output regions.|
+| applyCorrection| boolean | false | Enable correction of results. |
 
 
 #### Output Columns
