@@ -2,7 +2,7 @@
 layout: docs
 header: true
 title: GPU vs CPU benchmark on ClassifierDL
-permalink: /docs/en/CPUvsGPUbenchmark
+permalink: /docs/en/CPUvsGPUbenchmarkClassifierDL
 key: docs-concepts
 modify_date: "2021-08-31"
 use_language_switcher: "Python-Scala"
@@ -15,7 +15,7 @@ sidebar:
 
 ## GPU vs CPU benchmark on ClassifierDL
 
-This experiment consisted of training a document level Deep Learning Binary Classifier (Question vs Statement classes) using a fully connected CNN and Bert Sentence Embeddings. Only 1 Spark node was usd for the training.
+This experiment consisted of training a document level Deep Learning Binary Classifier (Question vs Statement classes) using a fully connected CNN and Bert Sentence Embeddings. Only 1 Spark node was used for the training.
 
 We used the Spark NLP class `ClassifierDL` and it's method `Approach()` as described in the [documentation](https://nlp.johnsnowlabs.com/docs/en/annotators#classifierdl).
 
@@ -88,7 +88,7 @@ Even for this average-sized dataset, we can observe that GPU is able to beat the
 |  256  |  64  |  53  |
 |  1024  |  64  |  52  |
 
-We can see that CPU didn't scale with bigger batches, although GPU got improvement specially up to a 256 batch size, nor providing much more improvement afterwards.
+We can see that CPU didn't scale with bigger batches, although GPU got improvement specially up to a 256 batch size, not providing much more improvement afterwards.
 
 </div>
 <div class="h3-box" markdown="1">
@@ -121,15 +121,15 @@ The main takeaways of this benchmark were:
 <div class="h3-box" markdown="1">
 
 ## How to get the best of the GPU
-Not always GPU will beat CPU machines. Even our use case, where we got almost a 20% of improvement, the GPU remains only at 40% of its utilization, what shows there is still room for improvement:
+Not always GPU will beat CPU machines. Even in our use case, where we got almost a 20% of improvement, the GPU remains only at 40% of its utilization, what shows there is still room for improvement:
 
 ![](/assets/images/gpu_vs_cpu_pic4.png)
 
-The level of improvement depends on the spec on both machines and, evidently, on the model to be trained and the size of the dataset.
+The level of improvement depends on the specs on both machines and, evidently, on the model to be trained and the size of the dataset.
 
 Bigger improvements can be achived with bigger datasets and big batch sizes.
 
-Also, pipelines with heavy computational cost, as `SentenceEntityResolver` (see Training documentation [here](https://nlp.johnsnowlabs.com/docs/en/licensed_training) are more suitable to leverage the improvement of the GPU.
+Also, pipelines with heavy computational cost, as `SentenceEntityResolver` (see Training documentation [here](https://nlp.johnsnowlabs.com/docs/en/licensed_training) are more suitable to achieve improvements using a GPU.
 
 </div>
 <div class="h3-box" markdown="1">
