@@ -17,7 +17,7 @@ sidebar:
 
 This experiment consisted of training a document level Deep Learning Binary Classifier (Question vs Statement classes) using a fully connected CNN and Bert Sentence Embeddings. Only 1 Spark node was used for the training.
 
-We used the Spark NLP class `ClassifierDL` and it's method `Approach()` as described in the [documentation](https://nlp.johnsnowlabs.com/docs/en/annotators#classifierdl).
+We used the Spark NLP class `ClassifierDL` and its method `Approach()` as described in the [documentation](https://nlp.johnsnowlabs.com/docs/en/annotators#classifierdl).
 
 The pipeline looks as follows:
 
