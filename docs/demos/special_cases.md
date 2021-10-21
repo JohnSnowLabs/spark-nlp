@@ -19,7 +19,6 @@ data:
       source: yes
       source: 
         - title: Calculate Medicare Risk Score
-          hide: yes
           id: calculate_medicare_risk_score 
           image: 
               src: /assets/images/Calculate_Medicare_Risk_Score.svg
