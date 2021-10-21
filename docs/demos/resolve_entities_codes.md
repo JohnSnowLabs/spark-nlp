@@ -77,6 +77,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb
         - title: Resolve drugs to RXNORM-NDC codes
+          hide: yes
           id: rxnorm_ndc_coding
           image: 
               src: /assets/images/Resolve_drugs_to_RXNORM-NDC_codes.svg
