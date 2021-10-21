@@ -235,6 +235,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
         url: /docs/en/benchmark
+      - title: GPU vs CPU benchmark on ClassifierDL
+        url: /docs/en/CPUvsGPUbenchmark 
 
 
 spark-ocr:
