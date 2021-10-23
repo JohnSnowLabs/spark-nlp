@@ -527,8 +527,7 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Release Notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="release-notes-spark-nlp-healthcare">Release Notes Spark NLP Healthcare</h1>
-<h2 id="331">3.3.1</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="331">3.3.1</h2>
 <p>We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.</p>
 
 <h4 id="highlights">Highlights</h4>
@@ -541,6 +540,7 @@
   <li>New Docker image for Spark NLP for Healthcare</li>
   <li>New Docker image for Spark OCR</li>
   <li>Updated Spark NLP For Healthcare Notebooks and New Notebooks</li>
+  <li>New ChunkSentenceSplitter</li>
 </ul>
 
 <h4 id="new-chunkkeyphraseextraction-annotator">New ChunkKeyPhraseExtraction Annotator</h4>
@@ -740,6 +740,73 @@ weighted avg       0.83      0.73      0.78     22617
 <p>We are releasing a Docker Image for running Spark OCR inside a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.</p>
 
 <p>Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr</p>
+
+<h3 id="chunksentencesplitter">ChunkSentenceSplitter</h3>
+
+<p>New chunSentenceSplitter is a annotator that split the document using the chunks that you provided,and put in the metadata the chunk entity.</p>
+
+<p>example</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">t_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""Reporting Template
+        Writers write descriptive paragraphs because their purpose is to describe something. Their point is that something
+        is beautiful or disgusting or strangely intriguing.
+        Writers write persuasive and argument paragraphs because their purpose is to persuade or convince someone. T
+        SPECIMEN
+        +Adequacy of Sample for Testing
+        ___ Adequate
+        +Estimated % Tumor Cellularity
+        ___ Suboptimal (explain): _________________
+        RESULTS
+        +Mutational Analysis
+        ___ Mutation detected
+        ___ Mutation no identified
+        ___ EGFR
+        """</span><span class="p">]</span>
+
+
+        <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+        <span class="n">regexMatcher</span> <span class="o">=</span> <span class="n">RegexMatcher</span><span class="p">().</span><span class="n">setExternalRules</span><span class="p">(</span><span class="s">"../src/test/resources/chunker/title_regex.txt"</span><span class="p">,</span> <span class="s">","</span><span class="p">)</span> \
+                 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+                 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunks"</span><span class="p">)</span>
+
+        <span class="n">chunkSentenceSplitter</span> <span class="o">=</span> <span class="n">ChunkSentenceSplitter</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"chunks"</span><span class="p">,</span><span class="s">"document"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"paragraphs"</span><span class="p">)</span>
+
+        <span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span><span class="n">regexMatcher</span><span class="p">,</span><span class="n">chunkSentenceSplitter</span><span class="p">])</span>
+  
+        <span class="n">data_chunk</span> <span class="o">=</span> <span class="n">SparkContextForTest</span><span class="p">.</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"text"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+        <span class="n">paragraphPipeline</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_chunk</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">paragraphPipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">SparkContextForTest</span><span class="p">.</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="n">t_list</span><span class="p">})))</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(paragraphs)"</span><span class="p">).</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|col                                                                                                                                                                                                                                                                                                                                                                                               |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[document, 0, 327, Reporting Template
+        Writers write descriptive paragraphs because their purpose is to describe something. Their point is that something
+        is beautiful or disgusting or strangely intriguing.
+        Writers write persuasive and argument paragraphs because their purpose is to persuade or convince someone. T
+        , <span class="o">[</span>entity -&gt; title1, sentence -&gt; 0], <span class="o">[]]</span>|
+|[document, 327, 496, SPECIMEN
+        +Adequacy of Sample <span class="k">for </span>Testing
+        ___ Adequate
+        +Estimated % Tumor Cellularity
+        ___ Suboptimal <span class="o">(</span>explain<span class="o">)</span>: _________________
+        , <span class="o">[</span>entity -&gt; title3, sentence -&gt; 1], <span class="o">[]]</span>                                                                                                                                                            |
+|[document, 496, 622, RESULTS
+        +Mutational Analysis
+        ___ Mutation detected
+        ___ Mutation no identified
+        ___ EGFR
+       , <span class="o">[</span>entity -&gt; title3, sentence -&gt; 2], <span class="o">[]]</span>                                                                                                                                                                                                       |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+</code></pre></div></div>
+<h3 id="python-documentation">Python documentation</h3>
+
+<p>New <a href="https://nlp.johnsnowlabs.com/licensed/api/python/">python documentation</a></p>
 
 <h4 id="updated-spark-nlp-for-healthcare-notebooks-and-new-notebooks">Updated Spark NLP For Healthcare Notebooks and New Notebooks</h4>
 
