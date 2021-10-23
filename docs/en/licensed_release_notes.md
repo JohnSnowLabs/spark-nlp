@@ -231,7 +231,7 @@ We are releasing a Docker Image for running Spark OCR inside a jupyter environme
 
 Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr
 
-### ChunkSentenceSplitter
+#### ChunkSentenceSplitter
 
 New chunSentenceSplitter is a annotator that split the document using the chunks that you provided,and put in the metadata the chunk entity.
 
@@ -296,7 +296,7 @@ example
 
 
 ```
-### Python documentation
+#### Python documentation
 
 New [python documentation](https://nlp.johnsnowlabs.com/licensed/api/python/)
 
