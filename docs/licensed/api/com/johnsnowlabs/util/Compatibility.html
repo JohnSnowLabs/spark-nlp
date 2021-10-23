@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.util.Compatibility</title>
-          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.util.Compatibility" />
-          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.util.Compatibility" />
+          <title>Spark NLP 3.3.1 ScalaDoc  - com.johnsnowlabs.util.Compatibility</title>
+          <meta name="description" content="Spark NLP 3.3.1 ScalaDoc - com.johnsnowlabs.util.Compatibility" />
+          <meta name="keywords" content="Spark NLP 3.3.1 ScalaDoc com.johnsnowlabs.util.Compatibility" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -415,7 +415,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.util.Compatibility#findVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.util.Compatibility#findVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="findVersion(model:String):java.util.List[java.util.Map[String,String]]"></a><a id="findVersion(String):List[Map[String,String]]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/util/Compatibility.html#findVersion(model:String):java.util.List[java.util.Map[String,String]]" title="Permalink">
@@ -430,7 +430,8 @@
         <span class="name">findVersion</span><span class="params">(<span name="model">model: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;all&quot;</span></span>)</span><span class="result">: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="java.lang.String">String</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">It returns the private models that are compatible with the current library version.</p><div class="fullcomment"><div class="comment cmt"><p>It returns the private models that are compatible with the current library version.
+</p></div><dl class="paramcmts block"><dt class="param">model</dt><dd class="cmt"><p>Name of the model that you try to find.If the model name is <code>all</code> that method will return all private models.</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -520,6 +521,40 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.util.Compatibility#showStringVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showStringVersion(model:String):String"></a><a id="showStringVersion(String):String"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/util/Compatibility.html#showStringVersion(model:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showStringVersion</span><span class="params">(<span name="model">model: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;all&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">It return the private models that are compatible with the current library version in table format.</p><div class="fullcomment"><div class="comment cmt"><p>It return the private models that are compatible with the current library version in table format.
+</p></div><dl class="paramcmts block"><dt class="param">model</dt><dd class="cmt"><p>Name of the model that you try to find.If the model name is <code>all</code> that method will print all private models.</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.util.Compatibility#showVersion" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="showVersion(model:String):Unit"></a><a id="showVersion(String):Unit"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/util/Compatibility.html#showVersion(model:String):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">showVersion</span><span class="params">(<span name="model">model: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;all&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">It prints the private models that are compatible with the current library version.</p><div class="fullcomment"><div class="comment cmt"><p>It prints the private models that are compatible with the current library version.
+</p></div><dl class="paramcmts block"><dt class="param">model</dt><dd class="cmt"><p>Name of the model that you try to find.If the model name is <code>all</code> that method will print all private models.</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
