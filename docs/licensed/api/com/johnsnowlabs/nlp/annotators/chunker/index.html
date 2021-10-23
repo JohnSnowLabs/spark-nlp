@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker</title>
-          <meta name="description" content="Spark NLP 3.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker" />
-          <meta name="keywords" content="Spark NLP 3.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker" />
+          <title>Spark NLP 3.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker</title>
+          <meta name="description" content="Spark NLP 3.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker" />
+          <meta name="keywords" content="Spark NLP 3.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -181,6 +181,22 @@
                         <a class="object" href="ChunkFiltererApproach$.html" title=""></a>
                         <a class="class" href="ChunkFiltererApproach.html" title="Filters entities coming from CHUNK annotations."></a>
                         <a href="ChunkFiltererApproach.html" title="Filters entities coming from CHUNK annotations.">ChunkFiltererApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ChunkKeyPhraseExtraction$.html" title=""></a>
+                        <a class="class" href="ChunkKeyPhraseExtraction.html" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text."></a>
+                        <a href="ChunkKeyPhraseExtraction.html" title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text.">ChunkKeyPhraseExtraction</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="ChunkSentenceSplitter$.html" title=""></a>
+                        <a class="class" href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity."></a>
+                        <a href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity.">ChunkSentenceSplitter</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadChunkKeyPhraseExtractionTensorflowModel.html" title=""></a>
+                        <a href="ReadChunkKeyPhraseExtractionTensorflowModel.html" title="">ReadChunkKeyPhraseExtractionTensorflowModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title=""></a>
+                        <a href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" title="">ReadablePretrainedChunkKeyPhraseExtractionModel</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.classification" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="classification"></a><a id="classification:classification"></a>
       <span class="permalink">
@@ -654,6 +670,150 @@ result.selectExpr(<span class="lit">"explode(filtered)"</span>).show(truncate=<s
 |{chunk, <span class="num">22</span>, <span class="num">36</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}  |
 |{chunk, <span class="num">118</span>, <span class="num">132</span>, gastroenteritis, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">5</span>}, []}|
 +-------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ChunkKeyPhraseExtractionextendsBertSentenceEmbeddingswithCheckLicense"></a><a id="ChunkKeyPhraseExtraction:ChunkKeyPhraseExtraction"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkKeyPhraseExtraction.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text." href="ChunkKeyPhraseExtraction.html"><span class="name">ChunkKeyPhraseExtraction</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"> Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a
+ text.</p><div class="fullcomment"><div class="comment cmt"><p> Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a
+ text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares
+ the chunks against the corresponding sentences/documents and selects the chunks which are most representative of the
+ broader text context (i.e. the document or the sentence they belong to).
+ The key phrases candidates (i.e. the input chunks) can be generated in various ways, e.g. by NGramGenerator,
+ TextMatcher or NerConverter.
+ The model operates either at sentence (selecting the most descriptive chunks from the sentence they
+ belong to) or at document level. In the latter case, the key phrases are selected to represent all the input
+ document annotations.</p><p>This model is a subclass of <span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> and shares all parameters with it. It can load any pretrained
+BertSentenceEmbeddings model. Available models can be found at <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><pre><span class="kw">val</span> embeddings = ChunkKeyPhraseExtraction.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"chunk"</span>)
+  .setOutputCol(<span class="lit">"key_phrase_chunks"</span>)</pre><p>The default model is <code>&quot;sbert_jsl_medium_uncased&quot;</code>, if no name is provided.</p><p><b>Sources</b> :</p><p><a href="https://dl.acm.org/doi/10.1145/290941.291025" target="_blank">The use of MMR, diversity-based reranking for reordering documents and
+producing summaries</a></p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://arxiv.org/pdf/1908.10084.pdf" target="_blank">Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks</a></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator.SentenceDetector
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+<span class="kw">import</span> com.johnsnowlabs.nlp.EmbeddingsFinisher
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+ <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+   .setInputCol(<span class="lit">"text"</span>)
+   .setOutputCol(<span class="lit">"document"</span>)
+
+ <span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+   .setInputCols(<span class="lit">"document"</span>)
+   .setOutputCol(<span class="lit">"tokens"</span>)
+
+ <span class="kw">val</span> stopWordsCleaner = StopWordsCleaner.pretrained()
+   .setInputCols(<span class="lit">"tokens"</span>)
+   .setOutputCol(<span class="lit">"clean_tokens"</span>)
+   .setCaseSensitive(<span class="kw">false</span>)
+
+ <span class="kw">val</span> nGrams = <span class="kw">new</span> NGramGenerator()
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"clean_tokens"</span>))
+   .setOutputCol(<span class="lit">"ngrams"</span>)
+   .setN(<span class="num">3</span>)
+
+
+ <span class="kw">val</span> chunkKeyPhraseExtractor = ChunkKeyPhraseExtraction
+   .pretrained()
+   .setTopN(<span class="num">2</span>)
+   .setDivergence(<span class="num">0.7</span>f)
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>, <span class="lit">"ngrams"</span>))
+   .setOutputCol(<span class="lit">"key_phrases"</span>)
+
+ <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+   .setStages(<span class="std">Array</span>(
+     documentAssembler,
+     tokenizer,
+     stopWordsCleaner,
+     nGrams,
+     chunkKeyPhraseExtractor))
+
+<span class="kw">val</span> sampleText = <span class="lit">"Her Diabetes has become type 2 in the last year with her Diabetes."</span> +
+   <span class="lit">" He complains of swelling in his right forearm."</span>
+
+<span class="kw">val</span> testDataset = <span class="std">Seq</span>(<span class="lit">""</span>).toDS.toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(emptyDataset).transform(testDataset)
+
+ result
+   .selectExpr(<span class="lit">"explode(key_phrases) AS key_phrase"</span>)
+   .selectExpr(
+     <span class="lit">"key_phrase.result"</span>,
+     <span class="lit">"key_phrase.metadata.DocumentSimilarity"</span>,
+     <span class="lit">"key_phrase.metadata.MMRScore"</span>)
+   .show(truncate=<span class="kw">false</span>)
+
++--------------------------+-------------------+------------------+
+|result                    |DocumentSimilarity |MMRScore          |
++--------------------------+-------------------+------------------+
+|complains swelling forearm|<span class="num">0.6325718954229369</span> |<span class="num">0.1897715761677257</span>|
+|<span class="kw">type</span> <span class="num">2</span> year               |<span class="num">0.40181028931546364</span>|-<span class="num">0.189501077108947</span>|
++--------------------------+-------------------+------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><span class="extype" name="BertEmbeddings">BertEmbeddings</span> for token-level embeddings</p></span><span class="cmt"><p><span class="extype" name="BertSentenceEmbeddings">BertSentenceEmbeddings</span> for sentence-level embeddings</p></span><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based embeddings</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ChunkSentenceSplitterextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter]withCheckLicense"></a><a id="ChunkSentenceSplitter:ChunkSentenceSplitter"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Split the document using the chunks that you provided,and put in the metadata the chunk entity." href="ChunkSentenceSplitter.html"><span class="name">ChunkSentenceSplitter</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="ChunkSentenceSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="ChunkSentenceSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"> Split the document using the chunks that you provided,and put in the metadata the chunk entity.</p><div class="fullcomment"><div class="comment cmt"><p> Split the document using the chunks that you provided,and put in the metadata the chunk entity.
+  The first piece of documento to the first chunk will have the entity as header.</p><p>Is useful if you identify the titles and subtitles using some ner and after that you can split by paragraph</p><h4>Example</h4><pre> <span class="kw">val</span> data = <span class="std">Seq</span>(text,text).toDS.toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"doc"</span>)
+<span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher().setInputCols(<span class="lit">"doc"</span>).setOutputCol(<span class="lit">"chunks"</span>).setExternalRules(<span class="lit">"src/test/resources/chunker/title_regex.txt"</span>,<span class="lit">","</span>)
+<span class="kw">val</span> chunkSentenceSplitter = <span class="kw">new</span> ChunkSentenceSplitter().setInputCols(<span class="lit">"chunks"</span>,<span class="lit">"doc"</span>).setOutputCol(<span class="lit">"paragraphs"</span>)
+<span class="kw">val</span> pipeline =  <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler,regexMatcher,chunkSentenceSplitter))
+<span class="kw">val</span> result = pipeline.fit(data).transform(data).select(<span class="lit">"paragraphs"</span>)
+result.show(truncate = <span class="kw">false</span>)</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ReadChunkKeyPhraseExtractionTensorflowModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadChunkKeyPhraseExtractionTensorflowModelextendsReadTensorflowModel"></a><a id="ReadChunkKeyPhraseExtractionTensorflowModel:ReadChunkKeyPhraseExtractionTensorflowModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ReadChunkKeyPhraseExtractionTensorflowModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadChunkKeyPhraseExtractionTensorflowModel.html"><span class="name">ReadChunkKeyPhraseExtractionTensorflowModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ReadablePretrainedChunkKeyPhraseExtractionModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedChunkKeyPhraseExtractionModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction]withHasPretrained[com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction]"></a><a id="ReadablePretrainedChunkKeyPhraseExtractionModel:ReadablePretrainedChunkKeyPhraseExtractionModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ReadablePretrainedChunkKeyPhraseExtractionModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedChunkKeyPhraseExtractionModel.html"><span class="name">ReadablePretrainedChunkKeyPhraseExtractionModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="ChunkKeyPhraseExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="ChunkKeyPhraseExtraction.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a>]</span>
+      </span>
+      
+      
     </li></ol>
             </div>
 
@@ -707,6 +867,38 @@ result.selectExpr(<span class="lit">"explode(filtered)"</span>).show(truncate=<s
       </span>
       <span class="symbol">
         <a title="" href="ChunkFiltererApproach$.html"><span class="name">ChunkFiltererApproach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="ChunkFiltererApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach">ChunkFiltererApproach</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkKeyPhraseExtraction" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ChunkKeyPhraseExtraction"></a><a id="ChunkKeyPhraseExtraction:ChunkKeyPhraseExtraction"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkKeyPhraseExtraction$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ChunkKeyPhraseExtraction$.html"><span class="name">ChunkKeyPhraseExtraction</span></a><span class="result"> extends <a href="ReadablePretrainedChunkKeyPhraseExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ReadablePretrainedChunkKeyPhraseExtractionModel">ReadablePretrainedChunkKeyPhraseExtractionModel</a> with <a href="ReadChunkKeyPhraseExtractionTensorflowModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ReadChunkKeyPhraseExtractionTensorflowModel">ReadChunkKeyPhraseExtractionTensorflowModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ChunkSentenceSplitter"></a><a id="ChunkSentenceSplitter:ChunkSentenceSplitter"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ChunkSentenceSplitter$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ChunkSentenceSplitter$.html"><span class="name">ChunkSentenceSplitter</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="ChunkSentenceSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
