@@ -376,4 +376,7 @@ package object annotator {
 
   object EntityRulerModel extends ReadablePretrainedEntityRuler
 
+  type BertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification
+
+  object BertForSequenceClassification extends ReadablePretrainedBertForSequenceModel with ReadBertForSequenceTensorflowModel
 }
