@@ -11,7 +11,6 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
-# Release Notes Spark NLP Healthcare
 ## 3.3.1
 We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.
 
@@ -24,6 +23,7 @@ We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.
 + New Docker image for Spark NLP for Healthcare
 + New Docker image for Spark OCR
 + Updated Spark NLP For Healthcare Notebooks and New Notebooks
++ New ChunkSentenceSplitter 
 
 #### New ChunkKeyPhraseExtraction Annotator
 
@@ -230,6 +230,76 @@ Video Instructions: https://www.youtube.com/watch?v=tgN0GZGMVJk
 We are releasing a Docker Image for running Spark OCR inside a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.
 
 Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr
+
+### ChunkSentenceSplitter
+
+New chunSentenceSplitter is a annotator that split the document using the chunks that you provided,and put in the metadata the chunk entity.
+
+example
+
+```python
+        t_list = ["""Reporting Template
+        Writers write descriptive paragraphs because their purpose is to describe something. Their point is that something
+        is beautiful or disgusting or strangely intriguing.
+        Writers write persuasive and argument paragraphs because their purpose is to persuade or convince someone. T
+        SPECIMEN
+        +Adequacy of Sample for Testing
+        ___ Adequate
+        +Estimated % Tumor Cellularity
+        ___ Suboptimal (explain): _________________
+        RESULTS
+        +Mutational Analysis
+        ___ Mutation detected
+        ___ Mutation no identified
+        ___ EGFR
+        """]
+
+
+        documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+
+        regexMatcher = RegexMatcher().setExternalRules("../src/test/resources/chunker/title_regex.txt", ",") \
+                 .setInputCols("document") \
+                 .setOutputCol("chunks")
+
+        chunkSentenceSplitter = ChunkSentenceSplitter().setInputCols("chunks","document").setOutputCol("paragraphs")
+
+        pipeline =  Pipeline().setStages([documentAssembler,regexMatcher,chunkSentenceSplitter])
+  
+        data_chunk = SparkContextForTest.spark.createDataFrame([["text"]]).toDF("text")
+        paragraphPipeline = pipeline.fit(data_chunk)
+        res = paragraphPipeline.transform(SparkContextForTest.spark.createDataFrame(pd.DataFrame({'text': t_list})))
+        res.selectExpr("explode(paragraphs)").show()
+```
+
+```bash
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|col                                                                                                                                                                                                                                                                                                                                                                                               |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[document, 0, 327, Reporting Template
+        Writers write descriptive paragraphs because their purpose is to describe something. Their point is that something
+        is beautiful or disgusting or strangely intriguing.
+        Writers write persuasive and argument paragraphs because their purpose is to persuade or convince someone. T
+        , [entity -> title1, sentence -> 0], []]|
+|[document, 327, 496, SPECIMEN
+        +Adequacy of Sample for Testing
+        ___ Adequate
+        +Estimated % Tumor Cellularity
+        ___ Suboptimal (explain): _________________
+        , [entity -> title3, sentence -> 1], []]                                                                                                                                                            |
+|[document, 496, 622, RESULTS
+        +Mutational Analysis
+        ___ Mutation detected
+        ___ Mutation no identified
+        ___ EGFR
+       , [entity -> title3, sentence -> 2], []]                                                                                                                                                                                                       |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+```
+### Python documentation
+
+New [python documentation](https://nlp.johnsnowlabs.com/licensed/api/python/)
+
 
 #### Updated Spark NLP For Healthcare Notebooks and New Notebooks
 
