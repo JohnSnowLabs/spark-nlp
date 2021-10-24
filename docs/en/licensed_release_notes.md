@@ -19,11 +19,11 @@ We are glad to announce that Spark NLP Healthcare 3.3.1 has been released!.
 + New BERT-Based NER Models
 + New UMLS Sentence Entity Resolver Models
 + Updated RxNorm Entity Resolver Model (Dropping Invalid Codes)
-+ Added showVersion() method in Compatibility class
-+ New Docker image for Spark NLP for Healthcare
-+ New Docker image for Spark OCR
-+ Updated Spark NLP For Healthcare Notebooks and New Notebooks
-+ New ChunkSentenceSplitter 
++ New showVersion() Method in Compatibility Class
++ New Docker Images for Spark NLP for Healthcare and Spark OCR
++ New and Updated Deidentification() Parameters
++ New Python API Documentation
++ Updated Spark NLP For Healthcare Notebooks and New Notebooks 
 
 #### New ChunkKeyPhraseExtraction Annotator
 
@@ -34,30 +34,33 @@ You can find more examples in [ChunkKeyPhraseExtraction notebook](https://github
 *Example* :
 
 ```bash
+...
 ngram_ner_key_phrase_extractor = ChunkKeyPhraseExtraction.pretrained("sbert_jsl_medium_uncased ", "en", "clinical/models")\
-    .setTopN(10) \
+    .setTopN(5) \
     .setDivergence(0.4)\
     .setInputCols(["sentences", "merged_chunks"])\
     .setOutputCol("key_phrases")
+...
+
+text = "A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation . Physical examination on presentation was significant for dry oral mucosa ; significantly, her abdominal examination was benign with no tenderness , guarding , or rigidity . Pertinent laboratory findings on admission were: serum glucose 111 mg/dl , bicarbonate 18 mmol/l , anion gap 20 , creatinine 0.4 mg/dL , triglycerides 508 mg/dL , total cholesterol 122 mg/dL , glycated hemoglobin ( HbA1c ) 10% , and venous pH 7.27. Serum lipase was normal at 43 U/L . Serum acetone levels could not be assessed as blood samples kept hemolyzing due to significant lipemia ."
+
+
+textDF = spark.createDataFrame([[text]]).toDF("text")
+ngram_ner_results =  ngram_ner_pipeline.transform(textDF)
 ```
 
 *Results* :
 
 ```bash
-+--------------------------------+------+-------------------+-------------------+--------+
-|key_phrase                      |source|DocumentSimilarity |MMRScore           |sentence|
-+--------------------------------+------+-------------------+-------------------+--------+
-|type two diabetes mellitus      |NER   |0.7639750686118073 |0.4583850593816694 |0       |
-|subsequent type diabetes        |ngrams|0.7503709443591438 |0.08298243928224425|0       |
-|HTG-induced pancreatitis years  |ngrams|0.6817062970203589 |0.11246275270031031|0       |
-|hepatitis obesity               |ngrams|0.6666053470245074 |0.1177052008980295 |0       |
-|mellitus diagnosed years        |ngrams|0.6389213391545323 |0.08129479185432026|0       |
-|history gestational diabetes    |ngrams|0.6219876368539883 |0.0950104202982544 |0       |
-|vomiting                        |ngrams|0.5824238088130589 |0.14864183399720493|0       |
-|admitted starvation ketosis     |ngrams|0.5789875069392564 |0.12008073486190007|0       |
-|five-day amoxicillin respiratory|ngrams|0.5330653868257814 |0.09428153526023508|0       |
-|28-year-old female history      |ngrams|0.38613601247069695|0.12987678861407687|0       |
-+--------------------------------+------+-------------------+-------------------+--------+
++--------------------------+------+-------------------+-------------------+--------+
+|key_phrase                |source|DocumentSimilarity |MMRScore           |sentence|
++--------------------------+------+-------------------+-------------------+--------+
+|type two diabetes mellitus|NER   |0.7639750686118073 |0.4583850593816694 |0       |
+|HTG-induced pancreatitis  |ngrams|0.66933222897749   |0.10416352343367463|0       |
+|vomiting                  |ngrams|0.5824238088130589 |0.14864183399720493|0       |
+|history polyuria          |ngrams|0.46337313737310987|0.0959500325843913 |0       |
+|28-year-old female        |ngrams|0.31692529374916967|0.10043002919664669|0       |
++--------------------------+------+-------------------+-------------------+--------+
 ```
 
 #### New BERT-Based NER Models
@@ -81,10 +84,15 @@ weighted avg       0.99      0.93      0.96     62001
 *Example* :
 
 ```python 
+...
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemicals", "en", "clinical/models")\
     .setInputCols("token", "document")\
     .setOutputCol("ner")\
     .setCaseSensitive(True) 
+...
+
+test_sentence = """The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""
+result = p_model.transform(spark.createDataFrame([[test_sentence]]).toDF("text"))
 ```
 
 *Results* :
@@ -121,10 +129,15 @@ weighted avg       0.83      0.73      0.78     22617
 *Example* :
 
 ```bash
+...
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
     .setInputCols("token", "document")\
     .setOutputCol("ner")\
     .setCaseSensitive(True)
+...
+
+test_sentence = "Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."
+result = p_model.transform(spark.createDataFrame([[test_sentence]]).toDF("text"))
 ```
 
 *Results* :
@@ -148,10 +161,16 @@ We are releasing two new UMLS Sentence Entity Resolver models trained on 2021AB 
 *Example* :
 
 ```bash
+...
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_disease_syndrome","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
+...
+
+data = spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""]]).toDF("text")
+results = model.fit(data).transform(data)
+
 ```
 
 *Results* :
@@ -175,10 +194,16 @@ resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_disease_
 *Example* :
 
 ```bash
+...
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_clinical_drugs","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
+...
+
+data = spark.createDataFrame([["""She was immediately given hydrogen peroxide 30 mg to treat the infection on her leg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg."""]]).toDF("text")
+results = model.fit(data).transform(data)
+
 ```
 
 *Results* :
@@ -197,9 +222,9 @@ resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_clinical
 
 `sbiobertresolve_rxnorm` model was updated by dropping invalid codes using 02 August 2021 RxNorm dataset.
 
-#### Added showVersion() method in Compatibility class.
+#### New showVersion() Method in Compatibility Class
 
-We added the 'showVersion()' method in our Compatibility class that shows the name of the models and the version in a pretty way.
+We added the `.showVersion()` method in our Compatibility class that shows the name of the models and the version in a pretty way.
 
 ```python
 compatibility = Compatibility()
@@ -217,24 +242,36 @@ After the execution you will see the following table,
 +---------------------------------+------+---------+
 ```
 
-#### New Docker image for Spark NLP for Healthcare
+#### New Docker Images for Spark NLP for Healthcare and Spark OCR
 
-We are releasing a Docker Image for Spark NLP for Healthcare containing a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.
+We are releasing new Docker Images for Spark NLP for Healthcare and Spark OCR containing a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.
 
-Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_nlp_hc
+**Spark NLP for Healthcare Docker Image**
 
-Video Instructions: https://www.youtube.com/watch?v=tgN0GZGMVJk
+For running Spark NLP inside a container:
 
-#### New Docker image for Spark OCR
+- Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_nlp_hc
 
-We are releasing a Docker Image for running Spark OCR inside a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.
+- Video Instructions: https://www.youtube.com/watch?v=tgN0GZGMVJk
 
-Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr
+**Spark NLP & OCR Docker Image**
 
-#### Python documentation
+For users who want to use Spark OCR with Spark NLP to process PDF/Image/MS-Word documents:
 
-New [python documentation](https://nlp.johnsnowlabs.com/licensed/api/python/)
+- Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr
 
+#### New and Updated Deidentification() Parameters
+
+*New Parameter* :
++ `setBlackList()` : List of entities **ignored** for masking or obfuscation.The default values are: `SSN`, `PASSPORT`, `DLN`, `NPI`, `C_CARD`, `IBAN`, `DEA`.
+
+*Updated Parameter* :
+
++ `.setObfuscateRefSource()` : It was set `faker` as default.
+
+#### New Python API Documentation
+
+We have new Spark NLP for Healthcare [Python API Documentation](https://nlp.johnsnowlabs.com/licensed/api/python/) . This page contains information how to use the library with Python examples.
 
 #### Updated Spark NLP For Healthcare Notebooks and New Notebooks
 
