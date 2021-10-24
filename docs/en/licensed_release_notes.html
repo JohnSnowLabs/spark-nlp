@@ -536,11 +536,11 @@
   <li>New BERT-Based NER Models</li>
   <li>New UMLS Sentence Entity Resolver Models</li>
   <li>Updated RxNorm Entity Resolver Model (Dropping Invalid Codes)</li>
-  <li>Added showVersion() method in Compatibility class</li>
-  <li>New Docker image for Spark NLP for Healthcare</li>
-  <li>New Docker image for Spark OCR</li>
+  <li>New showVersion() Method in Compatibility Class</li>
+  <li>New Docker Images for Spark NLP for Healthcare and Spark OCR</li>
+  <li>New and Updated Deidentification() Parameters</li>
+  <li>New Python API Documentation</li>
   <li>Updated Spark NLP For Healthcare Notebooks and New Notebooks</li>
-  <li>New ChunkSentenceSplitter</li>
 </ul>
 
 <h4 id="new-chunkkeyphraseextraction-annotator">New ChunkKeyPhraseExtraction Annotator</h4>
@@ -551,29 +551,32 @@
 
 <p><em>Example</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ngram_ner_key_phrase_extractor <span class="o">=</span> ChunkKeyPhraseExtraction.pretrained<span class="o">(</span><span class="s2">"sbert_jsl_medium_uncased "</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
-    .setTopN<span class="o">(</span>10<span class="o">)</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+ngram_ner_key_phrase_extractor <span class="o">=</span> ChunkKeyPhraseExtraction.pretrained<span class="o">(</span><span class="s2">"sbert_jsl_medium_uncased "</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+    .setTopN<span class="o">(</span>5<span class="o">)</span> <span class="se">\</span>
     .setDivergence<span class="o">(</span>0.4<span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"sentences"</span>, <span class="s2">"merged_chunks"</span><span class="o">])</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"key_phrases"</span><span class="o">)</span>
+...
+
+text <span class="o">=</span> <span class="s2">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting . Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin , glipizide , and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation . Physical examination on presentation was significant for dry oral mucosa ; significantly, her abdominal examination was benign with no tenderness , guarding , or rigidity . Pertinent laboratory findings on admission were: serum glucose 111 mg/dl , bicarbonate 18 mmol/l , anion gap 20 , creatinine 0.4 mg/dL , triglycerides 508 mg/dL , total cholesterol 122 mg/dL , glycated hemoglobin ( HbA1c ) 10% , and venous pH 7.27. Serum lipase was normal at 43 U/L . Serum acetone levels could not be assessed as blood samples kept hemolyzing due to significant lipemia ."</span>
+
+
+textDF <span class="o">=</span> spark.createDataFrame<span class="o">([[</span>text]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
+ngram_ner_results <span class="o">=</span>  ngram_ner_pipeline.transform<span class="o">(</span>textDF<span class="o">)</span>
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------+------+-------------------+-------------------+--------+
-|key_phrase                      |source|DocumentSimilarity |MMRScore           |sentence|
-+--------------------------------+------+-------------------+-------------------+--------+
-|type two diabetes mellitus      |NER   |0.7639750686118073 |0.4583850593816694 |0       |
-|subsequent <span class="nb">type </span>diabetes        |ngrams|0.7503709443591438 |0.08298243928224425|0       |
-|HTG-induced pancreatitis years  |ngrams|0.6817062970203589 |0.11246275270031031|0       |
-|hepatitis obesity               |ngrams|0.6666053470245074 |0.1177052008980295 |0       |
-|mellitus diagnosed years        |ngrams|0.6389213391545323 |0.08129479185432026|0       |
-|history gestational diabetes    |ngrams|0.6219876368539883 |0.0950104202982544 |0       |
-|vomiting                        |ngrams|0.5824238088130589 |0.14864183399720493|0       |
-|admitted starvation ketosis     |ngrams|0.5789875069392564 |0.12008073486190007|0       |
-|five-day amoxicillin respiratory|ngrams|0.5330653868257814 |0.09428153526023508|0       |
-|28-year-old female <span class="nb">history</span>      |ngrams|0.38613601247069695|0.12987678861407687|0       |
-+--------------------------------+------+-------------------+-------------------+--------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------+------+-------------------+-------------------+--------+
+|key_phrase                |source|DocumentSimilarity |MMRScore           |sentence|
++--------------------------+------+-------------------+-------------------+--------+
+|type two diabetes mellitus|NER   |0.7639750686118073 |0.4583850593816694 |0       |
+|HTG-induced pancreatitis  |ngrams|0.66933222897749   |0.10416352343367463|0       |
+|vomiting                  |ngrams|0.5824238088130589 |0.14864183399720493|0       |
+|history polyuria          |ngrams|0.46337313737310987|0.0959500325843913 |0       |
+|28-year-old female        |ngrams|0.31692529374916967|0.10043002919664669|0       |
++--------------------------+------+-------------------+-------------------+--------+
 </code></pre></div></div>
 
 <h4 id="new-bert-based-ner-models">New BERT-Based NER Models</h4>
@@ -596,10 +599,15 @@ weighted avg       0.99      0.93      0.96     62001
 
 <p><em>Example</em> :</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_chemicals"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_chemicals"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> 
+<span class="p">...</span>
+
+<span class="n">test_sentence</span> <span class="o">=</span> <span class="s">"""The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">test_sentence</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
@@ -635,10 +643,15 @@ weighted avg       0.83      0.73      0.78     22617
 
 <p><em>Example</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_chemprot"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+tokenClassifier <span class="o">=</span> BertForTokenClassification.pretrained<span class="o">(</span><span class="s2">"bert_token_classifier_ner_chemprot"</span>, <span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">(</span><span class="s2">"token"</span>, <span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span><span class="se">\</span>
     .setCaseSensitive<span class="o">(</span>True<span class="o">)</span>
+...
+
+test_sentence <span class="o">=</span> <span class="s2">"Keratinocyte growth factor and acidic fibroblast growth factor are mitogens for primary cultures of mammary epithelium."</span>
+result <span class="o">=</span> p_model.transform<span class="o">(</span>spark.createDataFrame<span class="o">([[</span>test_sentence]]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">))</span>
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
@@ -661,10 +674,16 @@ weighted avg       0.83      0.73      0.78     22617
 
 <p><em>Example</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_umls_disease_syndrome"</span>,<span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_umls_disease_syndrome"</span>,<span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sbert_embeddings"</span><span class="o">])</span> <span class="se">\</span>
      .setOutputCol<span class="o">(</span><span class="s2">"resolution"</span><span class="o">)</span><span class="se">\</span>
      .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
+...
+
+data <span class="o">=</span> spark.createDataFrame<span class="o">([[</span><span class="s2">"""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
+results <span class="o">=</span> model.fit<span class="o">(</span>data<span class="o">)</span>.transform<span class="o">(</span>data<span class="o">)</span>
+
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
@@ -688,10 +707,16 @@ weighted avg       0.83      0.73      0.78     22617
 
 <p><em>Example</em> :</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_umls_clinical_drugs"</span>,<span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...
+resolver <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"sbiobertresolve_umls_clinical_drugs"</span>,<span class="s2">"en"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span> <span class="se">\</span>
      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span>, <span class="s2">"sbert_embeddings"</span><span class="o">])</span> <span class="se">\</span>
      .setOutputCol<span class="o">(</span><span class="s2">"resolution"</span><span class="o">)</span><span class="se">\</span>
      .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
+...
+
+data <span class="o">=</span> spark.createDataFrame<span class="o">([[</span><span class="s2">"""She was immediately given hydrogen peroxide 30 mg to treat the infection on her leg, and has been advised Neosporin Cream for 5 days. She has a history of taking magnesium hydroxide 100mg/1ml and metformin 1000 mg."""</span><span class="o">]])</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
+results <span class="o">=</span> model.fit<span class="o">(</span>data<span class="o">)</span>.transform<span class="o">(</span>data<span class="o">)</span>
+
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
@@ -709,9 +734,9 @@ weighted avg       0.83      0.73      0.78     22617
 
 <p><code class="language-plaintext highlighter-rouge">sbiobertresolve_rxnorm</code> model was updated by dropping invalid codes using 02 August 2021 RxNorm dataset.</p>
 
-<h4 id="added-showversion-method-in-compatibility-class">Added showVersion() method in Compatibility class.</h4>
+<h4 id="new-showversion-method-in-compatibility-class">New showVersion() Method in Compatibility Class</h4>
 
-<p>We added the ‘showVersion()’ method in our Compatibility class that shows the name of the models and the version in a pretty way.</p>
+<p>We added the <code class="language-plaintext highlighter-rouge">.showVersion()</code> method in our Compatibility class that shows the name of the models and the version in a pretty way.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compatibility</span> <span class="o">=</span> <span class="n">Compatibility</span><span class="p">()</span>
 <span class="n">compatibility</span><span class="p">.</span><span class="n">showVersion</span><span class="p">(</span><span class="s">'sentence_detector_dl_healthcare'</span><span class="p">)</span>
@@ -727,23 +752,47 @@ weighted avg       0.83      0.73      0.78     22617
 +---------------------------------+------+---------+
 </code></pre></div></div>
 
-<h4 id="new-docker-image-for-spark-nlp-for-healthcare">New Docker image for Spark NLP for Healthcare</h4>
+<h4 id="new-docker-images-for-spark-nlp-for-healthcare-and-spark-ocr">New Docker Images for Spark NLP for Healthcare and Spark OCR</h4>
 
-<p>We are releasing a Docker Image for Spark NLP for Healthcare containing a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.</p>
+<p>We are releasing new Docker Images for Spark NLP for Healthcare and Spark OCR containing a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.</p>
 
-<p>Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_nlp_hc</p>
+<p><strong>Spark NLP for Healthcare Docker Image</strong></p>
 
-<p>Video Instructions: https://www.youtube.com/watch?v=tgN0GZGMVJk</p>
+<p>For running Spark NLP inside a container:</p>
 
-<h4 id="new-docker-image-for-spark-ocr">New Docker image for Spark OCR</h4>
+<ul>
+  <li>
+    <p>Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_nlp_hc</p>
+  </li>
+  <li>
+    <p>Video Instructions: https://www.youtube.com/watch?v=tgN0GZGMVJk</p>
+  </li>
+</ul>
 
-<p>We are releasing a Docker Image for running Spark OCR inside a jupyter environment. Users having a valid license can run the image on their local system, and connect to pre-configured jupyter instance without installing the library on their local system.</p>
+<p><strong>Spark NLP &amp; OCR Docker Image</strong></p>
 
-<p>Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr</p>
+<p>For users who want to use Spark OCR with Spark NLP to process PDF/Image/MS-Word documents:</p>
 
-<h4 id="python-documentation">Python documentation</h4>
+<ul>
+  <li>Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr</li>
+</ul>
 
-<p>New <a href="https://nlp.johnsnowlabs.com/licensed/api/python/">python documentation</a></p>
+<h4 id="new-and-updated-deidentification-parameters">New and Updated Deidentification() Parameters</h4>
+
+<p><em>New Parameter</em> :</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">setBlackList()</code> : List of entities <strong>ignored</strong> for masking or obfuscation.The default values are: <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">PASSPORT</code>, <code class="language-plaintext highlighter-rouge">DLN</code>, <code class="language-plaintext highlighter-rouge">NPI</code>, <code class="language-plaintext highlighter-rouge">C_CARD</code>, <code class="language-plaintext highlighter-rouge">IBAN</code>, <code class="language-plaintext highlighter-rouge">DEA</code>.</li>
+</ul>
+
+<p><em>Updated Parameter</em> :</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.setObfuscateRefSource()</code> : It was set <code class="language-plaintext highlighter-rouge">faker</code> as default.</li>
+</ul>
+
+<h4 id="new-python-api-documentation">New Python API Documentation</h4>
+
+<p>We have new Spark NLP for Healthcare <a href="https://nlp.johnsnowlabs.com/licensed/api/python/">Python API Documentation</a> . This page contains information how to use the library with Python examples.</p>
 
 <h4 id="updated-spark-nlp-for-healthcare-notebooks-and-new-notebooks">Updated Spark NLP For Healthcare Notebooks and New Notebooks</h4>
 
