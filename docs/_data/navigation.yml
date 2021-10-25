@@ -31,6 +31,8 @@ docs-en:
         url:    /docs/en/transformers
       - title:  Training
         url:    /docs/en/training        
+      - title:  Logging
+        url:    /docs/en/thirdpartyprojects
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
@@ -150,7 +152,9 @@ sparknlp:
       - title:  Transformers
         url:    /docs/en/transformers
       - title:  Training
-        url:    /docs/en/training        
+        url:    /docs/en/training
+      - title:  Third Party Projects
+        url:    /docs/en/thirdpartyprojects
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
