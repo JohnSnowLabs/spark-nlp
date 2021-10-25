@@ -1,2 +1,2 @@
-docs/en/CPUvsGPUbenchmark.md
-docs/en/CPUvsGPUbenchmark.md
+docs/demos/resolve_entities_codes.md
+docs/demos/resolve_entities_codes.md
