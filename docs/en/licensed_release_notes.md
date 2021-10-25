@@ -248,17 +248,17 @@ We are releasing new Docker Images for Spark NLP for Healthcare and Spark OCR co
 
 **Spark NLP for Healthcare Docker Image**
 
-For running Spark NLP inside a container:
+For running Spark NLP for Healthcare inside a container:
 
-- Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_nlp_hc
+- Instructions: [Spark NLP for Healthcare Docker Image](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_nlp_hc)
 
-- Video Instructions: https://www.youtube.com/watch?v=tgN0GZGMVJk
+- Video Instructions: [Youtube Video](https://www.youtube.com/watch?v=tgN0GZGMVJk)
 
-**Spark NLP & OCR Docker Image**
+**Spark NLP for Healthcare & OCR Docker Image**
 
-For users who want to use Spark OCR with Spark NLP to process PDF/Image/MS-Word documents:
+For users who want to run Spark OCR and then feed the output of OCR pipeline to healthcare modules to process further:
 
-- Instructions: https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr
+- Instructions: [Spark NLP for Healthcare & OCR Docker Image](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/docker_image_ocr)
 
 #### New and Updated Deidentification() Parameters
 
