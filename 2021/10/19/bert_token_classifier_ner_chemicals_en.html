@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Detect Adverse Drug Events (BertForTokenClassification)- Spark NLP Model</title><meta name="description" content="DescriptionDetect adverse reactions of drugs in reviews, tweets, and medical text using the pretrained NER model. This model is trained with the BertForToken...">
-<link rel="canonical" href="/2021/09/30/bert_token_classifier_ner_ade_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Detect Chemicals in Medical text (BertForTokenClassification)- Spark NLP Model</title><meta name="description" content="DescriptionExtract different types of chemical compounds mentioned in text using pretrained NER model. This model is trained with the BertForTokenClassificat...">
+<link rel="canonical" href="/2021/10/19/bert_token_classifier_ner_chemicals_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,21 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Sep 30, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-30T00:00:00+00:00"></div><header><h1>Detect Adverse Drug Events (BertForTokenClassification)</h1></header></div><meta itemprop="headline" content="Detect Adverse Drug Events (BertForTokenClassification)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>adverse</li><li>ade</li><li>bertfortokenclassification</li><li>ner</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-09-30T00:00:00+00:00">
-    <meta itemprop="keywords" content="adverse,ade,bertfortokenclassification,ner,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00"></div><header><h1>Detect Chemicals in Medical text (BertForTokenClassification)</h1></header></div><meta itemprop="headline" content="Detect Chemicals in Medical text (BertForTokenClassification)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>berfortokenclassification</li><li>ner</li><li>chemicals</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00">
+    <meta itemprop="keywords" content="berfortokenclassification,ner,chemicals,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Detect adverse reactions of drugs in reviews, tweets, and medical text using the pretrained NER model. This model is trained with the <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code> method from the <code class="language-plaintext highlighter-rouge">transformers</code> library and imported into Spark NLP.</p>
+<p>Extract different types of chemical compounds mentioned in text using pretrained NER model. This model is trained with the <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code> method from the <code class="language-plaintext highlighter-rouge">transformers</code> library and imported into Spark NLP.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">DRUG</code>, <code class="language-plaintext highlighter-rouge">ADE</code></p>
+<p><code class="language-plaintext highlighter-rouge">CHEM</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_ade_en_3.2.2_2.4_1633008677011.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_chemicals_en_3.3.0_2.4_1634649785035.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -427,7 +427,7 @@
 </div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_ade"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_chemicals"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
@@ -439,13 +439,13 @@
 
 <span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">''</span><span class="p">]})))</span>
 
-<span class="n">test_sentence</span> <span class="o">=</span> <span class="s">"""Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"""</span>
+<span class="n">test_sentence</span> <span class="o">=</span> <span class="s">"""The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis."""</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="n">test_sentence</span><span class="p">]})))</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_ade"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_chemicals"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
@@ -456,7 +456,7 @@
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Been taking Lipitor for 15 years , have experienced severe fatigue a lot!!! . Doctor moved me to voltaren 2 months ago , so far , have only experienced cramps"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "</span><span class="n">A</span> <span class="n">high</span> <span class="n">percentage</span> <span class="n">of</span> <span class="n">kanamycin</span> <span class="o">-</span> <span class="n">colistin</span> <span class="n">and</span> <span class="n">povidone</span> <span class="o">-</span> <span class="n">iodine</span> <span class="n">irrigations</span> <span class="n">were</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">erosive</span> <span class="n">cystitis</span><span class="o">.</span><span class="s">").toDF("</span><span class="n">text</span><span class="err">"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -464,14 +464,15 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------+---------+
-|chunk         |ner_label|
-+--------------+---------+
-|Lipitor       |DRUG     |
-|severe fatigue|ADE      |
-|voltaren      |DRUG     |
-|cramps        |ADE      |
-+--------------+---------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------+---------+
+|chunk                      |ner_label|
++---------------------------+---------+
+|p - choloroaniline         |CHEM     |
+|chlorhexidine - digluconate|CHEM     |
+|kanamycin                  |CHEM     |
+|colistin                   |CHEM     |
+|povidone - iodine          |CHEM     |
++---------------------------+---------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -480,11 +481,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_token_classifier_ner_ade</td>
+      <td>bert_token_classifier_ner_chemicals</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.2.2+</td>
+      <td>Spark NLP for Healthcare 3.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -525,17 +526,14 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
 
-       B-ADE       0.93      0.79      0.85      2694
-      B-DRUG       0.97      0.87      0.92      9539
-       I-ADE       0.93      0.73      0.82      3236
-      I-DRUG       0.95      0.82      0.88      6115
-           O       0.00      0.00      0.00         0
+      B-CHEM       0.99      0.92      0.95     30731
+      I-CHEM       0.99      0.93      0.96     31270
 
-    accuracy                           0.83     21584
-   macro avg       0.84      0.84      0.84     21584
-weighted avg       0.95      0.83      0.89     21584
+    accuracy                           0.93    62001
+   macro avg       0.96      0.95      0.96    62001
+weighted avg       0.99      0.93      0.96    62001
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-09-30T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -660,7 +658,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/09/30/ner_chexpert_en.html">Detect Anatomical and Observation Entities in Chest Radiology Reports (CheXpert)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/09/30/bert_token_classifier_ner_anatomy_en.html">Detect Anatomical Regions (BertForTokenClassification)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/16/xlm_roberta_base_finetuned_yoruba_yo.html">XLM-RoBERTa Base for Yoruba (xlm_roberta_base_finetuned_yoruba)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/10/19/bert_token_classifier_ner_chemprot_en.html">Detect Chemical Compounds and Genes (BertForTokenClassifier)</a></div></div></div>
 
 </div>
 </div>

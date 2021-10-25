@@ -1,2 +1,2 @@
-docs/en/pipelines.md
-docs/en/pipelines.md
+docs/_posts/murat-gunay/2021-10-19-bert_token_classifier_ner_chemprot_en.md
+docs/_posts/murat-gunay/2021-10-19-bert_token_classifier_ner_chemprot_en.md

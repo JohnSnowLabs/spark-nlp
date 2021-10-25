@@ -424,8 +424,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>XLM-RoBERTa Base for Yoruba (xlm_roberta_base_finetuned_yoruba)- Spark NLP Model</title><meta name="description" content="Descriptionxlm_roberta_base_finetuned_yoruba is a Yoruba RoBERTa model obtained by fine-tuning xlm-roberta-base model on Yoruba language texts. It provides b...">
-<link rel="canonical" href="/2021/10/16/xlm_roberta_base_finetuned_yoruba_yo.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentiment Analysis of Turkish texts- Spark NLP Model</title><meta name="description" content="DescriptionThis model identifies the sentiments (positive or negative) in Turkish texts.Predicted EntitiesPOSITIVE, NEGATIVELive DemoOpen in ColabDownloadHow...">
+<link rel="canonical" href="/2021/10/19/classifierdl_use_sentiment_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -818,19 +818,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 16, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-16T00:00:00+00:00"></div><header><h1>XLM-RoBERTa Base for Yoruba (xlm_roberta_base_finetuned_yoruba)</h1></header></div><meta itemprop="headline" content="XLM-RoBERTa Base for Yoruba (xlm_roberta_base_finetuned_yoruba)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>xlm_roberta</li><li>embeddings</li><li>yoruba</li><li>yo</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-16T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,xlm_roberta,embeddings,yoruba,yo"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00"></div><header><h1>Sentiment Analysis of Turkish texts</h1></header></div><meta itemprop="headline" content="Sentiment Analysis of Turkish texts"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>sentiment</li><li>use</li><li>classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00">
+    <meta itemprop="keywords" content="tr,sentiment,use,classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p><strong>xlm_roberta_base_finetuned_yoruba</strong> is a <strong>Yoruba RoBERTa</strong> model obtained by fine-tuning <strong>xlm-roberta-base</strong> model on Yoruba language texts. It provides <strong>better performance</strong> than the XLM-RoBERTa on named entity recognition datasets.</p>
+<p>This model identifies the sentiments (positive or negative) in Turkish texts.</p>
 
-<p>Specifically, this model is an <em>xlm-roberta-base</em> model that was fine-tuned on the <strong>Yoruba</strong> corpus.</p>
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p><code class="language-plaintext highlighter-rouge">POSITIVE</code>, <code class="language-plaintext highlighter-rouge">NEGATIVE</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_base_finetuned_yoruba_yo_3.3.1_3.0_1634412979759.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sentiment_tr_3.3.0_2.4_1634634525008.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -838,42 +840,56 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                
-<span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\ 
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\ 
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setCleanupMode</span><span class="p">(</span><span class="s">"shrink"</span><span class="p">)</span>
 
-<span class="n">sentencerDL</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\ 
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\ 
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use_multi"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\ 
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\ 
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span> 
+<span class="n">sentimentClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_use_sentiment"</span><span class="p">,</span> <span class="s">"tr"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">XlmRoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"xlm_roberta_base_finetuned_yoruba"</span><span class="p">,</span> <span class="s">"yo"</span><span class="p">)</span>\ 
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\ 
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">fr_sentiment_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">sentimentClassifier</span><span class="p">])</span>
 
+<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">fr_sentiment_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
+
+<span class="n">result1</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="p">)</span>
+
+<span class="n">result2</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">result1</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">result2</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"tfhub_use_multi"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-    
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">XlmRoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"xlm_roberta_base_finetuned_yoruba"</span><span class="o">,</span> <span class="s">"yo"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sentimentClassifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_sentiment"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">fr_sentiment_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">sentimentClassifier</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">fr_sentiment_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)))</span>
+
+<span class="k">val</span> <span class="nv">result1</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'NEGATIVE'</span><span class="o">]</span>
+<span class="o">[</span><span class="s1">'POSITIVE'</span><span class="o">]</span>
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -881,11 +897,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>xlm_roberta_base_finetuned_yoruba</td>
+      <td>classifierdl_use_sentiment</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.1+</td>
+      <td>Spark NLP 3.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -897,29 +913,35 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, sentence]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[embeddings]</td>
+      <td>[class]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>yo</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
+      <td>tr</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>Model is trained by <a href="https://huggingface.co/Davlan">David Adelani</a></p>
+<p>https://raw.githubusercontent.com/gurkandyilmaz/sentiment/master/data/</p>
 
-<p>Improted from <a href="https://huggingface.co/Davlan/xlm-roberta-base-finetuned-yoruba">https://huggingface.co/Davlan/xlm-roberta-base-finetuned-yoruba</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-16T00:00:00+00:00"><!-- start custom article footer snippet -->
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+
+    NEGATIVE       0.86      0.88      0.87     19967
+    POSITIVE       0.88      0.85      0.86     19826
+
+    accuracy                           0.87     39793
+   macro avg       0.87      0.87      0.87     39793
+weighted avg       0.87      0.87      0.87     39793
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1044,7 +1066,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/16/xlm_roberta_base_finetuned_wolof_wo.html">XLM-RoBERTa Base for Wolof (xlm_roberta_base_finetuned_wolof)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/19/bert_token_classifier_ner_chemprot_en.html">Detect Chemical Compounds and Genes (BertForTokenClassifier)</a></div></div></div>
 
 </div>
 </div>
