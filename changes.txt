@@ -1,6 +1,2 @@
-docs/_posts/muhammetsnts/2021-08-12-sbiobertresolve_rxnorm_disposition_en.md
-docs/_posts/muhammetsnts/2021-10-05-sbiobertresolve_rxnorm_ndc_en.md
-docs/_posts/murat-gunay/2021-09-24-bert_token_classifier_ner_jsl_slim_en.md
-docs/_posts/muhammetsnts/2021-08-12-sbiobertresolve_rxnorm_disposition_en.md
-docs/_posts/muhammetsnts/2021-10-05-sbiobertresolve_rxnorm_ndc_en.md
-docs/_posts/murat-gunay/2021-09-24-bert_token_classifier_ner_jsl_slim_en.md
+docs/en/CPUvsGPUbenchmark.md
+docs/en/CPUvsGPUbenchmark.md
