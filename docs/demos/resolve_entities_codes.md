@@ -63,6 +63,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
         - title: Resolve Drugs to RxNorm Codes
+          hide: yes
           id: rxnorm_coding
           image: 
               src: /assets/images/Resolve_Drugs_to_RxNorm_Codes.svg
