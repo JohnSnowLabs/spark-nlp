@@ -24,7 +24,7 @@ Detect sensitive information in text for de-identification using pretrained NER 
 `DOCTOR`, `PHONE`, `COUNTRY`, `MEDICALRECORD`, `STREET`, `CITY`, `PROFESSION`, `PATIENT`, `IDNUM`, `BIOID`, `HEALTHPLAN`, `HOSPITAL`, `USERNAME`, `OTHER`, `AGE`, `FAX`, `EMAIL`, `DATE`, `STATE`, `ZIP`, `URL`, `ORGANIZATION`, `DEVICE`
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_enriched_biobert_en_3.0.0_3.0_1617260810027.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

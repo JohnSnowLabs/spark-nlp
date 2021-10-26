@@ -24,7 +24,7 @@ Detect symptoms, modifiers, age, drugs, treatments, tests and a lot more using a
 `Symptom_Name`, `Negated`, `Pulse_Rate`, `Negation`, `Date_of_death`, `Age`, `Modifier`, `Substance_Name`, `Causative_Agents_(Virus_and_Bacteria)`, `Drug_incident_description`, `Diagnosis`, `Weight`, `Drug_Name`, `Procedure_Name`, `Lab_Name`, `Blood_Pressure`, `Cause_of_death`, `Lab_Result`, `Gender`, `Name`, `Temperature`, `Procedure_Findings`, `Section_Name`, `Route`, `Maybe`, `O2_Saturation`, `Respiratory_Rate`, `Procedure`, `Procedure_incident_description`, `Frequency`, `Dosage`, `Allergenic_substance`
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_biobert_en_3.0.0_3.0_1617260821875.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
