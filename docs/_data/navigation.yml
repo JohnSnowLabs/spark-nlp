@@ -69,6 +69,8 @@ docs-en:
         url:    /docs/en/alab/tasks
       - title:  Annotate
         url:    /docs/en/alab/annotation
+      - title:  Visual NER
+        url:    /docs/en/alab/visual_ner
       - title:  Analytics   
         url:    /docs/en/alab/analytics        
       - title:  Export Data  
@@ -81,6 +83,8 @@ docs-en:
         url:    /docs/en/alab/security        
       - title:  Video Tutorials   
         url:    /docs/en/alab/tutorials        
+      - title:  Release Notes   
+        url:    /docs/en/alab/release_notes
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
