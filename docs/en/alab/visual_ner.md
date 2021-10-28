@@ -13,25 +13,18 @@ sidebar:
     nav: annotation-lab
 ---
 
+Annotating text included in image documents (e.g. scanned documents) is a common use case in many verticals but comes with several challenges. With the new Visual NER Labeling config, we aim to ease the work of annotators by allowing them to simply select text from an image and assign the corresponding label to it.
+This feature is powered by Spark OCR 3.5.0; thus a valid Spark OCR license is required to get access to it.
 
+Here is how this can be used:
+1.  Upload a valid Spark OCR license. See how to do this [here](https://nlp.johnsnowlabs.com/docs/en/alab/byol).
+2.  Create a new project, specify a name for your project, add team members if necessary, and from the list of predefined templates (Default Project Configs) choose “Visual NER Labeling”.
+3.  Update the configuration if necessary. This might be useful if you want to use other labels than the currently defined ones. Click the save button. While saving the project, a confirmation dialog is displayed to let you know that the Spark OCR pipeline for Visual NER is being deployed.
+4.  Import the tasks you want to annotate (images).
+5.  Start annotating text on top of the image by clicking on the text tokens or by drawing bounding boxes on top of chunks or image areas.
+6.  Export annotations in your preferred format.
 
-## API access to Annotation Lab 
+The entire process is illustrated below: 
 
-Access to Annotation Lab REST API requires an access token that is specific to a user account. To obtain your access token please follow the steps illustrated [here](https://nlp.johnsnowlabs.com/docs/en/alab/api#get-client-secret). 
-
-## Complete project audit trail 
-
-Annotation Lab keeps trail for all created completions. It is not possible for annotators or reviewers to delete any completions and only managers and project owners are able to remove tasks.  
-
- 
-
-## Application development cycle 
-
-The  Annotation Lab development cycle currently includes static code analysis; everything is assembled as docker images whom are being scanned for vulnerabilities before being published. 
-
-We are currently implementing web vulnerability scanning. 
-
- 
-
- 
+<img class="image image--xl" src="/assets/images/annotation_lab/2.1.0/invoice_annotation.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
