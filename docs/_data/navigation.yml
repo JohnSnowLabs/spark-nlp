@@ -86,6 +86,8 @@ annotation-lab:
         url:    /docs/en/alab/tasks
       - title:  Annotate
         url:    /docs/en/alab/annotation
+      - title:  Visual NER
+        url:    /docs/en/alab/visual_ner
       - title:  Annotation Settings   
         url:    /docs/en/alab/settings        
       - title:  Analytics   
