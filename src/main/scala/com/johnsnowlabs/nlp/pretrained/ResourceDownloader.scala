@@ -524,7 +524,8 @@ object PythonResourceDownloader {
     "XlmRoBertaForTokenClassification" -> XlmRoBertaForTokenClassification,
     "AlbertForTokenClassification" -> AlbertForTokenClassification,
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
-    "LongformerForTokenClassification" -> LongformerForTokenClassification
+    "LongformerForTokenClassification" -> LongformerForTokenClassification,
+    "BertForSequenceClassification" -> BertForSequenceClassification
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
