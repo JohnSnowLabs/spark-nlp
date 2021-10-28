@@ -9,7 +9,7 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *BertForSequenceClassification WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
@@ -63,19 +63,6 @@ class TensorflowBertClassification(val tensorflowWrapper: TensorflowWrapper,
         if (result.nonEmpty) result.head else IndexedToken("")
       }
       val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-  }
-
-  def tokenizeSentence(sentences: Seq[Sentence], maxSeqLength: Int, caseSensitive: Boolean):
-  Seq[WordpieceTokenizedSentence] = {
-
-    val basicTokenizer = new BasicTokenizer(caseSensitive)
-    val encoder = new WordpieceEncoder(vocabulary)
-
-    sentences.map { sentence =>
-      val result = basicTokenizer.tokenize(sentence)
-      val wordpieceTokens = result.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -179,7 +166,7 @@ class TensorflowBertClassification(val tensorflowWrapper: TensorflowWrapper,
 
   //TODO: move me to TensorflowForClassification
   def predictSequence(tokenizedSentences: Seq[TokenizedSentence], sentences: Seq[Sentence], batchSize: Int, maxSentenceLength: Int,
-                      caseSensitive: Boolean, tags: Map[String, Int]): Seq[Annotation] = {
+                      caseSensitive: Boolean, coalesceSentences: Boolean = false, tags: Map[String, Int]): Seq[Annotation] = {
 
     val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
 
@@ -189,17 +176,31 @@ class TensorflowBertClassification(val tensorflowWrapper: TensorflowWrapper,
       val encoded = encode(tokensBatch, maxSentenceLength)
       val logits = tagSequence(encoded)
 
-      /*Combine tokens and calculated logits*/
-      sentences.zip(logits).map { case (sentence, scores) =>
+      if (coalesceSentences) {
+        val scores = logits.transpose.map(_.sum / logits.length)
         val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
         val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-        Annotation(
-          annotatorType = AnnotatorType.CATEGORY,
-          begin = sentence.start,
-          end = sentence.end,
-          result = label,
-          metadata = Map("sentence" -> sentence.index.toString) ++ meta
+        Array(
+          Annotation(
+            annotatorType = AnnotatorType.CATEGORY,
+            begin = sentences.head.start,
+            end = sentences.head.end,
+            result = label,
+            metadata = Map("sentence" -> sentences.head.index.toString) ++ meta
+          )
         )
+      } else {
+        sentences.zip(logits).map { case (sentence, scores) =>
+          val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+          val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+          Annotation(
+            annotatorType = AnnotatorType.CATEGORY,
+            begin = sentence.start,
+            end = sentence.end,
+            result = label,
+            metadata = Map("sentence" -> sentence.index.toString) ++ meta
+          )
+        }
       }
     }.toSeq
 

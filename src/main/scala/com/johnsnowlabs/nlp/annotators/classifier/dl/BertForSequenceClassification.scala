@@ -22,9 +22,8 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
@@ -36,13 +35,13 @@ import java.io.File
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val tokenClassifier = BertForSequenceClassification.pretrained()
+ * val sequenceClassifier = BertForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"bert_base_sequence_classifier_"`, if no name is provided.
+ * The default model is `"bert_base_sequence_classifier_imdb"`, if no name is provided.
  *
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
@@ -63,7 +62,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val tokenClassifier = BertForSequenceClassification.pretrained()
+ * val sequenceClassifier = BertForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -71,18 +70,19 @@ import java.io.File
  * val pipeline = new Pipeline().setStages(Array(
  *   documentAssembler,
  *   tokenizer,
- *   tokenClassifier
+ *   sequenceClassifier
  * ))
  *
  * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
  * val result = pipeline.fit(data).transform(data)
  *
  * result.select("label.result").show(false)
- * +------------------------------------------------------------------------------------+
- * |result                                                                              |
- * +------------------------------------------------------------------------------------+
- * |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
- * +------------------------------------------------------------------------------------+
+ * +--------------------+
+ * |result              |
+ * +--------------------+
+ * |[neg, neg]          |
+ * |[pos, pos, pos, pos]|
+ * +--------------------+
  * }}}
  *
  * @see [[BertForSequenceClassification]] for sentence-level embeddings
@@ -119,11 +119,11 @@ class BertForSequenceClassification(override val uid: String)
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /**
-   * Output Annotator Types: WORD_EMBEDDINGS
+   * Output Annotator Types: CATEGORY
    *
    * @group anno
    */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
@@ -158,6 +158,20 @@ class BertForSequenceClassification(override val uid: String)
 
   /** @group getParam */
   def getLabels: Map[String, Int] = $$(labels)
+
+  /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
+   * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
+   * into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
+   *
+   * @group param
+   * */
+  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+
+  /** @group setParam */
+  def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
+
+  /** @group getParam */
+  def getCoalesceSentences: Boolean = $(coalesceSentences)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
@@ -245,7 +259,8 @@ class BertForSequenceClassification(override val uid: String)
   setDefault(
     batchSize -> 8,
     maxSentenceLength -> 128,
-    caseSensitive -> true
+    caseSensitive -> true,
+    coalesceSentences -> false
   )
 
   /**
@@ -266,6 +281,7 @@ class BertForSequenceClassification(override val uid: String)
           $(batchSize),
           $(maxSentenceLength),
           $(caseSensitive),
+          $(coalesceSentences),
           getLabels
         )
       }
@@ -286,7 +302,7 @@ class BertForSequenceClassification(override val uid: String)
 }
 
 trait ReadablePretrainedBertForSequenceModel extends ParamsAndFeaturesReadable[BertForSequenceClassification] with HasPretrained[BertForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_token_classifier_conll03")
+  override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
   override def pretrained(): BertForSequenceClassification = super.pretrained()
