@@ -865,6 +865,7 @@ You can set image-version, master-machine-type, worker-machine-type,
 master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
 If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
 And, you should enable gateway.
+Don't forget to set the maven coordinates for the jar in properties.
 
 ```bash
 gcloud dataproc clusters create ${CLUSTER_NAME} \
@@ -880,7 +881,8 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
   --optional-components=JUPYTER \
   --enable-component-gateway \
   --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
-  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
+  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh \
+  --properties spark:spark.serializer=org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize=0,spark:spark.kryoserializer.buffer.max=2000M,spark:spark.jars.packages=com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.1
 ```
 
 2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
