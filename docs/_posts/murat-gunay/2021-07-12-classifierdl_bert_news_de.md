@@ -24,7 +24,7 @@ Classify German texts of news
 `Inland`, `International`, `Panorama`, `Sport`, `Web`, `Wirtschaft`, `Wissenschaft`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_DE_NEWS/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_news_de_3.1.1_2.4_1626079085859.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

@@ -27,7 +27,7 @@ Given an oncological entity found in the text (via NER models like ner_jsl), it 
 ICD-O Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICDO/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icdo_clinical_en_3.0.0_3.0_1617344918016.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
