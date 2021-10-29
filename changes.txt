@@ -1,2 +1,2 @@
-python/README.md
-python/README.md
+README.md
+README.md
