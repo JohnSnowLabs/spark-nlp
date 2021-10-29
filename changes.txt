@@ -1,12 +1,2 @@
-docs/_config.yml
-docs/_data/navigation.yml
-docs/assets/images/annotation_lab/2.1.0/invoice_annotation.gif
-docs/en/alab/release_notes.md
-docs/en/alab/tasks.md
-docs/en/alab/visual_ner.md
-docs/_config.yml
-docs/_data/navigation.yml
-docs/assets/images/annotation_lab/2.1.0/invoice_annotation.gif
-docs/en/alab/release_notes.md
-docs/en/alab/tasks.md
-docs/en/alab/visual_ner.md
+python/README.md
+python/README.md
