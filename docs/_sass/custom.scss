@@ -1020,6 +1020,28 @@ ul.list1 {
 	width: 645px;
 }
 
+.breadcrambs {
+	display: flex;
+	list-style-type: none;
+	padding-bottom: 20px;
+	li {
+		list-style-type: none;
+		font-size: 16px;
+		line-height: 36px;
+		color: #536B76;
+		&:first-child::after {
+			content: '>';
+			font-size: 17px;
+			display: inline-block;
+			margin: 0 8px;
+		}
+		a {
+			font-weight: normal;
+			text-decoration: none !important;
+		}
+	}
+}
+
 .article-inner {
 	display: block;
 	position: relative;
@@ -1679,6 +1701,44 @@ a.btn1.small {
 	}
 }
 
+/***NLP Products***/
+
+.nlp_content {
+	background: url('../../assets/images/nlp_product_bg.jpg') 0 0 no-repeat;
+	background-size: cover;
+	h1 {
+		color: #fff;
+		margin: 80px 0 61px;
+	}
+}
+
+.nlp_content_inner {
+	width: 950px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.nlp_content_item {
+	display: flex;
+	width: 300px;
+	background: #fff;
+	height: 237px;
+	align-items: center;
+	flex: 0 0 auto;
+	margin-bottom: 30px;
+	justify-content: center;
+	text-decoration: none !important;
+}
+
+.nlp_c {
+	text-align: center;
+	figure {
+		display: inline-block;
+	}
+}
+
 /***Models***/
 
 code {
@@ -2043,6 +2103,9 @@ code {
 		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);		
 		&.w7 {
 			width: 750px;
+		}
+		&.db {
+			display: block;
 		}
 		thead {
 			tr {
@@ -2593,6 +2656,15 @@ code {
 			flex: 0 0 50%;
 		}
 	}
+	.nlp_content_item {
+		flex: 0 0 auto;
+		width: 244px;
+		height: 250px;
+		margin: 0 5px 20px;
+	}
+	.nlp_content_inner {
+		width: 100%;
+	}
 	.docs-wrapper {
 		width: 100%;
 	}
@@ -2747,6 +2819,12 @@ code {
 		width: 100%;
 		margin: 0;
 	}
+	.nlp_content_item {
+		width: 31%;
+	}
+	.nlp_content_inner {
+		justify-content: center;
+	}
 	.epd #panels {
 		padding-top: 60px;
 	}
@@ -2898,6 +2976,12 @@ code {
 	}
 	.block-box {
 		padding: 25px 15px;
+	}
+}
+
+@media (max-width: 660px) {
+	.nlp_content_item {
+		width: 47%;
 	}
 }
 
@@ -3067,6 +3151,16 @@ code {
 		line-height: 46px;
 	}
 	.end_banner {
+		padding: 0 15px;
+	}
+}
+	
+@media (max-width: 660px) {
+	.nlp_content_item {
+		width: 100%;
+		margin: 0 0 20px;
+	}
+	.nlp_content_inner {
 		padding: 0 15px;
 	}
 }

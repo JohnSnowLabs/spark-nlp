@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -18,17 +17,14 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
-import com.johnsnowlabs.util.Version
+import com.johnsnowlabs.util.{JsonParser, Version}
+import org.json4s.ext.EnumNameSerializer
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.write
+import org.json4s.{Formats, NoTypeHints}
 
 import java.io.{FileWriter, InputStream}
 import java.sql.Timestamp
-
-import org.json4s.{Formats, NoTypeHints}
-import org.json4s.ext.EnumNameSerializer
-import org.json4s.jackson.JsonMethods.parse
-import org.json4s.jackson.Serialization
-import org.json4s.jackson.Serialization.write
-
 import scala.io.Source
 
 
@@ -42,7 +38,8 @@ case class ResourceMetadata
   time: Timestamp,
   isZipped: Boolean = false,
   category: Option[ResourceType] = Some(ResourceType.NOT_DEFINED),
-  checksum: String = ""
+  checksum: String = "",
+  annotator: Option[String] = None
 ) {
 
 
@@ -78,8 +75,8 @@ object ResourceMetadata {
   }
 
   def parseJson(json: String): ResourceMetadata = {
-    val parsed = parse(json)
-    parsed.extract[ResourceMetadata]
+    JsonParser.formats = formats
+    JsonParser.parseObject[ResourceMetadata](json)
   }
 
   def resolveResource(candidates: List[ResourceMetadata],

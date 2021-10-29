@@ -7,7 +7,7 @@ Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-to
 `CHUNK` result.
 
 For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb).
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -74,6 +74,10 @@ result.selectExpr("explode(chunkConverted)").show(false)
 [Chunk2Doc](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Chunk2Doc)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[Chunk2Doc](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.base.Chunk2Doc.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [Chunk2Doc](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/Chunk2Doc.scala)
 {%- endcapture -%}
@@ -85,6 +89,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

@@ -1,4 +1,22 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.ner.dl
+
+import com.johnsnowlabs.client.aws.AWSGateway
 
 import java.io.File
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
@@ -10,8 +28,10 @@ import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.SystemUtils
+import org.apache.spark.SparkFiles
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -51,7 +71,10 @@ import scala.util.Random
  * import com.johnsnowlabs.nlp.training.CoNLL
  * import org.apache.spark.ml.Pipeline
  *
- * // First extract the prerequisites for the NerDLApproach
+ * // This CoNLL dataset already includes a sentence, token and label
+ * // column with their respective annotator types. If a custom dataset is used,
+ * // these need to be defined with for example:
+ *
  * val documentAssembler = new DocumentAssembler()
  *   .setInputCol("text")
  *   .setOutputCol("document")
@@ -64,11 +87,11 @@ import scala.util.Random
  *   .setInputCols("sentence")
  *   .setOutputCol("token")
  *
+ * // Then the training can start
  * val embeddings = BertEmbeddings.pretrained()
  *   .setInputCols("sentence", "token")
  *   .setOutputCol("embeddings")
  *
- * // Then the training can start
  * val nerTagger = new NerDLApproach()
  *   .setInputCols("sentence", "token", "embeddings")
  *   .setLabelColumn("label")
@@ -78,14 +101,11 @@ import scala.util.Random
  *   .setVerbose(0)
  *
  * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
- *   sentence,
- *   tokenizer,
  *   embeddings,
  *   nerTagger
  * ))
  *
- * // We use the text and labels from the CoNLL dataset
+ * // We use the sentences, tokens and labels from the CoNLL dataset
  * val conll = CoNLL()
  * val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
  *
@@ -442,14 +462,15 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1, get(graphFolder), getUseContrib)
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1,
+      get(graphFolder))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
     val graphBytesDef = IOUtils.toByteArray(graphStream)
     graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
 
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Array[Byte]], Array.empty[Byte]), graph.toGraphDef.toByteArray)
 
     val ner = try {
       val model = new TensorflowNer(tf, encoder, Verbose($(verbose)))
@@ -550,9 +571,10 @@ class NerDLApproach(override val uid: String)
 
 
 trait WithGraphResolver {
-  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None, loadContrib: Boolean = true): String = {
-    val files = localGraphPath.map(path => ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
-      .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+  def searchForSuitableGraph(tags: Int, embeddingsNDims: Int, nChars: Int, localGraphPath: Option[String] = None):
+  String = {
+
+    val files: Seq[String] = getFiles(localGraphPath)
 
     // 1. Filter Graphs by embeddings
     val embeddingsFiltered = files.map { filePath =>
@@ -611,6 +633,38 @@ trait WithGraphResolver {
 
     throw new IllegalStateException("Code shouldn't pass here")
   }
+
+  private def getFiles(localGraphPath: Option[String]): Seq[String] = {
+    var files: Seq[String] = List()
+
+    if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
+
+      val bucketName = localGraphPath.get.substring("s3://".length).split("/").head
+
+
+      require(bucketName != "", "S3 bucket name is not define. Please define it with parameter setS3BucketName")
+
+      val keyPrefix = localGraphPath.get.substring(("s3://" + bucketName).length + 1)
+      var tmpDirectory = SparkFiles.getRootDirectory()
+
+      val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSecretAccessKey),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalSessionToken),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalProfileName),
+        ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion))
+
+      awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
+
+      tmpDirectory = tmpDirectory + "/" + keyPrefix
+      files = ResourceHelper.listLocalFiles(tmpDirectory).map(_.getAbsolutePath)
+    } else {
+      files = localGraphPath.map(path =>
+        ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
+        .getOrElse(ResourceHelper.listResourceDirectory("/ner-dl"))
+    }
+    files
+  }
+
 }
 
 /**

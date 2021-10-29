@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,11 +16,11 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.util.JsonParser
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 import java.io.{FileNotFoundException, IOException}
-
 import scala.io.Source
 import scala.util.matching.Regex
 
@@ -84,11 +83,7 @@ class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Seriali
       case e: IOException => throw new Exception("Got an IOException!")
     }
 
-    val json = parse(jsonString)
-
-    implicit val formats = DefaultFormats
-    val jsonMap: Map[String, Any] = json.extract[Map[String, Any]]
-
+    val jsonMap = JsonParser.parseObject[Map[String, Any]](jsonString)
     jsonMap
   }
 

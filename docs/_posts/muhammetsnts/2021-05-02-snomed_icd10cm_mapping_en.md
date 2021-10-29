@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 This pretrained pipeline maps SNOMED codes to ICD10CM codes without using any text data. You’ll just feed a comma or white space-delimited SNOMED codes and it will return the corresponding candidate ICD10CM codes as a list (multiple ICD10 codes for each Snomed code). For the time being, it supports 132K Snomed codes and 30K ICD10 codes and will be augmented & enriched in the next releases.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_CODE_MAPPING/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/snomed_icd10cm_mapping_en_3.0.2_3.0_1619955719388.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

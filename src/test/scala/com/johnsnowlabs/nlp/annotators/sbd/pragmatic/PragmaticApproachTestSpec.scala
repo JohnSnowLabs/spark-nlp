@@ -1,20 +1,39 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.tags.FastTest
+
 import org.apache.spark.storage.StorageLevel
-import org.scalatest._
+import org.apache.spark.sql.functions._
+
+import org.scalatest.Tag
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.tagobjects.Slow
 
+import SparkAccessor.spark.implicits._
 
-class PragmaticApproachBigTestSpec extends FlatSpec {
+import java.util.Date
+
+class PragmaticApproachBigTestSpec extends AnyFlatSpec {
 
   "Parquet based data" should "be sentence bounded properly" taggedAs Slow in {
-    import SparkAccessor.spark.implicits._
-    import org.apache.spark.sql.functions._
-
-    import java.util.Date
 
     val data = ContentProvider.parquetData
 
@@ -48,11 +67,11 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
 
     val date1 = new Date().getTime
     //    tokenizedFromDisk.transform(sentenced).show
-    info(s"20 Show sample of disk based SBD took: ${(new Date().getTime - date1)/1000} seconds")
+    info(s"20 Show sample of disk based SBD took: ${(new Date().getTime - date1) / 1000} seconds")
 
     val date2 = new Date().getTime
     tokenizedFromDisk.transform(sentenced).take("my_sbd_sentences", 5000)
-    info(s"collect 5000 SBD sentences from disk took: ${(new Date().getTime - date2)/1000} seconds")
+    info(s"collect 5000 SBD sentences from disk took: ${(new Date().getTime - date2) / 1000} seconds")
 
     /** Process from memory */
 
@@ -63,11 +82,11 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
 
     val date3 = new Date().getTime
     //    tokenizedFromDisk.transform(sentencedFromMemory).show
-    info(s"20 Show sample of SBD from Memory took: ${(new Date().getTime - date3)/1000} seconds")
+    info(s"20 Show sample of SBD from Memory took: ${(new Date().getTime - date3) / 1000} seconds")
 
     val date4 = new Date().getTime
     tokenizedFromDisk.transform(sentencedFromMemory).take("my_sbd_sentences", 5000)
-    info(s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4)/1000} seconds")
+    info(s"collect 5000 SBD sentences from memory took: ${(new Date().getTime - date4) / 1000} seconds")
 
     /** Flatten test */
     tokenizedFromDisk
@@ -81,7 +100,7 @@ class PragmaticApproachBigTestSpec extends FlatSpec {
 
 }
 
-class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehaviors {
+class PragmaticApproachTestSpec extends AnyFlatSpec with PragmaticDetectionBehaviors {
 
   val generalParagraph = ContentProvider.sbdTestParagraph
   "an isolated pragmatic detector" should behave like isolatedPDReadAndMatchResult(
@@ -130,9 +149,9 @@ class PragmaticApproachTestSpec extends FlatSpec with PragmaticDetectionBehavior
   }
 
   /**
-    * Golden Rules from Pragmatic Sentence Detector
-    * https://github.com/diasks2/pragmatic_segmenter
-    */
+   * Golden Rules from Pragmatic Sentence Detector
+   * https://github.com/diasks2/pragmatic_segmenter
+   */
 
   //Custom bounds test
   val simpleCustomBoundsAns = Array("Here now", "This is Jimmy", "Stop me here.", "And here", "Goodbye")

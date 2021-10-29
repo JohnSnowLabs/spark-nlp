@@ -78,7 +78,7 @@ result.selectExpr("explode(document_normalized.result) as normalized_text").show
 [DrugNormalizer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/DrugNormalizer)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/licensed_anno_template.md
 title=title
 description=description
 input_anno=input_anno

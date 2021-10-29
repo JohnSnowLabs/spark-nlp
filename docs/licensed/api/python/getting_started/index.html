@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting Started &#8212; Spark NLP 3.3.0 documentation</title>
+    
+  <link href="../static/css/theme.css" rel="stylesheet" />
+  <link href="../static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
+    <script src="../static/jquery.js"></script>
+    <script src="../static/underscore.js"></script>
+    <script src="../static/doctools.js"></script>
+    <script src="../static/toggleprompt.js"></script>
+    <link rel="shortcut icon" href="../static/fav.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="../reference/index.html" />
+    <link rel="prev" title="Spark NLP Documentation" href="../index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../static/logo.png" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="current reference internal nav-link" href="#">
+  Getting Started
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../reference/index.html">
+  API Reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#requirements">
+   Requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#starting-a-spark-nlp-session-from-python">
+   Starting a Spark NLP Session from Python
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don’t have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.</p>
+<p>[Try Free](<a class="reference external" href="https://www.johnsnowlabs.com/spark-nlp-try-free/">https://www.johnsnowlabs.com/spark-nlp-try-free/</a>)</p>
+<p>Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:
+- Clinical entity recognition
+- Clinical Entity Linking
+- Entity normalization
+- Assertion Status Detection
+- De-identification
+- Relation Extraction
+- Spell checking &amp; correction</p>
+<p>The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities (and many more):
+- Clinical - support Signs, Symptoms, Treatments, Procedures, Tests, Labs, Sections
+- Drugs - support Name, Dosage, Strength, Route, Duration, Frequency
+- Risk Factors- support Smoking, Obesity, Diabetes, Hypertension, Substance Abuse
+- Anatomy - support Organ, Subdivision, Cell, Structure Organism, Tissue, Gene, Chemical
+- Demographics - support Age, Gender, Height, Weight, Race, Ethnicity, Marital Status, Vital Signs
+- Sensitive Data- support Patient Name, Address, Phone, Email, Dates, Providers, Identifiers</p>
+<p>For more information visit our [models](<a class="reference external" href="https://nlp.johnsnowlabs.com/models/">https://nlp.johnsnowlabs.com/models/</a>) site.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Spark NLP is built on top of Apache Spark <cite>3.x</cite>. For using Spark NLP you need:</p>
+<ul class="simple">
+<li><p>Java 8</p></li>
+<li><p>Apache Spark <code class="docutils literal notranslate"><span class="pre">3.1.x</span></code> (or <code class="docutils literal notranslate"><span class="pre">3.0.x</span></code>, or <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code>, or <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code>)</p></li>
+<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.8.x</span></code> if you are using PySpark <code class="docutils literal notranslate"><span class="pre">3.x</span></code></p>
+<ul>
+<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.6.x</span></code> and <code class="docutils literal notranslate"><span class="pre">3.7.x</span></code> if you are using PySpark <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> or <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p>It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
+Please refer to <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/index.html">Spark documentation</a> to get started with Spark.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>First, let’s make sure the installed java version is Java 8 (Oracle or OpenJDK):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java -version
+<span class="c1"># openjdk version &quot;1.8.0_292&quot;</span>
+</pre></div>
+</div>
+<p>You can install the Spark NLP for Healthcare package by using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install spark-nlp-jsl<span class="o">==</span><span class="si">${</span><span class="nv">version</span><span class="si">}</span> --extra-index-url https://pypi.johnsnowlabs.com/<span class="si">${</span><span class="nv">secret</span><span class="p">.code</span><span class="si">}</span> --upgrade
+</pre></div>
+</div>
+<p><cite>{version}</cite> is the version part of the <cite>{secret.code}</cite> (<cite>{secret.code}.split(‘-‘)[0]</cite>) (i.e. <cite>2.x.x</cite>)</p>
+<p>The <cite>{secret.code}</cite> is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at &lt;a href=”<a class="reference external" href="mailto:info&#37;&#52;&#48;johnsnowlabs&#46;com">mailto:info<span>&#64;</span>johnsnowlabs<span>&#46;</span>com</a>”&gt;info&#64;johnsnowlabs.com&lt;/a&gt;.</p>
+</div>
+<div class="section" id="starting-a-spark-nlp-session-from-python">
+<h2>Starting a Spark NLP Session from Python<a class="headerlink" href="#starting-a-spark-nlp-session-from-python" title="Permalink to this headline">¶</a></h2>
+<p>You can start the spark session with this simple piece of code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{secret.code}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or use the SparkSession module for more flexibility:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Spark NLP Enterprise&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">&quot;local[*]&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.memory&quot;</span><span class="p">,</span><span class="s2">&quot;16&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="s2">&quot;2G&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.11:$</span><span class="si">{version_public}</span><span class="s2">&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars&quot;</span><span class="p">,</span> <span class="s2">&quot;https://pypi.johnsnowlabs.com/$</span><span class="si">{secret.code}</span><span class="s2">/spark-nlp-jsl-$</span><span class="si">{version}</span><span class="s2">.jar&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">Spark NLP Documentation</a>
+    <a class='right-next' id="next-link" href="../reference/index.html" title="next page">API Reference</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, John Snow Labs.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

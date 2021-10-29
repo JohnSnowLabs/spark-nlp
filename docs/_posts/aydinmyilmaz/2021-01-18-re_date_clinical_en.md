@@ -16,12 +16,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Relation extraction between date and related other entities
+Relation extraction between date and related other entities. `1` : Shows there is a relation between the date entity and other clinical entities, `0` : Shows there is no relation between the date entity and other clinical entities.
 
 ## Predicted Entities
 
-`1` : Shows there is a relation between the date entity and other clinical entities
- `0` : Shows there is no relation between the date entity and other clinical entities
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

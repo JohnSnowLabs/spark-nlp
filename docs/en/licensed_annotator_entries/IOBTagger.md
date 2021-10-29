@@ -5,8 +5,8 @@ IOBTagger
 {%- capture description -%}
 Merges token tags and NER labels from chunks in the specified format.
 For example output columns as inputs from
-[NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html)
-and [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer) can be used to merge.
+[NerConverter](/docs/en/annotators#nerconverter)
+and [Tokenizer](/docs/en/annotators#tokenizer) can be used to merge.
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -90,7 +90,7 @@ result.selectExpr("explode(ner_label) as a")
 [IOBTagger](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger)
 {%- endcapture -%}
 
-{% include templates/anno_template.md
+{% include templates/licensed_anno_template.md
 title=title
 description=description
 input_anno=input_anno

@@ -1,18 +1,34 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.collections
 
-import org.scalatest.FlatSpec
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.scalatest.flatspec.AnyFlatSpec
+import com.johnsnowlabs.tags.FastTest
 
 
-class SearchTrieSpec extends FlatSpec {
-  val trie = SearchTrie(
+class SearchTrieSpec extends AnyFlatSpec {
+  val trie: SearchTrie = SearchTrie(
     Array(
       Array("a", "b", "a", "b", "a"),
       Array("a", "a", "a")
     ), caseSensitive = false
   )
 
-  val aTrie =  SearchTrie(
+  val aTrie: SearchTrie = SearchTrie(
     Array(
       Array("a", "a", "a", "a", "a"),
       Array("a", "a", "a"),
@@ -21,7 +37,7 @@ class SearchTrieSpec extends FlatSpec {
     ), caseSensitive = false
   )
 
-  val btrie = SearchTrie(
+  val btrie: SearchTrie = SearchTrie(
     Array(
       Array("a", "b", "a", "b"),
       Array("b", "a", "a")

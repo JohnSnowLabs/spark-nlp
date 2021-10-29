@@ -23,7 +23,7 @@ Pretrained named entity recognition deep learning model for healthcare. Includes
 ``PROBLEM``, ``TEST``, ``TREATMENT``.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_en_2.4.4_2.4_1585188313964.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -39,7 +39,7 @@ Use as part of an nlp pipeline with the following stages: DocumentAssembler, Sen
 
 ```python
 ...
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")\
   .setInputCols(["sentence", "token"])\
   .setOutputCol("embeddings")
 clinical_ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") \
@@ -56,7 +56,7 @@ results = model.transform(data)
 
 ```scala
 ...
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_healthcare_100d", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_healthcare", "en", "clinical/models") 
@@ -105,7 +105,7 @@ The output is a dataframe with a sentence per row and a ``"ner"`` column contain
 
 {:.h2_title}
 ## Data Source
-Trained on 2010 i2b2 challenge data with 'embeddings_clinical'.
+Trained on 2010 i2b2 challenge data with 'embeddings_healthcare_100d'.
 https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
 
 {:.h2_title}

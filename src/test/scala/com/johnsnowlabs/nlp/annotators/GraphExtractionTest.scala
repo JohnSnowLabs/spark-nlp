@@ -1,13 +1,29 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.NODE
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
 
-class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
+class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphExtractionFixture {
 
   spark.conf.set("spark.sql.crossJoin.enabled", "true")
 
@@ -295,6 +311,31 @@ class GraphExtractionTest extends FlatSpec with SparkSessionTest with GraphExtra
       Annotation(NODE, 7, 14, "canceled", Map("entities" -> "TIME,LOC",
         "left_path" -> "canceled,obj,flights,compound,morning",
         "right_path" -> "canceled,obj,flights,nmod,Houston"))
+    ))
+
+    val graphDataSet = graphExtractor.transform(testDataSet)
+
+    val actualGraph = AssertAnnotations.getActualResult(graphDataSet, "graph")
+    AssertAnnotations.assertFields(expectedGraph, actualGraph)
+  }
+
+  it should "output paths when Typed Dependency Parser cannot label relations" ignore {
+    //Ignored because it requires to download pretrained models which takes a considerable time
+    val testDataSet = getEntitiesWithNoTypeParserOutput(spark, tokenizerWithSentencePipeline)
+    val graphExtractor = new GraphExtraction()
+      .setInputCols("sentence", "token", "entities")
+      .setOutputCol("graph")
+      .setExplodeEntities(true)
+      .setMergeEntities(true)
+      .setMergeEntitiesIOBFormat("IOB")
+      .setIncludeEdges(false)
+    val expectedGraph = Array(Seq(
+      Annotation(NODE, 15, 20, "taking", Map("entities" -> "Medication,Diagnosis",
+        "left_path" -> "taking,pills,paracetamol", "right_path" -> "taking,disease,due,to,heart")),
+      Annotation(NODE, 15, 20, "taking", Map("entities" -> "Medication,Diagnosis",
+        "left_path" -> "taking,pills,paracetamol", "right_path" -> "taking,disease")),
+      Annotation(NODE, 15, 20, "taking", Map("entities" -> "Diagnosis,Diagnosis",
+        "left_path" -> "taking,disease,due,to,heart", "right_path" -> "taking,disease"))
     ))
 
     val graphDataSet = graphExtractor.transform(testDataSet)

@@ -1,7 +1,22 @@
+#  Copyright 2017-2021 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 from test.annotators import *
 from test.functions import FunctionMapColumnsTestSpec, FunctionMapColumnTestSpec
 from test.misc import *
 from test.base import *
+from test.pretrained import *
 
 # Annotator tests
 unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
@@ -25,7 +40,7 @@ unittest.TextTestRunner().run(PipelineTestSpec())
 unittest.TextTestRunner().run(SpellCheckerTestSpec())
 unittest.TextTestRunner().run(NorvigSweetingModelTestSpec())
 unittest.TextTestRunner().run(SymmetricDeleteTestSpec())
-unittest.TextTestRunner().run(ContextSpellCheckerTestSpec())
+unittest.TextTestRunner().run(ContextSpellCheckerModelTestSpec())
 unittest.TextTestRunner().run(ParamsGettersTestSpec())
 unittest.TextTestRunner().run(DependencyParserTreeBankTestSpec())
 unittest.TextTestRunner().run(DependencyParserConllUTestSpec())
@@ -38,11 +53,12 @@ unittest.TextTestRunner().run(NGramGeneratorTestSpec())
 unittest.TextTestRunner().run(ChunkEmbeddingsTestSpec())
 unittest.TextTestRunner().run(EmbeddingsFinisherTestSpec())
 unittest.TextTestRunner().run(NerDLModelTestSpec())
-unittest.TextTestRunner().run(YakeModelTestSpec())
+unittest.TextTestRunner().run(YakeKeywordExtractionTestSpec())
 unittest.TextTestRunner().run(SentenceDetectorDLTestSpec())
 unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 unittest.TextTestRunner().run(GraphExtractionTestSpec())
+unittest.TextTestRunner().run(EntityRulerTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
@@ -76,13 +92,19 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # print("Running T5TransformerSummaryWithRepetitionPenaltyTestSpec")
 # unittest.TextTestRunner().run(T5TransformerSummaryWithRepetitionPenaltyTestSpec())
 # unittest.TextTestRunner().run(BertForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(RoBertaSentenceEmbeddingsTestSpec())
+# unittest.TextTestRunner().run(RoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlmRoBertaForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
 
 # Misc tests
 
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
+unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 
 # Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
-

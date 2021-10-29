@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,7 +19,6 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
@@ -37,17 +35,17 @@ import java.io.File
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val labels = BertForTokenClassification.pretrained()
+ * val tokenClassifier = BertForTokenClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
  * The default model is `"bert_base_token_classifier_conll03"`, if no name is provided.
  *
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
  *
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala BertForTokenClassificationTestSpec]].
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala BertForTokenClassificationTestSpec]].
  *
  * ==Example==
  * {{{
@@ -109,10 +107,21 @@ class BertForTokenClassification(override val uid: String)
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("BERT_FOR_TOKEN_CLASSIFICATION"))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  /**
+   * Input Annotator Types: DOCUMENT, TOKEN
+   *
+   * @group anno
+   */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
+  /**
+   * Output Annotator Types: WORD_EMBEDDINGS
+   *
+   * @group anno
+   */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
 
   /** @group setParam */
@@ -195,20 +204,21 @@ class BertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertTokenClassification]] = None
+  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForTokenClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertTokenClassification(
+          new TensorflowBertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
             tags = getLabels,
-            signatures = getSignatures
+            signatures = getSignatures,
+            $$(vocabulary)
           )
         )
       )
@@ -218,7 +228,7 @@ class BertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertTokenClassification = _model.get.value
+  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -237,25 +247,6 @@ class BertForTokenClassification(override val uid: String)
     caseSensitive -> true
   )
 
-  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
-
-    tokens.map { tokenIndex =>
-      // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-  }
-
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
    *
@@ -268,13 +259,13 @@ class BertForTokenClassification(override val uid: String)
     ).toArray
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-      val tokenized = tokenizeWithAlignment(tokenizedSentences)
 
       getModelIfNotSet.predict(
-        tokenized,
         tokenizedSentences,
         $(batchSize),
-        $(maxSentenceLength)
+        $(maxSentenceLength),
+        $(caseSensitive),
+        getLabels
       )
     }) else {
       Seq(Seq.empty[Annotation])

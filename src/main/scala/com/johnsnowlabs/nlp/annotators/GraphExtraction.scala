@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -208,6 +207,12 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     "Merge same neighboring entities as a single token")
 
   /**
+   * IOB format to apply when merging entities
+   * @group param
+   */
+  val mergeEntitiesIOBFormat = new Param[String](this, "mergeEntitiesIOBFormat", "IOB format to apply when merging entities. Values: IOB or IOB2")
+
+  /**
    * Whether to include edges when building paths (Default: `true`)
    * @group param
    */
@@ -264,6 +269,9 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   def setMergeEntities(value: Boolean): this.type = set(mergeEntities, value)
 
   /** @group setParam */
+  def setMergeEntitiesIOBFormat(value: String): this.type = set(mergeEntitiesIOBFormat, value)
+
+  /** @group setParam */
   def setIncludeEdges(value: Boolean): this.type = set(includeEdges, value)
 
   /** @group setParam */
@@ -281,7 +289,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
   setDefault(entityTypes -> Array(), explodeEntities -> false, maxSentenceSize -> 1000, minSentenceSize -> 2,
     mergeEntities -> false, rootTokens -> Array(), relationshipTypes -> Array(), includeEdges -> true,
     delimiter -> ",", posModel -> Array(), dependencyParserModel -> Array(),
-    typedDependencyParserModel -> Array())
+    typedDependencyParserModel -> Array(), mergeEntitiesIOBFormat -> "IOB2")
 
   private lazy val allowedEntityRelationships = $(entityTypes).map { entityRelationship =>
     val result = entityRelationship.split("-")
@@ -321,7 +329,6 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    //TODO: Add parameter to output path starting from root or bottom
     val sentenceIndexesToSkip = annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT)
       .filter(annotation => annotation.result.length > $(maxSentenceSize) || annotation.result.length < $(minSentenceSize))
       .map(annotation => annotation.metadata("sentence")).toList.distinct
@@ -407,7 +414,8 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
     ))
 
     val entities = sentences.zip(docs.zipWithIndex).flatMap { case (sentence, doc) =>
-      NerTagsEncoding.fromIOB(sentence, doc._1, sentenceIndex = doc._2, includeNoneEntities = true)
+      NerTagsEncoding.fromIOB(sentence, doc._1, sentenceIndex = doc._2, includeNoneEntities = true,
+        format = $(mergeEntitiesIOBFormat))
     }
 
     entities.map(entity =>
@@ -566,4 +574,7 @@ class GraphExtraction(override val uid: String) extends AnnotatorModel[GraphExtr
    * @group anno
    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN, NAMED_ENTITY)
+
+  override val optionalInputAnnotatorTypes: Array[String] = Array(DEPENDENCY, LABELED_DEPENDENCY)
+
 }

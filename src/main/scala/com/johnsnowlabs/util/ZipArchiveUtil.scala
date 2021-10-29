@@ -1,33 +1,41 @@
-package com.johnsnowlabs.util
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import scala.collection.JavaConversions.enumerationAsScalaIterator
-import scala.io.BufferedSource
-import scala.io.Codec
-import java.io.{File, FileInputStream, FileOutputStream, IOException}
-import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
+package com.johnsnowlabs.util
 
 import org.apache.commons.io.FileUtils
 
-/**
-  * Copied from https://github.com/dhbikoff/Scala-Zip-Archive-Util
-  * with small fixes
-  */
+import scala.collection.JavaConverters._
+import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
+import java.io.{BufferedInputStream, File, FileInputStream, FileOutputStream, IOException}
+
 object ZipArchiveUtil {
 
   private def listFiles(file: File, outputFilename: String): List[String] = {
     file match {
-      case file if file.isFile => {
+      case file if file.isFile =>
         if (file.getName != outputFilename)
           List(file.getAbsoluteFile.toString)
         else
           List()
-      }
-      case file if file.isDirectory => {
+      case file if file.isDirectory =>
         val fList = file.list
         // Add all files in current dir to list and recur on subdirs
         fList.foldLeft(List[String]())((pList: List[String], path: String) =>
           pList ++ listFiles(new File(file, path), outputFilename))
-      }
       case _ => throw new IOException("Bad path. No file or directory found.")
     }
   }
@@ -44,28 +52,33 @@ object ZipArchiveUtil {
     }
   }
 
-  private def createZip(filePaths: List[String], outputFilename: String, parentPath: String) = {
-    try {
-      val fileOutputStream = new FileOutputStream(outputFilename)
-      val zipOutputStream = new ZipOutputStream(fileOutputStream)
+  private def createZip(filePaths: List[String], outputFilename: String, parentPath: String): Unit = {
 
+    val Buffer = 2 * 1024
+    val data = new Array[Byte](Buffer)
+    try {
+      val zipFileOS = new FileOutputStream(outputFilename)
+      val zip = new ZipOutputStream(zipFileOS)
+      zip.setLevel(0)
       filePaths.foreach((name: String) => {
         val zipEntry = addFileToZipEntry(name, parentPath, filePaths.size)
-        zipOutputStream.putNextEntry(zipEntry)
-        val inputSrc = new BufferedSource(
-          new FileInputStream(name))(Codec.ISO8859)
-        inputSrc foreach { c: Char => zipOutputStream.write(c) }
-        inputSrc.close
+        //add zip entry to output stream
+        zip.putNextEntry(new ZipEntry(zipEntry))
+        val in = new BufferedInputStream(new FileInputStream(name), Buffer)
+        var b = in.read(data, 0, Buffer)
+        while (b != -1) {
+          zip.write(data, 0, b)
+          b = in.read(data, 0, Buffer)
+        }
+        in.close()
       })
-
-      zipOutputStream.closeEntry
-      zipOutputStream.close
-      fileOutputStream.close
+      zip.closeEntry()
+      zip.close()
+      zipFileOS.close()
 
     } catch {
-      case e: IOException => {
-        e.printStackTrace
-      }
+      case e: IOException =>
+        e.printStackTrace()
     }
   }
 
@@ -84,7 +97,7 @@ object ZipArchiveUtil {
       fileName + "_unzipped"
     }
 
-    val destDir = if (destDirPath == None) {
+    val destDir = if (destDirPath.isEmpty) {
       new File(file.getParentFile, basename)
     }
     else {
@@ -94,7 +107,7 @@ object ZipArchiveUtil {
     destDir.mkdirs()
 
     val zip = new ZipFile(file)
-    zip.entries foreach { entry =>
+    zip.entries.asScala foreach { entry =>
       val entryName = entry.getName
       val entryPath = {
         if (entryName.startsWith(basename))
@@ -113,7 +126,7 @@ object ZipArchiveUtil {
         dirBuilder.append(part)
         val path = dirBuilder.toString
 
-        if (!(new File(path).exists)) {
+        if (!new File(path).exists) {
           new File(path).mkdir
         }
       }

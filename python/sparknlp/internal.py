@@ -1,9 +1,8 @@
-#  Licensed to the Apache Software Foundation (ASF) under one or more
-#  contributor license agreements.  See the NOTICE file distributed with
-#  this work for additional information regarding copyright ownership.
-#  The ASF licenses this file to You under the Apache License, Version 2.0
-#  (the "License"); you may not use this file except in compliance with
-#  the License.  You may obtain a copy of the License at
+#  Copyright 2017-2021 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
@@ -55,6 +54,7 @@ class ParamsGettersSetters(Params):
         paramName : str
             Name of the parameter
         """
+
         def r():
             try:
                 return self.getOrDefault(paramName)
@@ -71,6 +71,7 @@ class ParamsGettersSetters(Params):
         paramName : str
             Name of the parameter
         """
+
         def r(v):
             self.set(self.getParam(paramName), v)
             return self
@@ -238,15 +239,20 @@ class _ShowUnCategorizedResources(ExtendedJavaWrapper):
 
 
 class _ShowPublicPipelines(ExtendedJavaWrapper):
-    def __init__(self):
+    def __init__(self,lang, version):
         super(_ShowPublicPipelines, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicPipelines")
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicPipelines", lang, version)
 
 
 class _ShowPublicModels(ExtendedJavaWrapper):
-    def __init__(self):
+    def __init__(self, annotator, lang, version):
         super(_ShowPublicModels, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicModels")
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showPublicModels", annotator, lang, version)
+
+class _ShowAvailableAnnotators(ExtendedJavaWrapper):
+    def __init__(self):
+        super(_ShowAvailableAnnotators, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showAvailableAnnotators")
 
 
 # predefined pipelines
@@ -389,3 +395,47 @@ class _LongformerLoader(ExtendedJavaWrapper):
         super(_LongformerLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings.loadSavedModel",
                                                 path,
                                                 jspark)
+
+
+class _RoBertaSentenceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaSentenceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings.loadSavedModel", path, jspark)
+
+
+class _XlmRoBertaSentenceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaSentenceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings.loadSavedModel", path, jspark)
+
+
+class _RoBertaTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification.loadSavedModel", path, jspark)
+
+
+class _XlmRoBertaTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification.loadSavedModel", path,
+            jspark)
+
+
+class _AlbertTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AlbertTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification.loadSavedModel", path, jspark)
+
+
+class _XlnetTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlnetTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification.loadSavedModel", path, jspark)
+
+
+class _LongformerTokenClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LongformerTokenClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification.loadSavedModel", path,
+            jspark)

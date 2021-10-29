@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -309,7 +308,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   val maxSentLen = new IntParam(this, "maxSentLen", "Maximum length for a sentence - internal use during training")
 
 
-  setDefault(minCount -> 3.0,
+  setDefault(
+    minCount -> 3.0,
     specialClasses -> List(new DateToken, new NumberToken),
     wordMaxDistance -> 3,
     maxCandidates -> 6,
@@ -337,13 +337,10 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    * @return
    */
   def addVocabClass(usrLabel: String, vocabList: util.ArrayList[String], userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
-    val newClass = new VocabParser with SerializableClass {
-      override var vocab: mutable.Set[String] = scala.collection.mutable.Set(vocabList.toArray.map(_.toString): _*)
-      override val label: String = usrLabel
-      transducer = generateTransducer
-      override val maxDist: Int = userDist
-    }
-    setSpecialClasses(getOrDefault(specialClasses) :+ newClass)
+    import scala.collection.JavaConverters._
+    val vocab = vocabList.asScala.to[collection.mutable.Set]
+    val nc = new GenericVocabParser(vocab, usrLabel, userDist)
+    setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
   /** Adds a new class of words to correct, based on regex.
@@ -354,20 +351,15 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    * @return
    */
   def addRegexClass(usrLabel: String, usrRegex: String, userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
-    val newClass = new RegexParser with SerializableClass {
-      override var regex: String = usrRegex
-      override val label: String = usrLabel
-      transducer = generateTransducer
-      override val maxDist: Int = userDist
-    }
-    setSpecialClasses(getOrDefault(specialClasses) :+ newClass)
+    val nc = new GenericRegexParser(usrRegex, usrLabel, userDist)
+    setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): ContextSpellCheckerModel = {
 
     val (vocabulary, classes) = genVocab(dataset)
     val word2ids = vocabulary.keys.toList.sorted.zipWithIndex.toMap
-    val encodedClasses = classes.map { case (word, cwid) => word2ids.get(word).get -> cwid }
+    val encodedClasses = classes.map { case (word, cwid) => word2ids(word) -> cwid }
 
     // split in validation and train
     val trainFraction = 1.0 - getOrDefault(validationFraction)
@@ -381,7 +373,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       par.map { t => t.setTransducer(t.generateTransducer) }.seq
 
     // training
-    val tf = new TensorflowWrapper(Variables(Array.empty[Byte], Array.empty[Byte]), graph.toGraphDef.toByteArray)
+    val tf = new TensorflowWrapper(Variables(Array.empty[Array[Byte]], Array.empty[Byte]), graph.toGraphDef.toByteArray)
     val model = new TensorflowSpell(tf, Verbose.Silent)
     model.train(encodeCorpus(train, word2ids, encodedClasses), encodeCorpus(validation, word2ids, encodedClasses),
       getOrDefault(epochs), getOrDefault(batchSize), getOrDefault(initialRate), getOrDefault(finalRate))
@@ -443,7 +435,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   /*
   *  here we do some pre-processing of the training data, and generate the vocabulary
   * */
-  def genVocab(dataset: Dataset[_]) = {
+  def genVocab(dataset: Dataset[_]): (mutable.HashMap[String, Double], Map[String, (Int, Int)]) = {
 
     import dataset.sparkSession.implicits._
     // for every sentence we have one end and one begining
@@ -575,7 +567,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
         while (it.hasNext && count < getOrDefault(batchSize)) {
           count += 1
           val next = it.next
-          val ids = Array(vMap("_BOS_")) ++ next.map { case token =>
+          val ids = Array(vMap("_BOS_")) ++ next.map { token =>
             var tmp = token.result
             // identify tokens that belong to special classes, and replace with a label
             getOrDefault(specialClasses).foreach { specialClass =>
@@ -585,8 +577,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
             vMap.getOrElse(tmp, vMap("_UNK_"))
           } ++ Array(vMap("_EOS_"))
 
-          val cids = ids.map(id => classes.get(id).get._1).tail
-          val cwids = ids.map(id => classes.get(id).get._2).tail
+          val cids = ids.map(id => classes(id)._1).tail
+          val cwids = ids.map(id => classes(id)._2).tail
           val len = ids.length
 
           thisBatch = thisBatch :+ LangModelSentence(ids.dropRight(1).fixSize, cids.fixSize, cwids.fixSize, len)
@@ -605,17 +597,15 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     val availableGraphs = ResourceHelper.listResourceDirectory("/spell_nlm")
 
     // get the one that better matches the class count
-    val candidates = availableGraphs.map { filename =>
-      filename match {
-        // not looking into innerLayerSize or layerCount
-        case graphFilePattern(innerLayerSize, layerCount, classCount, vSize) =>
-          val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
-          val score = classCount.toFloat / requiredClassCount
-          (filename, score, isValid)
-      } // keep the valid, and pick the best
+    val candidates = availableGraphs.map {
+      // not looking into innerLayerSize or layerCount
+      case filename@graphFilePattern(_, _, classCount, vSize) =>
+        val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
+        val score = classCount.toFloat / requiredClassCount
+        (filename, score, isValid)
     }.filter(_._3)
 
-    require(!candidates.isEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")
+    require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")
 
     val bestGraph = candidates.minBy(_._2)._1
     val graph = new Graph()

@@ -24,7 +24,7 @@ Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distanc
 CPT Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_cpt_clinical_en_3.0.0_3.0_1617355184583.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

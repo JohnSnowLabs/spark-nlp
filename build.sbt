@@ -6,7 +6,7 @@ name := getPackageName(is_spark23, is_spark24, is_gpu)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "3.2.1"
+version := "3.3.1"
 
 scalaVersion in ThisBuild := scalaVer
 
@@ -94,7 +94,9 @@ lazy val analyticsDependencies = Seq(
 )
 
 lazy val testDependencies = Seq(
-  "org.scalatest" %% "scalatest" % scalaTestVersion % "test"
+  "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+  "org.scalatest" %% "scalatest-flatspec" % scalaTestVersion % "test",
+  "org.scalatest" %% "scalatest-shouldmatchers" % scalaTestVersion % "test"
 )
 
 lazy val utilDependencies = Seq(
@@ -110,7 +112,6 @@ lazy val utilDependencies = Seq(
     exclude("org.apache.commons", "commons-lang3"),
   greex,
   json4s
-
 )
 
 lazy val typedDependencyParserDependencies = Seq(

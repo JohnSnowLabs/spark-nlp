@@ -121,6 +121,10 @@ results.selectExpr("explode(ngrams) as result").show(false)
 [NGramGenerator](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[NGramGenerator](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NGramGenerator.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [NGramGenerator](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/NGramGenerator.scala)
 {%- endcapture -%}
@@ -132,6 +136,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

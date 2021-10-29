@@ -18,6 +18,10 @@ TOKEN
 [NormalizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NormalizerModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[NormalizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NormalizerModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [NormalizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/NormalizerModel.scala)
 {%- endcapture -%}
@@ -119,6 +123,10 @@ result.selectExpr("normalized.result").show(truncate = false)
 [Normalizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Normalizer)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[Normalizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Normalizer.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [Normalizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Normalizer.scala)
 {%- endcapture -%}
@@ -129,6 +137,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -136,6 +145,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

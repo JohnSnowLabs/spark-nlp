@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -190,8 +189,10 @@ class SentenceEmbeddings(override val uid: String)
 
     sentences.map { sentence =>
 
-      val sentenceEmbeddings = embeddingsSentences.flatMap {
-        case (tokenEmbedding) =>
+      val embeddings = embeddingsSentences.filter(embeddings => embeddings.sentenceId == sentence.index)
+
+      val sentenceEmbeddings = embeddings.flatMap {
+        tokenEmbedding =>
           val allEmbeddings = tokenEmbedding.tokens.map { token =>
             token.embeddings
           }

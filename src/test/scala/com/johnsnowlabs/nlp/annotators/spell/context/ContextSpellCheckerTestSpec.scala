@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -28,12 +27,12 @@ import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.Pipeline
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
 
 
-class ContextSpellCheckerTestSpec extends FlatSpec {
+class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   trait Scope extends WeightedLevenshtein {
     val weights = Map("1" -> Map("l" -> 0.5f), "!" -> Map("l" -> 0.4f),
@@ -167,15 +166,15 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
   }
 
   "weighted Levenshtein distance" should "handle insertions and deletions" taggedAs SlowTest in new Scope {
-    override val weights = loadWeights("src/test/resources/distance.psv")
+    override val weights: Map[String, Map[String, Float]] = loadWeights("src/test/resources/distance.psv")
 
-    val cost1 = weights("F")("P") + weights("a")("e")
+    val cost1: Float = weights("F")("P") + weights("a")("e")
     assert(wLevenshteinDist("Procedure", "Frocedura", weights) == cost1)
 
-    val cost2 = weights("v")("y") + weights("iƐ")("if")
+    val cost2: Float = weights("v")("y") + weights("iƐ")("if")
     assert(wLevenshteinDist("qualifying", "qualiving", weights) == cost2)
 
-    val cost3 = weights("a")("o") + weights("^Ɛ")("^t")
+    val cost3: Float = weights("a")("o") + weights("^Ɛ")("^t")
     assert(wLevenshteinDist("to", "a", weights) == cost3)
   }
 
@@ -357,7 +356,7 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
 
     val spellChecker = ContextSpellCheckerModel
       .pretrained()
-      .updateVocabClass("_LOC_", meds, false)
+      .updateVocabClass("_LOC_", meds, append = false)
       .setInputCols("token")
       .setOutputCol("checked")
       .setUseNewLines(true)
@@ -387,8 +386,8 @@ class ContextSpellCheckerTestSpec extends FlatSpec {
     // cope with potential change in element order in list
     val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)
 
-    assert(sortedTransducers(0).label == "_DATE_")
-    assert(sortedTransducers(0).generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+    assert(sortedTransducers.head.label == "_DATE_")
+    assert(sortedTransducers.head.generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
 
     assert(sortedTransducers(1).label == "_NUM_")
     assert(sortedTransducers(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))

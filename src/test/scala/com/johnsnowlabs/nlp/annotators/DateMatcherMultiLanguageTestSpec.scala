@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -23,13 +22,13 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class DateMatcherMultiLanguageTestSpec extends FlatSpec with DateMatcherBehaviors {
+class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   /** ITALIAN * */
 

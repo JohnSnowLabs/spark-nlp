@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
@@ -55,7 +71,7 @@ class DependencyMaker(tagger:Tagger) extends Serializable {
 
     def getGoldMoves(goldHeads:Vector[Int]): Set[Move] = {
       // See :  Goldberg and Nivre (2013) :: Training Deterministic Parsers with Non-Deterministic Oracles, TACL 2013
-      //        http://www.transacl.org/wp-content/uploads/2013/10/paperno33.pdf
+      //        https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00237/43216/Training-Deterministic-Parsers-with-Non
       //        Method implemented == "dynamic-oracle Arc-Hybrid" (bottom left of page 405, top right of page 411)
       def depsBetween(target:Int, others:List[Int]) = {
         others.exists( word => goldHeads(word)==target || goldHeads(target) == word)

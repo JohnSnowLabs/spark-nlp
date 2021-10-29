@@ -22,6 +22,10 @@ TOKEN
 [TokenizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TokenizerModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[TokenizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.TokenizerModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [TokenizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/TokenizerModel.scala)
 {%- endcapture -%}
@@ -94,6 +98,10 @@ result.selectExpr("token.result").show(false)
 [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[Tokenizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Tokenizer.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [Tokenizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Tokenizer.scala)
 {%- endcapture -%}
@@ -104,6 +112,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -111,6 +120,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 approach_note="All these APIs receive regular expressions so please make sure that you escape special characters according to Java conventions."

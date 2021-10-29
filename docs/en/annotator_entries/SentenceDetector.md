@@ -89,6 +89,10 @@ result.selectExpr("explode(sentence) as sentences").show(false)
 [SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[SentenceDetector](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentenceDetector.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [SentenceDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector.scala)
 {%- endcapture -%}
@@ -100,6 +104,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

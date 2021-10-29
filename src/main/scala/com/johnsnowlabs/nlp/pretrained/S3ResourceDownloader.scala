@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.client.AWSGateway
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader, FileHelper}
 import org.apache.hadoop.fs.Path
 
@@ -46,6 +45,7 @@ class S3ResourceDownloader(bucket: => String,
 
   lazy val awsGateway = new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
     ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
+    ConfigLoader.getConfigStringValue(ConfigHelper.sessionToken),
     ConfigLoader.getConfigStringValue(ConfigHelper.awsProfileName),
     region, credentialsType
   )

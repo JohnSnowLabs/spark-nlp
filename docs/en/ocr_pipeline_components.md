@@ -1,11 +1,15 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Pipeline components
 permalink: /docs/en/ocr_pipeline_components
 key: docs-ocr-pipeline-components
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
+show_nav: true
+sidebar:
+    nav: spark-ocr
 ---
 
 ## PDF processing
@@ -413,6 +417,122 @@ result = pipeline.transform(df).collect()
 # Store to file for debug
 with open("test.pdf", "wb") as file:
     file.write(result[0].pdf)
+```
+
+</div>
+
+### PdfAssembler
+
+`PdfAssembler` group single page PDF documents by the filename and assemble
+muliplepage PDF document.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | page_pdf | binary representation of the PDF document |
+| originCol | string | path | path to the original file |
+| pageNumCol | string | pagenum | for compatibility with another transformers |
+
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | pdf | binary representation of the PDF document |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import java.io.FileOutputStream
+import java.nio.file.Files
+
+import com.johnsnowlabs.ocr.transformers._
+
+val pdfPath = "path to pdf"
+
+// Read PDF file as binary file
+val df = spark.read.format("binaryFile").load(pdfPath)
+
+val pdf_to_image = new PdfToImage()
+  .setInputCol("content")
+  .setOutputCol("image")
+  .setKeepInput(True)
+    
+// Run OCR and render results to PDF
+val ocr = new ImageToTextPdf()
+  .setInputCol("image")
+  .setOutputCol("pdf_page")
+
+// Assemble multipage PDF
+val pdf_assembler = new PdfAssembler()
+  .setInputCol("pdf_page")
+  .setOutputCol("pdf")
+
+// Create pipeline
+val pipeline = new Pipeline()
+  .setStages(Array(
+    pdf_to_image,
+    ocr,
+    pdf_assembler
+))
+
+val pdf = pipeline.fit(df).transform(df)
+
+val pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+// store to pdf file
+val tmpFile = Files.createTempFile("with_regions_", s".pdf").toAbsolutePath.toString
+val fos = new FileOutputStream(tmpFile)
+fos.write(pdfContent)
+fos.close()
+println(tmpFile)
+```
+
+```python
+from pyspark.ml import PipelineModel
+
+from sparkocr.transformers import *
+
+pdfPath = "path to pdf"
+
+# Read PDF file as binary file
+df = spark.read.format("binaryFile").load(pdfPath)
+
+pdf_to_image = PdfToImage() \
+        .setInputCol("content") \
+        .setOutputCol("image") \
+        .setKeepInput(True)
+    
+# Run OCR and render results to PDF
+ocr = ImageToTextPdf() \
+    .setInputCol("image") \
+    .setOutputCol("pdf_page")
+
+# Assemble multipage PDF
+pdf_assembler = PdfAssembler() \
+    .setInputCol("pdf_page") \
+    .setOutputCol("pdf")
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    ocr,
+    pdf_assembler
+])
+
+pdf = pipeline.transform(df)
+
+pdfContent = pdf.select("pdf").collect().head.getAs[Array[Byte]](0)
+
+# store pdf to file
+with open("test.pdf", "wb") as file:
+    file.write(pdfContent[0].pdf) 
 ```
 
 </div>
@@ -890,6 +1010,138 @@ docPath = "path to docx with text layout"
 df = spark.read.format("binaryFile").load(docPath)
 
 transformer = DocToPdf() \
+  .setInputCol("content") \
+  .setOutputCol("pdf") 
+
+data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+</div>
+
+### PptToTextTable
+
+`PptToTextTable` extracts table data from the PPT and PPTX documents.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the PPT document |
+| originCol | string | path | path to the original file |
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | TableContainer | tables | Extracted tables |
+
+
+NOTE: For setting parameters use `setParamName` method.
+{:.info}
+
+**Example**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.PptToTextTable
+
+val docPath = "path to docx with text layout"
+
+// Read PPT file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new PptToTextTable()
+  .setInputCol("content")
+  .setOutputCol("tables")
+
+val data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+docPath = "path to docx with text layout"
+
+# Read PPT file as binary file
+df = spark.read.format("binaryFile").load(docPath)
+
+transformer = PptToTextTable() \
+  .setInputCol("content") \
+  .setOutputCol("tables") 
+
+data = transformer.transform(df)
+
+data.select("tables").show()
+```
+
+</div>
+
+### PptToPdf
+
+`PptToPdf` convert PPT and PPTX document to PDF document.
+
+##### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | text | binary representation of the PPT document |
+| originCol | string | path | path to the original file |
+
+##### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | binary representation of the PDF document |
+
+
+NOTE: For setting parameters use `setParamName` method.
+{:.info}
+
+**Example**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.PptToPdf
+
+val docPath = "path to docx with text layout"
+
+// Read PPT file as binary file
+val df = spark.read.format("binaryFile").load(docPath)
+
+val transformer = new PptToPdf()
+  .setInputCol("content")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+
+data.select("pdf").show()
+```
+
+```python
+from sparkocr.transformers import *
+
+docPath = "path to PPT with text layout"
+
+# Read DOCX file as binary file
+df = spark.read.format("binaryFile").load(docPath)
+
+transformer = PptToPdf() \
   .setInputCol("content") \
   .setOutputCol("pdf") 
 
@@ -2347,6 +2599,128 @@ data.show()
 
 </div>
 
+### ImageDrawAnnotations
+
+`ImageDrawAnnotations` draw annotations with label and score to the image.
+
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| inputChunksCol | string | region | array of Annotation|
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineWidth | Int | 4 | Line width for draw rectangles |
+| fontSize | Int | 12 | Font size for render labels and score |
+| rectColor | Color | Color.black | Color of lines |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | image_with_chunks | image struct ([Image schema](ocr_structures#image-schema)) |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val tokenizer = new HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val draw_annotations = new ImageDrawAnnotations()
+  .setInputCol("image")
+  .setInputChunksCol("token")
+  .setOutputCol("image_with_annotations")
+  .setFilledRect(False)
+  .setFontSize(40)
+  .setRectColor(Color.red)
+
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  tokenizer,
+  draw_annotations
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+tokenizer = HocrTokenizer() \
+    .setInputCol("hocr") \
+    .setOutputCol("token")
+
+draw_annotations = ImageDrawAnnotations() \
+    .setInputCol("image") \
+    .setInputChunksCol("token") \
+    .setOutputCol("image_with_annotations") \
+    .setFilledRect(False) \
+    .setFontSize(40) \
+    .setRectColor(Color.red)
+
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    tokenizer,
+    image_with_annotations
+])
+
+result = pipeline.transform(df)
+```
+
+</div>
+
 ### ImageDrawRegions
 
 `ImageDrawRegions` draw regions with label and score to the image.
@@ -2483,7 +2857,7 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | ocrEngineMode | [EngineMode](ocr_structures#enginemode) | LSTM_ONLY| OCR engine mode |
 | language | [Language](ocr_structures#language) | Language.ENG | language |
 | confidenceThreshold | int | 0 | Confidence threshold. |
-| ignoreResolution | bool | true | Ignore resolution from metadata of image. |
+| ignoreResolution | bool | false | Ignore resolution from metadata of image. |
 | ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
 | pdfCoordinates | bool | false | Transform coordinates in positions to PDF points. |
 | modelData | string | | Path to the local model data. |
@@ -2572,6 +2946,91 @@ industries. They create ideas and use them in their designs, they stimu-
 late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
+
+### ImageToTextPdf
+
+`ImageToTextPdf` runs OCR for input image, render recognized text to 
+the PDF as an invisible text layout with an original image.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+| originCol | string | path | path to the original file |
+| pageNumCol | string | pagenum | for compatibility with another transformers |
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ocrParams | array of strings | [] |Array of Ocr params in key=value format. |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | pdf | Recognized text rendered to PDF |
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val transformer = new ImageToTextPdf()
+  .setInputCol("image")
+  .setOutputCol("pdf")
+
+val data = transformer.transform(df)
+data.show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToTextPdf() \
+    .setInputCol("image") \
+    .setOutputCol("pdf")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+</div>
+
 
 ### ImageToHocr
 
@@ -3297,4 +3756,226 @@ Output:
     "additional_assays" : [ "Tumor Mutation  Burden  (TMB)", "Microsatellite  Status  (MS)" ]
   }
 }
+```
+
+## HocrDocumentAssembler
+
+`HocrDocumentAssembler ` prepares data into a format that is processable by Spark NLP.
+
+**Output Annotator Type:** DOCUMENT
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document |
+
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | document | Name of output column. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val hocrDocumentAssembler = HocrDocumentAssembler()
+  .setInputCol("hocr")
+  .setOutputCol("document")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  hocrDocumentAssembler
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("document").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+hocr_document_assembler = HocrDocumentAssembler() \
+  .setInputCol("hocr") \
+  .setOutputCol("document") 
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    hocr_document_assembler
+])
+
+result = pipeline.transform(df)
+result.select("document").show()
+```
+
+</div>
+
+Output:
+
+```
++--------------------------------------------------------------------+
+| document                                                           |
++--------------------------------------------------------------------+
+| [[document, 0, 4392, Patient Nam Financial Numbe Random Hospital...|
++--------------------------------------------------------------------+
+
+```
+
+
+## HocrTokenizer
+
+`HocrTokenizer` prepares into a format that is processable by Spark NLP.\
+HocrTokenizer puts to metadata coordinates and ocr confidence.
+
+**Output Annotator Type:** TOKEN
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | hocr | Сolumn name with HOCR of the document. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | token | Name of output column. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+// Read image file as binary file
+val df = spark.read
+  .format("binaryFile")
+  .load(imagePath)
+  .asImage("image")
+
+val imageToHocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+
+val tokenizer = HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  imageToHocr,
+  tokenizer
+))
+
+val modelPipeline = pipeline.fit(df)
+
+val result =  modelPipeline.transform(df)
+result.select("token").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+tokenizer = HocrTokenizer() \
+    .setInputCol("hocr") \
+    .setOutputCol("token")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    tokenizer
+])
+
+result = pipeline.transform(df)
+result.select("token").show()
+```
+
+</div>
+
+Output:
+
+```
++--------------------------------------------------------------------+
+| token                                                              |
++--------------------------------------------------------------------+
+| [[token, 0, 6, patient, [x -> 2905, y -> 527, height -> 56,        |
+| confidence -> 95, word -> Patient, width -> 230], []], [token, 8,  |
+|10, nam, [x -> 3166, y -> 526, height -> 55, confidence -> 95, word |
+|-> Nam, width -> 158], []] ...                                      |
++--------------------------------------------------------------------+
+
 ```

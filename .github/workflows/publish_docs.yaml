@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - '*release*'
+      - 'release/**'
   pull_request:
     branches:
       - 'main'
       - 'master'
       - '*release*'
+      - 'release/**'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

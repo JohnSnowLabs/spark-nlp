@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -19,21 +18,22 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
-import com.johnsnowlabs.nlp.annotators.classifier.dl.{ReadBertForTokenTensorflowModel, ReadClassifierDLTensorflowModel, ReadDistilBertForTokenTensorflowModel, ReadMultiClassifierDLTensorflowModel, ReadSentimentDLTensorflowModel, ReadablePretrainedBertForTokenModel, ReadablePretrainedClassifierDL, ReadablePretrainedDistilBertForTokenModel, ReadablePretrainedMultiClassifierDL, ReadablePretrainedSentimentDL}
-import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
+import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{ReadablePretrainedNerDL, ReadsNERGraph, WithGraphResolver}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
-import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
-import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
-import com.johnsnowlabs.nlp.embeddings._
-import com.johnsnowlabs.nlp.annotators.ld.dl.{ReadLanguageDetectorDLTensorflowModel, ReadablePretrainedLanguageDetectorDLModel}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
 import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
+import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
+import com.johnsnowlabs.nlp.annotators.{ReadablePretrainedLemmatizer, ReadablePretrainedStopWordsCleanerModel, ReadablePretrainedTextMatcher, ReadablePretrainedTokenizer}
+import com.johnsnowlabs.nlp.embeddings._
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object annotator {
@@ -270,9 +270,9 @@ package object annotator {
 
   object SentimentDLModel extends ReadablePretrainedSentimentDL with ReadSentimentDLTensorflowModel
 
-  type YakeModel = com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+  type YakeKeywordExtraction = com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction
 
-  object YakeModel extends ParamsAndFeaturesReadable[YakeModel]
+  object YakeKeywordExtraction extends ParamsAndFeaturesReadable[YakeKeywordExtraction]
 
   type LanguageDetectorDL = com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 
@@ -341,5 +341,39 @@ package object annotator {
   type LongformerEmbeddings = com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings
 
   object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerTensorflowModel
+
+  type RoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings
+
+  object RoBertaSentenceEmbeddings extends ReadablePretrainedRobertaSentenceModel with ReadRobertaSentenceTensorflowModel
+
+  type XlmRoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings
+
+  object XlmRoBertaSentenceEmbeddings extends ReadablePretrainedXlmRobertaSentenceModel with ReadXlmRobertaSentenceTensorflowModel
+
+  type RoBertaForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification
+
+  object RoBertaForTokenClassification extends ReadablePretrainedRoBertaForTokenModel with ReadRoBertaForTokenTensorflowModel
+
+  type XlmRoBertaForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification
+
+  object XlmRoBertaForTokenClassification extends ReadablePretrainedXlmRoBertaForTokenModel with ReadXlmRoBertaForTokenTensorflowModel
+
+  type AlbertForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification
+
+  object AlbertForTokenClassification extends ReadablePretrainedAlbertForTokenModel with ReadAlbertForTokenTensorflowModel
+
+  type XlnetForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification
+
+  object XlnetForTokenClassification extends ReadablePretrainedXlnetForTokenModel with ReadXlnetForTokenTensorflowModel
+
+  type LongformerForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification
+
+  object LongformerForTokenClassification extends ReadablePretrainedLongformerForTokenModel with ReadLongformerForTokenTensorflowModel
+  
+  type EntityRuler = com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
+
+  type EntityRulerModel = com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
+
+  object EntityRulerModel extends ReadablePretrainedEntityRuler
 
 }

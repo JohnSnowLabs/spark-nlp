@@ -1,22 +1,43 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.tags.FastTest
+
 import org.apache.spark.ml.Pipeline
-import org.scalatest.FlatSpec
+import org.apache.spark.sql.SparkSession
 
-import java.nio.file.{Files, Paths}
+import org.scalatest.flatspec.AnyFlatSpec
+
 import scala.io.Source
+import java.nio.file.{Files, Paths}
 
-class SentenceDetectorDLSpec  extends FlatSpec {
-  implicit val session = spark
+class SentenceDetectorDLSpec extends AnyFlatSpec {
+  implicit val session: SparkSession = spark
 
   val trainDataFile = "src/test/resources/sentence_detector_dl/train.txt"
-  val testDataFile =  "src/test/resources/sentence_detector_dl/test.txt"
+  val testDataFile = "src/test/resources/sentence_detector_dl/test.txt"
   val savedModelPath = "./tmp_sdd_model/new_model"
   val testSampleFreeText = "src/test/resources/sentence_detector_dl/sample.txt"
+
+  import spark.implicits._
 
   "Sentence Detector DL" should "train a new model" taggedAs FastTest in {
 
@@ -73,17 +94,16 @@ class SentenceDetectorDLSpec  extends FlatSpec {
 
     case class textOnly(text: String)
 
-    import spark.implicits._
 
     val emptyDataset = spark.emptyDataset[String]
 
     val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
 
     lightModel.fullAnnotate(text).foreach(anno => {
-      if (anno._1 == "sentences"){
+      if (anno._1 == "sentences") {
         anno._2.foreach(s => {
-          println(s.result)
-          println("\n")
+          //          println(s.result)
+          //          println("\n")
         })
       }
 
@@ -114,10 +134,10 @@ class SentenceDetectorDLSpec  extends FlatSpec {
     val lightModel = new LightPipeline(pipeline.fit(emptyDataset))
 
     lightModel.fullAnnotate(text).foreach(anno => {
-      if (anno._1 == "sentences"){
+      if (anno._1 == "sentences") {
         anno._2.foreach(s => {
-          println(s.result)
-          println("\n")
+          //          println(s.result)
+          //          println("\n")
         })
       }
 

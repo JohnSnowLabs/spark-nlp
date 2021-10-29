@@ -1,14 +1,31 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.AnnotatorType.NODE
 import com.johnsnowlabs.nlp.annotators.{GraphExtraction, GraphExtractionFixture, SparkSessionTest}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.Dataset
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable
 
-class GraphFinisherTest extends FlatSpec with SparkSessionTest with GraphExtractionFixture {
+class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtractionFixture {
 
   spark.conf.set("spark.sql.crossJoin.enabled", "true")
 
@@ -117,6 +134,21 @@ class GraphFinisherTest extends FlatSpec with SparkSessionTest with GraphExtract
     assert(actualGraph == expectedGraph)
     val actualMetadata = getFinisher(graphDataSet, "finisher_metadata")
     assert(actualMetadata == expectedMetadata)
+  }
+
+  it should "annotate output graph" in {
+    val metadata = Map("relationship" -> "sees, PER",
+      "path1" -> "sees,nsubj,John",
+      "path2" -> "sees,ccomp,goes,nsubj,Bill",
+      "path3" -> "sees,ccomp,goes,nsubj,Bill,conj,Mary")
+    val graphFinisher = new GraphFinisher()
+    val expectedResult= "[(sees,nsubj,John)],[(sees,ccomp,goes),(goes,nsubj,Bill)]," +
+      "[(sees,ccomp,goes),(goes,nsubj,Bill),(Bill,conj,Mary)]"
+    val expectedAnnotated = Seq(Annotation(NODE, 0, 0, expectedResult, Map()))
+
+    val actualAnnotated = graphFinisher.annotate(metadata)
+
+    assert(actualAnnotated == expectedAnnotated)
   }
 
   private def getFinisherAsArray(dataSet: Dataset[_]) = {

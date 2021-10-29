@@ -21,11 +21,11 @@ This model is trained on Few-NERD/inter public dataset and it extracts 8 entitie
 
 ## Predicted Entities
 
-`PERSON`, `ORGANIZATION`, `LOCATION`, `ART`, `BUILDING`, `PRODUCT`, `EVENT`, `OTHER`.
+`PERSON`, `ORGANIZATION`, `LOCATION`, `ART`, `BUILDING`, `PRODUCT`, `EVENT`, `OTHER`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_FEW_NERD/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_FewNERD.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nerdl_fewnerd_100d_en_3.1.1_2.4_1625227974733.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -65,7 +65,7 @@ val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
 val ner = NerDLModel.pretrained("nerdl_fewnerd_100d")
     .setInputCols(Array("sentence", "token", "embeddings")).setOutputCol("ner")
 
-val ner_converter = NerConverter.setInputCols(Array("document", "token", "ner")) \
+val ner_converter = NerConverter.setInputCols(Array("document", "token", "ner")) 
     .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))

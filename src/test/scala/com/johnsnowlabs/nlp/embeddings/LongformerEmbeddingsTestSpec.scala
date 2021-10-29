@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -25,9 +24,9 @@ import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class LongformerEmbeddingsTestSpec extends FlatSpec {
+class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
 
 
   "LongformerEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
@@ -152,14 +151,16 @@ class LongformerEmbeddingsTestSpec extends FlatSpec {
 
   }
 
-  "LongformerEmbeddings" should "be aligned with custome tokens from Tokenizer" taggedAs SlowTest in {
+  "LongformerEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
     val ddd = Seq(
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",
-      "TORONTO 1996-08-21"
+      "TORONTO 1996-08-21",
+      " carbon emissions have come down without impinging on our growth . . .",
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
     ).toDF("text")
 
     val document = new DocumentAssembler()
@@ -197,6 +198,7 @@ class LongformerEmbeddingsTestSpec extends FlatSpec {
     println(s"total tokens: $totalTokens")
     println(s"total embeddings: $totalEmbeddings")
 
+    assert(totalTokens == totalEmbeddings)
 
   }
 }

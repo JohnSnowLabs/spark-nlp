@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,6 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.AnnotatorType.NODE
 import com.johnsnowlabs.nlp.util.FinisherUtil
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
@@ -159,6 +159,8 @@ class GraphFinisher(override val uid: String) extends Transformer {
 
   setDefault(cleanAnnotations -> true, outputAsArray -> true, includeMetadata -> false)
 
+  private val METADATA_STRUCT_INDEX = 4
+
   override def transform(dataset: Dataset[_]): DataFrame = {
     var flattenedDataSet = dataset.withColumn($(outputCol), {
       if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol))) else flattenPaths(dataset.col($(inputCol)))
@@ -171,40 +173,56 @@ class GraphFinisher(override val uid: String) extends Transformer {
     FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattenedDataSet)
   }
 
-  def flattenPathsAsArray: UserDefinedFunction = udf { annotations: Seq[Row] =>
-    annotations.flatMap { row =>
-      val metadata = row.getMap[String, String](4)
-      val paths = metadata.flatMap { case (key, value) =>
-        if (key.contains("path")) Some(value.split(",")) else None
-      }.toList
-      val pathsInRDFFormat = paths.map { path =>
-        val evenPathIndices = path.indices.toList.filter(index => index % 2 == 0)
-        val sliceIndices = evenPathIndices zip evenPathIndices.tail
-        sliceIndices.map(sliceIndex => path.slice(sliceIndex._1, sliceIndex._2 + 1).toList)
+  private def buildPathsAsArray(metadata: Map[String, String]): List[List[List[String]]] = {
+    val paths = extractPaths(metadata)
+
+    val pathsInRDFFormat = paths.map { path =>
+      val evenPathIndices = path.indices.toList.filter(index => index % 2 == 0)
+      val sliceIndices = evenPathIndices zip evenPathIndices.tail
+      sliceIndices.map(sliceIndex => path.slice(sliceIndex._1, sliceIndex._2 + 1).toList)
+    }
+    pathsInRDFFormat
+  }
+
+  private def buildPaths(metadata: Map[String, String]): List[List[String]] = {
+    val paths = extractPaths(metadata)
+
+    val pathsInRDFFormat = paths.map { path =>
+      val evenPathIndices = path.indices.toList.filter(index => index % 2 == 0)
+      val sliceIndices = evenPathIndices zip evenPathIndices.tail
+      sliceIndices.map { sliceIndex =>
+        val node = path.slice(sliceIndex._1, sliceIndex._2 + 1)
+        "(" + node.mkString(",") + ")"
       }
+    }
+    pathsInRDFFormat
+  }
+
+  private def extractPaths(metadata: Map[String, String]): List[Array[String]] = {
+    val paths = metadata.flatMap { case (key, value) =>
+      if (key.contains("path")) Some(value.split(",")) else None
+    }.toList
+
+    paths
+  }
+
+  private def flattenPathsAsArray: UserDefinedFunction = udf { annotations: Seq[Row] =>
+    annotations.flatMap { row =>
+      val metadata = row.getMap[String, String](METADATA_STRUCT_INDEX)
+      val pathsInRDFFormat = buildPathsAsArray(metadata.toMap)
       pathsInRDFFormat
     }
   }
 
-  def flattenPaths: UserDefinedFunction = udf { annotations: Seq[Row] =>
+  private def flattenPaths: UserDefinedFunction = udf { annotations: Seq[Row] =>
     annotations.flatMap { row =>
-      val metadata = row.getMap[String, String](4)
-      val paths = metadata.flatMap { case (key, value) =>
-        if (key.contains("path")) Some(value.split(",")) else None
-      }.toList
-      val pathsInRDFFormat = paths.map { path =>
-        val evenPathIndices = path.indices.toList.filter(index => index % 2 == 0)
-        val sliceIndices = evenPathIndices zip evenPathIndices.tail
-        sliceIndices.map { sliceIndex =>
-          val node = path.slice(sliceIndex._1, sliceIndex._2 + 1)
-          "(" + node.mkString(",") + ")"
-        }
-      }
+      val metadata = row.getMap[String, String](METADATA_STRUCT_INDEX)
+      val pathsInRDFFormat = buildPaths(metadata.toMap)
       pathsInRDFFormat
     }
   }
 
-  def flattenMetadata: UserDefinedFunction = udf { annotations: Seq[Row] =>
+  private def flattenMetadata: UserDefinedFunction = udf { annotations: Seq[Row] =>
     annotations.flatMap { row =>
       val metadata = row.getMap[String, String](4)
       val relationships = metadata.flatMap { case (key, value) =>
@@ -212,6 +230,12 @@ class GraphFinisher(override val uid: String) extends Transformer {
       }.toList
       relationships
     }
+  }
+
+  def annotate(metadata: Map[String, String]): Seq[Annotation] = {
+    val pathsInRDFFormat = buildPaths(metadata)
+    val result = pathsInRDFFormat.map(pathRDF => "[" + pathRDF.mkString(",") + "]").mkString(",")
+    Seq(Annotation(NODE, 0, 0, result, Map()))
   }
 
   override def copy(extra: ParamMap): Transformer = super.defaultCopy(extra)

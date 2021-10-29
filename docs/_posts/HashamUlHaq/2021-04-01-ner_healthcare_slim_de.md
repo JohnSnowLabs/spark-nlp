@@ -24,7 +24,7 @@ Detect clinical entities in German text using pretrained NER model
 `TREATMENT`, `PERSON`, `BODY_PART`, `TIME_INFORMATION`, `MEDICAL_CONDITION`
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_healthcare_slim_de_3.0.0_3.0_1617260856273.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -37,8 +37,8 @@ Detect clinical entities in German text using pretrained NER model
 ```python
 
 ...
-embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_healthcare", "en", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "en", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
+embeddings_clinical = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
+clinical_ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
 ...
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
@@ -47,10 +47,10 @@ results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text")
 ```scala
 
 ...
-val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_healthcare", "en", "clinical/models")
+val embeddings_clinical = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "en", "clinical/models")
+val ner = MedicalNerModel.pretrained("ner_healthcare_slim", "de", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
 ...

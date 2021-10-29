@@ -23,8 +23,8 @@ Pretrained named entity recognition deep learning model for radiology related te
  `ImagingTest`, `Imaging_Technique`, `ImagingFindings`, `OtherFindings`, `BodyPart`, `Direction`, `Test`, `Symptom`, `Disease_Syndrome_Disorder`,  `Medical_Device`, `Procedure`, `Measurements`, `Units`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_radiology_en_2.7.0_2.4_1610995075088.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

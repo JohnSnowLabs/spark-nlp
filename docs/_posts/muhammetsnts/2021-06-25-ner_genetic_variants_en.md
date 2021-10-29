@@ -24,7 +24,7 @@ This model extracts genetic variant information from the medical text and is tra
 `DNAMutation`, `ProteinMutation`, `SNP`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_GEN_VAR/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_genetic_variants_en_3.1.0_3.0_1624607526370.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

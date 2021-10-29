@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -34,12 +33,19 @@ trait HasStorage extends HasStorageRef with HasExcludableStorage with HasCaseSen
 
   protected val databases: Array[Database.Name]
 
+  /**
+   * Path to the external resource.
+   * @group param
+   */
   val storagePath = new ExternalResourceParam(this, "storagePath", "path to file")
 
+  /** @group setParam */
   def setStoragePath(path: String, readAs: String): this.type = set(storagePath, new ExternalResource(path, readAs, Map.empty[String, String]))
 
+  /** @group setParam */
   def setStoragePath(path: String, readAs: ReadAs.Value): this.type = setStoragePath(path, readAs.toString)
 
+  /** @group getParam */
   def getStoragePath: Option[ExternalResource] = get(storagePath)
 
   protected val missingRefMsg: String = s"Please set storageRef param in $this."

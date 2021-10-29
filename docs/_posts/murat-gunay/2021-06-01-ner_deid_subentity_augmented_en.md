@@ -21,7 +21,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 ## Predicted Entities
 
-`MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE`.
+`MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
@@ -55,20 +55,20 @@ results = model.transform(spark.createDataFrame(pd.DataFrame({"text": ["""A. Rec
 ```
 ```scala
 ...
-val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(Array("sentence", "token"))\
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
-val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") \
-      .setInputCols(Array("sentence", "token", "embeddings")) \
+val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "en", "clinical/models") 
+      .setInputCols(Array("sentence", "token", "embeddings")) 
       .setOutputCol("ner")
 
-val ner_converter = NerConverter()\
-      .setInputCols(Array("sentence", "token", "ner"))\
+val ner_converter = NerConverter()
+      .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk_subentity")
 
 val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
-model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+val model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25-year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."].toDS.toDF("text")).transform(data)
 ```

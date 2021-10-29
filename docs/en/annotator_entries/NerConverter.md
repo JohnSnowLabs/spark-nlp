@@ -99,6 +99,10 @@ converter.transform(result).selectExpr("explode(entities)").show(false)
 [NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[NerConverter](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerConverter.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [NerConverter](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerConverter.scala)
 {%- endcapture -%}
@@ -110,6 +114,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

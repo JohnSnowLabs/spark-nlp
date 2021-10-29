@@ -2,12 +2,25 @@ name: build
 
 on:
   push:
+    paths-ignore:
+      - 'docs/**'
+      - 'conda/**'
+      - 'scripts/**'
+      - 'example/**'
     branches:
       - 'master'
       - '*release*'
+      - 'release/**'
+      - 'main'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'conda/**'
+      - 'scripts/**'
+      - 'example/**'
     branches:
       - 'master'
+      - 'main'
 
 jobs:
   spark24:
@@ -111,4 +124,3 @@ jobs:
         run: |
           cd python
           python3.7 -m run-tests
-

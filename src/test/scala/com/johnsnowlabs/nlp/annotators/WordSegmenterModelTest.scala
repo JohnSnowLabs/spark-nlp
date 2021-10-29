@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.Annotation
@@ -6,10 +22,10 @@ import com.johnsnowlabs.nlp.annotators.common.{IndexedTaggedWord, TaggedSentence
 import com.johnsnowlabs.nlp.annotators.ws.TagsType.{LEFT_BOUNDARY, MIDDLE, RIGHT_BOUNDARY, SINGLE_WORD}
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.tags.FastTest
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 
-class WordSegmenterModelTest extends FlatSpec {
+class WordSegmenterModelTest extends AnyFlatSpec {
 
   "A Word Segmenter Model that predicts all tags right" should "build a word segment" taggedAs FastTest in {
     val taggedWords = Array(TaggedWord("有", LEFT_BOUNDARY), TaggedWord("限", MIDDLE),
