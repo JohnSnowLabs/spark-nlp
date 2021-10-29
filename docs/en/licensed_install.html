@@ -518,79 +518,77 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Spark NLP for Healthcare</li>
+    <li>Spark NLP for Healthcare Installation</li>
   </ul>
-</div></div><header><h1>Spark NLP for Healthcare</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header><h1>Spark NLP for Healthcare Installation</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
             href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_install.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Installation"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="install-via-docker">Install via Docker</h2>
 
-  <h3 id="getting-started">Getting started</h3>
+<p>We have prepared a docker image that contains all the required libraries for installing and running Spark NLP for Healthcare. However, it does not contain the library itself, as it is licensed, and requires installation credentials.</p>
 
-  <p>Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don’t have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.</p>
+<p>Make sure you have valid license for Spark NLP for Healthcare, and follow the instructions below:</p>
 
-  <p class="btn-block"><a href="https://www.johnsnowlabs.com/spark-nlp-try-free/" class="button button--primary button--rounded button--lg">Try Free</a></p>
+<h3 id="instructions">Instructions</h3>
 
-  <p>Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:</p>
-  <ul>
-    <li>Clinical entity recognition</li>
-    <li>Clinical Entity Linking</li>
-    <li>Entity normalization</li>
-    <li>Assertion Status Detection</li>
-    <li>De-identification</li>
-    <li>Relation Extraction</li>
-    <li>Spell checking &amp; correction</li>
-  </ul>
+<ul>
+  <li>Run the following commands to download the docker-compose.yml and the sparknlp_keys.txt files on your local machine:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-o</span> docker-compose.yaml https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/513a4d682f11abc33b2e26ef8a9d72ad52a7b4f0/jupyter/docker_image_nlp_hc/docker-compose.yaml
+curl <span class="nt">-o</span> sparknlp_keys.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jupyter/docker_image_nlp_hc/sparknlp_keys.txt
+</code></pre></div>    </div>
+  </li>
+  <li>Download your license key in json format from my.johnsnowlabs.com</li>
+  <li>Populate License keys in sparknlp_keys.txt.</li>
+  <li>Run the following command to run the container in detached mode:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker-compose up <span class="nt">-d</span>
+</code></pre></div>    </div>
+  </li>
+  <li>By default, the jupyter notebook would run at port 8888 - you can access the notebook by typing localhost:8888 in your browser.</li>
+</ul>
 
-  <p>note: If you are going to use any pretrained licensed NER model, you don’t need to install licensed libray. As long as you have the AWS keys and license keys in your environment, you will be able to use licensed NER models with Spark NLP public library. For the other licensed pretrained models like AssertionDL, Deidentification, Entity Resolvers and Relation Extraction models, you will need to install Spark NLP Enterprise as well.</p>
+<h3 id="troubleshooting">Troubleshooting</h3>
 
-  <p>The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities (any many more):</p>
-  <ul>
-    <li>Clinical - support Signs, Symptoms, Treatments, Procedures, Tests, Labs, Sections</li>
-    <li>Drugs - support Name, Dosage, Strength, Route, Duration, Frequency</li>
-    <li>Risk Factors- support Smoking, Obesity, Diabetes, Hypertension, Substance Abuse</li>
-    <li>Anatomy - support Organ, Subdivision, Cell, Structure Organism, Tissue, Gene, Chemical</li>
-    <li>Demographics - support Age, Gender, Height, Weight, Race, Ethnicity, Marital Status, Vital Signs</li>
-    <li>Sensitive Data- support Patient Name, Address, Phone, Email, Dates, Providers, Identifiers</li>
-  </ul>
+<ul>
+  <li>Make sure docker is installed on your system.</li>
+  <li>If you face any error while importing the lib inside jupyter, make sure all the credentials are correct in the key files and restart the service again.</li>
+  <li>If the default port 8888 is already occupied by another process, please change the mapping.</li>
+  <li>You can change/adjust volume and port mapping in the docker-compose.yml file.</li>
+</ul>
 
-  <p><br /></p>
+<h2 id="install-locally-on-python">Install locally on Python</h2>
 
-  <h3 id="install-spark-nlp-for-healthcare">Install Spark NLP for Healthcare</h3>
+<p>You can install the Spark NLP for Healthcare package by using:</p>
 
-  <p>You can install the Spark NLP for Healthcare package by using:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-q</span> spark-nlp-jsl<span class="o">==</span><span class="k">${</span><span class="nv">version</span><span class="k">}</span> <span class="nt">--extra-index-url</span> https://pypi.johnsnowlabs.com/<span class="k">${</span><span class="nv">secret</span><span class="p">.code</span><span class="k">}</span> <span class="nt">--upgrade</span>
+</code></pre></div></div>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-q</span> spark-nlp-jsl<span class="o">==</span><span class="k">${</span><span class="nv">version</span><span class="k">}</span> <span class="nt">--extra-index-url</span> https://pypi.johnsnowlabs.com/<span class="k">${</span><span class="nv">secret</span><span class="p">.code</span><span class="k">}</span> <span class="nt">--upgrade</span>
-</code></pre></div>  </div>
+<p><code class="language-plaintext highlighter-rouge">{version}</code> is the version part of the <code class="language-plaintext highlighter-rouge">{secret.code}</code> (<code class="language-plaintext highlighter-rouge">{secret.code}.split('-')[0]</code>) (i.e. <code class="language-plaintext highlighter-rouge">2.6.0</code>)</p>
 
-  <p><code class="language-plaintext highlighter-rouge">{version}</code> is the version part of the <code class="language-plaintext highlighter-rouge">{secret.code}</code> (<code class="language-plaintext highlighter-rouge">{secret.code}.split('-')[0]</code>) (i.e. <code class="language-plaintext highlighter-rouge">2.6.0</code>)</p>
+<p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
 
-  <p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
 
-</div>
-<div class="h3-box">
+<h3 id="setup-aws-cli-credentials-for-licensed-pretrained-models">Setup AWS-CLI Credentials for licensed pretrained models</h3>
 
-  <h3 id="setup-aws-cli-credentials-for-licensed-pretrained-models">Setup AWS-CLI Credentials for licensed pretrained models</h3>
-
-  <p>Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models.
+<p>Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models.
 You can do this setup via Amazon AWS Command Line Interface (AWSCLI).</p>
 
-  <p>Instructions about how to install AWSCLI are available at:</p>
+<p>Instructions about how to install AWSCLI are available at:</p>
 
-  <p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">Installing the AWS CLI</a></p>
+<p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">Installing the AWS CLI</a></p>
 
-  <p>Make sure you configure your credentials with aws configure following the instructions at:</p>
+<p>Make sure you configure your credentials with aws configure following the instructions at:</p>
 
-  <p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a></p>
+<p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a></p>
 
-  <p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at
+<p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at
 <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
 
-</div>
+<p>&lt;/div&gt;</p>
 
 <h3 id="start-spark-nlp-for-healthcare-session-from-python">Start Spark NLP for Healthcare Session from Python</h3>
 
@@ -643,7 +641,7 @@ pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3
 spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 <span class="nt">--jars</span> spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
 </code></pre></div></div>
 
-<h3 id="install-spark-nlp-for-healthcare-on-databricks">Install Spark NLP for Healthcare on Databricks</h3>
+<h2 id="install-on-databricks">Install on Databricks</h2>
 
 <ol>
   <li>Create a cluster if you don’t have one already</li>
@@ -700,7 +698,52 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
   <li>Now you can attach your notebook to the cluster and use Spark NLP!</li>
 </ol>
 
-<h3 id="install-spark-nlp-for-healthcare-on-gcp-dataproc">Install Spark NLP for Healthcare on GCP Dataproc</h3>
+<h2 id="use-on-google-colab-notebook">Use on Google Colab Notebook</h2>
+
+<p>Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.</p>
+
+<p>Run the following code in Google Colab notebook and start using spark-nlp right away.</p>
+
+<p>The first thing that you need is to create the json file with the credentials and the configuration in your local system.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"PUBLIC_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.2.3"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"JSL_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{version}"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SECRET"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{version}-{secret.code}"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SPARK_NLP_LICENSE"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxxx"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"AWS_ACCESS_KEY_ID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yyyy"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"AWS_SECRET_ACCESS_KEY"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zzzz"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Then you need to write that piece of code to load the credentials that you created before.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
+
+<span class="n">license_keys</span> <span class="o">=</span> <span class="n">files</span><span class="p">.</span><span class="n">upload</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">license_keys</span><span class="p">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">license_keys</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
+<span class="o">!</span>wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
+</code></pre></div></div>
+
+<p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code>,<code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code> versions via options:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
+<span class="c"># -s is for spark-nlp</span>
+<span class="c"># by default they are set to the latest</span>
+<span class="o">!</span>bash jsl_colab_setup.sh
+</code></pre></div></div>
+
+<p><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions for HealthCare.</p>
+
+<h2 id="install-on-gcp-dataproc">Install on GCP Dataproc</h2>
 
 <ol>
   <li>Create a cluster if you don’t have one already as follows.</li>
@@ -784,51 +827,6 @@ spark = start(SECRET)
 
 <p>As you see, we did not set <code class="language-plaintext highlighter-rouge">.master('local[*]')</code> explicitly to let YARN manage the cluster.
 Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn')</code>.</p>
-
-<h2 id="google-colab-notebook">Google Colab Notebook</h2>
-
-<p>Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.</p>
-
-<p>Run the following code in Google Colab notebook and start using spark-nlp right away.</p>
-
-<p>The first thing that you need is to create the json file with the credentials and the configuration iun your local system.</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"PUBLIC_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.2.3"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"JSL_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{version}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"SECRET"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{version}-{secret.code}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"SPARK_NLP_LICENSE"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxxx"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"AWS_ACCESS_KEY_ID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yyyy"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"AWS_SECRET_ACCESS_KEY"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zzzz"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Then you need to write that piece of code to load the credentials that you created before.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
-
-<span class="n">license_keys</span> <span class="o">=</span> <span class="n">files</span><span class="p">.</span><span class="n">upload</span><span class="p">()</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">license_keys</span><span class="p">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">license_keys</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
-<span class="o">!</span>wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
-</code></pre></div></div>
-
-<p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code>,<code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code> versions via options:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
-<span class="c"># -s is for spark-nlp</span>
-<span class="c"># by default they are set to the latest</span>
-<span class="o">!</span>bash jsl_colab_setup.sh
-</code></pre></div></div>
-
-<p><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions for HealthCare.</p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-03-09T00:00:00+00:00">Mar 09, 2021</time>
     </span><!-- start custom article footer snippet -->
