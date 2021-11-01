@@ -16,113 +16,6 @@ header:
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
     url: https://www.johnsnowlabs.com/slack-redirect/
-docs-en:
-  - title:     Spark NLP
-    children:
-      - title:  Getting Started
-        url:    /docs/en/quickstart
-      - title:  Install Spark NLP
-        url:    /docs/en/install
-      - title:  General Concepts
-        url:    /docs/en/concepts
-      - title:  Annotators
-        url:    /docs/en/annotators
-      - title:  Transformers
-        url:    /docs/en/transformers
-      - title:  Training
-        url:    /docs/en/training        
-      - title:  Pipelines
-        url:    /docs/en/pipelines
-      - title:  Models
-        url:    /models
-      - title:  Helpers
-        url:    /docs/en/auxiliary
-      - title: Scala API (Scaladoc)
-        url: /api/
-      - title: Python API (Sphinx)
-        url: /api/python/  
-      - title: Spark NLP Display
-        url: /docs/en/display
-      - title:  Developers
-        url:  /docs/en/developers
-      - title: Release Notes
-        url: /docs/en/release_notes
-  - title: Annotation Lab
-    children:
-      - title:  Getting Started
-        url:    /docs/en/alab/alab
-      - title:  Start Page 
-        url:    /docs/en/alab/start_page
-      - title:  User Management
-        url:    /docs/en/alab/user_management
-      - title:  Project Setup
-        url:    /docs/en/alab/project_setup
-      - title:  NLP Models Hub  
-        url:    /docs/en/alab/models_hub
-      - title:  Preannotations with Spark NLP
-        url:    /docs/en/alab/preannotations
-      - title:  Active Learning
-        url:    /docs/en/alab/active_learning
-      - title:  Import Documents 
-        url:    /docs/en/alab/import
-      - title:  Tasks
-        url:    /docs/en/alab/tasks
-      - title:  Annotate
-        url:    /docs/en/alab/annotation
-      - title:  Analytics   
-        url:    /docs/en/alab/analytics        
-      - title:  Export Data  
-        url:    /docs/en/alab/export
-      - title:  Workflow Setup   
-        url:    /docs/en/alab/workflow
-      - title:  License Setup  
-        url:    /docs/en/alab/byol
-      - title:  Security and Privacy
-        url:    /docs/en/alab/security        
-      - title:  Video Tutorials   
-        url:    /docs/en/alab/tutorials        
-  - title: Spark NLP for Healthcare
-    children:
-      - title:  Getting Started
-        url:    /docs/en/license_getting_started
-      - title: Installation
-        url: /docs/en/licensed_install
-      - title:  Annotators
-        url:    /docs/en/licensed_annotators
-      - title: Training
-        url: /docs/en/licensed_annotators
-      - title:  Models
-        url:    /docs/en/licensed_models
-      - title:  Evaluation
-        url:    /docs/en/evaluation
-      - title: Scala API (Scaladoc)
-        url: /licensed/api/
-      - title: Python API (Sphinx)
-        url: /licensed/api/python
-      - title:  Version Compatibility
-        url:    /docs/en/licensed_version_compatibility
-      - title: Release Notes
-        url: /docs/en/licensed_release_notes
-  - title: Spark OCR
-    children:
-      - title:  Getting Started
-        url:    /docs/en/ocr
-      - title:  Installation
-        url:    /docs/en/ocr_install
-      - title:  Version Compatibility
-        url:    /docs/en/version_compatibility
-      - title:  Pipeline components
-        url:    /docs/en/ocr_pipeline_components
-      - title:  Table recognition
-        url:    /docs/en/ocr_table_recognition
-      - title:  Visual document understanding
-        url:    /docs/en/ocr_visual_document_understanding
-      - title:  Object detection
-        url:    /docs/en/ocr_object_detection
-      - title:  Structures and helpers
-        url:    /docs/en/ocr_structures
-      - title:  Release notes
-        url:    /docs/en/ocr_release_notes
 
 
 extras:
@@ -150,7 +43,9 @@ sparknlp:
       - title:  Transformers
         url:    /docs/en/transformers
       - title:  Training
-        url:    /docs/en/training        
+        url:    /docs/en/training
+      - title:  Third Party Projects
+        url:    /docs/en/third-party-projects
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
@@ -160,7 +55,7 @@ sparknlp:
       - title: Scala API (Scaladoc)
         url: /api/
       - title: Python API (Sphinx)
-        url: /api/python/  
+        url: /api/python/
       - title: Spark NLP Display
         url: /docs/en/display
       - title:  Developers
@@ -173,44 +68,48 @@ annotation-lab:
     children:
       - title:  Getting Started
         url:    /docs/en/alab/quickstart
-      - title:  Installation 
+      - title:  Installation
         url:    /docs/en/alab/install
-      - title:  Start Page 
+      - title:  Start Page
         url:    /docs/en/alab/start_page
       - title:  User Management
         url:    /docs/en/alab/user_management
       - title:  Project Setup
         url:    /docs/en/alab/project_setup
-      - title:  NLP Models Hub  
+      - title:  NLP Models Hub
         url:    /docs/en/alab/models_hub
       - title:  Preannotations with Spark NLP
         url:    /docs/en/alab/preannotations
       - title:  Active Learning
         url:    /docs/en/alab/active_learning
-      - title:  Import Documents 
+      - title:  Import Documents
         url:    /docs/en/alab/import
       - title:  Tasks
         url:    /docs/en/alab/tasks
       - title:  Annotate
         url:    /docs/en/alab/annotation
-      - title:  Annotation Settings   
-        url:    /docs/en/alab/settings        
-      - title:  Analytics   
-        url:    /docs/en/alab/analytics        
-      - title:  Export Data  
+      - title:  Visual NER
+        url:    /docs/en/alab/visual_ner
+      - title:  Annotation Settings
+        url:    /docs/en/alab/settings
+      - title:  Analytics
+        url:    /docs/en/alab/analytics
+      - title:  Export Data
         url:    /docs/en/alab/export
-      - title:  Workflow Setup   
-        url:    /docs/en/alab/workflow      
-      - title:  License Setup  
+      - title:  Workflow Setup
+        url:    /docs/en/alab/workflow
+      - title:  License Setup
         url:    /docs/en/alab/byol
-      - title:  API Integration 
+      - title:  API Integration
         url:    /docs/en/alab/api
-      - title:  Security and Privacy 
-        url:    /docs/en/alab/security  
-      - title:  Video Tutorials   
+      - title:  Security and Privacy
+        url:    /docs/en/alab/security
+      - title:  Video Tutorials
         url:    /docs/en/alab/tutorials
+      - title:  Release Notes
+        url:    /docs/en/alab/release_notes
 
-sparknlp-healthcare:      
+sparknlp-healthcare:
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
@@ -235,6 +134,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
         url: /docs/en/benchmark
+      - title: GPU vs CPU benchmark on ClassifierDL
+        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
 
 
 spark-ocr:
