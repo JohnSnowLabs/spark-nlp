@@ -214,4 +214,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Detect Wide Range of More Generalized Clinical Entities (Bert For Token Classification) 
+          id: detect_wide_range_clinical_entities_more
+          image: 
+              src: /assets/images/Detect_Wide_Range.svg
+          image2: 
+              src: /assets/images/Detect_Wide_Range_f.svg
+          excerpt: This demo shows how clinical terminology can be extracted from medical texts using Spark NLP model which trained with BertForTokenClassifier. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
 ---
