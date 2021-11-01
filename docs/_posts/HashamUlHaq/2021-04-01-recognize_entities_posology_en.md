@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 A pipeline with `ner_posology`. It will only extract medication entities.
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_POSOLOGY/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/recognize_entities_posology_en_3.0.0_3.0_1617298186572.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

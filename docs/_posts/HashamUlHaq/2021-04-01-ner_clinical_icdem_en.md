@@ -24,7 +24,7 @@ Extract entities related to pneumonia in radiology reports
 `Size`, `Positive1`, `Tests`, `Procedure1`, `Type`, `Extension`, `Bronchial1`, `Vascular1`, `Examined`, `Vascular`, `Laterality1`, `Resuts`, `Grade`, `Examined1`, `Laterality`, `Size1`, `pM`, `pN1`, `Parenchymal`, `Results`, `Resuts1`, `Localization`, `Tests1`, `""`, `OtherMargin`, `DcisMargin`, `Margins`, `Margins1`, `pT1`, `Diagnosis3`, `Localization1`, `Parenchymal1`, `Diagnosis10`, `Size2`, `Nuclear`, `Bronchial`, `Grade1`, `Procedure`, `Focality`, `Nuclear1`, `Localization2`, `pT`, `Results1`, `Positive`, `Type1`, `pN`
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+<button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_clinical_icdem_en_3.0.0_3.0_1617260629534.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

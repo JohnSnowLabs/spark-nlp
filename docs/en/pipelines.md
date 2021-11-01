@@ -11,9 +11,9 @@ sidebar:
     nav: sparknlp
 ---
 
-Pretrained Pipelines moved to its own dedicated repository.
+Pretrained Pipelines moved to Models Hub.
 Please follow this link for updated list:
-[https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
+[https://nlp.johnsnowlabs.com/models](Models Hub)
 {:.success}
 
 <div class="h3-box" markdown="1">

@@ -179,6 +179,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
+     sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeApproach.html">
      sparknlp_jsl.annotator.ChunkMergeApproach
     </a>
@@ -186,6 +191,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeModel.html">
      sparknlp_jsl.annotator.ChunkMergeModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkSentenceSplitter.html">
+     sparknlp_jsl.annotator.ChunkSentenceSplitter
     </a>
    </li>
    <li class="toctree-l2">
@@ -425,11 +435,17 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkFiltererApproach.html#sparknlp_jsl.annotator.ChunkFiltererApproach" title="sparknlp_jsl.annotator.ChunkFiltererApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkFiltererApproach</span></code></a></p></td>
 <td><p>Model that Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach" title="sparknlp_jsl.annotator.ChunkMergeApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMergeApproach</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction" title="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkKeyPhraseExtraction</span></code></a></p></td>
+<td><p>Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a  text.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach" title="sparknlp_jsl.annotator.ChunkMergeApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMergeApproach</span></code></a></p></td>
 <td><p>Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing chunks).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeModel.html#sparknlp_jsl.annotator.ChunkMergeModel" title="sparknlp_jsl.annotator.ChunkMergeModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMergeModel</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeModel.html#sparknlp_jsl.annotator.ChunkMergeModel" title="sparknlp_jsl.annotator.ChunkMergeModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMergeModel</span></code></a></p></td>
 <td><p>The model produced by ChunkMergerAproach.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.ChunkSentenceSplitter.html#sparknlp_jsl.annotator.ChunkSentenceSplitter" title="sparknlp_jsl.annotator.ChunkSentenceSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkSentenceSplitter</span></code></a></p></td>
+<td><p>Split the document using the chunks that you provided,and put in the metadata the chunk entity.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="sparknlp_jsl.annotator.CommonResolverParams.html#sparknlp_jsl.annotator.CommonResolverParams" title="sparknlp_jsl.annotator.CommonResolverParams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommonResolverParams</span></code></a></p></td>
 <td><p>Class used to have a common interface Entity Resolver family.</p></td>
