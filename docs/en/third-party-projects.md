@@ -3,8 +3,8 @@ layout: docs
 header: true
 seotitle: Spark NLP
 title: Third Party Projects
-permalink: /docs/en/thirdpartyprojects
-key: docs-thirdpartyprojects
+permalink: /docs/en/third-party-projects
+key: docs-third-party-projects
 modify_date: "2021-10-25"
 use_language_switcher: "Python-Scala"
 show_nav: true
