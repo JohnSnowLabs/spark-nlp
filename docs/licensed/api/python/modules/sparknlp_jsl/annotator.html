@@ -1673,6 +1673,8 @@
 <span class="sd">        This is the mapping column that will return the Annotations chunks with the fake entities.</span>
 <span class="sd">    returnEntityMappings</span>
 <span class="sd">        With this property you select if you want to return mapping column</span>
+<span class="sd">    blackList</span>
+<span class="sd">        List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
 
 
 <span class="sd">    Examples</span>
@@ -1804,6 +1806,8 @@
 
     <span class="n">returnEntityMappings</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;returnEntityMappings&quot;</span><span class="p">,</span> <span class="s2">&quot;With this property you select if you want to return mapping column&quot;</span><span class="p">,</span>
                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span> <span class="s2">&quot;List of entities ignored for masking or obfuscation.The default values are: </span><span class="se">\&quot;</span><span class="s2">SSN</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">PASSPORT</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">DLN</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">NPI</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">C_CARD</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">IBAN</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">DEA</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2013,9 +2017,18 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        s : bool</span>
-<span class="sd">            Whether to retn the mappings column.</span>
+<span class="sd">            Whether to return the mappings column.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">returnEntityMappings</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeIdentification.setBlackList"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentification.html#sparknlp_jsl.annotator.DeIdentification.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List of entities ignored for masking or obfuscation.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : list</span>
+<span class="sd">            List of entities ignored for masking or obfuscation.The default values are: values are &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">DeIdentificationModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
@@ -2074,6 +2087,10 @@
 <span class="sd">        This is the mapping column that will return the Annotations chunks with the fake entities.</span>
 <span class="sd">    returnEntityMappings</span>
 <span class="sd">        With this property you select if you want to return mapping column</span>
+<span class="sd">    blackList</span>
+<span class="sd">        List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
+<span class="sd">    regexEntities</span>
+<span class="sd">        Keep the regex entities used in the regexPatternDictionary</span>
 
 
 <span class="sd">    Examples</span>
@@ -2198,6 +2215,14 @@
 
     <span class="n">returnEntityMappings</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;returnEntityMappings&quot;</span><span class="p">,</span> <span class="s2">&quot;With this property you select if you want to return mapping column&quot;</span><span class="p">,</span>
                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span> <span class="s2">&quot;List of entities ignored for masking or obfuscation.The default values are: </span><span class="se">\&quot;</span><span class="s2">SSN</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">PASSPORT</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">DLN</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">NPI</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">C_CARD</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">IBAN</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">DEA</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+
+    <span class="n">regexEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;regexEntities&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Keep the regex entities used in the regexPatternDictionary&quot;</span><span class="p">,</span>
+                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DeIdentificationModel.setMode"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setMode">[docs]</a>    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets mode for Anonimizer [&#39;mask&#39;|&#39;obfuscate&#39;]</span>
@@ -2351,6 +2376,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mappingsColumn</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DeIdentificationModel.setBlackList"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List of entities ignored for masking or obfuscation.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : list</span>
+<span class="sd">            List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="DeIdentificationModel.setReturnEntityMappings"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setReturnEntityMappings">[docs]</a>    <span class="k">def</span> <span class="nf">setReturnEntityMappings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets if you want to return mapping column</span>
 
@@ -2360,6 +2394,10 @@
 <span class="sd">            Whether to save the mappings column.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">returnEntityMappings</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">getRegexEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regexEntities</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -2514,6 +2552,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : str</span>
+<span class="sd">            Can be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences (Default: sentence)</span>
 <span class="sd">            Can be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences (Default: sentence)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embeddingTypeParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
@@ -6403,6 +6442,285 @@
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ChunkSentenceSplitter"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkSentenceSplitter.html#sparknlp_jsl.annotator.ChunkSentenceSplitter">[docs]</a><span class="k">class</span> <span class="nc">ChunkSentenceSplitter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Split the document using the chunks that you provided,and put in the metadata the chunk entity.</span>
+<span class="sd">    The first piece of documento to the first chunk will have the entity as header.</span>
+
+<span class="sd">    Use the identifier or field as a entity.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, CHUNK``    ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputType</span>
+<span class="sd">        The type of the entity that you want to filter by default sentence_embeddings.Possible values</span>
+<span class="sd">        ``document|token|wordpiece|word_embeddings|sentence_embeddings|category|date|sentiment|pos|chunk|named_entity|regex|dependency|labeled_dependency|language|keyword``</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; document = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; regexMatcher = RegexMatcher().setExternalRules(&quot;../src/test/resources/chunker/title_regex.txt&quot;, &quot;,&quot;) \\</span>
+<span class="sd">    ...     .setInputCols(&quot;document&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;chunks&quot;) \\</span>
+<span class="sd">    &gt;&gt;&gt; chunkSentenceSplitter = ChunkSentenceSplitter().setInputCols(&quot;chunks&quot;,&quot;document&quot;).setOutputCol(&quot;paragraphs&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([documentAssembler,regexMatcher,chunkSentenceSplitter])</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data).select(&quot;paragraphs&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkSentenceSplitter&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter&quot;</span><span class="p">,</span><span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ChunkSentenceSplitter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction">[docs]</a><span class="k">class</span> <span class="nc">ChunkKeyPhraseExtraction</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a </span>
+<span class="sd">    text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares </span>
+<span class="sd">    the chunks against the corresponding sentences/documents and selects the chunks which are most representative of </span>
+<span class="sd">    the broader text context (i.e. the document or the sentence they belong to). The key phrases candidates (i.e. the </span>
+<span class="sd">    input chunks) can be generated in various ways, e.g. by NGramGenerator, TextMatcher or NerConverter. The model </span>
+<span class="sd">    operates either at sentence (selecting the most descriptive chunks from the sentence they belong to) or at document </span>
+<span class="sd">    level. In the latter case, the key phrases are selected to represent all the input document annotations.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, CHUNK``    ``CHUNK``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    topN</span>
+<span class="sd">        The number of key phrases to select.</span>
+<span class="sd">    selectMostDifferent</span>
+<span class="sd">        Finds the topN * 2 key phrases and then selects topN of them, such as that they are the most different from</span>
+<span class="sd">        each other</span>
+<span class="sd">    divergence</span>
+<span class="sd">        The divergence value determines how different from each the extracted key phrases are. Uses Maximal Marginal</span>
+<span class="sd">        Relevance (MMR). MMR should not be used in conjunction with selectMostDifferent as they aim to achieve the same</span>
+<span class="sd">        goal, but in different ways.</span>
+<span class="sd">    documentLevelProcessing</span>
+<span class="sd">        Extract key phrases from the whole document  from particular sentences which the chunks refer to.</span>
+<span class="sd">    concatenateSentences</span>
+<span class="sd">        Concatenate the input sentence/documentation annotations before computing their embeddings.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+
+<span class="sd">    &gt;&gt;&gt; documenter = sparknlp.DocumentAssembler() \</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; sentencer = sparknlp.annotators.SentenceDetector() \</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentences&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = sparknlp.annotators.Tokenizer() \</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;tokens&quot;) \</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt;  embeddings = sparknlp.annotators.WordEmbeddingsModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; ner_tagger = MedicalNerModel() \</span>
+<span class="sd">    ...     .pretrained(&quot;ner_jsl_slim&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;tokens&quot;, &quot;embeddings&quot;]) \</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_tags&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; ner_converter = NerConverter()\</span>
+<span class="sd">    ...     .setInputCols(&quot;sentences&quot;, &quot;tokens&quot;, &quot;ner_tags&quot;)\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_chunks&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; key_phrase_extractor = ChunkKeyPhraseExtraction\</span>
+<span class="sd">    ...     .pretrained()\</span>
+<span class="sd">    ...     .setTopN(1)\</span>
+<span class="sd">    ...     .setDocumentLevelProcessing(False)\</span>
+<span class="sd">    ...     .setDivergence(0.4)\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentences&quot;, &quot;ner_chunks&quot;])\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_chunk_key_phrases&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = sparknlp.base.Pipeline() \</span>
+<span class="sd">    ...     .setStages([documenter, sentencer, tokenizer, embeddings, ner_tagger, ner_converter, key_phrase_extractor])</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Her Diabetes has become type 2 in the last year with her Diabetes.He complains of swelling in his right forearm.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; results = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; results\</span>
+<span class="sd">    ...     .selectExpr(&quot;explode(ner_chunk_key_phrases) AS key_phrase&quot;)\</span>
+<span class="sd">    ...     .selectExpr(</span>
+<span class="sd">    ...         &quot;key_phrase.result&quot;,</span>
+<span class="sd">    ...         &quot;key_phrase.metadata.entity&quot;,</span>
+<span class="sd">    ...         &quot;key_phrase.metadata.DocumentSimilarity&quot;,</span>
+<span class="sd">    ...         &quot;key_phrase.metadata.MMRScore&quot;)\</span>
+<span class="sd">    ...     .show(truncate=False)</span>
+
+<span class="sd">    +-----------------------------+------------------+-------------------+</span>
+<span class="sd">    |result                       |DocumentSimilarity|MMRScore           |</span>
+<span class="sd">    +-----------------------------+------------------+-------------------+</span>
+<span class="sd">    |gestational diabetes mellitus|0.7391447825527298|0.44348688715422274|</span>
+<span class="sd">    |28-year-old                  |0.4366776288430703|0.13577881610104517|</span>
+<span class="sd">    |type two diabetes mellitus   |0.7323921930094919|0.085800103824974  |</span>
+<span class="sd">    +-----------------------------+------------------+-------------------+</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkKeyPhraseExtraction&quot;</span>
+
+    <span class="n">topN</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;Number of key phrases to extract, ordered by their score&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+                       <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.setTopN"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setTopN">[docs]</a>    <span class="k">def</span> <span class="nf">setTopN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the number of key phrases to extract. The default value is 3.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : integer</span>
+<span class="sd">           Number of key phrases to extract.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topN</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="n">divergence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;divergence&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;The divergence value determines how different from each the extracted key phrases are. &quot;</span>
+                        <span class="s2">&quot;The value must be in the the interval [0, 1]. The higher the value is, &quot;</span>
+                        <span class="s2">&quot;the more divergence is enforced.  The default value is 0.2.&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span>
+                        <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.setDivergence"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setDivergence">[docs]</a>    <span class="k">def</span> <span class="nf">setDivergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the level of divergence of the extracted key phrases. The value should be in the interval [0, 1].</span>
+<span class="sd">            This parameter should not be used if setSelectMostDifferent is true - the two parameters aim to achieve the</span>
+<span class="sd">            same goal in different ways. The default is 0, i.e. there is no constraint on the order of key phrases</span>
+<span class="sd">             extracted.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">           Divergence value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">divergence</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="n">selectMostDifferent</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;selectMostDifferent&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;Find the topN * 2 key phrases and then select topN of them, such as that they are the &quot;</span>
+                       <span class="s2">&quot;most different from each other&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+                       <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.setSelectMostDifferent"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setSelectMostDifferent">[docs]</a>    <span class="k">def</span> <span class="nf">setSelectMostDifferent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Let the model return the top N key phrases which are the most different from each other. Using this paramter</span>
+<span class="sd">        only makes sense if the divergence parameter is set to 0. The default value is &#39;false&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">           whether to select the most different key phrases or not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">selectMostDifferent</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="n">documentLevelProcessing</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                <span class="s2">&quot;documentLevelProcessing&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;Let the model extract key phrase at the document or at the sentence level&quot;</span><span class="p">,</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+                                <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.setDocumentLevelProcessing"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setDocumentLevelProcessing">[docs]</a>    <span class="k">def</span> <span class="nf">setDocumentLevelProcessing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract key phrases from the whole document or from particular sentences which the chunks refer to.</span>
+<span class="sd">         The default value is &#39;false&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">           Whether to extract key phrases from the whole document(all sentences).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">documentLevelProcessing</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="n">concatenateSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                    <span class="s2">&quot;concatenateSentences&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;Concatenate input sentence annotations before computing their embedding.&quot;</span><span class="p">,</span>
+                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+                                    <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.setConcatenateSentences"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setConcatenateSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setConcatenateSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Concatenate the input sentence/documentation annotations before computing their embeddings. This parameter</span>
+<span class="sd">        is only used if documentLevelProcessing is true. If concatenateSentences is set to true, the model will</span>
+<span class="sd">        concatenate the document/sentence input annotations and compute a single embedding. If it is false, the model</span>
+<span class="sd">        will compute the embedding of each sentence separately and then average the resulting embedding vectors.</span>
+<span class="sd">        The default value is &#39;false&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">           Whether to concatenate the input sentence/document annotations in order to compute the embedding of the</span>
+<span class="sd">           whole document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">concatenateSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="n">dropPunctuation</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;dropPunctuation&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Remove punctuation marks from input chunks.&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+                        <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.setDropPunctuation"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.setDropPunctuation">[docs]</a>    <span class="k">def</span> <span class="nf">setDropPunctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This parameter determines whether to remove punctuation marks from the input chunks. Chunks coming from NER</span>
+<span class="sd">        models are not affected.</span>
+<span class="sd">        The default value is &#39;true&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">           Whether to remove punctuation marks from input chunks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dropPunctuation</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.ChunkKeyPhraseExtraction&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ChunkKeyPhraseExtraction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">dimension</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">divergence</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">documentLevelProcessing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">topN</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">selectMostDifferent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">concatenateSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">dropPunctuation</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html#sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sbert_jsl_medium_uncased&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ChunkKeyPhraseExtraction</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
+                                                <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
+
+
+
 </pre></div>
 
               </div>

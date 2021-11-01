@@ -164,7 +164,7 @@ Currently available pre-trained model on the SROIE dataset.
 | --- | --- | --- | --- |
 | maxSentenceLength | int | 512 | Maximum sentence length. |
 | caseSensitive | boolean | false | Determines whether model is case sensitive. |
-
+| whiteList | Array[String] | | Whitelist of output labels |
 
 #### Output Columns
 

@@ -208,8 +208,6 @@ defaults:
     values:    
       layout: article
       nav_key: docs
-      sidebar:
-        nav: docs-en
       aside:
         toc: true  
       license: false

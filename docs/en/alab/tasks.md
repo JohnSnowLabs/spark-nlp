@@ -37,7 +37,7 @@ When upgrading from an older version of the Annotation Lab, the annotators will 
 ## Task Status
 
 At high level, each task can have one of the following statuses: 
-- **Incomplete**, when none of the assigne annotators has started working on the task. 
+- **Incomplete**, when none of the assigned annotators has started working on the task. 
 - **In Progress**, when at least one of the assigned annotators has submitted at least one completion for this task.
 - **Submitted**, when all annotators which were assigned to the task have submitted a completion which is set as ground truth (starred).
 - **Reviewed**, in the case there is a reviewer assigned to the task, and the reviewer has reviewed and accepted the submited completion.
@@ -48,19 +48,19 @@ The status of a task varies according to the type of account the logged in user 
 
 ### For Project Owner, Manager and Reviewer
 On the Analytics page and Tasks page, the Project Owner/Manager/Reviewer will see the general overview of the projects which will take into consideration the task level statuses as follows:
-- **Incomplete** - Annotators have not started working on this task
-- **In Progress** - At least one annotator still has not starred (marked as ground truth) any submitted completions
-- **Submitted** - All annotators that are assigned to a task have starred (marked as ground truth) one submitted completion
+- **Incomplete** - Assigned annotators have not started working on this task
+- **In Progress** - At least one annotator still has not starred (marked as ground truth) one submitted completion
+- **Submitted** - All annotators that are assigned to the task have starred (marked as ground truth) one submitted completion
 - **Reviewed** - Reviewer has approved all starred submitted completions for the task
 
 
 ### For Annotators 
 On the Annotator's Task page, the task status will be shown with regards to the context of the logged-in Annotator's work. As such, if the same task is assigned to two annotators then:
-- if annotator1 is still working and not submitted the task, then he/she will see task status as In-progress
+- if annotator1 is still working and not submitted the task, then he/she will see task status as *In-progress*
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/ann1.png" style="width:90%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-- if annotator2 submits the task from his/her side then he/she will see task status as Submitted
+- if annotator2 submits the task from his/her side then he/she will see task status as *Submitted*
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/ann2.png" style="width:90%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
@@ -75,12 +75,12 @@ The following statuses are available on the Annotator's view.
 
 Note:
  - The status of a task is maintained/available only for the annotators assigned to the task.
- - The Project Owner completions state are not considered while deciding the status of a task.
-When multiple Annotators are assigned to a task, the reviewer will see the task as submitted when all annotators submit and star their completions. Otherwise, if one of the assigned Annotators has not submitted or has not starred one completion, then the Reviewer will see the task as In Progress.
+ 
+When multiple Annotators are assigned to a task, the reviewer will see the task as submitted when all annotators submit and star their completions. Otherwise, if one of the assigned Annotators has not submitted or has not starred one completion, then the Reviewer will see the task as *In Progress*.
 
 ## View As Feature
 
-For users that have multiple roles (e.g. Annotator and Reviewer or Reviewer and Manager), the task status can get confusing. In order to elliminate all posible confusions, the View As filter was added. When selecting View As Annotator option, the task statuses are updated as if the only role the currently logged-in user has is Annotator. The same applies to View As Reviewer and View as Manager. This option is available only if the currently logged-in user has multiple roles.
+For users that have multiple roles (e.g. Annotator and Reviewer or Reviewer and Manager), the task status can get confusing. In order to elliminate all posible confusions, the *View As* filter was added. When selecting *View As Annotator* option, the task statuses are updated as if the only role the currently logged-in user has is Annotator. The same applies to *View As Reviewer* and *View as Manager*. This option is available only if the currently logged-in user has multiple roles.
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/view_as.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
