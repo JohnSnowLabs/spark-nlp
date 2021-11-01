@@ -12792,12 +12792,12 @@ class BertForTokenClassification(AnnotatorModel,
     batchSize
         Batch size. Large values allows faster processing but requires more
         memory, by default 8
-        caseSensitive
+    caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
         True
-        configProtoBytes
+    configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
-        maxSentenceLength
+    maxSentenceLength
         Max sentence length to process, by default 128
 
     Examples
@@ -14676,14 +14676,14 @@ class BertForSequenceClassification(AnnotatorModel,
     batchSize
         Batch size. Large values allows faster processing but requires more
         memory, by default 8
-        caseSensitive
+    caseSensitive
         Whether to ignore case in tokens for embeddings matching, by default
         True
-        configProtoBytes
+    configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
-        maxSentenceLength
+    maxSentenceLength
         Max sentence length to process, by default 128
-        coalesceSentences
+    coalesceSentences
         Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
 
     Examples
@@ -14707,8 +14707,8 @@ class BertForSequenceClassification(AnnotatorModel,
     ...     tokenizer,
     ...     sequenceClassifier
     ... ])
-    >>> data = spark.createDataFrame([["John Lenon was born in London and lived
-    >>> in Paris. My name is Sarah and I live in London"]]).toDF("text")
+    >>> data = spark.createDataFrame([[\"\"\"John Lenon was born in London and lived
+    ... in Paris. My name is Sarah and I live in London\"\"\"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +--------------------+
