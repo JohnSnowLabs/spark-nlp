@@ -35,5 +35,5 @@ Content
 
     getting_started/index
     user_guide/index
+    third_party/index
     reference/index
-    development/index
