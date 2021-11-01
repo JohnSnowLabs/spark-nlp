@@ -12820,8 +12820,7 @@ class BertForTokenClassification(AnnotatorModel,
     ...     tokenizer,
     ...     tokenClassifier
     ... ])
-    >>> data = spark.createDataFrame([["John Lenon was born in London and lived
-    >>> in Paris. My name is Sarah and I live in London"]]).toDF("text")
+    >>> data = spark.createDataFrame([["John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------------------------------------------------------------------------------------+
