@@ -16,36 +16,36 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam}
+import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
 
 /**
- * BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output)
- * e.g. for Named-Entity-Recognition (NER) tasks.
+ * BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output)
+ * e.g. for multi-class document classification tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val tokenClassifier = BertForTokenClassification.pretrained()
+ * val sequenceClassifier = BertForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"bert_base_token_classifier_conll03"`, if no name is provided.
+ * The default model is `"bert_base_sequence_classifier_imdb"`, if no name is provided.
  *
- * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala BertForTokenClassificationTestSpec]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassificationTestSpec.scala BertForSequenceClassificationTestSpec]].
  *
  * ==Example==
  * {{{
@@ -62,7 +62,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val tokenClassifier = BertForTokenClassification.pretrained()
+ * val sequenceClassifier = BertForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -70,21 +70,22 @@ import java.io.File
  * val pipeline = new Pipeline().setStages(Array(
  *   documentAssembler,
  *   tokenizer,
- *   tokenClassifier
+ *   sequenceClassifier
  * ))
  *
  * val data = Seq("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
  * val result = pipeline.fit(data).transform(data)
  *
  * result.select("label.result").show(false)
- * +------------------------------------------------------------------------------------+
- * |result                                                                              |
- * +------------------------------------------------------------------------------------+
- * |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
- * +------------------------------------------------------------------------------------+
+ * +--------------------+
+ * |result              |
+ * +--------------------+
+ * |[neg, neg]          |
+ * |[pos, pos, pos, pos]|
+ * +--------------------+
  * }}}
  *
- * @see [[BertForTokenClassification]] for token-level classification
+ * @see [[BertForSequenceClassification]] for sentence-level embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -101,14 +102,14 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class BertForTokenClassification(override val uid: String)
-  extends AnnotatorModel[BertForTokenClassification]
-    with HasBatchedAnnotate[BertForTokenClassification]
+class BertForSequenceClassification(override val uid: String)
+  extends AnnotatorModel[BertForSequenceClassification]
+    with HasBatchedAnnotate[BertForSequenceClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("BERT_FOR_TOKEN_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("BERT_FOR_SEQUENCE_CLASSIFICATION"))
 
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
@@ -118,11 +119,11 @@ class BertForTokenClassification(override val uid: String)
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
 
   /**
-   * Output Annotator Types: WORD_EMBEDDINGS
+   * Output Annotator Types: CATEGORY
    *
    * @group anno
    */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
   /** @group setParam */
   def sentenceStartTokenId: Int = {
@@ -158,6 +159,20 @@ class BertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getLabels: Map[String, Int] = $$(labels)
 
+  /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
+   * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
+   * into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
+   *
+   * @group param
+   * */
+  val coalesceSentences = new BooleanParam(this, "coalesceSentences", "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+
+  /** @group setParam */
+  def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
+
+  /** @group getParam */
+  def getCoalesceSentences: Boolean = $(coalesceSentences)
+
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
    * @group param
@@ -165,7 +180,7 @@ class BertForTokenClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForTokenClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): BertForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -207,7 +222,7 @@ class BertForTokenClassification(override val uid: String)
   private var _model: Option[Broadcast[TensorflowBertClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForTokenClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -244,7 +259,8 @@ class BertForTokenClassification(override val uid: String)
   setDefault(
     batchSize -> 8,
     maxSentenceLength -> 128,
-    caseSensitive -> true
+    caseSensitive -> true,
+    coalesceSentences -> false
   )
 
   /**
@@ -254,51 +270,56 @@ class BertForTokenClassification(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
+    batchedAnnotations.map(annotations => {
+      val sentences = SentenceSplit.unpack(annotations).toArray
+      val tokenizedSentences = TokenizedWithSentence.unpack(annotations).toArray
 
-      getModelIfNotSet.predict(
-        tokenizedSentences,
-        $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive),
-        getLabels
-      )
-    }) else {
-      Seq(Seq.empty[Annotation])
+      if (tokenizedSentences.nonEmpty) {
+        getModelIfNotSet.predictSequence(
+          tokenizedSentences,
+          sentences,
+          $(batchSize),
+          $(maxSentenceLength),
+          $(caseSensitive),
+          $(coalesceSentences),
+          getLabels
+        )
+      }
+      else {
+        Seq.empty[Annotation]
+      }
     }
+
+    )
   }
 
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_classification", BertForTokenClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_classification", BertForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertForTokenModel extends ParamsAndFeaturesReadable[BertForTokenClassification] with HasPretrained[BertForTokenClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_token_classifier_conll03")
+trait ReadablePretrainedBertForSequenceModel extends ParamsAndFeaturesReadable[BertForSequenceClassification] with HasPretrained[BertForSequenceClassification] {
+  override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForTokenClassification = super.pretrained()
+  override def pretrained(): BertForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForTokenClassification = super.pretrained(name)
+  override def pretrained(name: String): BertForSequenceClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForTokenClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): BertForSequenceClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertForTokenClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[BertForTokenClassification] =>
+trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[BertForSequenceClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(instance: BertForTokenClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: BertForSequenceClassification, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
@@ -306,7 +327,7 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertForTokenClassification = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertForSequenceClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -338,7 +359,7 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertForTokenClassification()
+    new BertForSequenceClassification()
       .setVocabulary(words)
       .setLabels(labels)
       .setSignatures(_signatures)
@@ -347,6 +368,6 @@ trait ReadBertForTokenTensorflowModel extends ReadTensorflowModel {
 }
 
 /**
- * This is the companion object of [[BertForTokenClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[BertForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object BertForTokenClassification extends ReadablePretrainedBertForTokenModel with ReadBertForTokenTensorflowModel
+object BertForSequenceClassification extends ReadablePretrainedBertForSequenceModel with ReadBertForSequenceTensorflowModel

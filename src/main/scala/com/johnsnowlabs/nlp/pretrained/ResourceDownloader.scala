@@ -526,6 +526,7 @@ object PythonResourceDownloader {
     "AlbertForTokenClassification" -> AlbertForTokenClassification,
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
     "LongformerForTokenClassification" -> LongformerForTokenClassification,
+    "BertForSequenceClassification" -> BertForSequenceClassification,
     "EntityRulerModel" -> EntityRulerModel
   )
 
