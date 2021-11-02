@@ -179,6 +179,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkKeyPhraseExtraction.html">
+     sparknlp_jsl.annotator.ChunkKeyPhraseExtraction
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeApproach.html">
      sparknlp_jsl.annotator.ChunkMergeApproach
     </a>
@@ -186,6 +191,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp_jsl.annotator.ChunkMergeModel.html">
      sparknlp_jsl.annotator.ChunkMergeModel
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp_jsl.annotator.ChunkSentenceSplitter.html">
+     sparknlp_jsl.annotator.ChunkSentenceSplitter
     </a>
    </li>
    <li class="toctree-l2">
@@ -451,6 +461,10 @@ The default value is false.</p>
 </dd>
 <dt><strong>returnEntityMappings</strong></dt><dd><p>With this property you select if you want to return mapping column</p>
 </dd>
+<dt><strong>blackList</strong></dt><dd><p>List of entities ignored for masking or obfuscation.The default values are: “SSN”,”PASSPORT”,”DLN”,”NPI”,”C_CARD”,”IBAN”,”DEA”</p>
+</dd>
+<dt><strong>regexEntities</strong></dt><dd><p>Keep the regex entities used in the regexPatternDictionary</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -560,32 +574,38 @@ The default value is false.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.getParamValue" title="sparknlp_jsl.annotator.DeIdentificationModel.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
 <td><p>Gets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.hasDefault" title="sparknlp_jsl.annotator.DeIdentificationModel.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
-<td><p>Checks whether a param has a default value.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.hasParam" title="sparknlp_jsl.annotator.DeIdentificationModel.hasParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasParam</span></code></a>(paramName)</p></td>
-<td><p>Tests whether this instance contains a param with a given (string) name.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.isDefined" title="sparknlp_jsl.annotator.DeIdentificationModel.isDefined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isDefined</span></code></a>(param)</p></td>
-<td><p>Checks whether a param is explicitly set by user or has a default value.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.isSet" title="sparknlp_jsl.annotator.DeIdentificationModel.isSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isSet</span></code></a>(param)</p></td>
-<td><p>Checks whether a param is explicitly set by user.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.load" title="sparknlp_jsl.annotator.DeIdentificationModel.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
-<td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code>(name[, lang, remote_loc])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getRegexEntities</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.read" title="sparknlp_jsl.annotator.DeIdentificationModel.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.hasDefault" title="sparknlp_jsl.annotator.DeIdentificationModel.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
+<td><p>Checks whether a param has a default value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.hasParam" title="sparknlp_jsl.annotator.DeIdentificationModel.hasParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasParam</span></code></a>(paramName)</p></td>
+<td><p>Tests whether this instance contains a param with a given (string) name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.isDefined" title="sparknlp_jsl.annotator.DeIdentificationModel.isDefined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isDefined</span></code></a>(param)</p></td>
+<td><p>Checks whether a param is explicitly set by user or has a default value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.isSet" title="sparknlp_jsl.annotator.DeIdentificationModel.isSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isSet</span></code></a>(param)</p></td>
+<td><p>Checks whether a param is explicitly set by user.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.load" title="sparknlp_jsl.annotator.DeIdentificationModel.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
+<td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code>(name[, lang, remote_loc])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.read" title="sparknlp_jsl.annotator.DeIdentificationModel.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
 <td><p>Returns an MLReader instance for this class.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.save" title="sparknlp_jsl.annotator.DeIdentificationModel.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.save" title="sparknlp_jsl.annotator.DeIdentificationModel.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
 <td><p>Save this ML instance to the given path, a shortcut of 'write().save(path)'.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.set" title="sparknlp_jsl.annotator.DeIdentificationModel.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.set" title="sparknlp_jsl.annotator.DeIdentificationModel.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.setBlackList" title="sparknlp_jsl.annotator.DeIdentificationModel.setBlackList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBlackList</span></code></a>(s)</p></td>
+<td><p>List of entities ignored for masking or obfuscation. Parameters ---------- s : list     List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.setConsistentObfuscation" title="sparknlp_jsl.annotator.DeIdentificationModel.setConsistentObfuscation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConsistentObfuscation</span></code></a>(s)</p></td>
 <td><p>Sets whether to replace very similar entities in a document with the same randomized term (default: true).The similarity is based on the Levenshtein Distance between the words.</p></td>
@@ -665,59 +685,65 @@ The default value is false.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">consistentObfuscation</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">blackList</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dateFormats</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">consistentObfuscation</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dateTag</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dateFormats</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dateToYear</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dateTag</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">days</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dateToYear</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">days</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignoreRegex</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignoreRegex</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">isRandomDateDisplacement</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">isRandomDateDisplacement</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mappingsColumn</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minYear</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mappingsColumn</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minYear</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">obfuscateDate</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">obfuscateRefSource</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">obfuscateDate</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">obfuscateRefSource</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.params" title="sparknlp_jsl.annotator.DeIdentificationModel.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.DeIdentificationModel.params" title="sparknlp_jsl.annotator.DeIdentificationModel.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">regexEntities</span></code></p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">regexOverride</span></code></p></td>
 <td><p></p></td>
@@ -891,6 +917,18 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentificationModel.set">
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentificationModel.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a parameter in the embedded param map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.DeIdentificationModel.setBlackList">
+<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp_jsl/annotator.html#DeIdentificationModel.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.DeIdentificationModel.setBlackList" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of entities ignored for masking or obfuscation.
+Parameters
+———-
+s : list</p>
+<blockquote>
+<div><p>List of entities ignored for masking or obfuscation.The default values are: “SSN”,”PASSPORT”,”DLN”,”NPI”,”C_CARD”,”IBAN”,”DEA”</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">

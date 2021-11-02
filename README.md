@@ -1251,7 +1251,7 @@ Also, don't forget to check [Spark NLP in Action](https://nlp.johnsnowlabs.com/d
 
 ## Citation
 
-We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2665963.2.100063) that you can cite for the Spark NLP library:
+We have published a [paper](https://www.sciencedirect.com/science/article/pii/S2665963821000063) that you can cite for the Spark NLP library:
 
 ```bibtex
 @article{KOCAMAN2021100058,
