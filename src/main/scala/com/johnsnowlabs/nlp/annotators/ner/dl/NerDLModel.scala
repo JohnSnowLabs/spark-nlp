@@ -267,7 +267,7 @@ class NerDLModel(override val uid: String)
   setDefault(
     includeConfidence -> false,
     includeAllConfidenceScores -> false,
-    batchSize -> 8
+    batchSize -> 32
   )
 
   private case class RowIdentifiedSentence(rowIndex: Int, rowSentence: WordpieceEmbeddingsSentence)
@@ -279,7 +279,8 @@ class NerDLModel(override val uid: String)
       batch.map(_.rowSentence),
       getConfigProtoBytes,
       includeConfidence = $(includeConfidence),
-      includeAllConfidenceScores = $(includeAllConfidenceScores)
+      includeAllConfidenceScores = $(includeAllConfidenceScores),
+      $(batchSize)
     )
 
     val outputBatches = Array.fill[Array[NerTaggedSentence]](tokenized.length)(Array.empty)
