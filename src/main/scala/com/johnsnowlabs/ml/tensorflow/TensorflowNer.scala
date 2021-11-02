@@ -53,7 +53,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   def predict(dataset: Array[WordpieceEmbeddingsSentence],
               configProtoBytes: Option[Array[Byte]] = None,
               includeConfidence: Boolean = false,
-              includeAllConfidenceScores: Boolean,
+              includeAllConfidenceScores: Boolean = false,
               batchSize: Int): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val result = ArrayBuffer[Array[(String, Option[Array[Map[String, String]]])]]()
@@ -224,7 +224,6 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
         calculated.foreach(_.close())
         tensors.clearSession(calculated)
         tensors.clearTensors()
-        tensors.clearTensors()
         batches += 1
       }
 
@@ -298,7 +297,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
     for (batch <- labeled) {
 
-      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence, includeAllConfidenceScores = includeAllConfidenceScores, batchSize = batchSize)
+      val sentencePredictedTags = predict(batch.map(_._2), batchSize = batchSize)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
