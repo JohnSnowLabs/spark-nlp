@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.parser.typdep
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DEPENDENCY, LABELED_DEPENDENCY, POS, TOKEN}
@@ -27,7 +43,7 @@ import org.apache.spark.ml.util.Identifiable
  * The default model is `"dependency_typed_conllu"`, if no name is provided.
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
  *
- * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb Spark NLP Workshop]]
+ * For extended examples of usage, see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala TypedDependencyModelTestSpec]].
  *
  * ==Example==
@@ -194,8 +210,8 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
       val documentData = transformToConllData(document)
       val dependencyLabels = typedDependencyParser.predictDependency(documentData, $(conllFormat))
 
-      val labeledSentences = dependencyLabels.map { dependencyLabel =>
-        getDependencyLabelValues(dependencyLabel)
+      val labeledSentences = dependencyLabels.map{dependencyLabel =>
+        getDependencyLabelValues(dependencyLabel, sentenceId)
       }
 
       val labeledDependenciesSentence = LabeledDependency.pack(labeledSentences)
@@ -250,12 +266,12 @@ class TypedDependencyParserModel(override val uid: String) extends AnnotatorMode
     }
   }
 
-  private def getDependencyLabelValues(dependencyLabel: DependencyLabel): ConllSentence = {
+  private def getDependencyLabelValues(dependencyLabel: DependencyLabel, sentenceId: Int): ConllSentence = {
     if (dependencyLabel != null) {
       ConllSentence(dependencyLabel.getDependency, "", "", "", dependencyLabel.getLabel, dependencyLabel.getHead,
-        0, dependencyLabel.getBegin, dependencyLabel.getEnd)
+        sentenceId, dependencyLabel.getBegin, dependencyLabel.getEnd)
     } else {
-      ConllSentence("ROOT", "root", "", "", "ROOT", -1, 0, -1, 0)
+      ConllSentence("ROOT", "root", "", "", "ROOT", -1, sentenceId, -1, 0)
     }
   }
 

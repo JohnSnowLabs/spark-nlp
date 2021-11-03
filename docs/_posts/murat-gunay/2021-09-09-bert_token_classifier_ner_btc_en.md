@@ -57,13 +57,13 @@ result = model.transform(spark.createDataFrame(pd.DataFrame({'text': test_senten
 ```scala
 ...
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_btc", "en")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_btc", "en")
+  .setInputCols("token", "document")
+  .setOutputCol("ner")
   .setCaseSensitive(True)
 
-val ner_converter = NerConverter()\
-        .setInputCols(Array("document","token","ner"))\
+val ner_converter = NerConverter()
+        .setInputCols(Array("document","token","ner"))
         .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))

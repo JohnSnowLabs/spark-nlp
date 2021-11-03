@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -23,12 +22,12 @@ import com.johnsnowlabs.tags.FastTest
 
 import org.apache.spark.sql.{Dataset, Row}
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
 import java.util.Calendar
 
 
-class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
+class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   val dateMatcher = new DateMatcher
   "a DateMatcher" should s"be of type ${AnnotatorType.DATE}" taggedAs FastTest in {
@@ -113,8 +112,8 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
     ("next year", Some(nextCalendar(Calendar.YEAR))),
     //NS: "3 days from now",
     //NS: "three weeks ago",
-    ("day after", Some(tomorrowCalendar)),
-    ("day after tomorrow", Some(afterTomorrowCalendar)),
+    (" day after", Some(tomorrowCalendar)),
+    (" day after tomorrow", Some(afterTomorrowCalendar)),
     ("the day before", Some(yesterdayCalendar)),
     ("the day before yesterday", Some(beforeYesterdayCalendar)),
     //"the monday after",
@@ -179,7 +178,7 @@ class DateMatcherTestSpec extends FlatSpec with DateMatcherBehaviors {
 
     val expectedDates = Seq(
       Annotation(DATE, 0, 9, "2014/01/23", Map("sentence" -> "0")),
-      Annotation(DATE, 10, 18, "2020/01/12", Map("sentence" -> "0"))
+      Annotation(DATE, 9, 18, "2020/01/12", Map("sentence" -> "0"))
     )
 
     val date = new DateMatcher()

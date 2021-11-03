@@ -1,5 +1,5 @@
 {%- capture title -%}
-Yake
+YakeKeywordExtraction
 {%- endcapture -%}
 
 {%- capture description -%}
@@ -20,7 +20,7 @@ first sent through a Sentence Boundary Detector and then a tokenizer.
 Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
 Therefore to filter the keywords, an upper bound for the score can be set with `setThreshold`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/8.Keyword_Extraction_YAKE_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb)
 and the [YakeTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala).
 
  **Sources** :
@@ -44,15 +44,13 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture output_anno -%}
-KEYWORD
+CHUNK
 {%- endcapture -%}
 
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -68,7 +66,7 @@ token = Tokenizer() \
     .setOutputCol("token") \
     .setContextChars(["(", "]", "?", "!", ".", ","])
 
-keywords = YakeModel() \
+keywords = YakeKeywordExtraction() \
     .setInputCols(["token"]) \
     .setOutputCol("keywords") \
     .setThreshold(0.6) \
@@ -110,7 +108,7 @@ scores.orderBy("score").show(5, truncate = False)
 import spark.implicits._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
-import com.johnsnowlabs.nlp.annotators.keyword.yake.YakeModel
+import com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
@@ -126,7 +124,7 @@ val token = new Tokenizer()
   .setOutputCol("token")
   .setContextChars(Array("(", ")", "?", "!", ".", ","))
 
-val keywords = new YakeModel()
+val keywords = new YakeKeywordExtraction()
   .setInputCols("token")
   .setOutputCol("keywords")
   .setThreshold(0.6f)
@@ -165,11 +163,15 @@ scores.orderBy("score").show(5, truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[YakeModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeModel)
+[YakeKeywordExtraction](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeKeywordExtraction)
+{%- endcapture -%}
+
+{%- capture python_api_link -%}
+[YakeKeywordExtraction](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.YakeKeywordExtraction.html)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[YakeModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeModel.scala)
+[YakeKeywordExtraction](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/keyword.yake/YakeKeywordExtraction.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
@@ -179,6 +181,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

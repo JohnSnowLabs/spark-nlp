@@ -1,11 +1,15 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Table recognition
 permalink: /docs/en/ocr_table_recognition
 key: docs-ocr-table-recognition
 modify_date: "2020-04-08"
 use_language_switcher: "Python-Scala-Java"
+show_nav: true
+sidebar:
+    nav: spark-ocr
 ---
 
 ## ImageTableDetector
@@ -27,6 +31,7 @@ It based on CascadeTabNet which used Cascade mask Region-based CNN High-Resoluti
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | scoreThreshold | float | 0.9 | Score threshold for output regions.|
+| applyCorrection| boolean | false | Enable correction of results. |
 
 
 #### Output Columns
@@ -132,6 +137,8 @@ Current implementation support few algorithm for extract cells:
  - ***CellDetectionAlgos.CONTOURS*** works only for bordered tables.
  - ***CellDetectionAlgos.MORPHOPS*** works for bordered, borderless and combined tables.
 
+
+
 #### Input Columns
 
 {:.table-model-big}
@@ -146,7 +153,9 @@ Current implementation support few algorithm for extract cells:
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | algoType | [CellDetectionAlgos](ocr_structures#celldetectionalgos) | CellDetectionAlgos.CONTOURS | Algorithm for detect cells.|
-
+| algoParams | string | row_treshold=0.05,row_treshold_wide=1.0, row_min_wide=5,column_treshold=0.05, column_treshold_wide=5,column_min_wide=5 | Parameters of 'MORPHOPS' cells detection algorithm|
+| drawDetectedLines | boolean | false | Enable to draw detected lines to the output image |
+| keepOriginalLines | boolean | false | Keep original images on the output image |
 
 #### Output Columns
 
@@ -154,6 +163,7 @@ Current implementation support few algorithm for extract cells:
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
 | outputCol | string | cells | array of coordinates of cells|
+| outputImageCol | string | output_image | output image |
 
 **Example:**
 
@@ -201,7 +211,8 @@ binary_to_image = BinaryToImage() \
 # Define transformer for detect cells
 transformer = ImageTableCellDetector \
   .setInputCol("image") \
-  .setOutputCol("cells")
+  .setOutputCol("cells") \
+  .setAlgoParams("row_treshold=0.05")
 
 pipeline = PipelineModel(stages=[
     binary_to_image,
@@ -259,6 +270,7 @@ to _outputCol_ as TableContainer structure.
 | modelData | string | | Path to the local model data. |
 | modelType | [ModelType](ocr_structures#modeltype) | ModelType.BASE | Model type|
 | downloadModelData | bool | false | Download model data from JSL S3 |
+| outputFormat | [TableOutputFormat](ocr_structures#tableoutputformat) | TableOutputFormat.TABLE | Output format |
 
 #### Output Columns
 

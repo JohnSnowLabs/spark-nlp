@@ -5,7 +5,7 @@ SentenceDetectorDL
 {%- capture model_description -%}
 Annotator that detects sentence boundaries using a deep learning approach.
 
-Instantiated Model of the [SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach).
+Instantiated Model of the SentenceDetectorDLApproach.
 Detects sentence boundaries using a deep learning approach.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
@@ -35,9 +35,7 @@ DOCUMENT
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 # In this example, the normal `SentenceDetector` is compared to the `SentenceDetectorDLModel`. In a pipeline,
 # `SentenceDetectorDLModel` can be used as a replacement for the `SentenceDetector`.
@@ -147,6 +145,10 @@ result.selectExpr("explode(sentencesDL.result) as sentencesDL").show(false)
 [SentenceDetectorDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[SentenceDetectorDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentenceDetectorDLModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [SentenceDetectorDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLModel.scala)
 {%- endcapture -%}
@@ -166,7 +168,7 @@ using a CNN architecture. We also modified the original implementation a little 
 Each extracted sentence can be returned in an Array or exploded to separate rows,
 if `explodeSentences` is set to `true`.
 
-For extended examples of usage, see the [SentenceDetectorDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala).
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb) and the [SentenceDetectorDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -178,12 +180,6 @@ DOCUMENT
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
 # The training process needs data, where each data point is a sentence.
 # In this example the `train.txt` file has the form of
 #
@@ -194,6 +190,11 @@ from pyspark.ml import Pipeline
 #
 # where each line is one sentence.
 # Training can then be started like so:
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 trainingData = spark.read.text("train.txt").toDF("text")
 
@@ -248,6 +249,10 @@ val model = pipeline.fit(trainingData)
 [SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentenceDetectorDLApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [SentenceDetectorDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach.scala)
 {%- endcapture -%}
@@ -258,8 +263,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -267,6 +271,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

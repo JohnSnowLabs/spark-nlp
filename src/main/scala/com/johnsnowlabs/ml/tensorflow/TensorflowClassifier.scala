@@ -1,8 +1,25 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.util.Identifiable
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 
 import scala.collection.mutable
 import scala.util.Random
@@ -45,13 +62,13 @@ class TensorflowClassifier(
 
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes=configProtoBytes).runner.addTarget(initKey).run()
+      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
 
     val encodedLabels = encoder.encodeTags(labels)
     val zippedInputsLabels = inputs.zip(encodedLabels).toSeq
     val trainingDataset = Random.shuffle(zippedInputsLabels)
 
-    val sample: Int = (trainingDataset.length*validationSplit).toInt
+    val sample: Int = (trainingDataset.length * validationSplit).toInt
 
     val (trainDatasetSeq, validateDatasetSample) = if (validationSplit > 0f) {
       val (trainingSample, trainingSet) = trainingDataset.splitAt(sample)
@@ -108,15 +125,19 @@ class TensorflowClassifier(
 
       if (validationSplit > 0.0) {
         val validationAccuracy = measure(validateDatasetSample, (s: String) => log(s, Verbose.Epochs))
-        val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
+        val endTime = (System.nanoTime() - time) / 1e9
+        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches")
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - val_acc: $validationAccuracy - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
-      }else{
-        val endTime = (System.nanoTime() - time)/1e9
-        println(f"Epoch ${epoch+1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
+      } else {
+        val endTime = (System.nanoTime() - time) / 1e9
+        println(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches")
         outputLog(f"Epoch $epoch/$endEpoch - $endTime%.2fs - loss: $loss - acc: $acc - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
       }
 
+    }
+
+    if (enableOutputLogs) {
+      OutputHelper.exportLogFileToS3()
     }
   }
 
@@ -169,7 +190,7 @@ class TensorflowClassifier(
       .run()
 
     val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
-    val predictedLabels = tagsId.map{ case(score)=>
+    val predictedLabels = tagsId.map { case (score) =>
       val labelId = score.zipWithIndex.maxBy(_._1)._2
       labelId
     }
@@ -190,7 +211,7 @@ class TensorflowClassifier(
     val correct = mutable.Map[Int, Int]()
 
     val originalEmbeddings = labeled.map(x => x._1)
-    val originalLabels = labeled.map(x => x._2).map{x=>x.zipWithIndex.maxBy(_._1)._2}
+    val originalLabels = labeled.map(x => x._2).map { x => x.zipWithIndex.maxBy(_._1)._2 }
 
     val predictedLabels = internalPredict(originalEmbeddings)
     val labeledPredicted = predictedLabels.zip(originalLabels)

@@ -1,9 +1,8 @@
-#  Licensed to the Apache Software Foundation (ASF) under one or more
-#  contributor license agreements.  See the NOTICE file distributed with
-#  this work for additional information regarding copyright ownership.
-#  The ASF licenses this file to You under the Apache License, Version 2.0
-#  (the "License"); you may not use this file except in compliance with
-#  the License.  You may obtain a copy of the License at
+#  Copyright 2017-2021 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
@@ -92,44 +91,52 @@ class ResourceDownloader(object):
         _internal._ClearCache(name, language, remote_loc).apply()
 
     @staticmethod
-    def showPublicModels():
-        _internal._ShowPublicModels().apply()
+    def showPublicModels(annotator=None, lang=None, version=None):
+        print(_internal._ShowPublicModels(annotator, lang, version).apply())
 
     @staticmethod
-    def showPublicPipelines():
-        _internal._ShowPublicPipelines().apply()
-
+    def showPublicPipelines(lang=None, version=None):
+        print(_internal._ShowPublicPipelines(lang, version).apply())
 
     @staticmethod
     def showUnCategorizedResources():
-        _internal._ShowUnCategorizedResources().apply()
+        print(_internal._ShowUnCategorizedResources().apply())
+
+    @staticmethod
+    def showAvailableAnnotators():
+        print(_internal._ShowAvailableAnnotators().apply())
 
 
 class PretrainedPipeline:
+    """Loads a Represents a fully constructed and trained Spark NLP pipeline,
+    ready to be used.
+
+    This way, a whole pipeline can be defined in 1 line. Additionally, the
+    :class:`.LightPipeline` version of the model can be retrieved with member
+    :attr:`.light_model`.
+
+    For more extended examples see the `Pipelines page
+    <https://nlp.johnsnowlabs.com/docs/en/pipelines>`_ and our `Github Model
+    Repository <https://github.com/JohnSnowLabs/spark-nlp-models>`_  for
+    available pipeline models.
+
+    Parameters
+    ----------
+    name : str
+        Name of the PretrainedPipeline. These can be gathered from the Pipelines
+        Page.
+    lang : str, optional
+        Langauge of the model, by default 'en'
+    remote_loc : str, optional
+        Link to the remote location of the model (if it was already downloaded),
+        by default None
+    parse_embeddings : bool, optional
+        Whether to parse embeddings, by default False
+    disk_location : str , optional
+        Path to locally stored PretrainedPipeline, by default None
+    """
 
     def __init__(self, name, lang='en', remote_loc=None, parse_embeddings=False, disk_location=None):
-        """Loads a Represents a fully constructed and trained Spark NLP pipeline, ready to be used.
-
-        This way, a whole pipeline can be
-        defined in 1 line. Additionally, the :class:`LightPipeline` version of the model can be retrieved with member
-        :attr:`PretrainedPipeline.light_model`.
-
-        For more extended examples see the `Pipelines page <https://nlp.johnsnowlabs.com/docs/en/pipelines>`_ and our
-        `Github Model Repository <https://github.com/JohnSnowLabs/spark-nlp-models>`_  for available pipeline models.
-
-        Parameters
-        ----------
-        name : str
-            Name of the PretrainedPipeline. These can be gathered from the Pipelines Page.
-        lang : str, optional
-            Langauge of the model, by default 'en'
-        remote_loc : str, optional
-            Link to the remote location of the model (if it was already downloaded), by default None
-        parse_embeddings : bool, optional
-            Whether to parse embeddings, by default False
-        disk_location : str , optional
-            Path to locally stored PretrainedPipeline, by default None
-        """
         if not disk_location:
             self.model = ResourceDownloader().downloadPipeline(name, lang, remote_loc)
         else:
@@ -141,6 +148,30 @@ class PretrainedPipeline:
         return PretrainedPipeline(None, None, None, parse_embeddings, path)
 
     def annotate(self, target, column=None):
+        """Annotates the data provided, extracting the results.
+
+        The data should be either a list or a str.
+
+        Parameters
+        ----------
+        target : list or str
+            The data to be annotated
+
+        Returns
+        -------
+        List[dict] or dict
+            The result of the annotation
+
+        Examples
+        --------
+        >>> from sparknlp.pretrained import PretrainedPipeline
+        >>> explain_document_pipeline = PretrainedPipeline("explain_document_dl")
+        >>> result = explain_document_pipeline.annotate('U.N. official Ekeus heads for Baghdad.')
+        >>> result.keys()
+        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])
+        >>> result["ner"]
+        ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
+        """
         if type(target) is DataFrame:
             if not column:
                 raise Exception("annotate() column arg needed when targeting a DataFrame")
@@ -152,6 +183,37 @@ class PretrainedPipeline:
             raise Exception("target must be either a spark DataFrame, a list of strings or a string")
 
     def fullAnnotate(self, target, column=None):
+        """Annotates the data provided into `Annotation` type results.
+
+        The data should be either a list or a str.
+
+        Parameters
+        ----------
+        target : list or str
+            The data to be annotated
+
+        Returns
+        -------
+        List[Annotation]
+            The result of the annotation
+
+        Examples
+        --------
+        >>> from sparknlp.pretrained import PretrainedPipeline
+        >>> explain_document_pipeline = PretrainedPipeline("explain_document_dl")
+        >>> result = explain_document_pipeline.fullAnnotate('U.N. official Ekeus heads for Baghdad.')
+        >>> result[0].keys()
+        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])
+        >>> result[0]["ner"]
+        [Annotation(named_entity, 0, 2, B-ORG, {'word': 'U.N'}),
+        Annotation(named_entity, 3, 3, O, {'word': '.'}),
+        Annotation(named_entity, 5, 12, O, {'word': 'official'}),
+        Annotation(named_entity, 14, 18, B-PER, {'word': 'Ekeus'}),
+        Annotation(named_entity, 20, 24, O, {'word': 'heads'}),
+        Annotation(named_entity, 26, 28, O, {'word': 'for'}),
+        Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
+        Annotation(named_entity, 37, 37, O, {'word': '.'})]
+        """
         if type(target) is DataFrame:
             if not column:
                 raise Exception("annotate() column arg needed when targeting a DataFrame")
@@ -163,4 +225,16 @@ class PretrainedPipeline:
             raise Exception("target must be either a spark DataFrame, a list of strings or a string")
 
     def transform(self, data):
+        """Transforms the input dataset with Spark.
+
+        Parameters
+        ----------
+        data : :class:`pyspark.sql.DataFrame`
+            input dataset
+
+        Returns
+        -------
+        :class:`pyspark.sql.DataFrame`
+            transformed dataset
+        """
         return self.model.transform(data)

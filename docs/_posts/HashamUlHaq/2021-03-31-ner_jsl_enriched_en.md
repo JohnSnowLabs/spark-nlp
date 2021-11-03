@@ -21,10 +21,10 @@ Pretrained named entity recognition deep learning model for clinical terminology
 
 ## Predicted Entities
 
-`Age`, `Diagnosis`, `Dosage`, `Drug_Name`, `Frequency`, `Gender`, `Lab_Name`, `Lab_Result`, `Symptom_Name`.
+`Age`, `Name`, `Procedure`, `Pulse_Rate`, `Temperature`, `Gender`, `Frequency`, `Route`, `Diagnosis`, `Allergenic_substance`, `Weight`, `Respiratory_Rate`, `Symptom_Name`, `Causative_Agents(Virus_and_Bacteria)`, `Modifier`, `Blood_Pressure`, `Dosage`, `Drug_Name`, `Negation`, `Lab_Result`, `Section_Name`, `Maybe`, `Substance_Name`, `Procedure_Name`, `Lab_Name`, `O2_Saturation`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_enriched_en_3.0.0_3.0_1617209691808.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

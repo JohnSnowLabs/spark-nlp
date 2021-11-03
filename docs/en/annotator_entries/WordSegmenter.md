@@ -36,9 +36,7 @@ TOKEN
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -101,6 +99,10 @@ result.select("token.result").show(false)
 [WordSegmenterModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[WordSegmenterModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.WordSegmenterModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [WordSegmenterModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterModel.scala)
 {%- endcapture -%}
@@ -119,7 +121,7 @@ To train your own model, a training dataset consisting of
 into a dataframe, where the column is an [Annotation](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
 set with `setPosColumn`.
 
-**Tip**: The helper class [POS](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/POS) might be useful to read training data into data frames.
+**Tip**: The helper class [POS](/docs/en/training#pos-dataset) might be useful to read training data into data frames.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation)
 and the [WordSegmenterTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala).
@@ -134,17 +136,17 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
 # In this example, `"chinese_train.utf8"` is in the form of
 #
 # 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
 #
 # and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from sparknlp.training import *
+from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -176,6 +178,7 @@ pipelineModel = pipeline.fit(trainingDataSet)
 // 十|LL 四|RR 不|LL 是|RR 四|LL 十|RR
 //
 // and is loaded with the `POS` class to create a dataframe of `"POS"` type Annotations.
+
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach
 import com.johnsnowlabs.nlp.training.POS
@@ -209,6 +212,10 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 [WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.WordSegmenterApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [WordSegmenterApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach.scala)
 {%- endcapture -%}
@@ -219,8 +226,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -228,6 +234,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

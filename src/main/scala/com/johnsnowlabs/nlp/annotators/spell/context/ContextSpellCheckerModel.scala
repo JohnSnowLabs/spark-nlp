@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -31,7 +30,6 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
-import scala.collection.mutable
 
 /** Implements a deep-learning based Noisy Channel Model Spell Algorithm.
  * Correction candidates are extracted combining context information and word information.
@@ -304,7 +302,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   )
 
   /** @group getParam */
-  def getWordClasses() = $$(specialTransducers).map {
+  def getWordClasses: Seq[(String, AnnotatorType)] = $$(specialTransducers).map {
     case transducer: RegexParser =>
       (transducer.label, "RegexParser")
     case transducer: VocabParser =>
@@ -321,7 +319,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       case r: RegexParser =>
         r.regex = regex
         r.transducer = r.generateTransducer
-      case _ => require(false, s"Class $label is not a regex class.")
+      case _ => require(requirement = false, s"Class $label is not a regex class.")
     }
     this
   }
@@ -338,7 +336,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         val newSet = if (append) v.vocab ++ vocab else vocab
         v.vocab = newSet
         v.transducer = v.generateTransducer
-      case _ => require(false, s"Class $label is not a vocabulary class.")
+      case _ => require(requirement = false, s"Class $label is not a vocabulary class.")
     }
     this
   }

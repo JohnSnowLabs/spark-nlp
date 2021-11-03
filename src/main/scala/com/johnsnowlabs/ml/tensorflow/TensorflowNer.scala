@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,6 +19,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.apache.spark.ml.util.Identifiable
 
 import scala.collection.Map
@@ -246,6 +246,10 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
         measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
       }
 
+    }
+
+    if (enableOutputLogs) {
+      OutputHelper.exportLogFileToS3()
     }
   }
 

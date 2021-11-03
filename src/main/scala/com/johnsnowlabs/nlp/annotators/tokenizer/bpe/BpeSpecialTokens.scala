@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -28,10 +27,10 @@ private[nlp] class SpecialTokens(
                                   additionalStrings: Array[String] = Array()
                                 ) {
   val allTokenStrings: Array[String] = Array(
+    maskTokenString,
     startTokenString,
     endTokenString,
     unkTokenString,
-    maskTokenString,
     padTokenString
   ) ++ additionalStrings
   for (specialTok <- allTokenStrings)
@@ -51,14 +50,29 @@ private[nlp] class SpecialTokens(
     (tok: String) => SpecialToken(tok, vocab(tok))
   )
 
-  val allTokens: Set[SpecialToken] = Set(sentenceStart, sentenceEnd, unk, mask, pad) ++ additionalTokens
+  // Put mask first, in case all special tokens are identical (so the stripping can be done first)
+  val allTokens: Set[SpecialToken] = Set(mask, sentenceStart, sentenceEnd, unk, pad) ++ additionalTokens
 
   def contains(s: String): Boolean = allTokens.contains(SpecialToken(content = s, id = 0))
 }
 
 private[nlp] object SpecialTokens {
   def getSpecialTokensForModel(modelType: String, vocab: Map[String, Int]): SpecialTokens = modelType match {
-    case "roberta" => new SpecialTokens(vocab, "<s>", "</s>", "<unk>", "<mask>", "<pad>")
+    case "roberta" => new SpecialTokens(
+      vocab,
+      startTokenString = "<s>",
+      endTokenString = "</s>",
+      unkTokenString = "<unk>",
+      maskTokenString = "<mask>",
+      padTokenString = "<pad>"
+    )
+    case "gpt2" => new SpecialTokens(vocab,
+      startTokenString = "<|endoftext|>",
+      endTokenString = "<|endoftext|>",
+      unkTokenString = "<|endoftext|>",
+      maskTokenString = "<|endoftext|>",
+      padTokenString = "<|endoftext|>"
+    )
     case "xlm" => new SpecialTokens(
       vocab,
       "<s>",

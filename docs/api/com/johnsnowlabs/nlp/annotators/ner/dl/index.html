@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl</title>
-          <meta name="description" content="Spark NLP 3.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl" />
-          <meta name="keywords" content="Spark NLP 3.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl" />
+          <title>Spark NLP 3.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl</title>
+          <meta name="description" content="Spark NLP 3.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl" />
+          <meta name="keywords" content="Spark NLP 3.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -300,7 +300,10 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="kw">import</span> com.johnsnowlabs.nlp.training.CoNLL
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
-<span class="cmt">// First extract the prerequisites for the NerDLApproach</span>
+<span class="cmt">// This CoNLL dataset already includes a sentence, token and label</span>
+<span class="cmt">// column with their respective annotator types. If a custom dataset is used,</span>
+<span class="cmt">// these need to be defined with for example:</span>
+
 <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"document"</span>)
@@ -313,11 +316,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"token"</span>)
 
+<span class="cmt">// Then the training can start</span>
 <span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"embeddings"</span>)
 
-<span class="cmt">// Then the training can start</span>
 <span class="kw">val</span> nerTagger = <span class="kw">new</span> NerDLApproach()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
   .setLabelColumn(<span class="lit">"label"</span>)
@@ -327,14 +330,11 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
   .setVerbose(<span class="num">0</span>)
 
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
-  documentAssembler,
-  sentence,
-  tokenizer,
   embeddings,
   nerTagger
 ))
 
-<span class="cmt">// We use the text and labels from the CoNLL dataset</span>
+<span class="cmt">// We use the sentences, tokens and labels from the CoNLL dataset</span>
 <span class="kw">val</span> conll = CoNLL()
 <span class="kw">val</span> trainingData = conll.readDataset(spark, <span class="lit">"src/test/resources/conll2003/eng.train"</span>)
 

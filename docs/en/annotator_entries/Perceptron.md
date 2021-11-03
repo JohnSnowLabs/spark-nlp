@@ -6,8 +6,7 @@ POSTagger (Part of speech tagger)
 Averaged Perceptron model to tag words part-of-speech.
 Sets a POS tag to each word within a sentence.
 
-This is the instantiated model of the
-[PerceptronApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach).
+This is the instantiated model of the PerceptronApproach.
 For training your own model, please see the documentation of that class.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
@@ -35,9 +34,7 @@ POS
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -127,6 +124,10 @@ result.selectExpr("explode(pos) as pos").show(false)
 [PerceptronModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[PerceptronModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.PerceptronModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [PerceptronModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel.scala)
 {%- endcapture -%}
@@ -140,7 +141,7 @@ For pretrained models please see the PerceptronModel.
 The training data needs to be in a Spark DataFrame, where the column needs to consist of
 [Annotations](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `POS`. The `Annotation` needs to have member `result`
 set to the POS tag and have a `"word"` mapping to its word inside of member `metadata`.
-This DataFrame for training can easily created by the helper class [POS](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/POS).
+This DataFrame for training can easily created by the helper class [POS](/docs/en/training#pos-dataset).
 ```
 POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(false)
 +---------------------------------------------+
@@ -171,7 +172,6 @@ POS
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
 from sparknlp.training import *
 from pyspark.ml import Pipeline
@@ -269,6 +269,10 @@ result.selectExpr("pos.result").show(false)
 [PerceptronApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[PerceptronApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.PerceptronApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [PerceptronApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach.scala)
 {%- endcapture -%}
@@ -279,8 +283,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -288,6 +291,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

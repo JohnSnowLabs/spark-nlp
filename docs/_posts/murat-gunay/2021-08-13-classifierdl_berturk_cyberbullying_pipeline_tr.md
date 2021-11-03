@@ -46,7 +46,7 @@ val result = pipeline.fullAnnotate("Gidişin olsun, dönüşün olmasın inşall
 ## Results
 
 ```bash
-["Negatif"]
+["Negative"]
 ```
 
 {:.model-param}

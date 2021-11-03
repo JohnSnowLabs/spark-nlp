@@ -17,12 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Extract relations to fully understand the origin of some phenotypic abnormalities and their associated diseases.
+Extract relations to fully understand the origin of some phenotypic abnormalities and their associated diseases. `1` : Entities are related, `0` : Entities are not related.
 
 ## Predicted Entities
 
-`1` : Entities are related
-`0` : Entities are not related
+`0`, `1`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

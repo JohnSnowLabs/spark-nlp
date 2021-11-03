@@ -17,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Find relations between diagnosis, tests and imaging findings in radiology reports.
+Find relations between diagnosis, tests and imaging findings in radiology reports. `1` : The two entities are related. `0` : The two entities are not related
 
 ## Predicted Entities
 
-`1` : The two entities are related. `0` : The two entities are not related
+`0`, `1`
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}

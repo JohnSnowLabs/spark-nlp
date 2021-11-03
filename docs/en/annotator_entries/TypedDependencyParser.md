@@ -10,7 +10,7 @@ Dependency parsers provide information about word relationship. For example, dep
 the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
 you find precise answers to specific questions.
 
-The parser requires the dependant tokens beforehand with e.g. [DependencyParser](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel).
+The parser requires the dependant tokens beforehand with e.g. [DependencyParser](/docs/en/annotators#dependencyparser).
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 ```
@@ -21,7 +21,7 @@ val typedDependencyParser = TypedDependencyParserModel.pretrained()
 The default model is `"dependency_typed_conllu"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
 and the [TypedDependencyModelTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala).
 {%- endcapture -%}
 
@@ -36,9 +36,7 @@ LABELED_DEPENDENCY
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -169,6 +167,10 @@ result.selectExpr("explode(arrays_zip(token.result, dependency.result, dependenc
 [TypedDependencyParserModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[TypedDependencyParserModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.TypedDependencyParserModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [TypedDependencyParserModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel.scala)
 {%- endcapture -%}
@@ -183,7 +185,7 @@ Dependency parsers provide information about word relationship. For example, dep
 the subjects and objects of a verb are, as well as which words are modifying (describing) the subject. This can help
 you find precise answers to specific questions.
 
-The parser requires the dependant tokens beforehand with e.g. [DependencyParser](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel).
+The parser requires the dependant tokens beforehand with e.g. [DependencyParser](/docs/en/annotators#dependencyparser).
 The required training data can be set in two different ways (only one can be chosen for a particular model):
   - Dataset in the [CoNLL 2009 format](https://ufal.mff.cuni.cz/conll2009-st/trial-data.html) set with `setConll2009`
   - Dataset in the [CoNLL-U format](https://universaldependencies.org/format.html) set with `setConllU`
@@ -204,9 +206,7 @@ LABELED_DEPENDENCY
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -245,7 +245,7 @@ pipeline = Pipeline().setStages([
 ])
 
 # Additional training data is not needed, the dependency parser relies on CoNLL-U only.
-emptyDataSet = .empty[String].toDF("text")
+emptyDataSet = spark.createDataFrame([[""]]).toDF("text")
 pipelineModel = pipeline.fit(emptyDataSet)
 
 {%- endcapture -%}
@@ -305,6 +305,10 @@ val pipelineModel = pipeline.fit(emptyDataSet)
 [TypedDependencyParserApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[TypedDependencyParserApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.TypedDependencyParserApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [TypedDependencyParserApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach.scala)
 {%- endcapture -%}
@@ -315,8 +319,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -324,6 +327,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

@@ -1,14 +1,30 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.util
 
 import java.io.{File, FileNotFoundException}
 
 import com.johnsnowlabs.nlp.SparkAccessor
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 
 
-class ResourceHelperTestSpec extends FlatSpec {
+class ResourceHelperTestSpec extends AnyFlatSpec {
 
   "Resource helper" should "load a file line by line as an array" taggedAs FastTest in {
     val externalResource = ExternalResource("src/test/resources/resource-helper/gender.tsv", ReadAs.TEXT,
@@ -108,6 +124,21 @@ class ResourceHelperTestSpec extends FlatSpec {
       ResourceHelper.validFile(rightFilePath)
     }
 
+  }
+
+  it should "get content from SourceStream" taggedAs FastTest in {
+    val sourceStream =  ResourceHelper.SourceStream("src/test/resources/entity-ruler/patterns.jsonl")
+    val expectedContent = Array(
+      "{\"id\": \"names-with-j\", \"label\": \"PERSON\", \"patterns\": [\"Jon\", \"John\", \"John Snow\"]}",
+      "{\"id\": \"names-with-s\", \"label\": \"PERSON\", \"patterns\": [\"Stark\", \"Snow\"]}",
+      "{\"id\": \"names-with-e\", \"label\": \"PERSON\", \"patterns\": [\"Eddard\", \"Eddard Stark\"]}",
+      "{\"id\": \"locations\", \"label\": \"LOCATION\", \"patterns\": [\"Winterfell\"]}"
+    )
+    var actualContent: Array[String] = Array()
+
+    sourceStream.content.foreach(content => content.foreach(c => actualContent = actualContent ++ Array(c)))
+
+    assert(expectedContent sameElements actualContent)
   }
 
 }

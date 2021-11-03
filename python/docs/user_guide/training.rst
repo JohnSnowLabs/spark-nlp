@@ -8,8 +8,8 @@ POS Dataset
 ===========
 
 In order to train a Part of Speech Tagger annotator
-(:class:`sparknlp.annotator.PerceptronApproach`), we need to
-get corpus data as a Spark dataframe. :class:`sparknlp.training.POS` reads a plain text file
+(:class:`PerceptronApproach <sparknlp.annotator.PerceptronApproach>`), we need to
+get corpus data as a Spark dataframe. :class:`POS <sparknlp.training.POS>` reads a plain text file
 and transforms it to a Spark dataset.
 
 **Input File Format**::
@@ -47,10 +47,37 @@ as a Spark dataframe. :class:`sparknlp.training.CoNLL` reads a plain text file a
 >>> from sparknlp.training import CoNLL
 >>> training_conll = CoNLL().readDataset(spark, "./src/main/resources/conll2003/eng.train")
 
+CoNLLU Dataset
+==============
+
+In order to train a :class:`DependencyParserApproach <sparknlp.annotator.DependencyParserApproach>` annotator, we need to get
+`CoNLL-U <https://universaldependencies.org/format.html>`_ format data
+as a Spark dataframe. :class:`CoNLLU <sparknlp.training.CoNLLU>` reads a plain text file and transforms it to a Spark dataset.
+
+**Input File Format**::
+
+    -DOCSTART- -X- -X- O
+
+    EU NNP B-NP B-ORG
+    rejects VBZ B-VP O
+    German JJ B-NP B-MISC
+    call NN I-NP O
+    to TO B-VP O
+    boycott VB I-VP O
+    British JJ B-NP B-MISC
+    lamb NN I-NP O
+    . . O O
+
+**Example**
+
+>>> from sparknlp.training import CoNLLU
+>>> conlluFile = "src/test/resources/conllu/en.test.conllu"
+>>> conllDataSet = CoNLLU(False).readDataset(spark, conlluFile)
+
 Spell Checkers Dataset
 ======================
-In order to train a :class:`sparknlp.annotator.NorvigSweetingApproach` or
-:class:`sparknlp.annotator.SymmetricDeleteApproach`, we need to get corpus data as a spark
+In order to train a :class:`NorvigSweetingApproach <sparknlp.annotator.NorvigSweetingApproach>` or
+:class:`SymmetricDeleteApproach <sparknlp.annotator.SymmetricDeleteApproach>`, we need to get corpus data as a spark
 dataframe. We can read any plain text file and transform it to a Spark dataset.
 
 **Example**
@@ -62,7 +89,7 @@ PubTator Dataset
 ================
 The PubTator format includes medical papers’ titles, abstracts, and tagged chunks
 (see PubTator Docs and MedMentions Docs for more information).
-We can create a Spark DataFrame from a PubTator text file with :class:`sparknlp.training.PubTator`.
+We can create a Spark DataFrame from a PubTator text file with :class:`PubTator <sparknlp.training.PubTator>`.
 
 **Input File Format**::
 

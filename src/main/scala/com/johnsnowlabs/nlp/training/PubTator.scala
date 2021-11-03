@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -25,6 +24,28 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 
+/** The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.
+ *
+ * For more information see [[http://bioportal.bioontology.org/ontologies/EDAM?p=classes&conceptid=format_3783 PubTator Docs]]
+ * and [[http://github.com/chanzuckerberg/MedMentions MedMentions Docs]].
+ *
+ * `readDataset` is used to create a Spark DataFrame from a PubTator text file.
+ *
+ * ==Example==
+ * {{{
+ * import com.johnsnowlabs.nlp.training.PubTator
+ *
+ * val pubTatorFile = "./src/test/resources/corpus_pubtator_sample.txt"
+ * val pubTatorDataSet = PubTator().readDataset(ResourceHelper.spark, pubTatorFile)
+ * pubTatorDataSet.show(1)
+ * +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+ * |  doc_id|      finished_token|        finished_pos|        finished_ner|finished_token_metadata|finished_pos_metadata|finished_label_metadata|
+ * +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+ * |25763772|[DCTN4, as, a, mo...|[NNP, IN, DT, NN,...|[B-T116, O, O, O,...|   [[sentence, 0], [...| [[word, DCTN4], [...|   [[word, DCTN4], [...|
+ * +--------+--------------------+--------------------+--------------------+-----------------------+---------------------+-----------------------+
+ * }}}
+ *
+ */
 case class PubTator() {
 
   def readDataset(spark: SparkSession, path: String, isPaddedToken: Boolean = true): DataFrame = {

@@ -88,4 +88,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_EN_SARCASM.ipynb
+        - title: Identify whether pairs of questions are semantically similar 
+          id: identify_whether_pairs_questions_semantically_similar 
+          image: 
+              src: /assets/images/Identify_whether_pairs_of_questions_are_semantically_similar.svg
+          image2: 
+              src: /assets/images/Identify_whether_pairs_of_questions_are_semantically_similar_f.svg
+          excerpt: This demo shows whether the two question sentences are semantically repetitive or different.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_QUESTIONPAIR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb
+        - title: Identify sentiments in German texts.
+          id: identify_sentiments_German_texts 
+          image: 
+              src: /assets/images/Identify_sentiments_in_Geman_texts.svg
+          image2: 
+              src: /assets/images/Identify_sentiments_in_Geman_texts_f.svg
+          excerpt: This demo shows whether the sentiments are positive or negative in German texts. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_DE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_De_SENTIMENT.ipynb
+        - title: Identify sentiments in French texts.
+          id: identify_sentiments_french_texts 
+          image: 
+              src: /assets/images/Identify_sentiments_in_French_texts.svg
+          image2: 
+              src: /assets/images/Identify_sentiments_in_French_texts_f.svg
+          excerpt: This demo shows whether the sentiments are positive or negative in French texts. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_FR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_Fr_Sentiment.ipynb
 ---

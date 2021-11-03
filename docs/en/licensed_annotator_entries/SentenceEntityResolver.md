@@ -4,7 +4,7 @@ SentenceEntityResolver
 
 {%- capture model_description -%}
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html)
+[BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)
 
@@ -177,7 +177,7 @@ val sbert_pipeline_cpt = new Pipeline().setStages(Array(
 {%- capture approach_description -%}
 Contains all the parameters and methods to train a SentenceEntityResolverModel.
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings.html)
+[BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)
 and returns the normalized entity for a particular trained ontology / curated dataset.
 (e.g. ICD-10, RxNorm, SNOMED etc.)
 
@@ -282,7 +282,7 @@ val snomedModel = bertExtractor.fit(snomedData)
 {%- endcapture -%}
 
 
-{% include templates/approach_model_template.md
+{% include templates/licensed_approach_model_template.md
 title=title
 model_description=model_description
 model_input_anno=model_input_anno

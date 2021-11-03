@@ -1,10 +1,14 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Installation
 permalink: /docs/en/ocr_install
 key: docs-ocr-install
 modify_date: "2020-04-08"
+show_nav: true
+sidebar:
+    nav: spark-ocr
 ---
 
 <div class="h3-box" markdown="1">

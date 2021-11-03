@@ -59,6 +59,11 @@ def editions_changed?(local_editions)
   true
 end
 
+def to_product_name(edition_short)
+  m = /^(.*?)\s\d+\.\d+$/.match(edition_short)
+  m ? m[1] : nil
+end
+
 class Extractor
   def initialize(content)
     @content = content
@@ -100,7 +105,7 @@ class Extractor
   def newline_separated_predicted_entities(buf)
     return nil unless buf.include? "\n"
     return nil if buf.strip.start_with? '-'
-    buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').strip }.select { |v| !v.empty? }
+    buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').gsub('`', '').strip }.select { |v| !v.empty? }
   end
 end
 
@@ -169,7 +174,11 @@ Jekyll::Hooks.register :posts, :post_render do |post|
 
   language = post.data['language']
   languages = [language]
-  languages = post.data['tags'].select { |v| v.length <= 3 and /^[a-z]+$/.match?(v) } if language == 'xx'
+  if language == 'xx'
+    languages = post.data['tags'].select do |v|
+      v.length <= 3 and /^[a-z]+$/.match?(v) and v != 'ner' and v != 'use'
+    end
+  end
 
   model = {
     id: post.url,
@@ -224,7 +233,18 @@ Jekyll::Hooks.register :site, :post_render do |site|
         model_editions,
         model[:edition_short]
       )
+
+      product_name = to_product_name(model[:edition_short])
       model[:edition_short] = next_edition_short
+      if product_name
+        case model[:edition_short]
+        when Array
+          model[:edition_short] << product_name
+        when String
+          model[:edition_short] = [model[:edition_short], product_name]
+        end
+      end
+
       models_json[model[:id]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
 
       if client

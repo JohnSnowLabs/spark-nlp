@@ -31,6 +31,10 @@ SENTIMENT
 [SentimentDetectorModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[SentimentDetectorModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDetectorModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [SentimentDetectorModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel.scala)
 {%- endcapture -%}
@@ -58,12 +62,6 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
 # In this example, the dictionary `default-sentiment-dict.txt` has the form of
 #
 # ...
@@ -74,6 +72,11 @@ from pyspark.ml import Pipeline
 # ...
 #
 # where each sentiment keyword is delimited by `","`.
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -127,6 +130,7 @@ result.selectExpr("sentimentScore.result").show(truncate=False)
 // ...
 //
 // where each sentiment keyword is delimited by `","`.
+
 import spark.implicits._
 import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator.Tokenizer
@@ -180,6 +184,10 @@ result.selectExpr("sentimentScore.result").show(false)
 [SentimentDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[SentimentDetector](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDetector.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [SentimentDetector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector.scala)
 {%- endcapture -%}
@@ -190,6 +198,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -197,6 +206,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

@@ -20,9 +20,7 @@ NAMED_ENTITY
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 # First extract the prerequisite Entities
@@ -194,6 +192,10 @@ nerOverwriter.transform(result).selectExpr("explode(ner_overwritten)").show(fals
 [NerOverwriter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerOverwriter)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[NerOverwriter](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerOverwriter.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [NerOverwriter](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/NerOverwriter.scala)
 {%- endcapture -%}
@@ -205,6 +207,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

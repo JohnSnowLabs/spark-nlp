@@ -4,10 +4,10 @@ ChunkEmbeddings
 
 {%- capture description -%}
 This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either
-[Chunker](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Chunker), [NGramGenerator](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator),
-or [NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter) outputs.
+[Chunker](/docs/en/annotators#chunker), [NGramGenerator](/docs/en/annotators#ngramgenerator),
+or [NerConverter](/docs/en/annotators#nerconverter) outputs.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/3.SparkNLP_Pretrained_Models_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
 and the [ChunkEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 
@@ -22,9 +22,7 @@ WORD_EMBEDDINGS
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 # Extract the Embeddings from the NGrams
@@ -152,6 +150,10 @@ result.selectExpr("explode(chunk_embeddings) as result")
 [ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ChunkEmbeddings.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [ChunkEmbeddings](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings.scala)
 {%- endcapture -%}
@@ -163,6 +165,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

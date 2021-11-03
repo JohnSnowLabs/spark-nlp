@@ -1,10 +1,14 @@
 ---
 layout: docs
 header: true
+seotitle: Spark NLP
 title: Spark NLP Display
 permalink: /docs/en/display
 key: docs-display
 modify_date: "2020-11-17"
+show_nav: true
+sidebar:
+    nav: sparknlp
 ---
 
 <div class="h3-box" markdown="1">

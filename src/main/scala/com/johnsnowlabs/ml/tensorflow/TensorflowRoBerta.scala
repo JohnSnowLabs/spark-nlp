@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -25,35 +24,13 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 import scala.collection.JavaConverters._
 
 /**
- * The RoBERTa model was proposed in '''RoBERTa: A Robustly Optimized BERT Pretraining Approach''' [[https://arxiv.org/abs/1907.11692>]]
- * by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov.
- * It is based on Google's BERT model released in 2018.
+ * TensorFlow backend for '''RoBERTa''' and '''Longformer'''
  *
- * It builds on BERT and modifies key hyperparameters, removing the next-sentence pretraining objective and training with much larger mini-batches and learning rates.
- * The abstract from the paper is the following:
- *
- * Language model pretraining has led to significant performance gains but careful comparison between different
- * approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes,
- * and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication
- * study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and
- * training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every
- * model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results
- * highlight the importance of previously overlooked design choices, and raise questions about the source of recently
- * reported improvements. We release our models and code.*
- *
- * Tips:
- *
- * - RoBERTa has the same architecture as BERT, but uses a byte-level BPE as a tokenizer (same as GPT-2) and uses a different pretraining scheme.
- *
- * - RoBERTa doesn't have :obj:`token_type_ids`, you don't need to indicate which token belongs to which segment. Just separate your segments with the separation token :obj:`tokenizer.sep_token` (or :obj:`</s>`)
- *
- * The original code can be found ```here``` [[https://github.com/pytorch/fairseq/tree/master/examples/roberta]].
- *
- * @param tensorflowWrapper tensorflowWrapper class
+ * @param tensorflowWrapper    tensorflowWrapper class
  * @param sentenceStartTokenId special token id for `<s>`
- * @param sentenceEndTokenId special token id for `</s>`
- * @param configProtoBytes ProtoBytes for TensorFlow session config
- * @param signatures Model's inputs and output(s) signatures
+ * @param sentenceEndTokenId   special token id for `</s>`
+ * @param configProtoBytes     ProtoBytes for TensorFlow session config
+ * @param signatures           Model's inputs and output(s) signatures
  */
 class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
                         sentenceStartTokenId: Int,
@@ -66,7 +43,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
   val _tfRoBertaSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
-  def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
+  def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
     val maxSentenceLength =
       Array(
         maxSequenceLength - 2,
@@ -189,7 +166,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
 
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val encoded = encode(batch, maxSentenceLength)
+      val encoded = prepareBatchInputs(batch, maxSentenceLength)
       val vectors = tag(encoded)
 
       /*Combine tokens and calculated embeddings*/
@@ -245,7 +222,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
     tokens.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
       val tokensBatch = batch.map(x => (x._1._1, x._2))
       val sentencesBatch = batch.map(x => x._1._2)
-      val encoded = encode(tokensBatch, maxSentenceLength)
+      val encoded = prepareBatchInputs(tokensBatch, maxSentenceLength)
       val embeddings = tagSentence(encoded)
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>

@@ -6,10 +6,10 @@ EmbeddingsFinisher
 Extracts embeddings from Annotations into a more easily usable form.
 
 This is useful for example:
-[WordEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddings),
-[BertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings),
-[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) and
-[ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings).
+[WordEmbeddings](/docs/en/annotators#wordembeddings),
+[BertEmbeddings](/docs/en/transformers#bertembeddings),
+[SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) and
+[ChunkEmbeddings](/docs/en/annotators#chunkembeddings).
 
 By using `EmbeddingsFinisher` you can easily transform your embeddings into array of floats or vectors which are
 compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier or any other functions that require
@@ -30,9 +30,7 @@ NONE
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -159,6 +157,10 @@ resultWithSize.show(5, 80)
 [EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/EmbeddingsFinisher)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.base.EmbeddingsFinisher.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [EmbeddingsFinisher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/EmbeddingsFinisher.scala)
 {%- endcapture -%}
@@ -170,6 +172,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

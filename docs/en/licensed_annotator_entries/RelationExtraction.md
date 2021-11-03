@@ -386,7 +386,7 @@ val model = pipeline.fit(trainData)
 {%- endcapture -%}
 
 
-{% include templates/approach_model_template.md
+{% include templates/licensed_approach_model_template.md
 title=title
 model_description=model_description
 model_input_anno=model_input_anno

@@ -8,7 +8,7 @@ Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.c
 The algorithm is based on the paper
 ["Fast and accurate sentiment classification using an enhanced Naive Bayes model"](https://arxiv.org/abs/1305.6143).
 
-This is the instantiated model of the [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach).
+This is the instantiated model of the ViveknSentimentApproach.
 For training your own model, please see the documentation of that class.
 
 The analyzer requires sentence boundaries to give a score in context.
@@ -28,6 +28,10 @@ SENTIMENT
 
 {%- capture model_api_link -%}
 [ViveknSentimentModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel)
+{%- endcapture -%}
+
+{%- capture model_python_api_link -%}
+[ViveknSentimentModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ViveknSentimentModel.html)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -60,9 +64,7 @@ SENTIMENT
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 document = DocumentAssembler() \
@@ -176,6 +178,10 @@ result.select("final_sentiment").show(false)
 [ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ViveknSentimentApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [ViveknSentimentApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach.scala)
 {%- endcapture -%}
@@ -186,6 +192,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -193,6 +200,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

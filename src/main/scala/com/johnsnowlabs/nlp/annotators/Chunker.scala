@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate}
@@ -26,7 +42,7 @@ import scala.util.matching.Regex
   * When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
   * `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can also be set with `addRegexParsers`.
   *
-  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * For more extended examples see the [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
   * and the  [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala ChunkerTestSpec]].
   *
   * ==Example==

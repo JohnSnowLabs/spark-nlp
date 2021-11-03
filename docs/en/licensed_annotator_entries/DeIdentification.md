@@ -39,11 +39,11 @@ Dr. Gregory House#DOCTOR
 ```
 
 Ideally this annotator works in conjunction with Demographic Named EntityRecognizers that can be trained either using
-[TextMatchers](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TextMatcher),
-[RegexMatchers](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RegexMatcher),
-[DateMatchers](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/DateMatcher),
-[NerCRFs](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach) or
-[NerDLs](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
+[TextMatchers](/docs/en/annotators#textmatcher),
+[RegexMatchers](/docs/en/annotators#regexmatcher),
+[DateMatchers](/docs/en/annotators#datematcher),
+[NerCRFs](/docs/en/annotators#nercrf) or
+[NerDLs](/docs/en/annotators#nerdl)
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -211,7 +211,7 @@ result.select("dei.result").show(truncate = false)
 {%- endcapture -%}
 
 
-{% include templates/approach_model_template.md
+{% include templates/licensed_approach_model_template.md
 title=title
 model_description=model_description
 model_input_anno=model_input_anno

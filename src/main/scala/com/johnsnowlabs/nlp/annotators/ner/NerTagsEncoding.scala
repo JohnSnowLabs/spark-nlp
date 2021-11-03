@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -34,7 +33,15 @@ object NerTagsEncoding {
    * @param doc Source doc text
    * @return Extracted Named Entities
    */
-  def fromIOB(sentence: NerTaggedSentence, doc: Annotation, sentenceIndex: Int = 0, originalOffset: Boolean = true): Seq[NamedEntity] = {
+  def fromIOB(sentence: NerTaggedSentence, doc: Annotation, sentenceIndex: Int = 0, originalOffset: Boolean = true,
+              includeNoneEntities: Boolean = false, format: String = "IOB2"): Seq[NamedEntity] = {
+
+    val noChunk = "O"
+    var beginningTagChunk = "B-"
+    if (format != "IOB2") {
+      beginningTagChunk = "I-"
+    }
+
     val result = ArrayBuffer[NamedEntity]()
 
     val words = sentence.words.length
@@ -68,20 +75,30 @@ object NerTagsEncoding {
 
     }
 
+    def getTag(tag: String): Option[String] = {
+      try {
+        lastTag = Some(tag.substring(2))
+      } catch {
+        case e: StringIndexOutOfBoundsException =>
+          require(tag.length < 2, s"This annotator only supports IOB and IOB2 tagging: https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging) \n $e")
+      }
+      lastTag
+    }
+
     for (i <- 0 until words) {
       val tag = sentence.tags(i)
-      if (lastTag.isDefined && (tag.startsWith("B-") || tag == "O")) {
+      if (lastTag.isDefined && (tag.startsWith(beginningTagChunk) || tag == noChunk)) {
         flushEntity(lastTagStart, i - 1)
       }
 
-      if (lastTag.isEmpty && tag != "O") {
-        try {
-          lastTag = Some(tag.substring(2))
-        } catch {
-          case e: StringIndexOutOfBoundsException =>
-            require(tag.length < 2, s"This annotator only supports IOB and IOB2 tagging: https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging) \n $e")
-        }
+      if (includeNoneEntities && lastTag.isEmpty) {
+        lastTag = if (tag == noChunk ) Some(tag) else getTag(tag)
         lastTagStart = i
+      } else {
+        if (lastTag.isEmpty && tag != noChunk) {
+          lastTag = getTag(tag)
+          lastTagStart = i
+        }
       }
     }
 

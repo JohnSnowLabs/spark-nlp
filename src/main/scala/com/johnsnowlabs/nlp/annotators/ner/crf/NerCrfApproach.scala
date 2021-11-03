@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -51,19 +50,37 @@ import org.apache.spark.sql.Dataset
  * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproachTestSpec.scala NerCrfApproachTestSpec]].
  *
  * ==Example==
- * This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
- * If a custom dataset is used, these need to be defined.
  * {{{
  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotators.Tokenizer
+ * import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
  * import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
- * import com.johnsnowlabs.nlp.annotator.NerCrfApproach
+ * import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
  * import com.johnsnowlabs.nlp.training.CoNLL
+ * import com.johnsnowlabs.nlp.annotator.NerCrfApproach
  * import org.apache.spark.ml.Pipeline
+ *
+ * // This CoNLL dataset already includes a sentence, token, POS tags and label
+ * // column with their respective annotator types. If a custom dataset is used,
+ * // these need to be defined with for example:
  *
  * val documentAssembler = new DocumentAssembler()
  *   .setInputCol("text")
  *   .setOutputCol("document")
  *
+ * val sentence = new SentenceDetector()
+ *   .setInputCols("document")
+ *   .setOutputCol("sentence")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols("sentence")
+ *   .setOutputCol("token")
+ *
+ * val posTagger = PerceptronModel.pretrained()
+ *   .setInputCols("sentence", "token")
+ *   .setOutputCol("pos")
+ *
+ * // Then the training can start
  * val embeddings = WordEmbeddingsModel.pretrained()
  *   .setInputCols("sentence", "token")
  *   .setOutputCol("embeddings")
@@ -74,17 +91,14 @@ import org.apache.spark.sql.Dataset
  *   .setLabelColumn("label")
  *   .setMinEpochs(1)
  *   .setMaxEpochs(3)
- *   .setC0(34)
- *   .setL2(3.0)
  *   .setOutputCol("ner")
  *
  * val pipeline = new Pipeline().setStages(Array(
- *   documentAssembler,
  *   embeddings,
  *   nerTagger
  * ))
  *
- *
+ * // We use the sentences, tokens, POS tags and labels from the CoNLL dataset.
  * val conll = CoNLL()
  * val trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
  *

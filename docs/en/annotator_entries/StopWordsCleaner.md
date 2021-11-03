@@ -80,9 +80,7 @@ TOKEN
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -177,6 +175,10 @@ result.selectExpr("cleanTokens.result").show(false)
 [StopWordsCleaner](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/StopWordsCleaner)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[StopWordsCleaner](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.StopWordsCleaner.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [StopWordsCleaner](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleaner.scala)
 {%- endcapture -%}
@@ -188,6 +190,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

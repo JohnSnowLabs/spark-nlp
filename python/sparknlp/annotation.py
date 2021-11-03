@@ -1,9 +1,8 @@
-#  Licensed to the Apache Software Foundation (ASF) under one or more
-#  contributor license agreements.  See the NOTICE file distributed with
-#  this work for additional information regarding copyright ownership.
-#  The ASF licenses this file to You under the Apache License, Version 2.0
-#  (the "License"); you may not use this file except in compliance with
-#  the License.  You may obtain a copy of the License at
+#  Copyright 2017-2021 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
@@ -20,15 +19,15 @@ from pyspark.sql.types import *
 
 
 class Annotation:
-    """Represents the output of Spark NLP Annotators and their details
+    """Represents the output of Spark NLP Annotators and their details.
 
     Parameters
     ----------
     annotator_type : str
-        The type of the output of the annotator.
-        Possible values are ``DOCUMENT, TOKEN, WORDPIECE,
-        WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, ENTITY, SENTIMENT, POS, CHUNK, NAMED_ENTITY,
-        NEGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, KEYWORD, DUMMY``.
+        The type of the output of the annotator. Possible values are ``DOCUMENT,
+        TOKEN, WORDPIECE, WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE,
+        ENTITY, SENTIMENT, POS, CHUNK, NAMED_ENTITY, NEGEX, DEPENDENCY,
+        LABELED_DEPENDENCY, LANGUAGE, KEYWORD, DUMMY``.
     begin : int
         The index of the first character under this annotation.
     end : int
@@ -50,7 +49,8 @@ class Annotation:
         self.embeddings = embeddings
 
     def copy(self, result):
-        """Creates new Annotation with a different result, containing all settings of this Annotation.
+        """Creates new Annotation with a different result, containing all
+        settings of this Annotation.
 
         Parameters
         ----------
@@ -78,11 +78,25 @@ class Annotation:
 
     @staticmethod
     def dataType():
-        """Returns a Spark :class:`StructType`, that represents the schema of the Annotation.
+        """Returns a Spark `StructType`, that represents the schema of the
+        Annotation.
+
+        The Schema looks like::
+
+            struct (containsNull = True)
+            |-- annotatorType: string (nullable = False)
+            |-- begin: integer (nullable = False)
+            |-- end: integer (nullable = False)
+            |-- result: string (nullable = False)
+            |-- metadata: map (nullable = False)
+            |    |-- key: string
+            |    |-- value: string (valueContainsNull = True)
+            |-- embeddings: array (nullable = False)
+            |    |-- element: float (containsNull = False)
 
         Returns
         -------
-        StructType
+        :class:`pyspark.sql.types.StructType`
             Spark Schema of the Annotation
         """
         return StructType([
@@ -96,23 +110,25 @@ class Annotation:
 
     @staticmethod
     def arrayType():
-        """Returns a Spark :class:`ArrayType`, that contains the :func:`dataType` of the annotation.
+        """Returns a Spark `ArrayType`, that contains the `dataType` of the
+        annotation.
 
         Returns
         -------
-        ArrayType
-            ArrayType with the Annotation data type.
+        :class:`pyspark.sql.types.ArrayType`
+            ArrayType with the Annotation data type embedded.
         """
         return ArrayType(Annotation.dataType())
 
     @staticmethod
     def fromRow(row):
-        """Creates a Annotation from a Spark :class:`Row`.
+        """Creates a Annotation from a Spark `Row`.
 
         Parameters
         ----------
-        row : Row
-            Spark row containing columns for ``annotatorType, begin, end, result, metadata, embeddings``.
+        row : :class:`pyspark.sql.Row`
+            Spark row containing columns for ``annotatorType, begin, end,
+            result, metadata, embeddings``.
 
         Returns
         -------
@@ -123,7 +139,7 @@ class Annotation:
 
     @staticmethod
     def toRow(annotation):
-        """Transforms an Annotation to a Spark :class:`Row`.
+        """Transforms an Annotation to a Spark `Row`.
 
         Parameters
         ----------
@@ -132,7 +148,7 @@ class Annotation:
 
         Returns
         -------
-        Row
+        :class:`pyspark.sql.Row`
             The new Row.
         """
         from pyspark.sql import Row

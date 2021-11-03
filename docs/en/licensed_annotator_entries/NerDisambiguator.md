@@ -29,8 +29,8 @@ Links words of interest, such as names of persons, locations and companies, from
 a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),
 mentions, or surface forms.
 The model needs extracted CHUNKS and SENTENCE_EMBEDDINGS type input from e.g.
-[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings.html) and
-[NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter.html).
+[SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) and
+[NerConverter](/docs/en/annotators#nerconverter).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -177,7 +177,7 @@ val result = model.transform(data)
 {%- endcapture -%}
 
 
-{% include templates/approach_model_template.md
+{% include templates/licensed_approach_model_template.md
 title=title
 model_description=model_description
 model_input_anno=model_input_anno

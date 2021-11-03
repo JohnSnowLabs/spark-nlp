@@ -23,7 +23,7 @@ Relation extraction between lab test names, their findings, measurements, result
 `is_finding_of`, `is_result_of`, `is_date_of`, `O`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_DATE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb#scrollTo=D8TtVuN-Ee8s){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_test_result_date_en_2.7.4_2.4_1614168615976.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

@@ -87,5 +87,19 @@ data:
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_TR_NEWS/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_NEWS.ipynb  
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_NEWS.ipynb
+        - title: Turkish Cyberbullying Detection
+          id: turkish_cyberbullying_detection
+          image: 
+              src: /assets/images/Turkish_Cyberbullying_Detection.svg
+          image2: 
+              src: /assets/images/Turkish_Cyberbullying_Detection_c.svg
+          excerpt: This demo shows how cyberbullying content can be automatically detected in Turkish text using Classifier DL model. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_TR_CYBERBULLYING/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_CYBERBULLYING.ipynb 
 ---

@@ -21,7 +21,7 @@ The default model is `"sentimentdl_use_imdb"`, if no name is provided. It is eng
 the IMDB dataset.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -36,9 +36,7 @@ CATEGORY
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -122,6 +120,10 @@ result.select("text", "sentiment.result").show(false)
 [SentimentDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[SentimentDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDLModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [SentimentDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLModel.scala)
 {%- endcapture -%}
@@ -135,11 +137,13 @@ of a text. A common example is if either a product review or tweet can be interp
 For the instantiated/pretrained models, see SentimentDLModel.
 
 **Notes**:
-  - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-    So positive sentiment can be expressed as either `"positive"` or `0`, negative sentiment as `"negative"` or `1`.
-  - [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
-    [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
-    [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) can be used for the `inputCol`.
+  - This annotator accepts a label column of a single item in either type of
+    String, Int, Float, or Double. So positive sentiment can be expressed as
+    either `"positive"` or `0`, negative sentiment as `"negative"` or `1`.
+  - [UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder),
+    [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings),
+    [SentenceEmbeddings](/docs/en/annotators#sentenceembeddings) or other
+    sentence based embeddings can be used
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).
@@ -156,9 +160,7 @@ CATEGORY
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 # In this example, `sentiment.csv` is in the form
 #
@@ -249,6 +251,10 @@ val pipelineModel = pipeline.fit(smallCorpus)
 [SentimentDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[SentimentDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.SentimentDLApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [SentimentDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach.scala)
 {%- endcapture -%}
@@ -259,8 +265,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -268,6 +273,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

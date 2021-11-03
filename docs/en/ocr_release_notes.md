@@ -1,11 +1,102 @@
 ---
 layout: docs
 header: true
+seotitle: Spark OCR | John Snow Labs
 title: Spark OCR release notes
 permalink: /docs/en/ocr_release_notes
 key: docs-ocr-release-notes
 modify_date: "2020-04-08"
+show_nav: true
+sidebar:
+    nav: spark-ocr
 ---
+
+## 3.9.0
+
+Release date: 20-10-2021
+
+#### Overview
+
+Improve visualization and support Spark NLP. 
+
+#### New Features
+
+* Added [HocrTokenizer](ocr_pipeline_components#hocrtokenizer)
+* Added [HocrDocumentAssembler](ocr_pipeline_components#hocrdocumentassembler)
+* Added [ImageDrawAnnotations](ocr_pipeline_components#imagedrawannotations)
+* Added support Arabic language in ImageToText and ImageToHocr
+
+#### Enhancements
+
+* Added postprocessing to the [ImageTableDetector](ocr_table_recognition#imagetabledetector)
+* Added Spark NLP by default to spark session in start function
+* Changed default value for ignoreResolution param in [ImageToText](ocr_pipeline_components#imagetotext)
+* Updated license-validator. Added support floating license and set AWS keys from license.
+* Added 'whiteList' param to the [VisualDocumentNER](ocr_pipeline_components#visualdocumentner)
+
+#### New and updated notebooks
+
+* [Spark OCR HOCR](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.9.0/jupyter/SparkOcrHocr.ipynb)
+* [Visual Document NER](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.9.0/jupyter/SparkOCRVisualDocumentNer.ipynb)
+
+
+## 3.8.0
+
+Release date: 14-09-2021
+
+#### Overview
+
+Support Microsoft PPT and PPTX documents.
+
+#### New Features
+
+* Added [PptToPdf](ocr_pipeline_components#ppttopdf) transformer for convert PPT and PPTX slides to the PDF document.
+* Added [PptToTextTable](ocr_pipeline_components#ppttotexttable) transformer for extract tables from PPT and PPTX slides.
+
+
+#### New and updated notebooks
+
+* [Convert PPT to PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToPdf.ipynb) (New)
+* [Extract tables from PPT](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.8.0/jupyter/SparkOcrPptToTextTable.ipynb) (New)
+
+
+## 3.7.0
+
+Release date: 30-08-2021
+
+#### Overview
+
+Improve table recognition and render OCR results to the PDF with original image
+
+
+#### New Features
+
+* Added [ImageToTextPdf](ocr_pipeline_components#imagetotextpdf) transformer for store recognized text to the searchable
+PDF with original image
+* Added [PdfAssembler](ocr_pipeline_components#pdfassembler) for assemble multipage PDF document from single page PDF
+documents
+
+
+#### Enhancements
+
+* Added support dbfs for store models. This allow to use models on Databricks.
+* Improved [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
+* Added params for tune [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
+* Added possibility to render detected lines to the original image in [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector)
+* Added support store recognized results to CSV in [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable)
+* Added [display_table](ocr_structures#displaytable) and [display_tables](ocr_structures#displaytables) functions
+* Added [display_pdf_file](ocr_structures#displaypdffile) function for display pdf in embedded pdf viewer
+* Updated license validator
+
+
+#### New and updated notebooks
+
+* [Process multiple page scanned PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrProcessMultiplepageScannedPDF.ipynb) (New)
+* [Image Table Detection example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableDetection.ipynb)
+* [Image Cell Recognition example](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableCellRecognition.ipynb)
+* [Image Table Recognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableRecognition.ipynb)
+* [Tables Recognition from PDF](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.7.0/jupyter/SparkOcrImageTableRecognitionPdf.ipynb)
+
 
 
 ## 3.6.0

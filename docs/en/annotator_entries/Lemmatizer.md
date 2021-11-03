@@ -18,9 +18,7 @@ TOKEN
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 # The lemmatizer from the example of the [[Lemmatizer]] can be replaced with:
 lemmatizer = LemmatizerModel.pretrained() \
@@ -41,6 +39,10 @@ val lemmatizer = LemmatizerModel.pretrained()
 [LemmatizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/LemmatizerModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[LemmatizerModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.LemmatizerModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [LemmatizerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/LemmatizerModel.scala)
 {%- endcapture -%}
@@ -52,8 +54,7 @@ The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with `LemmatizerModel.pretrained`.
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
-and the [LemmatizerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala).
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -65,12 +66,6 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
 # In this example, the lemma dictionary `lemmas_small.txt` has the form of
 #
 # ...
@@ -81,6 +76,11 @@ from pyspark.ml import Pipeline
 # ...
 #
 # where each key is delimited by `->` and values are delimited by `\t`
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
@@ -180,6 +180,10 @@ result.selectExpr("lemma.result").show(false)
 [Lemmatizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Lemmatizer)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[Lemmatizer](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Lemmatizer.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [Lemmatizer](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Lemmatizer.scala)
 {%- endcapture -%}
@@ -190,8 +194,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -199,6 +202,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

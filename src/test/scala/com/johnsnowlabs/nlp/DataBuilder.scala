@@ -1,11 +1,29 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.training.CoNLL
-import org.apache.spark.sql.{Dataset, Row}
-import org.scalatest._
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.{BeforeAndAfterAll, Suite}
 
 
-object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
+object DataBuilder extends AnyFlatSpec with BeforeAndAfterAll {
+  this: Suite =>
 
   import SparkAccessor.spark.implicits._
 
@@ -26,6 +44,6 @@ object DataBuilder extends FlatSpec with BeforeAndAfterAll { this: Suite =>
     AnnotatorBuilder.withDocumentAssembler(data)
   }
 
-  def loadParquetDataset(path: String) =
+  def loadParquetDataset(path: String): DataFrame =
     SparkAccessor.spark.read.parquet(path)
 }

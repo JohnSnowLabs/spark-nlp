@@ -23,7 +23,7 @@ For example `"The 31st of April in the year 2008"` will be converted into `2008/
 
 Pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb)
+For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
 and the [DateMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala).
 {%- endcapture -%}
 
@@ -38,9 +38,7 @@ DATE
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -115,6 +113,10 @@ result.selectExpr("date").show(false)
 [DateMatcher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/DateMatcher)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[DateMatcher](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DateMatcher.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [DateMatcher](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/DateMatcher.scala)
 {%- endcapture -%}
@@ -126,6 +128,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

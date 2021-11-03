@@ -19,12 +19,12 @@ val classifierDL = ClassifierDLModel.pretrained()
   .setOutputCol("classification")
 ```
 The default model is `"classifierdl_use_trec6"`, if no name is provided. It uses embeddings from the
-[UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder) and is trained on the
+[UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder) and is trained on the
 [TREC-6](https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels) dataset.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
 
 For extended examples of usage, see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/5.Text_Classification_with_ClassifierDL_v3.0.ipynb)
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb)
 and the [ClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -39,9 +39,7 @@ CATEGORY
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -140,6 +138,10 @@ result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out")
 [ClassifierDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[ClassifierDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [ClassifierDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLModel.scala)
 {%- endcapture -%}
@@ -152,12 +154,6 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 100 classes.
 
 For instantiated/pretrained models, see ClassifierDLModel.
-
-**Notes**:
-  - This annotator accepts a label column of a single item in either type of String, Int, Float, or Double.
-  - [UniversalSentenceEncoder](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoder),
-    [BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings), or
-    [SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings) can be used for the `inputCol`.
 
 For extended examples of usage, see the Spark NLP Workshop
 [[1] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
@@ -174,12 +170,6 @@ CATEGORY
 {%- endcapture -%}
 
 {%- capture approach_python_example -%}
-import sparknlp
-from sparknlp.base import *
-from sparknlp.common import *
-from sparknlp.annotator import *
-from sparknlp.training import *
-from pyspark.ml import Pipeline
 # In this example, the training data `"sentiment.csv"` has the form of
 #
 # text,label
@@ -188,6 +178,11 @@ from pyspark.ml import Pipeline
 # ...
 #
 # Then traning can be done like so:
+
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
 
 smallCorpus = spark.read.option("header","True").csv("src/test/resources/classifier/sentiment.csv")
 
@@ -230,6 +225,7 @@ pipelineModel = pipeline.fit(smallCorpus)
 // ...
 //
 // Then traning can be done like so:
+
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach
@@ -271,6 +267,10 @@ val pipelineModel = pipeline.fit(smallCorpus)
 [ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.ClassifierDLApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [ClassifierDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach.scala)
 {%- endcapture -%}
@@ -283,6 +283,7 @@ model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_python_example=model_python_example
 model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -290,6 +291,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 approach_note="This annotator accepts a label column of a single item in either type of String, Int, Float, or Double. UniversalSentenceEncoder, BertSentenceEmbeddings, or SentenceEmbeddings can be used for the inputCol"

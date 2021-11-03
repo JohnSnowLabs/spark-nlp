@@ -1,10 +1,9 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -70,11 +69,12 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
-    items.flatMap(item => item.indexedTaggedWords.map { tag =>
-      val metadata = if (tag.confidence.isDefined) {
-        Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten
+    items.zipWithIndex.flatMap{ case (item, sentenceIndex) => item.indexedTaggedWords.map{ tag =>
+      val metadata: Map[String, String] =  if (tag.confidence.isDefined) {
+        Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten ++
+          Map("sentence" -> sentenceIndex.toString)
       } else {
-        Map("word" -> tag.word) ++ Map.empty[String, String]
+        Map("word" -> tag.word) ++ Map.empty[String, String] ++ Map("sentence" -> sentenceIndex.toString)
       }
       new Annotation(
         annotatorType,
@@ -83,7 +83,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.tag,
         metadata
       )
-    })
+    }}
   }
 
   /**

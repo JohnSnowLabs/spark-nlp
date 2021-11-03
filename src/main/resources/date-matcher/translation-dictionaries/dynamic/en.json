@@ -1,0 +1,235 @@
+{
+    "name": "en",
+    "date_order": "MDY",
+    "january": [
+        "jan",
+        "january"
+    ],
+    "february": [
+        "feb",
+        "february"
+    ],
+    "march": [
+        "mar",
+        "march"
+    ],
+    "april": [
+        "apr",
+        "april"
+    ],
+    "may": [
+        "may"
+    ],
+    "june": [
+        "jun",
+        "june"
+    ],
+    "july": [
+        "jul",
+        "july"
+    ],
+    "august": [
+        "aug",
+        "august"
+    ],
+    "september": [
+        "sep",
+        "september"
+    ],
+    "october": [
+        "oct",
+        "october"
+    ],
+    "november": [
+        "nov",
+        "november"
+    ],
+    "december": [
+        "dec",
+        "december"
+    ],
+    "monday": [
+        "mon",
+        "monday"
+    ],
+    "tuesday": [
+        "tue",
+        "tuesday"
+    ],
+    "wednesday": [
+        "wed",
+        "wednesday"
+    ],
+    "thursday": [
+        "thu",
+        "thursday"
+    ],
+    "friday": [
+        "fri",
+        "friday"
+    ],
+    "saturday": [
+        "sat",
+        "saturday"
+    ],
+    "sunday": [
+        "sun",
+        "sunday"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "year",
+        "yr"
+    ],
+    "month": [
+        "mo",
+        "month"
+    ],
+    "week": [
+        "week",
+        "wk"
+    ],
+    "day": [
+        "day"
+    ],
+    "hour": [
+        "hour",
+        "hr"
+    ],
+    "minute": [
+        "min",
+        "minute"
+    ],
+    "second": [
+        "sec",
+        "second"
+    ],
+    "0 day ago": [
+        "today"
+    ],
+    "0 hour ago": [
+        "this hour"
+    ],
+    "0 minute ago": [
+        "this minute"
+    ],
+    "0 month ago": [
+        "this mo",
+        "this month"
+    ],
+    "0 second ago": [
+        "now"
+    ],
+    "0 week ago": [
+        "this week",
+        "this wk"
+    ],
+    "0 year ago": [
+        "this year",
+        "this yr"
+    ],
+    "1 day ago": [
+        "yesterday"
+    ],
+    "1 month ago": [
+        "last mo",
+        "last month"
+    ],
+    "1 week ago": [
+        "last week",
+        "last wk"
+    ],
+    "1 year ago": [
+        "last year",
+        "last yr"
+    ],
+    "in 1 day": [
+        "tomorrow"
+    ],
+    "in 1 month": [
+        "next mo",
+        "next month"
+    ],
+    "in 1 week": [
+        "next week",
+        "next wk"
+    ],
+    "in 1 year": [
+        "next year",
+        "next yr"
+    ]
+,
+    "#K# day ago": [
+        "#V# day ago",
+        "#V# days ago"
+    ],
+    "#K# hour ago": [
+        "#V# hour ago",
+        "#V# hours ago",
+        "#V# hr ago"
+    ],
+    "#K# minute ago": [
+        "#V# min ago",
+        "#V# minute ago",
+        "#V# minutes ago"
+    ],
+    "#K# month ago": [
+        "#V# mo ago",
+        "#V# month ago",
+        "#V# months ago"
+    ],
+    "#K# second ago": [
+        "#V# sec ago",
+        "#V# second ago",
+        "#V# seconds ago"
+    ],
+    "#K# week ago": [
+        "#V# week ago",
+        "#V# weeks ago",
+        "#V# wk ago"
+    ],
+    "#K# year ago": [
+        "#V# year ago",
+        "#V# years ago",
+        "#V# yr ago"
+    ],
+    "in #K# day": [
+        "in #V# day",
+        "in #V# days"
+    ],
+    "in #K# hour": [
+        "in #V# hour",
+        "in #V# hours",
+        "in #V# hr"
+    ],
+    "in #K# minute": [
+        "in #V# min",
+        "in #V# minute",
+        "in #V# minutes"
+    ],
+    "in #K# month": [
+        "in #V# mo",
+        "in #V# month",
+        "in #V# months"
+    ],
+    "in #K# second": [
+        "in #V# sec",
+        "in #V# second",
+        "in #V# seconds"
+    ],
+    "in #K# week": [
+        "in #V# week",
+        "in #V# weeks",
+        "in #V# wk"
+    ],
+    "in #K# year": [
+        "in #V# year",
+        "in #V# years",
+        "in #V# yr"
+    ]
+}

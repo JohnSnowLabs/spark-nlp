@@ -24,8 +24,8 @@ Pretrained named entity recognition deep learning model for Drugs. This model is
 `DrugChem`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_drugs_en_3.2.0_2.4_1632141658042.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -61,7 +61,7 @@ val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifi
   .setOutputCol("ner")
   .setCaseSensitive(True)
 
-ner_converter = NerConverter()
+val ner_converter = NerConverter()
         .setInputCols(Array("sentence","token","ner"))
         .setOutputCol("ner_chunk")
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))

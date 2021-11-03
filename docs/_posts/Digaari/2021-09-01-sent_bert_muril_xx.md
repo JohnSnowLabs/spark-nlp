@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Multilingual Representations for Indian Languages (MuRIL): BERT Sentence Embedding pre-trained on 17 Indian languages
+title: Multilingual Representations for Indian Languages (MuRIL) - BERT Sentence Embedding pre-trained on 17 Indian languages
 author: John Snow Labs
 name: sent_bert_muril
 date: 2021-09-01

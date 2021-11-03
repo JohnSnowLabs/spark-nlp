@@ -21,7 +21,7 @@ val chunker = new Chunker()
 When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
 `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can also be set with `addRegexParsers`.
 
-For more extended examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/2c6dc86a442e9bcf0977af80a980b1eda0621611/tutorials/Certification_Trainings/Public/databricks_notebooks/2.4/3.SparkNLP_Pretrained_Models.ipynb)
+For more extended examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb))
 and the  [ChunkerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala).
 {%- endcapture -%}
 
@@ -36,9 +36,7 @@ CHUNK
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 documentAssembler = DocumentAssembler() \
@@ -143,6 +141,10 @@ result.selectExpr("explode(chunk) as result").show(false)
 [Chunker](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Chunker)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[Chunker](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Chunker.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [Chunker](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/Chunker.scala)
 {%- endcapture -%}
@@ -154,6 +156,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

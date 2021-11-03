@@ -23,7 +23,7 @@ Additionally, pretrained pipelines are available for this module, see [Pipelines
 
 Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
 For example, the default model `"ner_dl"` requires the
-[WordEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel) `"glove_100d"`.
+[WordEmbeddings](/docs/en/annotators#wordembeddings) `"glove_100d"`.
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
@@ -40,9 +40,7 @@ NAMED_ENTITY
 {%- capture model_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 # First extract the prerequisites for the NerDLModel
@@ -142,6 +140,10 @@ result.select("ner.result").show(false)
 [NerDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[NerDLModel](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerDLModel.html)
+{%- endcapture -%}
+
 {%- capture model_source_link -%}
 [NerDLModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel.scala)
 {%- endcapture -%}
@@ -153,14 +155,15 @@ The architecture of the neural network is a Char CNNs - BiLSTM - CRF that achiev
 
 For instantiated/pretrained models, see NerDLModel.
 
-The training data should be a labeled Spark Dataset, in the format of [CoNLL](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/training/CoNLL)
+The training data should be a labeled Spark Dataset, in the format of [CoNLL](/docs/en/training#conll-dataset)
 2003 IOB with `Annotation` type columns. The data should have columns of type `DOCUMENT, TOKEN, WORD_EMBEDDINGS` and an
 additional label column of annotator type `NAMED_ENTITY`.
 Excluding the label, this can be done with for example
-  - a [SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector),
-  - a [Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer) and
-  - a [WordEmbeddingsModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel)
-  (any embeddings can be chosen, e.g. [BertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings) for BERT based embeddings).
+  - a [SentenceDetector](/docs/en/annotators#sentencedetector),
+  - a [Tokenizer](/docs/en/annotators#tokenizer) and
+  - a [PerceptronModel](/docs/en/annotators#postagger-part-of-speech-tagger) and
+  - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
+  (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
 For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
@@ -177,7 +180,6 @@ NAMED_ENTITY
 {%- capture approach_python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
 from sparknlp.training import *
 from pyspark.ml import Pipeline
@@ -279,6 +281,10 @@ val pipelineModel = pipeline.fit(trainingData)
 [NerDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[NerDLApproach](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.NerDLApproach.html)
+{%- endcapture -%}
+
 {%- capture approach_source_link -%}
 [NerDLApproach](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach.scala)
 {%- endcapture -%}
@@ -289,8 +295,7 @@ title=title
 model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
-model_python_example=model_python_example
-model_scala_example=model_scala_example
+model_python_api_link=model_python_api_link
 model_api_link=model_api_link
 model_source_link=model_source_link
 approach_description=approach_description
@@ -298,6 +303,7 @@ approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_example=approach_python_example
 approach_scala_example=approach_scala_example
+approach_python_api_link=approach_python_api_link
 approach_api_link=approach_api_link
 approach_source_link=approach_source_link
 %}

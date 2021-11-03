@@ -31,7 +31,7 @@ This pre-trained pipeline classifies Turkish texts of news.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-pipeline = PretrainedPipeline("classifierdl_bert_news_pipeline", lange = "tr")
+pipeline = PretrainedPipeline("classifierdl_bert_news_pipeline", lang = "tr")
 
 result = pipeline.fullAnnotate("Bonservisi elinde olan Milli oyuncu, yeni takımıyla el sıkıştı")
 

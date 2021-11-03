@@ -24,7 +24,7 @@ Detect entities related to road traffic using pretrained NER model.
 `ORGANIZATION_COMPANY`, `DISASTER_TYPE`, `TIME`, `TRIGGER`, `DATE`, `PERSON`, `LOCATION_STOP`, `ORGANIZATION`, `DISTANCE`, `LOCATION_STREET`, `NUMBER`, `DURATION`, `ORG_POSITION`, `LOCATION_ROUTE`, `LOCATION`, `LOCATION_CITY`
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_TRAFFIC_DE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_traffic_de_3.0.0_3.0_1617260858901.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

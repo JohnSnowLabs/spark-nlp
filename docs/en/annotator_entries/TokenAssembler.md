@@ -8,7 +8,7 @@ lemmatized, normalized, spell checked, etc, in order to use this document annota
 Requires `DOCUMENT` and `TOKEN` type annotations as input.
 
 For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/databricks_notebooks/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers_v3.0.ipynb).
+[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -22,9 +22,7 @@ DOCUMENT
 {%- capture python_example -%}
 import sparknlp
 from sparknlp.base import *
-from sparknlp.common import *
 from sparknlp.annotator import *
-from sparknlp.training import *
 from pyspark.ml import Pipeline
 
 # First, the text is tokenized and cleaned
@@ -140,6 +138,10 @@ result.select("cleanText").show(false)
 [TokenAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/TokenAssembler)
 {%- endcapture -%}
 
+{%- capture python_api_link -%}
+[TokenAssembler](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.base.TokenAssembler.html)
+{%- endcapture -%}
+
 {%- capture source_link -%}
 [TokenAssembler](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/TokenAssembler.scala)
 {%- endcapture -%}
@@ -151,6 +153,7 @@ input_anno=input_anno
 output_anno=output_anno
 python_example=python_example
 scala_example=scala_example
+python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}

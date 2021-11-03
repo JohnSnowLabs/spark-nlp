@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.common
 
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -36,12 +52,13 @@ object DependencyParsed extends Annotated[DependencyParsedSentence]{
   }
 
   override def pack(items: Seq[DependencyParsedSentence]): Seq[Annotation] = {
-    items.flatMap{sentence =>
+    items.zipWithIndex.flatMap{ case (sentence, index) =>
       sentence.tokens.map { token =>
         val headData = getHeadData(token.head, sentence)
         val realHead = if (token.head == sentence.tokens.length) 0 else token.head + 1
         Annotation(annotatorType, token.begin, token.end, headData.word, Map("head" -> realHead.toString,
-          "head.begin" -> headData.begin.toString, "head.end" -> headData.end.toString))
+          "head.begin" -> headData.begin.toString, "head.end" -> headData.end.toString,
+        "sentence" -> index.toString))
       }
     }
   }

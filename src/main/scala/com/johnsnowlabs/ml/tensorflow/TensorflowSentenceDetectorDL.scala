@@ -1,6 +1,23 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.tensorflow.Graph
 
 import scala.collection.JavaConverters._
@@ -8,11 +25,11 @@ import scala.util.Random
 import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.proto.framework.GraphDef
 
-class TensorflowSentenceDetectorDL (
-                                   val model: TensorflowWrapper,
-                                   val verboseLevel: Verbose.Value = Verbose.All,
-                                   val outputLogsPath: Option[String] = None
-                                 )
+class TensorflowSentenceDetectorDL(
+                                    val model: TensorflowWrapper,
+                                    val verboseLevel: Verbose.Value = Verbose.All,
+                                    val outputLogsPath: Option[String] = None
+                                  )
   extends Serializable with Logging {
 
   private val initKey = "init"
@@ -55,24 +72,24 @@ class TensorflowSentenceDetectorDL (
 
   protected def logMessage(message: String, uuid: String): Unit = {
 
-    if (outputLogsPath.isDefined){
+    if (outputLogsPath.isDefined) {
       outputLog(message, uuid, true, outputLogsPath.get)
     }
 
   }
 
   def train(
-               features: Array[Array[Float]],
-               labels: Array[Array[Float]],
-               batchSize: Int,
-               epochsNumber: Int,
-               learningRate: Float = 0.001f,
-               validationSplit: Float = 0.0f,
-               classWeights: Array[Float],
-               dropout: Float = 0.0f,
-               configProtoBytes: Option[Array[Byte]] = None,
-               uuid: String = Identifiable.randomUID("annotator")
-             ): Unit = {
+             features: Array[Array[Float]],
+             labels: Array[Array[Float]],
+             batchSize: Int,
+             epochsNumber: Int,
+             learningRate: Float = 0.001f,
+             validationSplit: Float = 0.0f,
+             classWeights: Array[Float],
+             dropout: Float = 0.0f,
+             configProtoBytes: Option[Array[Byte]] = None,
+             uuid: String = Identifiable.randomUID("annotator")
+           ): Unit = {
 
     model.createSession(configProtoBytes).runner.addTarget(initKey).run()
 
@@ -97,7 +114,7 @@ class TensorflowSentenceDetectorDL (
     println(f"Training $epochsNumber epochs")
     logMessage(f"Training $epochsNumber epochs", uuid)
 
-    for( epoch <- 1 to epochsNumber){
+    for (epoch <- 1 to epochsNumber) {
 
       var loss = 0.0f
       var acc = 0.0f
@@ -107,7 +124,7 @@ class TensorflowSentenceDetectorDL (
 
       val randomizedTrainingData = Random.shuffle(trainDataset).toArray
 
-      for (batch <- randomizedTrainingData.grouped(batchSize)){
+      for (batch <- randomizedTrainingData.grouped(batchSize)) {
 
         val tensors = new TensorResources()
 
@@ -140,19 +157,23 @@ class TensorflowSentenceDetectorDL (
       acc /= batches
 
       if (validationSplit > 0.0) {
-        val (validationFeatures, validationLabels) =  validationDataset.toArray.unzip
+        val (validationFeatures, validationLabels) = validationDataset.toArray.unzip
         val (_, valid_acc) = internalPredict(validationFeatures, validationLabels, configProtoBytes, outputClassWeights)
-        val endTime = (System.nanoTime() - time)/1e9
+        val endTime = (System.nanoTime() - time) / 1e9
         println(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc\tValidation ACC: $valid_acc")
         logMessage(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc\tValidation ACC: $valid_acc", uuid)
       } else {
-        val endTime = (System.nanoTime() - time)/1e9
+        val endTime = (System.nanoTime() - time) / 1e9
         println(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc")
         logMessage(f"Epoch $epoch/$epochsNumber\t$endTime%.2fs\tLoss: $loss\tACC: $acc", uuid)
       }
     }
     println(f"Training completed.")
     logMessage(f"Training completed.", uuid)
+
+    if (outputLogsPath.isDefined) {
+      OutputHelper.exportLogFileToS3()
+    }
   }
 
   protected def internalPredict(
