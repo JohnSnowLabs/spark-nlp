@@ -44,7 +44,7 @@ chunk_tokenizer = Tokenizer()\
     .setInputCols("ner_chunk_doc")\
     .setOutputCol("ner_chunk_doc_tok")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es")\
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es","clinical/models")\
     .setInputCols(["ner_chunk_doc", "ner_chunk_doc_tok"])\
     .setOutputCol("roberta_embeddings")
 
@@ -53,7 +53,7 @@ sentence_embeddings = SentenceEmbeddings() \
     .setOutputCol("sentence_embeddings") \
     .setPoolingStrategy("AVERAGE")
 
-er = SentenceEntityResolverModel.pretrained("roberta_base_biomedical_snomed_es")\
+er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed,"es","clinical/models")\
     .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")
@@ -83,7 +83,7 @@ val chunk_tokenizer = Tokenizer()\
     .setInputCols("ner_chunk_doc")\
     .setOutputCol("ner_chunk_doc_tok")
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es")\
+val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es","clinical/models")\
     .setInputCols(["ner_chunk_doc", "ner_chunk_doc_tok"])\
     .setOutputCol("roberta_embeddings")
 
@@ -92,7 +92,7 @@ val sentence_embeddings = SentenceEmbeddings() \
     .setOutputCol("sentence_embeddings") \
     .setPoolingStrategy("AVERAGE")
 
-val er = SentenceEntityResolverModel.pretrained("roberta_base_biomedical_snomed_es")\
+val er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed,"es","clinical/models")\
     .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")
