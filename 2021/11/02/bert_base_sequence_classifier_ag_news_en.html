@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentiment Analysis of Turkish texts- Spark NLP Model</title><meta name="description" content="DescriptionThis model identifies the sentiments (positive or negative) in Turkish texts.Predicted EntitiesPOSITIVE, NEGATIVELive DemoOpen in ColabDownloadHow...">
-<link rel="canonical" href="/2021/10/19/classifierdl_use_sentiment_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>BERT Sequence Classification Base - AG News (bert_base_sequence_classifier_ag_news)- Spark NLP Model</title><meta name="description" content="DescriptionBERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classifi...">
+<link rel="canonical" href="/2021/11/02/bert_base_sequence_classifier_ag_news_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,21 +403,25 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00"></div><header><h1>Sentiment Analysis of Turkish texts</h1></header></div><meta itemprop="headline" content="Sentiment Analysis of Turkish texts"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>sentiment</li><li>use</li><li>classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00">
-    <meta itemprop="keywords" content="tr,sentiment,use,classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 02, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-02T00:00:00+00:00"></div><header><h1>BERT Sequence Classification Base - AG News (bert_base_sequence_classifier_ag_news)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification Base - AG News (bert_base_sequence_classifier_ag_news)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>base</li><li>open_source</li><li>en</li><li>english</li><li>sequence_classification</li><li>ag_news</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="bert,base,open_source,en,english,sequence_classification,ag_news"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model identifies the sentiments (positive or negative) in Turkish texts.</p>
+<p>BERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
+
+<p><code class="language-plaintext highlighter-rouge">bert_base_sequence_classifier_dbpedia_14 </code> is a fine-tuned BERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance.</p>
+
+<p>We used TFBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">POSITIVE</code>, <code class="language-plaintext highlighter-rouge">NEGATIVE</code></p>
+<p><code class="language-plaintext highlighter-rouge">Business</code>, <code class="language-plaintext highlighter-rouge">Sci/Tech</code>, <code class="language-plaintext highlighter-rouge">Sports</code>, <code class="language-plaintext highlighter-rouge">World</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sentiment_tr_3.3.0_2.4_1634634525008.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_sequence_classifier_ag_news_en_3.3.2_3.0_1635851673090.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -425,56 +429,50 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCleanupMode</span><span class="p">(</span><span class="s">"shrink"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use_multi"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">sentimentClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_use_sentiment"</span><span class="p">,</span> <span class="s">"tr"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_base_sequence_classifier_ag_news'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
-<span class="n">fr_sentiment_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">sentimentClassifier</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">sequenceClassifier</span>    
+<span class="p">])</span>
 
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">fr_sentiment_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-
-<span class="n">result1</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="p">)</span>
-
-<span class="n">result2</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">result1</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">result2</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"tfhub_use_multi"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentimentClassifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_sentiment"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_base_sequence_classifier_ag_news"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">fr_sentiment_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">sentimentClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">fr_sentiment_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)))</span>
+<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">Disney</span> <span class="kt">Comics</span> <span class="kt">was</span> <span class="kt">a</span> <span class="kt">comic</span> <span class="kt">book</span> <span class="kt">publishing</span> <span class="kt">company</span> <span class="kt">operated</span> <span class="kt">by</span> <span class="kt">The</span> <span class="kt">Walt</span> <span class="kt">Disney</span> <span class="kt">Company</span> <span class="kt">which</span> <span class="kt">ran</span> <span class="kt">from</span> <span class="err">1990</span> <span class="kt">to</span> <span class="err">1993</span><span class="kt">.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">result1</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'NEGATIVE'</span><span class="o">]</span>
-<span class="o">[</span><span class="s1">'POSITIVE'</span><span class="o">]</span>
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -482,11 +480,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>classifierdl_use_sentiment</td>
+      <td>bert_base_sequence_classifier_ag_news</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.0+</td>
+      <td>Spark NLP 3.3.2+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -498,7 +496,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[token, document]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -506,27 +504,38 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>tr</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>Max sentense length:</td>
+      <td>512</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>https://raw.githubusercontent.com/gurkandyilmaz/sentiment/master/data/</p>
+<p><a href="https://huggingface.co/datasets/ag_news">https://huggingface.co/datasets/ag_news</a></p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          precision    recall  f1-score   support
 
-    NEGATIVE       0.86      0.88      0.87     19967
-    POSITIVE       0.88      0.85      0.86     19826
+    Business       0.89      0.92      0.90      1852
+    Sci/Tech       0.92      0.90      0.91      1963
+      Sports       0.99      0.98      0.98      1922
+       World       0.94      0.95      0.95      1863
 
-    accuracy                           0.87     39793
-   macro avg       0.87      0.87      0.87     39793
-weighted avg       0.87      0.87      0.87     39793
+    accuracy                           0.94      7600
+   macro avg       0.94      0.94      0.94      7600
+weighted avg       0.94      0.94      0.94      7600
+
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -651,7 +660,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/19/bert_token_classifier_ner_chemprot_en.html">Detect Chemical Compounds and Genes (BertForTokenClassifier)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/10/22/ner_jsl_enriched_en.html">Detect Clinical Entities (ner_jsl_enriched)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/01/sbiobertresolve_icd10cm_augmented_billable_hcc_en.html">Sentence Entity Resolver for Billable ICD10-CM HCC Codes</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_beto_emotion_analysis_es.html">BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)</a></div></div></div>
 
 </div>
 </div>

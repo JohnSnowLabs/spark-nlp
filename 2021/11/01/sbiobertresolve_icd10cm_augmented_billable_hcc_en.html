@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentiment Analysis of Turkish texts- Spark NLP Model</title><meta name="description" content="DescriptionThis model identifies the sentiments (positive or negative) in Turkish texts.Predicted EntitiesPOSITIVE, NEGATIVELive DemoOpen in ColabDownloadHow...">
-<link rel="canonical" href="/2021/10/19/classifierdl_use_sentiment_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for Billable ICD10-CM HCC Codes- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps extracted medical entities to ICD10-CM codes using sbiobert_base_cased_mli Sentence Bert Embeddings and it supports 7-digit codes ...">
+<link rel="canonical" href="/2021/11/01/sbiobertresolve_icd10cm_augmented_billable_hcc_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,21 +403,19 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00"></div><header><h1>Sentiment Analysis of Turkish texts</h1></header></div><meta itemprop="headline" content="Sentiment Analysis of Turkish texts"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>sentiment</li><li>use</li><li>classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00">
-    <meta itemprop="keywords" content="tr,sentiment,use,classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 01, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-01T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for Billable ICD10-CM HCC Codes</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for Billable ICD10-CM HCC Codes"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>icd10cm</li><li>hcc</li><li>entity_resolution</li><li>licensed</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="icd10cm,hcc,entity_resolution,licensed,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model identifies the sentiments (positive or negative) in Turkish texts.</p>
+<p>This model maps extracted medical entities to ICD10-CM codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings and it supports 7-digit codes with HCC status. It has been updated by dropping the invalid codes that exist in the previous versions. In the result, look for the <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> parameter in the metadata to get HCC status. The HCC status can be divided to get further information: <code class="language-plaintext highlighter-rouge">billable status</code>, <code class="language-plaintext highlighter-rouge">hcc status</code>, and <code class="language-plaintext highlighter-rouge">hcc score</code>. For reference: <a href="http://www.formativhealth.com/wp-content/uploads/2018/06/HCC-White-Paper.pdf">please click here</a> .</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">POSITIVE</code>, <code class="language-plaintext highlighter-rouge">NEGATIVE</code></p>
-
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sentiment_tr_3.3.0_2.4_1634634525008.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_icd10cm_augmented_billable_hcc_en_3.3.1_2.4_1635784379929.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -425,55 +423,86 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCleanupMode</span><span class="p">(</span><span class="s">"shrink"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use_multi"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+<span class="n">c2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span> 
 
-<span class="n">sentimentClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_use_sentiment"</span><span class="p">,</span> <span class="s">"tr"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    
+<span class="n">icd_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_icd10cm_augmented_billable_hcc"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"icd10cm_code"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>\
+     <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    
 
-<span class="n">fr_sentiment_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">sentimentClassifier</span><span class="p">])</span>
+<span class="n">resolver_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">document_assembler</span><span class="p">,</span>
+        <span class="n">sentenceDetectorDL</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">word_embeddings</span><span class="p">,</span>
+        <span class="n">clinical_ner</span><span class="p">,</span>
+        <span class="n">ner_converter_icd</span><span class="p">,</span>
+        <span class="n">c2doc</span><span class="p">,</span>
+        <span class="n">sbert_embedder</span><span class="p">,</span>
+        <span class="n">icd_resolver</span>
+  <span class="p">])</span>
 
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">fr_sentiment_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
 
-<span class="n">result1</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="p">)</span>
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">resolver_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-<span class="n">result2</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="p">)</span>
+<span class="n">clinical_note</span> <span class="o">=</span> <span class="s">'A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection.'</span>
+<span class="n">data_ner</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">clinical_note</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">result1</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">result2</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data_ner</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"tfhub_use_multi"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+<span class="n">chunk2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">().</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">).</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
+ 
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
+     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
+ 
+<span class="k">val</span> <span class="nv">icd10_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_icd10cm_augmented_billable_hcc"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentimentClassifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_sentiment"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">chunk2doc</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">icd10_resolver</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">fr_sentiment_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">sentimentClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="ss">'A</span> <span class="mi">28</span><span class="o">-</span><span class="n">year</span><span class="o">-</span><span class="n">old</span> <span class="n">female</span> <span class="k">with</span> <span class="n">a</span> <span class="n">history</span> <span class="n">of</span> <span class="n">gestational</span> <span class="n">diabetes</span> <span class="n">mellitus</span> <span class="n">diagnosed</span> <span class="n">eight</span> <span class="n">years</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span> <span class="n">and</span> <span class="n">subsequent</span> <span class="k">type</span> <span class="kt">two</span> <span class="kt">diabetes</span> <span class="kt">mellitus</span> <span class="o">(</span><span class="kt">T2DM</span><span class="o">),</span> <span class="n">one</span> <span class="n">prior</span> <span class="n">episode</span> <span class="n">of</span> <span class="nc">HTG</span><span class="o">-</span><span class="n">induced</span> <span class="n">pancreatitis</span> <span class="n">three</span> <span class="n">years</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span><span class="o">,</span> <span class="n">associated</span> <span class="k">with</span> <span class="n">acute</span> <span class="n">hepatitis</span><span class="o">,</span> <span class="n">and</span> <span class="n">obesity</span> <span class="k">with</span> <span class="n">a</span> <span class="n">body</span> <span class="n">mass</span> <span class="nf">index</span> <span class="o">(</span><span class="nc">BMI</span><span class="o">)</span> <span class="n">of</span> <span class="mf">33.5</span> <span class="n">kg</span><span class="o">/</span><span class="n">m2</span><span class="o">,</span> <span class="n">presented</span> <span class="k">with</span> <span class="n">a</span> <span class="n">one</span><span class="o">-</span><span class="n">week</span> <span class="n">history</span> <span class="n">of</span> <span class="n">polyuria</span><span class="o">,</span> <span class="n">polydipsia</span><span class="o">,</span> <span class="n">poor</span> <span class="n">appetite</span><span class="o">,</span> <span class="n">and</span> <span class="n">vomiting</span><span class="o">.</span> <span class="nc">Two</span> <span class="n">weeks</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">presentation</span><span class="o">,</span> <span class="n">she</span> <span class="n">was</span> <span class="n">treated</span> <span class="k">with</span> <span class="n">a</span> <span class="n">five</span><span class="o">-</span><span class="n">day</span> <span class="n">course</span> <span class="n">of</span> <span class="n">amoxicillin</span> <span class="k">for</span> <span class="n">a</span> <span class="n">respiratory</span> <span class="n">tract</span> <span class="n">infection</span><span class="o">.').</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">fr_sentiment_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)))</span>
-
-<span class="k">val</span> <span class="nv">result1</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'NEGATIVE'</span><span class="o">]</span>
-<span class="o">[</span><span class="s1">'POSITIVE'</span><span class="o">]</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------+-------+------------+----------------------------------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+|                            ner_chunk| entity|icd10cm_code|                                                           resolutions|                                                             all_codes|                                                          billable_hcc|
++-------------------------------------+-------+------------+----------------------------------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+|        gestational diabetes mellitus|PROBLEM|       O2441|gestational diabetes mellitus:::postpartum gestational diabetes mel...|    O2441:::O2443:::Z8632:::Z875:::O2431:::O2411:::O244:::O241:::O2481|0||0||0:::0||0||0:::1||0||0:::0||0||0:::0||0||0:::0||0||0:::0||0||0...|
+|subsequent <span class="nb">type </span>two diabetes mellitus|PROBLEM|       O2411|pre-existing <span class="nb">type </span>2 diabetes mellitus:::disorder associated with ty...|O2411:::E118:::E11:::E139:::E119:::E113:::E1144:::Z863:::Z8639:::E1...|0||0||0:::1||1||18:::0||0||0:::1||1||19:::1||1||19:::0||0||0:::1||1...|
+|                                 T2DM|PROBLEM|         E11|t2dm <span class="o">[</span><span class="nb">type </span>2 diabetes mellitus]:::tndm2:::t2 category:::sma2:::nf2:...|E11:::P702:::C801:::G121:::Q850:::C779:::C509:::C439:::E723:::C5700...|0||0||0:::1||0||0:::1||1||12:::1||1||72:::0||0||0:::1||1||10:::0||0...|
+|             HTG-induced pancreatitis|PROBLEM|       K8520|alcohol-induced pancreatitis:::pancreatitis:::drug induced acute pa...|K8520:::K859:::K853:::K8590:::K85:::F102:::K858:::K8591:::K852:::K8...|1||0||0:::0||0||0:::0||0||0:::1||0||0:::0||0||0:::0||0||0:::0||0||0...|
+|                      acute hepatitis|PROBLEM|        K720|acute hepatitis:::acute hepatitis a:::acute infectious hepatitis:::...|K720:::B15:::B179:::B172:::Z0389:::B159:::B150:::B16:::K752:::K712:...|0||0||0:::0||0||0:::1||0||0:::1||0||0:::1||0||0:::1||0||0:::1||0||0...|
+|                              obesity|PROBLEM|        E669|obesity:::abdominal obesity:::obese:::central obesity:::overweight ...|E669:::E668:::Z6841:::Q130:::E66:::E6601:::Z8639:::E349:::H3550:::Z...|1||0||0:::1||0||0:::1||1||22:::1||0||0:::0||0||0:::1||1||22:::1||0|...|
+|                    a body mass index|PROBLEM|       Z6841|finding of body mass index:::observation of body mass index:::mass ...|Z6841:::E669:::R229:::Z681:::R223:::R221:::Z68:::R222:::R220:::R418...|1||1||22:::1||0||0:::1||0||0:::1||0||0:::0||0||0:::1||0||0:::0||0||...|
+|                             polyuria|PROBLEM|         R35|polyuria:::polyuric state:::polyuric state <span class="o">(</span>disorder<span class="o">)</span>:::hematuria::...|R35:::R358:::E232:::R31:::R350:::R8299:::N401:::E723:::O048:::R300:...|0||0||0:::1||0||0:::1||1||23:::0||0||0:::1||0||0:::0||0||0:::1||0||...|
+|                           polydipsia|PROBLEM|        R631|polydipsia:::psychogenic polydipsia:::primary polydipsia:::psychoge...|R631:::F6389:::E232:::F639:::O40:::G475:::M7989:::R632:::R061:::H53...|1||0||0:::1||1||nan:::1||1||23:::1||1||nan:::0||0||0:::0||0||0:::1|...|
+|                        poor appetite|PROBLEM|        R630|poor appetite:::poor feeding:::bad taste <span class="k">in </span>mouth:::unpleasant tast...|R630:::P929:::R438:::R432:::E86:::R196:::F520:::Z724:::R0689:::Z768...|1||0||0:::1||0||0:::1||0||0:::1||0||0:::0||0||0:::1||0||0:::1||0||0...|
+|                             vomiting|PROBLEM|        R111|vomiting:::intermittent vomiting:::vomiting symptoms:::periodic vom...|       R111:::R11:::R1110:::G43A1:::P921:::P9209:::G43A:::R1113:::R110|0||0||0:::0||0||0:::1||0||0:::1||1||nan:::1||0||0:::1||0||0:::0||0|...|
+|        a respiratory tract infection|PROBLEM|        J988|respiratory tract infection:::upper respiratory tract infection:::b...|J988:::J069:::A499:::J22:::J209:::Z593:::T17:::J0410:::Z1383:::J189...|1||0||0:::1||0||0:::1||0||0:::1||0||0:::1||0||0:::1||0||0:::0||0||0...|
++-------------------------------------+-------+------------+----------------------------------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -482,15 +511,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>classifierdl_use_sentiment</td>
+      <td>sbiobertresolve_icd10cm_augmented_billable_hcc</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.0+</td>
+      <td>Spark NLP for Healthcare 3.3.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -502,31 +531,23 @@
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[icd10cm_code]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>tr</td>
+      <td>en</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>https://raw.githubusercontent.com/gurkandyilmaz/sentiment/master/data/</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
-
-    NEGATIVE       0.86      0.88      0.87     19967
-    POSITIVE       0.88      0.85      0.86     19826
-
-    accuracy                           0.87     39793
-   macro avg       0.87      0.87      0.87     39793
-weighted avg       0.87      0.87      0.87     39793
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on 01 November 2021 ICD10CM Dataset.</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -651,7 +672,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/19/bert_token_classifier_ner_chemprot_en.html">Detect Chemical Compounds and Genes (BertForTokenClassifier)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/10/22/ner_jsl_enriched_en.html">Detect Clinical Entities (ner_jsl_enriched)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/01/bert_multilingual_sequence_classifier_allocine_fr.html">BERT Sequence Classification Multilingual - AlloCine (bert_multilingual_sequence_classifier_allocine)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/02/bert_base_sequence_classifier_ag_news_en.html">BERT Sequence Classification Base - AG News (bert_base_sequence_classifier_ag_news)</a></div></div></div>
 
 </div>
 </div>

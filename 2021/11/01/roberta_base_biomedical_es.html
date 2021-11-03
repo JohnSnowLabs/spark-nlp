@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentiment Analysis of Turkish texts- Spark NLP Model</title><meta name="description" content="DescriptionThis model identifies the sentiments (positive or negative) in Turkish texts.Predicted EntitiesPOSITIVE, NEGATIVELive DemoOpen in ColabDownloadHow...">
-<link rel="canonical" href="/2021/10/19/classifierdl_use_sentiment_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Roberta Clinical Word Embeddings (Spanish)- Spark NLP Model</title><meta name="description" content="DescriptionBiomedical pretrained language model for Spanish, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to ...">
+<link rel="canonical" href="/2021/11/01/roberta_base_biomedical_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,21 +403,23 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Oct 19, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00"></div><header><h1>Sentiment Analysis of Turkish texts</h1></header></div><meta itemprop="headline" content="Sentiment Analysis of Turkish texts"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>sentiment</li><li>use</li><li>classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-10-19T00:00:00+00:00">
-    <meta itemprop="keywords" content="tr,sentiment,use,classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 01, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-01T00:00:00+00:00"></div><header><h1>Roberta Clinical Word Embeddings (Spanish)</h1></header></div><meta itemprop="headline" content="Roberta Clinical Word Embeddings (Spanish)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>embeddings</li><li>spanish</li><li>biomedical</li><li>clinical</li><li>roberta</li><li>es</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-01T00:00:00+00:00">
+    <meta itemprop="keywords" content="embeddings,spanish,biomedical,clinical,roberta,es,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model identifies the sentiments (positive or negative) in Turkish texts.</p>
+<p>Biomedical pretrained language model for Spanish, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.</p>
+
+<p>This model is a RoBERTa-based model trained on a biomedical corpus in Spanish collected from several sources (see dataset section). The training corpus has been tokenized using a byte version of Byte-Pair Encoding (BPE) used in the original RoBERTA model with a vocabulary size of 52,000 tokens. The pretraining consists of a masked language model training at the subword level following the approach employed for the RoBERTa base model with the same hyperparameters as in the original work. The training lasted a total of 48 hours with 16 NVIDIA V100 GPUs of 16GB DDRAM, using Adam optimizer with a peak learning rate of 0.0005 and an effective batch size of 2,048 sentences.</p>
+
+<p>To see more details, please check the official page in Hugging Face: https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">POSITIVE</code>, <code class="language-plaintext highlighter-rouge">NEGATIVE</code></p>
-
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sentiment_tr_3.3.0_2.4_1634634525008.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/roberta_base_biomedical_es_3.3.0_3.0_1635781845226.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -425,55 +427,51 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setCleanupMode</span><span class="p">(</span><span class="s">"shrink"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"term"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use_multi"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sentimentClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"classifierdl_use_sentiment"</span><span class="p">,</span> <span class="s">"tr"</span><span class="p">)</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+<span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s">"./</span><span class="si">{</span><span class="n">MODEL_NAME_TF</span><span class="si">}</span><span class="s">_spark_nlp"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>
 
-<span class="n">fr_sentiment_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">sentimentClassifier</span><span class="p">])</span>
-
-<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">fr_sentiment_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)))</span>
-
-<span class="n">result1</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="p">)</span>
-
-<span class="n">result2</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">result1</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">result2</span><span class="p">[</span><span class="s">"class"</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">roberta_embeddings</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"term"</span><span class="o">)\</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">UniversalSentenceEncoder</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"tfhub_use_multi"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="n">mew</span> <span class="nc">Tokenizer</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentimentClassifier</span> <span class="k">=</span> <span class="nv">ClassifierDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"classifierdl_bert_sentiment"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">roberta_embeddings</span> <span class="k">=</span> <span class="nv">RoBertaEmbeddings</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">f</span><span class="s">"./{MODEL_NAME_TF}_spark_nlp"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"roberta_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">fr_sentiment_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">sentimentClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="nv">fr_sentiment_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">([[</span><span class="kt">''</span><span class="o">]]).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)))</span>
-
-<span class="k">val</span> <span class="nv">result1</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Bu sıralar kafam çok karışık."</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result2</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"Sınavımı geçtiğimi öğrenince derin bir nefes aldım."</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">roberta_embeddings</span><span class="o">))</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'NEGATIVE'</span><span class="o">]</span>
-<span class="o">[</span><span class="s1">'POSITIVE'</span><span class="o">]</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The model has been evaluated on the Named Entity Recognition <span class="o">(</span>NER<span class="o">)</span> using the following datasets <span class="o">(</span>taken from https://github.com/PlanTL-GOB-ES/lm-biomedical-clinical-es<span class="o">)</span>
+
+<span class="k">*</span> PharmaCoNER: is a track on chemical and drug mention recognition from Spanish medical texts <span class="o">(</span><span class="k">for </span>more info see: https://temu.bsc.es/pharmaconer/<span class="o">)</span><span class="nb">.</span>
+
+<span class="k">*</span> CANTEMIST: is a shared task specifically focusing on named entity recognition of tumor morphology, <span class="k">in </span>Spanish <span class="o">(</span><span class="k">for </span>more info see: https://zenodo.org/record/3978041#.YTt5qH2xXbQ<span class="o">)</span><span class="nb">.</span>
+
+<span class="k">*</span> ICTUSnet: consists of 1,006 hospital discharge reports of patients admitted <span class="k">for </span>stroke from 18 different Spanish hospitals. It contains more than 79,000 annotations <span class="k">for </span>51 different kinds of variables.
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -482,7 +480,7 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>classifierdl_use_sentiment</td>
+      <td>roberta_base_biomedical</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
@@ -490,7 +488,7 @@
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -498,35 +496,66 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>tr</td>
+      <td>es</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p>https://raw.githubusercontent.com/gurkandyilmaz/sentiment/master/data/</p>
+<p>Datasets are available in the official author(s) github project, available here: https://github.com/PlanTL-GOB-ES/lm-biomedical-clinical-es, and include:</p>
+
+<ul>
+  <li>
+    <p>Medical crawler	745,705,946	Crawler of more than 3,000 URLs belonging to Spanish biomedical and health domains.</p>
+  </li>
+  <li>
+    <p>Clinical cases misc.	102,855,267	A miscellany of medical content, essentially clinical cases. Note that a clinical case report is a scientific publication where medical practitioners share patient cases and it is different from a clinical note or document.</p>
+  </li>
+  <li>
+    <p>Clinical notes/documents	91,250,080	Collection of more than 278K clinical documents, including discharge reports, clinical course notes and X-ray reports, for a total of 91M tokens.</p>
+  </li>
+  <li>
+    <p>Scielo	60,007,289	Publications written in Spanish crawled from the Spanish SciELO server in 2017.</p>
+  </li>
+  <li>
+    <p>BARR2_background	24,516,442	Biomedical Abbreviation Recognition and Resolution (BARR2) containing Spanish clinical case study sections from a variety of clinical disciplines.</p>
+  </li>
+  <li>
+    <p>Wikipedia_life_sciences	13,890,501	Wikipedia articles crawled 04/01/2021 with the Wikipedia API python library starting from the “Ciencias_de_la_vida” category up to a maximum of 5 subcategories. Multiple links to the same articles are then discarded to avoid repeating content.</p>
+  </li>
+  <li>
+    <p>Patents	13,463,387	Google Patent in Medical Domain for Spain (Spanish). The accepted codes (Medical Domain) for Json files of patents are: “A61B”, “A61C”,”A61F”, “A61H”, “A61K”, “A61L”,”A61M”, “A61B”, “A61P”.</p>
+  </li>
+  <li>
+    <p>EMEA	5,377,448	Spanish-side documents extracted from parallel corpora made out of PDF documents from the European Medicines Agency.</p>
+  </li>
+  <li>
+    <p>mespen_Medline	4,166,077	Spanish-side articles extracted from a collection of Spanish-English parallel corpus consisting of biomedical scientific literature. The collection of parallel resources are aggregated from the MedlinePlus source.</p>
+  </li>
+  <li>
+    <p>PubMed	1,858,966	Open-access articles from the PubMed repository crawled in 2017.</p>
+  </li>
+</ul>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Taken from https://github.com/PlanTL-GOB-ES/lm-biomedical-clinical-es:
 
-    NEGATIVE       0.86      0.88      0.87     19967
-    POSITIVE       0.88      0.85      0.86     19826
-
-    accuracy                           0.87     39793
-   macro avg       0.87      0.87      0.87     39793
-weighted avg       0.87      0.87      0.87     39793
+Task/models	F1 | Precision | Recall
+PharmaCoNER	90.04 | 88.92 | 91.18
+CANTEMIST	        83.34 | 81.48 | 85.30
+ICTUSnet               88.08 | 84.92 | 91.50
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-10-19T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -651,7 +680,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/19/bert_token_classifier_ner_chemprot_en.html">Detect Chemical Compounds and Genes (BertForTokenClassifier)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/10/22/ner_jsl_enriched_en.html">Detect Clinical Entities (ner_jsl_enriched)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/10/31/sbiobertresolve_icd10cm_augmented_en.html">Sentence Entity Resolver for ICD10-CM (Augmented)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/01/bert_base_sequence_classifier_dbpedia_14_en.html">BERT Sequence Classification Base - DBpedia14 (bert_base_sequence_classifier_dbpedia_14)</a></div></div></div>
 
 </div>
 </div>
