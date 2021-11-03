@@ -53,7 +53,7 @@ sentence_embeddings = SentenceEmbeddings() \
     .setOutputCol("sentence_embeddings") \
     .setPoolingStrategy("AVERAGE")
 
-er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed,"es","clinical/models")\
+er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed","es","clinical/models")\
     .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")
@@ -92,7 +92,7 @@ val sentence_embeddings = SentenceEmbeddings() \
     .setOutputCol("sentence_embeddings") \
     .setPoolingStrategy("AVERAGE")
 
-val er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed,"es","clinical/models")\
+val er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed","es","clinical/models")\
     .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")
