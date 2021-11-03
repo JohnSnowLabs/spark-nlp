@@ -29,7 +29,17 @@ object ConfigLoader {
   }
   private lazy val hadoopTmpDir: String = ConfigHelper.getHadoopTmpDir
 
-  private lazy val configData: Map[String, String] = {
+  private var configMap: Option[Map[String, String]] = None
+
+  private def configData(): Map[String, String] = {
+    val map = configMap.getOrElse{
+      loadConfigData()
+    }
+    configMap = Some(map)
+    map
+  }
+
+  private def loadConfigData(): Map[String, String] = {
 
     getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
       getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
@@ -63,11 +73,16 @@ object ConfigLoader {
     }
   }
 
-  def getConfigStringValue(property: String): String = {
+  def refreshConfig() = this.synchronized {
+    configMap = None
+    configData()
+  }
+
+  def getConfigStringValue(property: String): String = this.synchronized {
     configData.getOrElse(property, "")
   }
 
-  def getConfigIntValue(property: String): Int = {
+  def getConfigIntValue(property: String): Int = this.synchronized {
     val value: String = configData.getOrElse(property, "0")
     toInt(value) match {
       case Success(value) => value
@@ -75,16 +90,16 @@ object ConfigLoader {
     }
   }
 
-  private def toInt(string: String): Try[Int] = Try {
-    Integer.parseInt(string.trim)
-  }
-
-  def getConfigBooleanValue(property: String): Boolean = {
+  def getConfigBooleanValue(property: String): Boolean = this.synchronized {
     val value: String = configData.getOrElse(property, "true")
     toBoolean(value) match {
       case Success(value) => value
       case Failure(_) => true
     }
+  }
+
+  private def toInt(string: String): Try[Int] = Try {
+    Integer.parseInt(string.trim)
   }
 
   private def toBoolean(string: String): Try[Boolean] = Try {
