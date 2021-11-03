@@ -149,7 +149,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.3.2 pyspark
+$ pip install spark-nlp==3.3.2 pyspark==3.1.2
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -689,7 +689,7 @@ The easiest way to get this done on Linux and macOS is to simply install `spark-
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.3.2 pyspark jupyter
+$ pip install spark-nlp==3.3.2 pyspark==3.1.2 jupyter
 $ jupyter notebook
 ```
 

@@ -4,7 +4,7 @@ header: true
 title: Examples
 key: docs-examples
 permalink: /docs/en/examples
-modify_date: "2021-08-31"
+modify_date: "2021-11-03"
 ---
 
 Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.
@@ -16,7 +16,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==3.3.2 pyspark
+$ pip install spark-nlp==3.3.2 pyspark==3.1.2
 ```
 
 ## Google Colab Notebook
