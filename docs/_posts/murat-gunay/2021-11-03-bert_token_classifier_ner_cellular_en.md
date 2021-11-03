@@ -4,7 +4,7 @@ title: Detect Cellular/Molecular Biology Entities (BertForTokenClassification)
 author: John Snow Labs
 name: bert_token_classifier_ner_cellular
 date: 2021-11-03
-tags: [berfortokenclassification, ner, cellular, en, clinical, licensed]
+tags: [bertfortokenclassification, ner, cellular, en, clinical, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.3.0
@@ -65,7 +65,7 @@ val ner_converter = NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.").toDF("text")
+val data = Seq("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
