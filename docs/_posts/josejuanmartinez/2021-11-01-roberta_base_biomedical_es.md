@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")
 
-roberta_embeddings = RoBertaEmbeddings.load(f"./{MODEL_NAME_TF}_spark_nlp")\
+roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es", "clinical/models")\
     .setInputCols(["document", "token"])\
     .setOutputCol("roberta_embeddings")
 
@@ -65,11 +65,11 @@ val tokenizer = mew Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")
 
-val roberta_embeddings = RoBertaEmbeddings.load(f"./{MODEL_NAME_TF}_spark_nlp")\
+val roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es", "clinical/models")\
     .setInputCols("document", "token")\
     .setOutputCol("roberta_embeddings")
 
-val pipeline = new Pipeline().setStages(Array
+val pipeline = new Pipeline().setStages(Array(
     documentAssembler,
     tokenizer,
     roberta_embeddings))
@@ -130,8 +130,8 @@ Datasets are available in the official author(s) github project, available here:
 ```bash
 Taken from https://github.com/PlanTL-GOB-ES/lm-biomedical-clinical-es:
 
-Task/models	F1 | Precision | Recall
-PharmaCoNER	90.04 | 88.92 | 91.18
-CANTEMIST	        83.34 | 81.48 | 85.30
-ICTUSnet               88.08 | 84.92 | 91.50
+Task/models   F1 | Precision | Recall
+PharmaCoNER   90.04 | 88.92 | 91.18
+CANTEMIST     83.34 | 81.48 | 85.30
+ICTUSnet      88.08 | 84.92 | 91.50
 ```
