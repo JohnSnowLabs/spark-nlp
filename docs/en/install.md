@@ -47,7 +47,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==3.3.2 pyspark
+$ pip install spark-nlp==3.3.2 pyspark==3.1.2
 ```
 
 Of course you will need to have jupyter installed in your system:
