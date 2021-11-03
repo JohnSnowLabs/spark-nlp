@@ -4,7 +4,7 @@ title: Detect Cancer Genetics (BertForTokenClassification)
 author: John Snow Labs
 name: bert_token_classifier_ner_bionlp
 date: 2021-11-03
-tags: [berfortokenclassification, ner, bionlp, en, licensed]
+tags: [bertfortokenclassification, ner, bionlp, en, licensed]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP for Healthcare 3.3.0
