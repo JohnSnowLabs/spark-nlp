@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.3.1 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.3.2 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -81,6 +81,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../user_guide/index.html">
   User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../third_party/index.html">
+  Third Party Projects
  </a>
 </li>
 
@@ -10652,7 +10658,8 @@
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">YakeKeywordExtraction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">YakeKeywordExtraction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.keyword.yake.YakeKeywordExtraction&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
             <span class="n">minNGrams</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="n">maxNGrams</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -12916,7 +12923,7 @@
 <span class="sd">    provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -12934,12 +12941,12 @@
 <span class="sd">    batchSize</span>
 <span class="sd">        Batch size. Large values allows faster processing but requires more</span>
 <span class="sd">        memory, by default 8</span>
-<span class="sd">        caseSensitive</span>
+<span class="sd">    caseSensitive</span>
 <span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
 <span class="sd">        True</span>
-<span class="sd">        configProtoBytes</span>
+<span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
-<span class="sd">        maxSentenceLength</span>
+<span class="sd">    maxSentenceLength</span>
 <span class="sd">        Max sentence length to process, by default 128</span>
 
 <span class="sd">    Examples</span>
@@ -12963,8 +12970,7 @@
 <span class="sd">    ...     tokenizer,</span>
 <span class="sd">    ...     tokenClassifier</span>
 <span class="sd">    ... ])</span>
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived</span>
-<span class="sd">    &gt;&gt;&gt; in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;]]).toDF(&quot;text&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
 <span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
 <span class="sd">    +------------------------------------------------------------------------------------+</span>
@@ -13082,7 +13088,7 @@
 <span class="sd">    name is provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -13821,7 +13827,7 @@
 <span class="sd">    is provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -13977,7 +13983,7 @@
 <span class="sd">    name is provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
 <span class="sd">    `Import Transformers into Spark NLP 🚀</span>
@@ -14132,7 +14138,7 @@
 <span class="sd">    The default model is ``&quot;albert_base_token_classifier_conll03&quot;``, if no name</span>
 <span class="sd">    is provided.</span>
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -14290,7 +14296,7 @@
 <span class="sd">    provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -14448,7 +14454,7 @@
 <span class="sd">    provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -14783,6 +14789,187 @@
     <span class="k">def</span> <span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
         <span class="n">HasStorageModel</span><span class="o">.</span><span class="n">loadStorages</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">,</span> <span class="n">EntityRulerModel</span><span class="o">.</span><span class="n">databases</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="BertForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">BertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                    <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                    <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;BertForSequenceClassification can load Bert Models with sequence classification/regression head on top</span>
+<span class="sd">    (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = BertForSequenceClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;bert_base_sequence_classifier_imdb&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``CATEGORY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+<span class="sd">    coalesceSentences</span>
+<span class="sd">        Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = BertForSequenceClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     sequenceClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[\&quot;\&quot;\&quot;John Lenon was born in London and lived</span>
+<span class="sd">    ... in Paris. My name is Sarah and I live in London\&quot;\&quot;\&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |result              |</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |[neg, neg]          |</span>
+<span class="sd">    |[pos, pos, pos, pos]|</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BertForSequenceClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.&quot;</span><span class="p">,</span>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BertForSequenceClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BertForSequenceClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BertForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.</span>
+<span class="sd">        Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences</span>
+<span class="sd">        into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            If the output of all sentences will be averaged to one output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">coalesceSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BertForSequenceClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="BertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">            spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BertForSequenceClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_BertSequenceClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_BertSequenceClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">BertForSequenceClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BertForSequenceClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html#sparknlp.annotator.BertForSequenceClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bert_base_sequence_classifier_imdb&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;bert_base_sequence_classifier_imdb&quot;</span>
+<span class="sd">            lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">            remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BertForSequenceClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">BertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>

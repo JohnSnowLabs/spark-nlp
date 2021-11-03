@@ -432,8 +432,8 @@
                 <div class="transformer-top">
                   <h2 class="h2_title grey">Transformers at Scale</h2>
                   <div class="transformer-descr">
-                    <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as 
-                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, and <b>MarianMT</b> not only to <b>Python</b>, and <b>R</b> 
+                    <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as
+                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, and <b>MarianMT</b> not only to <b>Python</b>, and <b>R</b>
                     but also to <b>JVM</b> ecosystem (<b>Java</b>, <b>Scala</b>, and <b>Kotlin</b>) at <b>scale</b> by extending <b>Apache Spark</b> natively
                   </div>
                 </div>
@@ -451,22 +451,22 @@
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.3.1 pyspark
-  
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.3.2 pyspark
+
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
-  
+
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.1
-  
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2
+
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.1
-  
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2
+
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.1
-  
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2
+
     <span class="c"># Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.3.1
+    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.3.2
     </code></pre></figure>
 
                     </div>
@@ -502,7 +502,7 @@
                     <li><strong>Sentiment</strong> Detection (ML models)</li>
                     <li><strong>Spell</strong> Checker (ML and DL models)</li>
                   </ul>
-                  <ul class="list1">                    
+                  <ul class="list1">
                     <li>Word Embeddings (<strong>GloVe</strong> and <strong>Word2Vec</strong>)</li>
                     <li><strong>BERT</strong> Embeddings</li>
                     <li><strong>DistilBERT</strong> Embeddings</li>
@@ -518,7 +518,7 @@
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
                   </ul>
-                  <ul class="list1">                                        
+                  <ul class="list1">
                     <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
@@ -537,28 +537,28 @@
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
                     <li><strong>2000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
                     <li><strong>1700+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
-                  </ul>                  
+                  </ul>
                 </div>
-                              
+
     
 <figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-    <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>              
+    <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
     <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
     <span class="kn">import</span> <span class="nn">sparknlp</span>
-              
+
     <span class="c1"># Start Spark Session with Spark NLP
 </span>    <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
-              
-    <span class="c1"># Download a pre-trained pipeline 
+
+    <span class="c1"># Download a pre-trained pipeline
 </span>    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'explain_document_dl'</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">'en'</span><span class="p">)</span>
 
     <span class="c1"># Annotate your testing dataset
 </span>    <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"The Mona Lisa is a 16th century oil painting created by Leonardo. It's held at the Louvre in Paris."</span><span class="p">)</span>
-              
+
     <span class="c1"># What's in the pipeline
 </span>    <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">Output</span><span class="p">:</span> <span class="p">[</span><span class="s">'entities'</span><span class="p">,</span> <span class="s">'stem'</span><span class="p">,</span> <span class="s">'checked'</span><span class="p">,</span> <span class="s">'lemma'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">,</span> <span class="s">'pos'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">,</span> <span class="s">'ner'</span><span class="p">,</span> <span class="s">'embeddings'</span><span class="p">,</span> <span class="s">'sentence'</span><span class="p">]</span>
-              
+
     <span class="c1"># Check the results
 </span>    <span class="n">result</span><span class="p">[</span><span class="s">'entities'</span><span class="p">]</span>
     <span class="n">Output</span><span class="p">:</span> <span class="p">[</span><span class="s">'Mona Lisa'</span><span class="p">,</span> <span class="s">'Leonardo'</span><span class="p">,</span> <span class="s">'Louvre'</span><span class="p">,</span> <span class="s">'Paris'</span><span class="p">]</span>
@@ -585,7 +585,7 @@
                     <li>Achieve high accuracy with a <strong>few lines of codes</strong></li>
                     <li>Blazing fast training</li>
                     <li>Use <strong>CPU</strong> or <strong>GPU</strong></li>
-                    <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>, 
+                    <li>80+ Pretrained Embeddings including <strong>GloVe</strong>, <strong>Word2Vec</strong>,
                     <strong>BERT</strong>, <strong>DistilBERT</strong>, <strong>RoBERTa</strong>, <strong>XLM-RoBERTa</strong>, <strong>Longformer</strong>, <strong>ELMO</strong>, <strong>ELECTRA</strong>, <strong>ALBERT</strong>, <strong>XLNet</strong>, <strong>BioBERT</strong>, etc.  </li>
                     <li>Multi-lingual NER models in <strong>Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian, Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, and Urdu</strong></li>
                   </ul>
@@ -600,7 +600,7 @@
                             <th>SYSTEM</th>
                             <th>YEAR</th>
                             <th>LANGUAGE</th>
-                            <th>CONLL ‘03</th>                      
+                            <th>CONLL ‘03</th>
                         </thead>
                         <tbody>
                           <tr>
@@ -634,10 +634,10 @@
                             <td>89.6</td>
                           </tr>
                         </tbody>
-                      </table> 
-                    </div>                  
+                      </table>
+                    </div>
                 </div>
-                
+
                 <div class="table-wrapper">
                   <div class="table-wrapper-inner">
                     <table class="table2">
@@ -645,7 +645,7 @@
                           <th>SYSTEM</th>
                           <th>YEAR</th>
                           <th>LANGUAGE</th>
-                          <th>ONTONOTES</th>                      
+                          <th>ONTONOTES</th>
                       </thead>
                       <tbody>
                         <tr>
@@ -673,11 +673,11 @@
                           <td>89.7</td>
                         </tr>
                       </tbody>
-                    </table> 
-                  </div>                  
-              </div>  
-                
-              </div>          
+                    </table>
+                  </div>
+              </div>
+
+              </div>
             </div>
           </div>
         </div></div> </section><section
