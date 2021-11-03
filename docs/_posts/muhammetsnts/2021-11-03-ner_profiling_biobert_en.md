@@ -74,6 +74,8 @@ val result = ner_profiling_pipeline.annotate("A 28-year-old female with a histor
  ******************** ner_risk_factors_biobert Model Results ******************** 
 
 [('diabetes mellitus', 'DIABETES'), ('subsequent type two diabetes mellitus', 'DIABETES'), ('obesity', 'OBESE')]
+
+...
 ```
 
 {:.model-param}
@@ -94,46 +96,6 @@ val result = ner_profiling_pipeline.annotate("A 28-year-old female with a histor
 - SentenceDetectorDLModel
 - TokenizerModel
 - BertEmbeddings
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
-- MedicalNerModel
-- NerConverter
+- MedicalNerModel (x21)
+- NerConverter (x21)
 - Finisher
