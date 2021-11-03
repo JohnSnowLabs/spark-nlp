@@ -1,0 +1,420 @@
+---
+layout: model
+title: Named Entity Recognition Profiling (Clinical)
+author: John Snow Labs
+name: ner_profiling_clinical
+date: 2021-11-03
+tags: [ner, ner_profiling, clinical, en, licensed]
+task: Pipeline Healthcare
+language: en
+edition: Spark NLP for Healthcare 3.3.1
+spark_version: 2.4
+supported: true
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+This pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up with the predictions coming out of each pretrained clinical NER model trained with `embeddings_clinical`. It has been updated by adding NER model outputs to the previous version.
+
+Here are the NER models that this pretrained pipeline includes: `ner_ade_clinical_chunks`, `ner_posology_greedy_chunks`, `ner_risk_factors_chunks`, `jsl_ner_wip_clinical_chunks`, `ner_human_phenotype_gene_clinical_chunks`, `jsl_ner_wip_greedy_clinical_chunks`, `ner_cellular_chunks`, `ner_cancer_genetics_chunks`, `jsl_ner_wip_modifier_clinical_chunks`, `ner_drugs_greedy_chunks`, `ner_deid_sd_large_chunks`, `ner_diseases_chunks`, `nerdl_tumour_demo_chunks`, `ner_deid_subentity_augmented_chunks`, `ner_jsl_enriched_chunks`, `ner_genetic_variants_chunks`, `ner_bionlp_chunks`, `ner_measurements_clinical_chunks`, `ner_diseases_large_chunks`, `ner_radiology_chunks`, `ner_deid_augmented_chunks`, `ner_anatomy_chunks`, `ner_chemprot_clinical_chunks`, `ner_posology_experimental_chunks`, `ner_drugs_chunks`, `ner_deid_sd_chunks`, `ner_posology_large_chunks`, `ner_deid_large_chunks`, `ner_posology_chunks`, `ner_deidentify_dl_chunks`, `ner_deid_enriched_chunks`, `ner_bacterial_species_chunks`, `ner_drugs_large_chunks`, `ner_clinical_large_chunks`, `jsl_rd_ner_wip_greedy_clinical_chunks`, `ner_medmentions_coarse_chunks`, `ner_radiology_wip_clinical_chunks`, `ner_clinical_chunks`, `ner_chemicals_chunks`, `ner_deid_synthetic_chunks`, `ner_events_clinical_chunks`, `ner_posology_small_chunks`, `ner_anatomy_coarse_chunks`, `ner_human_phenotype_go_clinical_chunks`, `ner_jsl_slim_chunks`, `ner_jsl_chunks`, `ner_jsl_greedy_chunks`, `ner_events_admission_clinical_chunks` .
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_profiling_clinical_en_3.3.1_2.4_1635974903665.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+ner_profiling_pipeline = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
+
+result = ner_profiling_pipeline.annotate("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .")
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
+val ner_profiling_pipeline = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
+
+val result = ner_profiling_pipeline.annotate("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .")
+```
+</div>
+
+## Results
+
+```bash
+ ******************** ner_deid_augmented Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_radiology_wip_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Disease_Syndrome_Disorder'), ('diabetes', 'I-Disease_Syndrome_Disorder'), ('mellitus', 'I-Disease_Syndrome_Disorder'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Disease_Syndrome_Disorder'), ('two', 'I-Disease_Syndrome_Disorder'), ('diabetes', 'I-Disease_Syndrome_Disorder'), ('mellitus', 'I-Disease_Syndrome_Disorder'), ('(', 'O'), ('T2DM', 'B-Disease_Syndrome_Disorder'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Disease_Syndrome_Disorder'), ('with', 'O'), ('a', 'O'), ('body', 'B-BodyPart'), ('mass', 'B-Symptom'), ('index', 'I-Symptom'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'B-Measurements'), ('kg/m2', 'B-Units'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_deidentify_dl Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_jsl_slim Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Demographics'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Disease_Syndrome_Disorder'), ('diabetes', 'I-Disease_Syndrome_Disorder'), ('mellitus', 'I-Disease_Syndrome_Disorder'), ('diagnosed', 'O'), ('eight', 'B-Date_Time'), ('years', 'I-Date_Time'), ('prior', 'I-Date_Time'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Disease_Syndrome_Disorder'), ('two', 'I-Disease_Syndrome_Disorder'), ('diabetes', 'I-Disease_Syndrome_Disorder'), ('mellitus', 'I-Disease_Syndrome_Disorder'), ('(', 'O'), ('T2DM', 'B-Disease_Syndrome_Disorder'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-Date_Time'), ('years', 'I-Date_Time'), ('prior', 'I-Date_Time'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Disease_Syndrome_Disorder'), ('with', 'O'), ('a', 'O'), ('body', 'B-Symptom'), ('mass', 'I-Symptom'), ('index', 'I-Symptom'), ('(', 'O'), ('BMI', 'B-Physical_Measurement'), (')', 'I-Physical_Measurement'), ('of', 'I-Physical_Measurement'), ('33.5', 'I-Physical_Measurement'), ('kg/m2', 'I-Physical_Measurement'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_deid_synthetic Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_drugs_greedy Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_events_admission_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('diagnosed', 'O'), ('eight', 'B-DURATION'), ('years', 'I-DURATION'), ('prior', 'O'), ('to', 'O'), ('presentation', 'B-OCCURRENCE'), ('and', 'O'), ('subsequent', 'B-PROBLEM'), ('type', 'I-PROBLEM'), ('two', 'I-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('(', 'O'), ('T2DM', 'B-PROBLEM'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-PROBLEM'), ('pancreatitis', 'I-PROBLEM'), ('three', 'B-DURATION'), ('years', 'I-DURATION'), ('prior', 'O'), ('to', 'O'), ('presentation', 'B-OCCURRENCE'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'B-PROBLEM'), ('acute', 'I-PROBLEM'), ('hepatitis', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('obesity', 'B-PROBLEM'), ('with', 'O'), ('a', 'B-PROBLEM'), ('body', 'I-PROBLEM'), ('mass', 'I-PROBLEM'), ('index', 'I-PROBLEM'), ('(', 'O'), ('BMI', 'B-PROBLEM'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'B-PROBLEM'), (',', 'O'), ('presented', 'B-OCCURRENCE'), ('with', 'O'), ('a', 'B-DURATION'), ('one-week', 'I-DURATION'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-PROBLEM'), (',', 'O'), ('polydipsia', 'B-PROBLEM'), (',', 'O'), ('poor', 'B-PROBLEM'), ('appetite', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-PROBLEM'), ('.', 'O')]
+
+ 
+ ******************** ner_posology_greedy Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_jsl_greedy Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-Symptom'), ('mass', 'I-Symptom'), ('index', 'O'), ('(', 'O'), ('BMI', 'B-BMI'), (')', 'I-BMI'), ('of', 'I-BMI'), ('33.5', 'I-BMI'), ('kg/m2', 'I-BMI'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_diseases_large Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Disease'), ('diabetes', 'I-Disease'), ('mellitus', 'I-Disease'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'B-Disease'), ('mellitus', 'I-Disease'), ('(', 'O'), ('T2DM', 'B-Disease'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'B-Disease'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'B-Disease'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Disease'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Disease'), (',', 'O'), ('polydipsia', 'B-Disease'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Disease'), ('.', 'O')]
+
+ 
+ ******************** ner_chemprot_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_posology_large Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_chexpert Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_drugs_large Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_clinical_large Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'B-PROBLEM'), ('type', 'I-PROBLEM'), ('two', 'I-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('(', 'O'), ('T2DM', 'B-PROBLEM'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-PROBLEM'), ('pancreatitis', 'I-PROBLEM'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'B-PROBLEM'), ('acute', 'I-PROBLEM'), ('hepatitis', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('obesity', 'B-PROBLEM'), ('with', 'O'), ('a', 'B-PROBLEM'), ('body', 'I-PROBLEM'), ('mass', 'I-PROBLEM'), ('index', 'I-PROBLEM'), ('(', 'O'), ('BMI', 'B-TEST'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-PROBLEM'), (',', 'O'), ('polydipsia', 'B-PROBLEM'), (',', 'O'), ('poor', 'B-PROBLEM'), ('appetite', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-PROBLEM'), ('.', 'O')]
+
+ 
+ ******************** ner_chemicals Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_bacterial_species Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_bionlp Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'B-Organism'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'B-Organism'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_deid_large Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** jsl_ner_wip_modifier_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-Symptom'), ('mass', 'I-Symptom'), ('index', 'O'), ('(', 'O'), ('BMI', 'B-BMI'), (')', 'I-BMI'), ('of', 'I-BMI'), ('33.5', 'I-BMI'), ('kg/m2', 'I-BMI'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** nerdl_tumour_demo Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_cancer_genetics Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_posology_small Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_human_phenotype_gene_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-GENE'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'B-HP'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'B-GENE'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-HP'), (',', 'O'), ('polydipsia', 'B-HP'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_ade_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'B-ADE'), (',', 'O'), ('poor', 'B-ADE'), ('appetite', 'I-ADE'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-ADE'), ('.', 'O')]
+
+ 
+ ******************** ner_human_phenotype_go_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'B-HP'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'B-HP'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-HP'), ('.', 'O')]
+
+ 
+ ******************** ner_risk_factors Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'B-DIABETES'), ('mellitus', 'I-DIABETES'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-DIABETES'), ('two', 'I-DIABETES'), ('diabetes', 'I-DIABETES'), ('mellitus', 'I-DIABETES'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'B-OBESE'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'B-PROBLEM'), ('type', 'I-PROBLEM'), ('two', 'I-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('(', 'O'), ('T2DM', 'B-PROBLEM'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-PROBLEM'), ('pancreatitis', 'I-PROBLEM'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'B-PROBLEM'), ('acute', 'I-PROBLEM'), ('hepatitis', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('obesity', 'B-PROBLEM'), ('with', 'O'), ('a', 'B-PROBLEM'), ('body', 'I-PROBLEM'), ('mass', 'I-PROBLEM'), ('index', 'I-PROBLEM'), ('(', 'O'), ('BMI', 'B-TEST'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-PROBLEM'), (',', 'O'), ('polydipsia', 'B-PROBLEM'), (',', 'O'), ('poor', 'B-PROBLEM'), ('appetite', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-PROBLEM'), ('.', 'O')]
+
+ 
+ ******************** ner_cellular Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_deid_sd_large Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** jsl_ner_wip_greedy_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-Symptom'), ('mass', 'I-Symptom'), ('index', 'O'), ('(', 'O'), ('BMI', 'B-BMI'), (')', 'I-BMI'), ('of', 'I-BMI'), ('33.5', 'I-BMI'), ('kg/m2', 'I-BMI'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_diseases Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Disease'), ('diabetes', 'I-Disease'), ('mellitus', 'I-Disease'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'B-Disease'), ('mellitus', 'I-Disease'), ('(', 'O'), ('T2DM', 'B-Disease'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease'), ('pancreatitis', 'I-Disease'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'B-Disease'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Disease'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'B-Disease'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Disease'), (',', 'O'), ('polydipsia', 'B-Disease'), (',', 'O'), ('poor', 'B-Disease'), ('appetite', 'I-Disease'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Disease'), ('.', 'O')]
+
+ 
+ ******************** jsl_rd_ner_wip_greedy_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'B-Diabetes'), ('type', 'I-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-BMI'), ('mass', 'I-BMI'), ('index', 'I-BMI'), ('(', 'I-BMI'), ('BMI', 'I-BMI'), (')', 'O'), ('of', 'O'), ('33.5', 'B-Weight'), ('kg/m2', 'I-Weight'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_drugs Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_anatomy_coarse Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'B-Anatomy'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** token Model Results ******************** 
+
+[('A', 'A'), ('28-year-old', '28-year-old'), ('female', 'female'), ('with', 'with'), ('a', 'a'), ('history', 'history'), ('of', 'of'), ('gestational', 'gestational'), ('diabetes', 'diabetes'), ('mellitus', 'mellitus'), ('diagnosed', 'diagnosed'), ('eight', 'eight'), ('years', 'years'), ('prior', 'prior'), ('to', 'to'), ('presentation', 'presentation'), ('and', 'and'), ('subsequent', 'subsequent'), ('type', 'type'), ('two', 'two'), ('diabetes', 'diabetes'), ('mellitus', 'mellitus'), ('(', '('), ('T2DM', 'T2DM'), ('),', '),'), ('one', 'one'), ('prior', 'prior'), ('episode', 'episode'), ('of', 'of'), ('HTG-induced', 'HTG-induced'), ('pancreatitis', 'pancreatitis'), ('three', 'three'), ('years', 'years'), ('prior', 'prior'), ('to', 'to'), ('presentation', 'presentation'), (',', ','), ('associated', 'associated'), ('with', 'with'), ('an', 'an'), ('acute', 'acute'), ('hepatitis', 'hepatitis'), (',', ','), ('and', 'and'), ('obesity', 'obesity'), ('with', 'with'), ('a', 'a'), ('body', 'body'), ('mass', 'mass'), ('index', 'index'), ('(', '('), ('BMI', 'BMI'), (')', ')'), ('of', 'of'), ('33.5', '33.5'), ('kg/m2', 'kg/m2'), (',', ','), ('presented', 'presented'), ('with', 'with'), ('a', 'a'), ('one-week', 'one-week'), ('history', 'history'), ('of', 'of'), ('polyuria', 'polyuria'), (',', ','), ('polydipsia', 'polydipsia'), (',', ','), ('poor', 'poor'), ('appetite', 'appetite'), (',', ','), ('and', 'and'), ('vomiting', 'vomiting'), ('.', '.')]
+
+ 
+ ******************** ner_medmentions_coarse Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'B-Organism_Attribute'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'B-Disease_or_Syndrome'), ('mellitus', 'I-Disease_or_Syndrome'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'B-Disease_or_Syndrome'), ('mellitus', 'I-Disease_or_Syndrome'), ('(', 'O'), ('T2DM', 'B-Disease_or_Syndrome'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_or_Syndrome'), ('pancreatitis', 'I-Disease_or_Syndrome'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'B-Qualitative_Concept'), ('with', 'I-Qualitative_Concept'), ('an', 'O'), ('acute', 'B-Disease_or_Syndrome'), ('hepatitis', 'I-Disease_or_Syndrome'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Disease_or_Syndrome'), ('with', 'O'), ('a', 'O'), ('body', 'B-Clinical_Attribute'), ('mass', 'I-Clinical_Attribute'), ('index', 'I-Clinical_Attribute'), ('(', 'O'), ('BMI', 'B-Clinical_Attribute'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Sign_or_Symptom'), (',', 'O'), ('polydipsia', 'B-Sign_or_Symptom'), (',', 'O'), ('poor', 'B-Sign_or_Symptom'), ('appetite', 'I-Sign_or_Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Sign_or_Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_deid_sd Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_anatomy Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'B-Organism_subdivision'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_deid_enriched Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_deid_subentity_augmented Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-AGE'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_measurements_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'B-Measurements'), ('kg/m2', 'B-Units'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_jsl_enriched Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Modifier'), ('hepatitis', 'B-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-BMI'), ('mass', 'I-BMI'), ('index', 'I-BMI'), ('(', 'O'), ('BMI', 'B-BMI'), (')', 'I-BMI'), ('of', 'I-BMI'), ('33.5', 'I-BMI'), ('kg/m2', 'I-BMI'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_posology_experimental Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** jsl_ner_wip_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'B-Modifier'), ('type', 'B-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Modifier'), ('hepatitis', 'B-Communicable_Disease'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-Symptom'), ('mass', 'I-Symptom'), ('index', 'I-Symptom'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'B-Weight'), ('kg/m2', 'I-Weight'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_jsl Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'B-Age'), ('female', 'B-Gender'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('diagnosed', 'O'), ('eight', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'B-Modifier'), ('type', 'B-Diabetes'), ('two', 'I-Diabetes'), ('diabetes', 'I-Diabetes'), ('mellitus', 'I-Diabetes'), ('(', 'O'), ('T2DM', 'B-Diabetes'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'B-RelativeDate'), ('years', 'I-RelativeDate'), ('prior', 'I-RelativeDate'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Modifier'), ('hepatitis', 'B-Communicable_Disease'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Obesity'), ('with', 'O'), ('a', 'O'), ('body', 'B-Symptom'), ('mass', 'I-Symptom'), ('index', 'I-Symptom'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'B-Weight'), ('kg/m2', 'I-Weight'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'B-Duration'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_events_clinical Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('diagnosed', 'O'), ('eight', 'B-DURATION'), ('years', 'I-DURATION'), ('prior', 'O'), ('to', 'O'), ('presentation', 'B-OCCURRENCE'), ('and', 'O'), ('subsequent', 'B-PROBLEM'), ('type', 'I-PROBLEM'), ('two', 'I-PROBLEM'), ('diabetes', 'I-PROBLEM'), ('mellitus', 'I-PROBLEM'), ('(', 'O'), ('T2DM', 'B-PROBLEM'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-PROBLEM'), ('pancreatitis', 'I-PROBLEM'), ('three', 'B-DURATION'), ('years', 'I-DURATION'), ('prior', 'O'), ('to', 'O'), ('presentation', 'B-EVIDENTIAL'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'B-PROBLEM'), ('acute', 'I-PROBLEM'), ('hepatitis', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('obesity', 'B-PROBLEM'), ('with', 'O'), ('a', 'B-PROBLEM'), ('body', 'I-PROBLEM'), ('mass', 'I-PROBLEM'), ('index', 'I-PROBLEM'), ('(', 'I-PROBLEM'), ('BMI', 'I-PROBLEM'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'B-OCCURRENCE'), ('with', 'O'), ('a', 'B-DURATION'), ('one-week', 'I-DURATION'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-PROBLEM'), (',', 'O'), ('polydipsia', 'B-PROBLEM'), (',', 'O'), ('poor', 'B-PROBLEM'), ('appetite', 'I-PROBLEM'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-PROBLEM'), ('.', 'O')]
+
+ 
+ ******************** ner_genetic_variants Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+
+ 
+ ******************** ner_radiology Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'B-Disease_Syndrome_Disorder'), ('diabetes', 'I-Disease_Syndrome_Disorder'), ('mellitus', 'I-Disease_Syndrome_Disorder'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'B-Disease_Syndrome_Disorder'), ('two', 'I-Disease_Syndrome_Disorder'), ('diabetes', 'I-Disease_Syndrome_Disorder'), ('mellitus', 'I-Disease_Syndrome_Disorder'), ('(', 'O'), ('T2DM', 'B-Disease_Syndrome_Disorder'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'B-Disease_Syndrome_Disorder'), ('pancreatitis', 'I-Disease_Syndrome_Disorder'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'B-Disease_Syndrome_Disorder'), ('hepatitis', 'I-Disease_Syndrome_Disorder'), (',', 'O'), ('and', 'O'), ('obesity', 'B-Disease_Syndrome_Disorder'), ('with', 'O'), ('a', 'O'), ('body', 'B-BodyPart'), ('mass', 'B-Symptom'), ('index', 'I-Symptom'), ('(', 'O'), ('BMI', 'B-Test'), (')', 'O'), ('of', 'O'), ('33.5', 'B-Measurements'), ('kg/m2', 'B-Units'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'B-Symptom'), (',', 'O'), ('polydipsia', 'B-Symptom'), (',', 'O'), ('poor', 'B-Symptom'), ('appetite', 'I-Symptom'), (',', 'O'), ('and', 'O'), ('vomiting', 'B-Symptom'), ('.', 'O')]
+
+ 
+ ******************** ner_posology Model Results ******************** 
+
+[('A', 'O'), ('28-year-old', 'O'), ('female', 'O'), ('with', 'O'), ('a', 'O'), ('history', 'O'), ('of', 'O'), ('gestational', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('diagnosed', 'O'), ('eight', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), ('and', 'O'), ('subsequent', 'O'), ('type', 'O'), ('two', 'O'), ('diabetes', 'O'), ('mellitus', 'O'), ('(', 'O'), ('T2DM', 'O'), ('),', 'O'), ('one', 'O'), ('prior', 'O'), ('episode', 'O'), ('of', 'O'), ('HTG-induced', 'O'), ('pancreatitis', 'O'), ('three', 'O'), ('years', 'O'), ('prior', 'O'), ('to', 'O'), ('presentation', 'O'), (',', 'O'), ('associated', 'O'), ('with', 'O'), ('an', 'O'), ('acute', 'O'), ('hepatitis', 'O'), (',', 'O'), ('and', 'O'), ('obesity', 'O'), ('with', 'O'), ('a', 'O'), ('body', 'O'), ('mass', 'O'), ('index', 'O'), ('(', 'O'), ('BMI', 'O'), (')', 'O'), ('of', 'O'), ('33.5', 'O'), ('kg/m2', 'O'), (',', 'O'), ('presented', 'O'), ('with', 'O'), ('a', 'O'), ('one-week', 'O'), ('history', 'O'), ('of', 'O'), ('polyuria', 'O'), (',', 'O'), ('polydipsia', 'O'), (',', 'O'), ('poor', 'O'), ('appetite', 'O'), (',', 'O'), ('and', 'O'), ('vomiting', 'O'), ('.', 'O')]
+```
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|ner_profiling_clinical|
+|Type:|pipeline|
+|Compatibility:|Spark NLP for Healthcare 3.3.1+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+
+## Included Models
+
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- MedicalNerModel
+- NerConverter
+- Finisher
