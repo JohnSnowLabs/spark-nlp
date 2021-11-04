@@ -79,18 +79,10 @@ class CometLogger:
 
     To run an online experiment, the logger is defined like so.
 
-    >>> comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
-    >>> OUTPUT_LOG_PATH = "./comet"
-    >>> logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
+    >>> OUTPUT_LOG_PATH = "./run"
+    >>> logger = CometLogger()
 
-    Experiments can also be defined to be run offline:
-
-    >>> OUTPUT_LOG_PATH = "./comet"
-    >>> logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
-    >>> comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
-
-    Logs will be saved to the output directory and can be later submitted to
-    Comet.
+    Then the experiment can start like so
 
     >>> document = DocumentAssembler() \\
     ...     .setInputCol("text")\\
@@ -122,7 +114,6 @@ class CometLogger:
     interface with
 
     >>> logger.experiment.display(tab='charts')
-
     """
 
     def __init__(

@@ -32,7 +32,7 @@ Comet can easily integrated into the Spark NLP workflow with the a dedicated
 logging class `CometLogger` to log training and evaluation metrics,
 pipeline parameters and NER visualization made with sparknlp-display.
 
-For more information see the [User Guide](https://nlp.johnsnowlabs.com/api/python/third_party/comet.html) and for more examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb).
+For more information see the [User Guide](https://nlp.johnsnowlabs.com/api/python/third_party/Comet.html) and for more examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb).
 
 
 | **Python API:** [CometLogger](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.logging.comet.CometLogger.html) |
@@ -50,40 +50,31 @@ import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.logging.comet import CometLogger
+
 spark = sparknlp.start()
 
-# To run an online experiment, the logger is defined like so.
+OUTPUT_LOG_PATH = "./run"
+logger = CometLogger()
 
-comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
-OUTPUT_LOG_PATH = "./comet"
-logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
-
-# Experiments can also be defined to be run offline:
-
-# OUTPUT_LOG_PATH = "./comet"
-# logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
-# comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
-
-# Logs will be saved to the output directory and can be later submitted to
-# Comet.
-
-document = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("document")
-embds = UniversalSentenceEncoder.pretrained() \
-    .setInputCols("document") \
+document = DocumentAssembler().setInputCol("text").setOutputCol("document")
+embds = (
+    UniversalSentenceEncoder.pretrained()
+    .setInputCols("document")
     .setOutputCol("sentence_embeddings")
-multiClassifier = MultiClassifierDLApproach() \
-    .setInputCols("sentence_embeddings") \
-    .setOutputCol("category") \
-    .setLabelColumn("labels") \
-    .setBatchSize(128) \
-    .setLr(1e-3) \
-    .setThreshold(0.5) \
-    .setShufflePerEpoch(False) \
-    .setEnableOutputLogs(True) \
-    .setOutputLogsPath(OUTPUT_LOG_PATH) \
+)
+multiClassifier = (
+    MultiClassifierDLApproach()
+    .setInputCols("sentence_embeddings")
+    .setOutputCol("category")
+    .setLabelColumn("labels")
+    .setBatchSize(128)
+    .setLr(1e-3)
+    .setThreshold(0.5)
+    .setShufflePerEpoch(False)
+    .setEnableOutputLogs(True)
+    .setOutputLogsPath(OUTPUT_LOG_PATH)
     .setMaxEpochs(1)
+)
 
 logger.monitor(logdir=OUTPUT_LOG_PATH, model=multiClassifier)
 trainDataset = spark.createDataFrame(

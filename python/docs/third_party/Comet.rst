@@ -69,9 +69,8 @@ key. See the Comet quick-start section on how to get one.
 
 To run an online experiment, the logger is defined like so.
 
->>> comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
->>> OUTPUT_LOG_PATH = "./comet"
->>> logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
+>>> OUTPUT_LOG_PATH = "./run"
+>>> logger = CometLogger()
 
 We continue by defining the training pipeline.
 
@@ -176,9 +175,10 @@ Running An Offline Experiment
 
 Experiments can also be defined to be run offline:
 
->>> OUTPUT_LOG_PATH = "./comet"
->>> logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
+>>> import comet_ml
+>>> OUTPUT_LOG_PATH = "./run"
 >>> comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
+>>> logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
 
 Logs will be saved to the output directory and can be later submitted to
 Comet.
