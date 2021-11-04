@@ -162,10 +162,10 @@ https://github.com/deepset-ai/haystack/issues/611
 Extracted from https://github.com/deepset-ai/haystack/issues/611
 
 ```
-              precision    recall  f1-score   support
+               precision    recall  f1-score   support
 
- statement       0.94      0.94      0.94     16105
- question       0.96      0.96      0.96     26198
+ statement         0.94      0.94      0.94     16105
+ question          0.96      0.96      0.96     26198
 
     accuracy                           0.95     42303
    macro avg       0.95      0.95      0.95     42303
