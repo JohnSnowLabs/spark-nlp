@@ -7,7 +7,7 @@ date: 2021-11-01
 tags: [embeddings, spanish, biomedical, clinical, roberta, es, licensed]
 task: Embeddings
 language: es
-edition: Spark NLP 3.3.0
+edition: Spark NLP for Healthcare 3.3.0
 spark_version: 3.0
 supported: true
 article_header:
