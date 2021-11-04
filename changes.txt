@@ -1,2 +1,2 @@
-docs/_posts/muhammetsnts/2021-09-23-ner_profiling_biobert_en.md
-docs/_posts/muhammetsnts/2021-09-23-ner_profiling_biobert_en.md
+docs/_posts/muhammetsnts/2021-09-24-ner_profiling_clinical_en.md
+docs/_posts/muhammetsnts/2021-09-24-ner_profiling_clinical_en.md
