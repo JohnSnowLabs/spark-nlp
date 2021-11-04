@@ -1,2 +1,6 @@
-docs/_posts/muhammetsnts/2021-09-24-ner_profiling_clinical_en.md
-docs/_posts/muhammetsnts/2021-09-24-ner_profiling_clinical_en.md
+docs/en/third-party-projects.md
+python/docs/third_party/Comet.rst
+python/sparknlp/logging/comet.py
+docs/en/third-party-projects.md
+python/docs/third_party/Comet.rst
+python/sparknlp/logging/comet.py

@@ -547,7 +547,7 @@ learning experiments.</p>
 logging class <code class="language-plaintext highlighter-rouge">CometLogger</code> to log training and evaluation metrics,
 pipeline parameters and NER visualization made with sparknlp-display.</p>
 
-<p>For more information see the <a href="https://nlp.johnsnowlabs.com/api/python/third_party/comet.html">User Guide</a> and for more examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb">Spark NLP Workshop</a>.</p>
+<p>For more information see the <a href="https://nlp.johnsnowlabs.com/api/python/third_party/Comet.html">User Guide</a> and for more examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb">Spark NLP Workshop</a>.</p>
 
 <table>
   <tbody>
@@ -569,40 +569,31 @@ pipeline parameters and NER visualization made with sparknlp-display.</p>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.logging.comet</span> <span class="kn">import</span> <span class="n">CometLogger</span>
+
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
 
-<span class="c1"># To run an online experiment, the logger is defined like so.
-</span>
-<span class="n">comet_ml</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s">"sparknlp_experiment"</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="s">"/tmp"</span><span class="p">)</span>
-<span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s">"./comet"</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">(</span><span class="n">comet_mode</span><span class="o">=</span><span class="s">"offline"</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
+<span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s">"./run"</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">()</span>
 
-<span class="c1"># Experiments can also be defined to be run offline:
-</span>
-<span class="c1"># OUTPUT_LOG_PATH = "./comet"
-# logger = CometLogger(comet_mode="offline", offline_directory=OUTPUT_LOG_PATH)
-# comet_ml.init(project_name="sparknlp_experiment", offline_directory="/tmp")
-</span>
-<span class="c1"># Logs will be saved to the output directory and can be later submitted to
-# Comet.
-</span>
-<span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-<span class="n">embds</span> <span class="o">=</span> <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+<span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">embds</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
-<span class="n">multiClassifier</span> <span class="o">=</span> <span class="n">MultiClassifierDLApproach</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"labels"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setLr</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setShufflePerEpoch</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setEnableOutputLogs</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span> \
+<span class="p">)</span>
+<span class="n">multiClassifier</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">MultiClassifierDLApproach</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"category"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"labels"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setLr</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setShufflePerEpoch</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setEnableOutputLogs</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
     <span class="p">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">logger</span><span class="p">.</span><span class="n">monitor</span><span class="p">(</span><span class="n">logdir</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">multiClassifier</span><span class="p">)</span>
 <span class="n">trainDataset</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
