@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2021-11-01-roberta_base_biomedical_es.md
-docs/_posts/josejuanmartinez/2021-11-01-roberta_base_biomedical_es.md
+docs/_posts/muhammetsnts/2021-09-23-ner_profiling_biobert_en.md
+docs/_posts/muhammetsnts/2021-09-23-ner_profiling_biobert_en.md
