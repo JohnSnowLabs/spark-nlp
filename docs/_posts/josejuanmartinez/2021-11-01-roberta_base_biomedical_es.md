@@ -30,7 +30,7 @@ To see more details, please check the official page in Hugging Face: https://hug
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/roberta_base_biomedical_es_3.3.0_3.0_1635781845226.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_biomedical_es_3.3.0_3.0_1635781845226.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es", "clinical/models")\
+roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es")\
     .setInputCols(["document", "token"])\
     .setOutputCol("roberta_embeddings")
 
@@ -65,7 +65,7 @@ val tokenizer = mew Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es", "clinical/models")\
+val roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es")\
     .setInputCols("document", "token")\
     .setOutputCol("roberta_embeddings")
 
