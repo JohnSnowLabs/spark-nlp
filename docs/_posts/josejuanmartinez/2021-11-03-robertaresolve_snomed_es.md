@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
     .setInputCols("sentence")\
     .setOutputCol("token")
 
-word_embeddings = RoBertaEmbeddings.load(f"./{MODEL_NAME_TF}_spark_nlp")\
+word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("roberta_embeddings")
 
@@ -106,7 +106,7 @@ val tokenizer = Tokenizer()\
     .setInputCols("sentence")\
     .setOutputCol("token")
 
-val word_embeddings = RoBertaEmbeddings.load(f"./{MODEL_NAME_TF}_spark_nlp")\
+val word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("roberta_embeddings")
 
