@@ -123,62 +123,28 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-```
-+-------------+-----------+
-|        token|  ner_label|
-+-------------+-----------+
-|        Mujer|          O|
-|           de|          O|
-|           28|          O|
-|         años|          O|
-|          con|          O|
-| antecedentes|          O|
-|           de|          O|
-|     diabetes|DIAGNOSTICO|
-|     mellitus|DIAGNOSTICO|
-|  gestacional|DIAGNOSTICO|
-|diagnosticada|          O|
-|         ocho|          O|
-|         años|          O|
-|        antes|          O|
-|           de|          O|
-|           la|          O|
-| presentación|          O|
-|            y|          O|
-|    posterior|          O|
-|     diabetes|DIAGNOSTICO|
-|     mellitus|DIAGNOSTICO|
-|         tipo|DIAGNOSTICO|
-|          dos|DIAGNOSTICO|
-|            (|          O|
-|          DM2|DIAGNOSTICO|
-|           ),|          O|
-|           un|          O|
-|     episodio|          O|
-|       previo|          O|
-|           de|          O|
-| pancreatitis|DIAGNOSTICO|
-|     inducida|DIAGNOSTICO|
-|          por|DIAGNOSTICO|
-|          HTG|DIAGNOSTICO|
-|         tres|          O|
-|         años|          O|
-|        antes|          O|
-|           de|          O|
-|           la|          O|
-| presentación|          O|
-|            ,|          O|
-|     asociado|          O|
-|          con|          O|
-|          una|          O|
-|    hepatitis|DIAGNOSTICO|
-|        aguda|DIAGNOSTICO|
-|            ,|          O|
-|            y|          O|
-|     obesidad|DIAGNOSTICO|
-|          con|          O|
-+-------------+-----------+
-```
++---------------------------------+------------+
+|                             text|ner_label  |
++---------------------------------+------------+
+|    diabetes mellitus gestacional|DIAGNOSTICO|
+|       diabetes mellitus tipo dos|DIAGNOSTICO|
+|                              DM2|DIAGNOSTICO|
+|    pancreatitis inducida por HTG|DIAGNOSTICO|
+|                  hepatitis aguda|DIAGNOSTICO|
+|                         obesidad|DIAGNOSTICO|
+|          índice de masa corporal|DIAGNOSTICO|
+|                              IMC|DIAGNOSTICO|
+|                         poliuria|DIAGNOSTICO|
+|                       polidipsia|DIAGNOSTICO|
+|                          vómitos|DIAGNOSTICO|
+|infección del tracto respiratorio|DIAGNOSTICO|
+|                              DM2|DIAGNOSTICO|
+|                              HTG|DIAGNOSTICO|
+|                            dolor|DIAGNOSTICO|
+|                          rigidez|DIAGNOSTICO|
+|                          cetosis|DIAGNOSTICO|
+|infección del tracto respiratorio|DIAGNOSTICO|
++---------------------------------+-----------+
 ```
 
 {:.model-param}
@@ -201,7 +167,6 @@ https://temu.bsc.es/codiesp/
 ## Benchmarking
 
 ```bash
-```
 label		 tp	 fp	 fn	 prec		 rec		 f1
 DIAGNOSTICO	 1705	 543	 610	 0.75845194	 0.7365011	 0.74731535
 PROCEDIMIENTO	 500	 195	 288	 0.7194245	 0.6345178	 0.67430884
@@ -209,5 +174,4 @@ PROCEDIMIENTO	 500	 195	 288	 0.7194245	 0.6345178	 0.67430884
 tp: 2205 fp: 738 fn: 898 labels: 2
 Macro-average	 prec: 0.7389382, rec: 0.68550944, f1: 0.7112218
 Micro-average	 prec: 0.74923545, rec: 0.71060264, f1: 0.72940785
-```
 ```
