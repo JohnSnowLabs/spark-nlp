@@ -116,9 +116,8 @@ val result = snomed_pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-```
 +----+-------------------------------+-------------+--------------+
-|    | ner_chunk                     | entity      |   icd10_code |
+|    | ner_chunk                     | entity      |   snomed_code|
 |----+-------------------------------+-------------+--------------|
 |  0 | diabetes mellitus gestacional | DIAGNOSTICO |     11687002 |
 |  1 | diabetes mellitus tipo dos (  | DIAGNOSTICO |     44054006 |
@@ -138,7 +137,6 @@ val result = snomed_pipeline.fit(data).transform(data)
 | 15 | cetosis                       | DIAGNOSTICO |      2538008 |
 | 16 | infección                     | DIAGNOSTICO |     40733004 |
 +----+-------------------------------+-------------+--------------+
-```
 ```
 
 {:.model-param}
