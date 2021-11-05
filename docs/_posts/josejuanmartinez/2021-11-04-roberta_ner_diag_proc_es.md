@@ -17,9 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.Pretrained named entity recognition deep learning model for diagnostics and procedures in spanish
+Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN.Pretrained named entity recognition deep learning model for diagnostics and procedures in Spanish
 
-This model is similar to `https://nlp.johnsnowlabs.com/2021/03/31/ner_diag_proc_es.html` but instead of using `embeddings_scielowiki_300d` it uses `roberta_base_biomedical_es' embeddings.
+This model is similar to `https://nlp.johnsnowlabs.com/2021/03/31/ner_diag_proc_es.html` but instead of using `embeddings_scielowiki_300d` it uses `roberta_base_biomedical_es` embeddings.
 
 Tasks trained using Clinical Case Coding in Spanish Shared Task (eHealth CLEF 2020) (link: https://temu.bsc.es/codiesp/)
 
