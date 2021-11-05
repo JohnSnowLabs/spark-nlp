@@ -2,7 +2,7 @@
 layout: docs
 header: true
 seotitle: Spark NLP for Healthcare | John Snow Labs
-title: Spark NLP for Healthcare
+title: Spark NLP for Healthcare Installation
 permalink: /docs/en/licensed_install
 key: docs-licensed-install
 modify_date: "2021-03-09"
@@ -11,39 +11,37 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
-<div class="h3-box" markdown="1">
+## Install via Docker
 
-### Getting started
+We have prepared a docker image that contains all the required libraries for installing and running Spark NLP for Healthcare. However, it does not contain the library itself, as it is licensed, and requires installation credentials.
 
-Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don't have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.
-
-{:.btn-block}
-[Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
+Make sure you have valid license for Spark NLP for Healthcare, and follow the instructions below:
 
 
-Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:
-- Clinical entity recognition
-- Clinical Entity Linking
-- Entity normalization
-- Assertion Status Detection
-- De-identification
-- Relation Extraction
-- Spell checking & correction
+### Instructions
 
-note: If you are going to use any pretrained licensed NER model, you don't need to install licensed libray. As long as you have the AWS keys and license keys in your environment, you will be able to use licensed NER models with Spark NLP public library. For the other licensed pretrained models like AssertionDL, Deidentification, Entity Resolvers and Relation Extraction models, you will need to install Spark NLP Enterprise as well.
-
-The library offers access to several clinical and biomedical transformers: JSL-BERT-Clinical, BioBERT, ClinicalBERT, GloVe-Med, GloVe-ICD-O. It also includes over 50 pre-trained healthcare models, that can recognize the following entities (any many more):
-- Clinical - support Signs, Symptoms, Treatments, Procedures, Tests, Labs, Sections
-- Drugs - support Name, Dosage, Strength, Route, Duration, Frequency
-- Risk Factors- support Smoking, Obesity, Diabetes, Hypertension, Substance Abuse
-- Anatomy - support Organ, Subdivision, Cell, Structure Organism, Tissue, Gene, Chemical
-- Demographics - support Age, Gender, Height, Weight, Race, Ethnicity, Marital Status, Vital Signs
-- Sensitive Data- support Patient Name, Address, Phone, Email, Dates, Providers, Identifiers
+- Run the following commands to download the docker-compose.yml and the sparknlp_keys.txt files on your local machine:
+```bash
+curl -o docker-compose.yaml https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/513a4d682f11abc33b2e26ef8a9d72ad52a7b4f0/jupyter/docker_image_nlp_hc/docker-compose.yaml
+curl -o sparknlp_keys.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jupyter/docker_image_nlp_hc/sparknlp_keys.txt
+```
+- Download your license key in json format from my.johnsnowlabs.com 
+- Populate License keys in sparknlp_keys.txt.
+- Run the following command to run the container in detached mode:
+```bash
+ docker-compose up -d
+ ``` 
+- By default, the jupyter notebook would run at port 8888 - you can access the notebook by typing localhost:8888 in your browser.
 
 
-<br/>
+### Troubleshooting
 
-### Install Spark NLP for Healthcare
+- Make sure docker is installed on your system.
+- If you face any error while importing the lib inside jupyter, make sure all the credentials are correct in the key files and restart the service again.
+- If the default port 8888 is already occupied by another process, please change the mapping.
+- You can change/adjust volume and port mapping in the docker-compose.yml file.
+
+## Install locally on Python
 
 You can install the Spark NLP for Healthcare package by using:
 
@@ -131,7 +129,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3  --jars spark-nlp-j
 spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 --jars spark-nlp-jsl-${version}.jar
 ```
 
-### Install Spark NLP for Healthcare on Databricks
+## Install on Databricks
 
 1. Create a cluster if you don't have one already
 2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
@@ -180,8 +178,59 @@ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 --jars spark-n
 
 
 
+## Use on Google Colab Notebook
 
-### Install Spark NLP for Healthcare on GCP Dataproc
+Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.
+
+Run the following code in Google Colab notebook and start using spark-nlp right away.
+
+The first thing that you need is to create the json file with the credentials and the configuration in your local system.
+
+```json
+{
+  "PUBLIC_VERSION": "3.2.3",
+  "JSL_VERSION": "{version}",
+  "SECRET": "{version}-{secret.code}",
+  "SPARK_NLP_LICENSE": "xxxxx",
+  "AWS_ACCESS_KEY_ID": "yyyy",
+  "AWS_SECRET_ACCESS_KEY": "zzzz"
+}
+```
+
+Then you need to write that piece of code to load the credentials that you created before.
+
+```python
+
+import json
+
+from google.colab import files
+
+license_keys = files.upload()
+
+with open(list(license_keys.keys())[0]) as f:
+    license_keys = json.load(f)
+```
+
+```sh
+# This is only to setup PySpark and Spark NLP on Colab
+!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
+```
+
+This script comes with the two options to define `pyspark`,`spark-nlp` and `spark-nlp-jsl` versions via options:
+
+```sh
+# -p is for pyspark
+# -s is for spark-nlp
+# by default they are set to the latest
+!bash jsl_colab_setup.sh
+```
+
+[Spark NLP quick start on Google Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) is a live demo on Google Colab that performs named entity recognitions for HealthCare.
+
+
+
+
+## Install on GCP Dataproc
 
 1. Create a cluster if you don't have one already as follows.
 
@@ -265,52 +314,3 @@ spark = start(SECRET)
 
 As you see, we did not set `.master('local[*]')` explicitly to let YARN manage the cluster.
 Or you can set `.master('yarn')`.
-
-## Google Colab Notebook
-
-Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.
-
-Run the following code in Google Colab notebook and start using spark-nlp right away.
-
-The first thing that you need is to create the json file with the credentials and the configuration iun your local system.
-
-```json
-{
-  "PUBLIC_VERSION": "3.2.3",
-  "JSL_VERSION": "{version}",
-  "SECRET": "{version}-{secret.code}",
-  "SPARK_NLP_LICENSE": "xxxxx",
-  "AWS_ACCESS_KEY_ID": "yyyy",
-  "AWS_SECRET_ACCESS_KEY": "zzzz"
-}
-```
-
-Then you need to write that piece of code to load the credentials that you created before.
-
-```python
-
-import json
-
-from google.colab import files
-
-license_keys = files.upload()
-
-with open(list(license_keys.keys())[0]) as f:
-    license_keys = json.load(f)
-```
-
-```sh
-# This is only to setup PySpark and Spark NLP on Colab
-!wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
-```
-
-This script comes with the two options to define `pyspark`,`spark-nlp` and `spark-nlp-jsl` versions via options:
-
-```sh
-# -p is for pyspark
-# -s is for spark-nlp
-# by default they are set to the latest
-!bash jsl_colab_setup.sh
-```
-
-[Spark NLP quick start on Google Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb) is a live demo on Google Colab that performs named entity recognitions for HealthCare.
