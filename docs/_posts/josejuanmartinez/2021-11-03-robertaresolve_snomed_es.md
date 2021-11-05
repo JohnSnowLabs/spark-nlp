@@ -44,7 +44,7 @@ chunk_tokenizer = Tokenizer()\
     .setInputCols("ner_chunk_doc")\
     .setOutputCol("ner_chunk_doc_tok")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es","clinical/models")\
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es")\
     .setInputCols(["ner_chunk_doc", "ner_chunk_doc_tok"])\
     .setOutputCol("roberta_embeddings")
 
@@ -83,7 +83,7 @@ val chunk_tokenizer = Tokenizer()\
     .setInputCols("ner_chunk_doc")\
     .setOutputCol("ner_chunk_doc_tok")
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical","es","clinical/models")\
+val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical")\
     .setInputCols(["ner_chunk_doc", "ner_chunk_doc_tok"])\
     .setOutputCol("roberta_embeddings")
 
