@@ -52,7 +52,7 @@ tokenizer = Tokenizer()\
     .setOutputCol("token")
 
 embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es", "clinical/models")\
-    .setInputCols(["document", "token"])\
+    .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
 ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")\
@@ -60,7 +60,7 @@ ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models
     .setOutputCol("ner")\
 
 ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
+    .setInputCols(['sentence', 'token', 'ner']) \
     .setOutputCol('ner_chunk')
 
 pipeline = Pipeline(stages = [
@@ -93,7 +93,7 @@ val tokenizer = Tokenizer()\
     .setOutputCol("token")
 
 val embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es", "clinical/models")\
-    .setInputCols(["document", "token"])\
+    .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")\
@@ -101,7 +101,7 @@ val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/mo
     .setOutputCol("ner")\
 
 val ner_converter = NerConverter() \
-    .setInputCols(['document', 'token', 'ner']) \
+    .setInputCols(['sentence', 'token', 'ner']) \
     .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(
