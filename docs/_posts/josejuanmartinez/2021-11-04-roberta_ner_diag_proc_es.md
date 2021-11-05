@@ -51,7 +51,7 @@ tokenizer = Tokenizer()\
     .setInputCols("sentence")\
     .setOutputCol("token")
 
-embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es", "clinical/models")\
+embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
@@ -92,7 +92,7 @@ val tokenizer = Tokenizer()\
     .setInputCols("sentence")\
     .setOutputCol("token")
 
-val embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es", "clinical/models")\
+val embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
