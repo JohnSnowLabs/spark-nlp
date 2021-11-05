@@ -4,7 +4,7 @@ title: Roberta Clinical Word Embeddings (Spanish)
 author: John Snow Labs
 name: roberta_base_biomedical
 date: 2021-11-01
-tags: [embeddings, spanish, biomedical, clinical, roberta, es, licensed]
+tags: [embeddings, spanish, biomedical, clinical, roberta, es]
 task: Embeddings
 language: es
 edition: Spark NLP 3.3.0
