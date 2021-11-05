@@ -115,7 +115,6 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-```
 +------------------------------------------------------------------------------------------+---------+
 |                                                                                  sentence|    label|
 +------------------------------------------------------------------------------------------+---------+
@@ -135,7 +134,6 @@ val result = pipeline.fit(example).transform(example)
 |                                   To summarize, we thought a flower vase was an XXX item…|statement|
 |                           In our defense, this is a picture of a VW Beetle flower holder.|statement|
 +------------------------------------------------------------------------------------------+---------+
-```
 ```
 
 {:.model-param}
@@ -160,8 +158,6 @@ https://github.com/deepset-ai/haystack/issues/611
 
 ```bash
 Extracted from https://github.com/deepset-ai/haystack/issues/611
-
-```
                precision    recall  f1-score   support
 
   statement        0.94      0.94      0.94     16105
@@ -170,6 +166,4 @@ Extracted from https://github.com/deepset-ai/haystack/issues/611
     accuracy                           0.95     42303
    macro avg       0.95      0.95      0.95     42303
 weighted avg       0.95      0.95      0.95     42303
-
-```
 ```
