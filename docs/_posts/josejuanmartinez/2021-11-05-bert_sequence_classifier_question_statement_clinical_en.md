@@ -101,7 +101,6 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-```
 +--------------------------------------------------------------------------------------------------------------------+---------+
 |sentence                                                                                                            |label    |
 +--------------------------------------------------------------------------------------------------------------------+---------+
@@ -113,7 +112,6 @@ val result = pipeline.fit(example).transform(example)
 |Your progesterone report is perfectly normal. We expect this result on day 23rd of the cycle.                       |statement|
 |So there's nothing to worry as it's perfectly alright                                                               |statement|
 +--------------------------------------------------------------------------------------------------------------------+---------
-```
 ```
 
 {:.model-param}
@@ -140,7 +138,6 @@ For finetuning in clinical domain, in house JSL annotations based on clinical Q&
 ## Benchmarking
 
 ```bash
-```
               precision    recall  f1-score   support
 
     question       0.97      0.94      0.96       243
@@ -149,5 +146,4 @@ For finetuning in clinical domain, in house JSL annotations based on clinical Q&
     accuracy                           0.98       972
    macro avg       0.98      0.97      0.97       972
 weighted avg       0.98      0.98      0.98       972
-```
 ```
