@@ -21,7 +21,7 @@ Pretrained named entity recognition deep learning model for extracting covid-rel
 
 ## Predicted Entities
 
-`'Stage'`, `'Severity'`, `'Virus'`, `'Trial_Design'`, `'Trial_Phase'`, `'N_Patients'`, `'Institution'`, `'Statistical_Indicator'`, `'Section_Header'`, `'Cell_Type'`, `'Cellular_component'`, `'Viral_components'`, `'Physiological_reaction'`, `'Biological_molecules'`, `'Admission_Discharge'`, `'Age'`, `'BMI'`, `'Cerebrovascular_Disease'`, `'Date'`, `'Death_Entity'`, `'Diabetes'`, `'Disease_Syndrome_Disorder'`, `'Dosage'`, `'Drug_Ingredient'`, `'Employment'`, `'Frequency'`, `'Gender'`, `'Heart_Disease'`, `'Hypertension'`, `'Obesity'`, `'Pulse'`, `'Race_Ethnicity'`, `'Respiration'`, `'Route'`, `'Smoking'`, `'Time'`, `'Total_Cholesterol'`, `'Treatment'`, `'VS_Finding'`, `'Vaccine'`
+`Stage`, `Severity`, `Virus`, `Trial_Design`, `Trial_Phase`, `N_Patients`, `Institution`, `Statistical_Indicator`, `Section_Header`, `Cell_Type`, `Cellular_component`, `Viral_components`, `Physiological_reaction`, `Biological_molecules`, `Admission_Discharge`, `Age`, `BMI`, `Cerebrovascular_Disease`, `Date`, `Death_Entity`, `Diabetes`, `Disease_Syndrome_Disorder`, `Dosage`, `Drug_Ingredient`, `Employment`, `Frequency`, `Gender`, `Heart_Disease`, `Hypertension`, `Obesity`, `Pulse`, `Race_Ethnicity`, `Respiration`, `Route`, `Smoking`, `Time`, `Total_Cholesterol`, `Treatment`, `VS_Finding`, `Vaccine`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/){:.button.button-orange}
