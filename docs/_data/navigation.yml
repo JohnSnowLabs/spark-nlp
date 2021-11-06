@@ -70,10 +70,8 @@ annotation-lab:
         url:    /docs/en/alab/quickstart
       - title:  Installation
         url:    /docs/en/alab/install
-      - title:  Start Page
+      - title:  Home Page
         url:    /docs/en/alab/start_page
-      - title:  User Management
-        url:    /docs/en/alab/user_management
       - title:  Project Setup
         url:    /docs/en/alab/project_setup
       - title:  NLP Models Hub
@@ -96,6 +94,8 @@ annotation-lab:
         url:    /docs/en/alab/analytics
       - title:  Export Data
         url:    /docs/en/alab/export
+      - title:  User Management
+        url:    /docs/en/alab/user_management
       - title:  Workflow Setup
         url:    /docs/en/alab/workflow
       - title:  License Setup
