@@ -344,6 +344,13 @@ results = model.transform(spark.createDataFrame([["The patient is a 21-day-old C
 
 + `getTrainingClassDistribution` : This parameter returns the distribution of labels used when training the NER model.
 
+*Example*:
+
+```bash
+ner_model.getTrainingClassDistribution() 
+>> {'B-Disease': 2536, 'O': 31659, 'I-Disease': 2960}
+```
+
 #### New RxNorm Sentence Entity Resolver Model
 
 + `sbiobertresolve_rxnorm_augmented` : This model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using sbiobert_base_cased_mli Sentence Bert Embeddings. It trained on the augmented version of the dataset which is used in previous RxNorm resolver models. Additionally, this model returns concept classes of the drugs in all_k_aux_labels column.
@@ -441,8 +448,9 @@ res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_senten
 ```
 
 #### New Clinical Question vs Statement BertForSequenceClassification model
-+ `bert_sequence_classifier_question_statement_clinical` is a model imported from Hugging Face, based on BertForSequenceClassification, that given a text (sentence), returns one of these two classes: `question` or `statement`. This generic model has finetuned with Clinical questions and statements from interactions patient-physicians, annotated in-house by JSL, and includes `mimic-iii` data as well.
-+ 
+
++ `bert_sequence_classifier_question_statement_clinical` : This model classifies sentences into one of these two classes: question (interrogative sentence) or statement (declarative sentence) and trained with BertForSequenceClassification. This model is at first trained on SQuAD and SPAADIA dataset and then fine tuned on the clinical visit documents and MIMIC-III dataset annotated in-house. Using this model, you can find the question statements and exclude & utilize in the downstream tasks such as NER and relation extraction models.
+
 *Example* :
 
 ```bash
@@ -505,9 +513,11 @@ weighted avg       0.98      0.98      0.98       972
 
 #### New Sentence Entity Resolver Fine-Tune Features (Overwriting and Drop Code)
 
-+ `.setOverwriteExistingCode()` : This parameter provides overwriting codes over the existing codes if in pretrained Sentence Entity Resolver Model. 
++ `.setOverwriteExistingCode()` : This parameter provides overwriting codes over the existing codes if in pretrained Sentence Entity Resolver Model. For example, you want to add a new term to a pretrained resolver model, and if the code of term already exists in the pretrained model, when you `.setOverwriteExistingCode(True)`, it removes all the same codes and their descriptions from the model, then you will have just the new term with its code in the fine-tuned model. 
 
 + `.setDropCodesList()` : This parameter drops list of codes from a pretrained Sentence Entity Resolver Model.
+
+For more examples, please check [Fine-Tuning Sentence Entity Resolver Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.1.Finetuning_Sentence_Entity_Resolver_Model.ipynb)
 
 #### Updated ICD10CM Entity Resolver Models
 
@@ -524,26 +534,7 @@ We have updated `ner_profiling_clinical` and `ner_profiling_biobert` pretrained 
 *Example* :
 
 ```python
-documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
- 
-sentenceDetector = SentenceDetectorDLModel.pretrained()\
-      .setInputCols(["document"])\
-      .setOutputCol("sentence")
- 
-tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
-      .setOutputCol("token")\
- 
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")
-
-clinical_ner = MedicalNerModel.pretrained("ner_jsl_slim", "en", "clinical/models") \
-      .setInputCols(["sentence", "token", "embeddings"]) \
-      .setOutputCol("ner")
- 
+...
 ner_converter = NerConverter() \
       .setInputCols(["document", "token", "ner"]) \
       .setOutputCol("ner_chunk")\
@@ -554,24 +545,8 @@ chunkSentenceSplitter = ChunkSentenceSplitter()\
     .setOutputCol("paragraphs")\
     .setGroupBySentences(True) \
     .setDefaultEntity("Intro") \
-    .setInsertChunk(False)
-        
-pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter
-    ])
- 
-empty_df = spark.createDataFrame([[""]]).toDF('text')
-pipeline_model = pipeline.fit(empty_df)
-
-```
-
-```python
+    .setInsertChunk(False)        
+...
 
 text = ["""INTRODUCTION: Right pleural effusion and suspected malignant mesothelioma.
 PREOPERATIVE DIAGNOSIS:  Right pleural effusion and suspected malignant mesothelioma.
@@ -579,12 +554,6 @@ POSTOPERATIVE DIAGNOSIS: Right pleural effusion, suspected malignant mesotheliom
 PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""]
 
 results = pipeline_model.transform(df)
-
-df = results.selectExpr("explode(paragraphs) as result")\
-            .selectExpr("result.result",
-                        "result.metadata.entity",
-                        "result.metadata.splitter_chunk"
-
 ```
 
 *Results* : 
@@ -635,9 +604,10 @@ df = paragraphs.selectExpr("explode(paragraphs) as result")\
 ```
 
 
-#### Updated Spark NLP For Healthcare Notebooks and New Notebooks
+#### Updated Spark NLP For Healthcare Notebooks
 
-- Updated [NER Profiling Pretrained Pipeline Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb) .
+- [NER Profiling Pretrained Pipeline Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb) .
+- [Fine-Tuning Sentence Entity Resolver Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.1.Finetuning_Sentence_Entity_Resolver_Model.ipynb)
 
 
 **To see more, please check : [Spark NLP Healthcare Workshop Repo](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare)**
