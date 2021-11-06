@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker</title>
-          <meta name="description" content="Spark NLP 3.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker" />
-          <meta name="keywords" content="Spark NLP 3.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker" />
+          <title>Spark NLP 3.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker</title>
+          <meta name="description" content="Spark NLP 3.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker" />
+          <meta name="keywords" content="Spark NLP 3.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -775,7 +775,7 @@ producing summaries</a></p><p><a href="https://arxiv.org/abs/1810.04805" target=
       </span>
       
       <p class="shortcomment cmt"> Split the document using the chunks that you provided,and put in the metadata the chunk entity.</p><div class="fullcomment"><div class="comment cmt"><p> Split the document using the chunks that you provided,and put in the metadata the chunk entity.
-  The first piece of documento to the first chunk will have the entity as header.</p><p>Is useful if you identify the titles and subtitles using some ner and after that you can split by paragraph</p><h4>Example</h4><pre> <span class="kw">val</span> data = <span class="std">Seq</span>(text,text).toDS.toDF(<span class="lit">"text"</span>)
+  The first piece of document to the first chunk will have the entity as header.</p><p>Is useful if you identify the titles and subtitles using some ner and after that you can split by paragraph</p><h4>Example</h4><pre> <span class="kw">val</span> data = <span class="std">Seq</span>(text,text).toDS.toDF(<span class="lit">"text"</span>)
 <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"doc"</span>)
 <span class="kw">val</span> regexMatcher = <span class="kw">new</span> RegexMatcher().setInputCols(<span class="lit">"doc"</span>).setOutputCol(<span class="lit">"chunks"</span>).setExternalRules(<span class="lit">"src/test/resources/chunker/title_regex.txt"</span>,<span class="lit">","</span>)
 <span class="kw">val</span> chunkSentenceSplitter = <span class="kw">new</span> ChunkSentenceSplitter().setInputCols(<span class="lit">"chunks"</span>,<span class="lit">"doc"</span>).setOutputCol(<span class="lit">"paragraphs"</span>)
