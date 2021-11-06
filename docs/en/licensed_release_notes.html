@@ -859,6 +859,12 @@ results <span class="o">=</span> model.transform<span class="o">(</span>spark.cr
   <li><code class="language-plaintext highlighter-rouge">getTrainingClassDistribution</code> : This parameter returns the distribution of labels used when training the NER model.</li>
 </ul>
 
+<p><em>Example</em>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ner_model.getTrainingClassDistribution<span class="o">()</span> 
+<span class="o">&gt;&gt;</span> <span class="o">{</span><span class="s1">'B-Disease'</span>: 2536, <span class="s1">'O'</span>: 31659, <span class="s1">'I-Disease'</span>: 2960<span class="o">}</span>
+</code></pre></div></div>
+
 <h4 id="new-rxnorm-sentence-entity-resolver-model">New RxNorm Sentence Entity Resolver Model</h4>
 
 <ul>
@@ -958,10 +964,12 @@ res <span class="o">=</span> p_model.transform<span class="o">(</span>spark.crea
 </code></pre></div></div>
 
 <h4 id="new-clinical-question-vs-statement-bertforsequenceclassification-model">New Clinical Question vs Statement BertForSequenceClassification model</h4>
+
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">bert_sequence_classifier_question_statement_clinical</code> is a model imported from Hugging Face, based on BertForSequenceClassification, that given a text (sentence), returns one of these two classes: <code class="language-plaintext highlighter-rouge">question</code> or <code class="language-plaintext highlighter-rouge">statement</code>. This generic model has finetuned with Clinical questions and statements from interactions patient-physicians, annotated in-house by JSL, and includes <code class="language-plaintext highlighter-rouge">mimic-iii</code> data as well.</li>
-  <li><em>Example</em> :</li>
+  <li><code class="language-plaintext highlighter-rouge">bert_sequence_classifier_question_statement_clinical</code> : This model classifies sentences into one of these two classes: question (interrogative sentence) or statement (declarative sentence) and trained with BertForSequenceClassification. This model is at first trained on SQuAD and SPAADIA dataset and then fine tuned on the clinical visit documents and MIMIC-III dataset annotated in-house. Using this model, you can find the question statements and exclude &amp; utilize in the downstream tasks such as NER and relation extraction models.</li>
 </ul>
+
+<p><em>Example</em> :</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler <span class="o">=</span> DocumentAssembler<span class="o">()</span><span class="se">\</span>
     .setInputCol<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span><span class="se">\</span>
@@ -1022,12 +1030,14 @@ weighted avg       0.98      0.98      0.98       972
 
 <ul>
   <li>
-    <p><code class="language-plaintext highlighter-rouge">.setOverwriteExistingCode()</code> : This parameter provides overwriting codes over the existing codes if in pretrained Sentence Entity Resolver Model.</p>
+    <p><code class="language-plaintext highlighter-rouge">.setOverwriteExistingCode()</code> : This parameter provides overwriting codes over the existing codes if in pretrained Sentence Entity Resolver Model. For example, you want to add a new term to a pretrained resolver model, and if the code of term already exists in the pretrained model, when you <code class="language-plaintext highlighter-rouge">.setOverwriteExistingCode(True)</code>, it removes all the same codes and their descriptions from the model, then you will have just the new term with its code in the fine-tuned model.</p>
   </li>
   <li>
     <p><code class="language-plaintext highlighter-rouge">.setDropCodesList()</code> : This parameter drops list of codes from a pretrained Sentence Entity Resolver Model.</p>
   </li>
 </ul>
+
+<p>For more examples, please check <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.1.Finetuning_Sentence_Entity_Resolver_Model.ipynb">Fine-Tuning Sentence Entity Resolver Notebook</a></p>
 
 <h4 id="updated-icd10cm-entity-resolver-models">Updated ICD10CM Entity Resolver Models</h4>
 
@@ -1045,26 +1055,7 @@ weighted avg       0.98      0.98      0.98       972
 
 <p><em>Example</em> :</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
- 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
- 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
- 
-<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-
-<span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_jsl_slim"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
- 
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
@@ -1075,36 +1066,15 @@ weighted avg       0.98      0.98      0.98       972
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"paragraphs"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setGroupBySentences</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setDefaultEntity</span><span class="p">(</span><span class="s">"Intro"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInsertChunk</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentenceDetector</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">word_embeddings</span><span class="p">,</span>
-        <span class="n">clinical_ner</span><span class="p">,</span>
-        <span class="n">ner_converter</span>
-    <span class="p">])</span>
- 
-<span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>
-<span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInsertChunk</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>        
+<span class="p">...</span>
 
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""INTRODUCTION: Right pleural effusion and suspected malignant mesothelioma.
 PREOPERATIVE DIAGNOSIS:  Right pleural effusion and suspected malignant mesothelioma.
 POSTOPERATIVE DIAGNOSIS: Right pleural effusion, suspected malignant mesothelioma.
 PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""</span><span class="p">]</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">results</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(paragraphs) as result"</span><span class="p">)</span>\
-            <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"result.result"</span><span class="p">,</span>
-                        <span class="s">"result.metadata.entity"</span><span class="p">,</span>
-                        <span class="s">"result.metadata.splitter_chunk"</span>
-
 </code></pre></div></div>
 
 <p><em>Results</em> :</p>
@@ -1153,10 +1123,11 @@ PROCEDURE:  Right VATS pleurodesis and pleural biopsy."""</span><span class="p">
 +--------------------------------------------------+------+------------------------+
 </code></pre></div></div>
 
-<h4 id="updated-spark-nlp-for-healthcare-notebooks-and-new-notebooks">Updated Spark NLP For Healthcare Notebooks and New Notebooks</h4>
+<h4 id="updated-spark-nlp-for-healthcare-notebooks">Updated Spark NLP For Healthcare Notebooks</h4>
 
 <ul>
-  <li>Updated <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb">NER Profiling Pretrained Pipeline Notebook</a> .</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb">NER Profiling Pretrained Pipeline Notebook</a> .</li>
+  <li><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/13.1.Finetuning_Sentence_Entity_Resolver_Model.ipynb">Fine-Tuning Sentence Entity Resolver Notebook</a></li>
 </ul>
 
 <p><strong>To see more, please check : <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings/Healthcare">Spark NLP Healthcare Workshop Repo</a></strong></p>
@@ -1428,7 +1399,7 @@ results <span class="o">=</span> model.fit<span class="o">(</span>data<span clas
 
 <p>We have new Spark NLP for Healthcare <a href="https://nlp.johnsnowlabs.com/licensed/api/python/">Python API Documentation</a> . This page contains information how to use the library with Python examples.</p>
 
-<h4 id="updated-spark-nlp-for-healthcare-notebooks-and-new-notebooks-1">Updated Spark NLP For Healthcare Notebooks and New Notebooks</h4>
+<h4 id="updated-spark-nlp-for-healthcare-notebooks-and-new-notebooks">Updated Spark NLP For Healthcare Notebooks and New Notebooks</h4>
 
 <ul>
   <li>
