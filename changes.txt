@@ -1,2 +1,8 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/_data/navigation.yml
+docs/en/alab/project_setup.md
+docs/en/alab/start_page.md
+docs/en/alab/user_management.md
+docs/_data/navigation.yml
+docs/en/alab/project_setup.md
+docs/en/alab/start_page.md
+docs/en/alab/user_management.md
