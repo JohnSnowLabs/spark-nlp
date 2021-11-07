@@ -78,6 +78,12 @@ val result = pipeline.fit(example).transform(example)
 ```
 </div>
 
+## Results
+
+```bash
+['Sci/Tech']
+```
+
 {:.model-param}
 ## Model Information
 
@@ -91,3 +97,7 @@ val result = pipeline.fit(example).transform(example)
 |Output Labels:|[label]|
 |Language:|en|
 |Case sensitive:|true|
+
+## Data Source
+
+[https://huggingface.co/mrm8488/bert-mini-finetuned-age_news-classification](https://huggingface.co/mrm8488/bert-mini-finetuned-age_news-classification)
