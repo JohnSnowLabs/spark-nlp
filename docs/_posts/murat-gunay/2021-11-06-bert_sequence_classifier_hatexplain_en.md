@@ -74,7 +74,7 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_hatexplain", "en")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_hatexplain", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
