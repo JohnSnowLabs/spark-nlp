@@ -64,7 +64,7 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_antisemitism", "en")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_antisemitism", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
 
