@@ -19,16 +19,7 @@ from test.base import *
 from test.pretrained import *
 
 # Annotator tests
-unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
-unittest.TextTestRunner().run(RegexMatcherTestSpec())
-unittest.TextTestRunner().run(TokenizerTestSpec())
-unittest.TextTestRunner().run(NormalizerTestSpec())
-unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
-unittest.TextTestRunner().run(LemmatizerTestSpec())
-unittest.TextTestRunner().run(LemmatizerWithTrainingDataSetTestSpec())
-unittest.TextTestRunner().run(DateMatcherTestSpec())
-unittest.TextTestRunner().run(TextMatcherTestSpec())
-unittest.TextTestRunner().run(DocumentNormalizerSpec())
+unittest.TextTestRunner().run(LinearRegressionTestSpec())
 
 unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 unittest.TextTestRunner().run(ChunkerTestSpec())
@@ -103,10 +94,10 @@ unittest.TextTestRunner().run(Doc2VecTestSpec())
 
 # Misc tests
 
-unittest.TextTestRunner().run(UtilitiesTestSpec())
-unittest.TextTestRunner().run(SerializersTestSpec())
-unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
-
-# Functions tests
-unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
-unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
+# unittest.TextTestRunner().run(UtilitiesTestSpec())
+# unittest.TextTestRunner().run(SerializersTestSpec())
+# unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
+#
+# # Functions tests
+# unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
+# unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
