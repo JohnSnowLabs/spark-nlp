@@ -129,6 +129,60 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3  --jars spark-nlp-j
 spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 --jars spark-nlp-jsl-${version}.jar
 ```
 
+## Install locally for Scala
+
+### Use spark-health-care in Spark shell
+
+1.Download the fat jar for spark-nlp-healthcare.
+
+```bash
+aws s3 cp --region us-east-2 s3://pypi.johnsnowlabs.com/$jsl_secret/spark-nlp-jsl-$jsl_version.jar spark-nlp-jsl-$jsl_version.jar
+```
+
+2.Set up the `Environment Variables` box:
+
+```bash
+    AWS_ACCESS_KEY_ID=xxx
+    AWS_SECRET_ACCESS_KEY=yyy
+    SPARK_NLP_LICENSE=zzz
+```
+
+3.The preferred way to use the library when running Spark programs is using the `--packages`and `--jar` option as specified in the `spark-packages` section. 
+
+```bash
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:${public-version} --jars /spark-nlp-jsl-${version}.jar
+```
+
+### Use spark-health-care in Sbt project
+
+1.Download the fat jar for spark-nlp-healthcare.
+```bash
+aws s3 cp --region us-east-2 s3://pypi.johnsnowlabs.com/$jsl_secret/spark-nlp-jsl-$jsl_version.jar spark-nlp-jsl-$jsl_version.jar
+```
+
+2.Set up the `Environment Variables` box:
+
+```bash
+    AWS_ACCESS_KEY_ID=xxx
+    AWS_SECRET_ACCESS_KEY=yyy
+    SPARK_NLP_LICENSE=zzz
+```
+
+3.Add the spark-nlp jar in your build.sbt project
+
+```scala
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "{public-version}"
+````
+
+4.You need to create the /lib folder and paste the spark-nlp-jsl-${version}.jar file.
+ 
+5.Add the fat spark-nlp-healthcare in your classpath. You can do it by adding this line in your build.sbt
+
+```scala
+unmanagedJars in Compile += file("lib/sparknlp-jsl.jar")
+```
+
+
 ## Install on Databricks
 
 1. Create a cluster if you don't have one already
