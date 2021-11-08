@@ -11,7 +11,35 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
-## Install via Docker
+## Install NLP libraries on Ubuntu 
+
+For installing John Snow Labs NLP on an Ubuntu machine/VM please run the following command:
+
+```bash
+wget https://setup.johnsnowlabs.com/nlp/install.sh -O - | sudo bash -s -- -a PATH_TO_LICENSE_JSON_FILE -i -r
+```
+
+The install script offers several options:
+ - *-h*    show brief help
+ - *-i*    install mode: create a virtual environment and install the library
+ - *-r*    run mode: start jupyter after installation of the library 
+ - *-v*    path to virtual environment (default: ./sparknlp_env)
+ - *-j*    path to license json file for Spark NLP for Healthcare
+ - *-o*    path to license json file for Spark OCR
+ - *-a*    path to a single license json file for both Spark OCR and Spark NLP
+ - *-s*    specify pyspark version
+ - *-p*    specify port of jupyter notebook
+
+Use the -i flag for installing the libraries in a new virtual environment. 
+
+You can provide the desired path for virtual env using -v flag, otherwise a default location of ./sparknlp_env will be selected. 
+
+The PATH_TO_LICENSE_JSON_FILE must be replaced to the path where the license file is available on the local machine. According to the libraries you want to use you have different flags: -j, -o, -a. The license files can be easily downloaded from *My Subscription* section in your my.JohnSnowLabs.com account. 
+
+To directly start using Jupyter Notebook after the installation of the libraries user the -r flag. The install script downloads a couple of ready to use example notebooks that you can use to start experimenting with the libraries. 
+
+
+## Install NLP Libraries via Docker
 
 We have prepared a docker image that contains all the required libraries for installing and running Spark NLP for Healthcare. However, it does not contain the library itself, as it is licensed, and requires installation credentials.
 
@@ -54,8 +82,6 @@ pip install -q spark-nlp-jsl==${version} --extra-index-url https://pypi.johnsnow
 The `{secret.code}` is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
 
-</div><div class="h3-box" markdown="1">
-
 ### Setup AWS-CLI Credentials for licensed pretrained models
 
 Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models.
@@ -69,10 +95,8 @@ Make sure you configure your credentials with aws configure following the instru
 
 <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a>
 
-Please substitute the `ACCESS_KEY` and `SECRET_KEY` with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at
-<a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
+Please substitute the `ACCESS_KEY` and `SECRET_KEY` with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.
 
-</div>
 
 ### Start Spark NLP for Healthcare Session from Python
 
@@ -131,7 +155,7 @@ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 --jars spark-n
 
 ## Install locally for Scala
 
-### Use spark-health-care in Spark shell
+### Use Spark NLP for Healthcare in Spark shell
 
 1.Download the fat jar for spark-nlp-healthcare.
 
@@ -153,7 +177,7 @@ aws s3 cp --region us-east-2 s3://pypi.johnsnowlabs.com/$jsl_secret/spark-nlp-js
 spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:${public-version} --jars /spark-nlp-jsl-${version}.jar
 ```
 
-### Use spark-health-care in Sbt project
+### Use Spark NLP for Healthcare in Sbt project
 
 1.Download the fat jar for spark-nlp-healthcare.
 ```bash
@@ -184,6 +208,13 @@ unmanagedJars in Compile += file("lib/sparknlp-jsl.jar")
 
 
 ## Install on Databricks
+
+### Automatic deployment of John Snow Labs NLP libraries
+
+You can automatically deploy John Snow Labs libraries on Databricks by filling in the form available [here](https://www.johnsnowlabs.com/databricks/). 
+This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.
+
+### Manual deployment of Spark NLP for Healthcare
 
 1. Create a cluster if you don't have one already
 2. On a new cluster or existing one you need to add the following to the `Advanced Options -> Spark` tab, in `Spark.Config` box:
@@ -232,11 +263,9 @@ unmanagedJars in Compile += file("lib/sparknlp-jsl.jar")
 
 
 
-## Use on Google Colab Notebook
+## Use on Google Colab
 
-Google Colab is perhaps the easiest way to get started with spark-nlp. It requires no installation or setup other than having a Google account.
-
-Run the following code in Google Colab notebook and start using spark-nlp right away.
+Run the following code in Google Colab notebook and start using Spark NLP right away.
 
 The first thing that you need is to create the json file with the credentials and the configuration in your local system.
 
@@ -250,6 +279,9 @@ The first thing that you need is to create the json file with the credentials an
   "AWS_SECRET_ACCESS_KEY": "zzzz"
 }
 ```
+
+If you have a valid floating license, the license json file can be downloaded from your account on [my.JohnSnowLabs.com](https://my.johnsnowlabs.com/) on **My Subscriptions** section. To get a trial license please visit 
+
 
 Then you need to write that piece of code to load the credentials that you created before.
 
