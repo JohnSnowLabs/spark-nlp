@@ -529,53 +529,59 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="install-nlp-libraries-on-ubuntu">Install NLP libraries on Ubuntu</h2>
 
-<p>For installing John Snow Labs NLP on an Ubuntu machine/VM please run the following command:</p>
+<p>For installing John Snow Labs NLP libraries on an Ubuntu machine/VM please run the following command:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://setup.johnsnowlabs.com/nlp/install.sh <span class="nt">-O</span> - | <span class="nb">sudo </span>bash <span class="nt">-s</span> <span class="nt">--</span> <span class="nt">-a</span> PATH_TO_LICENSE_JSON_FILE <span class="nt">-i</span> <span class="nt">-r</span>
 </code></pre></div></div>
 
+<p>This script will install <code class="language-plaintext highlighter-rouge">Spark NLP</code>, <code class="language-plaintext highlighter-rouge">Spark NLP for Healthcare</code>, <code class="language-plaintext highlighter-rouge">Spark OCR</code>, <code class="language-plaintext highlighter-rouge">NLU</code> and <code class="language-plaintext highlighter-rouge">Spark NLP Display</code> on the specified virtual environment. It will also create a special folder, <code class="language-plaintext highlighter-rouge">./JohnSnowLabs</code>,  dedicated to all resources necessary for using the libraries.  Under <code class="language-plaintext highlighter-rouge">./JohnSnowLabs/example_notebooks</code> you will find some ready to use example notebooks that you can use to test the libraries on your data.</p>
+
 <p>The install script offers several options:</p>
 <ul>
-  <li><em>-h</em>    show brief help</li>
-  <li><em>-i</em>    install mode: create a virtual environment and install the library</li>
-  <li><em>-r</em>    run mode: start jupyter after installation of the library</li>
-  <li><em>-v</em>    path to virtual environment (default: ./sparknlp_env)</li>
-  <li><em>-j</em>    path to license json file for Spark NLP for Healthcare</li>
-  <li><em>-o</em>    path to license json file for Spark OCR</li>
-  <li><em>-a</em>    path to a single license json file for both Spark OCR and Spark NLP</li>
-  <li><em>-s</em>    specify pyspark version</li>
-  <li><em>-p</em>    specify port of jupyter notebook</li>
+  <li><code class="language-plaintext highlighter-rouge">-h</code>    show brief help</li>
+  <li><code class="language-plaintext highlighter-rouge">-i</code>    install mode: create a virtual environment and install the library</li>
+  <li><code class="language-plaintext highlighter-rouge">-r</code>    run mode: start jupyter after installation of the library</li>
+  <li><code class="language-plaintext highlighter-rouge">-v</code>    path to virtual environment (default: ./sparknlp_env)</li>
+  <li><code class="language-plaintext highlighter-rouge">-j</code>    path to license json file for Spark NLP for Healthcare</li>
+  <li><code class="language-plaintext highlighter-rouge">-o</code>    path to license json file for Spark OCR</li>
+  <li><code class="language-plaintext highlighter-rouge">-a</code>    path to a single license json file for both Spark OCR and Spark NLP</li>
+  <li><code class="language-plaintext highlighter-rouge">-s</code>    specify pyspark version</li>
+  <li><code class="language-plaintext highlighter-rouge">-p</code>    specify port of jupyter notebook</li>
 </ul>
 
-<p>Use the -i flag for installing the libraries in a new virtual environment.</p>
+<p>Use the <code class="language-plaintext highlighter-rouge">-i</code> flag for installing the libraries in a new virtual environment.</p>
 
-<p>You can provide the desired path for virtual env using -v flag, otherwise a default location of ./sparknlp_env will be selected.</p>
+<p>You can provide the desired path for virtual env using <code class="language-plaintext highlighter-rouge">-v</code> flag, otherwise a default location of <code class="language-plaintext highlighter-rouge">./sparknlp_env</code> will be selected.</p>
 
-<p>The PATH_TO_LICENSE_JSON_FILE must be replaced to the path where the license file is available on the local machine. According to the libraries you want to use you have different flags: -j, -o, -a. The license files can be easily downloaded from <em>My Subscription</em> section in your my.JohnSnowLabs.com account.</p>
+<p>The <code class="language-plaintext highlighter-rouge">PATH_TO_LICENSE_JSON_FILE</code> parameter must be replaced with the path where the license file is available on the local machine. According to the libraries you want to use different flags are available: <code class="language-plaintext highlighter-rouge">-j</code>, <code class="language-plaintext highlighter-rouge">-o</code> or <code class="language-plaintext highlighter-rouge">-a</code>. The license files can be easily downloaded from <em>My Subscription</em> section in your <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a> account.</p>
 
-<p>To directly start using Jupyter Notebook after the installation of the libraries user the -r flag. The install script downloads a couple of ready to use example notebooks that you can use to start experimenting with the libraries.</p>
+<p>To start using Jupyter Notebook after the installation of the libraries use the <code class="language-plaintext highlighter-rouge">-r</code> flag.</p>
 
-<h2 id="install-nlp-libraries-via-docker">Install NLP Libraries via Docker</h2>
+<p>The install script downloads a couple of example notebooks that you can use to start experimenting with the libraries. Those will be availabe under <code class="language-plaintext highlighter-rouge">./JohnSnowLabs/example_notebooks</code> folder.</p>
 
-<p>We have prepared a docker image that contains all the required libraries for installing and running Spark NLP for Healthcare. However, it does not contain the library itself, as it is licensed, and requires installation credentials.</p>
+<h2 id="install-via-docker">Install via Docker</h2>
 
-<p>Make sure you have valid license for Spark NLP for Healthcare, and follow the instructions below:</p>
+<p>A docker image that contains all the required libraries for installing and running Spark NLP for Healthcare is also available. However, it does not contain the library itself, as it is licensed, and requires installation credentials.</p>
+
+<p>Make sure you have a valid license for Spark NLP for Healthcare (in case you do not have one, you can ask for a trial <a href="https://www.johnsnowlabs.com/install/">here</a> ), and follow the instructions below:</p>
 
 <h3 id="instructions">Instructions</h3>
 
 <ul>
-  <li>Run the following commands to download the docker-compose.yml and the sparknlp_keys.txt files on your local machine:
+  <li>Run the following commands to download the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> and the <code class="language-plaintext highlighter-rouge">sparknlp_keys.txt</code> files on your local machine:
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-o</span> docker-compose.yaml https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/513a4d682f11abc33b2e26ef8a9d72ad52a7b4f0/jupyter/docker_image_nlp_hc/docker-compose.yaml
 curl <span class="nt">-o</span> sparknlp_keys.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jupyter/docker_image_nlp_hc/sparknlp_keys.txt
 </code></pre></div>    </div>
   </li>
-  <li>Download your license key in json format from my.johnsnowlabs.com</li>
-  <li>Populate License keys in sparknlp_keys.txt.</li>
-  <li>Run the following command to run the container in detached mode:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker-compose up <span class="nt">-d</span>
-</code></pre></div>    </div>
-  </li>
-  <li>By default, the jupyter notebook would run at port 8888 - you can access the notebook by typing localhost:8888 in your browser.</li>
+  <li>Download your license key in json format from <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a></li>
+  <li>Populate License keys in <code class="language-plaintext highlighter-rouge">sparknlp_keys.txt</code> file.</li>
+  <li>Run the following command to run the container in detached mode:</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker-compose up <span class="nt">-d</span>
+</code></pre></div></div>
+<ul>
+  <li>By default, the jupyter notebook runs on port <code class="language-plaintext highlighter-rouge">8888</code> - you can access it by typing <code class="language-plaintext highlighter-rouge">localhost:8888</code> in your browser.</li>
 </ul>
 
 <h3 id="troubleshooting">Troubleshooting</h3>
@@ -583,8 +589,9 @@ curl <span class="nt">-o</span> sparknlp_keys.txt https://raw.githubusercontent.
 <ul>
   <li>Make sure docker is installed on your system.</li>
   <li>If you face any error while importing the lib inside jupyter, make sure all the credentials are correct in the key files and restart the service again.</li>
-  <li>If the default port 8888 is already occupied by another process, please change the mapping.</li>
-  <li>You can change/adjust volume and port mapping in the docker-compose.yml file.</li>
+  <li>If the default port <code class="language-plaintext highlighter-rouge">8888</code> is already occupied by another process, please change the mapping.</li>
+  <li>You can change/adjust volume and port mapping in the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</li>
+  <li>You don’t have a license key? Ask for a trial license <a href="https://www.johnsnowlabs.com/install/">here</a>.</li>
 </ul>
 
 <h2 id="install-locally-on-python">Install locally on Python</h2>
@@ -596,7 +603,9 @@ curl <span class="nt">-o</span> sparknlp_keys.txt https://raw.githubusercontent.
 
 <p><code class="language-plaintext highlighter-rouge">{version}</code> is the version part of the <code class="language-plaintext highlighter-rouge">{secret.code}</code> (<code class="language-plaintext highlighter-rouge">{secret.code}.split('-')[0]</code>) (i.e. <code class="language-plaintext highlighter-rouge">2.6.0</code>)</p>
 
-<p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license. If you did not receive it yet, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
+<p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license.</p>
+
+<p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. Then, you can obtain the secret code by visiting your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Read more on how to get a license <a href="licensed_install#get-a-spark-nlp-for-healthcare-license">here</a>.</p>
 
 <h3 id="setup-aws-cli-credentials-for-licensed-pretrained-models">Setup AWS-CLI Credentials for licensed pretrained models</h3>
 
@@ -607,21 +616,22 @@ You can do this setup via Amazon AWS Command Line Interface (AWSCLI).</p>
 
 <p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">Installing the AWS CLI</a></p>
 
-<p>Make sure you configure your credentials with aws configure following the instructions at:</p>
+<p>Make sure you configure your credentials with AWS configure following the instructions at:</p>
 
 <p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a></p>
 
-<p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials you have received from your Customer Owner (CO). If you need your credentials contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
+<p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials available on your license json file. This is available on your account from <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. <a href="licensed_install#get-a-spark-nlp-for-healthcare-license">Read this</a> for more information.</p>
 
 <h3 id="start-spark-nlp-for-healthcare-session-from-python">Start Spark NLP for Healthcare Session from Python</h3>
 
-<p>The following will initialize the spark session in case you have run the jupyter notebook directly. If you have started the notebook using
+<p>The following will initialize the spark session in case you have run the Jupyter Notebook directly. If you have started the notebook using
 pyspark this cell is just ignored.</p>
 
 <p>Initializing the spark session takes some seconds (usually less than 1 minute) as the jar from the server needs to be loaded.</p>
 
-<p>The <code class="language-plaintext highlighter-rouge">{secret-code}</code> is a secret  string you should have received from your Customer Owner (CO). If you have
-not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">info@johnsnowlabs.com</a>.</p>
+<p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license.</p>
+
+<p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. Then, you can obtain the secret code by visiting your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Read more on how to get a license <a href="licensed_install#get-a-spark-nlp-for-healthcare-license">here</a>.</p>
 
 <p>You can either use our convenience function to start your Spark Session that will use standard configuration arguments:</p>
 
@@ -630,6 +640,7 @@ not received them, please contact us at <a href="mailto:info@johnsnowlabs.com">i
 </code></pre></div></div>
 
 <p>Or use the SparkSession module for more flexibility:</p>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 
 <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
@@ -668,7 +679,7 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 
 <h3 id="use-spark-nlp-for-healthcare-in-spark-shell">Use Spark NLP for Healthcare in Spark shell</h3>
 
-<p>1.Download the fat jar for spark-nlp-healthcare.</p>
+<p>1.Download the fat jar for Spark NLP for Healthcare</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
 </code></pre></div></div>
@@ -687,7 +698,7 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 
 <h3 id="use-spark-nlp-for-healthcare-in-sbt-project">Use Spark NLP for Healthcare in Sbt project</h3>
 
-<p>1.Download the fat jar for spark-nlp-healthcare.</p>
+<p>1.Download the fat jar for Spark NLP for Healthcare.</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
 </code></pre></div></div>
 
@@ -903,6 +914,19 @@ spark = start(SECRET)
 
 <p>As you see, we did not set <code class="language-plaintext highlighter-rouge">.master('local[*]')</code> explicitly to let YARN manage the cluster.
 Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn')</code>.</p>
+
+<h2 id="get-a-spark-nlp-for-healthcare-license">Get a Spark NLP for Healthcare license</h2>
+
+<p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. This will automatically create a new account for you on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Login in to your new account and from <code class="language-plaintext highlighter-rouge">My Subscriptions</code> section, you can download your license key as a json file.</p>
+
+<p>The license json file contains:</p>
+<ul>
+  <li>the secrets for installing the Spark NLP for Healthcare and Spark OCR libraries,</li>
+  <li>the license key as well as</li>
+  <li>AWS credentials that you need to access the s3 bucket where the healthcare models and pipelines are published.</li>
+</ul>
+
+<p>If you have asked for a trial license but you cannot access your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a> and you did not receive the license information via email, please contact us at <a href="mailto:support@johnsnowlabs.com">support@johnsnowlabs.com</a>.</p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-03-09T00:00:00+00:00">Mar 09, 2021</time>
     </span><!-- start custom article footer snippet -->
