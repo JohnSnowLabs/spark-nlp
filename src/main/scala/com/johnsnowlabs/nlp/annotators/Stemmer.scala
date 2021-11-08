@@ -16,10 +16,16 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import ai.djl.Model
+import ai.djl.ndarray.NDList
+import ai.djl.pytorch.engine.PtModel
+import ai.djl.translate.{Batchifier, Translator, TranslatorContext}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
+import java.nio.file.Paths
 import scala.language.postfixOps
 
 /**
@@ -120,17 +126,55 @@ class Stemmer(override val uid: String) extends AnnotatorModel[Stemmer] with Has
   def this() = this(Identifiable.randomUID("STEMMER"))
 
   /** one-to-one stem annotation that returns single hard-stem per token */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+
+    //TODO: Test here loading a PyTorch model
+    val predictedValue = infer()
+
     annotations.map { tokenAnnotation =>
       val stem = EnglishStemmer.stem(tokenAnnotation.result)
       Annotation(
         outputAnnotatorType,
         tokenAnnotation.begin,
         tokenAnnotation.end,
-        stem,
+        stem + " " + predictedValue,
+//        stem,
         tokenAnnotation.metadata
       )
     }
+  }
+
+  private def infer(): Float = {
+    val modelPath = "dbfs:/danilo_tmp/pytorch_models/model1.zip"
+    //"/home/danilo/IdeaProjects/MySpikes/spike_nn/models/model1.zip"
+    val pyTorchModel = Model.newInstance("myPyTorchModel").asInstanceOf[PtModel]
+    val sourceStream = ResourceHelper.SourceStream(modelPath)
+    println("************** Loading PytorchModel")
+    pyTorchModel.load(sourceStream.pipe.head)
+
+    val translator = new Translator[Float, Float]() {
+      override def processInput(ctx: TranslatorContext, input: Float): NDList = {
+        val manager = ctx.getNDManager
+        val array = manager.create(Array[Float](input))
+        new NDList(array)
+      }
+
+      override def processOutput(ctx: TranslatorContext, list: NDList): Float = {
+        val temp_arr = list.get(0)
+        temp_arr.getFloat()
+      }
+
+      override def getBatchifier: Batchifier = { // The Batchifier describes how to combine a batch together
+        // Stacking, the most common batchifier, takes N [X1, X2, ...] arrays to a single [N, X1, X2, ...] array
+        Batchifier.STACK
+      }
+    }
+
+    println("************** Using PytorchModel for prediction")
+    val predictor = pyTorchModel.newPredictor(translator)
+    val output = predictor.predict(2.9.toFloat)
+    output
+  }
 
 }
 

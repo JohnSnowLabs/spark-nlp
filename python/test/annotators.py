@@ -2006,3 +2006,22 @@ class EntityRulerTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
+
+class LinearRegressionTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.model_path = "/home/danilo/IdeaProjects/MySpikes/spike_nn/models/model1.zip"
+        self.data = self.spark.createDataFrame([["John Snow lives in Winterfell"]]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+        linear_regression = LinearRegression() \
+            .loadSavedModel(self.model_path, self.spark) \
+            .setInputCols("token") \
+            .setOutputCol("linear_regression")
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, linear_regression])
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()

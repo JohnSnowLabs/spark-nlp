@@ -14640,3 +14640,34 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
     def loadStorage(path, spark, storage_ref):
         HasStorageModel.loadStorages(path, spark, storage_ref, EntityRulerModel.databases)
 
+
+class LinearRegression(AnnotatorModel):
+
+    name = "LinearRegression"
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.LinearRegression", java_model=None):
+        super(LinearRegression, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        LinearRegression
+            The restored model
+        """
+        from sparknlp.internal import _LinearRegression
+        jModel = _LinearRegression(folder, spark_session._jsparkSession)._java_obj
+        return LinearRegression(java_model=jModel)

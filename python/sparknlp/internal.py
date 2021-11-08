@@ -365,6 +365,12 @@ class _DistilBertLoader(ExtendedJavaWrapper):
                                                 path, jspark)
 
 
+class _LinearRegression(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LinearRegression, self).__init__("com.johnsnowlabs.nlp.annotators.LinearRegression.loadSavedModel",
+                                                path, jspark)
+
+
 class _RoBertaLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_RoBertaLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings.loadSavedModel", path,
