@@ -641,6 +641,52 @@ pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3
 spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 <span class="nt">--jars</span> spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
 </code></pre></div></div>
 
+<h2 id="install-locally-for-scala">Install locally for Scala</h2>
+
+<h3 id="use-spark-health-care-in-spark-shell">Use spark-health-care in Spark shell</h3>
+
+<p>1.Download the fat jar for spark-nlp-healthcare.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
+</code></pre></div></div>
+
+<p>2.Set up the <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
+    <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
+    <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
+</code></pre></div></div>
+
+<p>3.The preferred way to use the library when running Spark programs is using the <code class="language-plaintext highlighter-rouge">--packages</code>and <code class="language-plaintext highlighter-rouge">--jar</code> option as specified in the <code class="language-plaintext highlighter-rouge">spark-packages</code> section.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:<span class="k">${</span><span class="nv">public</span><span class="p">-version</span><span class="k">}</span> <span class="nt">--jars</span> /spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
+</code></pre></div></div>
+
+<h3 id="use-spark-health-care-in-sbt-project">Use spark-health-care in Sbt project</h3>
+
+<p>1.Download the fat jar for spark-nlp-healthcare.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
+</code></pre></div></div>
+
+<p>2.Set up the <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
+    <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
+    <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
+</code></pre></div></div>
+
+<p>3.Add the spark-nlp jar in your build.sbt project</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp"</span> <span class="o">%</span> <span class="s">"{public-version}"</span>
+</code></pre></div></div>
+
+<p>4.You need to create the /lib folder and paste the spark-nlp-jsl-${version}.jar file.</p>
+
+<p>5.Add the fat spark-nlp-healthcare in your classpath. You can do it by adding this line in your build.sbt</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unmanagedJars</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">+=</span> <span class="nf">file</span><span class="o">(</span><span class="s">"lib/sparknlp-jsl.jar"</span><span class="o">)</span>
+</code></pre></div></div>
+
 <h2 id="install-on-databricks">Install on Databricks</h2>
 
 <ol>
