@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models and it was trained on 4K tweets, where ~50% were labeled as antisemitic. The model identifies if the text is antisemitic or not. 
+This model is imported from `Hugging Face-models` and it was trained on 4K tweets, where ~50% were labeled as antisemitic. The model identifies if the text is antisemitic or not. 
 - `1` : Antisemitic
 - `0` : Non-antisemitic
 

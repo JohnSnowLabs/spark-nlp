@@ -52,7 +52,7 @@ sequenceClassifier = BertForSequenceClassification \
 
 pipeline = Pipeline(stages=[document_assembler, tokenizer, sequenceClassifier])
 
-example = spark.createDataFrame([['Because you need me Every single day Trying to find me But you don't know why Trying to find me again But you don't know how Trying to find me again Every single day']]).toDF("text")
+example = spark.createDataFrame([["""Because you need me Every single day Trying to find me But you don't know why Trying to find me again But you don't know how Trying to find me again Every single day"""]]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -72,7 +72,7 @@ val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_so
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["Because you need me Every single day Trying to find me But you don't know why Trying to find me again But you don't know how Trying to find me again Every single day"].toDS.toDF("text")
+val example = Seq.empty["""Because you need me Every single day Trying to find me But you don't know why Trying to find me again But you don't know how Trying to find me again Every single day"""].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -101,3 +101,24 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/juliensimon/autonlp-song-lyrics-18753417](https://huggingface.co/juliensimon/autonlp-song-lyrics-18753417)
+
+## Benchmarking
+
+```bash
++--------------------+----------+
+| Validation Metrics | Score    |
++--------------------+----------+
+| Loss               | 0.906597 |
+| Accuracy           | 0.668027 |
+| Macro F1           | 0.538484 |
+| Micro F1           | 0.668027 |
+| Weighted F1        | 0.64147  |
+| Macro Precision    | 0.67444  |
+| Micro Precision    | 0.668027 |
+| Weighted Precision | 0.663409 |
+| Macro Recall       | 0.50784  |
+| Micro Recall       | 0.668027 |
+| Weighted Recall    | 0.668027 |
++--------------------+----------+
+
+```

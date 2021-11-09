@@ -36,14 +36,14 @@ This model detects molecular biology-related terms in medical texts. This model 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_cellular", "en", "clinical/models")
-.setInputCols("token", "document")
-.setOutputCol("ner")
-.setCaseSensitive(True)
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_cellular", "en", "clinical/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
 
-ner_converter = NerConverter()
-.setInputCols(["document","token","ner"])
-.setOutputCol("ner_chunk") pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
+ner_converter = NerConverter()\
+  .setInputCols(["document","token","ner"])\
+  .setOutputCol("ner_chunk") 
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 

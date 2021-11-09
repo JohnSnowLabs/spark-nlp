@@ -104,3 +104,9 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/mrm8488/bert-tiny-finetuned-sms-spam-detection](https://huggingface.co/mrm8488/bert-tiny-finetuned-sms-spam-detection)
+
+## Benchmarking
+
+```bash
+Validation Accuracy: 0.98
+```

@@ -111,3 +111,15 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/Hate-speech-CNERG/bert-base-uncased-hatexplain](https://huggingface.co/Hate-speech-CNERG/bert-base-uncased-hatexplain)
+
+## Benchmarking
+
+```bash
+
++-------+------------+--------+
+| Acc   | Macro F1   | AUROC  |
++-------+------------+--------+
+| 0.698 | 0.687      | 0.851  |
++-------+------------+--------+
+
+```
