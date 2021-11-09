@@ -36,13 +36,15 @@ This model extracts biological and genetics terms in cancer-related texts using 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")
-.setInputCols("token", "document")
-.setOutputCol("ner")
-.setCaseSensitive(True)
-ner_converter = NerConverter()
-.setInputCols(["document","token","ner"])
-.setOutputCol("ner_chunk") pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
+
+ner_converter = NerConverter()\
+        .setInputCols(["document","token","ner"])\
+        .setOutputCol("ner_chunk") 
+        
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
 test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""
