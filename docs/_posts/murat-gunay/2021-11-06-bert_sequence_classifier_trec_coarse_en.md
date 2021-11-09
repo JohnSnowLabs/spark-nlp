@@ -101,3 +101,23 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/aychang/bert-base-cased-trec-coarse](https://huggingface.co/aychang/bert-base-cased-trec-coarse)
+
+## Benchmarking
+
+```bash
+epoch: 2.0, eval_loss: 0.138086199760437
+eval_runtime: 1.6132, eval_samples_per_second: 309.94
+
++------------+-------+-----------------+--------------+
+|      entity|eval_f1|   eval_precision|   eval_recall|
++------------+-------+-----------------+--------------+
+|        DESC|  0.981|            0.985|         0.978|
+|        ENTY|  0.944|            0.988|         0.904| 
+|        ABBR|     1.|               1.|            1.| 
+|         HUM|  0.992|            0.984|            1.|
+|         NUM|  0.969|            0.941|            1.|
+|         LOC|  0.981|            0.975|         0.987|
++------------+-------+-----------------+--------------+
+
+eval_accuracy:  0.974
+```

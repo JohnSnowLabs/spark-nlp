@@ -101,3 +101,9 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/mrm8488/bert-mini-finetuned-age_news-classification](https://huggingface.co/mrm8488/bert-mini-finetuned-age_news-classification)
+
+## Benchmarking
+
+```bash
+Test set accuracy: 0.93
+```
