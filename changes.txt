@@ -1,2 +1,2 @@
-docs/en/licensed_install.md
-docs/en/licensed_install.md
+docs/_posts/HashamUlHaq/2021-09-01-ner_posology_experimental_en.md
+docs/_posts/HashamUlHaq/2021-09-01-ner_posology_experimental_en.md
