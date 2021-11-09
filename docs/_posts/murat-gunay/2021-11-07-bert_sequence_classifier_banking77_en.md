@@ -101,3 +101,24 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/philschmid/BERT-Banking77](https://huggingface.co/philschmid/BERT-Banking77)
+
+## Benchmarking
+
+```bash
++--------------------+--------------------+
+| Validation Metrics | Score              |
++--------------------+--------------------+
+| Loss               | 0.3031957447528839 |
+| Accuracy           | 0.9363636363636364 |
+| Macro F1           | 0.9364655956915154 |
+| Micro F1           | 0.9363636363636364 |
+| Weighted F1        | 0.9364655956915157 |
+| Macro Precision    | 0.9396792003322154 |
+| Micro Precision    | 0.9363636363636364 |
+| Weighted Precision | 0.9396792003322155 |
+| Macro Recall       | 0.9363636363636365 |
+| Micro Recall       | 0.9363636363636364 |
+| Weighted Recall    | 0.9363636363636364 |
++--------------------+--------------------+
+
+```
