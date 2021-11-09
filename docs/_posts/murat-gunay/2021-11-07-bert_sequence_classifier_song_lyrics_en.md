@@ -107,7 +107,7 @@ val result = pipeline.fit(example).transform(example)
 ```bash
 +--------------------+----------+
 | Validation Metrics | Score    |
-|--------------------+----------|
++--------------------+----------+
 | Loss               | 0.906597 |
 | Accuracy           | 0.668027 |
 | Macro F1           | 0.538484 |
