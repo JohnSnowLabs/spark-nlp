@@ -21,7 +21,7 @@ This model detects drugs, experimental drugs, cyclelength, cyclecount, cycledaty
 
 ## Predicted Entities
 
-`Administration`, `Cyclenumber`, `Strength`, `Cycleday`, `Duration`, `Cyclecount`, `Route`, `Form`, `Frequency`, `Cyclelength`, `Drug`, `Dosage'`
+`Administration`, `Cyclenumber`, `Strength`, `Cycleday`, `Duration`, `Cyclecount`, `Route`, `Form`, `Frequency`, `Cyclelength`, `Drug`, `Dosage`
 
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
