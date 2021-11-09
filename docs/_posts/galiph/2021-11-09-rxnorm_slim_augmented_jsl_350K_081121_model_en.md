@@ -102,8 +102,8 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|rxnorm_slim_augmented_jsl_350K_081121_model|
-|Compatibility:|Spark NLP for Healthcare 3.3.2+|
+|Model Name:|sbiobertresolve_rxnorm_augmented|
+|Compatibility:|Spark NLP for Healthcare 3.3.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence_embeddings]|
