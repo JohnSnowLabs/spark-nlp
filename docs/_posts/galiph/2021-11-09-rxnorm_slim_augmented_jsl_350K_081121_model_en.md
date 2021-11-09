@@ -2,7 +2,7 @@
 layout: model
 title: Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
-name: rxnorm_slim_augmented_jsl_350K_081121_model
+name: rxnorm_slim_augmented
 date: 2021-11-09
 tags: [rxnorm, licensed, en, clinical]
 task: Entity Resolution
