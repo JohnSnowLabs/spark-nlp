@@ -112,7 +112,6 @@ This model is trained on data sampled from clinicaltrials.gov - covid trials, an
 Quality on validation dataset (20.0%), validation examples = 1022
 time to finish evaluation: 28.21s
 
-+-----------------------------+-----+----+----------------+------------+------------+------------+
 | label                       | tp  | fp | fn             | prec       | rec        | f1         |
 |-----------------------------|-----|----|----------------|------------|------------|------------|
 | B-Cerebrovascular_Disease   | 11  | 1  | 1              | 0.9166667  | 0.9166667  | 0.9166667  |
@@ -188,7 +187,6 @@ time to finish evaluation: 28.21s
 | B-Physiological_reaction    | 9   | 4  | 26             | 0.6923077  | 0.25714287 | 0.37500003 |
 | I-Disease_Syndrome_Disorder | 336 | 50 | 132            | 0.8704663  | 0.71794873 | 0.78688526 |
 | I-Employment                | 23  | 9  | 12             | 0.71875    | 0.6571429  | 0.6865672  |
-+-----------------------------+-----+----+----------------+------------+------------+------------+
 
 tp: 3529 fp: 1050 fn: 1482 labels: 73
 Macro-average	 prec: 0.7160117, rec: 0.700098, f1: 0.70796543
