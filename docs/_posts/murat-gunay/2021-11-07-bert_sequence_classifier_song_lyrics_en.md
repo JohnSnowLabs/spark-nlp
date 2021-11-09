@@ -101,3 +101,24 @@ val result = pipeline.fit(example).transform(example)
 ## Data Source
 
 [https://huggingface.co/juliensimon/autonlp-song-lyrics-18753417](https://huggingface.co/juliensimon/autonlp-song-lyrics-18753417)
+
+## Benchmarking
+
+```bash
++--------------------+----------+
+| Validation Metrics | Score    |
+|--------------------+----------|
+| Loss               | 0.906597 |
+| Accuracy           | 0.668027 |
+| Macro F1           | 0.538484 |
+| Micro F1           | 0.668027 |
+| Weighted F1        | 0.64147  |
+| Macro Precision    | 0.67444  |
+| Micro Precision    | 0.668027 |
+| Weighted Precision | 0.663409 |
+| Macro Recall       | 0.50784  |
+| Micro Recall       | 0.668027 |
+| Weighted Recall    | 0.668027 |
++--------------------+----------+
+
+```
