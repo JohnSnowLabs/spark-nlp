@@ -3,7 +3,7 @@ layout: docs
 comment: no
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Start Page
+title: Home Page
 permalink: /docs/en/alab/start_page
 key: docs-training
 modify_date: "2020-11-18"

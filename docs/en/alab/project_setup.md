@@ -13,6 +13,12 @@ sidebar:
     nav: annotation-lab
 ---
 
+Every project in Annotation Lab should have the following information:
+- a unique *name* and a short description;
+- a *team* of annotators, reviewers and a manager which will colaborate on the project;
+- a *configuration* which specifies the type of annotations that will be created. 
+
+
 To create a new project, click on the **Create Project** button on the **Home Page** and choose a name for it. The project can include a short description and annotation instructions/guidelines. 
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/project_creation.png" style="width:100%; align:left; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
@@ -118,5 +124,20 @@ The Annotation Lab also offers support for relation extraction. Relations are in
 No other constraints can currently be enforced on the labels linked by the defined relations so the annotators must be extra careful and follow the annotation guidelines that specify how the defined relations can be used.  
  
 ## Project Validations
+
  Annotation Lab validates the defined configurations before allowing users to save them. Error messages are shown on the preview section. For instance, if the labels names do not align with the lables of the corresponding models an error is displayed. The same happens if reserved shortcut keys are used or if incompatible pretrained models are selected for preannotations.
  <img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/validation.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+## Delete a Project
+
+To delete a project, on the *Home* screen click on the settings icon for that project. This will redirect you to the *Project Setup* screen where you will have the *Delete Project* button under the Project Instructions text area. Click on the *Delete Project* button and confirm the deletion by clicking on the *Yes* button on the popup. 
+
+
+## Best practices
+
+- Use Google Chrome. While Annotation Lab will work on other web browsers, we recommend using it on Google Chrome to ensure the best experience.
+
+- Use one browser window at a time. Using the Annotation Lab web application via multiple sessions in parallel (i.e., multiple browser windows/tabs) connected with the same user account is not recommended. 
+
+
+

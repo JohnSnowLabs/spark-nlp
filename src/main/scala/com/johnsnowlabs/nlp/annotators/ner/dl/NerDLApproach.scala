@@ -516,6 +516,7 @@ class NerDLApproach(override val uid: String)
       .setDatasetParams(ner.encoder.params)
       .setModelIfNotSet(dataset.sparkSession, newWrapper)
       .setIncludeConfidence($(includeConfidence))
+      .setIncludeAllConfidenceScores($(includeAllConfidenceScores))
       .setStorageRef(embeddingsRef)
 
     if (get(configProtoBytes).isDefined)
@@ -527,8 +528,8 @@ class NerDLApproach(override val uid: String)
 
   def getDataSetParams(dsIt: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]]): (mutable.Set[String], mutable.Set[Char], Int, Long) = {
 
-    var labels = scala.collection.mutable.Set[String]()
-    var chars = scala.collection.mutable.Set[Char]()
+    val labels = scala.collection.mutable.Set[String]()
+    val chars = scala.collection.mutable.Set[Char]()
     var embeddingsDim = 1
     var dsLen = 0L
 
