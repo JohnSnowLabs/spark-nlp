@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Developers Guideline
 permalink: /docs/en/developers
 key: docs-developers
-modify_date: "2020-05-08"
+modify_date: "2021-11-03"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -13,7 +13,7 @@ sidebar:
 
 
 Spark NLP is an open-source library and everyone's contribution is welcome!
-In this section we provide a guide on how to setup your environment using IntelliJ IDEA for a smoother start. You can also check our video tutorials available on our YouTube channel: https://www.youtube.com/johnsnowlabs 
+In this section we provide a guide on how to setup your environment using IntelliJ IDEA for a smoother start. You can also check our video tutorials available on our YouTube channel: https://www.youtube.com/johnsnowlabs
 
 ## Setting up the Environment
 
@@ -58,7 +58,7 @@ When the repo cloned IDE will detect SBT file with dependencies. Click **Yes** t
 
 ![Pop up build](\assets\images\pop_up_build.png)
 
-In the **Import from sbt** pop up make sure you have JDK 8 detected. Click **Ok** to proceed and download required resources. 
+In the **Import from sbt** pop up make sure you have JDK 8 detected. Click **Ok** to proceed and download required resources.
 
 ![Pop up settings build](\assets\images\settings_build.png)
 
@@ -72,11 +72,11 @@ Next step is to install Python plugin to the IntelliJ IDEA. To do this, open `Fi
 
 ![Python plugin](\assets\images\python_plugin.png)
 
-After this steps you can check project structure in the `File -> Project Structure -> Modules`. 
+After this steps you can check project structure in the `File -> Project Structure -> Modules`.
 
 ![Project structure](\assets\images\project_structure.png)
 
-Make sure what you have `spark-nlp` and `spark-nlp-build` folders and no errors in the exported dependencies. 
+Make sure what you have `spark-nlp` and `spark-nlp-build` folders and no errors in the exported dependencies.
 
 In the `Project` settings check what project SDK is set to 1.8 and in `Platform Settings -> SDK's` you have Java installation as well as Python installation.
 
@@ -94,7 +94,7 @@ If you don't see Python installed in the `SDK's` tab click **+** button, add **P
 
 ### Run tests in Scala
 
-Click **Add configuration** in the Top right corner. In the pop up click on the **+** and look for **sbt task**. 
+Click **Add configuration** in the Top right corner. In the pop up click on the **+** and look for **sbt task**.
 
 ![Add config](\assets\images\add_config.png)
 
@@ -178,7 +178,7 @@ source venv/bin/activate
 after install packages by running
 
 ```
-pip install pyspark numpy
+pip install pyspark==3.1.2 numpy
 ```
 
 </div><div class="h3-box" markdown="1">
@@ -194,7 +194,7 @@ In the **Name** field put `AssemblyCopy`. In the **Tasks** field write down `ass
 
 You can find created jar in the folder ``spark-nlp/python/lib/sparknlp.jar``
 
-*Note: Assembly command creates a fat jars, that includes all dependencies within* 
+*Note: Assembly command creates a fat jars, that includes all dependencies within*
 
 </div>
 

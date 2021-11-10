@@ -16,4 +16,5 @@ Modules
    sparknlp.base
    sparknlp.functions
    sparknlp.training
+   sparknlp.logging
 

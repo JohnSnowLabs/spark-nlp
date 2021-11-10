@@ -43,7 +43,9 @@ sparknlp:
       - title:  Transformers
         url:    /docs/en/transformers
       - title:  Training
-        url:    /docs/en/training        
+        url:    /docs/en/training
+      - title:  Third Party Projects
+        url:    /docs/en/third-party-projects
       - title:  Pipelines
         url:    /docs/en/pipelines
       - title:  Models
@@ -53,7 +55,7 @@ sparknlp:
       - title: Scala API (Scaladoc)
         url: /api/
       - title: Python API (Sphinx)
-        url: /api/python/  
+        url: /api/python/
       - title: Spark NLP Display
         url: /docs/en/display
       - title:  Developers
@@ -66,21 +68,19 @@ annotation-lab:
     children:
       - title:  Getting Started
         url:    /docs/en/alab/quickstart
-      - title:  Installation 
+      - title:  Installation
         url:    /docs/en/alab/install
-      - title:  Start Page 
+      - title:  Home Page
         url:    /docs/en/alab/start_page
-      - title:  User Management
-        url:    /docs/en/alab/user_management
       - title:  Project Setup
         url:    /docs/en/alab/project_setup
-      - title:  NLP Models Hub  
+      - title:  NLP Models Hub
         url:    /docs/en/alab/models_hub
       - title:  Preannotations with Spark NLP
         url:    /docs/en/alab/preannotations
       - title:  Active Learning
         url:    /docs/en/alab/active_learning
-      - title:  Import Documents 
+      - title:  Import Documents
         url:    /docs/en/alab/import
       - title:  Tasks
         url:    /docs/en/alab/tasks
@@ -88,26 +88,28 @@ annotation-lab:
         url:    /docs/en/alab/annotation
       - title:  Visual NER
         url:    /docs/en/alab/visual_ner
-      - title:  Annotation Settings   
-        url:    /docs/en/alab/settings        
-      - title:  Analytics   
-        url:    /docs/en/alab/analytics        
-      - title:  Export Data  
+      - title:  Annotation Settings
+        url:    /docs/en/alab/settings
+      - title:  Analytics
+        url:    /docs/en/alab/analytics
+      - title:  Export Data
         url:    /docs/en/alab/export
-      - title:  Workflow Setup   
-        url:    /docs/en/alab/workflow      
-      - title:  License Setup  
+      - title:  User Management
+        url:    /docs/en/alab/user_management
+      - title:  Workflow Setup
+        url:    /docs/en/alab/workflow
+      - title:  License Setup
         url:    /docs/en/alab/byol
-      - title:  API Integration 
+      - title:  API Integration
         url:    /docs/en/alab/api
-      - title:  Security and Privacy 
-        url:    /docs/en/alab/security  
-      - title:  Video Tutorials   
+      - title:  Security and Privacy
+        url:    /docs/en/alab/security
+      - title:  Video Tutorials
         url:    /docs/en/alab/tutorials
-      - title:  Release Notes   
+      - title:  Release Notes
         url:    /docs/en/alab/release_notes
 
-sparknlp-healthcare:      
+sparknlp-healthcare:
   - title: Spark NLP for Healthcare
     children:
       - title:  Getting Started
@@ -133,7 +135,7 @@ sparknlp-healthcare:
       - title: Cluster Speed Benchmarks
         url: /docs/en/benchmark
       - title: GPU vs CPU benchmark on ClassifierDL
-        url: /docs/en/CPUvsGPUbenchmarkClassifierDL 
+        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
 
 
 spark-ocr:

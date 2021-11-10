@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.BertForTokenClassification &#8212; Spark NLP 3.3.1 documentation</title>
+    <title>sparknlp.annotator.BertForTokenClassification &#8212; Spark NLP 3.3.2 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="sparknlp.annotator.BertSentenceEmbeddings" href="sparknlp.annotator.BertSentenceEmbeddings.html" />
-    <link rel="prev" title="sparknlp.annotator.BertEmbeddings" href="sparknlp.annotator.BertEmbeddings.html" />
+    <link rel="prev" title="sparknlp.annotator.BertForSequenceClassification" href="sparknlp.annotator.BertForSequenceClassification.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -84,6 +84,12 @@
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../user_guide/index.html">
   User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../third_party/index.html">
+  Third Party Projects
  </a>
 </li>
 
@@ -146,6 +152,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.BertEmbeddings.html">
      sparknlp.annotator.BertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.BertForSequenceClassification.html">
+     sparknlp.annotator.BertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -741,6 +752,35 @@
    </li>
   </ul>
  </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="sparknlp.logging.html">
+   sparknlp.logging
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="sparknlp.logging.comet.html">
+     sparknlp.logging.comet
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+    <label for="toctree-checkbox-6">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="sparknlp.logging.comet.CometLogger.html">
+       sparknlp.logging.comet.CometLogger
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
 </ul>
 
   </div>
@@ -795,7 +835,7 @@ object:</p>
 </div>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;bert_base_token_classifier_conll03&quot;</span></code>, if no name is
 provided.</p>
-<p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+<p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 <p>Models from the HuggingFace 🤗 Transformers library are also compatible with
 Spark NLP 🚀. To see which models are compatible and how to import them see
 <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -819,14 +859,14 @@ Spark NLP 🚀. To see which models are compatible and how to import them see
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>batchSize</strong></dt><dd><p>Batch size. Large values allows faster processing but requires more
-memory, by default 8
-caseSensitive
-Whether to ignore case in tokens for embeddings matching, by default
-True
-configProtoBytes
-ConfigProto from tensorflow, serialized into byte array.
-maxSentenceLength
-Max sentence length to process, by default 128</p>
+memory, by default 8</p>
+</dd>
+<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case in tokens for embeddings matching, by default
+True</p>
+</dd>
+<dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
+</dd>
+<dt><strong>maxSentenceLength</strong></dt><dd><p>Max sentence length to process, by default 128</p>
 </dd>
 </dl>
 </dd>
@@ -851,8 +891,7 @@ Max sentence length to process, by default 128</p>
 <span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">tokenClassifier</span>
 <span class="gp">... </span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;John Lenon was born in London and lived</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="ow">in</span> <span class="n">Paris</span><span class="o">.</span> <span class="n">My</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">Sarah</span> <span class="ow">and</span> <span class="n">I</span> <span class="n">live</span> <span class="ow">in</span> <span class="n">London</span><span class="s2">&quot;]]).toDF(&quot;</span><span class="n">text</span><span class="s2">&quot;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;John Lenon was born in London and lived in Paris. My name is Sarah and I live in London&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+------------------------------------------------------------------------------------+</span>
@@ -1409,11 +1448,11 @@ RecursivePipeline</p>
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="sparknlp.annotator.BertEmbeddings.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="sparknlp.annotator.BertForSequenceClassification.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">sparknlp.annotator.BertEmbeddings</p>
+            <p class="prev-next-title">sparknlp.annotator.BertForSequenceClassification</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="sparknlp.annotator.BertSentenceEmbeddings.html" title="next page">

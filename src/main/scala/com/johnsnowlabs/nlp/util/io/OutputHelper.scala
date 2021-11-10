@@ -77,7 +77,9 @@ object OutputHelper {
       if (isDBFS) {
         val charset = StandardCharsets.ISO_8859_1
         val outputStream = fileSystem.create(targetPath)
-        historyLog.foreach(log => outputStream.write(log.getBytes(charset)))
+        historyLog.
+          map(log => log + System.lineSeparator()).
+          foreach(log => outputStream.write(log.getBytes(charset)))
         outputStream.close()
         historyLog = Array()
       }

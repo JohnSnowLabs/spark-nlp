@@ -25,7 +25,7 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.Map
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
-
+import scala.collection.JavaConverters._
 
 class TensorflowNer(val tensorflow: TensorflowWrapper,
                     val encoder: NerDatasetEncoder,
@@ -53,8 +53,8 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   def predict(dataset: Array[WordpieceEmbeddingsSentence],
               configProtoBytes: Option[Array[Byte]] = None,
               includeConfidence: Boolean = false,
-              includeAllConfidenceScores: Boolean,
-              batchSize: Int = 8): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
+              includeAllConfidenceScores: Boolean = false,
+              batchSize: Int): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val result = ArrayBuffer[Array[(String, Option[Array[Map[String, String]]])]]()
 
@@ -78,20 +78,17 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
         val calculatorInc = if (includeConfidence) calculator.fetch(scoresKey) else calculator
 
-        val calculated = calculatorInc.run()
-
-        tensors.clearTensors()
+        val calculated = calculatorInc.run().asScala
 
         val allTags = encoder.tags
-        val tagIds = TensorResources.extractInts(calculated.get(0))
+        val tagIds = TensorResources.extractInts(calculated.head)
 
         val confidence: Option[Seq[Array[Float]]] = {
           try {
             if (includeConfidence) {
-              val scores = TensorResources.extractFloats(calculated.get(1))
+              val scores = TensorResources.extractFloats(calculated(1))
               require(scores.length % tagIds.length == 0, "tag size mismatch against feed size. please report an issue.")
               val exp = scores.map(s => math.exp(s.toDouble)).grouped(scores.length / tagIds.length).toSeq
-              // val probs = exp.map(g => try{BigDecimal(g.map(_ / g.sum).max).setScale(4, BigDecimal.RoundingMode.HALF_UP).toDouble}catch{case _: Exception => 0.0d})
               val probs = if (includeAllConfidenceScores) {
                 //Only include the score of the predicted tag
                 exp.map(d => d.map(_ / d.sum).map(p => try {
@@ -127,6 +124,10 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
           batchInput.sentenceLengths,
           confidence,
           includeAllConfidenceScores = includeAllConfidenceScores)
+
+        calculated.foreach(_.close())
+        tensors.clearSession(calculated)
+        tensors.clearTensors()
 
         result.appendAll(sentenceTags)
       }
@@ -209,20 +210,19 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
         val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
-
           .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
           .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
           .feed(labelsKey, tensors.createTensor(batchTags))
-
           .feed(dropoutKey, tensors.createTensor(dropout))
           .feed(learningRateKey, tensors.createTensor(learningRate))
-
           .fetch(lossKey)
           .addTarget(trainingKey)
-          .run()
+          .run().asScala
 
-        loss += TensorResources.extractFloats(calculated.get(0)).head
+        loss += TensorResources.extractFloats(calculated.head).head
 
+        calculated.foreach(_.close())
+        tensors.clearSession(calculated)
         tensors.clearTensors()
         batches += 1
       }
@@ -232,13 +232,11 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       outputLog("\n", uuid, enableOutputLogs, outputLogsPath)
       outputLog(f"Epoch ${epoch + 1}/$endEpoch - $endTime%.2fs - loss: $loss - batches: $batches", uuid, enableOutputLogs, outputLogsPath)
 
-
       if (validationSplit > 0.0) {
         println(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength")
         outputLog(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
         measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
       }
-
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
@@ -299,7 +297,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
     for (batch <- labeled) {
 
-      val sentencePredictedTags = predict(batch.map(_._2), includeConfidence = includeConfidence, includeAllConfidenceScores = includeAllConfidenceScores, batchSize = batchSize)
+      val sentencePredictedTags = predict(batch.map(_._2), batchSize = batchSize)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
@@ -311,7 +309,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       val sentenceLabels = batch.map(pair => pair._1.labels.toArray).toList
 
       (sentenceTokens, sentenceLabels, sentenceTokenTags).zipped.foreach {
-        case (tokens, labels, tags) =>
+        case (_, labels, tags) =>
           for (i <- labels.indices) {
 
             val label = labels(i)
