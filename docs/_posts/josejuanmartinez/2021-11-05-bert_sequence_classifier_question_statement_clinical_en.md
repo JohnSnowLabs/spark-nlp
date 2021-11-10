@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Bert for Sequence Classification: Question vs Statement (Clinical)
+title: Bert for Sequence Classification (Clinical Question vs Statement)
 author: John Snow Labs
 name: bert_sequence_classifier_question_statement_clinical
 date: 2021-11-05
