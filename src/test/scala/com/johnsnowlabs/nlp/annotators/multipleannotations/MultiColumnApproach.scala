@@ -13,23 +13,17 @@ class MultiColumnApproach(override val uid: String) extends AnnotatorApproach[Mu
   override val description: String = "Example multiple columns"
 
   /**
-   * Input annotator types: CHUNK
+   * Input annotator types: DOCUMEN
    *
-   * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
   /**
-   * Output annotator types: CHUNK, CHUNK
+   * Output annotator type:DOCUMENT
    *
-   * @group anno
    */
   override val inputAnnotatorType: AnnotatorType = DOCUMENT
 
 
-  /** whether to merge overlapping matched chunks. Defaults to true
-   *
-   * @group param
-   * */
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): MultiColumnsModel = {
 
