@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)- Spark NLP Model</title><meta name="description" content="DescriptionModel trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is BETO, a BERT model trained in Spanish.Citationpaper@mis...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_beto_emotion_analysis_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Extract the Names of Drugs & Chemicals- Spark NLP Model</title><meta name="description" content="DescriptionThis model is trained with clinical_embeddings to extract the names of chemical compounds and drugs in medical texts. The entities that can be det...">
+<link rel="canonical" href="/2021/11/04/ner_chemd_clinical_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,35 +403,31 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>spanish</li><li>bert</li><li>emotion</li><li>sequence_classification</li><li>beto</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,spanish,bert,emotion,sequence_classification,beto,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 04, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-04T00:00:00+00:00"></div><header><h1>Extract the Names of Drugs & Chemicals</h1></header></div><meta itemprop="headline" content="Extract the Names of Drugs & Chemicals"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>chemdner</li><li>chemd</li><li>ner</li><li>clinical</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-04T00:00:00+00:00">
+    <meta itemprop="keywords" content="chemdner,chemd,ner,clinical,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Model trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is <a href="https://github.com/dccuchile/beto">BETO</a>, a BERT model trained in Spanish.</p>
+<p>This model is trained with <code class="language-plaintext highlighter-rouge">clinical_embeddings</code> to extract the names of chemical compounds and drugs in medical texts. The entities that can be detected are as follows :</p>
 
-<h2 id="citation">Citation</h2>
-
-<p><a href="https://arxiv.org/abs/2106.09462">paper</a></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{perez2021pysentimiento,
-      title={pysentimiento: A Python Toolkit for Sentiment Analysis and SocialNLP tasks},
-      author={Juan Manuel PÃ©rez and Juan Carlos Giudici and Franco Luque},
-      year={2021},
-      eprint={2106.09462},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-</code></pre></div></div>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SYSTEMATIC</code> : Systematic names of chemical mentions, e.g. IUPAC and IUPAC-like names.(e.g. 2-Acetoxybenzoic acid, 2-Acetoxybenzenecarboxylic acid)</li>
+  <li><code class="language-plaintext highlighter-rouge">IDENTIFIERS</code> : Database identifiers of chemicals: CAS numbers, PubChem identifiers, registry numbers and ChEBI and CHEMBL ids. (e.g. CAS Registry Number: 501-36-0445154 CID 445154, CHEBI:28262, CHEMBL504)</li>
+  <li><code class="language-plaintext highlighter-rouge">FORMULA</code> : Mentions of molecular formula, SMILES, InChI, InChIKey. (e.g. CC(=O)Oc1ccccc1C(=O)O, C9H8O4)</li>
+  <li><code class="language-plaintext highlighter-rouge">TRIVIAL</code> : Trivial, trade (brand), common or generic names of compounds. It includes International Nonproprietary Name (INN) as well as British Approved Name (BAN) and United States Adopted Name (USAN). (e.g. Aspirin, Acylpyrin, paracetamol)</li>
+  <li><code class="language-plaintext highlighter-rouge">ABBREVIATION</code> : Mentions of abbreviations and acronyms of chemicals compounds and drugs. (e.g. DMSO, GABA)</li>
+  <li><code class="language-plaintext highlighter-rouge">FAMILY</code>: Chemical families that can be associated to some chemical structure are also included. (e.g. Iodopyridazines (FAMILY- SYSTEMATIC))</li>
+  <li><code class="language-plaintext highlighter-rouge">MULTIPLE</code> : Mentions that do correspond to chemicals that are not described in a continuous string of characters. This is often the case of mentions of multiple chemicals joined by coordinated clauses. (e.g. thieno2,3-d and thieno3,2-d fused oxazin-4-ones)</li>
+</ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">others</code>, <code class="language-plaintext highlighter-rouge">joy</code>, <code class="language-plaintext highlighter-rouge">sadness</code>, <code class="language-plaintext highlighter-rouge">anger</code>, <code class="language-plaintext highlighter-rouge">surprise</code>, <code class="language-plaintext highlighter-rouge">disgust</code>, <code class="language-plaintext highlighter-rouge">fear</code></p>
+<p><code class="language-plaintext highlighter-rouge">SYSTEMATIC</code>, <code class="language-plaintext highlighter-rouge">IDENTIFIERS</code>, <code class="language-plaintext highlighter-rouge">FORMULA</code>, <code class="language-plaintext highlighter-rouge">TRIVIAL</code>, <code class="language-plaintext highlighter-rouge">ABBREVIATION</code>, <code class="language-plaintext highlighter-rouge">FAMILY</code>, <code class="language-plaintext highlighter-rouge">MULTIPLE</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_beto_emotion_analysis_es_3.3.2_3.0_1635935591963.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_chemd_clinical_en_3.3.0_2.4_1636027285679.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -439,51 +435,67 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\ 
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\ 
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">chemd_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_chemd_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_beto_emotion_analysis'</span><span class="p">,</span> <span class="s">'es'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
-<span class="p">])</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings_clinical</span><span class="p">,</span>  <span class="n">chemd_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'¡Me siento muy bien!!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">chemd_model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">"text"</span><span class="p">:</span> <span class="p">[</span><span class="s">"""Isolation, Structure Elucidation, and Iron-Binding Properties of Lystabactins, Siderophores Isolated from a Marine Pseudoalteromonas sp. The marine bacterium Pseudoalteromonas sp. S2B, isolated from the Gulf of Mexico after the Deepwater Horizon oil spill, was found to produce lystabactins A, B, and C (1-3), three new siderophores. The structures were elucidated through mass spectrometry, amino acid analysis, and NMR. The lystabactins are composed of serine (Ser), asparagine (Asn), two formylated/hydroxylated ornithines (FOHOrn), dihydroxy benzoic acid (Dhb), and a very unusual nonproteinogenic amino acid, 4,8-diamino-3-hydroxyoctanoic acid (LySta). The iron-binding properties of the compounds were investigated through a spectrophotometric competition."""</span><span class="p">]})))</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">chemd_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_chemd_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_sequence_classifier_beto_emotion_analysis"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">nlpPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">chemd_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"¡</span><span class="kt">Me</span> <span class="kt">siento</span> <span class="kt">muy</span> <span class="kt">bien!!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">Isolation</span>, <span class="kt">Structure</span> <span class="kt">Elucidation</span>, <span class="kt">and</span> <span class="kt">Iron-Binding</span> <span class="kt">Properties</span> <span class="kt">of</span> <span class="kt">Lystabactins</span>, <span class="kt">Siderophores</span> <span class="kt">Isolated</span> <span class="kt">from</span> <span class="kt">a</span> <span class="kt">Marine</span> <span class="kt">Pseudoalteromonas</span> <span class="kt">sp.</span> <span class="kt">The</span> <span class="kt">marine</span> <span class="kt">bacterium</span> <span class="kt">Pseudoalteromonas</span> <span class="kt">sp.</span> <span class="kt">S2B</span>, <span class="kt">isolated</span> <span class="kt">from</span> <span class="kt">the</span> <span class="kt">Gulf</span> <span class="kt">of</span> <span class="kt">Mexico</span> <span class="kt">after</span> <span class="kt">the</span> <span class="kt">Deepwater</span> <span class="kt">Horizon</span> <span class="kt">oil</span> <span class="kt">spill</span>, <span class="kt">was</span> <span class="kt">found</span> <span class="kt">to</span> <span class="kt">produce</span> <span class="kt">lystabactins</span> <span class="kt">A</span>, <span class="kt">B</span>, <span class="kt">and</span> <span class="kt">C</span> <span class="o">(</span><span class="err">1</span><span class="kt">-</span><span class="err">3</span><span class="o">)</span>, <span class="kt">three</span> <span class="kt">new</span> <span class="kt">siderophores.</span> <span class="kt">The</span> <span class="kt">structures</span> <span class="kt">were</span> <span class="kt">elucidated</span> <span class="kt">through</span> <span class="kt">mass</span> <span class="kt">spectrometry</span>, <span class="kt">amino</span> <span class="kt">acid</span> <span class="kt">analysis</span>, <span class="kt">and</span> <span class="kt">NMR.</span> <span class="kt">The</span> <span class="kt">lystabactins</span> <span class="kt">are</span> <span class="kt">composed</span> <span class="kt">of</span> <span class="kt">serine</span> <span class="o">(</span><span class="kt">Ser</span><span class="o">)</span>, <span class="kt">asparagine</span> <span class="o">(</span><span class="kt">Asn</span><span class="o">)</span>, <span class="kt">two</span> <span class="kt">formylated/hydroxylated</span> <span class="kt">ornithines</span> <span class="o">(</span><span class="kt">FOHOrn</span><span class="o">)</span>, <span class="kt">dihydroxy</span> <span class="kt">benzoic</span> <span class="kt">acid</span> <span class="o">(</span><span class="kt">Dhb</span><span class="o">)</span>, <span class="kt">and</span> <span class="kt">a</span> <span class="kt">very</span> <span class="kt">unusual</span> <span class="kt">nonproteinogenic</span> <span class="kt">amino</span> <span class="kt">acid</span>, <span class="err">4</span>,<span class="err">8</span><span class="kt">-diamino-</span><span class="err">3</span><span class="kt">-hydroxyoctanoic</span> <span class="kt">acid</span> <span class="o">(</span><span class="kt">LySta</span><span class="o">)</span><span class="kt">.</span> <span class="kt">The</span> <span class="kt">iron-binding</span> <span class="kt">properties</span> <span class="kt">of</span> <span class="kt">the</span> <span class="kt">compounds</span> <span class="kt">were</span> <span class="kt">investigated</span> <span class="kt">through</span> <span class="kt">a</span> <span class="kt">spectrophotometric</span> <span class="kt">competition.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------+------------+
+|chunk                             |ner_label   |
++----------------------------------+------------+
+|Lystabactins                      |FAMILY      |
+|lystabactins A, B, and C          |MULTIPLE    |
+|amino acid                        |FAMILY      |
+|lystabactins                      |FAMILY      |
+|serine                            |TRIVIAL     |
+|Ser                               |FORMULA     |
+|asparagine                        |TRIVIAL     |
+|Asn                               |FORMULA     |
+|formylated/hydroxylated ornithines|FAMILY      |
+|FOHOrn                            |FORMULA     |
+|dihydroxy benzoic acid            |SYSTEMATIC  |
+|amino acid                        |FAMILY      |
+|4,8-diamino-3-hydroxyoctanoic acid|SYSTEMATIC  |
+|LySta                             |ABBREVIATION|
++----------------------------------+------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -491,15 +503,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_beto_emotion_analysis</td>
+      <td>ner_chemd_clinical</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP for Healthcare 3.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -507,31 +519,50 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, document]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>es</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
-    </tr>
-    <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
+      <td>en</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/finiteautomata/beto-emotion-analysis">https://huggingface.co/finiteautomata/beto-emotion-analysis</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>CHEMDNER Corpus. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4331685/</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+------+-----+-----+------+---------+------+------+
+|      entity|    tp|   fp|   fn| total|precision|recall|    f1|
++------------+------+-----+-----+------+---------+------+------+
+|     FORMULA|2296.0|196.0| 99.0|2395.0|   0.9213|0.9587|0.9396|
+|  IDENTIFIER| 294.0| 33.0| 25.0| 319.0|   0.8991|0.9216|0.9102|
+|    MULTIPLE| 310.0|284.0| 58.0| 368.0|   0.5219|0.8424|0.6445|
+|      FAMILY|1865.0|277.0|347.0|2212.0|   0.8707|0.8431|0.8567|
+|ABBREVIATION|1648.0|188.0|158.0|1806.0|   0.8976|0.9125| 0.905|
+|  SYSTEMATIC|3381.0|336.0|307.0|3688.0|   0.9096|0.9168|0.9132|
+|     TRIVIAL|3862.0|255.0|241.0|4103.0|   0.9381|0.9413|0.9397|
++------------+------+-----+-----+------+---------+------+------+
+
++------------------+
+|             macro|
++------------------+
+|0.8726928630563308|
++------------------+
+
++------------------+
+|             micro|
++------------------+
+|0.9086394322529923|
++------------------+
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-04T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -656,7 +687,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/robertaresolve_snomed_es.html">SNOMED Sentence Resolver (Spanish)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/04/classifierdl_use_sentiment_pipeline_tr.html">Sentiment Analysis Pipeline for Turkish texts</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/05/ner_covid_trials_en.html">Extract entities in covid trials</a></div></div></div>
 
 </div>
 </div>

@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)- Spark NLP Model</title><meta name="description" content="DescriptionModel trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is BETO, a BERT model trained in Spanish.Citationpaper@mis...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_beto_emotion_analysis_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Extract entities in covid trials- Spark NLP Model</title><meta name="description" content="DescriptionPretrained named entity recognition deep learning model for extracting covid-related clinical terminology from covid trials.Predicted EntitiesStag...">
+<link rel="canonical" href="/2021/11/05/ner_covid_trials_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,35 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>spanish</li><li>bert</li><li>emotion</li><li>sequence_classification</li><li>beto</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,spanish,bert,emotion,sequence_classification,beto,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 05, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-05T00:00:00+00:00"></div><header><h1>Extract entities in covid trials</h1></header></div><meta itemprop="headline" content="Extract entities in covid trials"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>en</li><li>clinical</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-05T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,en,clinical,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Model trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is <a href="https://github.com/dccuchile/beto">BETO</a>, a BERT model trained in Spanish.</p>
-
-<h2 id="citation">Citation</h2>
-
-<p><a href="https://arxiv.org/abs/2106.09462">paper</a></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{perez2021pysentimiento,
-      title={pysentimiento: A Python Toolkit for Sentiment Analysis and SocialNLP tasks},
-      author={Juan Manuel PÃ©rez and Juan Carlos Giudici and Franco Luque},
-      year={2021},
-      eprint={2106.09462},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-</code></pre></div></div>
+<p>Pretrained named entity recognition deep learning model for extracting covid-related clinical terminology from covid trials.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">others</code>, <code class="language-plaintext highlighter-rouge">joy</code>, <code class="language-plaintext highlighter-rouge">sadness</code>, <code class="language-plaintext highlighter-rouge">anger</code>, <code class="language-plaintext highlighter-rouge">surprise</code>, <code class="language-plaintext highlighter-rouge">disgust</code>, <code class="language-plaintext highlighter-rouge">fear</code></p>
+<p><code class="language-plaintext highlighter-rouge">Stage</code>, <code class="language-plaintext highlighter-rouge">Severity</code>, <code class="language-plaintext highlighter-rouge">Virus</code>, <code class="language-plaintext highlighter-rouge">Trial_Design</code>, <code class="language-plaintext highlighter-rouge">Trial_Phase</code>, <code class="language-plaintext highlighter-rouge">N_Patients</code>, <code class="language-plaintext highlighter-rouge">Institution</code>, <code class="language-plaintext highlighter-rouge">Statistical_Indicator</code>, <code class="language-plaintext highlighter-rouge">Section_Header</code>, <code class="language-plaintext highlighter-rouge">Cell_Type</code>, <code class="language-plaintext highlighter-rouge">Cellular_component</code>, <code class="language-plaintext highlighter-rouge">Viral_components</code>, <code class="language-plaintext highlighter-rouge">Physiological_reaction</code>, <code class="language-plaintext highlighter-rouge">Biological_molecules</code>, <code class="language-plaintext highlighter-rouge">Admission_Discharge</code>, <code class="language-plaintext highlighter-rouge">Age</code>, <code class="language-plaintext highlighter-rouge">BMI</code>, <code class="language-plaintext highlighter-rouge">Cerebrovascular_Disease</code>, <code class="language-plaintext highlighter-rouge">Date</code>, <code class="language-plaintext highlighter-rouge">Death_Entity</code>, <code class="language-plaintext highlighter-rouge">Diabetes</code>, <code class="language-plaintext highlighter-rouge">Disease_Syndrome_Disorder</code>, <code class="language-plaintext highlighter-rouge">Dosage</code>, <code class="language-plaintext highlighter-rouge">Drug_Ingredient</code>, <code class="language-plaintext highlighter-rouge">Employment</code>, <code class="language-plaintext highlighter-rouge">Frequency</code>, <code class="language-plaintext highlighter-rouge">Gender</code>, <code class="language-plaintext highlighter-rouge">Heart_Disease</code>, <code class="language-plaintext highlighter-rouge">Hypertension</code>, <code class="language-plaintext highlighter-rouge">Obesity</code>, <code class="language-plaintext highlighter-rouge">Pulse</code>, <code class="language-plaintext highlighter-rouge">Race_Ethnicity</code>, <code class="language-plaintext highlighter-rouge">Respiration</code>, <code class="language-plaintext highlighter-rouge">Route</code>, <code class="language-plaintext highlighter-rouge">Smoking</code>, <code class="language-plaintext highlighter-rouge">Time</code>, <code class="language-plaintext highlighter-rouge">Total_Cholesterol</code>, <code class="language-plaintext highlighter-rouge">Treatment</code>, <code class="language-plaintext highlighter-rouge">VS_Finding</code>, <code class="language-plaintext highlighter-rouge">Vaccine</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_beto_emotion_analysis_es_3.3.2_3.0_1635935591963.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_SIGN_SYMP/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_SIGN_SYMP.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_covid_trials_en_3.2.3_3.0_1636083991325.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -439,51 +425,57 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">embeddings_clinical</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'embeddings_clinical'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'sentence'</span><span class="p">,</span> <span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'embeddings'</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
-
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_beto_emotion_analysis'</span><span class="p">,</span> <span class="s">'es'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
-<span class="p">])</span>
-
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'¡Me siento muy bien!!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_covid_trials"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings_clinical</span><span class="p">,</span>  <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tract such as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR )."</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">]))</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">embeddings_clinical</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_sequence_classifier_beto_emotion_analysis"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"¡</span><span class="kt">Me</span> <span class="kt">siento</span> <span class="kt">muy</span> <span class="kt">bien!!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_covid_trials"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+<span class="o">...</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings_clinical</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tract such as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR )."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                               |   begin |   end | entity                    |
+|---:|:------------------------------------|--------:|------:|:--------------------------|
+|  0 | December 2019                       |       3 |    15 | Date                      |
+|  1 | acute respiratory disease           |      48 |    72 | Disease_Syndrome_Disorder |
+|  2 | beta-coronavirus                    |     146 |   161 | Virus                     |
+|  3 | 2019 coronavirus infection          |     198 |   223 | Disease_Syndrome_Disorder |
+|  4 | SARS-CoV-2                          |     227 |   236 | Virus                     |
+|  5 | coronavirus                         |     243 |   253 | Virus                     |
+|  6 | β-coronaviruses                     |     284 |   298 | Virus                     |
+|  7 | subgenus Coronaviridae              |     307 |   328 | Virus                     |
+|  8 | SARS-CoV-2                          |     336 |   345 | Virus                     |
+|  9 | zoonotic coronavirus disease        |     366 |   393 | Disease_Syndrome_Disorder |
+| 10 | severe acute respiratory syndrome   |     401 |   433 | Disease_Syndrome_Disorder |
+| 11 | SARS                                |     437 |   440 | Disease_Syndrome_Disorder |
+| 12 | Middle Eastern respiratory syndrome |     448 |   482 | Disease_Syndrome_Disorder |
+| 13 | MERS                                |     486 |   489 | Disease_Syndrome_Disorder |
+| 14 | SARS-CoV-2                          |     511 |   520 | Virus                     |
+| 15 | WHO                                 |     541 |   543 | Institution               |
+| 16 | CDC                                 |     547 |   549 | Institution               |
+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -491,15 +483,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_beto_emotion_analysis</td>
+      <td>ner_covid_trials</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP for Healthcare 3.3.2</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -507,31 +499,111 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, document]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>es</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
-    </tr>
-    <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
+      <td>en</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/finiteautomata/beto-emotion-analysis">https://huggingface.co/finiteautomata/beto-emotion-analysis</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>This model is trained on data sampled from clinicaltrials.gov - covid trials, and annotated in-house.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Quality on validation dataset <span class="o">(</span>20.0%<span class="o">)</span>, validation examples <span class="o">=</span> 1022
+<span class="nb">time </span>to finish evaluation: 28.21s
+
++-----------------------------+-----+----+----------------+------------+------------+------------+
+| label                       | tp  | fp | fn             | prec       | rec        | f1         |
++-----------------------------+-----+----+----------------+------------+------------+------------+
+| B-Cerebrovascular_Disease   | 11  | 1  | 1              | 0.9166667  | 0.9166667  | 0.9166667  |
+| I-Cerebrovascular_Disease   | 2   | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| I-Vaccine                   | 20  | 2  | 7              | 0.90909094 | 0.7407407  | 0.81632656 |
+| I-N_Patients                | 2   | 2  | 5              | 0.5        | 0.2857143  | 0.36363637 |
+| B-Heart_Disease             | 32  | 8  | 11             | 0.8        | 0.74418604 | 0.7710843  |
+| I-Institution               | 35  | 15 | 56             | 0.7        | 0.3846154  | 0.49645394 |
+| B-Obesity                   | 8   | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| I-Trial_Phase               | 16  | 9  | 4              | 0.64       | 0.8        | 0.7111111  |
+| B-Dosage                    | 50  | 28 | 43             | 0.64102566 | 0.53763443 | 0.5847953  |
+| B-Hypertension              | 10  | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| I-Stage                     | 0   | 1  | 2              | 0.0        | 0.0        | 0.0        |
+| I-Cell_Type                 | 82  | 31 | 17             | 0.7256637  | 0.82828283 | 0.7735849  |
+| B-Admission_Discharge       | 95  | 1  | 4              | 0.9895833  | 0.959596   | 0.974359   |
+| B-Date                      | 88  | 10 | 9              | 0.8979592  | 0.9072165  | 0.9025641  |
+| I-Admission_Discharge       | 0   | 0  | 2              | 0.0        | 0.0        | 0.0        |
+| I-Drug_Ingredient           | 104 | 71 | 57             | 0.5942857  | 0.6459627  | 0.61904764 |
+| B-Stage                     | 0   | 2  | 6              | 0.0        | 0.0        | 0.0        |
+| B-Cellular_component        | 18  | 22 | 28             | 0.45       | 0.39130434 | 0.41860464 |
+| B-Total_Cholesterol         | 5   | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| I-Biological_molecules      | 52  | 39 | 87             | 0.5714286  | 0.37410071 | 0.45217392 |
+| I-Virus                     | 56  | 26 | 24             | 0.68292683 | 0.7        | 0.69135803 |
+| B-BMI                       | 9   | 2  | 2              | 0.8181818  | 0.8181818  | 0.8181818  |
+| B-Drug_Ingredient           | 330 | 82 | 84             | 0.80097085 | 0.79710144 | 0.7990315  |
+| B-Severity                  | 43  | 22 | 16             | 0.6615385  | 0.7288136  | 0.69354844 |
+| B-Section_Header            | 86  | 27 | 28             | 0.76106197 | 0.75438595 | 0.7577093  |
+| I-Treatment                 | 35  | 7  | 32             | 0.8333333  | 0.52238804 | 0.64220184 |
+| I-Pulse                     | 1   | 1  | 0              | 0.5        | 1.0        | 0.6666667  |
+| I-Respiration               | 1   | 2  | 0              | 0.33333334 | 1.0        | 0.5        |
+| I-Section_Header            | 95  | 30 | 67             | 0.76       | 0.58641976 | 0.66202086 |
+| I-VS_Finding                | 2   | 2  | 1              | 0.5        | 0.6666667  | 0.57142854 |
+| B-Death_Entity              | 14  | 3  | 6              | 0.8235294  | 0.7        | 0.7567568  |
+| B-Statistical_Indicator     | 79  | 53 | 52             | 0.5984849  | 0.60305345 | 0.60076046 |
+| B-Frequency                 | 31  | 8  | 8              | 0.7948718  | 0.7948718  | 0.79487187 |
+| I-Diabetes                  | 3   | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| B-Race_Ethnicity            | 3   | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| B-Cell_Type                 | 90  | 43 | 35             | 0.6766917  | 0.72       | 0.6976744  |
+| B-N_Patients                | 37  | 11 | 9              | 0.7708333  | 0.8043478  | 0.787234   |
+| B-Trial_Phase               | 13  | 4  | 2              | 0.7647059  | 0.8666667  | 0.8125     |
+| B-Biological_molecules      | 171 | 68 | 122 0.71548116 | 0.58361775 | 0.6428571  |            |
+| I-Hypertension              | 1   | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| I-Age                       | 15  | 0  | 3              | 1.0        | 0.8333333  | 0.90909094 |
+| B-Employment                | 75  | 28 | 21             | 0.7281553  | 0.78125    | 0.7537688  |
+| B-Time                      | 8   | 0  | 2              | 1.0        | 0.8        | 0.88888896 |
+| I-Physiological_reaction    | 11  | 11 | 36             | 0.5        | 0.23404256 | 0.3188406  |
+| I-Viral_components          | 22  | 2  | 21             | 0.9166667  | 0.5116279  | 0.6567164  |
+| B-Treatment                 | 65  | 8  | 19             | 0.89041096 | 0.77380955 | 0.8280255  |
+| B-Trial_Design              | 26  | 22 | 19             | 0.5416667  | 0.5777778  | 0.5591398  |
+| I-Severity                  | 6   | 13 | 4              | 0.31578946 | 0.6        | 0.41379312 |
+| I-Route                     | 1   | 1  | 1              | 0.5        | 0.5        | 0.5        |
+| B-Smoking                   | 3   | 1  | 0              | 0.75       | 1.0        | 0.85714287 |
+| B-Diabetes                  | 10  | 0  | 0              | 1.0        | 1.0        | 1.0        |
+| B-Gender                    | 21  | 2  | 6              | 0.9130435  | 0.7777778  | 0.84       |
+| I-Trial_Design              | 41  | 25 | 13             | 0.6212121  | 0.7592593  | 0.6833333  |
+| B-Virus                     | 105 | 28 | 34             | 0.7894737  | 0.7553957  | 0.77205884 |
+| B-Vaccine                   | 28  | 9  | 2              | 0.7567568  | 0.93333334 | 0.8358209  |
+| I-Heart_Disease             | 32  | 6  | 15             | 0.84210527 | 0.68085104 | 0.75294113 |
+| I-Dosage                    | 41  | 32 | 35             | 0.56164384 | 0.5394737  | 0.5503355  |
+| I-Cellular_component        | 12  | 7  | 19             | 0.6315789  | 0.38709676 | 0.48       |
+| I-Frequency                 | 27  | 9  | 8              | 0.75       | 0.7714286  | 0.7605634  |
+| B-Age                       | 14  | 10 | 11             | 0.5833333  | 0.56       | 0.57142854 |
+| B-Pulse                     | 1   | 1  | 0              | 0.5        | 1.0        | 0.6666667  |
+| I-Statistical_Indicator     | 40  | 27 | 44             | 0.5970149  | 0.47619048 | 0.52980137 |
+| I-Date                      | 56  | 0  | 7              | 1.0        | 0.8888889  | 0.94117653 |
+| B-Route                     | 38  | 7  | 12             | 0.84444445 | 0.76       | 0.79999995 |
+| B-Institution               | 24  | 14 | 44             | 0.6315789  | 0.3529412  | 0.4528302  |
+| B-Viral_components          | 19  | 7  | 19             | 0.7307692  | 0.5        | 0.59375    |
+| B-Respiration               | 1   | 2  | 0              | 0.33333334 | 1.0        | 0.5        |
+| I-BMI                       | 10  | 1  | 4              | 0.90909094 | 0.71428573 | 0.8000001  |
+| B-Disease_Syndrome_Disorder | 656 | 76 | 85             | 0.89617485 | 0.88529015 | 0.8906992  |
+| B-VS_Finding                | 23  | 5  | 1              | 0.8214286  | 0.9583333  | 0.8846154  |
+| B-Physiological_reaction    | 9   | 4  | 26             | 0.6923077  | 0.25714287 | 0.37500003 |
+| I-Disease_Syndrome_Disorder | 336 | 50 | 132            | 0.8704663  | 0.71794873 | 0.78688526 |
+| I-Employment                | 23  | 9  | 12             | 0.71875    | 0.6571429  | 0.6865672  |
++-----------------------------+-----+----+----------------+------------+------------+------------+
+
+tp: 3529 fp: 1050 fn: 1482 labels: 73
+Macro-average	 prec: 0.7160117, rec: 0.700098, f1: 0.70796543
+Micro-average	 prec: 0.7706923, rec: 0.70425063, f1: 0.73597497
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-05T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -656,7 +728,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/robertaresolve_snomed_es.html">SNOMED Sentence Resolver (Spanish)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/04/ner_chemd_clinical_en.html">Extract the Names of Drugs & Chemicals</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/05/bert_sequence_classifier_question_statement_clinical_en.html">Bert for Sequence Classification (Clinical Question vs Statement)</a></div></div></div>
 
 </div>
 </div>

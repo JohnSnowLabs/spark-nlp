@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)- Spark NLP Model</title><meta name="description" content="DescriptionModel trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is BETO, a BERT model trained in Spanish.Citationpaper@mis...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_beto_emotion_analysis_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Named Entity Recognition Profiling (Biobert)- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up w...">
+<link rel="canonical" href="/2021/11/03/ner_profiling_biobert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,34 +404,18 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>spanish</li><li>bert</li><li>emotion</li><li>sequence_classification</li><li>beto</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,spanish,bert,emotion,sequence_classification,beto,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>Named Entity Recognition Profiling (Biobert)</h1></header></div><meta itemprop="headline" content="Named Entity Recognition Profiling (Biobert)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>ner_profiling</li><li>clinical</li><li>licensed</li><li>en</li><li>biobert</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,ner_profiling,clinical,licensed,en,biobert"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Model trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is <a href="https://github.com/dccuchile/beto">BETO</a>, a BERT model trained in Spanish.</p>
+<p>This pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up with the predictions coming out of each pretrained clinical NER model trained with <code class="language-plaintext highlighter-rouge">biobert_pubmed_base_cased</code>. It has been updated by adding NER model outputs to the previous version.</p>
 
-<h2 id="citation">Citation</h2>
-
-<p><a href="https://arxiv.org/abs/2106.09462">paper</a></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{perez2021pysentimiento,
-      title={pysentimiento: A Python Toolkit for Sentiment Analysis and SocialNLP tasks},
-      author={Juan Manuel PÃ©rez and Juan Carlos Giudici and Franco Luque},
-      year={2021},
-      eprint={2106.09462},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-</code></pre></div></div>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">others</code>, <code class="language-plaintext highlighter-rouge">joy</code>, <code class="language-plaintext highlighter-rouge">sadness</code>, <code class="language-plaintext highlighter-rouge">anger</code>, <code class="language-plaintext highlighter-rouge">surprise</code>, <code class="language-plaintext highlighter-rouge">disgust</code>, <code class="language-plaintext highlighter-rouge">fear</code></p>
+<p>Here are the NER models that this pretrained pipeline includes: <code class="language-plaintext highlighter-rouge">ner_jsl_enriched_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_clinical_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_chemprot_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_greedy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_bionlp_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_human_phenotype_go_biobert</code>, <code class="language-plaintext highlighter-rouge">jsl_rd_ner_wip_greedy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_posology_large_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_risk_factors_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_anatomy_coarse_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_deid_enriched_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_human_phenotype_gene_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_jsl_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_events_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_deid_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_posology_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_diseases_biobert</code>, <code class="language-plaintext highlighter-rouge">jsl_ner_wip_greedy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_ade_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_anatomy_biobert</code>, <code class="language-plaintext highlighter-rouge">ner_cellular_biobert</code> .</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_beto_emotion_analysis_es_3.3.2_3.0_1635935591963.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.2.Pretrained_NER_Profiling_Pipelines.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_profiling_biobert_en_3.3.1_2.4_1635977081207.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -439,51 +423,48 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">ner_profiling_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'ner_profiling_biobert'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'clinical/models'</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_beto_emotion_analysis'</span><span class="p">,</span> <span class="s">'es'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
-<span class="p">])</span>
-
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'¡Me siento muy bien!!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ner_profiling_pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_profiling_pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="ss">'ner_profiling_biober</span><span class="n">t</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="o">',</span> <span class="ss">'clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_sequence_classifier_beto_emotion_analysis"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"¡</span><span class="kt">Me</span> <span class="kt">siento</span> <span class="kt">muy</span> <span class="kt">bien!!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">ner_profiling_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting ."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">********************</span> ner_diseases_biobert Model Results <span class="k">********************</span> 
+
+<span class="o">[(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'hepatitis'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'Disease'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'Disease'</span><span class="o">)]</span>
+
+ 
+ <span class="k">********************</span> ner_events_biobert Model Results <span class="k">********************</span> 
+
+<span class="o">[(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'eight years'</span>, <span class="s1">'DURATION'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'presentation'</span>, <span class="s1">'OCCURRENCE'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'type two diabetes mellitus ( T2DM'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'three years'</span>, <span class="s1">'DURATION'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'presentation'</span>, <span class="s1">'OCCURRENCE'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'an acute hepatitis'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'a body mass index'</span>, <span class="s1">'TEST'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'BMI'</span>, <span class="s1">'TEST'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'presented'</span>, <span class="s1">'OCCURRENCE'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'a one-week'</span>, <span class="s1">'DURATION'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'PROBLEM'</span><span class="o">)]</span>
+
+
+ <span class="k">********************</span> ner_jsl_biobert Model Results <span class="k">********************</span> 
+
+<span class="o">[(</span><span class="s1">'28-year-old'</span>, <span class="s1">'Age'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'female'</span>, <span class="s1">'Gender'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'Diabetes'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'eight years prior'</span>, <span class="s1">'RelativeDate'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'type two diabetes mellitus'</span>, <span class="s1">'Diabetes'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'T2DM'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'three years prior'</span>, <span class="s1">'RelativeDate'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'acute'</span>, <span class="s1">'Modifier'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'hepatitis'</span>, <span class="s1">'Disease_Syndrome_Disorder'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'Obesity'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'body mass index'</span>, <span class="s1">'BMI'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'BMI ) of 33.5 kg/m2'</span>, <span class="s1">'BMI'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'one-week'</span>, <span class="s1">'Duration'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'Symptom'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'Symptom'</span><span class="o">)]</span>
+
+
+ <span class="k">********************</span> ner_clinical_biobert Model Results <span class="k">********************</span> 
+
+<span class="o">[(</span><span class="s1">'gestational diabetes mellitus'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'subsequent type two diabetes mellitus ( T2DM'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'HTG-induced pancreatitis'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'an acute hepatitis'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'a body mass index ( BMI )'</span>, <span class="s1">'TEST'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polyuria'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'polydipsia'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'poor appetite'</span>, <span class="s1">'PROBLEM'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'vomiting'</span>, <span class="s1">'PROBLEM'</span><span class="o">)]</span>
+
+
+ <span class="k">********************</span> ner_risk_factors_biobert Model Results <span class="k">********************</span> 
+
+<span class="o">[(</span><span class="s1">'diabetes mellitus'</span>, <span class="s1">'DIABETES'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'subsequent type two diabetes mellitus'</span>, <span class="s1">'DIABETES'</span><span class="o">)</span>, <span class="o">(</span><span class="s1">'obesity'</span>, <span class="s1">'OBESE'</span><span class="o">)]</span>
+
+...
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -491,46 +472,42 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_beto_emotion_analysis</td>
+      <td>ner_profiling_biobert</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP for Healthcare 3.3.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[token, document]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[class]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
-      <td>es</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
-    </tr>
-    <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
+      <td>en</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="data-source">Data Source</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p><a href="https://huggingface.co/finiteautomata/beto-emotion-analysis">https://huggingface.co/finiteautomata/beto-emotion-analysis</a></p>
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>BertEmbeddings</li>
+  <li>MedicalNerModel (x21)</li>
+  <li>NerConverter (x21)</li>
+  <li>Finisher</li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -656,7 +633,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/robertaresolve_snomed_es.html">SNOMED Sentence Resolver (Spanish)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/bert_sequence_classifier_turkish_sentiment_tr.html">BERT Sequence Classification - Turkish Sentiment (bert_sequence_classifier_turkish_sentiment)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/ner_profiling_clinical_en.html">Named Entity Recognition Profiling (Clinical)</a></div></div></div>
 
 </div>
 </div>

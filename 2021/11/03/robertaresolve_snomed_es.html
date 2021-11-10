@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)- Spark NLP Model</title><meta name="description" content="DescriptionModel trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is BETO, a BERT model trained in Spanish.Citationpaper@mis...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_beto_emotion_analysis_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>SNOMED Sentence Resolver (Spanish)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps predetected ner chunks (from a MedicalNerModel, a ChunkConverter and a Chunk2Doc) to SNOMED terms and codes for the Spanish versio...">
+<link rel="canonical" href="/2021/11/03/robertaresolve_snomed_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,86 +404,168 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>spanish</li><li>bert</li><li>emotion</li><li>sequence_classification</li><li>beto</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="es,spanish,bert,emotion,sequence_classification,beto,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>SNOMED Sentence Resolver (Spanish)</h1></header></div><meta itemprop="headline" content="SNOMED Sentence Resolver (Spanish)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>embeddings</li><li>es</li><li>snomed</li><li>entity_resolution</li><li>clinical</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
+    <meta itemprop="keywords" content="embeddings,es,snomed,entity_resolution,clinical,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Model trained with TASS 2020 Task 2 corpus for Emotion detection in Spanish. Base model is <a href="https://github.com/dccuchile/beto">BETO</a>, a BERT model trained in Spanish.</p>
-
-<h2 id="citation">Citation</h2>
-
-<p><a href="https://arxiv.org/abs/2106.09462">paper</a></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{perez2021pysentimiento,
-      title={pysentimiento: A Python Toolkit for Sentiment Analysis and SocialNLP tasks},
-      author={Juan Manuel PÃ©rez and Juan Carlos Giudici and Franco Luque},
-      year={2021},
-      eprint={2106.09462},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-</code></pre></div></div>
+<p>This model maps predetected ner chunks (from a <code class="language-plaintext highlighter-rouge">MedicalNerModel</code>, a <code class="language-plaintext highlighter-rouge">ChunkConverter</code> and a <code class="language-plaintext highlighter-rouge">Chunk2Doc</code>) to SNOMED terms and codes for the Spanish version of SNOMED. It requires Roberta Clinical Word Embeddings (<code class="language-plaintext highlighter-rouge">roberta_base_biomedical_es</code>) averaged with <code class="language-plaintext highlighter-rouge">SentenceEmbeddings</code>.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">others</code>, <code class="language-plaintext highlighter-rouge">joy</code>, <code class="language-plaintext highlighter-rouge">sadness</code>, <code class="language-plaintext highlighter-rouge">anger</code>, <code class="language-plaintext highlighter-rouge">surprise</code>, <code class="language-plaintext highlighter-rouge">disgust</code>, <code class="language-plaintext highlighter-rouge">fear</code></p>
+<p><code class="language-plaintext highlighter-rouge">SNOMED codes</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_beto_emotion_analysis_es_3.3.2_3.0_1635935591963.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/robertaresolve_snomed_es_3.3.0_3.0_1635933551478.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
+
+<p>Use any <code class="language-plaintext highlighter-rouge">MedicalNer</code> Model from our ModelsHub that detects, for example, diagnosis, for Spanish. Then, use a <code class="language-plaintext highlighter-rouge">NerConverter</code> (in case your model has B-I-O notation). Create documents using <code class="language-plaintext highlighter-rouge">Chunk2Doc</code>. Then use a <code class="language-plaintext highlighter-rouge">Tokenizer</code> the split the chunk, and finally use the <code class="language-plaintext highlighter-rouge">roberta_base_biomedical_es</code> Roberta Embeddings model and a <code class="language-plaintext highlighter-rouge">SentenceEmbeddings</code> annotator with an average pooling strategy, as in the example.</p>
 
 <div class="tabs-box">
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_beto_emotion_analysis'</span><span class="p">,</span> <span class="s">'es'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_ner_diag_proc"</span><span class="p">,</span><span class="s">"es"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+
+<span class="n">c2doc</span> <span class="o">=</span> <span class="n">Chunk2Doc</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
+
+<span class="n">chunk_embeddings</span> <span class="o">=</span> <span class="n">SentenceEmbeddings</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">,</span> <span class="s">"roberta_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
+
+<span class="n">er</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical_snomed"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">,</span> <span class="s">"chunk_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"snomed_code"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+
+<span class="n">snomed_training_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">sentenceDetector</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
-<span class="p">])</span>
+    <span class="n">word_embeddings</span><span class="p">,</span>
+    <span class="n">ner</span><span class="p">,</span>
+    <span class="n">ner_converter</span><span class="p">,</span>
+    <span class="n">c2doc</span><span class="p">,</span>
+    <span class="n">chunk_embeddings</span><span class="p">,</span>
+    <span class="n">er</span><span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'¡Me siento muy bien!!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">empty</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">''</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">p_model</span> <span class="o">=</span> <span class="n">snomed_pipeline</span> <span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
+
+<span class="n">test_sentence</span> <span class="o">=</span> <span class="s">'Mujer de 28 años con antecedentes de diabetes mellitus gestacional diagnosticada ocho años antes de la presentación y posterior diabetes mellitus tipo dos (DM2), un episodio previo de pancreatitis inducida por HTG tres años antes de la presentación, asociado con una hepatitis aguda, y obesidad con un índice de masa corporal (IMC) de 33,5 kg / m2, que se presentó con antecedentes de una semana de poliuria, polidipsia, falta de apetito y vómitos. Dos semanas antes de la presentación, fue tratada con un ciclo de cinco días de amoxicilina por una infección del tracto respiratorio. Estaba tomando metformina, glipizida y dapagliflozina para la DM2 y atorvastatina y gemfibrozil para la HTG. Había estado tomando dapagliflozina durante seis meses en el momento de la presentación. El examen físico al momento de la presentación fue significativo para la mucosa oral seca; significativamente, su examen abdominal fue benigno sin dolor a la palpación, protección o rigidez. Los hallazgos de laboratorio pertinentes al ingreso fueron: glucosa sérica 111 mg / dl, bicarbonato 18 mmol / l, anión gap 20, creatinina 0,4 mg / dl, triglicéridos 508 mg / dl, colesterol total 122 mg / dl, hemoglobina glucosilada (HbA1c) 10%. y pH venoso 7,27. La lipasa sérica fue normal a 43 U / L. Los niveles séricos de acetona no pudieron evaluarse ya que las muestras de sangre se mantuvieron hemolizadas debido a una lipemia significativa. La paciente ingresó inicialmente por cetosis por inanición, ya que refirió una ingesta oral deficiente durante los tres días previos a la admisión. Sin embargo, la química sérica obtenida seis horas después de la presentación reveló que su glucosa era de 186 mg / dL, la brecha aniónica todavía estaba elevada a 21, el bicarbonato sérico era de 16 mmol / L, el nivel de triglicéridos alcanzó un máximo de 2050 mg / dL y la lipasa fue de 52 U / L. Se obtuvo el nivel de β-hidroxibutirato y se encontró que estaba elevado a 5,29 mmol / L; la muestra original se centrifugó y la capa de quilomicrones se eliminó antes del análisis debido a la interferencia de la turbidez causada por la lipemia nuevamente. El paciente fue tratado con un goteo de insulina para euDKA y HTG con una reducción de la brecha aniónica a 13 y triglicéridos a 1400 mg / dL, dentro de las 24 horas. Se pensó que su euDKA fue precipitada por su infección del tracto respiratorio en el contexto del uso del inhibidor de SGLT2. La paciente fue atendida por el servicio de endocrinología y fue dada de alta con 40 unidades de insulina glargina por la noche, 12 unidades de insulina lispro con las comidas y metformina 1000 mg dos veces al día. Se determinó que todos los inhibidores de SGLT2 deben suspenderse indefinidamente. Tuvo un seguimiento estrecho con endocrinología post alta.'</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="n">test_sentence</span><span class="p">]})))</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)\</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_sequence_classifier_beto_emotion_analysis"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"roberta_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_ner_diag_proc"</span><span class="o">,</span><span class="s">"es"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"roberta_embeddings"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"¡</span><span class="kt">Me</span> <span class="kt">siento</span> <span class="kt">muy</span> <span class="kt">bien!!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span>, <span class="err">"</span><span class="kt">ner</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">c2doc</span> <span class="k">=</span> <span class="nc">Chunk2Doc</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">chunk_embeddings</span> <span class="k">=</span> <span class="nc">SentenceEmbeddings</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk_doc</span><span class="err">"</span>, <span class="err">"</span><span class="kt">roberta_embeddings</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"chunk_embeddings"</span><span class="o">)</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">er</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical_snomed"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk_doc</span><span class="err">"</span>, <span class="err">"</span><span class="kt">chunk_embeddings</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"snomed_code"</span><span class="o">)</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">snomed_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">sentenceDetector</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">word_embeddings</span><span class="o">,</span>
+    <span class="n">ner</span><span class="o">,</span>
+    <span class="n">ner_converter</span><span class="o">,</span>
+    <span class="n">c2doc</span><span class="o">,</span>
+    <span class="n">chunk_embeddings</span><span class="o">,</span>
+    <span class="n">er</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">test_sentence</span> <span class="k">=</span> <span class="ss">'Mujer</span> <span class="n">de</span> <span class="mi">28</span> <span class="n">años</span> <span class="n">con</span> <span class="n">antecedentes</span> <span class="n">de</span> <span class="n">diabetes</span> <span class="n">mellitus</span> <span class="n">gestacional</span> <span class="n">diagnosticada</span> <span class="n">ocho</span> <span class="n">años</span> <span class="n">antes</span> <span class="n">de</span> <span class="n">la</span> <span class="n">presentación</span> <span class="n">y</span> <span class="n">posterior</span> <span class="n">diabetes</span> <span class="n">mellitus</span> <span class="n">tipo</span> <span class="nf">dos</span> <span class="o">(</span><span class="nc">DM2</span><span class="o">),</span> <span class="n">un</span> <span class="n">episodio</span> <span class="n">previo</span> <span class="n">de</span> <span class="n">pancreatitis</span> <span class="n">inducida</span> <span class="n">por</span> <span class="nc">HTG</span> <span class="n">tres</span> <span class="n">años</span> <span class="n">antes</span> <span class="n">de</span> <span class="n">la</span> <span class="n">presentación</span><span class="o">,</span> <span class="n">asociado</span> <span class="n">con</span> <span class="n">una</span> <span class="n">hepatitis</span> <span class="n">aguda</span><span class="o">,</span> <span class="n">y</span> <span class="n">obesidad</span> <span class="n">con</span> <span class="n">un</span> <span class="n">índice</span> <span class="n">de</span> <span class="n">masa</span> <span class="nf">corporal</span> <span class="o">(</span><span class="nc">IMC</span><span class="o">)</span> <span class="n">de</span> <span class="mi">33</span><span class="o">,</span><span class="mi">5</span> <span class="n">kg</span> <span class="o">/</span> <span class="n">m2</span><span class="o">,</span> <span class="n">que</span> <span class="n">se</span> <span class="n">presentó</span> <span class="n">con</span> <span class="n">antecedentes</span> <span class="n">de</span> <span class="n">una</span> <span class="n">semana</span> <span class="n">de</span> <span class="n">poliuria</span><span class="o">,</span> <span class="n">polidipsia</span><span class="o">,</span> <span class="n">falta</span> <span class="n">de</span> <span class="n">apetito</span> <span class="n">y</span> <span class="n">vómitos</span><span class="o">.</span> <span class="nc">Dos</span> <span class="n">semanas</span> <span class="n">antes</span> <span class="n">de</span> <span class="n">la</span> <span class="n">presentación</span><span class="o">,</span> <span class="n">fue</span> <span class="n">tratada</span> <span class="n">con</span> <span class="n">un</span> <span class="n">ciclo</span> <span class="n">de</span> <span class="n">cinco</span> <span class="n">días</span> <span class="n">de</span> <span class="n">amoxicilina</span> <span class="n">por</span> <span class="n">una</span> <span class="n">infección</span> <span class="n">del</span> <span class="n">tracto</span> <span class="n">respiratorio</span><span class="o">.</span> <span class="nc">Estaba</span> <span class="n">tomando</span> <span class="n">metformina</span><span class="o">,</span> <span class="n">glipizida</span> <span class="n">y</span> <span class="n">dapagliflozina</span> <span class="n">para</span> <span class="n">la</span> <span class="nc">DM2</span> <span class="n">y</span> <span class="n">atorvastatina</span> <span class="n">y</span> <span class="n">gemfibrozil</span> <span class="n">para</span> <span class="n">la</span> <span class="nc">HTG</span><span class="o">.</span> <span class="nc">Había</span> <span class="n">estado</span> <span class="n">tomando</span> <span class="n">dapagliflozina</span> <span class="n">durante</span> <span class="n">seis</span> <span class="n">meses</span> <span class="n">en</span> <span class="n">el</span> <span class="n">momento</span> <span class="n">de</span> <span class="n">la</span> <span class="n">presentación</span><span class="o">.</span> <span class="nc">El</span> <span class="n">examen</span> <span class="n">físico</span> <span class="n">al</span> <span class="n">momento</span> <span class="n">de</span> <span class="n">la</span> <span class="n">presentación</span> <span class="n">fue</span> <span class="n">significativo</span> <span class="n">para</span> <span class="n">la</span> <span class="n">mucosa</span> <span class="n">oral</span> <span class="n">seca</span><span class="o">;</span> <span class="n">significativamente</span><span class="o">,</span> <span class="n">su</span> <span class="n">examen</span> <span class="n">abdominal</span> <span class="n">fue</span> <span class="n">benigno</span> <span class="n">sin</span> <span class="n">dolor</span> <span class="n">a</span> <span class="n">la</span> <span class="n">palpación</span><span class="o">,</span> <span class="n">protección</span> <span class="n">o</span> <span class="n">rigidez</span><span class="o">.</span> <span class="nc">Los</span> <span class="n">hallazgos</span> <span class="n">de</span> <span class="n">laboratorio</span> <span class="n">pertinentes</span> <span class="n">al</span> <span class="n">ingreso</span> <span class="n">fueron</span><span class="k">:</span> <span class="kt">glucosa</span> <span class="kt">sérica</span> <span class="err">111</span> <span class="kt">mg</span> <span class="kt">/</span> <span class="kt">dl</span><span class="o">,</span> <span class="n">bicarbonato</span> <span class="mi">18</span> <span class="n">mmol</span> <span class="o">/</span> <span class="n">l</span><span class="o">,</span> <span class="n">anión</span> <span class="n">gap</span> <span class="mi">20</span><span class="o">,</span> <span class="n">creatinina</span> <span class="mi">0</span><span class="o">,</span><span class="mi">4</span> <span class="n">mg</span> <span class="o">/</span> <span class="n">dl</span><span class="o">,</span> <span class="n">triglicéridos</span> <span class="mi">508</span> <span class="n">mg</span> <span class="o">/</span> <span class="n">dl</span><span class="o">,</span> <span class="n">colesterol</span> <span class="n">total</span> <span class="mi">122</span> <span class="n">mg</span> <span class="o">/</span> <span class="n">dl</span><span class="o">,</span> <span class="n">hemoglobina</span> <span class="nf">glucosilada</span> <span class="o">(</span><span class="nc">HbA1c</span><span class="o">)</span> <span class="mi">10</span><span class="o">%.</span> <span class="n">y</span> <span class="n">pH</span> <span class="n">venoso</span> <span class="mi">7</span><span class="o">,</span><span class="mf">27.</span> <span class="nc">La</span> <span class="n">lipasa</span> <span class="n">sérica</span> <span class="n">fue</span> <span class="n">normal</span> <span class="n">a</span> <span class="mi">43</span> <span class="n">U</span> <span class="o">/</span> <span class="n">L</span><span class="o">.</span> <span class="nc">Los</span> <span class="n">niveles</span> <span class="n">séricos</span> <span class="n">de</span> <span class="n">acetona</span> <span class="n">no</span> <span class="n">pudieron</span> <span class="n">evaluarse</span> <span class="n">ya</span> <span class="n">que</span> <span class="n">las</span> <span class="n">muestras</span> <span class="n">de</span> <span class="n">sangre</span> <span class="n">se</span> <span class="n">mantuvieron</span> <span class="n">hemolizadas</span> <span class="n">debido</span> <span class="n">a</span> <span class="n">una</span> <span class="n">lipemia</span> <span class="n">significativa</span><span class="o">.</span> <span class="nc">La</span> <span class="n">paciente</span> <span class="n">ingresó</span> <span class="n">inicialmente</span> <span class="n">por</span> <span class="n">cetosis</span> <span class="n">por</span> <span class="n">inanición</span><span class="o">,</span> <span class="n">ya</span> <span class="n">que</span> <span class="n">refirió</span> <span class="n">una</span> <span class="n">ingesta</span> <span class="n">oral</span> <span class="n">deficiente</span> <span class="n">durante</span> <span class="n">los</span> <span class="n">tres</span> <span class="n">días</span> <span class="n">previos</span> <span class="n">a</span> <span class="n">la</span> <span class="n">admisión</span><span class="o">.</span> <span class="nc">Sin</span> <span class="n">embargo</span><span class="o">,</span> <span class="n">la</span> <span class="n">química</span> <span class="n">sérica</span> <span class="n">obtenida</span> <span class="n">seis</span> <span class="n">horas</span> <span class="n">después</span> <span class="n">de</span> <span class="n">la</span> <span class="n">presentación</span> <span class="n">reveló</span> <span class="n">que</span> <span class="n">su</span> <span class="n">glucosa</span> <span class="n">era</span> <span class="n">de</span> <span class="mi">186</span> <span class="n">mg</span> <span class="o">/</span> <span class="n">dL</span><span class="o">,</span> <span class="n">la</span> <span class="n">brecha</span> <span class="n">aniónica</span> <span class="n">todavía</span> <span class="n">estaba</span> <span class="n">elevada</span> <span class="n">a</span> <span class="mi">21</span><span class="o">,</span> <span class="n">el</span> <span class="n">bicarbonato</span> <span class="n">sérico</span> <span class="n">era</span> <span class="n">de</span> <span class="mi">16</span> <span class="n">mmol</span> <span class="o">/</span> <span class="n">L</span><span class="o">,</span> <span class="n">el</span> <span class="n">nivel</span> <span class="n">de</span> <span class="n">triglicéridos</span> <span class="n">alcanzó</span> <span class="n">un</span> <span class="n">máximo</span> <span class="n">de</span> <span class="mi">2050</span> <span class="n">mg</span> <span class="o">/</span> <span class="n">dL</span> <span class="n">y</span> <span class="n">la</span> <span class="n">lipasa</span> <span class="n">fue</span> <span class="n">de</span> <span class="mi">52</span> <span class="n">U</span> <span class="o">/</span> <span class="n">L</span><span class="o">.</span> <span class="nc">Se</span> <span class="n">obtuvo</span> <span class="n">el</span> <span class="n">nivel</span> <span class="n">de</span> <span class="n">β</span><span class="o">-</span><span class="n">hidroxibutirato</span> <span class="n">y</span> <span class="n">se</span> <span class="n">encontró</span> <span class="n">que</span> <span class="n">estaba</span> <span class="n">elevado</span> <span class="n">a</span> <span class="mi">5</span><span class="o">,</span><span class="mi">29</span> <span class="n">mmol</span> <span class="o">/</span> <span class="n">L</span><span class="o">;</span> <span class="n">la</span> <span class="n">muestra</span> <span class="n">original</span> <span class="n">se</span> <span class="n">centrifugó</span> <span class="n">y</span> <span class="n">la</span> <span class="n">capa</span> <span class="n">de</span> <span class="n">quilomicrones</span> <span class="n">se</span> <span class="n">eliminó</span> <span class="n">antes</span> <span class="n">del</span> <span class="n">análisis</span> <span class="n">debido</span> <span class="n">a</span> <span class="n">la</span> <span class="n">interferencia</span> <span class="n">de</span> <span class="n">la</span> <span class="n">turbidez</span> <span class="n">causada</span> <span class="n">por</span> <span class="n">la</span> <span class="n">lipemia</span> <span class="n">nuevamente</span><span class="o">.</span> <span class="nc">El</span> <span class="n">paciente</span> <span class="n">fue</span> <span class="n">tratado</span> <span class="n">con</span> <span class="n">un</span> <span class="n">goteo</span> <span class="n">de</span> <span class="n">insulina</span> <span class="n">para</span> <span class="n">euDKA</span> <span class="n">y</span> <span class="nc">HTG</span> <span class="n">con</span> <span class="n">una</span> <span class="n">reducción</span> <span class="n">de</span> <span class="n">la</span> <span class="n">brecha</span> <span class="n">aniónica</span> <span class="n">a</span> <span class="mi">13</span> <span class="n">y</span> <span class="n">triglicéridos</span> <span class="n">a</span> <span class="mi">1400</span> <span class="n">mg</span> <span class="o">/</span> <span class="n">dL</span><span class="o">,</span> <span class="n">dentro</span> <span class="n">de</span> <span class="n">las</span> <span class="mi">24</span> <span class="n">horas</span><span class="o">.</span> <span class="nc">Se</span> <span class="n">pensó</span> <span class="n">que</span> <span class="n">su</span> <span class="n">euDKA</span> <span class="n">fue</span> <span class="n">precipitada</span> <span class="n">por</span> <span class="n">su</span> <span class="n">infección</span> <span class="n">del</span> <span class="n">tracto</span> <span class="n">respiratorio</span> <span class="n">en</span> <span class="n">el</span> <span class="n">contexto</span> <span class="n">del</span> <span class="n">uso</span> <span class="n">del</span> <span class="n">inhibidor</span> <span class="n">de</span> <span class="nc">SGLT2</span><span class="o">.</span> <span class="nc">La</span> <span class="n">paciente</span> <span class="n">fue</span> <span class="n">atendida</span> <span class="n">por</span> <span class="n">el</span> <span class="n">servicio</span> <span class="n">de</span> <span class="n">endocrinología</span> <span class="n">y</span> <span class="n">fue</span> <span class="n">dada</span> <span class="n">de</span> <span class="n">alta</span> <span class="n">con</span> <span class="mi">40</span> <span class="n">unidades</span> <span class="n">de</span> <span class="n">insulina</span> <span class="n">glargina</span> <span class="n">por</span> <span class="n">la</span> <span class="n">noche</span><span class="o">,</span> <span class="mi">12</span> <span class="n">unidades</span> <span class="n">de</span> <span class="n">insulina</span> <span class="n">lispro</span> <span class="n">con</span> <span class="n">las</span> <span class="n">comidas</span> <span class="n">y</span> <span class="n">metformina</span> <span class="mi">1000</span> <span class="n">mg</span> <span class="n">dos</span> <span class="n">veces</span> <span class="n">al</span> <span class="n">día</span><span class="o">.</span> <span class="nc">Se</span> <span class="n">determinó</span> <span class="n">que</span> <span class="n">todos</span> <span class="n">los</span> <span class="n">inhibidores</span> <span class="n">de</span> <span class="nc">SGLT2</span> <span class="n">deben</span> <span class="n">suspenderse</span> <span class="n">indefinidamente</span><span class="o">.</span> <span class="nc">Tuvo</span> <span class="n">un</span> <span class="n">seguimiento</span> <span class="n">estrecho</span> <span class="n">con</span> <span class="n">endocrinología</span> <span class="n">post</span> <span class="n">alta</span><span class="o">.'</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">test_sentence</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">snomed_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----+-------------------------------+-------------+--------------+
+|    | ner_chunk                     | entity      |   snomed_code|
+|----+-------------------------------+-------------+--------------|
+|  0 | diabetes mellitus gestacional | DIAGNOSTICO |     11687002 |
+|  1 | diabetes mellitus tipo dos    | DIAGNOSTICO |     44054006 |
+|  2 | pancreatitis                  | DIAGNOSTICO |     75694006 |
+|  3 | HTG                           | DIAGNOSTICO |    266569009 |
+|  4 | hepatitis aguda               | DIAGNOSTICO |     37871000 |
+|  5 | obesidad                      | DIAGNOSTICO |      5476005 |
+|  6 | índice de masa corporal       | DIAGNOSTICO |    162859006 |
+|  7 | poliuria                      | DIAGNOSTICO |     56574000 |
+|  8 | polidipsia                    | DIAGNOSTICO |     17173007 |
+|  9 | falta de apetito              | DIAGNOSTICO |     49233005 |
+| 10 | vómitos                       | DIAGNOSTICO |    422400008 |
+| 11 | infección                     | DIAGNOSTICO |     40733004 |
+| 12 | HTG                           | DIAGNOSTICO |    266569009 |
+| 13 | dolor                         | DIAGNOSTICO |     22253000 |
+| 14 | rigidez                       | DIAGNOSTICO |    271587009 |
+| 15 | cetosis                       | DIAGNOSTICO |      2538008 |
+| 16 | infección                     | DIAGNOSTICO |     40733004 |
++----+-------------------------------+-------------+--------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -491,15 +573,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_beto_emotion_analysis</td>
+      <td>robertaresolve_snomed</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP for Healthcare 3.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -507,11 +589,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, document]</td>
+      <td>[ner_chunk_doc, sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[snomed_code]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -522,15 +604,11 @@
       <td>false</td>
     </tr>
     <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
+      <td>Dependencies:</td>
+      <td>roberta_base_biomedical_es</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="data-source">Data Source</h2>
-
-<p><a href="https://huggingface.co/finiteautomata/beto-emotion-analysis">https://huggingface.co/finiteautomata/beto-emotion-analysis</a></p>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -656,7 +734,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/robertaresolve_snomed_es.html">SNOMED Sentence Resolver (Spanish)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/02/bert_base_sequence_classifier_ag_news_en.html">BERT Sequence Classification Base - AG News (bert_base_sequence_classifier_ag_news)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_beto_emotion_analysis_es.html">BERT Sequence Classification - Spanish Emotion Analysis (bert_sequence_classifier_beto_emotion_analysis)</a></div></div></div>
 
 </div>
 </div>

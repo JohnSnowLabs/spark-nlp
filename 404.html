@@ -424,8 +424,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Turkish Sentiment (bert_sequence_classifier_turkish_sentiment)- Spark NLP Model</title><meta name="description" content="DescriptionBert-base Turkish Sentiment ModelThis model is used for Sentiment Analysis, which is based on BERTurk for Turkish Language https://huggingface.co/...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_turkish_sentiment_tr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using sbiobert_base_cased_mli Sentence Bert Embeddings. It...">
+<link rel="canonical" href="/2021/11/09/sbiobertresolve_rxnorm_augmented_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -818,84 +818,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Turkish Sentiment (bert_sequence_classifier_turkish_sentiment)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Turkish Sentiment (bert_sequence_classifier_turkish_sentiment)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>tr</li><li>turkish</li><li>sentiment</li><li>open_source</li><li>sequence_classification</li><li>bert</li><li>berturk</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="tr,turkish,sentiment,open_source,sequence_classification,bert,berturk"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 09, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-09T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>rxnorm</li><li>licensed</li><li>en</li><li>clinical</li><li>entity_resolution</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="rxnorm,licensed,en,clinical,entity_resolution"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<h1 id="bert-base-turkish-sentiment-model">Bert-base Turkish Sentiment Model</h1>
-
-<p>This model is used for Sentiment Analysis, which is based on BERTurk for Turkish Language https://huggingface.co/dbmdz/bert-base-turkish-cased</p>
-
-<h2 id="dataset">Dataset</h2>
-
-<p>The dataset is taken from the studies <a href="#paper-2">[2]</a> and <a href="#paper-3">[3]</a>, and merged.</p>
-
-<ul>
-  <li>
-    <p>The study [2] gathered movie and product reviews. The products are book, DVD, electronics, and kitchen.
-The movie dataset is taken from a cinema Web page (<a href="www.beyazperde.com">Beyazperde</a>) with
-5331 positive and 5331 negative sentences. Reviews in the Web page are marked in
-scale from 0 to 5 by the users who made the reviews. The study considered a review
-sentiment positive if the rating is equal to or bigger than 4, and negative if it is less
-or equal to 2. They also built Turkish product review dataset from an online retailer
-Web page. They constructed benchmark dataset consisting of reviews regarding some
-products (book, DVD, etc.). Likewise, reviews are marked in the range from 1 to 5,
-and majority class of reviews are 5. Each category has 700 positive and 700 negative
-reviews in which average rating of negative reviews is 2.27 and of positive reviews
-is 4.5. This dataset is also used by the study <a href="#paper-1">[1]</a>.</p>
-  </li>
-  <li>
-    <p>The study <a href="#paper-3">[3]</a> collected tweet dataset. They proposed a new approach for automatically classifying the sentiment of microblog messages. The proposed approach is based on utilizing robust feature representation and fusion.</p>
-  </li>
-</ul>
-
-<p><em>Merged Dataset</em></p>
-
-<table>
-  <thead>
-    <tr>
-      <th><em>size</em></th>
-      <th><em>data</em></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>8000</td>
-      <td>dev.tsv</td>
-    </tr>
-    <tr>
-      <td>8262</td>
-      <td>test.tsv</td>
-    </tr>
-    <tr>
-      <td>32000</td>
-      <td>train.tsv</td>
-    </tr>
-    <tr>
-      <td><em>48290</em></td>
-      <td><em>total</em></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="the-dataset-is-used-by-following-papers">The dataset is used by following papers</h3>
-
-<p><a id="paper-1">[1]</a> Yildirim, SavasÌ§. (2020). Comparing Deep Neural Networks to Traditional Models for Sentiment Analysis in Turkish Language. 10.1007/978-981-15-1216-2_12.</p>
-
-<p><a id="paper-2">[2]</a> Demirtas, Erkin and Mykola Pechenizkiy. 2013. Cross-lingual polarity detection with machine translation. In Proceedings of the Second International Workshop on Issues of Sentiment
-Discovery and Opinion Mining (WISDOM â€™13)</p>
-
-<p><a id="paper-3">[3]</a> Hayran, A.,   Sert, M. (2017), “Sentiment Analysis on Microblog Data based on Word Embedding and Fusion Techniques”, IEEE 25th Signal Processing and Communications Applications Conference (SIU 2017), Belek, Turkey</p>
+<p>This model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings. It trained on the augmented version of the dataset which is used in previous RxNorm resolver models. Additionally, this model returns concept classes of the drugs in <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> column.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">negative</code>, <code class="language-plaintext highlighter-rouge">positive</code></p>
+<p><code class="language-plaintext highlighter-rouge">RxNorm Codes</code>, <code class="language-plaintext highlighter-rouge">Concept Classes</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_turkish_sentiment_tr_3.3.2_3.0_1635935288807.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_augmented_en_3.3.1_2.4_1636472410154.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -903,51 +840,65 @@ Discovery and Opinion Mining (WISDOM â€™13)</p>
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
+    
+<span class="n">rxnorm_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_rxnorm_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"rxnorm_code"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_turkish_sentiment'</span><span class="p">,</span> <span class="s">'tr'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">rxnorm_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sbert_embedder</span><span class="p">,</span>
+        <span class="n">rxnorm_resolver</span><span class="p">])</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
-<span class="p">])</span>
-
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'bu telefon modelleri çok kaliteli , her parçası çok özel bence'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">clinical_note</span> <span class="o">=</span> <span class="s">"""
+She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
+levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
+Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily."""</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'sbiobert_base_cased_ml</span><span class="n">i</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')\</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">rxnorm_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_rxnorm_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span> <span class="o">\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)\</span>
+      <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_sequence_classifier_turkish_sentiment"</span><span class="o">,</span> <span class="s">"tr"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rxnorm_pipelineModel</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">rxnorm_resolver</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
+levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
+Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">bu</span> <span class="kt">telefon</span> <span class="kt">modelleri</span> <span class="kt">çok</span> <span class="kt">kaliteli</span> , <span class="kt">her</span> <span class="kt">parçası</span> <span class="kt">çok</span> <span class="kt">özel</span> <span class="kt">bence</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+|            chunk|begin|end|         entity|confidence|RxNormCode|                                         all_codes|                                       resolutions|                                     Concept Class|
++-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+|       folic acid|  121|130|Drug_Ingredient|   0.59705|      4511|4511:::1162058:::1162059:::62356:::1376005:::54...|folic acid:::folic acid oral product:::folic ac...|Ingredient:::Clinical Dose Group:::Clinical Dos...|
+|    levothyroxine|  144|156|Drug_Ingredient|    0.6059|     10582|10582:::1868004:::40144:::1602753:::1602745:::2...|levothyroxine:::levothyroxine injection:::levot...|Ingredient:::Clinical Drug Form:::Precise Ingre...|
+|          aspirin|  219|225|Drug_Ingredient|    0.9814|      1191|1191:::405403:::218266:::1154070:::215568:::202...|aspirin:::ysp aspirin:::med aspirin:::aspirin p...|Ingredient:::Brand Name:::Brand Name:::Clinical...|
+|magnesium citrate|  313|329|Drug_Ingredient|   0.53295|     52356|52356:::29155:::1314220:::1006900:::52358:::291...|magnesium citrate:::magnesium carbonate:::magne...|Ingredient:::Ingredient:::Precise Ingredient:::...|
+|          insulin|  376|382|Drug_Ingredient|    0.4832|    139825|139825:::1740938:::274783:::86009:::1605101:::5...|insulin detemir:::insulin argine:::insulin glar...|Ingredient:::Ingredient:::Ingredient:::Ingredie...|
++-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -955,15 +906,15 @@ Discovery and Opinion Mining (WISDOM â€™13)</p>
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_turkish_sentiment</td>
+      <td>sbiobertresolve_rxnorm_augmented</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP for Healthcare 3.3.1+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -971,31 +922,23 @@ Discovery and Opinion Mining (WISDOM â€™13)</p>
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, document]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[rxnorm_code]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>tr</td>
+      <td>en</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="data-source">Data Source</h2>
-
-<p><a href="https://huggingface.co/savasy/bert-base-turkish-sentiment-cased">https://huggingface.co/savasy/bert-base-turkish-sentiment-cased</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1120,7 +1063,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/bert_sequence_classifier_sentiment_de.html">BERT Sequence Classification - German Sentiment Analysis (bert_sequence_classifier_sentiment)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/07/bert_sequence_classifier_song_lyrics_en.html">BERT Sequence Classifier - Classify the Music Genre</a></div></div></div>
 
 </div>
 </div>
