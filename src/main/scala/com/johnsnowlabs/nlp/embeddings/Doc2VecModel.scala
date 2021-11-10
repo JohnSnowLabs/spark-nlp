@@ -99,13 +99,11 @@ class Doc2VecModel(override val uid: String)
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
   setDefault(
-    vectorSize -> 100,
-    dimension -> 100
+    vectorSize -> 100
   )
 
   private def calculateSentenceEmbeddings(matrix: Seq[Array[Float]]): Array[Float] = {
     val res = Array.ofDim[Float](matrix.head.length)
-    setDimension(matrix.head.length)
 
     matrix.head.indices.foreach {
       j =>
@@ -155,7 +153,7 @@ class Doc2VecModel(override val uid: String)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
-    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
+    dataset.withColumn(getOutputCol, wrapSentenceEmbeddingsMetadata(dataset.col(getOutputCol), $(vectorSize), Some($(storageRef))))
   }
 }
 
