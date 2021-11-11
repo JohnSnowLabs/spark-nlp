@@ -14953,10 +14953,24 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     """
     name = "Doc2VecModel"
 
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.Doc2VecModel", java_model=None):
         super(Doc2VecModel, self).__init__(
             classname=classname,
             java_model=java_model
+        )
+        self._setDefault(
+            vectorSize=100
         )
 
     @staticmethod
