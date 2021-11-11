@@ -22,7 +22,7 @@ import com.johnsnowlabs.storage.HasStorageRef
 
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.mllib.feature.Word2Vec
-import org.apache.spark.ml.param.{DoubleParam, IntParam, ParamValidators}
+import org.apache.spark.ml.param.{DoubleParam, IntParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
