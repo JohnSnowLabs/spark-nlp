@@ -124,32 +124,46 @@ class Doc2VecModel(override val uid: String)
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    val tokens = annotations
+    val sentences = annotations
       .filter(_.annotatorType == TOKEN)
-      .map(x => x.result)
-      .filter(_.nonEmpty)
+      .groupBy(token => token.metadata("sentence").toInt)
+      .toSeq.sortBy(_._1)
 
-    if (tokens.nonEmpty) {
-      val emptyVector = Array.fill($(vectorSize))(0.0f)
-      val vectors = tokens.map { tokne =>
-        $$(wordVectors).getOrElse(tokne, emptyVector)
+    if (sentences.nonEmpty) {
+      sentences.map { case (index, sentence) =>
+
+        val tokens = sentence
+          .map(x => x.result)
+          .filter(_.nonEmpty)
+
+        val oovVector = Array.fill($(vectorSize))(0.0f)
+        val vectors = tokens.map { tokne =>
+          $$(wordVectors).getOrElse(tokne, oovVector)
+        }
+
+        val sentEmbeddings = calculateSentenceEmbeddings(vectors)
+
+        /**
+         * begin: the begin index of the document/sentence should be taken from the first token
+         * end: the end index of the document/sentence should be taken from the last token
+         * result: we are just going to merge the tokens back together to make a document/sentence
+         */
+        Annotation(
+          annotatorType = outputAnnotatorType,
+          begin = sentence.head.begin,
+          end = sentence.last.end,
+          result = tokens.mkString(" "),
+          metadata = Map("sentence" -> index.toString,
+            "token" -> tokens.mkString(" "),
+            "pieceId" -> "-1",
+            "isWordStart" -> "true"
+          ),
+          embeddings = sentEmbeddings
+        )
       }
 
-      val sentEmbeddings = calculateSentenceEmbeddings(vectors)
-      Seq(Annotation(
-        annotatorType = outputAnnotatorType,
-        begin = 0,
-        end = 1,
-        result = "",
-        metadata = Map("sentence" -> "0",
-          "token" -> "",
-          "pieceId" -> "-1",
-          "isWordStart" -> "true"
-        ),
-        embeddings = sentEmbeddings
-      ))
-
-    } else Seq.empty[Annotation]
+    }
+    else Seq.empty[Annotation]
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
