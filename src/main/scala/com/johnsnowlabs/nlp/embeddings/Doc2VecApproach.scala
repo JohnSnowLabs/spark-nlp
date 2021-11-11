@@ -83,11 +83,14 @@ class Doc2VecApproach(override val uid: String)
    * @group param
    */
   val vectorSize = new IntParam(
-    this, "vectorSize", "the dimension of codes after transforming from words (> 0)",
-    ParamValidators.gt(0))
+    this, "vectorSize", "the dimension of codes after transforming from words (> 0)")
 
   /** @group setParam */
-  def setVectorSize(value: Int): this.type = set(vectorSize, value)
+  def setVectorSize(value: Int): this.type = {
+    require(value > 0, s"vector size must be positive but got $value")
+    set(vectorSize, value)
+    this
+  }
 
   /** @group getParam */
   def getVectorSize: Int = $(vectorSize)
@@ -99,11 +102,14 @@ class Doc2VecApproach(override val uid: String)
    * @group expertParam
    */
   val windowSize = new IntParam(
-    this, "windowSize", "the window size (context words from [-window, window]) (> 0)",
-    ParamValidators.gt(0))
+    this, "windowSize", "the window size (context words from [-window, window]) (> 0)")
 
   /** @group expertSetParam */
-  def setWindowSize(value: Int): this.type = set(windowSize, value)
+  def setWindowSize(value: Int): this.type = {
+    require(value > 0, s"Window of words must be positive but got $value")
+    set(windowSize, value)
+    this
+  }
 
   /** @group expertGetParam */
   def getWindowSize: Int = $(windowSize)
@@ -115,11 +121,14 @@ class Doc2VecApproach(override val uid: String)
    * @group param
    */
   val numPartitions = new IntParam(
-    this, "numPartitions", "number of partitions for sentences of words (> 0)",
-    ParamValidators.gt(0))
+    this, "numPartitions", "number of partitions for sentences of words (> 0)")
 
   /** @group setParam */
-  def setNumPartitions(value: Int): this.type = set(numPartitions, value)
+  def setNumPartitions(value: Int): this.type = {
+    require(value > 0, s"Number of partitions must be positive but got $value")
+    set(numPartitions, value)
+    this
+  }
 
   /** @group getParam */
   def getNumPartitions: Int = $(numPartitions)
@@ -132,10 +141,14 @@ class Doc2VecApproach(override val uid: String)
    * @group param
    */
   val minCount = new IntParam(this, "minCount", "the minimum number of times a token must " +
-    "appear to be included in the word2vec model's vocabulary (>= 0)", ParamValidators.gtEq(0))
+    "appear to be included in the word2vec model's vocabulary (>= 0)")
 
   /** @group setParam */
-  def setMinCount(value: Int): this.type = set(minCount, value)
+  def setMinCount(value: Int): this.type = {
+    require(value > 0, s"Minimum number of times must be nonnegative but got $value")
+    set(minCount, value)
+    this
+  }
 
   /** @group getParam */
   def getMinCount: Int = $(minCount)
@@ -150,10 +163,14 @@ class Doc2VecApproach(override val uid: String)
    */
   val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Maximum length " +
     "(in words) of each sentence in the input data. Any sentence longer than this threshold will " +
-    "be divided into chunks up to the size (> 0)", ParamValidators.gt(0))
+    "be divided into chunks up to the size (> 0)")
 
   /** @group setParam */
-  def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
+  def setMaxSentenceLength(value: Int): this.type = {
+    require(value > 0, s"Maximum length of sentences must be positive but got $value")
+    set(maxSentenceLength, value)
+    this
+  }
 
   /** @group getParam */
   def getMaxSentenceLength: Int = $(maxSentenceLength)
@@ -163,10 +180,14 @@ class Doc2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val stepSize: DoubleParam = new DoubleParam(this, "stepSize", "Step size (learning rate) to be used for each iteration of optimization (> 0)", ParamValidators.gt(0))
+  val stepSize: DoubleParam = new DoubleParam(this, "stepSize", "Step size (learning rate) to be used for each iteration of optimization (> 0)")
 
   /** @group setParam */
-  def setStepSize(value: Double): this.type = set(stepSize, value)
+  def setStepSize(value: Double): this.type = {
+    require(value > 0, s"Initial step size must be positive but got $value")
+    set(stepSize, value)
+    this
+  }
 
   /** @group getParam */
   def getStepSize: Double = $(stepSize)
@@ -176,10 +197,14 @@ class Doc2VecApproach(override val uid: String)
    *
    * @group param
    */
-  val maxIter: IntParam = new IntParam(this, "maxIter", "maximum number of iterations (>= 0)", ParamValidators.gtEq(0))
+  val maxIter: IntParam = new IntParam(this, "maxIter", "maximum number of iterations (>= 0)")
 
   /** @group setParam */
-  def setMaxIter(value: Int): this.type = set(maxIter, value)
+  def setMaxIter(value: Int): this.type = {
+    require(value > 0, s"Number of iterations must be positive but got $value")
+    set(maxIter, value)
+    this
+  }
 
   /** @group getParam */
   def getMaxIter: Int = $(maxIter)
@@ -191,7 +216,14 @@ class Doc2VecApproach(override val uid: String)
   val seed = new IntParam(this, "seed", "Random seed")
 
   /** @group setParam */
-  def setSeed(value: Int): Doc2VecApproach.this.type = set(seed, value)
+  def setSeed(value: Int): Doc2VecApproach.this.type = {
+    require(value > 0, s"random seed must be positive but got $value")
+    set(seed, value)
+    this
+  }
+
+  /** @group getParam */
+  def getSeed: Int = $(seed)
 
   setDefault(
     vectorSize -> 100,
