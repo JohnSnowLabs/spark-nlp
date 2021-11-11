@@ -228,4 +228,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Detect Adverse Drug Events (Bert For Token Classification)
+          id: detect_adverse_drug_events_bertfortokenclassification
+          image: 
+              src: /assets/images/Detect_Adverse_Drug_Events.svg
+          image2: 
+              src: /assets/images/Detect_Adverse_Drug_Events_f.svg
+          excerpt: This demo shows how adverse reactions of drugs in medical text can be detected using Spark NLP model which trained with BertForTokenClassifier.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Detect Anatomical and Observation Entities in Chest Radiology Reports
+          id: detect_anatomical_observation_entities_chest_radiology_reports 
+          image: 
+              src: /assets/images/Detect_Anatomical_and_Observation_Entities_in_Chest_Radiology_Reports.svg
+          image2: 
+              src: /assets/images/Detect_Anatomical_and_Observation_Entities_in_Chest_Radiology_Reports_f.svg
+          excerpt: This demo shows how Anatomical and Observation entities can be extracted from Chest Radiology Reports using Spark NLP model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

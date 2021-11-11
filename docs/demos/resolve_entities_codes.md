@@ -134,5 +134,33 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_LOINC/
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb             
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb    
+        - title: Sentence Entity Resolver for billable ICD10-CM HCC codes
+          id: resolve_clinical_entities_codes_loinc
+          image: 
+              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC.svg
+          image2: 
+              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_f.svg
+          excerpt: This demo shows how the extracted medical entities can be mapped to ICD-10 CM-HCC codes using Spark NLP for Healthcare sentence resolvers.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb  
+        - title: Sentence Entity Resolver for ICD10-CM codes (Generalized version)
+          id: resolve_clinical_entities_codes_loinc
+          image: 
+              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports.svg
+          image2: 
+              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports_f.svg
+          excerpt: This demo shows how the extracted medical entities can be mapped to ICD-10 CM generalized codes using Spark NLP for Healthcare sentence resolvers.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb          
 ---
