@@ -650,3 +650,46 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 
 - Since you are downloading and loading models/pipelines manually, this means Spark NLP is not downloading the most recent and compatible models/pipelines for you. Choosing the right model/pipeline is on you
 - If you are local, you can load the model/pipeline from your local FileSystem, however, if you are in a cluster setup you need to put the model/pipeline on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., `hdfs:///tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/`)
+
+## Amazon Linux 2 Support
+
+```bash
+# Update Package List & Install  Required Packages
+sudo yum update
+sudo yum install -y amazon-linux-extras
+sudo yum -y install python3-pip
+
+# Create Python virtual environment and activate it:
+python3 -m venv .sparknlp-env
+source .sparknlp-env/bin/activate
+```
+
+Check JAVA version: 
+- For Sparknlp versions above 3.x, please use JAVA-11
+- For Sparknlp versions below 3.x and SparkOCR, please use JAVA-8
+
+Checking Java versions installed on your machine: 
+```bash
+sudo alternatives --config java
+```
+
+You can pick the index number (I am using java-8 as default - index 2):
+
+</div><div class="h3-box" markdown="1">
+
+<img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+</div><div class="h3-box" markdown="1">
+
+If you dont have java-11 or java-8 in you system, you can easily install via:
+
+```bash
+sudo yum install java-1.8.0-openjdk
+```
+
+Now, we can start installing the required libraries:
+
+```bash
+pip install pyspark==3.1.2
+pip install spark-nlp
+```
