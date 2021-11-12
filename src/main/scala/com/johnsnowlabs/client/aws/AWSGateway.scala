@@ -31,7 +31,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 
-class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: String,
+class AWSGateway(val accessKeyId: String, val secretAccessKey: String, sessionToken: String,
                  awsProfile: String, region: String, credentialsType: String = "default") extends AutoCloseable {
 
   protected val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
