@@ -1,2 +1,2 @@
-docs/_posts/muhammetsnts/2021-06-01-redl_date_clinical_biobert_en.md
-docs/_posts/muhammetsnts/2021-06-01-redl_date_clinical_biobert_en.md
+docs/assets/images/installation/amazon-linux.png
+docs/assets/images/installation/amazon-linux.png
