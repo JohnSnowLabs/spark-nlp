@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Sequence Classification - Detect Smam SMS
+title: BERT Sequence Classification - Detect Spam SMS
 author: John Snow Labs
 name: bert_sequence_classifier_sms_spam
 date: 2021-11-07
