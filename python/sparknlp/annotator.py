@@ -14974,7 +14974,7 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
         )
 
     @staticmethod
-    def pretrained(name="doc2vec_wiki", lang="en", remote_loc=None):
+    def pretrained(name="doc2vec_wiki_100_uncased", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

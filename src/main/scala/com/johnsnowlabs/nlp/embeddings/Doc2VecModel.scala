@@ -174,7 +174,7 @@ class Doc2VecModel(override val uid: String)
 trait ReadablePretrainedDoc2Vec
   extends ParamsAndFeaturesReadable[Doc2VecModel]
     with HasPretrained[Doc2VecModel] {
-  override val defaultModelName: Some[String] = Some("doc2vec_wiki")
+  override val defaultModelName: Some[String] = Some("doc2vec_wiki_100_uncased")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): Doc2VecModel = {
     ResourceDownloader.downloadModel(Doc2VecModel, name, Option(lang), remoteLoc)
