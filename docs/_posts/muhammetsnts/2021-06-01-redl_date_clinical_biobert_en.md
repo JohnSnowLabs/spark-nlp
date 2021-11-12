@@ -36,7 +36,6 @@ Identify if tests were conducted on a particular date or any diagnosis was made 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-
 documenter = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
@@ -102,7 +101,6 @@ result = p_model.transform(data)
 ```
 ```scala
 ...
-
 val documenter = DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
