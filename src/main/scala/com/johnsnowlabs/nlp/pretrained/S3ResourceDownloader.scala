@@ -38,13 +38,14 @@ class S3ResourceDownloader(bucket: => String,
 
   val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] = mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
-  var gateway:Option[AWSGateway] = None
+  var gateway: Option[AWSGateway] = None
 
   if (!fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)
   }
 
-  def awsGateway = { gateway = gateway.filter(isUpToDate).orElse {
+  def awsGateway: AWSGateway = {
+    gateway = gateway.filter(isUpToDate).orElse {
     Some(new AWSGateway(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId),
       ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey),
       ConfigLoader.getConfigStringValue(ConfigHelper.sessionToken),
@@ -54,9 +55,10 @@ class S3ResourceDownloader(bucket: => String,
     gateway.get
   }
 
-  private def isUpToDate(g: AWSGateway):Boolean =
+  private def isUpToDate(g: AWSGateway): Boolean = {
     g.secretAccessKey.equals(ConfigLoader.getConfigStringValue(ConfigHelper.secretAccessKey)) &&
       g.accessKeyId.equals(ConfigLoader.getConfigStringValue(ConfigHelper.accessKeyId))
+  }
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)

@@ -41,7 +41,7 @@ object ConfigLoader {
 
   private def loadConfigData(): Map[String, String] = {
 
-    getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
+      getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
       getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
       getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
       getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
@@ -73,17 +73,17 @@ object ConfigLoader {
     }
   }
 
-  def refreshConfig() = this.synchronized {
+  def refreshConfig(): Map[String, String] = this.synchronized {
     configMap = None
     configData()
   }
 
   def getConfigStringValue(property: String): String = this.synchronized {
-    configData.getOrElse(property, "")
+    configData().getOrElse(property, "")
   }
 
   def getConfigIntValue(property: String): Int = this.synchronized {
-    val value: String = configData.getOrElse(property, "0")
+    val value: String = configData().getOrElse(property, "0")
     toInt(value) match {
       case Success(value) => value
       case Failure(_) => 0
@@ -91,7 +91,7 @@ object ConfigLoader {
   }
 
   def getConfigBooleanValue(property: String): Boolean = this.synchronized {
-    val value: String = configData.getOrElse(property, "true")
+    val value: String = configData().getOrElse(property, "true")
     toBoolean(value) match {
       case Success(value) => value
       case Failure(_) => true
