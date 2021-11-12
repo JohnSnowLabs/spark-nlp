@@ -24,7 +24,7 @@ import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.types.{DoubleType, FloatType, IntegerType, StringType}
+import org.apache.spark.sql.types.{DoubleType, FloatType, IntegerType, LongType, StringType}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 import scala.util.Random
@@ -308,9 +308,9 @@ class SentimentDLApproach(override val uid: String)
 
     val labelColType = dataset.schema($(labelColumn)).dataType
     require(
-      labelColType == StringType | labelColType == IntegerType | labelColType == DoubleType | labelColType == FloatType,
+      labelColType == StringType | labelColType == IntegerType | labelColType == DoubleType | labelColType == FloatType | labelColType == LongType,
       s"The label column $labelColumn type is $labelColType and it's not compatible. " +
-        s"Compatible types are StringType, IntegerType, DoubleType, or FloatType. "
+        s"Compatible types are StringType, IntegerType, DoubleType, LongType, or FloatType. "
     )
 
     val embeddingsRef = HasStorageRef.getStorageRefFromInput(dataset, $(inputCols), AnnotatorType.SENTENCE_EMBEDDINGS)
