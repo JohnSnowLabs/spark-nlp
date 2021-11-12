@@ -97,7 +97,6 @@ text ="This 73 y/o patient had CT on 1/12/95, with progressive memory and cognit
 data = spark.createDataFrame([[text]]).toDF("text")
 p_model = pipeline.fit(data)
 result = p_model.transform(data)
-
 ```
 ```scala
 ...
