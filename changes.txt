@@ -1,2 +1,4 @@
+src/main/scala/com/johnsnowlabs/ml/tensorflow/TensorflowMarian.scala
 src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala
+src/main/scala/com/johnsnowlabs/ml/tensorflow/TensorflowMarian.scala
 src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala
