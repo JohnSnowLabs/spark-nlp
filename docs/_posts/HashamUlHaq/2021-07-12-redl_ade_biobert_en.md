@@ -36,15 +36,26 @@ This model is an end-to-end trained BioBERT model, capable of Relating Drugs and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+documenter = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = sparknlp.annotators.Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = NerDLModel() \
-    .pretrained("ner_ade_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags") 
 
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
@@ -64,7 +75,8 @@ dependency_parser = sparknlp.annotators.DependencyParserModel()\
 re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks").setRelationPairs(['ade-drug', 'drug-ade'])
+    .setOutputCol("re_ner_chunks")\
+    .setRelationPairs(['ade-drug', 'drug-ade'])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -82,13 +94,24 @@ p_model = pipeline.fit(spark.createDataFrame([[text]]).toDF("text"))
 result = p_model.transform(data)
 ```
 ```scala
+val documenter = DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val sentencer = SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = sparknlp.annotators.Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
-val ner_tagger = NerDLModel()
-    .pretrained("ner_ade_clinical", "en", "clinical/models")
+val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags")
 
@@ -110,7 +133,8 @@ val dependency_parser = DependencyParserModel()
 val re_ner_chunk_filter = RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
-    .setOutputCol("re_ner_chunks").setRelationPairs(Array("drug-ade", "ade-drug"))
+    .setOutputCol("re_ner_chunks")
+    .setRelationPairs(Array("drug-ade", "ade-drug"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.

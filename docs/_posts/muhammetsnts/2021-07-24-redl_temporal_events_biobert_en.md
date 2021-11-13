@@ -36,15 +36,31 @@ Extract relations between clinical events in terms of time. If an event occurred
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+documenter = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = sparknlp.annotators.Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = MedicalNerModel() \
-    .pretrained("ner_events_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags") 
 
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
@@ -76,15 +92,31 @@ result = p_model.transform(data)
 ```
 ```scala
 ...
+val documenter = DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val sentencer = SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = sparknlp.annotators.Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models") 
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
-    
-val ner_tagger = MedicalNerModel()
-    .pretrained("ner_events_clinical", "en", "clinical/models")
+
+val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags")
+    .setOutputCol("ner_tags") 
     
 val ner_converter = NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))

@@ -35,17 +35,36 @@ Extract relations like `TrIP` : a certain treatment has improved a medical probl
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+documenter = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = sparknlp.annotators.Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
-ner_tagger = NerDLModel() \
-    .pretrained("ner_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
+
+ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags")
+
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
+
 dependency_parser = DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["sentences", "pos_tags", "tokens"]) \
@@ -55,7 +74,8 @@ dependency_parser = DependencyParserModel() \
 re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks").setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
+    .setOutputCol("re_ner_chunks")\
+    .setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -64,6 +84,7 @@ re_model = RelationExtractionDLModel()\
     .setPredictionThreshold(0.5)\
     .setInputCols(["re_ner_chunks", "sentences"]) \
     .setOutputCol("relations")
+    
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model])
 
 text ="""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation,  associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .
@@ -75,17 +96,36 @@ result = p_model.transform(data)
 
 ```scala
 ...
+val documenter = DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val sentencer = SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = sparknlp.annotators.Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models") 
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
-val ner_tagger = NerDLModel()
-    .pretrained("ner_clinical", "en", "clinical/models")
+
+val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags")
+    .setOutputCol("ner_tags") 
+
 val ner_converter = NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
+
 val dependency_parser = DependencyParserModel()
     .pretrained("dependency_conllu", "en")
     .setInputCols(Array("sentences", "pos_tags", "tokens"))
@@ -95,7 +135,8 @@ val dependency_parser = DependencyParserModel()
 val re_ner_chunk_filter = RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
-    .setOutputCol("re_ner_chunks").setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
+    .setOutputCol("re_ner_chunks")
+    .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -104,6 +145,7 @@ val re_model = RelationExtractionDLModel()
     .setPredictionThreshold(0.5)
     .setInputCols(Array("re_ner_chunks", "sentences"))
     .setOutputCol("relations")
+
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation,  associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting .").toDF("text")
