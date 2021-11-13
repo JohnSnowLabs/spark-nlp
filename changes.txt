@@ -1,2 +1,2 @@
-docs/assets/images/installation/amazon-linux.png
-docs/assets/images/installation/amazon-linux.png
+src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala
+src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala
