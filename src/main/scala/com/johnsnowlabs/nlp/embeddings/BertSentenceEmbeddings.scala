@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import java.io.File
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -25,11 +24,12 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, Word
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam, BooleanParam}
+import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
+
+import scala.collection.mutable.ArrayBuffer
 
 /**
   * Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
@@ -317,21 +317,38 @@ class BertSentenceEmbeddings(override val uid: String)
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     /*Return empty if the real sentences are empty*/
-    batchedAnnotations.map(annotations => {
-      val sentences = SentenceSplit.unpack(annotations).toArray
 
-      if (sentences.nonEmpty) {
-        val tokenized = tokenize(sentences)
-        getModelIfNotSet.calculateSentenceEmbeddings(
-          tokenized,
-          sentences,
-          $(batchSize),
-          $(maxSentenceLength),
-          getIsLong
-        )
-      } else {
+    //Unpack annotations and zip each sentence to the index or the row it belongs to
+    val sentencesWithRow = batchedAnnotations
+      .zipWithIndex
+      .flatMap { case (annotations, i) => SentenceSplit.unpack(annotations).map(x => (x, i)) }
+
+    //Tokenize sentences
+    val tokenizedSentences = tokenize(sentencesWithRow.map(_._1))
+
+    //Process all sentences
+    val allAnnotations = getModelIfNotSet.calculateSentenceEmbeddings(
+      tokenizedSentences,
+      sentencesWithRow.map(_._1),
+      $(batchSize),
+      $(maxSentenceLength),
+      getIsLong
+    )
+
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = allAnnotations
+        //zip each annotation with its corresponding row index
+        .zip(sentencesWithRow)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
         Seq.empty[Annotation]
-      }
     })
   }
 
