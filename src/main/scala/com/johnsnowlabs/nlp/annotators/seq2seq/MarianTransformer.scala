@@ -278,7 +278,7 @@ class MarianTransformer(override val uid: String) extends
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptySentences = batchedAnnotations.filter(x => x.nonEmpty)
+    val nonEmptySentences = batchedAnnotations.map(x => x.filter(_.result.nonEmpty))
 
     if (nonEmptySentences.nonEmpty) nonEmptySentences.map(tokenizedSentences => {
       this.getModelIfNotSet.generateSeq2Seq(
