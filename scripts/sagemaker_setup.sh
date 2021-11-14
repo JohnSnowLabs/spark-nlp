@@ -13,10 +13,11 @@ SPARK_FOLDER_NAME="spark-$PYSPARK-bin-hadoop2.7"
 LOCAL_ROOT_DIR="/home/ec2-user/SageMaker"
 SPARKHOME="$LOCAL_ROOT_DIR/$SPARK_FOLDER_NAME"
 APACHE_DL_URL="https://downloads.apache.org/spark"
+
 TARGZ_URL_TO_DOWNLOAD="$APACHE_DL_URL/spark-$PYSPARK/$SPARK_FOLDER_NAME.tgz"
 
 echo "Beginning download of Spark"
-wget -q "$APACHE_DL_URL/spark-$PYSPARK/$SPARK_FOLDER_NAME.tgz" >/dev/null
+wget -q $TARGZ_URL_TO_DOWNLOAD >/dev/null
 echo "Download done, beginning extraction."
 tar -xvf "$SPARK_FOLDER_NAME.tgz" -C $LOCAL_ROOT_DIR >/dev/null
 echo "Spark has been downloaded and extracted, removing .tgz file now."
