@@ -20,7 +20,7 @@ echo "Beginning download of Spark"
 wget -q $TARGZ_URL_TO_DOWNLOAD >/dev/null
 echo "Download done, beginning extraction."
 tar -xvf "$SPARK_FOLDER_NAME.tgz" -C $LOCAL_ROOT_DIR >/dev/null
-echo "Spark has been downloaded and extracted, removing .tgz file now."
+echo "Spark has been downloaded and extracted to $SPARKHOME, removing .tgz file now."
 rm "$SPARK_FOLDER_NAME.tgz"
 
 export SPARK_HOME=$SPARKHOME
