@@ -324,25 +324,7 @@ class BertEmbeddings(override val uid: String)
       else
         Seq.empty[Annotation]
     })
-//
-//    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-//      TokenizedWithSentence.unpack(annotations).toArray
-//    ).toArray
-//    /*Return empty if the real tokens are empty*/
-//    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-//      val tokenized = tokenizeWithAlignment(tokenizedSentences)
-//
-//      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
-//        tokenized,
-//        tokenizedSentences,
-//        $(batchSize),
-//        $(maxSentenceLength),
-//        $(caseSensitive)
-//      )
-//      WordpieceEmbeddingsSentence.pack(withEmbeddings)
-//    }) else {
-//      Seq(Seq.empty[Annotation])
-//    }
+
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
