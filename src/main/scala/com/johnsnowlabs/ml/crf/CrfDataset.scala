@@ -18,11 +18,11 @@ package com.johnsnowlabs.ml.crf
 
 case class CrfDataset
 (
-  instances: Seq[(InstanceLabels, Instance)],
+  instances: collection.Seq[(InstanceLabels, Instance)],
   metadata: DatasetMetadata
 )
 
-case class InstanceLabels(labels: Seq[Int])
-case class Instance(items: Seq[SparseArray])
+case class InstanceLabels(labels: collection.Seq[Int])
+case class Instance(items: collection.Seq[SparseArray])
 
 

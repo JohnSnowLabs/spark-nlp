@@ -25,9 +25,9 @@ import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 
 
-case class TextSentenceLabels(labels: Seq[String])
-case class TextSentenceAttrs(words: Seq[WordAttrs])
-case class WordAttrs(strAttrs: Seq[(String, String)], numAttrs: Array[Float] = Array.empty)
+case class TextSentenceLabels(labels: collection.Seq[String])
+case class TextSentenceAttrs(words: collection.Seq[WordAttrs])
+case class WordAttrs(strAttrs: collection.Seq[(String, String)], numAttrs: Array[Float] = Array.empty)
 
 
 object DatasetReader {
