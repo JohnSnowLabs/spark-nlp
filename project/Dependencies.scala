@@ -56,7 +56,7 @@ object Dependencies {
   }
 
   /** ------- Scala version start ------- */
-  lazy val scala213 = "2.13.6"
+  lazy val scala213 = "2.13.7"
   lazy val scalaVer: String = scala213
 
   lazy val supportedScalaVersions = List(scala213)
