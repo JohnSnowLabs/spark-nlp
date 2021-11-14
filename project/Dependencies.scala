@@ -14,7 +14,7 @@ object Dependencies {
   val is_spark24: String = System.getProperty("is_spark24", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark32)
+  val sparkVer: String = spark32Ver//getSparkVersion(is_spark23, is_spark24, is_spark32)
 
   /** ------- Spark version end ------- */
 
@@ -56,11 +56,10 @@ object Dependencies {
   }
 
   /** ------- Scala version start ------- */
-  lazy val scala211 = "2.11.12"
-  lazy val scala212 = "2.12.10"
-  lazy val scalaVer: String = if (is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
+  lazy val scala213 = "2.13.6"
+  lazy val scalaVer: String = scala213
 
-  lazy val supportedScalaVersions = List(scala212, scala211)
+  lazy val supportedScalaVersions = List(scala213)
 
   val scalaTestVersion = "3.2.9"
 
@@ -87,7 +86,7 @@ object Dependencies {
 
   val json4sVersion: String = if (is_spark32 == "true") "3.7.0-M11" else "3.5.3"
 
-  val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
+  val json4s = "org.json4s" % "json4s-ext_2.12" % json4sVersion
 
   val trove4jVersion = "3.0.3"
   val trove4j = "net.sf.trove4j" % "trove4j" % trove4jVersion
@@ -95,10 +94,10 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowGPUVersion = "0.3.3"
+  val tensorflowGPUVersion = "0.3.4"
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowGPUVersion
 
-  val tensorflowCPUVersion = "0.3.3"
+  val tensorflowCPUVersion = "0.3.4"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
 
   /** ------- Dependencies end  ------- */
