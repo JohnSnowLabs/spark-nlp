@@ -59,6 +59,7 @@ unittest.TextTestRunner().run(WordSegmenterTestSpec())
 unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 unittest.TextTestRunner().run(GraphExtractionTestSpec())
 unittest.TextTestRunner().run(EntityRulerTestSpec())
+unittest.TextTestRunner().run(Doc2VecTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
@@ -101,10 +102,10 @@ unittest.TextTestRunner().run(EntityRulerTestSpec())
 
 # Misc tests
 
-unittest.TextTestRunner().run(UtilitiesTestSpec())
-unittest.TextTestRunner().run(SerializersTestSpec())
-unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
+# unittest.TextTestRunner().run(UtilitiesTestSpec())
+# unittest.TextTestRunner().run(SerializersTestSpec())
+# unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 
 # Functions tests
-unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
-unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
+# unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
+# unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
