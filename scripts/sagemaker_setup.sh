@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Java setup on SageMaker
 echo "Setup SageMaker for PySpark $PYSPARK and Spark NLP $SPARKNLP"
+
+# Java setup on SageMaker
 JAVA_8=$(alternatives --display java | grep 'jre-1.8.0-openjdk.x86_64/bin/java' | cut -d' ' -f1)
 sudo alternatives --set java $JAVA_8
 
