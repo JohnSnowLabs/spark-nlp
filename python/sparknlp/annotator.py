@@ -14821,3 +14821,176 @@ class BertForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertForSequenceClassification, name, lang, remote_loc)
+
+
+class Doc2VecApproach(AnnotatorApproach, HasStorageRef):
+    """Word2Vec creates vector representation of words in a text corpus. The algorithm first constructs a vocabulary from the corpus and then learns vector representation of words in the vocabulary. The vector representation can be used as features in natural language processing and machine learning algorithms.
+    We use Word2Vec implemented in Spark ML. They used skip-gram model in our implementation and hierarchical softmax method to train the model. The variable names in the implementation matches the original C implementation.
+    For original C implementation, see https://code.google.com/p/word2vec/ For research papers, see Efficient Estimation of Word Representations in Vector Space and
+    Distributed Representations of Words and Phrases and their Compositionality.
+
+    """
+
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    windowSize = Param(Params._dummy(),
+                       "windowSize",
+                       "the window size (context words from [-window, window]) (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    numPartitions = Param(Params._dummy(),
+                          "numPartitions",
+                          "number of partitions for sentences of words (> 0)",
+                          typeConverter=TypeConverters.toInt)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "the minimum number of times a token must " +
+                     "appear to be included in the word2vec model's vocabulary (>= 0)",
+                     typeConverter=TypeConverters.toInt)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "the window size (Maximum length (in words) of each sentence in the input data. Any sentence longer than this threshold will " +
+                              "be divided into chunks up to the size (> 0)",
+                              typeConverter=TypeConverters.toInt)
+
+    stepSize = Param(Params._dummy(),
+                     "stepSize",
+                     "Step size (learning rate) to be used for each iteration of optimization (> 0)",
+                     typeConverter=TypeConverters.toFloat)
+
+    maxIter = Param(Params._dummy(),
+                    "maxIter",
+                    "maximum number of iterations (>= 0)",
+                    typeConverter=TypeConverters.toInt)
+
+    seed = Param(Params._dummy(),
+                 "seed",
+                 "Random seed",
+                 typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
+    def setWindowSize(self, windowSize):
+        """
+        Sets window size (default: 5).
+        """
+        return self._set(windowSize=windowSize)
+
+    def setStepSize(self, stepSize):
+        """
+        Sets initial learning rate (default: 0.025).
+        """
+        return self._set(stepSize=stepSize)
+
+    def setNumPartitions(self, numPartitions):
+        """
+        Sets number of partitions (default: 1). Use a small number for
+        accuracy.
+        """
+        return self._set(numPartitions=numPartitions)
+
+    def setMaxIter(self, numIterations):
+        """
+        Sets number of iterations (default: 1), which should be smaller
+        than or equal to number of partitions.
+        """
+        return self._set(maxIter=numIterations)
+
+    def setSeed(self, seed):
+        """
+        Sets random seed.
+        """
+        return self._set(seed=seed)
+
+    def setMinCount(self, minCount):
+        """
+        Sets minCount, the minimum number of times a token must appear
+        to be included in the word2vec model's vocabulary (default: 5).
+        """
+        return self._set(minCount=minCount)
+
+    def setMaxSentenceLength(self, maxSentenceLength):
+        """
+        Maximum length (in words) of each sentence in the input data.
+        Any sentence longer than this threshold will be divided into
+        chunks up to the size (> 0)
+        """
+        return self._set(maxSentenceLength=maxSentenceLength)
+
+    @keyword_only
+    def __init__(self):
+        super(Doc2VecApproach, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.Doc2VecApproach")
+        self._setDefault(
+            vectorSize=100,
+            windowSize=5,
+            numPartitions=1,
+            minCount=1,
+            maxSentenceLength=1000,
+            stepSize=0.025,
+            maxIter=1,
+            seed=44
+        )
+
+    def _create_model(self, java_model):
+        return Doc2VecModel(java_model=java_model)
+
+
+class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
+    """Word2Vec creates vector representation of words in a text corpus. The algorithm first constructs a vocabulary from the corpus and then learns vector representation of words in the vocabulary. The vector representation can be used as features in natural language processing and machine learning algorithms.
+    We use Word2Vec implemented in Spark ML. They used skip-gram model in our implementation and hierarchical softmax method to train the model. The variable names in the implementation matches the original C implementation.
+    For original C implementation, see https://code.google.com/p/word2vec/ For research papers, see Efficient Estimation of Word Representations in Vector Space and
+    Distributed Representations of Words and Phrases and their Compositionality.
+
+    """
+    name = "Doc2VecModel"
+
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.Doc2VecModel", java_model=None):
+        super(Doc2VecModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            vectorSize=100
+        )
+
+    @staticmethod
+    def pretrained(name="doc2vec_wiki_100_uncased", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "doc2vec_wiki"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        Doc2VecModel
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(Doc2VecModel, name, lang, remote_loc)
