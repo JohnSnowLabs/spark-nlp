@@ -26,20 +26,80 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.DataFrame
 
 /**
- * Word2Vec creates vector representation of words in a text corpus.
+ * Word2Vec model that creates vector representations of words in a text corpus.
+ *
  * The algorithm first constructs a vocabulary from the corpus
  * and then learns vector representation of words in the vocabulary.
  * The vector representation can be used as features in
  * natural language processing and machine learning algorithms.
  *
- * We use Word2Vec implemented in Spark ML. They used skip-gram model in our implementation and hierarchical softmax
- * method to train the model. The variable names in the implementation
- * matches the original C implementation.
+ * We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
+ * method to train the model. The variable names in the implementation match the original C implementation.
  *
- * For original C implementation, see https://code.google.com/p/word2vec/
- * For research papers, see
- * Efficient Estimation of Word Representations in Vector Space
- * and Distributed Representations of Words and Phrases and their Compositionality.
+ * This is the instantiated model of the [[Doc2VecApproach]].
+ * For training your own model, please see the documentation of that class.
+ *
+ * Pretrained models can be loaded with `pretrained` of the companion object:
+ * {{{
+ * val embeddings = Doc2VecModel.pretrained()
+ *   .setInputCols("token")
+ *   .setOutputCol("embeddings")
+ * }}}
+ * The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+ *
+ * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
+ *
+ * '''Sources''' :
+ *
+ * For the original C implementation, see https://code.google.com/p/word2vec/
+ *
+ * For the research paper, see
+ * [[https://arxiv.org/abs/1301.3781 Efficient Estimation of Word Representations in Vector Space]]
+ * and [[https://arxiv.org/pdf/1310.4546v1.pdf Distributed Representations of Words and Phrases and their Compositionality]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import com.johnsnowlabs.nlp.annotator.{Tokenizer, Doc2VecModel}
+ * import com.johnsnowlabs.nlp.EmbeddingsFinisher
+ *
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols(Array("document"))
+ *   .setOutputCol("token")
+ *
+ * val embeddings = Doc2VecModel.pretrained()
+ *   .setInputCols("token")
+ *   .setOutputCol("embeddings")
+ *
+ * val embeddingsFinisher = new EmbeddingsFinisher()
+ *   .setInputCols("embeddings")
+ *   .setOutputCols("finished_embeddings")
+ *   .setOutputAsVector(true)
+ *
+ * val pipeline = new Pipeline().setStages(Array(
+ *   documentAssembler,
+ *   tokenizer,
+ *   embeddings,
+ *   embeddingsFinisher
+ * ))
+ *
+ * val data = Seq("This is a sentence.").toDF("text")
+ * val result = pipeline.fit(data).transform(data)
+ *
+ * result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
+ * +--------------------------------------------------------------------------------+
+ * |                                                                          result|
+ * +--------------------------------------------------------------------------------+
+ * |[0.06222493574023247,0.011579325422644615,0.009919632226228714,0.109361454844...|
+ * +--------------------------------------------------------------------------------+
+ * }}}
  *
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
@@ -74,6 +134,11 @@ class Doc2VecModel(override val uid: String)
    * */
   override val outputAnnotatorType: String = SENTENCE_EMBEDDINGS
 
+  /**
+   * The dimension of codes after transforming from words (> 0) (Default: `100`)
+   *
+   * @group param
+   */
   val vectorSize = new IntParam(
     this, "vectorSize", "the dimension of codes after transforming from words (> 0)",
     ParamValidators.gt(0))
