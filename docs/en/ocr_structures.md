@@ -547,6 +547,7 @@ Convert buffered image to PIL image.
 
 {:.table-model-big}
 | Param name | Type | Default | Description |
+| --- | --- | --- | --- |
 | image | BufferedImage | | buffered image |
 | mode | integer | | mode option from IMAGE_MODE_MAP dict |
 
