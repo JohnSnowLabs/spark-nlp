@@ -14,10 +14,13 @@ sidebar:
 
 ### Getting started
 
-Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don't have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the button below.
+Spark NLP for Healthcare is a commercial extension of Spark NLP for clinical and biomedical text mining. If you don't have a Spark NLP for Healthcare subscription yet, you can ask for a free trial by clicking on the Try Free button and following the instructions provides in the video below.
 
 {:.btn-block}
 [Try Free](https://www.johnsnowlabs.com/spark-nlp-try-free/){:.button.button--primary.button--rounded.button--lg}
+
+A detailed step by step guide on how to obtain and use a trial license for John Snow Labs NLP Libraries is provided in the video below:
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='Au-0dvKo6Xw' -%}<div class="video-descr">Get a FREE license for John Snow Labs NLP Libraries</div></div></div>
 
 
 Spark NLP for Healthcare provides healthcare-specific annotators, pipelines, models, and embeddings for:
