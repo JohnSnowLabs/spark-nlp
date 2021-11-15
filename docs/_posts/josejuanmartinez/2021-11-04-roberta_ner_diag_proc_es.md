@@ -57,7 +57,7 @@ embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
 
 ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")\
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
     .setInputCols(['sentence', 'token', 'ner']) \
@@ -80,28 +80,28 @@ test_sentence = 'Mujer de 28 años con antecedentes de diabetes mellitus gestaci
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
-val embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"])\
+val embeddings =  RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
-val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")\
+val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
+    .setOutputCol("ner")
 
-val ner_converter = NerConverter() \
-    .setInputCols(['sentence', 'token', 'ner']) \
+val ner_converter = NerConverter()
+    .setInputCols(Array('sentence', 'token', 'ner'))
     .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(
