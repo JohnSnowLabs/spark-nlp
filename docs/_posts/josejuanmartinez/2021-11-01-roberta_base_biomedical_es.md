@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es")\
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
     .setInputCols(["document", "token"])\
     .setOutputCol("roberta_embeddings")
 
@@ -65,7 +65,7 @@ val tokenizer = mew Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es")
+val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
     .setInputCols(Array("document", "token"))
     .setOutputCol("roberta_embeddings")
 
