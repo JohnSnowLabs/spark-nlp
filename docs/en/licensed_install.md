@@ -21,6 +21,10 @@ wget https://setup.johnsnowlabs.com/nlp/install.sh -O - | sudo bash -s -- -a PAT
 
 This script will install `Spark NLP`, `Spark NLP for Healthcare`, `Spark OCR`, `NLU` and `Spark NLP Display` on the specified virtual environment. It will also create a special folder, `./JohnSnowLabs`,  dedicated to all resources necessary for using the libraries.  Under `./JohnSnowLabs/example_notebooks` you will find some ready to use example notebooks that you can use to test the libraries on your data. 
 
+For a complete step by step guide on how to install NLP Libraries check the video below:
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='E-zAkeym06g' -%}<div class="video-descr">Install John Snow Labs NLP Libraries on Ubuntu</div></div></div>
+
+
 The install script offers several options:
  - `-h`    show brief help
  - `-i`    install mode: create a virtual environment and install the library
