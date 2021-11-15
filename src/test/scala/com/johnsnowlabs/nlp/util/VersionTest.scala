@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.util.Version
+import org.junit.Assert.{assertFalse, assertTrue}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class VersionTest extends AnyFlatSpec {
@@ -37,6 +38,53 @@ class VersionTest extends AnyFlatSpec {
     assertThrows[UnsupportedOperationException] {
       Version(List(3, 0, 2, 5)).toFloat
     }
+  }
+
+  it should "be compatible for latest versions" in {
+    var currentVersion = Version(List(1, 2, 3))
+    var modelVersion = Version(List(1, 2))
+
+    var isCompatible = Version.isCompatible(currentVersion, modelVersion)
+
+    assertTrue(isCompatible)
+
+    currentVersion = Version(List(3, 0))
+    modelVersion = Version(List(2, 4))
+
+    isCompatible = Version.isCompatible(currentVersion, modelVersion)
+
+    assertTrue(isCompatible)
+
+    currentVersion = Version(List(2, 4, 5))
+    modelVersion = Version(List(2, 4, 3))
+
+    isCompatible = Version.isCompatible(currentVersion, modelVersion)
+
+    assertTrue(isCompatible)
+
+  }
+
+  it should "be not compatible for latest versions" in {
+    var currentVersion = Version(List(1, 2))
+    var modelVersion = Version(List(1, 2, 3))
+
+    var isNotCompatible = Version.isCompatible(currentVersion, modelVersion)
+
+    assertFalse(isNotCompatible)
+
+    currentVersion = Version(List(2, 4))
+    modelVersion = Version(List(3, 0))
+
+    isNotCompatible = Version.isCompatible(currentVersion, modelVersion)
+
+    assertFalse(isNotCompatible)
+
+    currentVersion = Version(List(2, 4, 3))
+    modelVersion = Version(List(2, 4, 5))
+
+    isNotCompatible = Version.isCompatible(currentVersion, modelVersion)
+
+    assertFalse(isNotCompatible)
   }
 
 }
