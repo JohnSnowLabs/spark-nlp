@@ -66,20 +66,20 @@ Your progesterone report is perfectly normal. We expect this result on day 23rd 
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentences})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
-val seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement_clinical', 'en', 'clinical/models')\
-  .setInputCols(["token", "sentence"])\
+val seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement_clinical', 'en', 'clinical/models')
+  .setInputCols(Array("token", "sentence"))
   .setOutputCol("label")\
   .setCaseSensitive(True)
 
@@ -89,11 +89,9 @@ val pipeline = new Pipeline().setStages(Array(
     tokenizer,
     seq))
 
-val test_sentences = "Hello I am going to be having a baby throughand have just received my medical results before I have my tubes tested. I had the tests on day 23 of my cycle.
-My progresterone level is 10. What does this mean? What does progesterone level of 10 indicate?
-Your progesterone report is perfectly normal. We expect this result on day 23rd of the cycle.So there's nothing to worry as it's perfectly alright"
+val test_sentences = "Hello I am going to be having a baby throughand have just received my medical results before I have my tubes tested. I had the tests on day 23 of my cycle. My progresterone level is 10. What does this mean? What does progesterone level of 10 indicate? Your progesterone report is perfectly normal. We expect this result on day 23rd of the cycle.So there's nothing to worry as it's perfectly alright"
 
-val example = Seq.empty[test_sentences].toDS.toDF("text")
+val example = Seq(test_sentences).toDF("text")
 val result = pipeline.fit(example).transform(example)
 ```
 </div>
