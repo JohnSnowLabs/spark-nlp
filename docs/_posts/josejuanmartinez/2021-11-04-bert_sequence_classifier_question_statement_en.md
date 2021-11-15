@@ -85,7 +85,7 @@ val tokenizer = Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')
+val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
   .setInputCols(Array("token", "sentence"))
   .setOutputCol("label")
   .setCaseSensitive(True)
