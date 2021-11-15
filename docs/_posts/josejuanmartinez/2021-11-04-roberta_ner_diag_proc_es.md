@@ -102,7 +102,7 @@ val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc", "es", "clinical/mo
 
 val ner_converter = NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
-    .setOutputCol('ner_chunk')
+    .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(
     documentAssembler,
