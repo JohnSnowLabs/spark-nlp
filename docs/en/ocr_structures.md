@@ -361,7 +361,7 @@ Show images on Databrics notebook.
 
 ### display_image
 
-Show single image with methadata in Jupyter notebook.
+Show single image with metadata in Jupyter notebook.
 
 #### Parameters
 
@@ -536,3 +536,27 @@ display_images(BinaryToImage().transform(images_example_df), limit=3)
 ```
 
 ![image](/assets/images/ocr/showImage.png)
+
+## Utils
+
+### to_pil_image
+
+Convert buffered image to PIL image.
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| image | BufferedImage | | buffered image |
+| mode | integer | | mode option from IMAGE_MODE_MAP dict |
+
+
+**Example:**
+
+```python
+import matplotlib.pyplot as plt
+from sparkocr.utils import to_pil_image
+
+img_pil = to_pil_image(img, img.mode)
+plt.imshow(img_pil)
+```
