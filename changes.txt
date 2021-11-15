@@ -1,4 +1,2 @@
-src/main/scala/com/johnsnowlabs/ml/tensorflow/TensorflowMarian.scala
-src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala
-src/main/scala/com/johnsnowlabs/ml/tensorflow/TensorflowMarian.scala
-src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer.scala
+docs/_posts/josejuanmartinez/2021-11-05-bert_sequence_classifier_question_statement_clinical_en.md
+docs/_posts/josejuanmartinez/2021-11-05-bert_sequence_classifier_question_statement_clinical_en.md
