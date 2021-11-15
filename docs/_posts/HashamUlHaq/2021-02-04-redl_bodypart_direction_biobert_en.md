@@ -57,7 +57,7 @@ words_embedder = WordEmbeddingsModel() \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models")\
+ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -120,7 +120,7 @@ val words_embedder = WordEmbeddingsModel()
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
-val ner_tagger = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models")
+val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
