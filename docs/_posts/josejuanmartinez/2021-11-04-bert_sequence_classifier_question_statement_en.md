@@ -73,21 +73,21 @@ In our defense, this is a picture of a VW Beetle flower holder."""]
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentences})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
-val seq = BertForSequenceClassification.pretrained('bert_sequence_classifier_question_statement', 'en')\
-  .setInputCols(["token", "sentence"])\
-  .setOutputCol("label")\
+val seq = BertForSequenceClassification.pretrained("bert_sequence_classifier_question_statement", "en")
+  .setInputCols(Array("token", "sentence"))
+  .setOutputCol("label")
   .setCaseSensitive(True)
 
 val pipeline = new Pipeline().setStages(Array(
@@ -106,7 +106,7 @@ My Dad said: How’s the new car? Have you seen the flower holder in the center 
 To summarize, we thought a flower vase was an XXX item…
 In our defense, this is a picture of a VW Beetle flower holder."
 
-val example = Seq.empty[test_sentences].toDS.toDF("text")
+val example = Seq(test_sentences).toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
