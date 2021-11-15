@@ -58,7 +58,7 @@ words_embedder = WordEmbeddingsModel() \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
+ner_tagger = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -75,8 +75,8 @@ dependency_parser = DependencyParserModel() \
 re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks")\
-    .setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
+    .setOutputCol("re_ner_chunks")
+    #.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -117,7 +117,7 @@ val words_embedder = WordEmbeddingsModel()
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
-val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
+val ner_tagger = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
@@ -135,7 +135,7 @@ val re_ner_chunk_filter = RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
     .setOutputCol("re_ner_chunks")
-    .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
+    // .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.

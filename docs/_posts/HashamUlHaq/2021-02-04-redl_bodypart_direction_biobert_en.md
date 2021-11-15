@@ -57,7 +57,7 @@ words_embedder = WordEmbeddingsModel() \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")\
+ner_tagger = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags") 
 
@@ -75,7 +75,11 @@ re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setMaxSyntacticDistance(10)\
     .setOutputCol("re_ner_chunks")\
-    .setRelationPairs(["direction-internal_organ_or_component", "internal_organ_or_component-direction"])
+    .setRelationPairs(['direction-external_body_part_or_region', 
+                       'external_body_part_or_region-direction',
+                       'direction-internal_organ_or_component',
+                       'internal_organ_or_component-direction'
+                      ])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -116,7 +120,7 @@ val words_embedder = WordEmbeddingsModel()
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
-val ner_tagger = MedicalNerModel.pretrained("ner_jsl_greedy", "en", "clinical/models")
+val ner_tagger = MedicalNerModel.pretrained("jsl_ner_wip_greedy_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
@@ -134,8 +138,11 @@ val re_ner_chunk_filter = RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
     .setOutputCol("re_ner_chunks")
-    .setRelationPairs(Array("direction-internal_organ_or_component", "internal_organ_or_component-direction"))
-
+    .setRelationPairs(Array('direction-external_body_part_or_region', 
+                'external_body_part_or_region-direction',
+                'direction-internal_organ_or_component',
+                'internal_organ_or_component-direction'))
+                
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val re_model = RelationExtractionDLModel()
