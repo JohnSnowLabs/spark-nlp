@@ -57,16 +57,16 @@ pipeline = Pipeline(stages = [
     roberta_embeddings])
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()\
-    .setInputCol("term")\
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("term")
     .setOutputCol("document")
 
-val tokenizer = mew Tokenizer()\
-    .setInputCols("document")\
+val tokenizer = mew Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
-val roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es")\
-    .setInputCols("document", "token")\
+val roberta_embeddings = RoBertaEmbeddings.pretrained(f"roberta_base_biomedical", "es")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("roberta_embeddings")
 
 val pipeline = new Pipeline().setStages(Array(
