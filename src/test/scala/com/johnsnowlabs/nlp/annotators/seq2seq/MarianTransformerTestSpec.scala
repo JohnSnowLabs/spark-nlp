@@ -27,6 +27,50 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class MarianTransformerTestSpec extends AnyFlatSpec {
 
+  "MarianTransformer" should "ignore bad token ids" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val smallCorpus = Seq(
+      "Това е български език.",
+      "Y esto al español.",
+      "Isto deve ir para o português."
+    ).toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val marian = MarianTransformer.pretrained("opus_mt_mul_en", "xx")
+      .setInputCols("sentence")
+      .setOutputCol("translation")
+      .setMaxInputLength(50)
+      .setIgnoreTokenIds(Array(64171))
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        marian
+      ))
+
+    val pipelineModel = pipeline.fit(smallCorpus)
+
+    Benchmark.time("Time to show") {
+      val results = pipelineModel
+        .transform(smallCorpus)
+        .selectExpr("explode(translation) as translation")
+        .where("length(translation.result) > 0")
+        .selectExpr("translation.result as translation")
+      assert(results.count() > 0, "Should return non-empty translations")
+      results.show(truncate=false)
+    }
+
+  }
+
   "MarianTransformer" should "correctly load pretrained model" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 

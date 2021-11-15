@@ -313,6 +313,21 @@ class T5Transformer(override val uid: String)
   def getRandomSeed: Option[Long] = this.randomSeed
 
   /**
+    * A list of token ids which are ignored in the decoder's output
+    *
+    * @group param
+    * */
+  var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
+
+  /** @group setParam */
+  def setIgnoreTokenIds(tokenIds:  Array[Int]): T5Transformer.this.type = {
+    set(ignoreTokenIds, tokenIds)
+  }
+
+  /** @group getParam */
+  def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
+
+  /**
    * ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
@@ -351,7 +366,8 @@ class T5Transformer(override val uid: String)
     topK -> 50,
     topP -> 1.0,
     repetitionPenalty -> 1.0,
-    noRepeatNgramSize -> 0
+    noRepeatNgramSize -> 0,
+    ignoreTokenIds -> Array(),
   )
 
 
@@ -372,7 +388,8 @@ class T5Transformer(override val uid: String)
         repetitionPenalty = $(repetitionPenalty),
         noRepeatNgramSize = $(noRepeatNgramSize),
         task = $(task),
-        randomSeed = this.randomSeed
+        randomSeed = this.randomSeed,
+        $(ignoreTokenIds)
       )
     } else {
       Seq.empty[Annotation]

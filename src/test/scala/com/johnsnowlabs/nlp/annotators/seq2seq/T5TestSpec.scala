@@ -16,17 +16,18 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-
 import org.apache.spark.ml.Pipeline
-
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 
 class T5TestSpec extends AnyFlatSpec {
+
   "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
 
@@ -60,14 +61,21 @@ class T5TestSpec extends AnyFlatSpec {
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(200)
+      .setIgnoreTokenIds(Array(12065))//ignore token "vegetable"
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 
     val model = pipeline.fit(testData)
-    val results = model.transform(testData)
+    val results = model.transform(testData).cache()
 
     results.select("summaries.result").show(truncate = false)
+
+    assert(
+      results
+        .selectExpr("explode(summaries) AS summary")
+        .where(col("summary.result").contains(" vegetable ")).count() == 0,
+      "should not include ignored tokens")
   }
 
   "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
