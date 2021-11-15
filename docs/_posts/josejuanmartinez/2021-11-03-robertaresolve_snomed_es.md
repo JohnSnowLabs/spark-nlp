@@ -98,38 +98,38 @@ val documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained() \
-    .setInputCols(["document"]) \
+val sentenceDetector = SentenceDetectorDLModel.pretrained()
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
-val word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-    .setInputCols(["sentence", "token"])\
+val word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("roberta_embeddings")
 
-val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc","es","clinical/models")\
-    .setInputCols("sentence","token","roberta_embeddings")\
+val ner = MedicalNerModel.pretrained("roberta_ner_diag_proc","es","clinical/models")
+    .setInputCols(Array("sentence","token","roberta_embeddings"))
     .setOutputCol("ner")
 
-val ner_converter = NerConverter() \
-    .setInputCols(["sentence", "token", "ner"]) \
+val ner_converter = NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
-val c2doc = Chunk2Doc() \
-    .setInputCols(["ner_chunk"]) \
+val c2doc = Chunk2Doc()
+    .setInputCols(Array("ner_chunk"))
     .setOutputCol("ner_chunk_doc")
 
-val chunk_embeddings = SentenceEmbeddings() \
-    .setInputCols(["ner_chunk_doc", "roberta_embeddings"]) \
-    .setOutputCol("chunk_embeddings") \
+val chunk_embeddings = SentenceEmbeddings()
+    .setInputCols(Array("ner_chunk_doc", "roberta_embeddings"))
+    .setOutputCol("chunk_embeddings")
     .setPoolingStrategy("AVERAGE")
 
-val er = SentenceEntityResolverModel.pretrained("roberta_base_biomedical_snomed", "es", "clinical/models")\
-    .setInputCols(["ner_chunk_doc", "chunk_embeddings"]) \
-    .setOutputCol("snomed_code") \
+val er = SentenceEntityResolverModel.pretrained("roberta_base_biomedical_snomed", "es", "clinical/models")
+    .setInputCols(Array("ner_chunk_doc", "chunk_embeddings"))
+    .setOutputCol("snomed_code")
     .setDistanceFunction("EUCLIDEAN")
 
 val snomed_pipeline = new PipelineModel().setStages(Array(
