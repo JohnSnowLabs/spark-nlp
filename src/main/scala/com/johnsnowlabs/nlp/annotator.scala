@@ -387,4 +387,9 @@ package object annotator {
   type Doc2VecModel = com.johnsnowlabs.nlp.embeddings.Doc2VecModel
 
   object Doc2VecModel extends ReadablePretrainedDoc2Vec
+
+  type DistilBertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification
+
+  object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
+
 }
