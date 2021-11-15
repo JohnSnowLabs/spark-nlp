@@ -36,17 +36,36 @@ Detect interactions between chemicals and proteins using BERT model by classifyi
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
+documenter = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+sentencer = SentenceDetector()\
+    .setInputCols(["document"])\
+    .setOutputCol("sentences")
+
+tokenizer = sparknlp.annotators.Tokenizer()\
+    .setInputCols(["sentences"])\
+    .setOutputCol("tokens")
+
+pos_tagger = PerceptronModel()\
+    .pretrained("pos_clinical", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens"])\
+    .setOutputCol("pos_tags")
+
 words_embedder = WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
-ner_tagger = MedicalNerModel() \
-    .pretrained("ner_chemprot_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+
+ner_tagger = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")\
+    .setInputCols("sentences", "tokens", "embeddings")\
+    .setOutputCol("ner_tags") 
+
 ner_converter = NerConverter() \
     .setInputCols(["sentences", "tokens", "ner_tags"]) \
     .setOutputCol("ner_chunks")
+
 dependency_parser = DependencyParserModel() \
     .pretrained("dependency_conllu", "en") \
     .setInputCols(["sentences", "pos_tags", "tokens"]) \
@@ -56,7 +75,8 @@ dependency_parser = DependencyParserModel() \
 re_ner_chunk_filter = RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setMaxSyntacticDistance(10)\
-    .setOutputCol("re_ner_chunks")#.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
+    .setOutputCol("re_ner_chunks")
+    #.setRelationPairs(['SYMPTOM-EXTERNAL_BODY_PART_OR_REGION'])
 
 # The dataset this model is trained to is sentence-wise. 
 # This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -75,17 +95,36 @@ result = p_model.transform(data)
 ```
 ```scala
 ...
+val documenter = DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val sentencer = SentenceDetector()
+    .setInputCols("document")
+    .setOutputCol("sentences")
+
+val tokenizer = sparknlp.annotators.Tokenizer()
+    .setInputCols("sentences")
+    .setOutputCol("tokens")
+
+val pos_tagger = PerceptronModel()
+    .pretrained("pos_clinical", "en", "clinical/models") 
+    .setInputCols(Array("sentences", "tokens"))
+    .setOutputCol("pos_tags")
+
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
-val ner_tagger = MedicalNerModel()
-    .pretrained("ner_chemprot_clinical", "en", "clinical/models")
+
+val ner_tagger = MedicalNerModel.pretrained("ner_chemprot_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags")
+    .setOutputCol("ner_tags") 
+
 val ner_converter = NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
+
 val dependency_parser = DependencyParserModel()
     .pretrained("dependency_conllu", "en")
     .setInputCols(Array("sentences", "pos_tags", "tokens"))
@@ -95,7 +134,8 @@ val dependency_parser = DependencyParserModel()
 val re_ner_chunk_filter = RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
-    .setOutputCol("re_ner_chunks").setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
+    .setOutputCol("re_ner_chunks")
+    // .setRelationPairs(Array("SYMPTOM-EXTERNAL_BODY_PART_OR_REGION"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
@@ -104,6 +144,7 @@ val re_model = RelationExtractionDLModel()
     .setPredictionThreshold(0.5)
     .setInputCols(Array("re_ner_chunks", "sentences"))
     .setOutputCol("relations")
+
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
 val data = Seq("In this study, we examined the effects of mitiglinide on various cloned K(ATP) channels (Kir6.2/SUR1, Kir6.2/SUR2A, and Kir6.2/SUR2B) reconstituted in COS-1 cells, and compared them to another meglitinide-related compound, nateglinide. Patch-clamp analysis using inside-out recording configuration showed that mitiglinide inhibits the Kir6.2/SUR1 channel currents in a dose-dependent manner (IC50 value, 100 nM) but does not significantly inhibit either Kir6.2/SUR2A or Kir6.2/SUR2B channel currents even at high doses (more than 10 microM). Nateglinide inhibits Kir6.2/SUR1 and Kir6.2/SUR2B channels at 100 nM, and inhibits Kir6.2/SUR2A channels at high concentrations (1 microM). Binding experiments on mitiglinide, nateglinide, and repaglinide to SUR1 expressed in COS-1 cells revealed that they inhibit the binding of [3H]glibenclamide to SUR1 (IC50 values: mitiglinide, 280 nM; nateglinide, 8 microM; repaglinide, 1.6 microM), suggesting that they all share a glibenclamide binding site. The insulin responses to glucose, mitiglinide, tolbutamide, and glibenclamide in MIN6 cells after chronic mitiglinide, nateglinide, or repaglinide treatment were comparable to those after chronic tolbutamide and glibenclamide treatment. These results indicate that, similar to the sulfonylureas, mitiglinide is highly specific to the Kir6.2/SUR1 complex, i.e., the pancreatic beta-cell K(ATP) channel, and suggest that mitiglinide may be a clinically useful anti-diabetic drug.").toDF("text")

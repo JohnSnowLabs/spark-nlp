@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Sequence Classification - Detect Smam SMS
+title: BERT Sequence Classification - Detect Spam SMS
 author: John Snow Labs
 name: bert_sequence_classifier_sms_spam
 date: 2021-11-07
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is imported from `Hugging Face-models`. It is a BERT-Tiny version of the `sms_spam` dataset. It identifies if the SMS is spam or not.
 
-- `LABEL_0` : Ham
+- `LABEL_0` : No Spam
 - `LABEL_1` : Spam
 
 ## Predicted Entities

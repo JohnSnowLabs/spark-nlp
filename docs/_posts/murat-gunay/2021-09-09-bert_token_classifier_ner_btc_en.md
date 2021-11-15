@@ -26,7 +26,7 @@ use_language_switcher: "Python-Scala-Java"
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_BTC/){:.button.button-orange}{:target="_blank"}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_ner_btc_en_3.2.2_2.4_1631195072459.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
