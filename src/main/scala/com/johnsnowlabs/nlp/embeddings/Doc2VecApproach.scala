@@ -27,20 +27,57 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 /**
- * Word2Vec creates vector representation of words in a text corpus.
+ * Trains a Word2Vec model that creates vector representations of words in a text corpus.
+ *
  * The algorithm first constructs a vocabulary from the corpus
  * and then learns vector representation of words in the vocabulary.
  * The vector representation can be used as features in
  * natural language processing and machine learning algorithms.
  *
- * We use Word2Vec implemented in Spark ML. They used skip-gram model in our implementation and hierarchical softmax
- * method to train the model. The variable names in the implementation
- * matches the original C implementation.
+ * We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
+ * method to train the model. The variable names in the implementation match the original C implementation.
  *
- * For original C implementation, see https://code.google.com/p/word2vec/
- * For research papers, see
- * Efficient Estimation of Word Representations in Vector Space
- * and Distributed Representations of Words and Phrases and their Compositionality.
+ * For instantiated/pretrained models, see [[Doc2VecModel]].
+ *
+ * '''Sources''' :
+ *
+ * For the original C implementation, see https://code.google.com/p/word2vec/
+ *
+ * For the research paper, see
+ * [[https://arxiv.org/abs/1301.3781 Efficient Estimation of Word Representations in Vector Space]]
+ * and [[https://arxiv.org/pdf/1310.4546v1.pdf Distributed Representations of Words and Phrases and their Compositionality]].
+ *
+ * ==Example==
+ * {{{
+ * import spark.implicits._
+ * import com.johnsnowlabs.nlp.annotator.{Tokenizer, Doc2VecApproach}
+ * import com.johnsnowlabs.nlp.base.DocumentAssembler
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val documentAssembler = new DocumentAssembler()
+ *   .setInputCol("text")
+ *   .setOutputCol("document")
+ *
+ * val tokenizer = new Tokenizer()
+ *   .setInputCols(Array("document"))
+ *   .setOutputCol("token")
+ *
+ * val embeddings = new Doc2VecApproach()
+ *   .setInputCols("token")
+ *   .setOutputCol("embeddings")
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(
+ *     documentAssembler,
+ *     tokenizer,
+ *     embeddings
+ *   ))
+ *
+ * val path = "src/test/resources/spell/sherlockholmes.txt"
+ * val dataset = spark.sparkContext.textFile(path)
+ *   .toDF("text")
+ * val pipelineModel = pipeline.fit(dataset)
+ * }}}
  *
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
@@ -77,8 +114,7 @@ class Doc2VecApproach(override val uid: String)
   override val outputAnnotatorType: String = SENTENCE_EMBEDDINGS
 
   /**
-   * The dimension of the code that you want to transform from words.
-   * Default: 100
+   * The dimension of the code that you want to transform from words (Default: `100`).
    *
    * @group param
    */
@@ -96,27 +132,25 @@ class Doc2VecApproach(override val uid: String)
   def getVectorSize: Int = $(vectorSize)
 
   /**
-   * The window size (context words from [-window, window]).
-   * Default: 5
+   * The window size (context words from [-window, window]) (Default: `5`)
    *
-   * @group expertParam
+   * @group param
    */
   val windowSize = new IntParam(
     this, "windowSize", "the window size (context words from [-window, window]) (> 0)")
 
-  /** @group expertSetParam */
+  /** @group setParam */
   def setWindowSize(value: Int): this.type = {
     require(value > 0, s"Window of words must be positive but got $value")
     set(windowSize, value)
     this
   }
 
-  /** @group expertGetParam */
+  /** @group getParam */
   def getWindowSize: Int = $(windowSize)
 
   /**
-   * Number of partitions for sentences of words.
-   * Default: 1
+   * Number of partitions for sentences of words (Default: `1`).
    *
    * @group param
    */
@@ -154,10 +188,9 @@ class Doc2VecApproach(override val uid: String)
   def getMinCount: Int = $(minCount)
 
   /**
-   * Sets the maximum length (in words) of each sentence in the input data.
+   * Sets the maximum length (in words) of each sentence in the input data (Default: `1000`).
    * Any sentence longer than this threshold will be divided into chunks of
    * up to `maxSentenceLength` size.
-   * Default: 1000
    *
    * @group param
    */
@@ -176,7 +209,7 @@ class Doc2VecApproach(override val uid: String)
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /**
-   * Param for Step size to be used for each iteration of optimization (&gt; 0).
+   * Param for Step size to be used for each iteration of optimization (&gt; 0) (Default: `0.025`).
    *
    * @group param
    */
@@ -193,7 +226,7 @@ class Doc2VecApproach(override val uid: String)
   def getStepSize: Double = $(stepSize)
 
   /**
-   * Param for maximum number of iterations (&gt;= 0).
+   * Param for maximum number of iterations (&gt;= 0) (Default: `1`)
    *
    * @group param
    */
@@ -209,7 +242,7 @@ class Doc2VecApproach(override val uid: String)
   /** @group getParam */
   def getMaxIter: Int = $(maxIter)
 
-  /** Random seed for shuffling the dataset
+  /** Random seed for shuffling the dataset (Default: `44`)
    *
    * @group param
    * */
