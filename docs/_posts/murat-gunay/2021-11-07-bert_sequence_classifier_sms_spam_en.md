@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model is imported from `Hugging Face-models`. It is a BERT-Tiny version of the `sms_spam` dataset. It identifies if the SMS is spam or not.
 
-- `LABEL_0` : Ham
+- `LABEL_0` : No Spam
 - `LABEL_1` : Spam
 
 ## Predicted Entities

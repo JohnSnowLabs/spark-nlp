@@ -21,7 +21,7 @@ This pretrained pipeline identifies the sentiments (positive or negative) in Tur
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_sentiment_pipeline_tr_3.3.1_2.4_1636020950989.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
