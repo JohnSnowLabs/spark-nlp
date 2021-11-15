@@ -14824,11 +14824,96 @@ class BertForSequenceClassification(AnnotatorModel,
 
 
 class Doc2VecApproach(AnnotatorApproach, HasStorageRef):
-    """Word2Vec creates vector representation of words in a text corpus. The algorithm first constructs a vocabulary from the corpus and then learns vector representation of words in the vocabulary. The vector representation can be used as features in natural language processing and machine learning algorithms.
-    We use Word2Vec implemented in Spark ML. They used skip-gram model in our implementation and hierarchical softmax method to train the model. The variable names in the implementation matches the original C implementation.
-    For original C implementation, see https://code.google.com/p/word2vec/ For research papers, see Efficient Estimation of Word Representations in Vector Space and
-    Distributed Representations of Words and Phrases and their Compositionality.
+    """Trains a Word2Vec model that creates vector representations of words in a
+    text corpus.
 
+    The algorithm first constructs a vocabulary from the corpus and then learns
+    vector representation of words in the vocabulary. The vector representation
+    can be used as features in natural language processing and machine learning
+    algorithms.
+
+    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
+    implementation and a hierarchical softmax method to train the model. The
+    variable names in the implementation match the original C implementation.
+
+    For instantiated/pretrained models, see :class:`.Doc2VecModel`.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> embeddings = Doc2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+
+    The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``TOKEN``              ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    vectorSize
+        The dimension of codes after transforming from words (> 0), by default
+        100
+    windowSize
+        The window size (context words from [-window, window]) (> 0), by default
+        5
+    numPartitions
+        Number of partitions for sentences of words (> 0), by default 1
+    minCount
+        The minimum number of times a token must appear to be included in the
+        word2vec model's vocabulary (>= 0), by default 1
+    maxSentenceLength
+        The window size (Maximum length (in words) of each sentence in the input
+        data. Any sentence longer than this threshold will be divided into
+        chunks up to the size (> 0), by default 1000
+    stepSize
+        Step size (learning rate) to be used for each iteration of optimization
+        (> 0), by default 0.025
+    maxIter
+        Maximum number of iterations (>= 0), by default 1
+    seed
+        Random seed, by default 44
+
+
+    References
+    ----------
+    For the original C implementation, see https://code.google.com/p/word2vec/
+
+    For the research paper, see `Efficient Estimation of Word Representations in
+    Vector Space <https://arxiv.org/abs/1301.3781>`__ and `Distributed
+    Representations of Words and Phrases and their Compositionality
+    <https://arxiv.org/pdf/1310.4546v1.pdf>`__.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = Doc2VecApproach() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       tokenizer,
+    ...       embeddings
+    ...     ])
+    >>> path = "sherlockholmes.txt"
+    >>> dataset = spark.read.text(path).toDF("text")
+    >>> pipelineModel = pipeline.fit(dataset)
     """
 
     vectorSize = Param(Params._dummy(),
@@ -14945,11 +15030,76 @@ class Doc2VecApproach(AnnotatorApproach, HasStorageRef):
 
 
 class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
-    """Word2Vec creates vector representation of words in a text corpus. The algorithm first constructs a vocabulary from the corpus and then learns vector representation of words in the vocabulary. The vector representation can be used as features in natural language processing and machine learning algorithms.
-    We use Word2Vec implemented in Spark ML. They used skip-gram model in our implementation and hierarchical softmax method to train the model. The variable names in the implementation matches the original C implementation.
-    For original C implementation, see https://code.google.com/p/word2vec/ For research papers, see Efficient Estimation of Word Representations in Vector Space and
-    Distributed Representations of Words and Phrases and their Compositionality.
+    """Word2Vec model that creates vector representations of words in a text
+    corpus.
 
+    The algorithm first constructs a vocabulary from the corpus and then learns
+    vector representation of words in the vocabulary. The vector representation
+    can be used as features in natural language processing and machine learning
+    algorithms.
+
+    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
+    implementation and a hierarchical softmax method to train the model. The
+    variable names in the implementation match the original C implementation.
+
+    This is the instantiated model of the :class:`.Doc2VecApproach`. For
+    training your own model, please see the documentation of that class.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``TOKEN``              ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    vectorSize
+        The dimension of codes after transforming from words (> 0) , by default
+        100
+
+
+    References
+    ----------
+    For the original C implementation, see https://code.google.com/p/word2vec/
+
+    For the research paper, see `Efficient Estimation of Word Representations in
+    Vector Space <https://arxiv.org/abs/1301.3781>`__ and `Distributed
+    Representations of Words and Phrases and their Compositionality
+    <https://arxiv.org/pdf/1310.4546v1.pdf>`__.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = Doc2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     embeddingsFinisher
+    ... ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[0.06222493574023247,0.011579325422644615,0.009919632226228714,0.109361454844...|
+    +--------------------------------------------------------------------------------+
     """
     name = "Doc2VecModel"
 
