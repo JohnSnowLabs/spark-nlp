@@ -29,8 +29,8 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output)
- * e.g. for multi-class document classification tasks.
+ * DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top
+ * (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
@@ -84,7 +84,8 @@ import java.io.File
  * +--------------------+
  * }}}
  *
- * @see [[DistilBertForSequenceClassification]] for sentence-level embeddings
+ * @see [[DistilBertForTokenClassification]] for token-level classification
+ * @see [[com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings DistilBertEmbeddings]] for token embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types

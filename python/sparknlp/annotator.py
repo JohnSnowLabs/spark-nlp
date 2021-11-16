@@ -15149,8 +15149,8 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
 class DistilBertForSequenceClassification(AnnotatorModel,
                                           HasCaseSensitiveProperties,
                                           HasBatchedAnnotate):
-    """DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top
-    (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+    """DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on
+    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -15189,7 +15189,8 @@ class DistilBertForSequenceClassification(AnnotatorModel,
     maxSentenceLength
         Max sentence length to process, by default 128
     coalesceSentences
-        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
+        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
+        probabilities in all sentences.
 
     Examples
     --------
@@ -15292,7 +15293,7 @@ class DistilBertForSequenceClassification(AnnotatorModel,
         ----------
         folder : str
             Folder of the saved model
-            spark_session : pyspark.sql.SparkSession
+        spark_session : pyspark.sql.SparkSession
             The current SparkSession
 
         Returns
@@ -15313,9 +15314,9 @@ class DistilBertForSequenceClassification(AnnotatorModel,
         name : str, optional
             Name of the pretrained model, by default
             "distilbert_base_sequence_classifier_imdb"
-            lang : str, optional
+        lang : str, optional
             Language of the pretrained model, by default "en"
-            remote_loc : str, optional
+        remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
 
