@@ -367,7 +367,7 @@ class T5Transformer(override val uid: String)
     topP -> 1.0,
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 0,
-    ignoreTokenIds -> Array(),
+    ignoreTokenIds -> Array()
   )
 
 
