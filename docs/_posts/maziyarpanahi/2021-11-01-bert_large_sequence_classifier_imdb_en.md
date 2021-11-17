@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Sequence Classification Large - Amazon (bert_large_sequence_classifier_imdb)
+title: BERT Sequence Classification Large - IMDB (bert_large_sequence_classifier_imdb)
 author: John Snow Labs
 name: bert_large_sequence_classifier_imdb
 date: 2021-11-01
