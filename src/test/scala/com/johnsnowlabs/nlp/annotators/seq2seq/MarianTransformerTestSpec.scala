@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
+
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -78,7 +79,9 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       "What is the capital of France?",
       "This should go to French",
       "This is a sentence in English that we want to translate to French",
-      "Despite a Democratic majority in the General Assembly, Nunn was able to enact most of his priorities, including tax increases that funded improvements to the state park system and the construction of a statewide network of mental health centers."
+      "Despite a Democratic majority in the General Assembly, Nunn was able to enact most of his priorities, including tax increases that funded improvements to the state park system and the construction of a statewide network of mental health centers.",
+      "",
+      " "
     ).toDF("text")
 
     val documentAssembler = new DocumentAssembler()
@@ -90,9 +93,10 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence")
 
     val marian = MarianTransformer.pretrained()
-      .setInputCols("sentence")
+      .setInputCols("document")
       .setOutputCol("translation")
-      .setMaxInputLength(30)
+      .setMaxInputLength(512)
+      .setMaxOutputLength(50)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -103,12 +107,22 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
 
     val pipelineModel = pipeline.fit(smallCorpus)
 
-    Benchmark.time("Time to show") {
+    Benchmark.time("Time to save pipeline the first time") {
+      pipelineModel.transform(smallCorpus).select("translation.result").write.mode("overwrite").save("./tmp_marianmt_pipeline")
+    }
+
+    Benchmark.time("Time to save pipeline the second time") {
+      pipelineModel.transform(smallCorpus).select("translation.result").write.mode("overwrite").save("./tmp_marianmt_pipeline")
+    }
+
+    Benchmark.time("Time to first show") {
       pipelineModel.transform(smallCorpus).select("translation").show(false)
     }
+
     Benchmark.time("Time to second show") {
       pipelineModel.transform(smallCorpus).select("translation").show(false)
     }
+
     Benchmark.time("Time to save pipelineMolde") {
       pipelineModel.write.overwrite.save("./tmp_marianmt")
     }
@@ -126,9 +140,7 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
     Benchmark.time("Time to second show") {
       pipelineDF.select("translation").show(false)
     }
-    Benchmark.time("Time to save pipeline") {
-      pipelineModel.transform(smallCorpus).select("translation.result").write.mode("overwrite").save("./tmp_marianmt_pipeline")
-    }
+
   }
 
 }

@@ -284,7 +284,7 @@ class MarianTransformer(override val uid: String) extends
   setDefault(
     maxInputLength -> 40,
     maxOutputLength -> 40,
-    batchSize -> 4,
+    batchSize -> 1,
     langId -> "",
     ignoreTokenIds -> Array()
   )
@@ -296,7 +296,7 @@ class MarianTransformer(override val uid: String) extends
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptySentences = batchedAnnotations.map(x => x.filter(_.result.nonEmpty))
+    val nonEmptySentences = batchedAnnotations.filter(x => x.nonEmpty)
 
     if (nonEmptySentences.nonEmpty) nonEmptySentences.map(tokenizedSentences => {
       this.getModelIfNotSet.generateSeq2Seq(

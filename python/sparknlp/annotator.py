@@ -14821,3 +14821,509 @@ class BertForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(BertForSequenceClassification, name, lang, remote_loc)
+
+
+class Doc2VecApproach(AnnotatorApproach, HasStorageRef):
+    """Trains a Word2Vec model that creates vector representations of words in a
+    text corpus.
+
+    The algorithm first constructs a vocabulary from the corpus and then learns
+    vector representation of words in the vocabulary. The vector representation
+    can be used as features in natural language processing and machine learning
+    algorithms.
+
+    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
+    implementation and a hierarchical softmax method to train the model. The
+    variable names in the implementation match the original C implementation.
+
+    For instantiated/pretrained models, see :class:`.Doc2VecModel`.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> embeddings = Doc2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+
+    The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``TOKEN``              ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    vectorSize
+        The dimension of codes after transforming from words (> 0), by default
+        100
+    windowSize
+        The window size (context words from [-window, window]) (> 0), by default
+        5
+    numPartitions
+        Number of partitions for sentences of words (> 0), by default 1
+    minCount
+        The minimum number of times a token must appear to be included in the
+        word2vec model's vocabulary (>= 0), by default 1
+    maxSentenceLength
+        The window size (Maximum length (in words) of each sentence in the input
+        data. Any sentence longer than this threshold will be divided into
+        chunks up to the size (> 0), by default 1000
+    stepSize
+        Step size (learning rate) to be used for each iteration of optimization
+        (> 0), by default 0.025
+    maxIter
+        Maximum number of iterations (>= 0), by default 1
+    seed
+        Random seed, by default 44
+
+
+    References
+    ----------
+    For the original C implementation, see https://code.google.com/p/word2vec/
+
+    For the research paper, see `Efficient Estimation of Word Representations in
+    Vector Space <https://arxiv.org/abs/1301.3781>`__ and `Distributed
+    Representations of Words and Phrases and their Compositionality
+    <https://arxiv.org/pdf/1310.4546v1.pdf>`__.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = Doc2VecApproach() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       tokenizer,
+    ...       embeddings
+    ...     ])
+    >>> path = "sherlockholmes.txt"
+    >>> dataset = spark.read.text(path).toDF("text")
+    >>> pipelineModel = pipeline.fit(dataset)
+    """
+
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    windowSize = Param(Params._dummy(),
+                       "windowSize",
+                       "the window size (context words from [-window, window]) (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    numPartitions = Param(Params._dummy(),
+                          "numPartitions",
+                          "number of partitions for sentences of words (> 0)",
+                          typeConverter=TypeConverters.toInt)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "the minimum number of times a token must " +
+                     "appear to be included in the word2vec model's vocabulary (>= 0)",
+                     typeConverter=TypeConverters.toInt)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "the window size (Maximum length (in words) of each sentence in the input data. Any sentence longer than this threshold will " +
+                              "be divided into chunks up to the size (> 0)",
+                              typeConverter=TypeConverters.toInt)
+
+    stepSize = Param(Params._dummy(),
+                     "stepSize",
+                     "Step size (learning rate) to be used for each iteration of optimization (> 0)",
+                     typeConverter=TypeConverters.toFloat)
+
+    maxIter = Param(Params._dummy(),
+                    "maxIter",
+                    "maximum number of iterations (>= 0)",
+                    typeConverter=TypeConverters.toInt)
+
+    seed = Param(Params._dummy(),
+                 "seed",
+                 "Random seed",
+                 typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
+    def setWindowSize(self, windowSize):
+        """
+        Sets window size (default: 5).
+        """
+        return self._set(windowSize=windowSize)
+
+    def setStepSize(self, stepSize):
+        """
+        Sets initial learning rate (default: 0.025).
+        """
+        return self._set(stepSize=stepSize)
+
+    def setNumPartitions(self, numPartitions):
+        """
+        Sets number of partitions (default: 1). Use a small number for
+        accuracy.
+        """
+        return self._set(numPartitions=numPartitions)
+
+    def setMaxIter(self, numIterations):
+        """
+        Sets number of iterations (default: 1), which should be smaller
+        than or equal to number of partitions.
+        """
+        return self._set(maxIter=numIterations)
+
+    def setSeed(self, seed):
+        """
+        Sets random seed.
+        """
+        return self._set(seed=seed)
+
+    def setMinCount(self, minCount):
+        """
+        Sets minCount, the minimum number of times a token must appear
+        to be included in the word2vec model's vocabulary (default: 5).
+        """
+        return self._set(minCount=minCount)
+
+    def setMaxSentenceLength(self, maxSentenceLength):
+        """
+        Maximum length (in words) of each sentence in the input data.
+        Any sentence longer than this threshold will be divided into
+        chunks up to the size (> 0)
+        """
+        return self._set(maxSentenceLength=maxSentenceLength)
+
+    @keyword_only
+    def __init__(self):
+        super(Doc2VecApproach, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.Doc2VecApproach")
+        self._setDefault(
+            vectorSize=100,
+            windowSize=5,
+            numPartitions=1,
+            minCount=1,
+            maxSentenceLength=1000,
+            stepSize=0.025,
+            maxIter=1,
+            seed=44
+        )
+
+    def _create_model(self, java_model):
+        return Doc2VecModel(java_model=java_model)
+
+
+class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
+    """Word2Vec model that creates vector representations of words in a text
+    corpus.
+
+    The algorithm first constructs a vocabulary from the corpus and then learns
+    vector representation of words in the vocabulary. The vector representation
+    can be used as features in natural language processing and machine learning
+    algorithms.
+
+    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
+    implementation and a hierarchical softmax method to train the model. The
+    variable names in the implementation match the original C implementation.
+
+    This is the instantiated model of the :class:`.Doc2VecApproach`. For
+    training your own model, please see the documentation of that class.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``TOKEN``              ``SENTENCE_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    vectorSize
+        The dimension of codes after transforming from words (> 0) , by default
+        100
+
+
+    References
+    ----------
+    For the original C implementation, see https://code.google.com/p/word2vec/
+
+    For the research paper, see `Efficient Estimation of Word Representations in
+    Vector Space <https://arxiv.org/abs/1301.3781>`__ and `Distributed
+    Representations of Words and Phrases and their Compositionality
+    <https://arxiv.org/pdf/1310.4546v1.pdf>`__.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = Doc2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     embeddingsFinisher
+    ... ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[0.06222493574023247,0.011579325422644615,0.009919632226228714,0.109361454844...|
+    +--------------------------------------------------------------------------------+
+    """
+    name = "Doc2VecModel"
+
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.Doc2VecModel", java_model=None):
+        super(Doc2VecModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            vectorSize=100
+        )
+
+    @staticmethod
+    def pretrained(name="doc2vec_wiki_100_uncased", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "doc2vec_wiki"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        Doc2VecModel
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(Doc2VecModel, name, lang, remote_loc)
+
+
+class DistilBertForSequenceClassification(AnnotatorModel,
+                                          HasCaseSensitiveProperties,
+                                          HasBatchedAnnotate):
+    """DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on
+    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> sequenceClassifier = DistilBertForSequenceClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label")
+
+    The default model is ``"distilbert_base_sequence_classifier_imdb"``, if no name is
+    provided.
+
+    For available pretrained models please see the `Models Hub
+    <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+
+    Models from the HuggingFace 🤗 Transformers library are also compatible with
+    Spark NLP 🚀. To see which models are compatible and how to import them see
+    `Import Transformers into Spark NLP 🚀
+    <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``CATEGORY``
+    ====================== ======================
+
+    Parameters
+    ----------
+    batchSize
+        Batch size. Large values allows faster processing but requires more
+        memory, by default 8
+    caseSensitive
+        Whether to ignore case in tokens for embeddings matching, by default
+        True
+    configProtoBytes
+        ConfigProto from tensorflow, serialized into byte array.
+    maxSentenceLength
+        Max sentence length to process, by default 128
+    coalesceSentences
+        Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
+        probabilities in all sentences.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> sequenceClassifier = DistilBertForSequenceClassification.pretrained() \\
+    ...     .setInputCols(["token", "document"]) \\
+    ...     .setOutputCol("label") \\
+    ...     .setCaseSensitive(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     sequenceClassifier
+    ... ])
+    >>> data = spark.createDataFrame([[\"\"\"John Lenon was born in London and lived
+    ... in Paris. My name is Sarah and I live in London\"\"\"]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.select("label.result").show(truncate=False)
+    +--------------------+
+    |result              |
+    +--------------------+
+    |[neg, neg]          |
+    |[pos, pos, pos, pos]|
+    +--------------------+
+    """
+    name = "BertForSequenceClassification"
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    configProtoBytes = Param(Params._dummy(),
+                             "configProtoBytes",
+                             "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
+                             TypeConverters.toListString)
+
+    coalesceSentences = Param(Params._dummy(), "coalesceSentences",
+                              "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
+                              TypeConverters.toBoolean)
+
+    def setConfigProtoBytes(self, b):
+        """Sets configProto from tensorflow, serialized into byte array.
+
+        Parameters
+        ----------
+        b : List[str]
+            ConfigProto from tensorflow, serialized into byte array
+        """
+        return self._set(configProtoBytes=b)
+
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process, by default 128.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        return self._set(maxSentenceLength=value)
+
+    def setCoalesceSentences(self, value):
+        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
+        Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
+        into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
+
+        Parameters
+        ----------
+        value : bool
+            If the output of all sentences will be averaged to one output
+        """
+        return self._set(coalesceSentences=value)
+
+    @keyword_only
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification",
+                 java_model=None):
+        super(DistilBertForSequenceClassification, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            batchSize=8,
+            maxSentenceLength=128,
+            caseSensitive=True
+        )
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the saved model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        DistilBertForSequenceClassification
+            The restored model
+        """
+        from sparknlp.internal import _DistilBertSequenceClassifierLoader
+        jModel = _DistilBertSequenceClassifierLoader(folder, spark_session._jsparkSession)._java_obj
+        return DistilBertForSequenceClassification(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="distilbert_base_sequence_classifier_imdb", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default
+            "distilbert_base_sequence_classifier_imdb"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        DistilBertForSequenceClassification
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(DistilBertForSequenceClassification, name, lang, remote_loc)

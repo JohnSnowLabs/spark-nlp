@@ -218,9 +218,9 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
       }
 
       if (langId > 0)
-        Array(langId) ++ pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
+        Array(langId) ++ pieceIds.take(maxSeqLength - 2) ++ Array(eosTokenId)
       else
-        pieceIds.take(maxSeqLength) ++ Array(eosTokenId)
+        pieceIds.take(maxSeqLength - 1) ++ Array(eosTokenId)
     }
 
   }
