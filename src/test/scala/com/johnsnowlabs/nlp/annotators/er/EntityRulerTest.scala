@@ -506,7 +506,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(expectedEntities, actualEntities)
   }
 
-  it should "serialize and deserialize a model without storage" in {
+  it should "serialize and deserialize a model without storage" taggedAs FastTest in {
     val textDataSet = Seq("Lord Eddard Stark was the head of House Stark").toDS.toDF("text")
     tokenizer.setExceptions(Array("Eddard Stark"))
     val entityRuler = new EntityRulerApproach()
