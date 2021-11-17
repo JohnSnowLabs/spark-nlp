@@ -18,7 +18,7 @@ package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
 import com.amazonaws.services.pi.model.InvalidArgumentException
-import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult}
+import com.amazonaws.services.s3.model.{GetObjectRequest, ObjectMetadata, PutObjectResult, S3Object}
 import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
@@ -74,9 +74,22 @@ class AWSGateway(accessKeyId: String, secretAccessKey: String, sessionToken: Str
 
   def getMetadata(s3Path: String, folder: String, bucket: String): List[ResourceMetadata] = {
     val metaFile = getS3File(s3Path, folder, "metadata.json")
-    val obj = client.getObject(bucket, metaFile)
+    val obj = getObjectFromS3(bucket, metaFile)
     val metadata = ResourceMetadata.readResources(obj.getObjectContent)
     metadata
+  }
+
+  private def getObjectFromS3(bucket: String, key: String): S3Object = {
+    try {
+      this.client.getObject(bucket, key)
+    } catch {
+      case _: AmazonClientException =>
+        val anonymousCredentialParams = CredentialParams("anonymous", "", "", "", region)
+        val awsCredentials = new AWSAnonymousCredentials
+        val credentials: Option[AWSCredentials] = awsCredentials.buildCredentials(anonymousCredentialParams)
+        val client = getAmazonS3Client(credentials)
+        client.getObject(bucket, key)
+    }
   }
 
   def getS3File(parts: String*): String = {
