@@ -11288,6 +11288,8 @@ class T5Transformer(AnnotatorModel):
         The parameter for repetition penalty. 1.0 means no penalty.
     noRepeatNgramSize
         If set to int > 0, all ngrams of that size can only occur once
+    ignoreTokenIds
+       A list of token ids which are ignored in the decoder's output
 
     Notes
     -----
@@ -11385,6 +11387,20 @@ class T5Transformer(AnnotatorModel):
     noRepeatNgramSize = Param(Params._dummy(), "noRepeatNgramSize",
                               "If set to int > 0, all ngrams of that size can only occur once",
                               typeConverter=TypeConverters.toInt)
+
+    ignoreTokenIds = Param(Params._dummy(), "ignoreTokenIds",
+                           "A list of token ids which are ignored in the decoder's output",
+                           typeConverter=TypeConverters.toListInt)
+
+    def setIgnoreTokenIds(self, value):
+        """A list of token ids which are ignored in the decoder's output.
+
+        Parameters
+        ----------
+        value : List[int]
+            The words to be filtered out
+        """
+        return self._set(ignoreTokenIds=value)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -11502,6 +11518,18 @@ class T5Transformer(AnnotatorModel):
         super(T5Transformer, self).__init__(
             classname=classname,
             java_model=java_model
+        )
+        self._setDefault(
+            task="",
+            minOutputLength=0,
+            maxOutputLength=20,
+            doSample=False,
+            temperature=1.0,
+            topK=50,
+            topP=1.0,
+            repetitionPenalty=1.0,
+            noRepeatNgramSize=0,
+            ignoreTokenIds=[]
         )
 
     @staticmethod
@@ -11667,6 +11695,20 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
                             "Controls the maximum length for decoder outputs (target language texts)",
                             typeConverter=TypeConverters.toInt)
 
+    ignoreTokenIds = Param(Params._dummy(), "ignoreTokenIds",
+                           "A list of token ids which are ignored in the decoder's output",
+                           typeConverter=TypeConverters.toListInt)
+
+    def setIgnoreTokenIds(self, value):
+        """A list of token ids which are ignored in the decoder's output.
+
+        Parameters
+        ----------
+        value : List[int]
+            The words to be filtered out
+        """
+        return self._set(ignoreTokenIds=value)
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -11716,10 +11758,11 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=8,
+            batchSize=1,
             maxInputLength=40,
             maxOutputLength=40,
-            langId=""
+            langId="",
+            ignoreTokenIds=[]
         )
 
     @staticmethod
