@@ -21,6 +21,10 @@ wget https://setup.johnsnowlabs.com/nlp/install.sh -O - | sudo bash -s -- -a PAT
 
 This script will install `Spark NLP`, `Spark NLP for Healthcare`, `Spark OCR`, `NLU` and `Spark NLP Display` on the specified virtual environment. It will also create a special folder, `./JohnSnowLabs`,  dedicated to all resources necessary for using the libraries.  Under `./JohnSnowLabs/example_notebooks` you will find some ready to use example notebooks that you can use to test the libraries on your data. 
 
+For a complete step by step guide on how to install NLP Libraries check the video below:
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='E-zAkeym06g' -%}<div class="video-descr">Install John Snow Labs NLP Libraries on Ubuntu</div></div></div>
+
+
 The install script offers several options:
  - `-h`    show brief help
  - `-i`    install mode: create a virtual environment and install the library
@@ -411,6 +415,76 @@ spark = start(SECRET)
 
 As you see, we did not set `.master('local[*]')` explicitly to let YARN manage the cluster.
 Or you can set `.master('yarn')`.
+
+
+## Amazon Linux 2 Support
+
+```bash
+# Update Package List & Install  Required Packages
+sudo yum update
+sudo yum install -y amazon-linux-extras
+sudo yum -y install python3-pip
+
+# Create Python virtual environment and activate it:
+python3 -m venv .sparknlp-env
+source .sparknlp-env/bin/activate
+```
+
+Check JAVA version: 
+- For Sparknlp versions above 3.x, please use JAVA-11
+- For Sparknlp versions below 3.x and SparkOCR, please use JAVA-8
+
+Checking Java versions installed on your machine: 
+```bash
+sudo alternatives --config java
+```
+
+You can pick the index number (I am using java-8 as default - index 2):
+
+</div><div class="h3-box" markdown="1">
+
+<img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+</div><div class="h3-box" markdown="1">
+
+If you dont have java-11 or java-8 in you system, you can easily install via:
+
+```bash
+sudo yum install java-1.8.0-openjdk
+```
+
+Now, we can start installing the required libraries:
+
+```bash
+pip install jupyter
+```
+
+We can start jupyter notebook via:
+```bash
+jupyter notebook
+```
+
+```bash
+### Now we are in the jupyter notebook cell:
+import json
+import os
+
+with open('sparknlp_for_healthcare.json) as f:
+    license_keys = json.load(f)
+
+# Defining license key-value pairs as local variables
+locals().update(license_keys)
+
+# Adding license key-value pairs to environment variables
+os.environ.update(license_keys)
+
+# Installing pyspark and spark-nlp
+! pip install --upgrade -q pyspark==3.1.2 spark-nlp==$PUBLIC_VERSION
+
+# Installing Spark NLP Healthcare
+! pip install --upgrade -q spark-nlp-jsl==$JSL_VERSION  --extra-index-url https://pypi.johnsnowlabs.com/$SECRET
+```
+
 
 
 ## Get a Spark NLP for Healthcare license 
