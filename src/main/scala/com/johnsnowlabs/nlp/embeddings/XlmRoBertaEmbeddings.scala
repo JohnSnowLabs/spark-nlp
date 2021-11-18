@@ -123,6 +123,9 @@ import java.io.File
  * +--------------------------------------------------------------------------------+
  * }}}
  *
+ * @see [[XlmRoBertaSentenceEmbeddings]] for sentence-level embeddings
+ * @see [[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification XlmRoBertaForTokenClassification]]
+ *      For XlmRoBerta embeddings with a token classification layer on top
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types
