@@ -18,7 +18,7 @@ data:
           activemenu: analyze_non_english_text_documents
       source: yes
       source: 
-        - title: PDF to Text (Non-English Text)
+        - title: PDF to Text in European Languages
           id: pdf-to-text-non-english-text
           image: 
               src: /assets/images/Healthcare_PDFText(NonEnglishText).svg
@@ -32,7 +32,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TO_TEXT.ipynb
-        - title: Image to Text (Non-English Text)
+        - title: Image to Text in European Languages
           id: image-to-text-non-english-text
           image: 
               src: /assets/images/Healthcare_ImagetoText.svg
@@ -46,7 +46,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/IMAGE_TO_TEXT.ipynb
-        - title: DOCX to Text (Non-English Text)
+        - title: DOCX to Text in European Languages
           id: docx-to-text-non-english-text
           image: 
               src: /assets/images/Healthcare_DOCXtoText.svg

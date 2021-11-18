@@ -1,8 +1,8 @@
 ---
 layout: demopage
-title: Special Cases
+title: Medical Risk Scoring
 full_width: true
-permalink: /special_cases
+permalink: /medical_risk_scoring
 key: demo
 license: false
 show_edit_on_github: false
@@ -10,12 +10,12 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Healthcare
-      excerpt: Special Cases
+      excerpt: Medical Risk Scoring
       secheader: yes
       secheader:
         - title: Spark NLP for Healthcare
-          subtitle: Special Cases
-          activemenu: special_cases
+          subtitle: Medical Risk Scoring
+          activemenu: medical_risk_scoring
       source: yes
       source: 
         - title: Calculate Medicare Risk Score
@@ -33,6 +33,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb
         - title: Extract Chunk Key Phrases 
+          hide: yes
           id: extract_chunk_key_phrases  
           image: 
               src: /assets/images/Extract_Chunk_Key_Phrases.svg
