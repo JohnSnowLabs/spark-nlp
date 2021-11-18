@@ -20,8 +20,6 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.slf4j.LoggerFactory
 
-import java.time.Instant
-
 /* Logging for the TensorFlow Models, probably can be used in other places */
 trait Logging {
 
@@ -29,8 +27,6 @@ trait Logging {
 
   protected val logger = LoggerFactory.getLogger(getLogName)
   val verboseLevel: Verbose.Value
-
-  private val unixTimeStamp: Long = Instant.now().getEpochSecond
 
   protected def log(value: => String, minLevel: Verbose.Level): Unit = {
     if (minLevel.id >= verboseLevel.id) {
@@ -40,7 +36,7 @@ trait Logging {
 
   protected def outputLog(value: => String, uuid: String, shouldLog: Boolean, outputLogsPath: String): Unit = {
     if (shouldLog) {
-      OutputHelper.writeAppend(uuid, value, outputLogsPath, unixTimeStamp.toString)
+      OutputHelper.writeAppend(uuid, value, outputLogsPath)
     }
   }
 
