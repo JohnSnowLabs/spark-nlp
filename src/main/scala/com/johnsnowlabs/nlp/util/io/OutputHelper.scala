@@ -23,8 +23,6 @@ import org.apache.spark.SparkFiles
 
 import java.io.{File, FileWriter, PrintWriter}
 import java.nio.charset.StandardCharsets
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import scala.language.existentials
 
 
@@ -40,11 +38,10 @@ object OutputHelper {
 
   var historyLog: Array[String] = Array()
 
-  def writeAppend(uuid: String, content: String, outputLogsPath: String, timeStamp: String): Unit = {
+  def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
 
     val targetFolder = getTargetFolder(outputLogsPath)
-    val fileName = f"${uuid}_$timeStamp.log"
-    targetPath = new Path(targetFolder, fileName)
+    targetPath = new Path(targetFolder, uuid + ".log")
 
     if (isDBFS) {
       historyLog = historyLog ++ Array(content)
