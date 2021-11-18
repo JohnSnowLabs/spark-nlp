@@ -23,8 +23,6 @@ class LinearRegression(override val uid: String) extends AnnotatorModel[LinearRe
 
   def this() = this(Identifiable.randomUID("LINEAR_REGRESSION"))
 
-//  private var modelStream: Option[Array[Byte]] = None
-
   private var pyTorchModelBroadcast: Option[Broadcast[PtModel]] = None
 
   private var pyTorchModel: Option[Broadcast[PytorchWrapper]] = None
@@ -39,41 +37,8 @@ class LinearRegression(override val uid: String) extends AnnotatorModel[LinearRe
     this
   }
 
-  def setModelIfNotSet(spark: SparkSession, pyTorchModel: PtModel): LinearRegression = {
-    if (this.pyTorchModel.isEmpty) {
-      println("************* Before broadcasting")
-      this.pyTorchModel = Some(spark.sparkContext.broadcast(new PytorchWrapper(Some(pyTorchModel), None)))
-    }
-    this
-  }
-
-  def setPredictorIfNotSet(spark: SparkSession, pyTorchModel: PtModel): LinearRegression = {
-
-    val translator = new Translator[Float, Float]() {
-      override def processInput(ctx: TranslatorContext, input: Float): NDList = {
-        val manager = ctx.getNDManager
-        val array = manager.create(Array[Float](input))
-        new NDList(array)
-      }
-
-      override def processOutput(ctx: TranslatorContext, list: NDList): Float = {
-        val temp_arr = list.get(0)
-        temp_arr.getFloat()
-      }
-
-      override def getBatchifier: Batchifier = { // The Batchifier describes how to combine a batch together
-        // Stacking, the most common batchifier, takes N [X1, X2, ...] arrays to a single [N, X1, X2, ...] array
-        Batchifier.STACK
-      }
-    }
-
-    println("************* Before predictor")
-    predictor = Some(spark.sparkContext.broadcast(pyTorchModel.newPredictor(translator)))
-    this
-  }
-
   def setModelStreamIfNotSet(spark: SparkSession, sourceBytes: Array[Byte]): LinearRegression = {
-    pyTorchModel = Some(spark.sparkContext.broadcast(new PytorchWrapper(None, Some(sourceBytes))))
+    pyTorchModel = Some(spark.sparkContext.broadcast(new PytorchWrapper(Some(sourceBytes))))
     this
   }
 
@@ -90,7 +55,7 @@ class LinearRegression(override val uid: String) extends AnnotatorModel[LinearRe
     }
 
     val linearRegression = numericRepresentation.map{ number =>
-      val output = pyTorchModel.get.value.infer(number.toFloat)
+      val output = pyTorchModel.get.value.inferFromBytes(number.toFloat)
       Annotation(CHUNK, 0, 0, output.toString, Map())
     }
 
@@ -98,105 +63,15 @@ class LinearRegression(override val uid: String) extends AnnotatorModel[LinearRe
 
   }
 
-  def loadSavedPredictorModel(pyTorchModelPath: String, spark: SparkSession): LinearRegression = {
-    val sourceStream = ResourceHelper.SourceStream(pyTorchModelPath)
-    val pyTorchModel = Model.newInstance("myPyTorchModel").asInstanceOf[PtModel]
-    pyTorchModel.load(sourceStream.pipe.head)
-
-    println("************* Before returning loadSavedModelV2")
-    new LinearRegression().setPredictorIfNotSet(spark, pyTorchModel)
-
-  }
-
-  def loadSavedStreamModel(pyTorchModelPath: String, spark: SparkSession): LinearRegression = {
-    val sourceStream = ResourceHelper.SourceStream(pyTorchModelPath)
-    val sourceBytes = new Array[Byte](sourceStream.pipe.head.available())
-
-    new LinearRegression().setModelStreamIfNotSet(spark, sourceBytes)
-  }
-
-//  private def infer(input: Float): Float = {
-//
-//    val translator = new Translator[Float, Float]() {
-//      override def processInput(ctx: TranslatorContext, input: Float): NDList = {
-//        val manager = ctx.getNDManager
-//        val array = manager.create(Array[Float](input))
-//        new NDList(array)
-//      }
-//
-//      override def processOutput(ctx: TranslatorContext, list: NDList): Float = {
-//        val temp_arr = list.get(0)
-//        temp_arr.getFloat()
-//      }
-//
-//      override def getBatchifier: Batchifier = { // The Batchifier describes how to combine a batch together
-//        // Stacking, the most common batchifier, takes N [X1, X2, ...] arrays to a single [N, X1, X2, ...] array
-//        Batchifier.STACK
-//      }
-//    }
-//
-//    println("************* Before predictor")
-////    val predictor = pyTorchModelBroadcast.get.value.newPredictor(translator
-//    val predictor = pyTorchModel.get.newPredictor(translator)
-//    println("************* Before predict")
-//    val output = predictor.predict(input)
-//    println(f"************* Before output: $output")
-//    output
-//  }
-//
-//  private def inferV2(input: Float): Float = {
-//    println("************* [inferV2] Before predict")
-//    val output = predictor.get.value.predict(input)
-//    println(f"************* [inferV2] Before output: $output")
-//    output
-//  }
-
-//  private def inferWithModelStream(input: Float): Float = {
-//
-//    val translator = new Translator[Float, Float]() {
-//      override def processInput(ctx: TranslatorContext, input: Float): NDList = {
-//        val manager = ctx.getNDManager
-//        val array = manager.create(Array[Float](input))
-//        new NDList(array)
-//      }
-//
-//      override def processOutput(ctx: TranslatorContext, list: NDList): Float = {
-//        val temp_arr = list.get(0)
-//        temp_arr.getFloat()
-//      }
-//
-//      override def getBatchifier: Batchifier = { // The Batchifier describes how to combine a batch together
-//        // Stacking, the most common batchifier, takes N [X1, X2, ...] arrays to a single [N, X1, X2, ...] array
-//        Batchifier.STACK
-//      }
-//    }
-//
-//    val pyTorchModel: PtModel = Model.newInstance("myPyTorchModel").asInstanceOf[PtModel]
-//    val modelBytes = modelStream.get.value
-//    val modelInputStream = new ByteArrayInputStream(modelBytes)
-//    pyTorchModel.load(modelInputStream)
-//
-//    println("************* [inferV3] Before predictor")
-//    val predictor = pyTorchModel.newPredictor(translator)
-//    println("************* [inferV3] Before predict")
-//    val output = predictor.predict(input)
-//    println(f"************* [inferV3] Before output: $output")
-//    output
-//  }
-
 }
 
 trait ReadLinearRegressionPyTorchModel {
 
   def loadSavedModel(pyTorchModelPath: String, spark: SparkSession): LinearRegression = {
-//    val sourceStream = ResourceHelper.SourceStream(pyTorchModelPath)
-//    val pyTorchModel = Model.newInstance("myPyTorchModel").asInstanceOf[PtModel]
-//    pyTorchModel.load(sourceStream.pipe.head)
-    val pyTorchModel = PytorchWrapper.read(pyTorchModelPath)
-//    val pyTorchModel = PytorchWrapper.readBytes(pyTorchModelPath)
+
+    val pyTorchModel = PytorchWrapper.readBytes(pyTorchModelPath)
     println("************* Before returning loadSavedModel.setModelIfNotSet")
-    new LinearRegression().setModelIfNotSet(spark, pyTorchModel)
-//    new LinearRegression().setModelStreamIfNotSet(spark, pyTorchModel)
+    new LinearRegression().setModelStreamIfNotSet(spark, pyTorchModel)
   }
 
 }

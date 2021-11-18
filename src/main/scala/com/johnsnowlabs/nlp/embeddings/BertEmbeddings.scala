@@ -320,6 +320,7 @@ class BertEmbeddings(override val uid: String)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
+    //TODO: We will need to create something similar to this but for PyTorch
     super.onWrite(path, spark)
     writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
