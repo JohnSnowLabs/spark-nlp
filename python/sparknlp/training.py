@@ -21,6 +21,7 @@ can be loaded with ``readDataset``.
 from sparknlp.internal import ExtendedJavaWrapper
 from sparknlp.common import ExternalResource, ReadAs
 from pyspark.sql import SparkSession, DataFrame
+import pyspark
 
 
 class CoNLL(ExtendedJavaWrapper):
@@ -136,7 +137,7 @@ class CoNLL(ExtendedJavaWrapper):
         """
         jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(jSession, path, read_as, partitions, storage_level)
+        jdf = self._java_obj.readDataset(jSession, path, read_as, partitions, spark.sparkContext._getJavaStorageLevel(storage_level))
         return DataFrame(jdf, spark._wrapped)
 
 

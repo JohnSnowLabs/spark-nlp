@@ -319,13 +319,13 @@ case class CoNLL(documentCol: String = "document",
                  ): Dataset[_] = {
     if (path.endsWith("*")) {
       val rdd = spark.sparkContext.wholeTextFiles(path, minPartitions = parallelism).
-        flatMap{ case (fileName, content) =>
+        flatMap{ case (_, content) =>
           val lines = content.split(System.lineSeparator)
-          readLines(lines).map (coreTransformation)
+          readLines(lines).map(doc => coreTransformation(doc))
         }.persist(storageLevel)
 
       spark.createDataFrame(rdd).
-        toDF("fileName", conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
+        toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
       packDocs(readDocs(er), spark)
