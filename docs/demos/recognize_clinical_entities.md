@@ -187,6 +187,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
         - title: Detect Drug Chemicals (Bert For Token Classification) 
+          hide: yes
           id: detect_drug_chemicals
           image: 
               src: /assets/images/Detect_Drug_Chemicals.svg
@@ -201,6 +202,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
         - title: Detect Wide Range of Clinical Entities (Bert For Token Classification) 
+          hide: yes
           id: detect_wide_range_clinical_entities
           image: 
               src: /assets/images/Detect_Wide_Range_of_Clinical_Entities.svg
@@ -215,6 +217,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
         - title: Detect Wide Range of More Generalized Clinical Entities (Bert For Token Classification) 
+          hide: yes
           id: detect_wide_range_clinical_entities_more
           image: 
               src: /assets/images/Detect_Wide_Range.svg

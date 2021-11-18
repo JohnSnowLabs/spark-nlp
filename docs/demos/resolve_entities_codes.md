@@ -19,7 +19,6 @@ data:
       source: yes
       source: 
         - title: SNOMED coding
-          hide: yes
           id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
@@ -34,7 +33,6 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
         - title: ICDO coding
-          hide: yes
           id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
@@ -48,13 +46,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: Resolve Symptoms to ICD10-CM Codes
+        - title: ICD10-CM Coding
           id: icd10-cm_coding
           image: 
               src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes.svg
           image2: 
               src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes_f.svg
-          excerpt: This demo shows how symptoms can be automatically mapped to ICD10 CM codes using sentence resolvers.
+          excerpt: This demo shows how problems can be automatically mapped to ICD10 CM codes using sentence resolvers.
           actions:
           - text: Live Demo
             type: normal
@@ -62,8 +60,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: Resolve Drugs to RxNorm Codes
-          hide: yes
+        - title: RxNORM Coding
           id: rxnorm_coding
           image: 
               src: /assets/images/Resolve_Drugs_to_RxNorm_Codes.svg
@@ -121,13 +118,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL
-        - title: Resolve Clinical Entities to LOINC Codes
+        - title: LOINC Coding
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC.svg
           image2: 
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC_f.svg
-          excerpt: This demo shows how clinical entities can be automatically mapped to Logical Observation Identifiers Names and Codes (LOINC) using sentence resolvers.
+          excerpt: This demo shows how laboratory result-related entities can be automatically mapped to Logical Observation Identifiers Names and Codes (LOINC) using sentence resolvers.
           actions:
           - text: Live Demo
             type: normal
