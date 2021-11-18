@@ -16,13 +16,13 @@
 
 package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
+import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ResourceHelper, ReadAs}
-
-import org.apache.spark.sql.types._
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.types._
+import org.apache.spark.storage.StorageLevel
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -35,6 +35,17 @@ case class CoNLLDocument(text: String,
  *
  * The dataset should be in the format of [[https://www.clips.uantwerpen.be/conll2003/ner/ CoNLL 2003]]
  * and needs to be specified with `readDataset`. Other CoNLL datasets are not supported.
+ *
+ * Two types of input paths are supported,
+ *
+ * Folder: this is a path ending in `*`, and representing a collection of CoNLL files within a directory. E.g.,
+ * 'path/to/multiple/conlls&#47;*'
+ * Using this pattern will result in all the files being read into a single Dataframe.
+ * Some constraints apply on the schemas of the multiple files.
+ *
+ * File: this is a path to a single file. E.g.,
+ * 'path/to/single_file.conll'
+ *
  *
  * ==Example==
  * {{{
@@ -120,6 +131,8 @@ case class CoNLLDocument(text: String,
  * @param explodeSentences Whether to explode each sentence to a separate row
  * @param delimiter        Delimiter used to separate columns inside CoNLL file
  */
+
+
 case class CoNLL(documentCol: String = "document",
                  sentenceCol: String = "sentence",
                  tokenCol: String = "token",
@@ -280,30 +293,43 @@ case class CoNLL(documentCol: String = "document",
     StructType(Seq(text, doc, sentence, token, pos, label))
   }
 
+  private def coreTransformation(doc:CoNLLDocument) = {
+    val text = doc.text
+    val labels = packNerTagged(doc.nerTagged)
+    val docs = packAssembly(text)
+    val sentences = packSentence(text, doc.nerTagged)
+    val tokenized = packTokenized(text, doc.nerTagged)
+    val posTagged = packPosTagged(doc.posTagged)
+
+    (text, docs, sentences, tokenized, posTagged, labels)
+  }
+
   def packDocs(docs: Seq[CoNLLDocument], spark: SparkSession): Dataset[_] = {
     import spark.implicits._
-
-    val rows = docs.map { doc =>
-      val text = doc.text
-      val labels = packNerTagged(doc.nerTagged)
-      val docs = packAssembly(text)
-      val sentences = packSentence(text, doc.nerTagged)
-      val tokenized = packTokenized(text, doc.nerTagged)
-      val posTagged = packPosTagged(doc.posTagged)
-
-      (text, docs, sentences, tokenized, posTagged, labels)
-    }.toDF.rdd
-
+    val rows = docs.map(coreTransformation).toDF.rdd
     spark.createDataFrame(rows, schema)
   }
 
   def readDataset(
                    spark: SparkSession,
                    path: String,
-                   readAs: String = ReadAs.TEXT.toString
+                   readAs: String = ReadAs.TEXT.toString,
+                   parallelism:Int = 8,
+                   storageLevel:StorageLevel = StorageLevel.DISK_ONLY
                  ): Dataset[_] = {
-    val er = ExternalResource(path, readAs, Map("format" -> "text"))
-    packDocs(readDocs(er), spark)
+    if (path.endsWith("*")) {
+      val rdd = spark.sparkContext.wholeTextFiles(path, minPartitions = parallelism).
+        flatMap{ case (fileName, content) =>
+          val lines = content.split(System.lineSeparator)
+          readLines(lines).map (coreTransformation)
+        }.persist(storageLevel)
+
+      spark.createDataFrame(rdd).
+        toDF("fileName", conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
+    } else {
+      val er = ExternalResource(path, readAs, Map("format" -> "text"))
+      packDocs(readDocs(er), spark)
+    }
   }
 
   def readDatasetFromLines(lines: Array[String], spark: SparkSession): Dataset[_] = {
