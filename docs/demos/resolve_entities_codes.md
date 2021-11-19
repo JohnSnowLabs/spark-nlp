@@ -18,7 +18,7 @@ data:
           activemenu: resolve_entities_codes
       source: yes
       source: 
-        - title: SNOMED Coding
+        - title: Map clinical terminology to SNOMED taxonomy
           id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
@@ -32,7 +32,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
-        - title: ICD-O coding
+        - title: Map oncology terminology to ICD-O taxonomy
           id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
