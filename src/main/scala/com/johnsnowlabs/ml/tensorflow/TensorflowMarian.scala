@@ -250,6 +250,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val paddingTokenId = vocabs.indexOf("<pad>")
     val unknownTokenId = vocabs.indexOf("<unk>")
     val eosTokenId = vocabs.indexOf("</s>")
+    val ignoreTokenIdsWithPadToken = ignoreTokenIds ++ Array(paddingTokenId)
     val vocabSize = vocabs.toSeq.length
 
     val langIdPieceId = if (langId.nonEmpty) {
@@ -262,7 +263,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, normalizer, maxInputLength, vocabs, langIdPieceId, unknownTokenId, eosTokenId)
-      val spIds = process(batchSP, maxOutputLength, paddingTokenId, eosTokenId, vocabSize, ignoreTokenIds)
+      val spIds = process(batchSP, maxOutputLength, paddingTokenId, eosTokenId, vocabSize, ignoreTokenIdsWithPadToken)
       decode(spIds, vocabs)
 
     }
