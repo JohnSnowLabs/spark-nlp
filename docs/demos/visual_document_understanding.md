@@ -66,7 +66,7 @@ data:
               src: /assets/images/correct.svg
           image2: 
               src: /assets/images/correct_f.svg
-          excerpt: Use our transformer to parse patient info, genomic and biomarker findings, and gene lists.
+          excerpt: Extract patient, genomic and biomarker information from FoundationOne Sequencing Reports.
           actions:
           - text: Live Demo
             type: normal
