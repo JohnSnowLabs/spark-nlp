@@ -21,6 +21,7 @@ can be loaded with ``readDataset``.
 from sparknlp.internal import ExtendedJavaWrapper
 from sparknlp.common import ExternalResource, ReadAs
 from pyspark.sql import SparkSession, DataFrame
+import pyspark
 
 
 class CoNLL(ExtendedJavaWrapper):
@@ -113,7 +114,7 @@ class CoNLL(ExtendedJavaWrapper):
                                     explodeSentences,
                                     delimiter)
 
-    def readDataset(self, spark, path, read_as=ReadAs.TEXT):
+    def readDataset(self, spark, path, read_as=ReadAs.TEXT, partitions=8, storage_level=pyspark.StorageLevel.DISK_ONLY):
         # ToDo Replace with std pyspark
         """Reads the dataset from an external resource.
 
@@ -125,6 +126,9 @@ class CoNLL(ExtendedJavaWrapper):
             Path to the resource
         read_as : str, optional
             How to read the resource, by default ReadAs.TEXT
+        partitions : sets the minimum number of partitions for the case of lifting multiple files in parallel into a single dataframe. Defaults to 8.
+        storage_level : sets the persistence level according to PySpark definitions. Defaults to StorageLevel.DISK_ONLY. Applies only when lifting multiple files.
+        
 
         Returns
         -------
@@ -133,7 +137,7 @@ class CoNLL(ExtendedJavaWrapper):
         """
         jSession = spark._jsparkSession
 
-        jdf = self._java_obj.readDataset(jSession, path, read_as)
+        jdf = self._java_obj.readDataset(jSession, path, read_as, partitions, spark.sparkContext._getJavaStorageLevel(storage_level))
         return DataFrame(jdf, spark._wrapped)
 
 
