@@ -49,7 +49,7 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       .setInputCols("sentence")
       .setOutputCol("translation")
       .setMaxInputLength(50)
-      .setIgnoreTokenIds(Array(64171))
+    //      .setIgnoreTokenIds(Array(64171))
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -67,7 +67,7 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
         .where("length(translation.result) > 0")
         .selectExpr("translation.result as translation")
       assert(results.count() > 0, "Should return non-empty translations")
-      results.show(truncate=false)
+      results.show(truncate = false)
     }
 
   }
