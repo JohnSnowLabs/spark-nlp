@@ -122,7 +122,7 @@ data:
               src: /assets/images/Detect_Entities_in_tweets.svg
           image2: 
               src: /assets/images/Detect_Entities_in_tweets_f.svg
-          excerpt: This demo shows how Broad Twitter Corpus (BTC) entities can be detected automatically using Spark NLP models.
+          excerpt: This demo shows how to extract Named Entities, as PER, ORG or LOC, from tweets.
           actions:
           - text: Live Demo
             type: normal

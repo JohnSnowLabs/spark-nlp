@@ -18,7 +18,7 @@ data:
           activemenu: resolve_entities_codes
       source: yes
       source: 
-        - title: SNOMED coding
+        - title: SNOMED Coding
           id: snomed_coding
           image: 
               src: /assets/images/Detect_signs_and_symptoms.svg
@@ -32,7 +32,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
-        - title: ICDO coding
+        - title: ICD-O coding
           id: icdo_coding
           image: 
               src: /assets/images/Detect_diagnosis_and_procedures.svg
@@ -124,7 +124,7 @@ data:
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC.svg
           image2: 
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC_f.svg
-          excerpt: This demo shows how laboratory result-related entities can be automatically mapped to Logical Observation Identifiers Names and Codes (LOINC) using sentence resolvers.
+          excerpt: This demo shows how laboratory terminology can be automatically mapped to the Logical Observation Identifiers Names and Codes (LOINC) taxonomy.
           actions:
           - text: Live Demo
             type: normal
@@ -132,13 +132,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb    
-        - title: Sentence Entity Resolver for billable ICD10-CM HCC codes
+        - title: Extract Hierarchical Condition Categories billable codes using ICD10-CM taxonomy
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC.svg
           image2: 
               src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_f.svg
-          excerpt: This demo shows how the extracted medical entities can be mapped to ICD-10 CM-HCC codes using Spark NLP for Healthcare sentence resolvers.
+          excerpt: This demo shows how the extracted medical entities can be mapped to Hierarchical Condition Categories billable codes, using the ICD10-CM taxonomy.
           actions:
           - text: Live Demo
             type: normal
@@ -146,13 +146,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb  
-        - title: Sentence Entity Resolver for ICD10-CM codes (Generalized version)
+        - title: Sentence Entity Resolver for ICD10-CM codes
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports.svg
           image2: 
               src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports_f.svg
-          excerpt: This demo shows how the extracted medical entities can be mapped to ICD-10 CM generalized codes using Spark NLP for Healthcare sentence resolvers.
+          excerpt: This demo shows how medical terminology can be mapped to ICD-10 CM codes using Spark NLP for Healthcare. Entities have been grouped to provide a more high-level / generalized resolution.
           actions:
           - text: Live Demo
             type: normal
