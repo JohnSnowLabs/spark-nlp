@@ -231,7 +231,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
-        - title: Detect Adverse Drug Events (Bert For Token Classification)
+        - title: Detect Adverse Drug Events
           id: detect_adverse_drug_events_bertfortokenclassification
           image: 
               src: /assets/images/Detect_Adverse_Drug_Events.svg

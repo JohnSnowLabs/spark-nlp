@@ -46,13 +46,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: ICD10-CM Coding
+        - title: Map clinical terminology to ICD10-CM codes
           id: icd10-cm_coding
           image: 
               src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes.svg
           image2: 
               src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes_f.svg
-          excerpt: This demo shows how problems can be automatically mapped to ICD10 CM codes using sentence resolvers.
+          excerpt: This demo shows how clinical problems can be automatically mapped to the ICD10-CM taxonomy.
           actions:
           - text: Live Demo
             type: normal
@@ -60,7 +60,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: RxNORM Coding
+        - title: Map drug terminology to RxNorm codes
           id: rxnorm_coding
           image: 
               src: /assets/images/Resolve_Drugs_to_RxNorm_Codes.svg
@@ -118,7 +118,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL
-        - title: LOINC Coding
+        - title: Map laboratory terminology to LOINC codes
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC.svg
