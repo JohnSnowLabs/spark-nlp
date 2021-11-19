@@ -114,6 +114,8 @@ import scala.collection.mutable.ArrayBuffer
  * }}}
  *
  * @see [[BertEmbeddings]] for token-level embeddings
+ * @see [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification BertForSequenceClassification]]
+ *      for embeddings with a sequence classification layer on top
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types

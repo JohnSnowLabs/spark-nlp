@@ -81,6 +81,12 @@ classes, such as sentiment.
 {% include_relative training_entries/SentimentDL.md %}
 {% include_relative training_entries/ViveknSentiment.md %}
 
+## Text Representation
+These are annotators that can be trained to turn text into a numerical
+representation.
+
+{% include_relative training_entries/Doc2VecApproach.md %}
+
 ## External Trainable Models
 These are annotators that are trained in an external library, which are then
 loaded into Spark NLP.

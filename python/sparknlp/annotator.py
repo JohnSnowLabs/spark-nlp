@@ -1197,6 +1197,10 @@ class Chunker(AnnotatorModel):
     |[chunk, 35, 39, pecks, [sentence -> 0, chunk -> 2], []]      |
     |[chunk, 52, 58, peppers, [sentence -> 0, chunk -> 3], []]    |
     +-------------------------------------------------------------+
+
+    See Also
+    --------
+    PerceptronModel : for Part-Of-Speech tagging
     """
 
     regexParsers = Param(Params._dummy(),
@@ -2167,6 +2171,10 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     |[[date, 0, 8, 2020/01/18, [sentence -> 0], []]]  |
     |[[date, 10, 18, 2020/01/12, [sentence -> 0], []]]|
     +-------------------------------------------------+
+
+    See Also
+    --------
+    MultiDateMatcher : for matching multiple dates in a document
     """
 
     name = "DateMatcher"
@@ -2338,6 +2346,10 @@ class TextMatcher(AnnotatorApproach):
     |[chunk, 27, 48, Lorem ipsum dolor. sit, [entity -> entity, sentence -> 0, chunk -> 1], []]|
     |[chunk, 53, 59, laborum, [entity -> entity, sentence -> 0, chunk -> 2], []]               |
     +------------------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    BigTextMatcher : to match large amounts of text
     """
 
     entities = Param(Params._dummy(),
@@ -3302,6 +3314,10 @@ class SentimentDetector(AnnotatorApproach):
     |[positive]|
     |[negative]|
     +----------+
+
+    See Also
+    --------
+    ViveknSentimentApproach : for an alternative approach to sentiment extraction
     """
     dictionary = Param(Params._dummy(),
                        "dictionary",
@@ -3712,6 +3728,11 @@ class NorvigSweetingApproach(AnnotatorApproach):
     ...     spellChecker
     ... ])
     >>> pipelineModel = pipeline.fit(trainingData)
+
+    See Also
+    --------
+    SymmetricDeleteApproach : for an alternative approach to spell checking
+    ContextSpellCheckerApproach : for a DL based approach
     """
     dictionary = Param(Params._dummy(),
                        "dictionary",
@@ -3914,6 +3935,11 @@ class NorvigSweetingModel(AnnotatorModel):
     +--------------------------------------+
     |[sometimes, i, write, words, wrong, .]|
     +--------------------------------------+
+
+    See Also
+    --------
+    SymmetricDeleteModel : for an alternative approach to spell checking
+    ContextSpellCheckerModel : for a DL based approach
     """
     name = "NorvigSweetingModel"
 
@@ -4008,6 +4034,11 @@ class SymmetricDeleteApproach(AnnotatorApproach):
     ...     spellChecker
     ... ])
     >>> pipelineModel = pipeline.fit(trainingData)
+
+    See Also
+    --------
+    NorvigSweetingApproach : for an alternative approach to spell checking
+    ContextSpellCheckerApproach : for a DL based approach
     """
     corpus = Param(Params._dummy(),
                    "corpus",
@@ -4169,6 +4200,11 @@ class SymmetricDeleteModel(AnnotatorModel):
     +--------------------------------------+
     |[sometimes, i, write, words, wrong, .]|
     +--------------------------------------+
+
+    See Also
+    --------
+    NorvigSweetingModel : for an alternative approach to spell checking
+    ContextSpellCheckerModel : for a DL based approach
     """
     name = "SymmetricDeleteModel"
 
@@ -4395,6 +4431,11 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     >>> conll = CoNLL()
     >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
     >>> pipelineModel = pipeline.fit(trainingData)
+
+    See Also
+    --------
+    NerDLApproach : for a deep learning based approach
+    NerConverter : to further process the results
     """
 
     l2 = Param(Params._dummy(), "l2", "L2 regularization coefficient", TypeConverters.toFloat)
@@ -4592,6 +4633,11 @@ class NerCrfModel(AnnotatorModel):
     +------------------------------------+
     |[I-ORG, O, O, I-PER, O, O, I-LOC, O]|
     +------------------------------------+
+
+    See Also
+    --------
+    NerDLModel : for a deep learning based approach
+    NerConverter : to further process the results
     """
     name = "NerCrfModel"
 
@@ -4765,6 +4811,11 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     >>> conll = CoNLL()
     >>> trainingData = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
     >>> pipelineModel = pipeline.fit(trainingData)
+
+    See Also
+    --------
+    NerCrfApproach : for a generic CRF approach
+    NerConverter : to further process the results
     """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -5118,6 +5169,11 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
     +------------------------------------+
     |[B-ORG, O, O, B-PER, O, O, B-LOC, O]|
     +------------------------------------+
+
+    See Also
+    --------
+    NerCrfModel : for a generic CRF approach
+    NerConverter : to further process the results
     """
     name = "NerDLModel"
 
@@ -5360,6 +5416,10 @@ class DependencyParserApproach(AnnotatorApproach):
 
     Additional training data is not needed, the dependency parser relies on the
     dependency tree bank / CoNLL-U only.
+
+    See Also
+    --------
+    TypedDependencyParserApproach : to extract labels for the dependencies
     """
     dependencyTreeBank = Param(Params._dummy(),
                                "dependencyTreeBank",
@@ -5511,6 +5571,10 @@ class DependencyParserModel(AnnotatorModel):
     |say         |Unions      |
     |they        |disappointed|
     +------------+------------+
+
+    See Also
+    --------
+    TypedDependencyParserMdoel : to extract labels for the dependencies
     """
     name = "DependencyParserModel"
 
@@ -5929,6 +5993,10 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     |[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |
     |[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |
     +----------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    SentenceEmbeddings : to combine embeddings into a sentence-level representation
     """
 
     name = "WordEmbeddings"
@@ -6061,6 +6129,10 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|
     |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|
     +--------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    SentenceEmbeddings : to combine embeddings into a sentence-level representation
     """
 
     name = "WordEmbeddingsModel"
@@ -7778,6 +7850,11 @@ class ClassifierDLApproach(AnnotatorApproach):
     ...     docClassifier
     ... ])
     >>> pipelineModel = pipeline.fit(smallCorpus)
+
+    See Also
+    --------
+    MultiClassifierDLApproach : for multi-class classification
+    SentimentDLApproach : for sentiment analysis
     """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -8024,6 +8101,11 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
     |I'm ready!                                                                     |normal |
     |If I could put into words how much I love waking up at 6 am on Mondays I would.|sarcasm|
     +-------------------------------------------------------------------------------+-------+
+
+    See Also
+    --------
+    MultiClassifierDLModel : for multi-class classification
+    SentimentDLModel : for sentiment analysis
     """
 
     name = "ClassifierDLModel"
@@ -8205,6 +8287,10 @@ class AlbertEmbeddings(AnnotatorModel,
     |[-0.04192575812339783,-0.5764210224151611,-0.3196685314178467,-0.527840495109...|
     |[0.15583214163780212,-0.1614152491092682,-0.28423872590065,-0.135491415858268...|
     +--------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    AlbertForTokenClassification : for  AlbertEmbeddings with a token classification layer on top
     """
 
     name = "AlbertEmbeddings"
@@ -8630,6 +8716,10 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     >>> dataset = spark.read.text(path) \\
     ...     .toDF("text")
     >>> pipelineModel = pipeline.fit(dataset)
+
+    See Also
+    --------
+    NorvigSweetingApproach, SymmetricDeleteApproach : For alternative approaches to spell checking
     """
 
     name = "ContextSpellCheckerApproach"
@@ -9059,6 +9149,10 @@ class ContextSpellCheckerModel(AnnotatorModel):
     +--------------------------------------------------------------------------------+
     |[It, was, a, cold, ,, dreary, day, and, the, country, was, white, with, snow, .]|
     +--------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    NorvigSweetingModel, SymmetricDeleteModel: For alternative approaches to spell checking
     """
     name = "ContextSpellCheckerModel"
 
@@ -10041,6 +10135,11 @@ class MultiClassifierDLApproach(AnnotatorApproach):
     ...     docClassifier
     ... ])
     >>> pipelineModel = pipeline.fit(trainDataset)
+
+    See Also
+    --------
+    ClassifierDLApproach : for single-class classification
+    SentimentDLApproach : for sentiment analysis
     """
 
     lr = Param(Params._dummy(), "lr", "Learning Rate", TypeConverters.toFloat)
@@ -10305,6 +10404,11 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
     |This is pretty good stuff!|[]              |
     |Wtf kind of crap is this  |[toxic, obscene]|
     +--------------------------+----------------+
+    
+    See Also
+    --------
+    ClassifierDLModel : for single-class classification
+    SentimentDLModel : for sentiment analysis
     """
     name = "MultiClassifierDLModel"
 
@@ -12577,6 +12681,10 @@ class GraphExtraction(AnnotatorModel):
     +-----------------------------------------------------------------------------------------------------------------+
     |[[node, 13, 18, prefer, [relationship -> prefer,LOC, path1 -> prefer,nsubj,morning,flat,flight,flat,Denver], []]]|
     +-----------------------------------------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    GraphFinisher : to output the paths in a more generic format, like RDF
     """
     name = "GraphExtraction"
 
@@ -13791,6 +13899,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
+
         Parameters
         ----------
         b : List[str]
@@ -13800,6 +13909,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
 
     def setMaxSentenceLength(self, value):
         """Sets max sentence length to process, by default 128.
+
         Parameters
         ----------
         value : int
@@ -13823,12 +13933,14 @@ class RoBertaForTokenClassification(AnnotatorModel,
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
+
         Parameters
         ----------
         folder : str
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+
         Returns
         -------
         RoBertaForTokenClassification
@@ -13841,6 +13953,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
     @staticmethod
     def pretrained(name="roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
+
         Parameters
         ----------
         name : str, optional
@@ -13851,6 +13964,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
+
         Returns
         -------
         RoBertaForTokenClassification
@@ -13946,6 +14060,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
+
         Parameters
         ----------
         b : List[str]
@@ -13955,6 +14070,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
 
     def setMaxSentenceLength(self, value):
         """Sets max sentence length to process, by default 128.
+
         Parameters
         ----------
         value : int
@@ -13978,12 +14094,14 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
+
         Parameters
         ----------
         folder : str
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+
         Returns
         -------
         XlmRoBertaForTokenClassification
@@ -13996,6 +14114,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     @staticmethod
     def pretrained(name="xlm_roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
+
         Parameters
         ----------
         name : str, optional
@@ -14006,6 +14125,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
+
         Returns
         -------
         XlmRoBertaForTokenClassification
@@ -14087,6 +14207,10 @@ class AlbertForTokenClassification(AnnotatorModel,
     +------------------------------------------------------------------------------------+
     |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
     +------------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    AlbertEmbeddings : for token-level embeddings
     """
 
     name = "AlbertForTokenClassification"
@@ -14103,6 +14227,7 @@ class AlbertForTokenClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
+
         Parameters
         ----------
         b : List[str]
@@ -14112,6 +14237,7 @@ class AlbertForTokenClassification(AnnotatorModel,
 
     def setMaxSentenceLength(self, value):
         """Sets max sentence length to process, by default 128.
+
         Parameters
         ----------
         value : int
@@ -14135,12 +14261,14 @@ class AlbertForTokenClassification(AnnotatorModel,
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
+
         Parameters
         ----------
         folder : str
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+
         Returns
         -------
         AlbertForTokenClassification
@@ -14153,6 +14281,7 @@ class AlbertForTokenClassification(AnnotatorModel,
     @staticmethod
     def pretrained(name="albert_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
+
         Parameters
         ----------
         name : str, optional
@@ -14163,6 +14292,7 @@ class AlbertForTokenClassification(AnnotatorModel,
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
+
         Returns
         -------
         AlbertForTokenClassification
@@ -14261,6 +14391,7 @@ class XlnetForTokenClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
+
         Parameters
         ----------
         b : List[str]
@@ -14270,6 +14401,7 @@ class XlnetForTokenClassification(AnnotatorModel,
 
     def setMaxSentenceLength(self, value):
         """Sets max sentence length to process, by default 128.
+
         Parameters
         ----------
         value : int
@@ -14293,12 +14425,14 @@ class XlnetForTokenClassification(AnnotatorModel,
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
+
         Parameters
         ----------
         folder : str
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+
         Returns
         -------
         XlnetForTokenClassification
@@ -14311,6 +14445,7 @@ class XlnetForTokenClassification(AnnotatorModel,
     @staticmethod
     def pretrained(name="xlnet_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
+
         Parameters
         ----------
         name : str, optional
@@ -14321,6 +14456,7 @@ class XlnetForTokenClassification(AnnotatorModel,
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
+
         Returns
         -------
         XlnetForTokenClassification
@@ -14419,6 +14555,7 @@ class LongformerForTokenClassification(AnnotatorModel,
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
+
         Parameters
         ----------
         b : List[str]
@@ -14428,6 +14565,7 @@ class LongformerForTokenClassification(AnnotatorModel,
 
     def setMaxSentenceLength(self, value):
         """Sets max sentence length to process, by default 128.
+
         Parameters
         ----------
         value : int
@@ -14451,12 +14589,14 @@ class LongformerForTokenClassification(AnnotatorModel,
     @staticmethod
     def loadSavedModel(folder, spark_session):
         """Loads a locally saved model.
+
         Parameters
         ----------
         folder : str
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+
         Returns
         -------
         LongformerForTokenClassification
@@ -14469,6 +14609,7 @@ class LongformerForTokenClassification(AnnotatorModel,
     @staticmethod
     def pretrained(name="longformer_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
+
         Parameters
         ----------
         name : str, optional
@@ -14479,6 +14620,7 @@ class LongformerForTokenClassification(AnnotatorModel,
         remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
+
         Returns
         -------
         LongformerForTokenClassification
@@ -14565,29 +14707,29 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
 
     where each line represents an entity and the associated string delimited by "|".
 
-        >>> documentAssembler = DocumentAssembler() \\
-        ...     .setInputCol("text") \\
-        ...     .setOutputCol("document")
-        >>> tokenizer = Tokenizer() \\
-        ...     .setInputCols(["document"]) \\
-        ...     .setOutputCol("token")
-        >>> entityRuler = EntityRulerApproach() \\
-        ...     .setInputCols(["document", "token"]) \\
-        ...     .setOutputCol("entities") \\
-        ...     .setPatternsResource(
-        ...       "patterns.csv",
-        ...       ReadAs.TEXT,
-        ...       {"format": "csv", "delimiter": "\\\\|"}
-        ...     ) \\
-        ...     .setEnablePatternRegex(True)
-        >>> pipeline = Pipeline().setStages([
-        ...     documentAssembler,
-        ...     tokenizer,
-        ...     entityRuler
-        ... ])
-        >>> data = spark.createDataFrame([["Jon Snow wants to be lord of Winterfell."]]).toDF("text")
-        >>> result = pipeline.fit(data).transform(data)
-        >>> result.selectExpr("explode(entities)").show(truncate=False)
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> entityRuler = EntityRulerApproach() \\
+    ...     .setInputCols(["document", "token"]) \\
+    ...     .setOutputCol("entities") \\
+    ...     .setPatternsResource(
+    ...       "patterns.csv",
+    ...       ReadAs.TEXT,
+    ...       {"format": "csv", "delimiter": "\\\\|"}
+    ...     ) \\
+    ...     .setEnablePatternRegex(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     entityRuler
+    ... ])
+    >>> data = spark.createDataFrame([["Jon Snow wants to be lord of Winterfell."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(entities)").show(truncate=False)
     +--------------------------------------------------------------------+
     |col                                                                 |
     +--------------------------------------------------------------------+
@@ -14881,15 +15023,6 @@ class Doc2VecApproach(AnnotatorApproach, HasStorageRef):
 
     For instantiated/pretrained models, see :class:`.Doc2VecModel`.
 
-    Pretrained models can be loaded with :meth:`.pretrained` of the companion
-    object:
-
-    >>> embeddings = Doc2VecModel.pretrained() \\
-    ...     .setInputCols(["token"]) \\
-    ...     .setOutputCol("embeddings")
-
-    The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
-
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
 
     ====================== =======================
@@ -15088,6 +15221,15 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     This is the instantiated model of the :class:`.Doc2VecApproach`. For
     training your own model, please see the documentation of that class.
 
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> embeddings = Doc2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+
+    The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+
     ====================== =======================
     Input Annotation types Output Annotation type
     ====================== =======================
@@ -15099,7 +15241,6 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     vectorSize
         The dimension of codes after transforming from words (> 0) , by default
         100
-
 
     References
     ----------
