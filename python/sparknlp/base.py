@@ -614,6 +614,10 @@ class Doc2Chunk(AnnotatorTransformer, AnnotatorProperties):
     +-----------------------------------------------------------------+---------------------+
     |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|
     +-----------------------------------------------------------------+---------------------+
+
+    See Also
+    --------
+    Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`
     """
 
     chunkCol = Param(Params._dummy(), "chunkCol", "column that contains string. Must be part of DOCUMENT", typeConverter=TypeConverters.toString)
@@ -743,6 +747,10 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
     |[document, 0, 7, New York, [entity -> LOC, sentence -> 0, chunk -> 0], []]    |
     |[document, 13, 22, New Jersey, [entity -> LOC, sentence -> 0, chunk -> 1], []]|
     +------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    Doc2Chunk : for converting `DOCUMENT` annotations to `CHUNK`
     """
 
     name = "Chunk2Doc"
@@ -822,6 +830,10 @@ class Finisher(AnnotatorTransformer):
     +----------------------+
     |[New York, New Jersey]|
     +----------------------+
+
+    See Also
+    --------
+    Finisher : for finishing Strings
     """
 
     inputCols = Param(Params._dummy(), "inputCols", "input annotations", typeConverter=TypeConverters.toListString)
@@ -1031,6 +1043,10 @@ class EmbeddingsFinisher(AnnotatorTransformer):
     |[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|
     |[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|
     +--------------------------------------------------------------------------------+
+
+    See Also
+    --------
+    EmbeddingsFinisher : for finishing embeddings
     """
 
     inputCols = Param(Params._dummy(), "inputCols", "name of input annotation cols containing embeddings", typeConverter=TypeConverters.toListString)
