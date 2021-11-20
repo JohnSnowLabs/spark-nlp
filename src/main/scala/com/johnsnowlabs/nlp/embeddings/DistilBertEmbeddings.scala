@@ -123,6 +123,10 @@ import java.io.File
  * +--------------------------------------------------------------------------------+
  * }}}
  *
+ * @see [[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification DistilBertForTokenClassification]]
+ *      for DistilBertEmbeddings with a token classification layer on top
+ * @see [[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification DistilBertForSequenceClassification]]
+ *      for DistilBertEmbeddings with a sequence classification layer on top
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @groupname anno Annotator types
  * @groupdesc anno Required input and expected output annotator types

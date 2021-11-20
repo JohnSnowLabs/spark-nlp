@@ -210,6 +210,23 @@ class MarianTransformer(override val uid: String) extends
   /** @group getParam */
   def getLangId: String = $(langId)
 
+
+  /**
+    * A list of token ids which are ignored in the decoder's output
+    *
+    * @group param
+    * */
+  var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
+
+  /** @group setParam */
+  def setIgnoreTokenIds(tokenIds:  Array[Int]): MarianTransformer.this.type = {
+    set(ignoreTokenIds, tokenIds)
+  }
+
+  /** @group getParam */
+  def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
+
+
   /**
    * ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
@@ -267,8 +284,9 @@ class MarianTransformer(override val uid: String) extends
   setDefault(
     maxInputLength -> 40,
     maxOutputLength -> 40,
-    batchSize -> 4,
-    langId -> ""
+    batchSize -> 1,
+    langId -> "",
+    ignoreTokenIds -> Array()
   )
 
   /**
@@ -278,7 +296,7 @@ class MarianTransformer(override val uid: String) extends
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptySentences = batchedAnnotations.map(x => x.filter(_.result.nonEmpty))
+    val nonEmptySentences = batchedAnnotations.filter(x => x.nonEmpty)
 
     if (nonEmptySentences.nonEmpty) nonEmptySentences.map(tokenizedSentences => {
       this.getModelIfNotSet.generateSeq2Seq(
@@ -287,7 +305,8 @@ class MarianTransformer(override val uid: String) extends
         maxOutputLength = $(maxOutputLength),
         vocabs = $(vocabulary),
         langId = $(langId),
-        batchSize = $(batchSize)
+        batchSize = $(batchSize),
+        ignoreTokenIds = $(ignoreTokenIds)
       ).toSeq
     })
     else {
