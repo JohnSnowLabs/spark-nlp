@@ -39,7 +39,7 @@ trait DateMatcherUtils extends Params {
   private val formalDateAlt2 = new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day")
   private val formalDateShort = new Regex("\\b(0?[1-9]|1[012])[-/](\\d{2,4})\\b", "month", "year")
 
-  private val months = Seq("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december")
+  protected val months = Seq("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december")
   protected val shortMonths = Seq("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
 
   /** Relaxed dates, e.g. March 2nd */
