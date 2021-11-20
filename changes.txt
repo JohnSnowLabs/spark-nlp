@@ -1,2 +1,6 @@
-docs/_posts/maziyarpanahi/2021-09-01-sent_xlm_roberta_base_xx.md
-docs/_posts/maziyarpanahi/2021-09-01-sent_xlm_roberta_base_xx.md
+docs/_data/navigation.yml
+docs/en/models.md
+docs/en/pipelines.md
+docs/_data/navigation.yml
+docs/en/models.md
+docs/en/pipelines.md
