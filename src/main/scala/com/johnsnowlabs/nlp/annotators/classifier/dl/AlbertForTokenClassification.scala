@@ -85,7 +85,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[AlbertForTokenClassification]] for sentence-level embeddings
+ * @see [[com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings AlbertEmbeddings]] for token-level embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
