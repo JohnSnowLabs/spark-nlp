@@ -46,8 +46,6 @@ sparknlp:
         url:    /docs/en/training
       - title:  Third Party Projects
         url:    /docs/en/third-party-projects
-      - title:  Pipelines
-        url:    /docs/en/pipelines
       - title:  Models
         url:    /models
       - title:  Helpers

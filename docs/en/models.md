@@ -2,18 +2,18 @@
 layout: docs
 header: true
 title: Models
-permalink: /docs/en/models
+permalink: /models
 key: docs-models
-modify_date: "2020-09-10"
+modify_date: "2021-11-20"
 ---
 
 <div class="h3-box" markdown="1">
 
 ## Pretrained Models
 
-Pretrained Models moved to its own dedicated repository.
-Please follow this link for the updated list:
-[https://github.com/JohnSnowLabs/spark-nlp-models](https://github.com/JohnSnowLabs/spark-nlp-models)
+Pretrained Models have moved to Models Hub.
+Please follow this link for the updated list of all models and pipelines:
+[Models Hub](https://nlp.johnsnowlabs.com/modelss)
 {:.success}
 
 </div><div class="h3-box" markdown="1">
