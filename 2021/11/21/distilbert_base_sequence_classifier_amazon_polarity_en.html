@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is used detecting hatespeech in English language. The mono in the name refers to the monolingual setting, where the model is trained us...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_dehatebert_mono_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>DistilBERT Sequence Classification - Amazon Polarity (distilbert_base_sequence_classifier_amazon_polarity)- Spark NLP Model</title><meta name="description" content="DescriptionDistilBERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document cl...">
+<link rel="canonical" href="/2021/11/21/distilbert_base_sequence_classifier_amazon_polarity_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,34 +403,25 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>hatespeech</li><li>en</li><li>english</li><li>sequence_classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,hatespeech,en,english,sequence_classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00"></div><header><h1>DistilBERT Sequence Classification - Amazon Polarity (distilbert_base_sequence_classifier_amazon_polarity)</h1></header></div><meta itemprop="headline" content="DistilBERT Sequence Classification - Amazon Polarity (distilbert_base_sequence_classifier_amazon_polarity)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>english</li><li>amazon_polarity</li><li>distilbert</li><li>sequence_classification</li><li>sentiment</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,english,amazon_polarity,distilbert,sequence_classification,sentiment,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is used detecting <strong>hatespeech</strong> in <strong>English language</strong>. The mono in the name refers to the monolingual setting, where the model is trained using only English language data. It is finetuned on multilingual bert model.
-The model is trained with different learning rates and the best validation score achieved is 0.726030 for a learning rate of 2e-5. Training code can be found here https://github.com/punyajoy/DE-LIMIT</p>
+<p>DistilBERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
 
-<h3 id="for-more-details-about-our-paper">For more details about our paper</h3>
+<p><code class="language-plaintext highlighter-rouge">distilbert_base_sequence_classifier_amazon_polarity </code> is a fine-tuned DistilBERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance.</p>
 
-<p>Sai Saketh Aluru, Binny Mathew, Punyajoy Saha and Animesh Mukherjee. “<a href="https://arxiv.org/abs/2004.06465">Deep Learning Models for Multilingual Hate Speech Detection</a>”. Accepted at ECML-PKDD 2020.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{aluru2020deep,
-  title={Deep Learning Models for Multilingual Hate Speech Detection},
-  author={Aluru, Sai Saket and Mathew, Binny and Saha, Punyajoy and Mukherjee, Animesh},
-  journal={arXiv preprint arXiv:2004.06465},
-  year={2020}
-}
-</code></pre></div></div>
+<p>We used TFDistilBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">NON_HATE</code>, <code class="language-plaintext highlighter-rouge">HATE</code></p>
+<p><code class="language-plaintext highlighter-rouge">negative</code>, <code class="language-plaintext highlighter-rouge">positive</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_dehatebert_mono_en_3.3.2_3.0_1635937844054.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_sequence_classifier_amazon_polarity_en_3.3.3_3.0_1637503776952.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -446,31 +437,31 @@ The model is trained with different learning rates and the best validation score
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_dehatebert_mono'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span> \
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'distilbert_base_sequence_classifier_amazon_polarity'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
     <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>
+    <span class="n">sequenceClassifier</span>    
 <span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I love you!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I really liked that movie!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_dehatebert_mono"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_sequence_classifier_amazon_polarity"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
@@ -478,7 +469,7 @@ The model is trained with different learning rates and the best validation score
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love you!"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">I</span> <span class="kt">really</span> <span class="kt">liked</span> <span class="kt">that</span> <span class="kt">movie!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -490,11 +481,11 @@ The model is trained with different learning rates and the best validation score
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_dehatebert_mono</td>
+      <td>distilbert_base_sequence_classifier_amazon_polarity</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP 3.3.3+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -518,7 +509,7 @@ The model is trained with different learning rates and the best validation score
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>false</td>
+      <td>true</td>
     </tr>
     <tr>
       <td>Max sentense length:</td>
@@ -529,8 +520,20 @@ The model is trained with different learning rates and the best validation score
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english">https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p><a href="https://huggingface.co/datasets/amazon_polarity">https://huggingface.co/datasets/amazon_polarity</a></p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          precision    recall  f1-score   support
+
+    negative       0.94      0.96      0.95     24285
+    positive       0.96      0.95      0.95     25715
+
+    accuracy                           0.95     50000
+   macro avg       0.95      0.95      0.95     50000
+weighted avg       0.95      0.95      0.95     50000
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -655,7 +658,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_finbert_en.html">BERT Sequence Classification - Financial Sentiment Analysis (bert_sequence_classifier_finbert)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/21/distilbert_base_sequence_classifier_ag_news_en.html">DistilBERT Sequence Classification Base - AG News (distilbert_base_sequence_classifier_ag_news)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/21/distilbert_base_sequence_classifier_imdb_en.html">DistilBERT Sequence Classification - IMDB (distilbert_base_sequence_classifier_imdb)</a></div></div></div>
 
 </div>
 </div>

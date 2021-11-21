@@ -482,23 +482,23 @@
 </span><span class="s">      .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['</span><span class="n">I</span> <span class="n">really</span> <span class="n">liked</span> <span class="n">that</span> <span class="n">movie</span><span class="err">!</span><span class="s">']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 </span></code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span><span class="o">(</span><span class="s">"bert_sequence_classifier_multilingual_sentiment"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_multilingual_sentiment"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
@@ -506,7 +506,7 @@ result = pipeline.fit(example).transform(example)
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">I</span> <span class="kt">really</span> <span class="kt">liked</span> <span class="kt">that</span> <span class="kt">movie!</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I really liked that movie!"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -564,7 +564,7 @@ result = pipeline.fit(example).transform(example)
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The finetuned model obtained the following accuracy on 5,000 held-out product reviews <span class="k">in </span>each of the languages:
 
 - Accuracy <span class="o">(</span>exact<span class="o">)</span> is the exact match on the number of stars.
-- Accuracy <span class="o">(</span>off-by-1<span class="o">)</span> is the percentage of reviews where the number of stars the model predicts differs by a maximum of 1 from the number given by the human reviewer. 
+- Accuracy <span class="o">(</span>off-by-1<span class="o">)</span> is the percentage of reviews where the number of stars the model predicts differs by a maximum of 1 from the number given by the human reviewer.
 
 
 | Language | Accuracy <span class="o">(</span>exact<span class="o">)</span> | Accuracy <span class="o">(</span>off-by-1<span class="o">)</span> |

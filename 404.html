@@ -424,8 +424,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using sbiobert_base_cased_mli Sentence Bert Embeddings. It...">
-<link rel="canonical" href="/2021/11/09/sbiobertresolve_rxnorm_augmented_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Doc2Vec Gigaword and Wikipedia - 300 dimensions- Spark NLP Model</title><meta name="description" content="DescriptionWe have trained this Doc2Vec model by using Gigaword 5th Edition and English Wikipedia Dump of February 2017 over the window size of 5 and 300 dim...">
+<link rel="canonical" href="/2021/11/21/doc2vec_gigaword_wiki_300_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -818,21 +818,19 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 09, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-09T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>rxnorm</li><li>licensed</li><li>en</li><li>clinical</li><li>entity_resolution</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="rxnorm,licensed,en,clinical,entity_resolution"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00"></div><header><h1>Doc2Vec Gigaword and Wikipedia - 300 dimensions</h1></header></div><meta itemprop="headline" content="Doc2Vec Gigaword and Wikipedia - 300 dimensions"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>doc2vec</li><li>gigaword</li><li>wikipedia</li><li>en</li><li>english</li><li>sentence_embeddings</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00">
+    <meta itemprop="keywords" content="doc2vec,gigaword,wikipedia,en,english,sentence_embeddings,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes using <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> Sentence Bert Embeddings. It trained on the augmented version of the dataset which is used in previous RxNorm resolver models. Additionally, this model returns concept classes of the drugs in <code class="language-plaintext highlighter-rouge">all_k_aux_labels</code> column.</p>
+<p>We have trained this Doc2Vec model by using Gigaword 5th Edition and English Wikipedia Dump of February 2017 over the window size of 5 and 300 dimensions. We used the <code class="language-plaintext highlighter-rouge">Doc2VecApproach</code> annotator that uses the Spark ML Word2Vec behind the scene to train a Word2Vec model.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">RxNorm Codes</code>, <code class="language-plaintext highlighter-rouge">Concept Classes</code></p>
-
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_augmented_en_3.3.1_2.4_1636472410154.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/doc2vec_gigaword_wiki_300_en_3.3.3_3.0_1637493418106.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -840,65 +838,49 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
-    
-<span class="n">rxnorm_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_rxnorm_augmented"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"rxnorm_code"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="n">token</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">rxnorm_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
-    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sbert_embedder</span><span class="p">,</span>
-        <span class="n">rxnorm_resolver</span><span class="p">])</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"normalized"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setLowercase</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="n">clinical_note</span> <span class="o">=</span> <span class="s">"""
-She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
-levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
-Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily."""</span>
+<span class="n">stops</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"normalized"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cleanedToken"</span><span class="p">)</span>
+  
+<span class="n">doc2Vec</span> <span class="o">=</span> <span class="n">Doc2VecModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"doc2vec_gigaword_wiki_300"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"cleanedToken"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'sbiobert_base_cased_ml</span><span class="n">i</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
-    
-<span class="k">val</span> <span class="nv">rxnorm_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_rxnorm_augmented"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)\</span>
-      <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">rxnorm_pipelineModel</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">rxnorm_resolver</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">norm</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Normalizer</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setLowercase</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
-levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
-Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">stops</span> <span class="k">=</span> <span class="nv">StopWordsCleaner</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cleanedToken"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">doc2Vec</span> <span class="k">=</span> <span class="nv">Doc2VecModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"doc2vec_gigaword_wiki_300"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"cleanedToken"</span><span class="o">)\</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
-|            chunk|begin|end|         entity|confidence|RxNormCode|                                         all_codes|                                       resolutions|                                     Concept Class|
-+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
-|       folic acid|  121|130|Drug_Ingredient|   0.59705|      4511|4511:::1162058:::1162059:::62356:::1376005:::54...|folic acid:::folic acid oral product:::folic ac...|Ingredient:::Clinical Dose Group:::Clinical Dos...|
-|    levothyroxine|  144|156|Drug_Ingredient|    0.6059|     10582|10582:::1868004:::40144:::1602753:::1602745:::2...|levothyroxine:::levothyroxine injection:::levot...|Ingredient:::Clinical Drug Form:::Precise Ingre...|
-|          aspirin|  219|225|Drug_Ingredient|    0.9814|      1191|1191:::405403:::218266:::1154070:::215568:::202...|aspirin:::ysp aspirin:::med aspirin:::aspirin p...|Ingredient:::Brand Name:::Brand Name:::Clinical...|
-|magnesium citrate|  313|329|Drug_Ingredient|   0.53295|     52356|52356:::29155:::1314220:::1006900:::52358:::291...|magnesium citrate:::magnesium carbonate:::magne...|Ingredient:::Ingredient:::Precise Ingredient:::...|
-|          insulin|  376|382|Drug_Ingredient|    0.4832|    139825|139825:::1740938:::274783:::86009:::1605101:::5...|insulin detemir:::insulin argine:::insulin glar...|Ingredient:::Ingredient:::Ingredient:::Ingredie...|
-+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -906,15 +888,15 @@ Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>sbiobertresolve_rxnorm_augmented</td>
+      <td>doc2vec_gigaword_wiki_300</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.3.1+</td>
+      <td>Spark NLP 3.3.3+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -922,23 +904,24 @@ Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence_embeddings]</td>
+      <td>[cleanedToken]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[rxnorm_code]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
-    </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-09T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="data-source">Data Source</h2>
+
+<p><a href="https://catalog.ldc.upenn.edu/LDC2011T07">https://catalog.ldc.upenn.edu/LDC2011T07</a>
+<a href="https://dumps.wikimedia.org/enwiki/">https://dumps.wikimedia.org/enwiki/</a></p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1063,7 +1046,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/07/bert_sequence_classifier_song_lyrics_en.html">BERT Sequence Classifier - Classify the Music Genre</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/21/doc2vec_gigaword_300_en.html">Doc2Vec Gigaword 5th Edition - 300 dimensions</a></div></div></div>
 
 </div>
 </div>

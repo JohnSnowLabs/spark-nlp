@@ -460,7 +460,7 @@
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk_embeddings"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
 
-<span class="n">er</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"robertaresolve_snomed"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+<span class="n">er</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical_snomed"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">,</span> <span class="s">"chunk_embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"snomed_code"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>

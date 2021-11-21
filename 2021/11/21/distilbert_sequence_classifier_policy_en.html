@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is used detecting hatespeech in English language. The mono in the name refers to the monolingual setting, where the model is trained us...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_dehatebert_mono_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>DistilBERT Sequence Classification - Policy (distilbert_sequence_classifier_policy)- Spark NLP Model</title><meta name="description" content="DescriptionThis model was trained on 129.669 manually annotated sentences to classify text into one of seven political categories: ‘Economy’, ‘External Relat...">
+<link rel="canonical" href="/2021/11/21/distilbert_sequence_classifier_policy_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,34 +403,31 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>hatespeech</li><li>en</li><li>english</li><li>sequence_classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,hatespeech,en,english,sequence_classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00"></div><header><h1>DistilBERT Sequence Classification - Policy (distilbert_sequence_classifier_policy)</h1></header></div><meta itemprop="headline" content="DistilBERT Sequence Classification - Policy (distilbert_sequence_classifier_policy)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>sequence_classification</li><li>en</li><li>english</li><li>open_source</li><li>distilbert</li><li>policy</li><li>political_categories</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00">
+    <meta itemprop="keywords" content="sequence_classification,en,english,open_source,distilbert,policy,political_categories"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is used detecting <strong>hatespeech</strong> in <strong>English language</strong>. The mono in the name refers to the monolingual setting, where the model is trained using only English language data. It is finetuned on multilingual bert model.
-The model is trained with different learning rates and the best validation score achieved is 0.726030 for a learning rate of 2e-5. Training code can be found here https://github.com/punyajoy/DE-LIMIT</p>
+<p>This model was trained on 129.669 manually annotated sentences to classify text into one of seven political categories: ‘Economy’, ‘External Relations’, ‘Fabric of Society’, ‘Freedom and Democracy’, ‘Political System’, ‘Welfare and Quality of Life’ or ‘Social Groups’.</p>
 
-<h3 id="for-more-details-about-our-paper">For more details about our paper</h3>
+<h3 id="training-data">Training data</h3>
 
-<p>Sai Saketh Aluru, Binny Mathew, Punyajoy Saha and Animesh Mukherjee. “<a href="https://arxiv.org/abs/2004.06465">Deep Learning Models for Multilingual Hate Speech Detection</a>”. Accepted at ECML-PKDD 2020.</p>
+<p>Policy-DistilBERT-7d was trained on the English-speaking subset of the <a href="https://manifesto-project.wzb.eu/datasets">Manifesto Project Dataset (MPDS2020a)</a>. The model was trained on 129.669 sentences from 164 political manifestos from 55 political parties in 8 English-speaking countries (Australia, Canada, Ireland, Israel, New Zealand, South Africa, United Kingdom, United States). The manifestos were published between 1992 - 2019.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{aluru2020deep,
-  title={Deep Learning Models for Multilingual Hate Speech Detection},
-  author={Aluru, Sai Saket and Mathew, Binny and Saha, Punyajoy and Mukherjee, Animesh},
-  journal={arXiv preprint arXiv:2004.06465},
-  year={2020}
-}
-</code></pre></div></div>
+<p>The Manifesto Project manually annotates individual sentences from political party manifestos in 7 main political domains: ‘Economy’, ‘External Relations’, ‘Fabric of Society’, ‘Freedom and Democracy’, ‘Political System’, ‘Welfare and Quality of Life’ or ‘Social Groups’ - see the <a href="https://manifesto-project.wzb.eu/down/data/2020b/codebooks/codebook_MPDataset_MPDS2020b.pdf">codebook</a> for the exact definitions of each domain.</p>
+
+<h3 id="limitations-and-bias">Limitations and bias</h3>
+
+<p>The model was trained on sentences in political manifestos from parties in the 8 countries mentioned above between 1992-2019, manually annotated by the <a href="https://manifesto-project.wzb.eu/information/documents/information">Manifesto Project</a>. The model output, therefore, reproduces the limitations of the dataset in terms of country coverage, time span, domain definitions, and potential biases of the annotators - as any supervised machine learning model would. Applying the model to other types of data (other types of texts, countries, etc.) will reduce performance.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">NON_HATE</code>, <code class="language-plaintext highlighter-rouge">HATE</code></p>
+<p><code class="language-plaintext highlighter-rouge">Economy</code>, <code class="language-plaintext highlighter-rouge">External Relations</code>, <code class="language-plaintext highlighter-rouge">Fabric of Society</code>, <code class="language-plaintext highlighter-rouge">Freedom and Democracy</code>, <code class="language-plaintext highlighter-rouge">Political System</code>, <code class="language-plaintext highlighter-rouge">Welfare and Quality of Life</code>, <code class="language-plaintext highlighter-rouge">Social Groups</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_dehatebert_mono_en_3.3.2_3.0_1635937844054.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_sequence_classifier_policy_en_3.3.3_3.0_1637495279131.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -446,39 +443,37 @@ The model is trained with different learning rates and the best validation score
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_dehatebert_mono'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span> \
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'distilbert_sequence_classifier_policy'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">document_assembler</span><span class="p">,</span> 
     <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>
+    <span class="n">sequenceClassifier</span>    
 <span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I love you!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'70-85% of the population needs to get vaccinated against the novel coronavirus to achieve herd immunity.'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_dehatebert_mono"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_sequence_classifier_policy"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love you!"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"70-85% of the population needs to get vaccinated against the novel coronavirus to achieve herd immunity."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
@@ -490,11 +485,11 @@ The model is trained with different learning rates and the best validation score
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_dehatebert_mono</td>
+      <td>distilbert_sequence_classifier_policy</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP 3.3.3+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -518,7 +513,7 @@ The model is trained with different learning rates and the best validation score
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>false</td>
+      <td>true</td>
     </tr>
     <tr>
       <td>Max sentense length:</td>
@@ -529,8 +524,29 @@ The model is trained with different learning rates and the best validation score
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english">https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p><a href="https://huggingface.co/MoritzLaurer/policy-distilbert-7d">https://huggingface.co/MoritzLaurer/policy-distilbert-7d</a></p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The model was evaluated using 15% of the sentences <span class="o">(</span>85-15 train-test <span class="nb">split</span><span class="o">)</span><span class="nb">.</span>
+
+accuracy <span class="o">(</span>balanced<span class="o">)</span>   | F1 <span class="o">(</span>weighted<span class="o">)</span> | precision | recall | accuracy <span class="o">(</span>not balanced<span class="o">)</span> 
+<span class="nt">-------</span>|---------|----------|---------|----------
+0.745  | 0.773 | 0.772 | 0.771 | 0.771
+
+
+Please note that the label distribution <span class="k">in </span>the dataset is imbalanced:
+
+
+Welfare and Quality of Life    0.327225
+Economy                        0.259191
+Fabric of Society              0.111800
+Political System               0.095081
+Social Groups                  0.094371
+External Relations             0.063724
+Freedom and Democracy          0.048608
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -655,7 +671,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_finbert_en.html">BERT Sequence Classification - Financial Sentiment Analysis (bert_sequence_classifier_finbert)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/21/distilbert_sequence_classifier_industry_en.html">DistilBERT Sequence Classification - Industry (distilbert_sequence_classifier_industry)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/21/distilbert_sequence_classifier_sst2_en.html">DistilBERT Sequence Classification - SST-2 (distilbert_sequence_classifier_sst2)</a></div></div></div>
 
 </div>
 </div>

@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)- Spark NLP Model</title><meta name="description" content="DescriptionThis model is used detecting hatespeech in English language. The mono in the name refers to the monolingual setting, where the model is trained us...">
-<link rel="canonical" href="/2021/11/03/bert_sequence_classifier_dehatebert_mono_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for SNOMED codes (procedures and measurements)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps medical entities to SNOMED codes using Sentence Bert Embeddings. The corpus of this model includes Procedures and Measurement doma...">
+<link rel="canonical" href="/2021/11/11/sbiobertresolve_snomed_procedures_measurements_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,34 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 03, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00"></div><header><h1>BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)</h1></header></div><meta itemprop="headline" content="BERT Sequence Classification - Detecting Hate Speech (bert_sequence_classifier_dehatebert_mono)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bert</li><li>hatespeech</li><li>en</li><li>english</li><li>sequence_classification</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-03T00:00:00+00:00">
-    <meta itemprop="keywords" content="bert,hatespeech,en,english,sequence_classification,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 11, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-11T00:00:00+00:00"></div><header><h1>Sentence Entity Resolver for SNOMED codes (procedures and measurements)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for SNOMED codes (procedures and measurements)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>entity_resolution</li><li>licensed</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-11T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,entity_resolution,licensed,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is used detecting <strong>hatespeech</strong> in <strong>English language</strong>. The mono in the name refers to the monolingual setting, where the model is trained using only English language data. It is finetuned on multilingual bert model.
-The model is trained with different learning rates and the best validation score achieved is 0.726030 for a learning rate of 2e-5. Training code can be found here https://github.com/punyajoy/DE-LIMIT</p>
-
-<h3 id="for-more-details-about-our-paper">For more details about our paper</h3>
-
-<p>Sai Saketh Aluru, Binny Mathew, Punyajoy Saha and Animesh Mukherjee. “<a href="https://arxiv.org/abs/2004.06465">Deep Learning Models for Multilingual Hate Speech Detection</a>”. Accepted at ECML-PKDD 2020.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{aluru2020deep,
-  title={Deep Learning Models for Multilingual Hate Speech Detection},
-  author={Aluru, Sai Saket and Mathew, Binny and Saha, Punyajoy and Mukherjee, Animesh},
-  journal={arXiv preprint arXiv:2004.06465},
-  year={2020}
-}
-</code></pre></div></div>
+<p>This model maps medical entities to SNOMED codes using Sentence Bert Embeddings. The corpus of this model includes <code class="language-plaintext highlighter-rouge">Procedures</code> and <code class="language-plaintext highlighter-rouge">Measurement</code> domains.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">NON_HATE</code>, <code class="language-plaintext highlighter-rouge">HATE</code></p>
+<p><code class="language-plaintext highlighter-rouge">CPT codes and their descriptions.</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_dehatebert_mono_en_3.3.2_3.0_1635937844054.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_snomed_procedures_measurements_en_3.3.0_3.0_1636595616820.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -438,51 +425,56 @@ The model is trained with different learning rates and the best validation score
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'bert_sequence_classifier_dehatebert_mono'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_snomed_procedures_measurements"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cpt_code"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>
-<span class="p">])</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sbert_embedder</span><span class="p">,</span>
+        <span class="n">resolver</span><span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I love you!'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">l_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">l_model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">([</span><span class="s">'coronary calcium score'</span><span class="p">,</span> <span class="s">'heart surgery'</span><span class="p">,</span> <span class="s">'ct scan'</span><span class="p">,</span> <span class="s">'bp value'</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)\</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])\</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_sequence_classifier_dehatebert_mono"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_snomed_procedures_measurements"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models) \
+     .setInputCols(["</span><span class="n">ner_chunk</span><span class="s">", "</span><span class="n">sbert_embeddings</span><span class="s">"]) \
+     .setOutputCol("</span><span class="n">cpt_code</span><span class="err">"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipelineModel</span><span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">resolver</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love you!"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">l_model</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="n">pipelineModel</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">l_model</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">([</span><span class="kt">'coronary</span> <span class="kt">calcium</span> <span class="kt">score'</span>, <span class="kt">'heart</span> <span class="kt">surgery'</span>, <span class="kt">'ct</span> <span class="kt">scan'</span>, <span class="kt">'bp</span> <span class="kt">value'</span><span class="o">])</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|    | chunk                  |      code | code_description              | all_k_code_desc                                                                 | all_k_codes                                                                                                                                                     |
+|---:|:-----------------------|----------:|:------------------------------|:--------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  0 | coronary calcium score | 450360000 | Coronary artery calcium score | <span class="o">[</span><span class="s1">'450360000'</span>, <span class="s1">'450734004'</span>, <span class="s1">'1086491000000104'</span>, <span class="s1">'1086481000000101'</span>, <span class="s1">'762241007'</span><span class="o">]</span> | <span class="o">[</span><span class="s1">'Coronary artery calcium score'</span>, <span class="s1">'Coronary artery calcium score'</span>, <span class="s1">'Dundee Coronary Risk Disk score'</span>, <span class="s1">'Dundee Coronary Risk rank'</span>, <span class="s1">'Dundee Coronary Risk Disk'</span><span class="o">]</span> |
+|  1 | heart surgery          |   2598006 | Open heart surgery            | <span class="o">[</span><span class="s1">'2598006'</span>, <span class="s1">'64915003'</span>, <span class="s1">'119766003'</span>, <span class="s1">'34068001'</span>, <span class="s1">'233004008'</span><span class="o">]</span>                   | <span class="o">[</span><span class="s1">'Open heart surgery'</span>, <span class="s1">'Operation on heart'</span>, <span class="s1">'Heart reconstruction'</span>, <span class="s1">'Heart valve replacement'</span>, <span class="s1">'Coronary sinus operation'</span><span class="o">]</span>                                     |
+|  2 | ct scan                | 303653007 | CT of <span class="nb">head</span>                    | <span class="o">[</span><span class="s1">'303653007'</span>, <span class="s1">'431864000'</span>, <span class="s1">'363023007'</span>, <span class="s1">'418272005'</span>, <span class="s1">'241577003'</span><span class="o">]</span>               | <span class="o">[</span><span class="s1">'CT of head'</span>, <span class="s1">'CT guided injection'</span>, <span class="s1">'CT of site'</span>, <span class="s1">'CT angiography'</span>, <span class="s1">'CT of spine'</span><span class="o">]</span>                                                                            |
+|  3 | bp value               |  75367002 | Blood pressure                | <span class="o">[</span><span class="s1">'75367002'</span>, <span class="s1">'6797001'</span>, <span class="s1">'723232008'</span>, <span class="s1">'46973005'</span>, <span class="s1">'427732000'</span><span class="o">]</span>                   | <span class="o">[</span><span class="s1">'Blood pressure'</span>, <span class="s1">'Mean blood pressure'</span>, <span class="s1">'Average blood pressure'</span>, <span class="s1">'Blood pressure taking'</span>, <span class="s1">'Speed of blood pressure response'</span><span class="o">]</span>                                |
+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -490,15 +482,15 @@ The model is trained with different learning rates and the best validation score
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_sequence_classifier_dehatebert_mono</td>
+      <td>sbiobertresolve_snomed_procedures_measurements</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.2+</td>
+      <td>Spark NLP for Healthcare 3.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -506,11 +498,11 @@ The model is trained with different learning rates and the best validation score
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, document]</td>
+      <td>[sentence_chunk_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[output]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -520,17 +512,13 @@ The model is trained with different learning rates and the best validation score
       <td>Case sensitive:</td>
       <td>false</td>
     </tr>
-    <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
-    </tr>
   </tbody>
 </table>
 
 <h2 id="data-source">Data Source</h2>
 
-<p><a href="https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english">https://huggingface.co/Hate-speech-CNERG/dehatebert-mono-english</a></p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-03T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on <code class="language-plaintext highlighter-rouge">SNOMED</code> code dataset with <code class="language-plaintext highlighter-rouge">sbiobert_base_cased_mli</code> sentence embeddings.</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-11T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -655,7 +643,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/03/bert_sequence_classifier_beto_sentiment_analysis_es.html">BERT Sequence Classification - Spanish Sentiment Analysis (bert_sequence_classifier_beto_sentiment_analysis)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/03/bert_sequence_classifier_finbert_en.html">BERT Sequence Classification - Financial Sentiment Analysis (bert_sequence_classifier_finbert)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/09/sbiobertresolve_rxnorm_augmented_en.html">Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/11/classifierdl_bertwiki_finance_sentiment_pipeline_en.html">Sentiment Analysis Pipeline for Financial news</a></div></div></div>
 
 </div>
 </div>
