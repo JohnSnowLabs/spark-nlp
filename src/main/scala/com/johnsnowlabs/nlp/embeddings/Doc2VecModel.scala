@@ -45,7 +45,7 @@ import org.apache.spark.sql.DataFrame
  *   .setInputCols("token")
  *   .setOutputCol("embeddings")
  * }}}
- * The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+ * The default model is `"doc2vec_gigaword_300"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
  *
@@ -239,7 +239,7 @@ class Doc2VecModel(override val uid: String)
 trait ReadablePretrainedDoc2Vec
   extends ParamsAndFeaturesReadable[Doc2VecModel]
     with HasPretrained[Doc2VecModel] {
-  override val defaultModelName: Some[String] = Some("doc2vec_wiki_100_uncased")
+  override val defaultModelName: Some[String] = Some("doc2vec_gigaword_300")
 
   override def pretrained(name: String, lang: String, remoteLoc: String): Doc2VecModel = {
     ResourceDownloader.downloadModel(Doc2VecModel, name, Option(lang), remoteLoc)
