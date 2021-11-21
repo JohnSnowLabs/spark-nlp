@@ -15228,7 +15228,7 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     ...     .setInputCols(["token"]) \\
     ...     .setOutputCol("embeddings")
 
-    The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+    The default model is `"doc2vec_gigaword_300"`, if no name is provided.
 
     ====================== =======================
     Input Annotation types Output Annotation type
@@ -15308,7 +15308,7 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
         )
 
     @staticmethod
-    def pretrained(name="doc2vec_wiki_100_uncased", lang="en", remote_loc=None):
+    def pretrained(name="doc2vec_gigaword_300", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

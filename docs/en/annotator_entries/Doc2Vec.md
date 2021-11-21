@@ -22,7 +22,7 @@ val embeddings = Doc2VecModel.pretrained()
   .setInputCols("token")
   .setOutputCol("embeddings")
 ```
-The default model is `"doc2vec_wiki_100_uncased"`, if no name is provided.
+The default model is `"doc2vec_gigaword_300"`, if no name is provided.
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models).
 
