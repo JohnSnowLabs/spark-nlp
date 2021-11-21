@@ -72,7 +72,7 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_base_sequence_classifier_ag_news", "en")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_base_sequence_classifier_ag_news", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -80,7 +80,7 @@ val tokenClassifier = BertForSequenceClassification("bert_base_sequence_classifi
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993."].toDS.toDF("text")
+val example = Seq("Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.").toDS.toDF("text")
 
 ```
 </div>
