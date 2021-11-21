@@ -1,13 +1,13 @@
 ---
 layout: model
-title: BERT Sequence Classification Multilingual - AlloCine (bert_multilingual_sequence_classifier_allocine)
+title: DistilBERT Sequence Classification French - AlloCine (distilbert_multilingual_sequence_classifier_allocine)
 author: John Snow Labs
-name: bert_multilingual_sequence_classifier_allocine
-date: 2021-11-01
-tags: [sentiment, allocine, open_source, french, fr, sequence_classification, bert]
+name: distilbert_multilingual_sequence_classifier_allocine
+date: 2021-11-21
+tags: [sequence_classification, fr, french, distilbert, sentiment, open_source]
 task: Text Classification
 language: fr
-edition: Spark NLP 3.3.2
+edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -17,11 +17,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-BERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+DistilBERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
-`bert_multilingual_sequence_classifier_allocine ` is a fine-tuned BERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance.
+`distilbert_multilingual_sequence_classifier_allocine ` is a fine-tuned DistilBERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance. 
 
-We used TFBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!
+We used TFDistilBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
 
@@ -30,7 +30,7 @@ We used TFBertForSequenceClassification to train this model and used BertForSequ
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_multilingual_sequence_classifier_allocine_fr_3.3.2_3.0_1635775805960.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_multilingual_sequence_classifier_allocine_fr_3.3.3_3.0_1637501723857.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -47,32 +47,32 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_multilingual_sequence_classifier_allocine', 'fr') \
+sequenceClassifier = DistilBertForSequenceClassification \
+      .pretrained('distilbert_multilingual_sequence_classifier_allocine', 'fr') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
       .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler,
+    document_assembler, 
     tokenizer,
-    sequenceClassifier
+    sequenceClassifier    
 ])
 
 example = spark.createDataFrame([['j'ai bien aime le film harry potter!']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-    .setInputCol("text")
+val document_assembler = DocumentAssembler() 
+    .setInputCol("text") 
     .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-    .setInputCols("document")
+val tokenizer = Tokenizer() 
+    .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification.pretrained("bert_multilingual_sequence_classifier_allocine", "fr")
+val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_multilingual_sequence_classifier_allocine", "fr")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -102,8 +102,8 @@ val result = pipeline.fit(example).transform(example)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_multilingual_sequence_classifier_allocine|
-|Compatibility:|Spark NLP 3.3.2+|
+|Model Name:|distilbert_multilingual_sequence_classifier_allocine|
+|Compatibility:|Spark NLP 3.3.3+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[token, document]|
@@ -119,10 +119,10 @@ val result = pipeline.fit(example).transform(example)
 ## Benchmarking
 
 ```bash
-           precision    recall  f1-score   support
+          precision    recall  f1-score   support
 
-         neg       0.95      0.96      0.96     10294
-         pos       0.96      0.95      0.95      9706
+         neg       0.95      0.96      0.95     10269
+         pos       0.96      0.94      0.95      9731
 
     accuracy                           0.95     20000
    macro avg       0.95      0.95      0.95     20000

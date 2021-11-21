@@ -59,12 +59,12 @@ example = spark.createDataFrame([['Camera - You are awarded a SiPix Digital Came
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_sms_spam", "en")

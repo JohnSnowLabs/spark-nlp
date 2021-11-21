@@ -1,13 +1,13 @@
 ---
 layout: model
-title: BERT Sequence Classification - Russian Sentiment Analysis (bert_sequence_classifier_rubert_sentiment)
+title: DistilBERT Sequence Classification - SST-2 (distilbert_sequence_classifier_sst2)
 author: John Snow Labs
-name: bert_sequence_classifier_rubert_sentiment
-date: 2021-11-03
-tags: [ru, russian, bert, sentiment, rubert, open_source]
+name: distilbert_sequence_classifier_sst2
+date: 2021-11-21
+tags: [sequence_classification, en, english, open_source, distilbert, sst]
 task: Text Classification
-language: ru
-edition: Spark NLP 3.3.2
+language: en
+edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
 article_header:
@@ -17,19 +17,16 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-# RuBERT for Sentiment Analysis
-Short Russian texts sentiment classification
-
-This is a [DeepPavlov/rubert-base-cased-conversational](https://huggingface.co/DeepPavlov/rubert-base-cased-conversational) model trained on aggregated corpus of 351.797 texts.
+This model is a fine-tune checkpoint of DistilBERT-base-uncased, fine-tuned on SST-2. This model reaches an accuracy of 91.3 on the dev set (for comparison, BERT's `bert-base-uncased` version reaches an accuracy of 92.7).
 
 ## Predicted Entities
 
-`NEUTRAL`, `POSITIVE`, `NEGATIVE`
+`NEGATIVE`, `POSITIVE`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_rubert_sentiment_ru_3.3.2_3.0_1635941763613.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_sequence_classifier_sst2_en_3.3.3_3.0_1637497948943.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -46,11 +43,10 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = BertForSequenceClassification \
-      .pretrained('bert_sequence_classifier_rubert_sentiment', 'ru') \
+sequenceClassifier = DistilBertForSequenceClassification \
+      .pretrained('distilbert_sequence_classifier_sst2', 'en') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
-      .setCaseSensitive(False) \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
@@ -59,7 +55,7 @@ pipeline = Pipeline(stages=[
     sequenceClassifier
 ])
 
-example = spark.createDataFrame([['Ты мне нравишься. Я тебя люблю']]).toDF("text")
+example = spark.createDataFrame([['I like you. I love you.']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
@@ -71,15 +67,14 @@ val tokenizer = Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_rubert_sentiment", "ru")
+val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_sst2", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
-      .setCaseSensitive(false)
       .setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq("Ты мне нравишься. Я тебя люблю").toDS.toDF("text")
+val example = Seq("I like you. I love you.").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -90,16 +85,22 @@ val result = pipeline.fit(example).transform(example)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_sequence_classifier_rubert_sentiment|
-|Compatibility:|Spark NLP 3.3.2+|
+|Model Name:|distilbert_sequence_classifier_sst2|
+|Compatibility:|Spark NLP 3.3.3+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[token, document]|
 |Output Labels:|[class]|
-|Language:|ru|
-|Case sensitive:|false|
+|Language:|en|
+|Case sensitive:|true|
 |Max sentense length:|512|
 
 ## Data Source
 
-[https://huggingface.co/blanchefort/rubert-base-cased-sentiment](https://huggingface.co/blanchefort/rubert-base-cased-sentiment)
+[https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english](https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english)
+
+## Benchmarking
+
+```bash
+This model reaches an accuracy of 91.3 on the dev set
+```
