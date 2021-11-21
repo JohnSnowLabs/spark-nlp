@@ -121,7 +121,7 @@ accuracy (balanced)   | F1 (weighted) | precision | recall | accuracy (not balan
 
 Please note that the label distribution in the dataset is imbalanced:
 
-```
+
 Welfare and Quality of Life    0.327225
 Economy                        0.259191
 Fabric of Society              0.111800
@@ -129,5 +129,4 @@ Political System               0.095081
 Social Groups                  0.094371
 External Relations             0.063724
 Freedom and Democracy          0.048608
-```
 ```
