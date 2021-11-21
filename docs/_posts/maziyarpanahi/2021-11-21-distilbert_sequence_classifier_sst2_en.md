@@ -67,7 +67,7 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = DistilBertForSequenceClassification("distilbert_sequence_classifier_sst2", "en")
+val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_sst2", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setMaxSentenceLength(512)
