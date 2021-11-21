@@ -4,7 +4,7 @@ header: true
 title: General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
-modify_date: "2021-11-03"
+modify_date: "2021-11-21"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -62,7 +62,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==3.3.2 pyspark==3.1.2 jupyter
+$ pip install spark-nlp==3.3.3 pyspark==3.1.2 jupyter
 $ jupyter notebook
 ```
 
