@@ -33,7 +33,7 @@ This model is trained with `clinical_embeddings` to extract the names of chemica
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_chemd_clinical_en_3.3.0_2.4_1636027285679.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -44,8 +44,8 @@ This model is trained with `clinical_embeddings` to extract the names of chemica
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\ 
-      .setInputCols(["sentence", "token"])\ 
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+      .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
 
 chemd_ner = MedicalNerModel.pretrained('ner_chemd_clinical', 'en', 'clinical/models') \
@@ -70,8 +70,8 @@ val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en"
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
-val chemd_ner = MedicalNerModel.pretrained("ner_chemd_clinical", "en", "clinical/models") 
-      .setInputCols(Array("sentence", "token", "embeddings")) 
+val chemd_ner = MedicalNerModel.pretrained("ner_chemd_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("ner")
 
 val ner_converter = NerConverter()

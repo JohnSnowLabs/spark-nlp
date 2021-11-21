@@ -43,7 +43,9 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
 
 ner_converter = NerConverter()\
   .setInputCols(["document","token","ner"])\
-  .setOutputCol("ner_chunk") 
+  .setOutputCol("ner_chunk")
+
+pipeline = Pipeline(stages=[documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 

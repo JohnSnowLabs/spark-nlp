@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach</title>
-          <meta name="description" content="Spark NLP 3.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
-          <meta name="keywords" content="Spark NLP 3.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
+          <title>Spark NLP 3.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach</title>
+          <meta name="description" content="Spark NLP 3.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
+          <meta name="keywords" content="Spark NLP 3.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -823,6 +823,22 @@ column (Default: &quot;aux_label&quot;)</p></div></div>
       </span>
       
       <p class="shortcomment cmt">what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'</p><div class="fullcomment"><div class="comment cmt"><p>what distance function to use for KNN: 'EUCLIDEAN' or 'COSINE'</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#dropCodesList" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="dropCodesList:org.apache.spark.ml.param.StringArrayParam"></a><a id="dropCodesList:StringArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#dropCodesList:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropCodesList</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">List of codes in a pretrained model to leave out when continue training with new data.</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#embeddingsColumnName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="embeddingsColumnName:String"></a>
       <span class="permalink">
@@ -2526,6 +2542,22 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="params/SentenceResolverParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.params.SentenceResolverParams">SentenceResolverParams</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setDropCodesList" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setDropCodesList(v:Array[String]):SentenceEntityResolverApproach.this.type"></a><a id="setDropCodesList(Array[String]):SentenceEntityResolverApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setDropCodesList(v:Array[String]):SentenceEntityResolverApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDropCodesList</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sets a list of codes that will be left out in a pretrained model when continue training with new data.</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">
@@ -2654,6 +2686,23 @@ Can improve accuracy but increases computation (Default: true)</p></div></div>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasOutputAnnotationCol</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setOverrideExistingCodes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setOverrideExistingCodes(v:Boolean):SentenceEntityResolverApproach.this.type"></a><a id="setOverrideExistingCodes(Boolean):SentenceEntityResolverApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach.html#setOverrideExistingCodes(v:Boolean):SentenceEntityResolverApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOverrideExistingCodes</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach">SentenceEntityResolverApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to override the existing codes with new data while continue the training from a pretrained model.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to override the existing codes with new data while continue the training from a pretrained model. Default value is false(keep all the codes).
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverApproach#setPretrainedModelPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setPretrainedModelPath(path:String):SentenceEntityResolverApproach.this.type"></a><a id="setPretrainedModelPath(String):SentenceEntityResolverApproach.this.type"></a>
       <span class="permalink">

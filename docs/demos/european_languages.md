@@ -255,5 +255,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_LENER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb        
 ---

@@ -24,7 +24,7 @@ This model extracts `Anatomical` and `Observation` entities from Chest Radiology
 `ANAT - Anatomy`, `OBS - Observation`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_chexpert_en_3.3.0_3.0_1633010671460.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -36,10 +36,16 @@ This model extracts `Anatomical` and `Observation` entities from Chest Radiology
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_chexpert", "en", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
-...
+embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_chexpert", "en", "clinical/models")\
+  .setInputCols(["sentence", "token", "embeddings"])\
+  .setOutputCol("ner")
+
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
+
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 EXAMPLE_TEXT = """FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
@@ -52,15 +58,15 @@ results = model.transform(spark.createDataFrame([[EXAMPLE_TEXT]]).toDF("text"))
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
+  
 val ner = MedicalNerModel.pretrained("ner_chexpert", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
-...
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
 
-val EXAMPLE_TEXT = "FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
-FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base."
-
+val EXAMPLE_TEXT = """FINAL REPORT HISTORY : Chest tube leak , to assess for pneumothorax . 
+FINDINGS : In comparison with study of ___ , the endotracheal tube and Swan - Ganz catheter have been removed . The left chest tube remains in place and there is no evidence of pneumothorax. Mild atelectatic changes are seen at the left base."""
 
 val result = pipeline.fit(Seq.empty[EXAMPLE_TEXT]).transform(data)
 ```

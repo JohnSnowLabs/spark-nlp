@@ -84,7 +84,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[BertForTokenClassification]] for sentence-level embeddings
+ * @see [[BertForTokenClassification]] for token-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
