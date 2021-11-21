@@ -48,7 +48,7 @@ tokenizer = Tokenizer() \
     .setOutputCol('token')
 
 sequenceClassifier = DistilBertForSequenceClassification \
-      .pretrained('bert_multilingual_sequence_classifier_allocine', 'fr') \
+      .pretrained('distilbert_multilingual_sequence_classifier_allocine', 'fr') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
       .setCaseSensitive(True) \
@@ -72,7 +72,7 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = DistilBertForSequenceClassification("bert_multilingual_sequence_classifier_allocine", "fr")
+val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_multilingual_sequence_classifier_allocine", "fr")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
