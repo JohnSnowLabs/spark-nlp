@@ -50,21 +50,21 @@ sequenceClassifier = DistilBertForSequenceClassification \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['I like you. I love you.']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
 val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_sequence_classifier_sst2", "en")
