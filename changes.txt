@@ -1,6 +1,2 @@
-docs/_data/navigation.yml
-docs/en/models.md
-docs/en/pipelines.md
-docs/_data/navigation.yml
-docs/en/models.md
-docs/en/pipelines.md
+docs/_posts/maziyarpanahi/2021-11-02-bert_base_sequence_classifier_ag_news_en.md
+docs/_posts/maziyarpanahi/2021-11-02-bert_base_sequence_classifier_ag_news_en.md
