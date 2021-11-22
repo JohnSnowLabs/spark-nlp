@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.2 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
-          <meta name="description" content="Spark NLP 3.3.2 ScalaDoc - com.johnsnowlabs.nlp.training" />
-          <meta name="keywords" content="Spark NLP 3.3.2 ScalaDoc com.johnsnowlabs.nlp.training" />
+          <title>Spark NLP 3.3.3 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
+          <meta name="description" content="Spark NLP 3.3.3 ScalaDoc - com.johnsnowlabs.nlp.training" />
+          <meta name="keywords" content="Spark NLP 3.3.3 ScalaDoc com.johnsnowlabs.nlp.training" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -344,7 +344,11 @@
       </span>
       
       <p class="shortcomment cmt">Helper class to load a CoNLL type dataset for training.</p><div class="fullcomment"><div class="comment cmt"><p>Helper class to load a CoNLL type dataset for training.</p><p>The dataset should be in the format of <a href="https://www.clips.uantwerpen.be/conll2003/ner/" target="_blank">CoNLL 2003</a>
-and needs to be specified with <code>readDataset</code>. Other CoNLL datasets are not supported.</p><h4>Example</h4><pre><span class="kw">val</span> trainingData = CoNLL().readDataset(spark, <span class="lit">"src/test/resources/conll2003/eng.train"</span>)
+and needs to be specified with <code>readDataset</code>. Other CoNLL datasets are not supported.</p><p>Two types of input paths are supported,</p><p>Folder: this is a path ending in <code>*</code>, and representing a collection of CoNLL files within a directory. E.g.,
+'path/to/multiple/conlls&#47;*'
+Using this pattern will result in all the files being read into a single Dataframe.
+Some constraints apply on the schemas of the multiple files.</p><p>File: this is a path to a single file. E.g.,
+'path/to/single_file.conll'</p><h4>Example</h4><pre><span class="kw">val</span> trainingData = CoNLL().readDataset(spark, <span class="lit">"src/test/resources/conll2003/eng.train"</span>)
 trainingData.selectExpr(<span class="lit">"text"</span>, <span class="lit">"token.result as tokens"</span>, <span class="lit">"pos.result as pos"</span>, <span class="lit">"label.result as label"</span>)
   .show(<span class="num">3</span>, <span class="kw">false</span>)
 +------------------------------------------------+----------------------------------------------------------+-------------------------------------+-----------------------------------------+

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.XlmRoBertaForTokenClassification &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.annotator.XlmRoBertaForTokenClassification &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -245,8 +245,23 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DistilBertForSequenceClassification.html">
+     sparknlp.annotator.DistilBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html">
      sparknlp.annotator.DistilBertForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecApproach.html">
+     sparknlp.annotator.Doc2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecModel.html">
+     sparknlp.annotator.Doc2VecModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -821,7 +836,7 @@
 <h1>sparknlp.annotator.XlmRoBertaForTokenClassification<a class="headerlink" href="#sparknlp-annotator-xlmrobertafortokenclassification" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">XlmRoBertaForTokenClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">XlmRoBertaForTokenClassification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasCaseSensitiveProperties</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasBatchedAnnotate</span></code></p>
 <p>XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token
 classification head on top (a linear layer on top of the hidden-states
@@ -966,10 +981,10 @@ True</p>
 <td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel" title="sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code></a>(folder, spark_session)</p></td>
-<td><p>Loads a locally saved model. Parameters ---------- folder : str     Folder of the saved model spark_session : pyspark.sql.SparkSession     The current SparkSession Returns ------- XlmRoBertaForTokenClassification     The restored model.</p></td>
+<td><p>Loads a locally saved model.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained" title="sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
-<td><p>Downloads and loads a pretrained model. Parameters ---------- name : str, optional     Name of the pretrained model, by default     &quot;xlm_roberta_base_token_classifier_conll03&quot; lang : str, optional     Language of the pretrained model, by default &quot;en&quot; remote_loc : str, optional     Optional remote address of the resource, by default None. Will use     Spark NLPs repositories otherwise. Returns ------- XlmRoBertaForTokenClassification     The restored model.</p></td>
+<td><p>Downloads and loads a pretrained model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.read" title="sparknlp.annotator.XlmRoBertaForTokenClassification.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
 <td><p>Returns an MLReader instance for this class.</p></td>
@@ -987,7 +1002,7 @@ True</p>
 <td><p>Sets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.setConfigProtoBytes" title="sparknlp.annotator.XlmRoBertaForTokenClassification.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
-<td><p>Sets configProto from tensorflow, serialized into byte array. Parameters ---------- b : List[str]     ConfigProto from tensorflow, serialized into byte array.</p></td>
+<td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.setInputCols" title="sparknlp.annotator.XlmRoBertaForTokenClassification.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
 <td><p>Sets column names of input annotations.</p></td>
@@ -996,7 +1011,7 @@ True</p>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.setMaxSentenceLength" title="sparknlp.annotator.XlmRoBertaForTokenClassification.setMaxSentenceLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code></a>(value)</p></td>
-<td><p>Sets max sentence length to process, by default 128. Parameters ---------- value : int     Max sentence length to process.</p></td>
+<td><p>Sets max sentence length to process, by default 128.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.setOutputCol" title="sparknlp.annotator.XlmRoBertaForTokenClassification.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
@@ -1212,33 +1227,35 @@ a default value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.load">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads a locally saved model.
-Parameters
-———-
-folder : str</p>
-<blockquote>
-<div><p>Folder of the saved model</p>
-</div></blockquote>
-<dl class="simple">
-<dt>spark_session<span class="classifier">pyspark.sql.SparkSession</span></dt><dd><p>The current SparkSession</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a locally saved model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>folder</strong><span class="classifier">str</span></dt><dd><p>Folder of the saved model</p>
+</dd>
+<dt><strong>spark_session</strong><span class="classifier">pyspark.sql.SparkSession</span></dt><dd><p>The current SparkSession</p>
 </dd>
 </dl>
-<dl class="simple">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>XlmRoBertaForTokenClassification</dt><dd><p>The restored model</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.params">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1246,31 +1263,33 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xlm_roberta_base_token_classifier_conll03'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained" title="Permalink to this definition">¶</a></dt>
-<dd><p>Downloads and loads a pretrained model.
-Parameters
-———-
-name : str, optional</p>
-<blockquote>
-<div><p>Name of the pretrained model, by default
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xlm_roberta_base_token_classifier_conll03'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
 “xlm_roberta_base_token_classifier_conll03”</p>
-</div></blockquote>
-<dl class="simple">
-<dt>lang<span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
-<dt>remote_loc<span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
 Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
-<dl class="simple">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>XlmRoBertaForTokenClassification</dt><dd><p>The restored model</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.read">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
@@ -1317,13 +1336,15 @@ Spark NLPs repositories otherwise.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets configProto from tensorflow, serialized into byte array.
-Parameters
-———-
-b : List[str]</p>
-<blockquote>
-<div><p>ConfigProto from tensorflow, serialized into byte array</p>
-</div></blockquote>
+<dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1359,13 +1380,15 @@ RecursivePipeline</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.XlmRoBertaForTokenClassification.setMaxSentenceLength">
 <span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#XlmRoBertaForTokenClassification.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.XlmRoBertaForTokenClassification.setMaxSentenceLength" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets max sentence length to process, by default 128.
-Parameters
-———-
-value : int</p>
-<blockquote>
-<div><p>Max sentence length to process</p>
-</div></blockquote>
+<dd><p>Sets max sentence length to process, by default 128.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Max sentence length to process</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1472,7 +1495,7 @@ value : int</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     

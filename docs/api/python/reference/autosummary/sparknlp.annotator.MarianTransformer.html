@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.MarianTransformer &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.annotator.MarianTransformer &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -245,8 +245,23 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DistilBertForSequenceClassification.html">
+     sparknlp.annotator.DistilBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html">
      sparknlp.annotator.DistilBertForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecApproach.html">
+     sparknlp.annotator.Doc2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecModel.html">
+     sparknlp.annotator.Doc2VecModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -821,7 +836,7 @@
 <h1>sparknlp.annotator.MarianTransformer<a class="headerlink" href="#sparknlp-annotator-mariantransformer" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">MarianTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">MarianTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.MarianTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasBatchedAnnotate</span></code></p>
 <p>MarianTransformer: Fast Neural Machine Translation</p>
 <p>Marian is an efficient, free Neural Machine Translation framework written in
@@ -1005,34 +1020,37 @@ and translation speed.</em></p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setConfigProtoBytes" title="sparknlp.annotator.MarianTransformer.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
 <td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setInputCols" title="sparknlp.annotator.MarianTransformer.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setIgnoreTokenIds" title="sparknlp.annotator.MarianTransformer.setIgnoreTokenIds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIgnoreTokenIds</span></code></a>(value)</p></td>
+<td><p>A list of token ids which are ignored in the decoder's output.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setInputCols" title="sparknlp.annotator.MarianTransformer.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
 <td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setLangId" title="sparknlp.annotator.MarianTransformer.setLangId"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLangId</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setLangId" title="sparknlp.annotator.MarianTransformer.setLangId"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLangId</span></code></a>(value)</p></td>
 <td><p>Sets transformer's task, e.g.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setLazyAnnotator" title="sparknlp.annotator.MarianTransformer.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setLazyAnnotator" title="sparknlp.annotator.MarianTransformer.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setMaxInputLength" title="sparknlp.annotator.MarianTransformer.setMaxInputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxInputLength</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setMaxInputLength" title="sparknlp.annotator.MarianTransformer.setMaxInputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxInputLength</span></code></a>(value)</p></td>
 <td><p>Sets the maximum length for encoder inputs (source language texts), by default 40.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setMaxOutputLength" title="sparknlp.annotator.MarianTransformer.setMaxOutputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxOutputLength</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setMaxOutputLength" title="sparknlp.annotator.MarianTransformer.setMaxOutputLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxOutputLength</span></code></a>(value)</p></td>
 <td><p>Sets the maximum length for decoder outputs (target language texts), by default 40.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setOutputCol" title="sparknlp.annotator.MarianTransformer.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setOutputCol" title="sparknlp.annotator.MarianTransformer.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setParamValue" title="sparknlp.annotator.MarianTransformer.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.setParamValue" title="sparknlp.annotator.MarianTransformer.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.transform" title="sparknlp.annotator.MarianTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.transform" title="sparknlp.annotator.MarianTransformer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.write" title="sparknlp.annotator.MarianTransformer.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.write" title="sparknlp.annotator.MarianTransformer.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1053,28 +1071,31 @@ and translation speed.</em></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignoreTokenIds</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">langId</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">langId</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxInputLength</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxOutputLength</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxInputLength</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxOutputLength</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.params" title="sparknlp.annotator.MarianTransformer.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.MarianTransformer.params" title="sparknlp.annotator.MarianTransformer.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
 </tbody>
@@ -1223,13 +1244,13 @@ a default value.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer.load">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer.loadSavedModel">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.loadSavedModel" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.loadSavedModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a locally saved model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1251,7 +1272,7 @@ a default value.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer.params">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.params" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all params ordered by name. The default implementation
 uses <code class="xref py py-func docutils literal notranslate"><span class="pre">dir()</span></code> to get all attributes of type
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code>.</p>
@@ -1259,7 +1280,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer.pretrained">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'opus_mt_en_fr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xx'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.pretrained" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'opus_mt_en_fr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xx'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.pretrained" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1284,7 +1305,7 @@ Spark NLPs repositories otherwise.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer.read">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.read" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an MLReader instance for this class.</p>
 </dd></dl>
 
@@ -1322,6 +1343,20 @@ Spark NLPs repositories otherwise.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.MarianTransformer.setIgnoreTokenIds">
+<span class="sig-name descname"><span class="pre">setIgnoreTokenIds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#MarianTransformer.setIgnoreTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.MarianTransformer.setIgnoreTokenIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of token ids which are ignored in the decoder’s output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">List[int]</span></dt><dd><p>The words to be filtered out</p>
 </dd>
 </dl>
 </dd>
@@ -1506,7 +1541,7 @@ by default 40.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     

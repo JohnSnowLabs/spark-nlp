@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.functions.map_annotations_cols &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.functions.map_annotations_cols &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -245,8 +245,23 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DistilBertForSequenceClassification.html">
+     sparknlp.annotator.DistilBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html">
      sparknlp.annotator.DistilBertForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecApproach.html">
+     sparknlp.annotator.Doc2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecModel.html">
+     sparknlp.annotator.Doc2VecModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -821,7 +836,7 @@
 <h1>sparknlp.functions.map_annotations_cols<a class="headerlink" href="#sparknlp-functions-map-annotations-cols" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.functions.map_annotations_cols">
-<span class="sig-prename descclassname"><span class="pre">sparknlp.functions.</span></span><span class="sig-name descname"><span class="pre">map_annotations_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pyspark.sql.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">ArrayType(StructType(List(StructField(annotatorType,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(begin,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(end,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(result,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(metadata,</span> <span class="pre">MapType(StringType,</span> <span class="pre">StringType,</span> <span class="pre">true),</span> <span class="pre">false),</span> <span class="pre">StructField(embeddings,</span> <span class="pre">ArrayType(FloatType,</span> <span class="pre">true),</span> <span class="pre">false))),</span> <span class="pre">true)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/functions.html#map_annotations_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_cols" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">sparknlp.functions.</span></span><span class="sig-name descname"><span class="pre">map_annotations_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyspark.sql.dataframe.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotatyon_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.types.DataType.html#pyspark.sql.types.DataType" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.types.DataType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ArrayType(StructType(List(StructField(annotatorType,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(begin,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(end,</span> <span class="pre">IntegerType,</span> <span class="pre">false),</span> <span class="pre">StructField(result,</span> <span class="pre">StringType,</span> <span class="pre">false),</span> <span class="pre">StructField(metadata,</span> <span class="pre">MapType(StringType,</span> <span class="pre">StringType,</span> <span class="pre">true),</span> <span class="pre">false),</span> <span class="pre">StructField(embeddings,</span> <span class="pre">ArrayType(FloatType,</span> <span class="pre">true),</span> <span class="pre">false))),</span> <span class="pre">true)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/functions.html#map_annotations_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.functions.map_annotations_cols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a Spark UDF to map over multiple columns of Annotation results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -930,7 +945,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     
