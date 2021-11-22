@@ -88,6 +88,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Sentiment Detection (ML models)
 - Spell Checker (ML and DL models)
 - Word Embeddings (GloVe and Word2Vec)
+- Doc2Vec (based on Word2Vec)
 - BERT Embeddings (TF Hub & HuggingFace models)
 - DistilBERT Embeddings (HuggingFace models)
 - RoBERTa Embeddings (HuggingFace models)
@@ -114,6 +115,8 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - XLM-RoBERTa for Token Classification
 - XLNet for Token Classification
 - Longformer for Token Classification
+- BERT for Sequence Classification
+- DistilBERT for Sequence Classification
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Named entity recognition (Deep learning)
