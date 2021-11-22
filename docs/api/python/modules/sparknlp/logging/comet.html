@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.logging.comet &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.logging.comet &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../../static/css/theme.css" rel="stylesheet">
   <link href="../../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -228,18 +228,10 @@
 
 <span class="sd">    To run an online experiment, the logger is defined like so.</span>
 
-<span class="sd">    &gt;&gt;&gt; comet_ml.init(project_name=&quot;sparknlp_experiment&quot;, offline_directory=&quot;/tmp&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; OUTPUT_LOG_PATH = &quot;./comet&quot;</span>
-<span class="sd">    &gt;&gt;&gt; logger = CometLogger(comet_mode=&quot;offline&quot;, offline_directory=OUTPUT_LOG_PATH)</span>
+<span class="sd">    &gt;&gt;&gt; OUTPUT_LOG_PATH = &quot;./run&quot;</span>
+<span class="sd">    &gt;&gt;&gt; logger = CometLogger()</span>
 
-<span class="sd">    Experiments can also be defined to be run offline:</span>
-
-<span class="sd">    &gt;&gt;&gt; OUTPUT_LOG_PATH = &quot;./comet&quot;</span>
-<span class="sd">    &gt;&gt;&gt; logger = CometLogger(comet_mode=&quot;offline&quot;, offline_directory=OUTPUT_LOG_PATH)</span>
-<span class="sd">    &gt;&gt;&gt; comet_ml.init(project_name=&quot;sparknlp_experiment&quot;, offline_directory=&quot;/tmp&quot;)</span>
-
-<span class="sd">    Logs will be saved to the output directory and can be later submitted to</span>
-<span class="sd">    Comet.</span>
+<span class="sd">    Then the experiment can start like so</span>
 
 <span class="sd">    &gt;&gt;&gt; document = DocumentAssembler() \\</span>
 <span class="sd">    ...     .setInputCol(&quot;text&quot;)\\</span>
@@ -271,7 +263,6 @@
 <span class="sd">    interface with</span>
 
 <span class="sd">    &gt;&gt;&gt; logger.experiment.display(tab=&#39;charts&#39;)</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -650,7 +641,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     

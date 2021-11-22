@@ -369,7 +369,7 @@ package object annotator {
   type LongformerForTokenClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification
 
   object LongformerForTokenClassification extends ReadablePretrainedLongformerForTokenModel with ReadLongformerForTokenTensorflowModel
-  
+
   type EntityRulerApproach = com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach
 
   type EntityRulerModel = com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
@@ -379,4 +379,17 @@ package object annotator {
   type BertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification
 
   object BertForSequenceClassification extends ReadablePretrainedBertForSequenceModel with ReadBertForSequenceTensorflowModel
+
+  type Doc2VecApproach = com.johnsnowlabs.nlp.embeddings.Doc2VecApproach
+
+  object Doc2VecApproach extends DefaultParamsReadable[Doc2VecApproach]
+
+  type Doc2VecModel = com.johnsnowlabs.nlp.embeddings.Doc2VecModel
+
+  object Doc2VecModel extends ReadablePretrainedDoc2Vec
+
+  type DistilBertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification
+
+  object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
+
 }

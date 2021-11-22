@@ -201,4 +201,27 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     assert(dateMatcherRead.getFormat == dateMatcher.getFormat)
   }
 
+  "a DateMatcher" should "correctly disambiguate the monthly sub-words in text" taggedAs FastTest in {
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("right over-the-needle catheter system 18 gauge;1 1/2 in length")
+    )
+
+    val date = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setFormat("yyyy/MM/dd")
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq
+
+    val defaultYearWhenMissing = Calendar.getInstance.get(Calendar.YEAR)
+    val defaultMonthWhenMissing = "01"
+
+    val expectedDates = Seq(
+      Annotation(DATE, 38, 44, s"$defaultYearWhenMissing/$defaultMonthWhenMissing/18", Map("sentence" -> "0")))
+
+    assert(results == expectedDates)
+  }
+
 }

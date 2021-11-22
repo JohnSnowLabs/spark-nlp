@@ -16,6 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.util.regex.RuleFactory
+import com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -151,8 +153,21 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     }
   }
 
+  private def isNotMonthSubwordMatch(text: String, d: RuleMatch): Boolean = {
+    val words = text.replaceAll("""([?.!:]|\b\p{IsLetter}{1,2}\b)\s*""", "").split(" ")
+    val notSubWordMatches = words
+      .map(_.toLowerCase)
+      .filter( w => w.contains(d.content.matched.toLowerCase) && w.length <= d.content.matched.length)
+
+    notSubWordMatches.length match {
+      case 1 => true
+      case _ => false
+    }
+  }
+
   private def extractRelaxedDate(text: String): Option[MatchedDateTime] = {
-    val possibleDates = relaxedFactory.findMatch(text)
+    val possibleDates: Seq[RuleFactory.RuleMatch] = relaxedFactory.findMatch(text)
+
     if (possibleDates.length > 1) {
       var dayMatch = $(defaultDayWhenMissing)
       var monthMatch = defaultMonthWhenMissing
@@ -163,7 +178,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
         dayMatch = dayCandidate.get.content.matched.filter(_.isDigit).toInt
       }
 
-      val monthCandidate = possibleDates.find(_.identifier == "relaxed months exclusive")
+      val monthCandidate = possibleDates
+        .find(_.identifier == "relaxed months exclusive")
+        .filter(d => isNotMonthSubwordMatch(text, d))
+
       if (monthCandidate.isDefined && monthCandidate.get.content.matched.length > 2) {
         val month = monthCandidate.get.content.matched.toLowerCase().take(3)
         if (shortMonths.contains(month))

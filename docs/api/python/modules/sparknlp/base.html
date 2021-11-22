@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.base &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -763,6 +763,10 @@
 <span class="sd">    +-----------------------------------------------------------------+---------------------+</span>
 <span class="sd">    |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|</span>
 <span class="sd">    +-----------------------------------------------------------------+---------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">chunkCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chunkCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column that contains string. Must be part of DOCUMENT&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
@@ -892,6 +896,10 @@
 <span class="sd">    |[document, 0, 7, New York, [entity -&gt; LOC, sentence -&gt; 0, chunk -&gt; 0], []]    |</span>
 <span class="sd">    |[document, 13, 22, New Jersey, [entity -&gt; LOC, sentence -&gt; 0, chunk -&gt; 1], []]|</span>
 <span class="sd">    +------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Doc2Chunk : for converting `DOCUMENT` annotations to `CHUNK`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Chunk2Doc&quot;</span>
@@ -971,6 +979,10 @@
 <span class="sd">    +----------------------+</span>
 <span class="sd">    |[New York, New Jersey]|</span>
 <span class="sd">    +----------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Finisher : for finishing Strings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;input annotations&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
@@ -1180,6 +1192,10 @@
 <span class="sd">    |[-0.4970499873161316,0.7164199948310852,0.40119001269340515,-0.05761000141501...|</span>
 <span class="sd">    |[-0.08170200139284134,0.7159299850463867,-0.20677000284194946,0.0295659992843...|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    EmbeddingsFinisher : for finishing embeddings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;name of input annotation cols containing embeddings&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
@@ -1387,7 +1403,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.logging.comet.CometLogger &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.logging.comet.CometLogger &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -244,8 +244,23 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.DistilBertForSequenceClassification.html">
+     sparknlp.annotator.DistilBertForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.DistilBertForTokenClassification.html">
      sparknlp.annotator.DistilBertForTokenClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecApproach.html">
+     sparknlp.annotator.Doc2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Doc2VecModel.html">
+     sparknlp.annotator.Doc2VecModel
     </a>
    </li>
    <li class="toctree-l2">
@@ -820,7 +835,7 @@
 <h1>sparknlp.logging.comet.CometLogger<a class="headerlink" href="#sparknlp-logging-comet-cometlogger" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.logging.comet.CometLogger">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sparknlp.logging.comet.</span></span><span class="sig-name descname"><span class="pre">CometLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">experiment_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/logging/comet.html#CometLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.logging.comet.</span></span><span class="sig-name descname"><span class="pre">CometLogger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comet_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">experiment_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/logging/comet.html#CometLogger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.logging.comet.CometLogger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Logger class for Comet integration</p>
 <p><a class="reference external" href="https://www.comet.ml/">Comet</a> is a meta machine learning platform
@@ -864,19 +879,11 @@ will be used, otherwise online.</p>
 </pre></div>
 </div>
 <p>To run an online experiment, the logger is defined like so.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">comet_ml</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;sparknlp_experiment&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./comet&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">(</span><span class="n">comet_mode</span><span class="o">=</span><span class="s2">&quot;offline&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./run&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Experiments can also be defined to be run offline:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./comet&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">(</span><span class="n">comet_mode</span><span class="o">=</span><span class="s2">&quot;offline&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">comet_ml</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;sparknlp_experiment&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Logs will be saved to the output directory and can be later submitted to
-Comet.</p>
+<p>Then the experiment can start like so</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
@@ -1198,7 +1205,7 @@ at the end with <a class="reference internal" href="#sparknlp.logging.comet.Come
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     
