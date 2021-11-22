@@ -46,7 +46,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
-        - title: Map clinical terminology to ICD10-CM codes
+        - title: Map clinical terminology to ICD-10-CM taxonomy
           id: icd10-cm_coding
           image: 
               src: /assets/images/Resolve_Symptoms_to_ICD10-CM_Codes.svg
@@ -60,7 +60,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
-        - title: Map drug terminology to RxNorm codes
+        - title: Map drug terminology to RxNorm taxonomy
           id: rxnorm_coding
           image: 
               src: /assets/images/Resolve_Drugs_to_RxNorm_Codes.svg
@@ -104,7 +104,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb
-        - title: Map Healthcare Codes
+        - title: Map healthcare codes between taxonomies
           id: logical-observation-identifiers-names-and-codes
           image: 
               src: /assets/images/Map_Healthcare_Codes.svg
@@ -118,7 +118,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.1.Healthcare_Code_Mapping.ipynb#scrollTo=e5qYdIEv4JPL
-        - title: Map laboratory terminology to LOINC codes
+        - title: Map laboratory terminology to LOINC taxonomy
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Resolve_Clinical_Entities_to_LOINC.svg
@@ -132,7 +132,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/24.Improved_Entity_Resolvers_in_SparkNLP_with_sBert.ipynb    
-        - title: Extract Hierarchical Condition Categories billable codes using ICD10-CM taxonomy
+        - title: Extract Hierarchical Condition Categories billable codes using ICD-10-CM taxonomy
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC.svg
@@ -146,7 +146,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb  
-        - title: Sentence Entity Resolver for ICD10-CM codes
+        - title: Sentence Entity Resolvers using ICD-10-CM taxonomy
           id: resolve_clinical_entities_codes_loinc
           image: 
               src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports.svg
