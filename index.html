@@ -451,22 +451,22 @@
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.3.2 <span class="nv">pyspark</span><span class="o">==</span>3.1.2
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.3.3 <span class="nv">pyspark</span><span class="o">==</span>3.1.2
 
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
 
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.3
 
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.3
 
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.3
 
     <span class="c"># Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.3.2
+    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.3.3
     </code></pre></figure>
 
                     </div>
@@ -500,10 +500,11 @@
                     <li>Sentence Detector (DL models)</li>
                     <li><strong>Dependency</strong> parsing</li>
                     <li><strong>Sentiment</strong> Detection (ML models)</li>
-                    <li><strong>Spell</strong> Checker (ML and DL models)</li>
+                    <li><strong>Spell</strong> Checker (ML & DL models)</li>
                   </ul>
                   <ul class="list1">
-                    <li>Word Embeddings (<strong>GloVe</strong> and <strong>Word2Vec</strong>)</li>
+                    <li>Word Embeddings (<strong>GloVe</strong> & <strong>Word2Vec</strong>)</li>
+                    <li>Doc2Vec Embeddings (<strong>Word2Vec</strong>)</li>
                     <li><strong>BERT</strong> Embeddings</li>
                     <li><strong>DistilBERT</strong> Embeddings</li>
                     <li><strong>RoBERTa</strong> Embeddings</li>
@@ -517,13 +518,15 @@
                     <li><strong>Chunk</strong> Embeddings</li>
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
+                    <li>Unsupervised <strong>keywords extraction</strong></li>
                   </ul>
                   <ul class="list1">
-                    <li>Unsupervised <strong>keywords extraction</strong></li>
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>
+                    <li>BERT for <strong>Sequence Classification</strong></li>
+                    <li>DistilBERT for <strong>Sequence Classification</strong></li>
                     <li>BERT for <strong>Token Classification</strong></li>
                     <li>DistilBERT for <strong>Token Classification</strong></li>
                     <li>ALBERT for <strong>Token Classification</strong></li>

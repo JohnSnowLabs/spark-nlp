@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -1346,6 +1346,10 @@
 <span class="sd">    |[chunk, 35, 39, pecks, [sentence -&gt; 0, chunk -&gt; 2], []]      |</span>
 <span class="sd">    |[chunk, 52, 58, peppers, [sentence -&gt; 0, chunk -&gt; 3], []]    |</span>
 <span class="sd">    +-------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    PerceptronModel : for Part-Of-Speech tagging</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">regexParsers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -2316,6 +2320,10 @@
 <span class="sd">    |[[date, 0, 8, 2020/01/18, [sentence -&gt; 0], []]]  |</span>
 <span class="sd">    |[[date, 10, 18, 2020/01/12, [sentence -&gt; 0], []]]|</span>
 <span class="sd">    +-------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    MultiDateMatcher : for matching multiple dates in a document</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DateMatcher&quot;</span>
@@ -2487,6 +2495,10 @@
 <span class="sd">    |[chunk, 27, 48, Lorem ipsum dolor. sit, [entity -&gt; entity, sentence -&gt; 0, chunk -&gt; 1], []]|</span>
 <span class="sd">    |[chunk, 53, 59, laborum, [entity -&gt; entity, sentence -&gt; 0, chunk -&gt; 2], []]               |</span>
 <span class="sd">    +------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    BigTextMatcher : to match large amounts of text</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">entities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -3451,6 +3463,10 @@
 <span class="sd">    |[positive]|</span>
 <span class="sd">    |[negative]|</span>
 <span class="sd">    +----------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ViveknSentimentApproach : for an alternative approach to sentiment extraction</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
@@ -3861,6 +3877,11 @@
 <span class="sd">    ...     spellChecker</span>
 <span class="sd">    ... ])</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    SymmetricDeleteApproach : for an alternative approach to spell checking</span>
+<span class="sd">    ContextSpellCheckerApproach : for a DL based approach</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dictionary</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                        <span class="s2">&quot;dictionary&quot;</span><span class="p">,</span>
@@ -4063,6 +4084,11 @@
 <span class="sd">    +--------------------------------------+</span>
 <span class="sd">    |[sometimes, i, write, words, wrong, .]|</span>
 <span class="sd">    +--------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    SymmetricDeleteModel : for an alternative approach to spell checking</span>
+<span class="sd">    ContextSpellCheckerModel : for a DL based approach</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NorvigSweetingModel&quot;</span>
 
@@ -4157,6 +4183,11 @@
 <span class="sd">    ...     spellChecker</span>
 <span class="sd">    ... ])</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NorvigSweetingApproach : for an alternative approach to spell checking</span>
+<span class="sd">    ContextSpellCheckerApproach : for a DL based approach</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">corpus</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                    <span class="s2">&quot;corpus&quot;</span><span class="p">,</span>
@@ -4318,6 +4349,11 @@
 <span class="sd">    +--------------------------------------+</span>
 <span class="sd">    |[sometimes, i, write, words, wrong, .]|</span>
 <span class="sd">    +--------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NorvigSweetingModel : for an alternative approach to spell checking</span>
+<span class="sd">    ContextSpellCheckerModel : for a DL based approach</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SymmetricDeleteModel&quot;</span>
 
@@ -4544,6 +4580,11 @@
 <span class="sd">    &gt;&gt;&gt; conll = CoNLL()</span>
 <span class="sd">    &gt;&gt;&gt; trainingData = conll.readDataset(spark, &quot;src/test/resources/conll2003/eng.train&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NerDLApproach : for a deep learning based approach</span>
+<span class="sd">    NerConverter : to further process the results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">l2</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="s2">&quot;L2 regularization coefficient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
@@ -4741,6 +4782,11 @@
 <span class="sd">    +------------------------------------+</span>
 <span class="sd">    |[I-ORG, O, O, I-PER, O, O, I-LOC, O]|</span>
 <span class="sd">    +------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NerDLModel : for a deep learning based approach</span>
+<span class="sd">    NerConverter : to further process the results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerCrfModel&quot;</span>
 
@@ -4914,6 +4960,11 @@
 <span class="sd">    &gt;&gt;&gt; conll = CoNLL()</span>
 <span class="sd">    &gt;&gt;&gt; trainingData = conll.readDataset(spark, &quot;src/test/resources/conll2003/eng.train&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NerCrfApproach : for a generic CRF approach</span>
+<span class="sd">    NerConverter : to further process the results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">lr</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning Rate&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
@@ -5267,6 +5318,11 @@
 <span class="sd">    +------------------------------------+</span>
 <span class="sd">    |[B-ORG, O, O, B-PER, O, O, B-LOC, O]|</span>
 <span class="sd">    +------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NerCrfModel : for a generic CRF approach</span>
+<span class="sd">    NerConverter : to further process the results</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerDLModel&quot;</span>
 
@@ -5509,6 +5565,10 @@
 
 <span class="sd">    Additional training data is not needed, the dependency parser relies on the</span>
 <span class="sd">    dependency tree bank / CoNLL-U only.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    TypedDependencyParserApproach : to extract labels for the dependencies</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dependencyTreeBank</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;dependencyTreeBank&quot;</span><span class="p">,</span>
@@ -5660,6 +5720,10 @@
 <span class="sd">    |say         |Unions      |</span>
 <span class="sd">    |they        |disappointed|</span>
 <span class="sd">    +------------+------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    TypedDependencyParserMdoel : to extract labels for the dependencies</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DependencyParserModel&quot;</span>
 
@@ -6078,6 +6142,10 @@
 <span class="sd">    |[0.5955275893211365,0.01899011991918087,0.4397728443145752,0.8911281824111938]    |</span>
 <span class="sd">    |[0.9840458631515503,0.7599489092826843,0.9417727589607239,0.8624503016471863]     |</span>
 <span class="sd">    +----------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    SentenceEmbeddings : to combine embeddings into a sentence-level representation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordEmbeddings&quot;</span>
@@ -6210,6 +6278,10 @@
 <span class="sd">    |[0.6191999912261963,0.14650000631809235,-0.08592499792575836,-0.2629800140857...|</span>
 <span class="sd">    |[-0.3397899866104126,0.20940999686717987,0.46347999572753906,-0.6479200124740...|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    SentenceEmbeddings : to combine embeddings into a sentence-level representation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;WordEmbeddingsModel&quot;</span>
@@ -7927,6 +7999,11 @@
 <span class="sd">    ...     docClassifier</span>
 <span class="sd">    ... ])</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(smallCorpus)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    MultiClassifierDLApproach : for multi-class classification</span>
+<span class="sd">    SentimentDLApproach : for sentiment analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">lr</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning Rate&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
@@ -8173,6 +8250,11 @@
 <span class="sd">    |I&#39;m ready!                                                                     |normal |</span>
 <span class="sd">    |If I could put into words how much I love waking up at 6 am on Mondays I would.|sarcasm|</span>
 <span class="sd">    +-------------------------------------------------------------------------------+-------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    MultiClassifierDLModel : for multi-class classification</span>
+<span class="sd">    SentimentDLModel : for sentiment analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ClassifierDLModel&quot;</span>
@@ -8354,6 +8436,10 @@
 <span class="sd">    |[-0.04192575812339783,-0.5764210224151611,-0.3196685314178467,-0.527840495109...|</span>
 <span class="sd">    |[0.15583214163780212,-0.1614152491092682,-0.28423872590065,-0.135491415858268...|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    AlbertForTokenClassification : for  AlbertEmbeddings with a token classification layer on top</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AlbertEmbeddings&quot;</span>
@@ -8779,6 +8865,10 @@
 <span class="sd">    &gt;&gt;&gt; dataset = spark.read.text(path) \\</span>
 <span class="sd">    ...     .toDF(&quot;text&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(dataset)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NorvigSweetingApproach, SymmetricDeleteApproach : For alternative approaches to spell checking</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ContextSpellCheckerApproach&quot;</span>
@@ -9208,6 +9298,10 @@
 <span class="sd">    +--------------------------------------------------------------------------------+</span>
 <span class="sd">    |[It, was, a, cold, ,, dreary, day, and, the, country, was, white, with, snow, .]|</span>
 <span class="sd">    +--------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    NorvigSweetingModel, SymmetricDeleteModel: For alternative approaches to spell checking</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ContextSpellCheckerModel&quot;</span>
 
@@ -10190,6 +10284,11 @@
 <span class="sd">    ...     docClassifier</span>
 <span class="sd">    ... ])</span>
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainDataset)</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ClassifierDLApproach : for single-class classification</span>
+<span class="sd">    SentimentDLApproach : for sentiment analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">lr</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;Learning Rate&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
@@ -10454,6 +10553,11 @@
 <span class="sd">    |This is pretty good stuff!|[]              |</span>
 <span class="sd">    |Wtf kind of crap is this  |[toxic, obscene]|</span>
 <span class="sd">    +--------------------------+----------------+</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ClassifierDLModel : for single-class classification</span>
+<span class="sd">    SentimentDLModel : for sentiment analysis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;MultiClassifierDLModel&quot;</span>
 
@@ -11437,6 +11541,8 @@
 <span class="sd">        The parameter for repetition penalty. 1.0 means no penalty.</span>
 <span class="sd">    noRepeatNgramSize</span>
 <span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once</span>
+<span class="sd">    ignoreTokenIds</span>
+<span class="sd">       A list of token ids which are ignored in the decoder&#39;s output</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -11534,6 +11640,20 @@
     <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
                               <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
                               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="T5Transformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.T5Transformer.html#sparknlp.annotator.T5Transformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[int]</span>
+<span class="sd">            The words to be filtered out</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.T5Transformer.html#sparknlp.annotator.T5Transformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
@@ -11651,6 +11771,18 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">T5Transformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">task</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">minOutputLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">doSample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">topK</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">topP</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[]</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="T5Transformer.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.T5Transformer.html#sparknlp.annotator.T5Transformer.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -11816,6 +11948,20 @@
                             <span class="s2">&quot;Controls the maximum length for decoder outputs (target language texts)&quot;</span><span class="p">,</span>
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
+    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MarianTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.MarianTransformer.html#sparknlp.annotator.MarianTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[int]</span>
+<span class="sd">            The words to be filtered out</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="MarianTransformer.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.MarianTransformer.html#sparknlp.annotator.MarianTransformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
@@ -11865,10 +12011,11 @@
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
-            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">maxInputLength</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
             <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
-            <span class="n">langId</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+            <span class="n">langId</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[]</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="MarianTransformer.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.MarianTransformer.html#sparknlp.annotator.MarianTransformer.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -12683,6 +12830,10 @@
 <span class="sd">    +-----------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    |[[node, 13, 18, prefer, [relationship -&gt; prefer,LOC, path1 -&gt; prefer,nsubj,morning,flat,flight,flat,Denver], []]]|</span>
 <span class="sd">    +-----------------------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    GraphFinisher : to output the paths in a more generic format, like RDF</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;GraphExtraction&quot;</span>
 
@@ -13897,6 +14048,7 @@
 
 <div class="viewcode-block" id="RoBertaForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        b : List[str]</span>
@@ -13906,6 +14058,7 @@
 
 <div class="viewcode-block" id="RoBertaForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : int</span>
@@ -13929,12 +14082,14 @@
 <div class="viewcode-block" id="RoBertaForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        folder : str</span>
 <span class="sd">            Folder of the saved model</span>
 <span class="sd">        spark_session : pyspark.sql.SparkSession</span>
 <span class="sd">            The current SparkSession</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        RoBertaForTokenClassification</span>
@@ -13947,6 +14102,7 @@
 <div class="viewcode-block" id="RoBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html#sparknlp.annotator.RoBertaForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;roberta_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
@@ -13957,6 +14113,7 @@
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        RoBertaForTokenClassification</span>
@@ -14052,6 +14209,7 @@
 
 <div class="viewcode-block" id="XlmRoBertaForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        b : List[str]</span>
@@ -14061,6 +14219,7 @@
 
 <div class="viewcode-block" id="XlmRoBertaForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : int</span>
@@ -14084,12 +14243,14 @@
 <div class="viewcode-block" id="XlmRoBertaForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        folder : str</span>
 <span class="sd">            Folder of the saved model</span>
 <span class="sd">        spark_session : pyspark.sql.SparkSession</span>
 <span class="sd">            The current SparkSession</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        XlmRoBertaForTokenClassification</span>
@@ -14102,6 +14263,7 @@
 <div class="viewcode-block" id="XlmRoBertaForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html#sparknlp.annotator.XlmRoBertaForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xlm_roberta_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
@@ -14112,6 +14274,7 @@
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        XlmRoBertaForTokenClassification</span>
@@ -14193,6 +14356,10 @@
 <span class="sd">    +------------------------------------------------------------------------------------+</span>
 <span class="sd">    |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
 <span class="sd">    +------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    AlbertEmbeddings : for token-level embeddings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AlbertForTokenClassification&quot;</span>
@@ -14209,6 +14376,7 @@
 
 <div class="viewcode-block" id="AlbertForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        b : List[str]</span>
@@ -14218,6 +14386,7 @@
 
 <div class="viewcode-block" id="AlbertForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : int</span>
@@ -14241,12 +14410,14 @@
 <div class="viewcode-block" id="AlbertForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        folder : str</span>
 <span class="sd">            Folder of the saved model</span>
 <span class="sd">        spark_session : pyspark.sql.SparkSession</span>
 <span class="sd">            The current SparkSession</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        AlbertForTokenClassification</span>
@@ -14259,6 +14430,7 @@
 <div class="viewcode-block" id="AlbertForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html#sparknlp.annotator.AlbertForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;albert_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
@@ -14269,6 +14441,7 @@
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        AlbertForTokenClassification</span>
@@ -14367,6 +14540,7 @@
 
 <div class="viewcode-block" id="XlnetForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        b : List[str]</span>
@@ -14376,6 +14550,7 @@
 
 <div class="viewcode-block" id="XlnetForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : int</span>
@@ -14399,12 +14574,14 @@
 <div class="viewcode-block" id="XlnetForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        folder : str</span>
 <span class="sd">            Folder of the saved model</span>
 <span class="sd">        spark_session : pyspark.sql.SparkSession</span>
 <span class="sd">            The current SparkSession</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        XlnetForTokenClassification</span>
@@ -14417,6 +14594,7 @@
 <div class="viewcode-block" id="XlnetForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.XlnetForTokenClassification.html#sparknlp.annotator.XlnetForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xlnet_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
@@ -14427,6 +14605,7 @@
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        XlnetForTokenClassification</span>
@@ -14525,6 +14704,7 @@
 
 <div class="viewcode-block" id="LongformerForTokenClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        b : List[str]</span>
@@ -14534,6 +14714,7 @@
 
 <div class="viewcode-block" id="LongformerForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : int</span>
@@ -14557,12 +14738,14 @@
 <div class="viewcode-block" id="LongformerForTokenClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        folder : str</span>
 <span class="sd">            Folder of the saved model</span>
 <span class="sd">        spark_session : pyspark.sql.SparkSession</span>
 <span class="sd">            The current SparkSession</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        LongformerForTokenClassification</span>
@@ -14575,6 +14758,7 @@
 <div class="viewcode-block" id="LongformerForTokenClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.LongformerForTokenClassification.html#sparknlp.annotator.LongformerForTokenClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;longformer_base_token_classifier_conll03&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
@@ -14585,6 +14769,7 @@
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Optional remote address of the resource, by default None. Will use</span>
 <span class="sd">            Spark NLPs repositories otherwise.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        LongformerForTokenClassification</span>
@@ -14671,29 +14856,29 @@
 
 <span class="sd">    where each line represents an entity and the associated string delimited by &quot;|&quot;.</span>
 
-<span class="sd">        &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
-<span class="sd">        ...     .setInputCol(&quot;text&quot;) \\</span>
-<span class="sd">        ...     .setOutputCol(&quot;document&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
-<span class="sd">        ...     .setInputCols([&quot;document&quot;]) \\</span>
-<span class="sd">        ...     .setOutputCol(&quot;token&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; entityRuler = EntityRulerApproach() \\</span>
-<span class="sd">        ...     .setInputCols([&quot;document&quot;, &quot;token&quot;]) \\</span>
-<span class="sd">        ...     .setOutputCol(&quot;entities&quot;) \\</span>
-<span class="sd">        ...     .setPatternsResource(</span>
-<span class="sd">        ...       &quot;patterns.csv&quot;,</span>
-<span class="sd">        ...       ReadAs.TEXT,</span>
-<span class="sd">        ...       {&quot;format&quot;: &quot;csv&quot;, &quot;delimiter&quot;: &quot;\\\\|&quot;}</span>
-<span class="sd">        ...     ) \\</span>
-<span class="sd">        ...     .setEnablePatternRegex(True)</span>
-<span class="sd">        &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
-<span class="sd">        ...     documentAssembler,</span>
-<span class="sd">        ...     tokenizer,</span>
-<span class="sd">        ...     entityRuler</span>
-<span class="sd">        ... ])</span>
-<span class="sd">        &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Jon Snow wants to be lord of Winterfell.&quot;]]).toDF(&quot;text&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
-<span class="sd">        &gt;&gt;&gt; result.selectExpr(&quot;explode(entities)&quot;).show(truncate=False)</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; entityRuler = EntityRulerApproach() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;entities&quot;) \\</span>
+<span class="sd">    ...     .setPatternsResource(</span>
+<span class="sd">    ...       &quot;patterns.csv&quot;,</span>
+<span class="sd">    ...       ReadAs.TEXT,</span>
+<span class="sd">    ...       {&quot;format&quot;: &quot;csv&quot;, &quot;delimiter&quot;: &quot;\\\\|&quot;}</span>
+<span class="sd">    ...     ) \\</span>
+<span class="sd">    ...     .setEnablePatternRegex(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     entityRuler</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Jon Snow wants to be lord of Winterfell.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(entities)&quot;).show(truncate=False)</span>
 <span class="sd">    +--------------------------------------------------------------------+</span>
 <span class="sd">    |col                                                                 |</span>
 <span class="sd">    +--------------------------------------------------------------------+</span>
@@ -14970,6 +15155,511 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">BertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Doc2VecApproach"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach">[docs]</a><span class="k">class</span> <span class="nc">Doc2VecApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trains a Word2Vec model that creates vector representations of words in a</span>
+<span class="sd">    text corpus.</span>
+
+<span class="sd">    The algorithm first constructs a vocabulary from the corpus and then learns</span>
+<span class="sd">    vector representation of words in the vocabulary. The vector representation</span>
+<span class="sd">    can be used as features in natural language processing and machine learning</span>
+<span class="sd">    algorithms.</span>
+
+<span class="sd">    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our</span>
+<span class="sd">    implementation and a hierarchical softmax method to train the model. The</span>
+<span class="sd">    variable names in the implementation match the original C implementation.</span>
+
+<span class="sd">    For instantiated/pretrained models, see :class:`.Doc2VecModel`.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub &lt;https://nlp.johnsnowlabs.com/models&gt;`__.</span>
+
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    ``TOKEN``              ``SENTENCE_EMBEDDINGS``</span>
+<span class="sd">    ====================== =======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vectorSize</span>
+<span class="sd">        The dimension of codes after transforming from words (&gt; 0), by default</span>
+<span class="sd">        100</span>
+<span class="sd">    windowSize</span>
+<span class="sd">        The window size (context words from [-window, window]) (&gt; 0), by default</span>
+<span class="sd">        5</span>
+<span class="sd">    numPartitions</span>
+<span class="sd">        Number of partitions for sentences of words (&gt; 0), by default 1</span>
+<span class="sd">    minCount</span>
+<span class="sd">        The minimum number of times a token must appear to be included in the</span>
+<span class="sd">        word2vec model&#39;s vocabulary (&gt;= 0), by default 1</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        The window size (Maximum length (in words) of each sentence in the input</span>
+<span class="sd">        data. Any sentence longer than this threshold will be divided into</span>
+<span class="sd">        chunks up to the size (&gt; 0), by default 1000</span>
+<span class="sd">    stepSize</span>
+<span class="sd">        Step size (learning rate) to be used for each iteration of optimization</span>
+<span class="sd">        (&gt; 0), by default 0.025</span>
+<span class="sd">    maxIter</span>
+<span class="sd">        Maximum number of iterations (&gt;= 0), by default 1</span>
+<span class="sd">    seed</span>
+<span class="sd">        Random seed, by default 44</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    For the original C implementation, see https://code.google.com/p/word2vec/</span>
+
+<span class="sd">    For the research paper, see `Efficient Estimation of Word Representations in</span>
+<span class="sd">    Vector Space &lt;https://arxiv.org/abs/1301.3781&gt;`__ and `Distributed</span>
+<span class="sd">    Representations of Words and Phrases and their Compositionality</span>
+<span class="sd">    &lt;https://arxiv.org/pdf/1310.4546v1.pdf&gt;`__.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = Doc2VecApproach() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline() \\</span>
+<span class="sd">    ...     .setStages([</span>
+<span class="sd">    ...       documentAssembler,</span>
+<span class="sd">    ...       tokenizer,</span>
+<span class="sd">    ...       embeddings</span>
+<span class="sd">    ...     ])</span>
+<span class="sd">    &gt;&gt;&gt; path = &quot;sherlockholmes.txt&quot;</span>
+<span class="sd">    &gt;&gt;&gt; dataset = spark.read.text(path).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(dataset)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">vectorSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;vectorSize&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;the dimension of codes after transforming from words (&gt; 0)&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">windowSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;windowSize&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;the window size (context words from [-window, window]) (&gt; 0)&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">numPartitions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;numPartitions&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;number of partitions for sentences of words (&gt; 0)&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">minCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                     <span class="s2">&quot;minCount&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;the minimum number of times a token must &quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;appear to be included in the word2vec model&#39;s vocabulary (&gt;= 0)&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;the window size (Maximum length (in words) of each sentence in the input data. Any sentence longer than this threshold will &quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;be divided into chunks up to the size (&gt; 0)&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">stepSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                     <span class="s2">&quot;stepSize&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Step size (learning rate) to be used for each iteration of optimization (&gt; 0)&quot;</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
+
+    <span class="n">maxIter</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                    <span class="s2">&quot;maxIter&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;maximum number of iterations (&gt;= 0)&quot;</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                 <span class="s2">&quot;seed&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;Random seed&quot;</span><span class="p">,</span>
+                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Doc2VecApproach.setVectorSize"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setVectorSize">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vectorSize</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets vector size (default: 100).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorSize</span><span class="o">=</span><span class="n">vectorSize</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setWindowSize"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setWindowSize">[docs]</a>    <span class="k">def</span> <span class="nf">setWindowSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">windowSize</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets window size (default: 5).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">windowSize</span><span class="o">=</span><span class="n">windowSize</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setStepSize"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setStepSize">[docs]</a>    <span class="k">def</span> <span class="nf">setStepSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stepSize</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets initial learning rate (default: 0.025).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stepSize</span><span class="o">=</span><span class="n">stepSize</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setNumPartitions"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setNumPartitions">[docs]</a>    <span class="k">def</span> <span class="nf">setNumPartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numPartitions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets number of partitions (default: 1). Use a small number for</span>
+<span class="sd">        accuracy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numPartitions</span><span class="o">=</span><span class="n">numPartitions</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setMaxIter"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setMaxIter">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxIter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numIterations</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets number of iterations (default: 1), which should be smaller</span>
+<span class="sd">        than or equal to number of partitions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxIter</span><span class="o">=</span><span class="n">numIterations</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setSeed"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets random seed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setMinCount"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setMinCount">[docs]</a>    <span class="k">def</span> <span class="nf">setMinCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minCount</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets minCount, the minimum number of times a token must appear</span>
+<span class="sd">        to be included in the word2vec model&#39;s vocabulary (default: 5).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minCount</span><span class="o">=</span><span class="n">minCount</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Doc2VecApproach.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecApproach.html#sparknlp.annotator.Doc2VecApproach.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxSentenceLength</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Maximum length (in words) of each sentence in the input data.</span>
+<span class="sd">        Any sentence longer than this threshold will be divided into</span>
+<span class="sd">        chunks up to the size (&gt; 0)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">maxSentenceLength</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Doc2VecApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.Doc2VecApproach&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">vectorSize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">windowSize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">numPartitions</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">minCount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+            <span class="n">stepSize</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span>
+            <span class="n">maxIter</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="mi">44</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Doc2VecModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Doc2VecModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecModel.html#sparknlp.annotator.Doc2VecModel">[docs]</a><span class="k">class</span> <span class="nc">Doc2VecModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Word2Vec model that creates vector representations of words in a text</span>
+<span class="sd">    corpus.</span>
+
+<span class="sd">    The algorithm first constructs a vocabulary from the corpus and then learns</span>
+<span class="sd">    vector representation of words in the vocabulary. The vector representation</span>
+<span class="sd">    can be used as features in natural language processing and machine learning</span>
+<span class="sd">    algorithms.</span>
+
+<span class="sd">    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our</span>
+<span class="sd">    implementation and a hierarchical softmax method to train the model. The</span>
+<span class="sd">    variable names in the implementation match the original C implementation.</span>
+
+<span class="sd">    This is the instantiated model of the :class:`.Doc2VecApproach`. For</span>
+<span class="sd">    training your own model, please see the documentation of that class.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; embeddings = Doc2VecModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+
+<span class="sd">    The default model is `&quot;doc2vec_gigaword_300&quot;`, if no name is provided.</span>
+
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== =======================</span>
+<span class="sd">    ``TOKEN``              ``SENTENCE_EMBEDDINGS``</span>
+<span class="sd">    ====================== =======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vectorSize</span>
+<span class="sd">        The dimension of codes after transforming from words (&gt; 0) , by default</span>
+<span class="sd">        100</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    For the original C implementation, see https://code.google.com/p/word2vec/</span>
+
+<span class="sd">    For the research paper, see `Efficient Estimation of Word Representations in</span>
+<span class="sd">    Vector Space &lt;https://arxiv.org/abs/1301.3781&gt;`__ and `Distributed</span>
+<span class="sd">    Representations of Words and Phrases and their Compositionality</span>
+<span class="sd">    &lt;https://arxiv.org/pdf/1310.4546v1.pdf&gt;`__.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = Doc2VecModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; embeddingsFinisher = EmbeddingsFinisher() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCols(&quot;finished_embeddings&quot;) \\</span>
+<span class="sd">    ...     .setOutputAsVector(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     embeddingsFinisher</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;This is a sentence.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(finished_embeddings) as result&quot;).show(1, 80)</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |                                                                          result|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    |[0.06222493574023247,0.011579325422644615,0.009919632226228714,0.109361454844...|</span>
+<span class="sd">    +--------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Doc2VecModel&quot;</span>
+
+    <span class="n">vectorSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;vectorSize&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;the dimension of codes after transforming from words (&gt; 0)&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Doc2VecModel.setVectorSize"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecModel.html#sparknlp.annotator.Doc2VecModel.setVectorSize">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vectorSize</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets vector size (default: 100).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorSize</span><span class="o">=</span><span class="n">vectorSize</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.Doc2VecModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Doc2VecModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">vectorSize</span><span class="o">=</span><span class="mi">100</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="Doc2VecModel.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Doc2VecModel.html#sparknlp.annotator.Doc2VecModel.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;doc2vec_gigaword_300&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;doc2vec_wiki&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Doc2VecModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">Doc2VecModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DistilBertForSequenceClassification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification">[docs]</a><span class="k">class</span> <span class="nc">DistilBertForSequenceClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                          <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                          <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on</span>
+<span class="sd">    top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = DistilBertForSequenceClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;distilbert_base_sequence_classifier_imdb&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Text+Classification&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``CATEGORY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+<span class="sd">    coalesceSentences</span>
+<span class="sd">        Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging</span>
+<span class="sd">        probabilities in all sentences.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sequenceClassifier = DistilBertForSequenceClassification.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     sequenceClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[\&quot;\&quot;\&quot;John Lenon was born in London and lived</span>
+<span class="sd">    ... in Paris. My name is Sarah and I live in London\&quot;\&quot;\&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |result              |</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    |[neg, neg]          |</span>
+<span class="sd">    |[pos, pos, pos, pos]|</span>
+<span class="sd">    +--------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BertForSequenceClassification&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+    <span class="n">coalesceSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;coalesceSentences&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.&quot;</span><span class="p">,</span>
+                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DistilBertForSequenceClassification.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DistilBertForSequenceClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DistilBertForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1 class per document by averaging probabilities in all sentences.</span>
+<span class="sd">        Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences</span>
+<span class="sd">        into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            If the output of all sentences will be averaged to one output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">coalesceSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DistilBertForSequenceClassification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="DistilBertForSequenceClassification.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DistilBertForSequenceClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_DistilBertSequenceClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DistilBertSequenceClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DistilBertForSequenceClassification.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html#sparknlp.annotator.DistilBertForSequenceClassification.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;distilbert_base_sequence_classifier_imdb&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;distilbert_base_sequence_classifier_imdb&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DistilBertForSequenceClassification</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>
@@ -14997,7 +15687,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     

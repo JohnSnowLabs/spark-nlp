@@ -969,6 +969,70 @@ After you entered the route to S3 in which you place the <code class="language-p
   <li>There’s not much additional setup you need to perform. So just start a notebook server, connect it to the cluster you just created(be patient, it takes a while), and test with the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/platforms/emr/NLP_EMR_Setup.ipynb">NLP_EMR_Setup.ipynb</a> test notebook.<br /></li>
 </ol>
 
+<h2 id="amazon-linux-2-support">Amazon Linux 2 Support</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update Package List &amp; Install  Required Packages</span>
+<span class="nb">sudo </span>yum update
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> amazon-linux-extras
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>python3-pip
+
+<span class="c"># Create Python virtual environment and activate it:</span>
+python3 <span class="nt">-m</span> venv .sparknlp-env
+<span class="nb">source</span> .sparknlp-env/bin/activate
+</code></pre></div></div>
+
+<p>Check JAVA version:</p>
+<ul>
+  <li>For Sparknlp versions above 3.x, please use JAVA-11</li>
+  <li>For Sparknlp versions below 3.x and SparkOCR, please use JAVA-8</li>
+</ul>
+
+<p>Checking Java versions installed on your machine:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>alternatives <span class="nt">--config</span> java
+</code></pre></div></div>
+
+<p>You can pick the index number (I am using java-8 as default - index 2):</p>
+
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
+
+<p><img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
+
+<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
+
+<p>If you dont have java-11 or java-8 in you system, you can easily install via:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>java-1.8.0-openjdk
+</code></pre></div></div>
+
+<p>Now, we can start installing the required libraries:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>jupyter
+</code></pre></div></div>
+
+<p>We can start jupyter notebook via:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">### Now we are in the jupyter notebook cell:</span>
+import json
+import os
+
+with open<span class="o">(</span><span class="s1">'sparknlp_for_healthcare.json) as f:
+    license_keys = json.load(f)
+
+# Defining license key-value pairs as local variables
+locals().update(license_keys)
+
+# Adding license key-value pairs to environment variables
+os.environ.update(license_keys)
+
+# Installing pyspark and spark-nlp
+! pip install --upgrade -q pyspark==3.1.2 spark-nlp==$PUBLIC_VERSION
+
+# Installing Spark NLP Healthcare
+! pip install --upgrade -q spark-nlp-jsl==$JSL_VERSION  --extra-index-url https://pypi.johnsnowlabs.com/$SECRET
+</span></code></pre></div></div>
+
 <h2 id="get-a-spark-nlp-for-healthcare-license">Get a Spark NLP for Healthcare license</h2>
 
 <p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. This will automatically create a new account for you on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Login in to your new account and from <code class="language-plaintext highlighter-rouge">My Subscriptions</code> section, you can download your license key as a json file.</p>

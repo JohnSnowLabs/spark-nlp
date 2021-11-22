@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Comet - A meta machine learning platform &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>Comet - A meta machine learning platform &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../static/css/theme.css" rel="stylesheet">
   <link href="../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -242,9 +242,8 @@ be available for inspection on the web interface.</p>
 <p>The Comet experiment can then be initialized. For this step you will need an API
 key. See the Comet quick-start section on how to get one.</p>
 <p>To run an online experiment, the logger is defined like so.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">comet_ml</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;sparknlp_experiment&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./comet&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">(</span><span class="n">comet_mode</span><span class="o">=</span><span class="s2">&quot;offline&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./run&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>We continue by defining the training pipeline.</p>
@@ -344,9 +343,10 @@ and converted by a <a class="reference internal" href="../reference/autosummary/
 <section id="running-an-offline-experiment">
 <h2>Running An Offline Experiment<a class="headerlink" href="#running-an-offline-experiment" title="Permalink to this headline">¶</a></h2>
 <p>Experiments can also be defined to be run offline:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./comet&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">(</span><span class="n">comet_mode</span><span class="o">=</span><span class="s2">&quot;offline&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">comet_ml</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">OUTPUT_LOG_PATH</span> <span class="o">=</span> <span class="s2">&quot;./run&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">comet_ml</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;sparknlp_experiment&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span> <span class="o">=</span> <span class="n">CometLogger</span><span class="p">(</span><span class="n">comet_mode</span><span class="o">=</span><span class="s2">&quot;offline&quot;</span><span class="p">,</span> <span class="n">offline_directory</span><span class="o">=</span><span class="n">OUTPUT_LOG_PATH</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Logs will be saved to the output directory and can be later submitted to
@@ -394,7 +394,7 @@ Comet.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     
