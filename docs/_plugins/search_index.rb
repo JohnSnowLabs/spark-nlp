@@ -74,6 +74,11 @@ class Extractor
     m ? m[1] : nil
   end
 
+  def doc_type
+    m = /\|Type:\|(.*?)\|/.match(@content)
+    m ? (m[1] == 'pipeline' ? m[1]: 'model') : nil
+  end
+
   def predicted_entities
     m = /## Predicted Entities(.*?)(##|{:\.btn-box\})/m.match(@content)
     if m
@@ -161,6 +166,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     tags: post.data['tags'],
     download_link: extractor.download_link,
     predicted_entities: extractor.predicted_entities || [],
+    type: extractor.doc_type
   }
 end
 
@@ -185,6 +191,7 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
+    tags: post.data['tags'],
     task: post.data['task'],
     language: language,
     languages: languages,
@@ -246,6 +253,10 @@ Jekyll::Hooks.register :site, :post_render do |site|
       end
 
       models_json[model[:id]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
+      # Add model_type to search models
+      model[:type] = models_json[model[:id]][:type]
+      # Add predicted entities to search models
+      model[:predicted_entities] = models_json[model[:id]][:predicted_entities]
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)
