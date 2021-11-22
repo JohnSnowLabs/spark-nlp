@@ -21,7 +21,6 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -84,7 +83,9 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[BertForTokenClassification]] for token-level classification
+ * @see [[BertForSequenceClassification]] for sentence-level classification
+ * @see [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]] for token-level embeddings
+ * @see [[com.johnsnowlabs.nlp.annotator.BertSentenceEmbeddings BertSentenceEmbeddings]] for sentence-level embeddings
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types

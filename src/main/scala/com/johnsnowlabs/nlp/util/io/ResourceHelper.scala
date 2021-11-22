@@ -211,7 +211,7 @@ object ResourceHelper {
       case TEXT =>
         val sourceStream = SourceStream(externalResource.path)
         val keyValueStore = MMap.empty[String, List[String]]
-        sourceStream.content.foreach(content => content.foreach{ line => {
+        sourceStream.content.foreach(content => content.foreach { line => {
           val keyValues = line.split(externalResource.options("delimiter"))
           val key = keyValues.head
           val value = keyValues.drop(1).toList
@@ -219,7 +219,27 @@ object ResourceHelper {
           if (storedValue.isDefined && !storedValue.contains(value)) {
             keyValueStore.update(key, storedValue.get ++ value)
           } else keyValueStore(key) = value
-        }})
+        }
+        })
+        sourceStream.close()
+        keyValueStore.toMap
+    }
+  }
+
+  def parseKeyArrayValues(externalResource: ExternalResource): Map[String, Array[Float]] = {
+    externalResource.readAs match {
+      case TEXT =>
+        val sourceStream = SourceStream(externalResource.path)
+        val keyValueStore = MMap.empty[String, Array[Float]]
+        sourceStream.content.foreach(content => content.foreach { line => {
+          val keyValues = line.split(externalResource.options("delimiter"))
+          val key = keyValues.head
+          val value = keyValues.drop(1).map(x => x.toFloat)
+          if (value.length > 1) {
+            keyValueStore(key) = value
+          }
+        }
+        })
         sourceStream.close()
         keyValueStore.toMap
     }

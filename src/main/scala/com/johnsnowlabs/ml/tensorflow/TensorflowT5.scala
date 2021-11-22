@@ -65,15 +65,26 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
                       repetitionPenalty: Double,
                       noRepeatNgramSize: Int,
                       task: String,
-                      randomSeed: Option[Long] = None
+                      randomSeed: Option[Long] = None,
+                      ignoreTokenIds: Array[Int] = Array()
                      ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, task)
-      val spIds = process(batchSP, minOutputLength, maxOutputLength, doSample, temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, randomSeed)
+      val spIds = process(
+        batchSP,
+        minOutputLength,
+        maxOutputLength,
+        doSample,
+        temperature,
+        topK,
+        topP,
+        repetitionPenalty,
+        noRepeatNgramSize,
+        randomSeed,
+        ignoreTokenIds)
       decode(spIds)
-
     }
 
     var sentBegin, nextSentEnd = 0
@@ -91,7 +102,19 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def process(batch: Seq[Array[Long]], minOutputLength: Int, maxOutputLength: Int, doSample: Boolean, temperature: Double, topK: Int, topP: Double, repetitionPenalty: Double, noRepeatNgramSize: Int, randomSeed: Option[Long]): Array[Array[Long]] = {
+  def process(
+               batch: Seq[Array[Long]],
+               minOutputLength: Int,
+               maxOutputLength: Int,
+               doSample: Boolean,
+               temperature: Double,
+               topK: Int,
+               topP: Double,
+               repetitionPenalty: Double,
+               noRepeatNgramSize: Int,
+               randomSeed: Option[Long],
+               ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
+
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
@@ -167,7 +190,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       decoderEncoderStateBuffers)
 
     val modelOutputs = generateNoBeamSearch(batch, decoderEncoderStateTensors, encoderAttentionMaskTensors, maxOutputLength, minOutputLength, doSample,
-      temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session)
+      temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session,
+      ignoreTokenIds)
 
     tensorEncoder.clearTensors()
     tensorEncoder.clearSession(encoderOuts)
@@ -189,7 +213,9 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
                            batch_size: Int,
                            vocab_size: Int,
                            randomSeed: Option[Long],
-                           session: Session): Array[Array[Long]] = {
+                           session: Session,
+                           ignoreTokenIds: Array[Int] = Array()
+                          ): Array[Array[Long]] = {
 
     /**
      * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
@@ -236,6 +262,10 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       val decoderOuts = runner.run().asScala
       val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(vocab_size).toArray.grouped(decoderInputLength).toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
+
+      nextTokenLogits = nextTokenLogits.map(x => {
+        x.zipWithIndex.map(x => if (ignoreTokenIds.contains(x._2)) Float.MinValue else x._1)
+      })
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
       if (repetitionPenalty != 1.0) {

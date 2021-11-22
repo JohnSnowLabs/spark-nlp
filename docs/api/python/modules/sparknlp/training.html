@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.training &#8212; Spark NLP 3.3.2 documentation</title>
+    <title>sparknlp.training &#8212; Spark NLP 3.3.3 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -170,6 +170,7 @@
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">ExternalResource</span><span class="p">,</span> <span class="n">ReadAs</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">DataFrame</span>
+<span class="kn">import</span> <span class="nn">pyspark</span>
 
 
 <div class="viewcode-block" id="CoNLL"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL">[docs]</a><span class="k">class</span> <span class="nc">CoNLL</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
@@ -262,7 +263,7 @@
                                     <span class="n">explodeSentences</span><span class="p">,</span>
                                     <span class="n">delimiter</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CoNLL.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">):</span>
+<div class="viewcode-block" id="CoNLL.readDataset"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.training.CoNLL.html#sparknlp.training.CoNLL.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">partitions</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">storage_level</span><span class="o">=</span><span class="n">pyspark</span><span class="o">.</span><span class="n">StorageLevel</span><span class="o">.</span><span class="n">DISK_ONLY</span><span class="p">):</span>
         <span class="c1"># ToDo Replace with std pyspark</span>
         <span class="sd">&quot;&quot;&quot;Reads the dataset from an external resource.</span>
 
@@ -274,6 +275,9 @@
 <span class="sd">            Path to the resource</span>
 <span class="sd">        read_as : str, optional</span>
 <span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
+<span class="sd">        partitions : sets the minimum number of partitions for the case of lifting multiple files in parallel into a single dataframe. Defaults to 8.</span>
+<span class="sd">        storage_level : sets the persistence level according to PySpark definitions. Defaults to StorageLevel.DISK_ONLY. Applies only when lifting multiple files.</span>
+<span class="sd">        </span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -282,7 +286,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">jSession</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">_jsparkSession</span>
 
-        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">)</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">jSession</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">partitions</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">_getJavaStorageLevel</span><span class="p">(</span><span class="n">storage_level</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">spark</span><span class="o">.</span><span class="n">_wrapped</span><span class="p">)</span></div></div>
 
 
@@ -523,7 +527,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
 </p>
     </div>
     
