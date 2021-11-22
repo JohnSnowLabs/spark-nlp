@@ -65,24 +65,24 @@ sequenceClassifier = BertForSequenceClassification \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['I love you!']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_dehatebert_mono", "en")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_dehatebert_mono", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -90,7 +90,7 @@ val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_de
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["I love you!"].toDS.toDF("text")
+val example = Seq("I love you!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

@@ -44,8 +44,8 @@ This model is trained with `clinical_embeddings` to extract the names of chemica
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\ 
-      .setInputCols(["sentence", "token"])\ 
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+      .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
 
 chemd_ner = MedicalNerModel.pretrained('ner_chemd_clinical', 'en', 'clinical/models') \
@@ -70,8 +70,8 @@ val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en"
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
-val chemd_ner = MedicalNerModel.pretrained("ner_chemd_clinical", "en", "clinical/models") 
-      .setInputCols(Array("sentence", "token", "embeddings")) 
+val chemd_ner = MedicalNerModel.pretrained("ner_chemd_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token", "embeddings"))
       .setOutputCol("ner")
 
 val ner_converter = NerConverter()

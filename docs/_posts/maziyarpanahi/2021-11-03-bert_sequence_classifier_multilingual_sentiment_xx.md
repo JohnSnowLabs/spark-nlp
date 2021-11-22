@@ -23,7 +23,7 @@ This model is intended for direct use as a sentiment analysis model for product 
 
 ## Training data
 
-Here is the number of product reviews we used for finetuning the model: 
+Here is the number of product reviews we used for finetuning the model:
 
 | Language | Number of reviews |
 | -------- | ----------------- |
@@ -66,24 +66,24 @@ sequenceClassifier = BertForSequenceClassification \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['I really liked that movie!']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_multilingual_sentiment", "xx")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_multilingual_sentiment", "xx")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(false)
@@ -91,7 +91,7 @@ val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_mu
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["I really liked that movie!"].toDS.toDF("text")
+val example = Seq("I really liked that movie!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -122,7 +122,7 @@ val result = pipeline.fit(example).transform(example)
 The finetuned model obtained the following accuracy on 5,000 held-out product reviews in each of the languages:
 
 - Accuracy (exact) is the exact match on the number of stars.
-- Accuracy (off-by-1) is the percentage of reviews where the number of stars the model predicts differs by a maximum of 1 from the number given by the human reviewer. 
+- Accuracy (off-by-1) is the percentage of reviews where the number of stars the model predicts differs by a maximum of 1 from the number given by the human reviewer.
 
 
 | Language | Accuracy (exact) | Accuracy (off-by-1) |
