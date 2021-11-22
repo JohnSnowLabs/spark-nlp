@@ -18,7 +18,7 @@ data:
           activemenu: analyze_non_english_medical_text
       source: yes
       source: 
-        - title: ICD10 coding for German
+        - title: ICD-10 taxonomy for German medical terminology
           hide: yes
           id: icd10_coding_for_german
           image: 

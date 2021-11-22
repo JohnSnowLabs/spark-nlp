@@ -115,6 +115,4 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
-              
----
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
