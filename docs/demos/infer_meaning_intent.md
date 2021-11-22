@@ -115,19 +115,4 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
-        - title: Detect Entities in tweets 
-          id: detect_entities_tweets  
-          image: 
-              src: /assets/images/Detect_Entities_in_tweets.svg
-          image2: 
-              src: /assets/images/Detect_Entities_in_tweets_f.svg
-          excerpt: This demo shows how to extract Named Entities, as PER, ORG or LOC, from tweets.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/public/NER_BTC/ 
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_BTC.ipynb
----
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
