@@ -42,14 +42,14 @@ sbert_embedder = BertSentenceEmbeddings\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 
-resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_augmented","en", "clinical/models") \
+resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 
 pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-model = pipeline_loinc.fit(spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""]]).toDF("text"))
+model = pipeline_loinc.fit(spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""]]).toDF("text"))
 
 results = model.transform(data)
 ```
@@ -69,9 +69,7 @@ val loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loi
 
 val loinc_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, loinc_resolver))
 
-val data = Seq("She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
-levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
-Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily.").toDF("text")
+val data = Seq("The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -80,20 +78,15 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-|    | chunk                                 | loinc_code   |
-|---:|:--------------------------------------|:-------------|
-|  0 | gestational diabetes mellitus         | 45636-8      |
-|  1 | subsequent type two diabetes mellitus | 44877-9      |
-|  2 | T2DM                                  | 45636-8      |
-|  3 | HTG-induced pancreatitis              | 79102-0      |
-|  4 | an acute hepatitis                    | 28083-4      |
-|  5 | obesity                               | 50227-8      |
-|  6 | a body mass index                     | 59574-4      |
-|  7 | BMI                                   | 59574-4      |
-|  8 | polyuria                              | 28239-2      |
-|  9 | polydipsia                            | 90552-1      |
-| 10 | poor appetite                         | 65961-5      |
-| 11 | vomiting                              | 81224-8      |
++--------------------------+-----+---+------+----------+----------+--------------------------------------------------+--------------------------------------------------+
+|                     chunk|begin|end|entity|confidence|Loinc_Code|                                         all_codes|                                       resolutions|
++--------------------------+-----+---+------+----------+----------+--------------------------------------------------+--------------------------------------------------+
+|           Body mass index|   74| 88|  Test|0.39306664| LP35925-4|LP35925-4:::BDYCRC:::LP172732-2:::39156-5:::LP7...|body mass index:::body circumference:::body mus...|
+|aspartate aminotransferase|  111|136|  Test|   0.74925| LP15426-7|LP15426-7:::14409-7:::LP307348-5:::LP15333-5:::...|aspartate aminotransferase::: aspartate transam...|
+|  alanine aminotransferase|  146|169|  Test|    0.9579| LP15333-5|LP15333-5:::LP307326-1:::16324-6:::LP307348-5::...|alanine aminotransferase:::alanine aminotransfe...|
+|                    hgba1c|  180|185|  Test|    0.1118|   17855-8|17855-8:::4547-6:::55139-0:::72518-4:::45190-6:...| hba1c::: hgb a1::: hb1::: hcds1::: hhc1::: htr...|
++--------------------------+-----+---+------+----------+----------+--------------------------------------------------+--------------------------------------------------+
+
 
 ```
 
