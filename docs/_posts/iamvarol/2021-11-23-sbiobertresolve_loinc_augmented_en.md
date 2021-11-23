@@ -38,13 +38,13 @@ This model maps extracted clinical NER entities to LOINC codes using `sbiobert_b
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbluebert_base_uncased_mli","en","clinical/models")\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("resolution")\
+     .setOutputCol("loinc_code")\
      .setDistanceFunction("EUCLIDEAN")
 
 pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
@@ -64,7 +64,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli'
     
 val loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") \
       .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-      .setOutputCol("rxnorm_code")\
+      .setOutputCol("loinc_code")\
       .setDistanceFunction("EUCLIDEAN")
 
 val loinc_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, loinc_resolver))
