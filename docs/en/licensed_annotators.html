@@ -571,6 +571,10 @@ At the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/e0614171
       <td>Filters entities coming from CHUNK annotations.</td>
     </tr>
     <tr>
+      <td><a href="#chunkkeyphraseextraction">ChunkKeyPhraseExtraction</a></td>
+      <td>Uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text.</td>
+    </tr>
+    <tr>
       <td><a href="#chunkmerge">ChunkMerge</a></td>
       <td>Merges entities coming from different CHUNK annotations.</td>
     </tr>
@@ -1852,6 +1856,177 @@ result.selectExpr("explode(filtered)").show(truncate=False)
 <span class="o">|{</span><span class="n">chunk</span><span class="o">,</span> <span class="mi">22</span><span class="o">,</span> <span class="mi">36</span><span class="o">,</span> <span class="n">gastroenteritis</span><span class="o">,</span> <span class="o">{</span><span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="o">},</span> <span class="o">[]}</span>  <span class="o">|</span>
 <span class="o">|{</span><span class="n">chunk</span><span class="o">,</span> <span class="mi">118</span><span class="o">,</span> <span class="mi">132</span><span class="o">,</span> <span class="n">gastroenteritis</span><span class="o">,</span> <span class="o">{</span><span class="n">sentence</span> <span class="o">-&gt;</span> <span class="mi">0</span><span class="o">,</span> <span class="n">chunk</span> <span class="o">-&gt;</span> <span class="mi">5</span><span class="o">},</span> <span class="o">[]}|</span>
 <span class="o">+-------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h2 id="chunkkeyphraseextraction">ChunkKeyPhraseExtraction</h2>
+
+  <p>Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a text. 
+The input to the model consists of chunk annotations and sentence or document annotation. The model compares the chunks 
+against the corresponding sentences/documents and selects the chunks which are most representative of the broader text 
+context (i.e. the document or the sentence they belong to). The key phrases candidates (i.e. the input chunks) can be 
+generated in various ways, e.g. by NGramGenerator, TextMatcher or NerConverter. The model operates either at sentence 
+(selecting the most descriptive chunks from the sentence they belong to) or at document level. In the latter case, the 
+key phrases are selected to represent all the input document annotations.</p>
+
+  <p>This model is a subclass of [[BertSentenceEmbeddings]] and shares all parameters with it. It can load any pretrained
+BertSentenceEmbeddings model. Available models can be found at the <a href="https://nlp.johnsnowlabs.com/models?task=Sentence+Embeddings">Models Hub</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, CHUNK</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CHUNK</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkKeyPhraseExtraction">ChunkKeyPhraseExtraction</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documenter</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentencer</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span> \
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">WordEmbeddingsModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_jsl_slim"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span>
+
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
+
+<span class="n">key_phrase_extractor</span> <span class="o">=</span> <span class="n">ChunkKeyPhraseExtraction</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setTopN</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDocumentLevelProcessing</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDivergence</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"ner_chunks"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_key_phrases"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">base</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">key_phrase_extractor</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Her Diabetes has become type 2 in the last year with her Diabetes.He complains of swelling in his right forearm."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span>\
+    <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(ner_chunk_key_phrases) AS key_phrase"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span>
+        <span class="s">"key_phrase.result"</span><span class="p">,</span>
+        <span class="s">"key_phrase.metadata.entity"</span><span class="p">,</span>
+        <span class="s">"key_phrase.metadata.DocumentSimilarity"</span><span class="p">,</span>
+        <span class="s">"key_phrase.metadata.MMRScore"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+<span class="o">+-----------------------------+------------------+-------------------+</span>
+<span class="o">|</span><span class="n">result</span>                       <span class="o">|</span><span class="n">DocumentSimilarity</span><span class="o">|</span><span class="n">MMRScore</span>           <span class="o">|</span>
+<span class="o">+-----------------------------+------------------+-------------------+</span>
+<span class="o">|</span><span class="n">gestational</span> <span class="n">diabetes</span> <span class="n">mellitus</span><span class="o">|</span><span class="mf">0.7391447825527298</span><span class="o">|</span><span class="mf">0.44348688715422274</span><span class="o">|</span>
+<span class="o">|</span><span class="mi">28</span><span class="o">-</span><span class="n">year</span><span class="o">-</span><span class="n">old</span>                  <span class="o">|</span><span class="mf">0.4366776288430703</span><span class="o">|</span><span class="mf">0.13577881610104517</span><span class="o">|</span>
+<span class="o">|</span><span class="nb">type</span> <span class="n">two</span> <span class="n">diabetes</span> <span class="n">mellitus</span>   <span class="o">|</span><span class="mf">0.7323921930094919</span><span class="o">|</span><span class="mf">0.085800103824974</span>  <span class="o">|</span>
+<span class="o">+-----------------------------+------------------+-------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.SentenceDetector</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.EmbeddingsFinisher</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">stopWordsCleaner</span> <span class="k">=</span> <span class="nv">StopWordsCleaner</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"clean_tokens"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">nGrams</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NGramGenerator</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"clean_tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ngrams"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setN</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+
+
+<span class="k">val</span> <span class="nv">chunkKeyPhraseExtractor</span> <span class="k">=</span> <span class="nc">ChunkKeyPhraseExtraction</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setTopN</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setDivergence</span><span class="o">(</span><span class="mf">0.7f</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"ngrams"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"key_phrases"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">stopWordsCleaner</span><span class="o">,</span>
+    <span class="n">nGrams</span><span class="o">,</span>
+    <span class="n">chunkKeyPhraseExtractor</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">sampleText</span> <span class="k">=</span> <span class="s">"Her Diabetes has become type 2 in the last year with her Diabetes."</span> <span class="o">+</span>
+    <span class="s">" He complains of swelling in his right forearm."</span>
+
+<span class="k">val</span> <span class="nv">testDataset</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">emptyDataset</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDataset</span><span class="o">)</span>
+
+<span class="n">result</span>
+    <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(key_phrases) AS key_phrase"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span>
+        <span class="s">"key_phrase.result"</span><span class="o">,</span>
+        <span class="s">"key_phrase.metadata.DocumentSimilarity"</span><span class="o">,</span>
+        <span class="s">"key_phrase.metadata.MMRScore"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="o">+--------------------------+-------------------+------------------+</span>
+<span class="o">|</span><span class="n">result</span>                    <span class="o">|</span><span class="nc">DocumentSimilarity</span> <span class="o">|</span><span class="nc">MMRScore</span>          <span class="o">|</span>
+<span class="o">+--------------------------+-------------------+------------------+</span>
+<span class="o">|</span><span class="n">complains</span> <span class="n">swelling</span> <span class="n">forearm</span><span class="o">|</span><span class="mf">0.6325718954229369</span> <span class="o">|</span><span class="mf">0.1897715761677257</span><span class="o">|</span>
+<span class="o">|</span><span class="k">type</span> <span class="err">2</span> <span class="kt">year</span>               <span class="kt">|</span><span class="err">0</span><span class="kt">.</span><span class="err">40181028931546364</span><span class="kt">|-</span><span class="err">0</span><span class="kt">.</span><span class="err">189501077108947</span><span class="kt">|</span>
+<span class="kt">+--------------------------+-------------------+------------------+</span>
 </code></pre></div>      </div>
 
     </div>
