@@ -57,11 +57,11 @@ pipeline = Pipeline(stages = [
     roberta_embeddings])
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()
+val documentAssembler = DocumentAssembler()
     .setInputCol("term")
     .setOutputCol("document")
 
-val tokenizer = mew Tokenizer()
+val tokenizer = Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
 
