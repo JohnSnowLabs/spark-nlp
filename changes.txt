@@ -1,4 +1,2 @@
-docs/en/licensed_annotator_entries/ChunkKeyPhraseExtraction.md
-docs/en/licensed_annotators.md
-docs/en/licensed_annotator_entries/ChunkKeyPhraseExtraction.md
-docs/en/licensed_annotators.md
+docs/_posts/josejuanmartinez/2021-11-01-roberta_base_biomedical_es.md
+docs/_posts/josejuanmartinez/2021-11-01-roberta_base_biomedical_es.md
