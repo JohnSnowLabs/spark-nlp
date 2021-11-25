@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.pytorch.{PytorchBert, PytorchWrapper}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -23,12 +24,10 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, Word
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
@@ -291,6 +290,7 @@ class BertEmbeddings(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+
     val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
       TokenizedWithSentence.unpack(annotations).toArray
     ).toArray
@@ -320,7 +320,6 @@ class BertEmbeddings(override val uid: String)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
-    //TODO: We will need to create something similar to this but for PyTorch
     super.onWrite(path, spark)
     writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert", BertEmbeddings.tfFile, configProtoBytes = getConfigProtoBytes)
   }
@@ -346,7 +345,6 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
   override val tfFile: String = "bert_tensorflow"
 
   def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
-
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
@@ -387,6 +385,7 @@ trait ReadBertTensorflowModel extends ReadTensorflowModel {
       .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
   }
+
 }
 
 

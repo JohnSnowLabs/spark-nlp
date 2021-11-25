@@ -23,7 +23,7 @@ import scala.collection.mutable.ArrayBuffer
 object ChunkBytes {
 
   /**
-   * readFileInByteChunks will read a file by chuning the size of BufferSize and return array of arrays of Byte
+   * readFileInByteChunks will read a file by chunking the size of BufferSize and return array of arrays of Byte
    *
    * @param inputPath  the path to an input file
    * @param BufferSize the size of bytes in each chunk
