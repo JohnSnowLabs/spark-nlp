@@ -15408,7 +15408,7 @@ class DistilBertForSequenceClassification(AnnotatorModel,
     |[pos, pos, pos, pos]|
     +--------------------+
     """
-    name = "BertForSequenceClassification"
+    name = "DistilBertForSequenceClassification"
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
