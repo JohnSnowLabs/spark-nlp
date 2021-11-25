@@ -99,13 +99,14 @@ unittest.TextTestRunner().run(Doc2VecTestSpec())
 # unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
+# unittest.TextTestRunner().run(DistilBertForSequenceClassificationTestSpec())
 
 # Misc tests
 
-# unittest.TextTestRunner().run(UtilitiesTestSpec())
-# unittest.TextTestRunner().run(SerializersTestSpec())
-# unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
+unittest.TextTestRunner().run(UtilitiesTestSpec())
+unittest.TextTestRunner().run(SerializersTestSpec())
+unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 
 # Functions tests
-# unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
-# unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
+unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
+unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
