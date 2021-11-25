@@ -4,7 +4,7 @@ import ai.djl.Model
 import ai.djl.ndarray.NDList
 import ai.djl.pytorch.engine.PtModel
 import ai.djl.translate.{Batchifier, Translator, TranslatorContext}
-import com.johnsnowlabs.ml.pytorch.PytorchWrapper
+import com.johnsnowlabs.ml.pytorch.{PytorchLinearRegression, PytorchWrapper}
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, TOKEN}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
@@ -23,22 +23,12 @@ class LinearRegression(override val uid: String) extends AnnotatorModel[LinearRe
 
   def this() = this(Identifiable.randomUID("LINEAR_REGRESSION"))
 
-  private var pyTorchModelBroadcast: Option[Broadcast[PtModel]] = None
+  private var pyTorchModel: Option[Broadcast[PytorchLinearRegression]] = None
 
-  private var pyTorchModel: Option[Broadcast[PytorchWrapper]] = None
-
-  private var predictor: Option[Broadcast[ai.djl.inference.Predictor[Float, Float]]] = None
-
-  def setBroadcastModelIfNotSet(spark: SparkSession, pyTorchModel: PtModel): LinearRegression = {
-    if (pyTorchModelBroadcast.isEmpty) {
-      println("************* Before broadcasting")
-      pyTorchModelBroadcast = Some(spark.sparkContext.broadcast(pyTorchModel))
+  def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): LinearRegression = {
+    if (pyTorchModel.isEmpty) {
+      pyTorchModel = Some(spark.sparkContext.broadcast(new PytorchLinearRegression(pytorchWrapper)))
     }
-    this
-  }
-
-  def setModelStreamIfNotSet(spark: SparkSession, sourceBytes: Array[Byte]): LinearRegression = {
-    pyTorchModel = Some(spark.sparkContext.broadcast(new PytorchWrapper(Some(sourceBytes))))
     this
   }
 
@@ -68,10 +58,8 @@ class LinearRegression(override val uid: String) extends AnnotatorModel[LinearRe
 trait ReadLinearRegressionPyTorchModel {
 
   def loadSavedModel(pyTorchModelPath: String, spark: SparkSession): LinearRegression = {
-
-    val pyTorchModel = PytorchWrapper.readBytes(pyTorchModelPath)
-    println("************* Before returning loadSavedModel.setModelIfNotSet")
-    new LinearRegression().setModelStreamIfNotSet(spark, pyTorchModel)
+    val pytorchWrapper = PytorchWrapper(pyTorchModelPath)
+    new LinearRegression().setPytorchModelIfNotSet(spark, pytorchWrapper)
   }
 
 }

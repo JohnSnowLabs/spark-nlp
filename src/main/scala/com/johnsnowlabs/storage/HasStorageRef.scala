@@ -42,6 +42,7 @@ trait HasStorageRef extends ParamsAndFeaturesWritable {
   def getStorageRef: String = $(storageRef)
 
   def validateStorageRef(dataset: Dataset[_], inputCols: Array[String], annotatorType: String): Unit = {
+    println(s"storageRef: $getStorageRef")
     require(isDefined(storageRef), "This Annotator does not have a storage reference defined. This could be an outdated " +
       "model or an incorrectly created one. Make sure storageRef param is defined and set.")
     require(HasStorageRef.getStorageRefFromInput(dataset, inputCols, annotatorType) == $(storageRef),
