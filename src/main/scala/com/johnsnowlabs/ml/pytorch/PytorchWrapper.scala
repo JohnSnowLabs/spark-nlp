@@ -39,7 +39,9 @@ object PytorchWrapper {
   }
 
   private def readBytes(pyTorchModelPath: String): Array[Byte] = {
-    val sourceStream = ResourceHelper.SourceStream(pyTorchModelPath)
+    val modelFile = new File(pyTorchModelPath).list().filter(file => file.contains(".pt")).head
+    val sourceStream = ResourceHelper.SourceStream(pyTorchModelPath + modelFile)
+
     val inputStreamModel = sourceStream.pipe.head
     val modelBytes = new Array[Byte](inputStreamModel.available())
     inputStreamModel.read(modelBytes)

@@ -32,6 +32,7 @@ trait ReadPytorchModel {
   val torchscriptFile: String
 
   def readPytorchModel(path: String, spark: SparkSession, suffix: String): PytorchWrapper = {
+
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val localFileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
