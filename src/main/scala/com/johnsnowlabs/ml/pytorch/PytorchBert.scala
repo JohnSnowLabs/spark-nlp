@@ -14,6 +14,14 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper, sentenceStartTokenId: Int,
   private var maxSentenceLength: Option[Int] = None
   private var batchLength: Option[Int] = None
 
+  private val predictor = {
+    val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
+    val pyTorchModel: PtModel = Model.newInstance("bert-model").asInstanceOf[PtModel]
+    pyTorchModel.load(modelInputStream)
+
+    pyTorchModel.newPredictor(this)
+  }
+
   def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
                            originalTokenSentences: Seq[TokenizedSentence],
                            batchSize: Int,
@@ -86,11 +94,6 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper, sentenceStartTokenId: Int,
   def tag(batch: Array[Array[Int]]): Array[Array[Array[Float]]] = {
     maxSentenceLength = Some(batch.map(encodedSentence => encodedSentence.length).max)
     batchLength = Some(batch.length)
-
-    val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
-    val pyTorchModel: PtModel = Model.newInstance("bert-model").asInstanceOf[PtModel]
-    pyTorchModel.load(modelInputStream)
-    val predictor = pyTorchModel.newPredictor(this)
     val embeddings = predictor.predict(batch)
     embeddings
   }

@@ -1,6 +1,5 @@
 package com.johnsnowlabs.ml.pytorch
 
-import com.johnsnowlabs.util.ZipArchiveUtil
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
