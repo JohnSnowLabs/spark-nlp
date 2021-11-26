@@ -18,7 +18,7 @@ data:
           activemenu: infer_meaning_intent
       source: yes
       source: 
-        - title:  Summarize text
+        - title: Summarize text
           id: summarize_text
           image: 
               src: /assets/images/Document_Classification.svg
@@ -115,4 +115,19 @@ data:
             url:  https://demo.johnsnowlabs.com/public/NER_CLS_ATIS
           - text: Colab Netbook
             type: blue_btn
-            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb        
+            url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Extract graphs from text 
+          id: extract_graphs_from_text 
+          image: 
+              src: /assets/images/Extract_Graphs_in_a_Text.svg
+          image2: 
+              src: /assets/images/Extract_Graphs_in_a_Text_f.svg
+          excerpt: This demo shows how knowledge graphs entities and relations can be extracted from texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/GRAPH_RE/
+          - text: Colab Netbook
+            type: blue_btn
+            url:  https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Graph_RE.ipynb
+---

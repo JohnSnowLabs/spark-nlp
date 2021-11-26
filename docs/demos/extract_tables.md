@@ -61,4 +61,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
+        - title: Extract tables from Power Point Slide 
+          id: extract_tables_from_power_point_slide  
+          image: 
+              src: /assets/images/PPTX_to_Table.svg
+          image2: 
+              src: /assets/images/PPTX_to_Table_f.svg
+          excerpt: This demo shows how PPTX tables can be extracted using Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/PPTX_TABLE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrPptToTextTable.ipynb
 ---
