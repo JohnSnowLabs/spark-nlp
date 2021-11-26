@@ -18,7 +18,7 @@ data:
           activemenu: infer_meaning_intent
       source: yes
       source: 
-        - title: Summarize text
+        - title: Text summarization
           id: summarize_text
           image: 
               src: /assets/images/Document_Classification.svg
@@ -116,7 +116,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url:  https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
-        - title: Extract graphs from text 
+        - title: Extract graph entities and relations 
           id: extract_graphs_from_text 
           image: 
               src: /assets/images/Extract_Graphs_in_a_Text.svg
