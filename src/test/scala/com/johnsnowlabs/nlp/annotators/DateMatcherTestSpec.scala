@@ -230,10 +230,10 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
       Array("Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
         "becoming the first to reimpose such restrictions. It will also require the whole population to be " +
         "vaccinated from the second month of 2022, infuriating many in a country where scepticism about state mandates " +
-        "affecting individual freedoms runs high.")
+        "affecting individual freedoms runs high in the next 01-22.")
     )
 
-    val inputFormats = Array("yyyy/dd/MM", "mm-dd", "yyyy")
+    val inputFormats = Array("yyyy/dd/MM")
     val outputFormat = "yyyy/MM/dd"
 
     val date = new DateMatcher()
