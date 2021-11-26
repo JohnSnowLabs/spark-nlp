@@ -125,35 +125,11 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     factory.findMatchFirstOnly(text).map{ possibleDate => formalDateContentParse(possibleDate)}
   }
 
-  // FIXME add correspending Rules regex to add in formal factory as a map value
-  val formalInputFormats: Map[String, Regex] = Map(
-    "yyyy/dd/MM" -> new Regex("\\b(\\d{2,4})[-/]([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "year", "day", "month"),
-    "dd/MM/yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year"),
-    "yyyy/MM/dd" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
-    "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
-    "yyyy/MM" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])\\b", "year", "month"),
-    "MM/dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
-    "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
-
-    "yyyy-dd-MM" -> new Regex("\\b(\\d{2,4})[--]([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "year", "day", "month"),
-    "dd-MM-yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])[--](\\d{2,4})\\b", "day", "month", "year"),
-    "yyyy-MM-dd" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
-    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
-    "yyyy-MM" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])\\b", "year", "month"),
-    "MM-dd" -> new Regex("\\b(0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
-    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
-
-    "yyyy" -> new Regex("\\b(\\d{4})\\b", "year")
-  )
-
   def runInputFormatsSearch(text: String): Option[MatchedDateTime] = {
-    // TODO for each format extract the rule and add it to the factory than apply the factory and format output
-    //    getInputFormats.map(f => if(formalFormats.contains(f)) runFormalFactoryForInputFormats(text, f))
     val regexes: Array[Regex] = getInputFormats
       .filter(formalInputFormats.contains(_))
       .map(formalInputFormats(_))
 
-    // load rules in factory
     for(r <- regexes){
       formalFactoryInputFormats.addRule(r, "formal rule from input formats")
     }
@@ -196,12 +172,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
     val sourceLanguage = getSourceLanguage
     val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
 
-    val _text =
-      if (translationPreds.forall(_.equals(true)))
-        new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
-      else
-        text
-    _text
+    if (translationPreds.forall(_.equals(true)))
+      new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
+    else
+      text
   }
 
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
@@ -211,7 +185,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def isNotMonthSubwordMatch(text: String, d: RuleMatch): Boolean = {
-    val words = text.replaceAll("""([?.!:]|\b\p{IsLetter}{1,2}\b)\s*""", "").split(" ")
+    val words = text.replaceAll("""([?.!:]|\b\p{IsLetter}{1,2}\b)\s*""", "").split(SPACE_CHAR)
     val notSubWordMatches = words
       .map(_.toLowerCase)
       .filter( w => w.contains(d.content.matched.toLowerCase) && w.length <= d.content.matched.length)
