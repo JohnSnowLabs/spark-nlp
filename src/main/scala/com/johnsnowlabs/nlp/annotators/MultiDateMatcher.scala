@@ -130,7 +130,7 @@ class MultiDateMatcher(override val uid: String)
       else
         text
 
-    val strategies = Seq(
+    val strategies: Seq[() => Seq[MatchedDateTime]] = Seq(
       () => extractFormalDate(_text),
       () => extractRelativeDatePast(_text),
       () => extractRelativeDateFuture(_text),
@@ -140,18 +140,21 @@ class MultiDateMatcher(override val uid: String)
       () => extractRelativeExactDay(_text)
     )
 
-    strategies.foldLeft(Seq.empty[MatchedDateTime])((previousResults, strategy) => {
-      // Always keep earliest match of each strategy by date found
-      val newResults = strategy()
-      newResults.foldLeft(previousResults)((previous, newResult) => {
-        // Prioritize previous results on this index, ignore new ones if overlapping previous results
-        if (previous.exists(_.start == newResult.start))
-          previous
-        else
-          previous :+ newResult
-      })
-    })
-
+    strategies.foldLeft(Seq.empty[MatchedDateTime])(
+      (previousResults, strategy) => {
+        // Always keep earliest match of each strategy by date found
+        val newResults = strategy()
+        newResults.foldLeft(previousResults)(
+          (previous, newResult) => {
+            // Prioritize previous results on this index, ignore new ones if overlapping previous results
+            if (previous.exists(_.start == newResult.start))
+              previous
+            else
+              previous :+ newResult
+          }
+        )
+      }
+    )
   }
 
   private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {
@@ -262,10 +265,10 @@ class MultiDateMatcher(override val uid: String)
 
   /** One to one relationship between content document and output annotation
    *
-   * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
+   * @return Any found date, empty if not. Final format is [[outputFormat]] or default yyyy/MM/dd
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val simpleDateFormat = new SimpleDateFormat(getFormat)
+    val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
     annotations.flatMap(annotation =>
       extractDate(annotation.result)
         .map(matchedDate => Annotation(

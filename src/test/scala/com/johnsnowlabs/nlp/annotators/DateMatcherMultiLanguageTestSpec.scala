@@ -39,7 +39,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -61,7 +61,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -82,7 +82,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -106,7 +106,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -134,7 +134,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -162,7 +162,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -190,7 +190,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -218,7 +218,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -246,7 +246,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -274,7 +274,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -302,7 +302,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -330,7 +330,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -358,7 +358,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -380,7 +380,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -402,7 +402,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -426,7 +426,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -454,7 +454,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -482,7 +482,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -510,7 +510,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -538,7 +538,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -566,7 +566,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -594,7 +594,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -622,7 +622,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -650,7 +650,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("fr")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -678,7 +678,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -700,7 +700,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -724,7 +724,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -752,7 +752,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -780,7 +780,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -808,7 +808,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -836,7 +836,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -864,7 +864,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -892,7 +892,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -920,7 +920,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -948,7 +948,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("pt")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -976,7 +976,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -998,7 +998,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1022,7 +1022,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1050,7 +1050,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1078,7 +1078,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1106,7 +1106,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1134,7 +1134,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1162,7 +1162,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1190,7 +1190,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1218,7 +1218,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1246,7 +1246,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("es")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1274,7 +1274,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1296,7 +1296,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat("MM/dd/yyyy")
+      .setOutputFormat("MM/dd/yyyy")
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1320,7 +1320,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1348,7 +1348,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1376,7 +1376,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1404,7 +1404,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1432,7 +1432,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1460,7 +1460,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1488,7 +1488,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1516,7 +1516,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1544,7 +1544,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("de")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))
@@ -1574,7 +1574,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
     val dateMatcher = new DateMatcher()
       .setInputCols("document")
       .setOutputCol("date")
-      .setFormat(DateFormat)
+      .setOutputFormat(DateFormat)
       .setSourceLanguage("it")
 
     val pipeline = new Pipeline().setStages(Array(dateMatcher))

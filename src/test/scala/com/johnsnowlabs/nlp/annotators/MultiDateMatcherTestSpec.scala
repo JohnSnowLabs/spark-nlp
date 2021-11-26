@@ -147,11 +147,11 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
   }
 
   "a MultiDateMatcher" should "be writable and readable" taggedAs FastTest in {
-    val dateMatcher = new MultiDateMatcher().setFormat("YYYY")
+    val dateMatcher = new MultiDateMatcher().setOutputFormat("YYYY")
     val path = "./test-output-tmp/datematcher"
     dateMatcher.write.overwrite().save(path)
     val dateMatcherRead = MultiDateMatcher.read.load(path)
-    assert(dateMatcherRead.getFormat == dateMatcher.getFormat)
+    assert(dateMatcherRead.getOutputFormat == dateMatcher.getOutputFormat)
   }
 
 }
