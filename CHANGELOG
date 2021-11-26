@@ -1,4 +1,12 @@
 ========
+3.3.4
+========
+----------------
+Patch release
+----------------
+* Fix "ClassCastException" error in pretrained function for DistilBertForSequenceClassification in Python
+
+========
 3.3.3
 ========
 ----------------
