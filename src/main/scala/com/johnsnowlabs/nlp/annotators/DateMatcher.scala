@@ -16,13 +16,16 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.regex.RuleFactory
+import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+import scala.util.matching.Regex
 
 /**
  * Matches standard date formats into a provided format
@@ -118,6 +121,46 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
+  private def runFormalFactoryForInputFormats(text: String, factory: RuleFactory): Option[MatchedDateTime] = {
+    factory.findMatchFirstOnly(text).map{ possibleDate => formalDateContentParse(possibleDate)}
+  }
+
+  // FIXME add correspending Rules regex to add in formal factory as a map value
+  val formalInputFormats: Map[String, Regex] = Map(
+    "yyyy/dd/MM" -> new Regex("\\b(\\d{2,4})[-/]([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "year", "day", "month"),
+    "dd/MM/yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year"),
+    "yyyy/MM/dd" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
+    "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "yyyy/MM" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])\\b", "year", "month"),
+    "MM/dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
+    "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+
+    "yyyy-dd-MM" -> new Regex("\\b(\\d{2,4})[--]([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "year", "day", "month"),
+    "dd-MM-yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])[--](\\d{2,4})\\b", "day", "month", "year"),
+    "yyyy-MM-dd" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
+    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
+    "yyyy-MM" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])\\b", "year", "month"),
+    "MM-dd" -> new Regex("\\b(0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
+    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
+
+    "yyyy" -> new Regex("\\b(\\d{4})\\b", "year")
+  )
+
+  def runInputFormatsSearch(text: String): Option[MatchedDateTime] = {
+    // TODO for each format extract the rule and add it to the factory than apply the factory and format output
+    //    getInputFormats.map(f => if(formalFormats.contains(f)) runFormalFactoryForInputFormats(text, f))
+    val regexes: Array[Regex] = getInputFormats
+      .filter(formalInputFormats.contains(_))
+      .map(formalInputFormats(_))
+
+    // load rules in factory
+    for(r <- regexes){
+      formalFactoryInputFormats.addRule(r, "formal rule from input formats")
+    }
+
+    runFormalFactoryForInputFormats(text, formalFactoryInputFormats)
+  }
+
   /**
    * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
    *
@@ -126,6 +169,30 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
 
+    val _text: String = runTranslation(text)
+
+    def inputFormatsAreDefined = !getInputFormats.sameElements(EMPTY_INIT_ARRAY)
+
+    val possibleDate: Option[MatchedDateTime] =
+      if (inputFormatsAreDefined)
+        runInputFormatsSearch(_text)
+      else
+        runDateExtractorChain(_text)
+
+    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
+  }
+
+  private def runDateExtractorChain(_text: String) = {
+    extractFormalDate(_text)
+      .orElse(extractRelativeDatePast(_text))
+      .orElse(extractRelativeDateFuture(_text))
+      .orElse(extractRelaxedDate(_text))
+      .orElse(extractRelativeDate(_text))
+      .orElse(extractTomorrowYesterday(_text))
+      .orElse(extractRelativeExactDay(_text))
+  }
+
+  private def runTranslation(text: String) = {
     val sourceLanguage = getSourceLanguage
     val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
 
@@ -134,18 +201,8 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
         new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
       else
         text
-
-    val possibleDate = extractFormalDate(_text)
-      .orElse(extractRelativeDatePast(_text))
-      .orElse(extractRelativeDateFuture(_text))
-      .orElse(extractRelaxedDate(_text))
-      .orElse(extractRelativeDate(_text))
-      .orElse(extractTomorrowYesterday(_text))
-      .orElse(extractRelativeExactDay(_text))
-
-    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
+    _text
   }
-
 
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
     formalFactory.findMatchFirstOnly(text).map { possibleDate =>
@@ -282,10 +339,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   /** One to one relationship between content document and output annotation
    *
-   * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
+   * @return Any found date, empty if not. Final format is [[outputFormat]] or default yyyy/MM/dd
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val simpleDateFormat = new SimpleDateFormat(getFormat)
+    val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
     annotations.flatMap(annotation =>
       extractDate(annotation.result).map(matchedDate => Annotation(
         outputAnnotatorType,

@@ -194,11 +194,11 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
   }
 
   "a DateMatcher" should "be writable and readable" taggedAs FastTest in {
-    val dateMatcher = new DateMatcher().setFormat("YYYY")
+    val dateMatcher = new DateMatcher().setOutputFormat("YYYY")
     val path = "./test-output-tmp/datematcher"
     dateMatcher.write.overwrite().save(path)
     val dateMatcherRead = DateMatcher.read.load(path)
-    assert(dateMatcherRead.getFormat == dateMatcher.getFormat)
+    assert(dateMatcherRead.getOutputFormat == dateMatcher.getOutputFormat)
   }
 
   "a DateMatcher" should "correctly disambiguate the monthly sub-words in text" taggedAs FastTest in {
@@ -210,7 +210,7 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
       .setInputCols("document")
       .setOutputCol("date")
       .setAnchorDateYear(1900)
-      .setFormat("yyyy/MM/dd")
+      .setOutputFormat("yyyy/MM/dd")
       .transform(data)
 
     val results = Annotation.collect(date, "date").flatten.toSeq
@@ -224,4 +224,31 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     assert(results == expectedDates)
   }
 
+  "a DateMatcher" should "correctly search for input formats to output format" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
+        "becoming the first to reimpose such restrictions. It will also require the whole population to be " +
+        "vaccinated from the second month of 2022, infuriating many in a country where scepticism about state mandates " +
+        "affecting individual freedoms runs high.")
+    )
+
+    val inputFormats = Array("yyyy/dd/MM", "mm-dd", "yyyy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq
+
+    val expectedDates = Seq(
+      Annotation(DATE, 83, 92, "2021/12/10", Map("sentence" -> "0")))
+
+    assert(results == expectedDates)
+  }
 }
