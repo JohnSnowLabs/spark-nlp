@@ -14,7 +14,7 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper, sentenceStartTokenId: Int,
   private var maxSentenceLength: Option[Int] = None
   private var batchLength: Option[Int] = None
 
-  private val predictor = {
+  private lazy val predictor = {
     val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
     val pyTorchModel: PtModel = Model.newInstance("bert-model").asInstanceOf[PtModel]
     pyTorchModel.load(modelInputStream)
