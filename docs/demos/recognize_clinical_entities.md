@@ -230,21 +230,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
-        - title: Detect Adverse Drug Events
-          id: detect_adverse_drug_events_bertfortokenclassification
-          image: 
-              src: /assets/images/Detect_Adverse_Drug_Events.svg
-          image2: 
-              src: /assets/images/Detect_Adverse_Drug_Events_f.svg
-          excerpt: This demo shows how adverse reactions of drugs in medical text can be detected.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb        
         - title: Detect Anatomical and Observation Entities in Chest Radiology Reports
           id: detect_anatomical_observation_entities_chest_radiology_reports 
           image: 
