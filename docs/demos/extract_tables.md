@@ -61,7 +61,7 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageTableDetection.ipynb
-        - title: Extract tables from Power Point Slide 
+        - title: Extract tables from Powerpoint slides 
           id: extract_tables_from_power_point_slide  
           image: 
               src: /assets/images/PPTX_to_Table.svg
