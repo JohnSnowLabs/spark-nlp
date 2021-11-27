@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps clinical entities and concepts (like drugs/ingredients) to NDC codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings. Also, if a drug has more than one NDC code, it returns all other codes in the all_k_aux_label column separated by `|` symbol.
+This model maps clinical entities and concepts (like drugs/ingredients) to [National Drug Codes](https://www.fda.gov/drugs/drug-approvals-and-databases/national-drug-code-directory) using `sbiobert_base_cased_mli` Sentence Bert Embeddings. Also, if a drug has more than one NDC code, it returns all other codes in the all_k_aux_label column separated by `|` symbol.
 
 ## Predicted Entities
 
@@ -139,5 +139,5 @@ val result = model.transform(spark.createDataFrame([[clinical_note]]).toDF("text
 ## Benchmarking
 
 ```bash
-It is trained on U.S. FDA 2022 NDC Code dataset.
+It is trained on U.S. FDA 2022-NDC Codes dataset.
 ```
