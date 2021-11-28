@@ -2055,14 +2055,14 @@ class DistilBertForSequenceClassificationTestSpec(unittest.TestCase):
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        token_classifier = DistilBertForSequenceClassification.pretrained() \
+        doc_classifier = DistilBertForSequenceClassification.pretrained() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("ner")
 
         pipeline = Pipeline(stages=[
             document_assembler,
             tokenizer,
-            token_classifier
+            doc_classifier
         ])
 
         model = pipeline.fit(self.data)
@@ -2081,14 +2081,14 @@ class RoBertaForSequenceClassificationTestSpec(unittest.TestCase):
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        token_classifier = RoBertaForSequenceClassification.pretrained() \
+        doc_classifier = RoBertaForSequenceClassification.pretrained() \
             .setInputCols(["document", "token"]) \
             .setOutputCol("ner")
 
         pipeline = Pipeline(stages=[
             document_assembler,
             tokenizer,
-            token_classifier
+            doc_classifier
         ])
 
         model = pipeline.fit(self.data)
