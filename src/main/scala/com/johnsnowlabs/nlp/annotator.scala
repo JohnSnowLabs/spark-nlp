@@ -28,7 +28,7 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDepe
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
-import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadGPT2TransformerTensorflowModel, ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedGPT2TransformerModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
@@ -391,5 +391,9 @@ package object annotator {
   type DistilBertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification
 
   object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
+
+  type GPT2Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer
+
+  object GPT2Transformer extends ReadablePretrainedGPT2TransformerModel with ReadGPT2TransformerTensorflowModel
 
 }
