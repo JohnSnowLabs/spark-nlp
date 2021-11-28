@@ -22,16 +22,15 @@ import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
+class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "RoBertaForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "XlmRoBertaForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
     val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.",
@@ -50,7 +49,7 @@ class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val classifier = RoBertaForSequenceClassification
+    val classifier = XlmRoBertaForSequenceClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
@@ -80,7 +79,7 @@ class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  "RoBertaForSequenceClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "XlmRoBertaForSequenceClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -99,7 +98,7 @@ class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val classifier = RoBertaForSequenceClassification.pretrained()
+    val classifier = XlmRoBertaForSequenceClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
       .setCaseSensitive(true)
@@ -111,28 +110,28 @@ class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("label.result").show(false)
 
-    Benchmark.time("Time to save RoBertaForSequenceClassification pipeline model") {
+    Benchmark.time("Time to save XlmRoBertaForSequenceClassification pipeline model") {
       pipelineModel.write.overwrite().save("./tmp_forsequence_pipeline")
     }
 
-    Benchmark.time("Time to save RoBertaForSequenceClassification model") {
-      pipelineModel.stages.last.asInstanceOf[RoBertaForSequenceClassification].write.overwrite().save("./tmp_forsequence_model")
+    Benchmark.time("Time to save XlmRoBertaForSequenceClassification model") {
+      pipelineModel.stages.last.asInstanceOf[XlmRoBertaForSequenceClassification].write.overwrite().save("./tmp_forsequence_model")
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_forsequence_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedSequenceModel = RoBertaForSequenceClassification.load("./tmp_forsequence_model")
+    val loadedSequenceModel = XlmRoBertaForSequenceClassification.load("./tmp_forsequence_model")
     loadedSequenceModel.getLabels
 
   }
 
-  "RoBertaForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
+  "XlmRoBertaForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    val classifier = RoBertaForSequenceClassification.pretrained()
+    val classifier = XlmRoBertaForSequenceClassification.pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -143,7 +142,7 @@ class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    Benchmark.time("Time to save RoBertaForSequenceClassification results") {
+    Benchmark.time("Time to save XlmRoBertaForSequenceClassification results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_sequence_classifier")
     }
 
