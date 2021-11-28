@@ -115,19 +115,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_GEN_VAR/
           - text: Colab Netbook
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
-        - title: Detect Chemicals in Medical Text
-          id: detect_chemicals_medical_text_bertfortokenclassification
-          image: 
-              src: /assets/images/Detect_Chemicals_in_Medical_Text.svg
-          image2: 
-              src: /assets/images/Detect_Chemicals_in_Medical_Text_f.svg
-          excerpt: This demo shows how chemical compounds can be extracted from medical texts. 
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb        
 ---
