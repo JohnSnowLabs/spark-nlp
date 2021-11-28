@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import org.tensorflow.ndarray.buffer.IntDataBuffer
@@ -106,6 +107,93 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
       calculateSoftmax(scores)).toArray.grouped(maxSentenceLength).toArray
 
     batchScores
+  }
+
+  //TODO: create an abstract in TensorflowForClassification
+  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      }
+
+    val session = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
+    val runner = session.runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+
+    runner
+      .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
+      .fetch(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+
+    val outs = runner.run().asScala
+    val rawScores = TensorResources.extractFloats(outs.head)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val dim = rawScores.length / batchLength
+    val batchScores: Array[Array[Float]] = rawScores.grouped(dim).map(scores =>
+      calculateSoftmax(scores)).toArray
+
+    batchScores
+  }
+
+  //TODO: move me to TensorflowForClassification
+  def predictSequence(tokenizedSentences: Seq[TokenizedSentence], sentences: Seq[Sentence], batchSize: Int, maxSentenceLength: Int,
+                      caseSensitive: Boolean, coalesceSentences: Boolean = false, tags: Map[String, Int]): Seq[Annotation] = {
+
+    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
+
+    /*Run calculation by batches*/
+    wordPieceTokenizedSentences.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
+      val tokensBatch = batch.map(x => (x._1._1, x._2))
+      val encoded = encode(tokensBatch, maxSentenceLength)
+      val logits = tagSequence(encoded)
+
+      if (coalesceSentences) {
+        val scores = logits.transpose.map(_.sum / logits.length)
+        val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+        val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+        Array(
+          Annotation(
+            annotatorType = AnnotatorType.CATEGORY,
+            begin = sentences.head.start,
+            end = sentences.head.end,
+            result = label,
+            metadata = Map("sentence" -> sentences.head.index.toString) ++ meta
+          )
+        )
+      } else {
+        sentences.zip(logits).map { case (sentence, scores) =>
+          val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
+          val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+          Annotation(
+            annotatorType = AnnotatorType.CATEGORY,
+            begin = sentence.start,
+            end = sentence.end,
+            result = label,
+            metadata = Map("sentence" -> sentence.index.toString) ++ meta
+          )
+        }
+      }
+    }.toSeq
+
   }
 
   def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], sentence: (WordpieceTokenizedSentence, Int),
