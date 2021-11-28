@@ -77,7 +77,7 @@ class Gpt2Tokenizer(
   }
 
   def decodeTokens(tokens: Array[Int]): String = {
-    val text = tokens.map(token => decoderVocab(token)).mkString("")
+    val text = tokens.map(token => decoderVocab(token)).filter(x => !specialTokens.contains(x)).mkString("")
     val bytes = text.map(x => unicodeToByteMapping(x.toString)).map(x => x.toByte).toArray
     new String(bytes, Charset.forName("UTF-8"))
   }
