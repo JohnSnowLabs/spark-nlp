@@ -530,7 +530,8 @@ object PythonResourceDownloader {
     "EntityRulerModel" -> EntityRulerModel,
     "Doc2VecModel" -> Doc2VecModel,
     "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
-    "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification
+    "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
+    "XlmRoBertaForSequenceClassification" -> XlmRoBertaForSequenceClassification
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
