@@ -29,7 +29,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-import com.johnsnowlabs.nlp.annotators.seq2seq.{MarianTransformer, T5Transformer}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{MarianTransformer, T5Transformer, GPT2Transformer}
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
@@ -529,7 +529,8 @@ object PythonResourceDownloader {
     "BertForSequenceClassification" -> BertForSequenceClassification,
     "EntityRulerModel" -> EntityRulerModel,
     "Doc2VecModel" -> Doc2VecModel,
-    "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification
+    "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
+    "GPT2Transformer" -> GPT2Transformer
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

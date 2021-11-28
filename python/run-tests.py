@@ -100,6 +100,7 @@ unittest.TextTestRunner().run(Doc2VecTestSpec())
 # unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(DistilBertForSequenceClassificationTestSpec())
+#unittest.TextTestRunner().run(GPT2TransformerTextGenerationTestSpec())
 
 # Misc tests
 
