@@ -460,3 +460,10 @@ class _RoBertaSequenceClassifierLoader(ExtendedJavaWrapper):
         super(_RoBertaSequenceClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _XlmRoBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification.loadSavedModel", path,
+            jspark)
