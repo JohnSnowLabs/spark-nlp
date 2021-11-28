@@ -392,4 +392,8 @@ package object annotator {
 
   object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
 
+  type RoBertaForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification
+
+  object RoBertaForSequenceClassification extends ReadablePretrainedRoBertaForSequenceModel with ReadRoBertaForSequenceTensorflowModel
+
 }
