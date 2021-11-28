@@ -42,7 +42,7 @@ class GPT2TestSpec  extends AnyFlatSpec {
 
   "gpt2" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "Leonardo Da Vinci is")
+      (1, "Leonardo Da Vinci invented the wheel?")
     )).toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
@@ -50,7 +50,8 @@ class GPT2TestSpec  extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val gpt2 = GPT2Transformer
-      .load("/models/gpt2.zip")
+      .load("/tmp/gpt2")
+      .setTask("Is it true that")
       .setInputCols(Array("documents"))
       .setDoSample(true)
       .setMaxOutputLength(50)

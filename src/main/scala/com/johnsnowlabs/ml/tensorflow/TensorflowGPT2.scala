@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
+import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
 //import com.johnsnowlabs.nlp.embeddings.PoolingStrategy.AnnotatorType
@@ -33,13 +33,14 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
                       topP: Double,
                       repetitionPenalty: Double,
                       noRepeatNgramSize: Int,
+                      task: String,
                       randomSeed: Option[Int] = None,
                       ignoreTokenIds: Array[Int] = Array()
                      ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
-      val batchSP = encode(batch)
+      val batchSP = encode(batch, task)
 
       val spIds = process(
         batchSP,
@@ -502,10 +503,19 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
     sentences.map(s => bpeTokenizer.decodeTokens(s))
   }
 
-  def encode(sentences: Seq[Annotation]): Seq[Array[Int]] = {
+  def encode(sentences: Seq[Annotation], task: String): Seq[Array[Int]] = {
     SentenceSplit.unpack(sentences).map(
       s => {
-        bpeTokenizer.tokenize(s).map(bpeTokenizer.encode).flatMap(_.map(_.pieceId))
+        val sentWithTask = if (task.nonEmpty)
+          new Sentence(
+            content = task.concat(" ").concat(s.content),
+            start = s.start,
+            end = s.end + task.length + 1,
+            index = s.index,
+            metadata = s.metadata
+          )
+        else s
+        bpeTokenizer.tokenize(sentWithTask).map(bpeTokenizer.encode).flatMap(_.map(_.pieceId))
       })
   }
 

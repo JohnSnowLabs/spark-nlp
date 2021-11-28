@@ -140,6 +140,19 @@ class GPT2Transformer (override val uid: String)
     * */
   override val outputAnnotatorType: String = DOCUMENT
 
+  /**
+    * Set transformer task, e.g. `"summarize:"` (Default: `""`).
+    *
+    * @group param
+    */
+  val task = new Param[String](this, "task", "Set transformer task, e.g. 'summarize'")
+
+  /** @group setParam */
+  def setTask(value: String): GPT2Transformer.this.type = {
+    if (get(task).isEmpty)
+      set(task, value)
+    this
+  }
 
   /**
     * Minimum length of the sequence to be generated (Default: `0`)
@@ -364,6 +377,7 @@ class GPT2Transformer (override val uid: String)
   def getModelIfNotSet: TensorflowGPT2 = _tfModel.get.value
 
   setDefault(
+    task -> "",
     minOutputLength -> 0,
     maxOutputLength -> 20,
     doSample -> false,
@@ -390,6 +404,7 @@ class GPT2Transformer (override val uid: String)
         topP = $(topP),
         repetitionPenalty = $(repetitionPenalty),
         noRepeatNgramSize = $(noRepeatNgramSize),
+        task = $(task),
         randomSeed = this.randomSeed,
         ignoreTokenIds = $(ignoreTokenIds)
       )
@@ -423,6 +438,7 @@ class GPT2Transformer (override val uid: String)
             topP = $(topP),
             repetitionPenalty = $(repetitionPenalty),
             noRepeatNgramSize = $(noRepeatNgramSize),
+            task = $(task),
             randomSeed = this.randomSeed,
             ignoreTokenIds = $(ignoreTokenIds)
           )
