@@ -15550,6 +15550,8 @@ class GPT2Transformer(AnnotatorModel):
 
     Parameters
     ----------
+    task
+        Transformer's task, e.g. ``summarize:``
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     minOutputLength
@@ -15627,6 +15629,8 @@ class GPT2Transformer(AnnotatorModel):
 
     name = "GPT2Transformer"
 
+    task = Param(Params._dummy(), "task", "Transformer's task, e.g. 'is it true that'>", typeConverter=TypeConverters.toString)
+
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -15656,6 +15660,16 @@ class GPT2Transformer(AnnotatorModel):
     ignoreTokenIds = Param(Params._dummy(), "ignoreTokenIds",
                            "A list of token ids which are ignored in the decoder's output",
                            typeConverter=TypeConverters.toListInt)
+
+    def setTask(self, value):
+        """Sets the transformer's task, e.g. ``summarize:``.
+
+        Parameters
+        ----------
+        value : str
+            The transformer's task
+        """
+        return self._set(task=value)
 
     def setIgnoreTokenIds(self, value):
         """A list of token ids which are ignored in the decoder's output.
@@ -15775,6 +15789,7 @@ class GPT2Transformer(AnnotatorModel):
             java_model=java_model
         )
         self._setDefault(
+            task="",
             minOutputLength=0,
             maxOutputLength=20,
             doSample=False,

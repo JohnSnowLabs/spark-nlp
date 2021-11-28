@@ -2074,7 +2074,7 @@ class GPT2TransformerTextGenerationTestSpec(unittest.TestCase):
 
     def runTest(self):
         data = self.spark.createDataFrame([
-            [1, """Leonardo Da Vinci discovered""".strip().replace("\n", " ")]]).toDF("id", "text")
+            [1, """Leonardo Da Vinci invented the microscope?""".strip().replace("\n", " ")]]).toDF("id", "text")
 
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
@@ -2082,6 +2082,7 @@ class GPT2TransformerTextGenerationTestSpec(unittest.TestCase):
 
         gpt2 = GPT2Transformer\
             .loadSavedModel("/models/gpt2/gpt2", self.spark) \
+            .setTask("is it true that") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
             .setInputCols(["documents"]) \
