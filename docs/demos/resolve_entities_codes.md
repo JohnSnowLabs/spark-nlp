@@ -145,19 +145,47 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb  
-        - title: Sentence Entity Resolvers using ICD-10-CM taxonomy
-          id: resolve_clinical_entities_codes_loinc
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb
+        - title: Resolve Clinical Health Information using the HPO taxonomy
+          id: resolve_clinical_health_information_using_hpo_taxonomy 
           image: 
-              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports.svg
+              src: /assets/images/Resolve_Clinical_Health_Information_using_the_HPO_taxonomy.svg
           image2: 
-              src: /assets/images/Sentence_Entity_Resolver_for_billable_ICD10-CM_HCC_codesReports_f.svg
-          excerpt: This demo shows how medical terminology can be mapped to ICD-10 CM codes using Spark NLP for Healthcare. Entities have been grouped to provide a more high-level / generalized resolution.
+              src: /assets/images/Resolve_Clinical_Health_Information_using_the_HPO_taxonomy_f.svg
+          excerpt: This demo shows how clinical health information can be mapped to codes using the HPO taxonomy.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/
+            url: https://demo.johnsnowlabs.com/healthcare/ER_HPO/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb          
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Resolve Clinical Health Information using the MeSH taxonomy
+          id: resolve_clinical_health_information_using_mesh_taxonomy 
+          image: 
+              src: /assets/images/Resolve_Clinical_Health_Information_using_the_MeSH_taxonomy.svg
+          image2: 
+              src: /assets/images/Resolve_Clinical_Health_Information_using_the_MeSH_taxonomy_f.svg
+          excerpt: This demo shows how clinical health information can be mapped to codes using the MeSH taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_MSH/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Resolve Clinical Findings using the UMLS CUI taxonomy
+          id: resolve_clinical_health_information_using_umls_cui_taxonomy 
+          image: 
+              src: /assets/images/Sentence_Entity_Resolver_for_UMLS_CUI.svg
+          image2: 
+              src: /assets/images/Sentence_Entity_Resolver_for_UMLS_CUI_f.svg
+          excerpt: This demo shows how clinical findings can be mapped to codes using the UMLS CUI taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
 ---
