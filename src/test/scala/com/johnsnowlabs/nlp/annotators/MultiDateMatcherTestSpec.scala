@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.{AnnotatorType, DataBuilder}
+import com.johnsnowlabs.nlp.AnnotatorType.DATE
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
-
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -152,6 +152,36 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     dateMatcher.write.overwrite().save(path)
     val dateMatcherRead = MultiDateMatcher.read.load(path)
     assert(dateMatcherRead.getOutputFormat == dateMatcher.getOutputFormat)
+  }
+
+  "a DateMatcher" should "correctly search for input formats to output format" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
+        "becoming the first to reimpose such restrictions. It will also require the whole population to be " +
+        "vaccinated from the second month of 2022, infuriating many in a country where scepticism about state mandates " +
+        "affecting individual freedoms runs high in the next 01-22.")
+    )
+
+    val inputFormats = Array("yyyy/dd/MM", "yyyy", "MM-yy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq
+
+    println(results)
+
+//    val expectedDates = Seq(
+//      Annotation(DATE, 83, 92, "2021/12/10", Map("sentence" -> "0")))
+//
+//    assert(results == expectedDates)
   }
 
 }
