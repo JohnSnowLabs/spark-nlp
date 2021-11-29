@@ -9,7 +9,7 @@ task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -38,20 +38,20 @@ RxNorm codes
 
 ...
 resolver = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_scdc_clinical","en","clinical/models")    .setInputCols("token","chunk_embeddings")    .setOutputCol("entity")
-     
+
 pipeline = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, resolver])
-    
+
 data = spark.createDataFrame([["A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation."]]).toDF("text")
 model = pipeline.fit(data)
 results = model.transform(data)
 ...
-            
+
 ```
 ```scala
 
 ...
 val resolver = ChunkEntityResolverModel.pretrained("chunkresolve_rxnorm_scdc_clinical","en","clinical/models")    .setInputCols("token","chunk_embeddings")    .setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sbert_embedder, resolver))
 
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation.").toDF("text")

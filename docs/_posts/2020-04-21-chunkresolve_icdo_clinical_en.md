@@ -10,7 +10,7 @@ date: 2020-04-21
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.4.2
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
 
-## Predicted Entities 
+## Predicted Entities
 ICD-O Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
@@ -28,7 +28,7 @@ ICD-O Codes and their normalized definition with `clinical_embeddings`.
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb#scrollTo=Qdh2BQaLI7tU){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icdo_clinical_en_2.4.5_2.4_1587491354644.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -53,7 +53,7 @@ pipeline_model = pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
 light_pipeline = LightPipeline(pipeline_model)
 result = light_pipeline.annotate(data)
-    
+
 ```
 
 ```scala
@@ -61,7 +61,7 @@ result = light_pipeline.annotate(data)
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icdo_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, clinical_ner_model, clinical_ner_chunker, chunk_embeddings, model))
 
 val data = Seq("DIAGNOSIS: Left breast adenocarcinoma stage T3 N1b M0, stage IIIA. She has been found more recently to have stage IV disease with metastatic deposits and recurrence involving the chest wall and lower left neck lymph nodes. PHYSICAL EXAMINATION NECK: On physical examination palpable lymphadenopathy is present in the left lower neck and supraclavicular area. No other cervical lymphadenopathy or supraclavicular lymphadenopathy is present. RESPIRATORY: Good air entry bilaterally. Examination of the chest wall reveals a small lesion where the chest wall recurrence was resected. No lumps, bumps or evidence of disease involving the right breast is present. ABDOMEN: Normal bowel sounds, no hepatomegaly. No tenderness on deep palpation. She has just started her last cycle of chemotherapy today, and she wishes to visit her daughter in Brooklyn, New York. After this she will return in approximately 3 to 4 weeks and begin her radiotherapy treatment at that time.").toDF("text")

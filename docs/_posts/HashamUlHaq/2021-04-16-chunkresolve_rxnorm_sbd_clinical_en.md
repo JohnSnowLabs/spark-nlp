@@ -9,7 +9,7 @@ task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,7 +43,7 @@ rxnorm_resolver = ChunkEntityResolverModel()\
     .setInputCols(['token', 'chunk_embeddings'])\
     .setOutputCol('rxnorm_resolution')\
     .setPoolingStrategy("MAX")
-    
+
 pipeline_rxnorm = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, rxnorm_resolver])
 
 model = pipeline_rxnorm.fit(spark.createDataFrame([['']]).toDF("text"))
@@ -59,7 +59,7 @@ val rxnorm_resolver = ChunkEntityResolverModel()
     .setInputCols('token', 'chunk_embeddings')
     .setOutputCol('rxnorm_resolution')
     .setPoolingStrategy("MAX")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, rxnorm_resolver))
 
 val result = pipeline.fit(Seq.empty[String]).transform(data)
