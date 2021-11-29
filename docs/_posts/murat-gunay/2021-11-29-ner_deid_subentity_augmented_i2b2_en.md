@@ -61,7 +61,7 @@ val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en"
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
 
-val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_wip", "en", "clinical/models") 
+val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented_i2b2", "en", "clinical/models") 
       .setInputCols(Array("sentence", "token", "embeddings")) 
       .setOutputCol("ner")
 
