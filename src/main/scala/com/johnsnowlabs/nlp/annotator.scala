@@ -404,4 +404,8 @@ package object annotator {
 
   object LongformerForSequenceClassification extends ReadablePretrainedLongformerForSequenceModel with ReadLongformerForSequenceTensorflowModel
 
+  type AlbertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification
+
+  object AlbertForSequenceClassification extends ReadablePretrainedAlbertForSequenceModel with ReadAlbertForSequenceTensorflowModel
+
 }
