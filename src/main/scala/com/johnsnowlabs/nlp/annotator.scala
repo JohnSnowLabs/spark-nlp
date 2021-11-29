@@ -408,4 +408,8 @@ package object annotator {
 
   object AlbertForSequenceClassification extends ReadablePretrainedAlbertForSequenceModel with ReadAlbertForSequenceTensorflowModel
 
+  type XlnetForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification
+
+  object XlnetForSequenceClassification extends ReadablePretrainedXlnetForSequenceModel with ReadXlnetForSequenceTensorflowModel
+
 }
