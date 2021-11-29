@@ -31,22 +31,22 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top
+ * XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top
  * (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val sequenceClassifier = AlbertForSequenceClassification.pretrained()
+ * val sequenceClassifier = XlnetForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"albert_base_sequence_classifier_imdb"`, if no name is provided.
+ * The default model is `"xlnet_base_sequence_classifier_imdb"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForSequenceClassificationTestSpec.scala AlbertForSequenceClassification]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassificationTestSpec.scala XlnetForSequenceClassification]].
  *
  * ==Example==
  * {{{
@@ -63,7 +63,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val sequenceClassifier = AlbertForSequenceClassification.pretrained()
+ * val sequenceClassifier = XlnetForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -86,7 +86,7 @@ import java.io.File
  * +--------------------+
  * }}}
  *
- * @see [[AlbertForSequenceClassification]] for sequence-level classification
+ * @see [[XlnetForSequenceClassification]] for sequence-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -103,15 +103,15 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class AlbertForSequenceClassification(override val uid: String)
-  extends AnnotatorModel[AlbertForSequenceClassification]
-    with HasBatchedAnnotate[AlbertForSequenceClassification]
+class XlnetForSequenceClassification(override val uid: String)
+  extends AnnotatorModel[XlnetForSequenceClassification]
+    with HasBatchedAnnotate[XlnetForSequenceClassification]
     with WriteTensorflowModel
     with WriteSentencePieceModel
     with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("AlbertForSequenceClassification"))
+  def this() = this(Identifiable.randomUID("XlnetForSequenceClassification"))
 
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
@@ -152,7 +152,7 @@ class AlbertForSequenceClassification(override val uid: String)
   def getLabels: Map[String, Int] = $$(labels)
 
   /**
-   * Holding merges.txt coming from ALBERT model
+   * Holding merges.txt coming from XLNet model
    *
    * @group param
    */
@@ -182,7 +182,7 @@ class AlbertForSequenceClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): AlbertForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): XlnetForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -195,7 +195,7 @@ class AlbertForSequenceClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "ALBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 512, "XLNet models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -221,14 +221,14 @@ class AlbertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbertClassification]] = None
+  private var _model: Option[Broadcast[TensorflowXlnetClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): AlbertForSequenceClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): XlnetForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbertClassification(
+          new TensorflowXlnetClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -243,7 +243,7 @@ class AlbertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
+  def getModelIfNotSet: TensorflowXlnetClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -259,7 +259,7 @@ class AlbertForSequenceClassification(override val uid: String)
   setDefault(
     batchSize -> 8,
     maxSentenceLength -> 128,
-    caseSensitive -> false,
+    caseSensitive -> true,
     coalesceSentences -> false
   )
 
@@ -296,40 +296,40 @@ class AlbertForSequenceClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_albert_classification", AlbertForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_albert", AlbertForSequenceClassification.sppFile)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlnet_classification", XlnetForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet", XlnetForSequenceClassification.sppFile)
   }
 }
 
-trait ReadablePretrainedAlbertForSequenceModel extends ParamsAndFeaturesReadable[AlbertForSequenceClassification] with HasPretrained[AlbertForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("albert_base_sequence_classifier_imdb")
+trait ReadablePretrainedXlnetForSequenceModel extends ParamsAndFeaturesReadable[XlnetForSequenceClassification] with HasPretrained[XlnetForSequenceClassification] {
+  override val defaultModelName: Some[String] = Some("xlnet_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
-  override def pretrained(): AlbertForSequenceClassification = super.pretrained()
+  override def pretrained(): XlnetForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): AlbertForSequenceClassification = super.pretrained(name)
+  override def pretrained(name: String): XlnetForSequenceClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): AlbertForSequenceClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlnetForSequenceClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): AlbertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): XlnetForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForSequenceTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
-  this: ParamsAndFeaturesReadable[AlbertForSequenceClassification] =>
+trait ReadXlnetForSequenceTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[XlnetForSequenceClassification] =>
 
-  override val tfFile: String = "albert_classification_tensorflow"
-  override val sppFile: String = "albert_spp"
+  override val tfFile: String = "xlnet_classification_tensorflow"
+  override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(instance: AlbertForSequenceClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: XlnetForSequenceClassification, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
-    val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
+    val tf = readTensorflowModel(path, spark, "_xlnet_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): AlbertForSequenceClassification = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetForSequenceClassification = {
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
     require(f.exists, s"Folder $tfModelPath not found")
@@ -357,7 +357,7 @@ trait ReadAlbertForSequenceTensorflowModel extends ReadTensorflowModel with Read
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new AlbertForSequenceClassification()
+    new XlnetForSequenceClassification()
       .setLabels(labels)
       .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper, spp)
@@ -365,6 +365,6 @@ trait ReadAlbertForSequenceTensorflowModel extends ReadTensorflowModel with Read
 }
 
 /**
- * This is the companion object of [[AlbertForSequenceClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[XlnetForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object AlbertForSequenceClassification extends ReadablePretrainedAlbertForSequenceModel with ReadAlbertForSequenceTensorflowModel
+object XlnetForSequenceClassification extends ReadablePretrainedXlnetForSequenceModel with ReadXlnetForSequenceTensorflowModel
