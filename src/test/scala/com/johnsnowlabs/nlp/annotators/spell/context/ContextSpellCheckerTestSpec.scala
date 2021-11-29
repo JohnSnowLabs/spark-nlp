@@ -215,6 +215,44 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
   }
 
 
+  "a Spell Checker" should "correctly train data with 2000 classes" taggedAs SlowTest in {
+
+    val path = "src/test/resources/test.txt"
+    val dataset = SparkAccessor.spark.sparkContext.textFile(path).
+      toDF("text")
+
+    val assembler =
+      new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer: RecursiveTokenizer = new RecursiveTokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = new ContextSpellCheckerApproach().setInputCols("token")
+      .setOutputCol("corrected")
+      .setWordMaxDistance(3)
+      .setLanguageModelClasses(2000)
+      .setBatchSize(24)
+      .setEpochs(8)
+
+
+    val stages = Array(assembler, tokenizer,spellChecker)
+
+    val trainingPipeline = new Pipeline()
+      .setStages(stages).fit(dataset)
+
+    val result = trainingPipeline.transform(dataset)
+
+    val annotations = Annotation.collect(result,"corrected")
+
+    annotations
+  }
+
+
+
+
   "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
       "He wos re1uctant to clange .",
