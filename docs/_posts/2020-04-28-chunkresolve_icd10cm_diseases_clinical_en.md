@@ -10,7 +10,7 @@ date: 2020-04-28
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.4.5
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -28,7 +28,7 @@ ICD10-CM Codes and their normalized definition with ``clinical_embeddings``.
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_diseases_clinical_en_2.4.5_2.4_1588105984876.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -41,7 +41,7 @@ icd10cmResolver = ChunkEntityResolverModel.pretrained('chunkresolve_icd10cm_dise
     .setNeighbours(200).setAlternatives(5).setDistanceWeights([3,3,2,0,0,7])\
     .setInputCols('token', 'chunk_embs_jsl')\
     .setOutputCol('icd10cm_resolution')
-    
+
 pipeline_icd10 = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, jslNer, drugNer, jslConverter, drugConverter, jslChunkEmbeddings, drugChunkEmbeddings, icd10cmResolver])
 
 empty_df = spark.createDataFrame([[""]]).toDF("text")
@@ -63,7 +63,7 @@ val icd10cmResolver = ChunkEntityResolverModel.pretrained('chunkresolve_icd10cm_
     .setNeighbours(200).setAlternatives(5).setDistanceWeights(Array(3,3,2,0,0,7))
     .setInputCols('token', 'chunk_embs_jsl')
     .setOutputCol('icd10cm_resolution')
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, jslNer, drugNer, jslConverter, drugConverter, jslChunkEmbeddings, drugChunkEmbeddings, icd10cmResolver))
 
 val data = Seq("This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret's Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU").toDF("text")

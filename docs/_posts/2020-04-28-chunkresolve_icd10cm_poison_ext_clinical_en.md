@@ -10,7 +10,7 @@ date: 2020-04-28
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.4.5
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-## Predicted Entities 
+## Predicted Entities
 ICD10-CM Codes and their normalized definition with ``clinical_embeddings``.
 
 {:.btn-box}
@@ -29,7 +29,7 @@ ICD10-CM Codes and their normalized definition with ``clinical_embeddings``.
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_poison_ext_clinical_en_2.4.5_2.4_1588106053455.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -39,7 +39,7 @@ ICD10-CM Codes and their normalized definition with ``clinical_embeddings``.
 model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")\
 	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("icd10_code")
-    
+
 pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, model])
 
 light_pipeline  = LightPipeline(pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
@@ -53,7 +53,7 @@ light_pipeline.fullAnnotate("""The patient is a 5-month-old infant who presented
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10cm_poison_ext_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("icd10_code")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_chunker, chunk_embeddings, model))
 
 val data = Seq("The patient is a 5-month-old infant who presented initially on Monday with a cold, cough, and runny nose for 2 days. She had no difficulty breathing and her cough was described as dry and hacky. At that time, physical exam showed a right TM, which was red. Left TM was okay. She was fairly congested but looked happy and playful. She was started on Amoxil and Aldex and we told to recheck in 2 weeks to recheck her ear. Mom returned to clinic again today because she got much worse overnight. She was having difficulty breathing. She was much more congested and her appetite had decreased significantly today. She also spiked a temperature yesterday of 102.6 and always having trouble sleeping secondary to congestion.").toDF("text")
