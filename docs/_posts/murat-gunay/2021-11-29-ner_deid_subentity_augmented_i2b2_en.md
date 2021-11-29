@@ -17,9 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM, CNN. 
+Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning algorithm (Char CNNs - BiLSTM - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM, CNN. 
 
-Deidentification NER is a Named Entity Recognition model that annotates text to find protected health information that may need to be deidentified. It detects 23 entities. This ner model is trained with reviewed version of the re-augmented i2b2 train set.
+Deidentification NER is a Named Entity Recognition model that annotates text to find protected health information that may need to be deidentified. It detects 23 entities. This ner model is trained with reviewed version of the re-augmented 2014 i2b2 Deid dataset.
 
 ## Predicted Entities
 
@@ -112,9 +112,11 @@ val result = pipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.
 
 ## Data Source
 
-A custom data set - which is reviewed version of  re-augmented i2b2-PHI train set - is used.
+A custom data set -  an uagmented version of 2014 i2b2 Deid dataset.
 
 ## Benchmarking
+
+(on official test set from 2014 i2b2 Deid)
 
 ```bash
 +-------------+------+----+-----+------+---------+------+------+
