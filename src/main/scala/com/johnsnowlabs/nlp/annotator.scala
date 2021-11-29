@@ -400,4 +400,8 @@ package object annotator {
 
   object XlmRoBertaForSequenceClassification extends ReadablePretrainedXlmRoBertaForSequenceModel with ReadXlmRoBertaForSequenceTensorflowModel
 
+  type LongformerForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification
+
+  object LongformerForSequenceClassification extends ReadablePretrainedLongformerForSequenceModel with ReadLongformerForSequenceTensorflowModel
+
 }
