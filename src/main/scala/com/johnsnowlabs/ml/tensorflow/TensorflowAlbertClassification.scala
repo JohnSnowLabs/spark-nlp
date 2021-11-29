@@ -18,7 +18,6 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
@@ -108,7 +107,6 @@ class TensorflowAlbertClassification(val tensorflowWrapper: TensorflowWrapper,
     batchScores
   }
 
-  //TODO: create an abstract in TensorflowForClassification
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
@@ -154,48 +152,6 @@ class TensorflowAlbertClassification(val tensorflowWrapper: TensorflowWrapper,
       calculateSoftmax(scores)).toArray
 
     batchScores
-  }
-
-  //TODO: move me to TensorflowForClassification
-  def predictSequence(tokenizedSentences: Seq[TokenizedSentence], sentences: Seq[Sentence], batchSize: Int, maxSentenceLength: Int,
-                      caseSensitive: Boolean, coalesceSentences: Boolean = false, tags: Map[String, Int]): Seq[Annotation] = {
-
-    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
-
-    /*Run calculation by batches*/
-    wordPieceTokenizedSentences.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val tokensBatch = batch.map(x => (x._1._1, x._2))
-      val encoded = encode(tokensBatch, maxSentenceLength)
-      val logits = tagSequence(encoded)
-
-      if (coalesceSentences) {
-        val scores = logits.transpose.map(_.sum / logits.length)
-        val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-        val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-        Array(
-          Annotation(
-            annotatorType = AnnotatorType.CATEGORY,
-            begin = sentences.head.start,
-            end = sentences.head.end,
-            result = label,
-            metadata = Map("sentence" -> sentences.head.index.toString) ++ meta
-          )
-        )
-      } else {
-        sentences.zip(logits).map { case (sentence, scores) =>
-          val label = tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
-          val meta = scores.zipWithIndex.flatMap(x => Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
-          Annotation(
-            annotatorType = AnnotatorType.CATEGORY,
-            begin = sentence.start,
-            end = sentence.end,
-            result = label,
-            metadata = Map("sentence" -> sentence.index.toString) ++ meta
-          )
-        }
-      }
-    }.toSeq
-
   }
 
   def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], sentence: (WordpieceTokenizedSentence, Int),
