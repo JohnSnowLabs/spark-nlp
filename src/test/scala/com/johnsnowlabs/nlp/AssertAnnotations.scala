@@ -28,13 +28,15 @@ object AssertAnnotations {
     val metadata = columnName + ".metadata"
     val begin = columnName + ".begin"
     val end = columnName + ".end"
-    dataSet.select(result, metadata, begin,  end).rdd.map{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[mutable.WrappedArray[Int]]
-      resultSeq.zipWithIndex.map{ case (token, index) =>
-        Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
+    val embeddings = columnName + ".embeddings"
+    dataSet.select(result, metadata, begin,  end, embeddings).rdd.map{ row =>
+      val resultDoc = row.getAs[Seq[String]]("result")
+      val metadataDoc = row.getAs[Seq[Map[String, String]]]("metadata")
+      val beginDoc = row.getAs[Seq[Int]]("begin")
+      val endDoc = row.getAs[Seq[Int]]("end")
+      val embeddingsDoc = row.getAs[Seq[Seq[Float]]]("embeddings")
+      resultDoc.zipWithIndex.map{ case (token, index) =>
+        Annotation(TOKEN, beginDoc(index), endDoc(index), token, metadataDoc(index), embeddingsDoc(index).toArray)
       }
     }.collect()
   }
@@ -47,14 +49,19 @@ object AssertAnnotations {
         val actualBegin = actualDocument(index).begin
         val actualEnd = actualDocument(index).end
         val actualMetadata = actualDocument(index).metadata
+        val actualEmbeddings = actualDocument(index).embeddings
         val expectedResult = expectedAnnotation.result
         val expectedBegin = expectedAnnotation.begin
         val expectedEnd = expectedAnnotation.end
         val expectedMetadata = expectedAnnotation.metadata
+        val expectedEmbeddings = expectedAnnotation.embeddings
+
         assert(actualResult == expectedResult, s"actual result $actualResult != expected result $expectedResult")
-        assert(actualBegin == expectedBegin, s"actual begin $actualBegin != expected result $expectedBegin")
+        assert(actualBegin == expectedBegin, s"actual begin $actualBegin != expected begin $expectedBegin")
         assert(actualEnd == expectedEnd, s"actual end $actualEnd != expected end $expectedEnd")
-        assert(actualMetadata == expectedMetadata, s"actual begin $actualMetadata != expected result $expectedMetadata")
+        assert(actualMetadata == expectedMetadata, s"actual metadata $actualMetadata != expected metadata $expectedMetadata")
+        assert(actualEmbeddings sameElements expectedEmbeddings, s"actual embeddings ${actualEmbeddings.mkString(" ")} " +
+          s"!= expected embeddings ${expectedEmbeddings.mkString(" ")}")
       }
     }
   }
