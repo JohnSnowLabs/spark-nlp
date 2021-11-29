@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
-          <meta name="description" content="Spark NLP 3.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
-          <meta name="keywords" content="Spark NLP 3.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
+          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid</title>
+          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid" />
+          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.deid" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -797,7 +797,7 @@ reideintification.selectExpr(<span class="lit">"explode(reid.result)"</span>).sh
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="Utility class that helps to obfuscate tabular data." href="StructuredDeidentification.html"><span class="name">StructuredDeidentification</span></a><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="Utility class that helps to obfuscate tabular data." href="StructuredDeidentification.html"><span class="name">StructuredDeidentification</span></a><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>, <span name="days">days: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="useRandomDateDisplacement">useRandomDateDisplacement: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="dateFormats">dateFormats: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="defval" name='<span class="name"><a href="Obfuscator$.html">Obfuscator.dateFormatsDefault.toList.asJava</a></span>'>...</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       <p class="shortcomment cmt">Utility class that helps to obfuscate tabular data.</p><div class="fullcomment"><div class="comment cmt"><p>Utility class that helps to obfuscate tabular data.
@@ -817,7 +817,7 @@ The default entities are:</p><table class="doctbl">
 The allowed values are the following:
   'file': Takes the entities from the obfuscatorRefFile
   'faker': Takes the entities from the Faker module
-  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></dd></dl></div>
+  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></dd><dt class="param">days</dt><dd class="cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</p></dd><dt class="param">useRandomDateDisplacement</dt><dd class="cmt"><p>Use a random displacement days in dates entities.If true use random displacement days in dates entities,if false use the days</p></dd><dt class="param">dateFormats</dt><dd class="cmt"><p>Format of dates to displaceFormat of dates to displace</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.TextToDocumentColumns" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TextToDocumentColumnsextendsProductwithSerializable"></a><a id="TextToDocumentColumns:TextToDocumentColumns"></a>
       <span class="permalink">
