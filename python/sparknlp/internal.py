@@ -481,3 +481,10 @@ class _AlbertSequenceClassifierLoader(ExtendedJavaWrapper):
         super(_AlbertSequenceClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _XlnetSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlnetSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification.loadSavedModel", path,
+            jspark)
