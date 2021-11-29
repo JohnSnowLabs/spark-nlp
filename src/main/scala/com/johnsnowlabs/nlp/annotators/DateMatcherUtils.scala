@@ -17,10 +17,11 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params, StringArrayParam}
+import org.apache.spark.ml.param._
 
 import java.util.Calendar
 import scala.util.matching.Regex
+import scala.util.{Failure, Success, Try}
 
 trait DateMatcherUtils extends Params {
 
@@ -233,6 +234,7 @@ trait DateMatcherUtils extends Params {
     "yyyy-MM" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])\\b", "year", "month"),
     "MM-dd" -> new Regex("\\b(0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
     "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
+    "MM-yy" -> new Regex("\\b(0?[1-9]|1[012])[--](\\d{2,4})\\b", "day", "month"),
 
     "yyyy" -> new Regex("\\b(\\d{4})\\b", "year")
   )
@@ -316,19 +318,38 @@ trait DateMatcherUtils extends Params {
   protected def formalDateContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
     val formalDate = date.content
     val calendar = new Calendar.Builder()
-    MatchedDateTime(
-      calendar.setDate(
-        if (formalDate.group("year").toInt > 999)
-          formalDate.group("year").toInt
 
-        /** If year found is greater than <10> years from now, assume text is talking about 20th century */
-        else if (formalDate.group("year").toInt > Calendar.getInstance.get(Calendar.YEAR).toString.takeRight(2).toInt + 10)
-          formalDate.group("year").toInt + 1900
-        else
-          formalDate.group("year").toInt + 2000,
-        formalDate.group("month").toInt - 1,
-        if (formalDate.groupCount == 3) formalDate.group("day").toInt else $(defaultDayWhenMissing)
-      ).build(),
+    def processYear = {
+      Try(formalDate.group("year")) match {
+        case Success(_) =>
+          if (formalDate.group("year").toInt > 999)
+            formalDate.group("year").toInt
+
+          /** If year found is greater than <10> years from now, assume text is talking about 20th century */
+          else if (formalDate.group("year").toInt > Calendar.getInstance.get(Calendar.YEAR).toString.takeRight(2).toInt + 10)
+            formalDate.group("year").toInt + 1900
+          else
+            formalDate.group("year").toInt + 2000
+        case Failure(_) => Calendar.getInstance().get(Calendar.YEAR)
+      }
+    }
+
+    def processMonth = {
+      Try(formalDate.group("month")) match {
+        case Success(_) => formalDate.group("month").toInt - 1
+        case Failure(_) => 1
+      }
+    }
+
+    def processDay = {
+      Try(formalDate.group("day")) match {
+        case Success(_) => if (formalDate.groupCount == 3) formalDate.group("day").toInt else $(defaultDayWhenMissing)
+        case Failure(_) => 1
+      }
+    }
+
+    MatchedDateTime(
+      calendar.setDate(processYear, processMonth, processDay).build(),
       formalDate.start,
       formalDate.end
     )

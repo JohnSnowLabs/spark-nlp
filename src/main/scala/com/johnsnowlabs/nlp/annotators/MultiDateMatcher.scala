@@ -126,7 +126,9 @@ class MultiDateMatcher(override val uid: String)
   }
 
   private def runFormalFactoryForInputFormats(text: String, factory: RuleFactory): Seq[MatchedDateTime] = {
-    factory.findMatch(text).map{ possibleDate => formalDateContentParse(possibleDate)}
+    factory
+      .findMatch(text)
+      .map(formalDateContentParse(_))
   }
 
   def runInputFormatsSearch(text: String): Seq[MatchedDateTime] = {
