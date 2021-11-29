@@ -533,7 +533,8 @@ object PythonResourceDownloader {
     "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
     "XlmRoBertaForSequenceClassification" -> XlmRoBertaForSequenceClassification,
     "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
-    "AlbertForSequenceClassification" -> AlbertForSequenceClassification
+    "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
+    "XlnetForSequenceClassification" -> XlnetForSequenceClassification
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {
