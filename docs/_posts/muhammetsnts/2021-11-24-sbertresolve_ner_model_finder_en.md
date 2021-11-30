@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentence Entity Resolver for NER Model Finding (sbert_jsl_medium_uncased)
+title: NER Model Finder with Sentence Entity Resolvers (sbert_jsl_medium_uncased)
 author: John Snow Labs
 name: sbertresolve_ner_model_finder
 date: 2021-11-24
@@ -54,7 +54,10 @@ ner_model_finder = SentenceEntityResolverModel.pretrained("sbertresolve_ner_mode
     
 ner_model_finder_pipelineModel = PipelineModel(stages = [documentAssembler, sbert_embedder, ner_model_finder])
 
-entity_name = "medication"
+light_pipeline = LightPipeline(ner_model_finder_pipelineModel)
+
+annotations = light_pipeline.fullAnnotate("medication")
+
 ```
 ```scala
 val documentAssembler = DocumentAssembler()\
@@ -76,7 +79,10 @@ val ner_model_finder = SentenceEntityResolverModel.pretrained("sbertresolve_ner_
     
 val ner_model_finder_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, ner_model_finder))
 
-val entity_name = "medication"
+val light_pipeline = LightPipeline(ner_model_finder_pipelineModel)
+
+val annotations = light_pipeline.fullAnnotate("medication")
+
 ```
 </div>
 
