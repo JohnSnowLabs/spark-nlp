@@ -79,7 +79,7 @@ val c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
       .setOutputCol("ner_chunk_doc") 
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
       .setInputCols("ner_chunk_doc")\
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
