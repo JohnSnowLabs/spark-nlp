@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract entities related to Stroke Scale (NIHSS)
+title: Extract neurologic deficits related to Stroke Scale (NIHSS)
 author: John Snow Labs
 name: ner_nihss
 date: 2021-11-15
