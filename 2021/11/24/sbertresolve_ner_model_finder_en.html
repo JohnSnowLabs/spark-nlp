@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>DistilBERT Sequence Classification Base - AG News (distilbert_base_sequence_classifier_ag_news)- Spark NLP Model</title><meta name="description" content="DescriptionDistilBERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document cl...">
-<link rel="canonical" href="/2021/11/21/distilbert_base_sequence_classifier_ag_news_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>NER Model Finder with Sentence Entity Resolvers (sbert_jsl_medium_uncased)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities (NER labels) to the most appropriate NER model using sbert_jsl_medium_uncased Sentence Bert Embeddings. Given th...">
+<link rel="canonical" href="/2021/11/24/sbertresolve_ner_model_finder_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -403,25 +403,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 21, 2021</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00"></div><header><h1>DistilBERT Sequence Classification Base - AG News (distilbert_base_sequence_classifier_ag_news)</h1></header></div><meta itemprop="headline" content="DistilBERT Sequence Classification Base - AG News (distilbert_base_sequence_classifier_ag_news)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>sequence_classification</li><li>ag_news</li><li>distilbert</li><li>en</li><li>english</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-21T00:00:00+00:00">
-    <meta itemprop="keywords" content="sequence_classification,ag_news,distilbert,en,english,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Nov 24, 2021</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-24T00:00:00+00:00"></div><header><h1>NER Model Finder with Sentence Entity Resolvers (sbert_jsl_medium_uncased)</h1></header></div><meta itemprop="headline" content="NER Model Finder with Sentence Entity Resolvers (sbert_jsl_medium_uncased)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>ner</li><li>licensed</li><li>en</li><li>clinical</li><li>entity_resolver</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2021-11-24T00:00:00+00:00">
+    <meta itemprop="keywords" content="ner,licensed,en,clinical,entity_resolver"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>DistilBERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
-
-<p><code class="language-plaintext highlighter-rouge">distilbert_base_sequence_classifier_ag_news </code> is a fine-tuned DistilBERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance.</p>
-
-<p>We used TFDistilBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!</p>
+<p>This model maps clinical entities (NER labels) to the most appropriate NER model using <code class="language-plaintext highlighter-rouge">sbert_jsl_medium_uncased</code> Sentence Bert Embeddings. Given the entity name, it will return a list of pretrained NER models having that entity or similar ones.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Business</code>, <code class="language-plaintext highlighter-rouge">Sci/Tech</code>, <code class="language-plaintext highlighter-rouge">Sports</code>, <code class="language-plaintext highlighter-rouge">World</code></p>
+<p><code class="language-plaintext highlighter-rouge">NER Model Names</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_sequence_classifier_ag_news_en_3.3.3_3.0_1637503060617.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbertresolve_ner_model_finder_en_3.3.2_2.4_1637764208798.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -429,51 +425,64 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
 
-<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span> \
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'distilbert_base_sequence_classifier_ag_news'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'token'</span><span class="p">,</span> <span class="s">'document'</span><span class="p">])</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbert_jsl_medium_uncased"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">sequenceClassifier</span>    
-<span class="p">])</span>
 
-<span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993.'</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+<span class="n">ner_model_finder</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbertresolve_ner_model_finder"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"model_names"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+
+    
+<span class="n">ner_model_finder_pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">ner_model_finder</span><span class="p">])</span>
+
+<span class="n">light_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">ner_model_finder_pipelineModel</span><span class="p">)</span>
+
+<span class="n">annotations</span> <span class="o">=</span> <span class="n">light_pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"medication"</span><span class="p">)</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_sequence_classifier_ag_news"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbert_jsl_medium_uncased"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">sequenceClassifier</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Disney Comics was a comic book publishing company operated by The Walt Disney Company which ran from 1990 to 1993."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_model_finder</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbertresolve_ner_model_finder"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"model_names"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+    
+<span class="k">val</span> <span class="nv">ner_model_finder_pipelineModel</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">ner_model_finder</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">light_pipeline</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="n">ner_model_finder_pipelineModel</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">annotations</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">fullAnnotate</span><span class="o">(</span><span class="s">"medication"</span><span class="o">)</span>
+
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|entity    |models                                                                                                                                                                                                                                                                                                                                  |all_models                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |resolutions                                                                                                                                                                                                                                                                                      |
++----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|medication|[<span class="s1">'ner_posology'</span>, <span class="s1">'ner_posology_large'</span>, <span class="s1">'ner_posology_small'</span>, <span class="s1">'ner_posology_greedy'</span>, <span class="s1">'ner_drugs_large'</span>,  <span class="s1">'ner_posology_experimental'</span>, <span class="s1">'ner_drugs_greedy'</span>, <span class="s1">'ner_ade_clinical'</span>, <span class="s1">'ner_jsl_slim'</span>, <span class="s1">'ner_posology_healthcare'</span>, <span class="s1">'ner_ade_healthcare'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_ade_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span>, <span class="s1">'ner_risk_factors'</span><span class="o">]</span>|[<span class="s1">'ner_posology'</span>, <span class="s1">'ner_posology_large'</span>, <span class="s1">'ner_posology_small'</span>, <span class="s1">'ner_posology_greedy'</span>, <span class="s1">'ner_drugs_large'</span>,  <span class="s1">'ner_posology_experimental'</span>, <span class="s1">'ner_drugs_greedy'</span>, <span class="s1">'ner_ade_clinical'</span>, <span class="s1">'ner_jsl_slim'</span>, <span class="s1">'ner_posology_healthcare'</span>, <span class="s1">'ner_ade_healthcare'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_ade_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span>, <span class="s1">'ner_risk_factors'</span><span class="o">]</span>:::[<span class="s1">'ner_posology'</span>, <span class="s1">'ner_posology_large'</span>, <span class="s1">'ner_posology_small'</span>, <span class="s1">'ner_posology_greedy'</span>, <span class="s1">'ner_drugs_large'</span>,  <span class="s1">'ner_posology_experimental'</span>, <span class="s1">'ner_drugs_greedy'</span>, <span class="s1">'ner_jsl_slim'</span>, <span class="s1">'ner_posology_healthcare'</span>, <span class="s1">'ner_ade_healthcare'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_ade_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span>, <span class="s1">'ner_risk_factors'</span><span class="o">]</span>:::[<span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_clinical_large'</span>, <span class="s1">'ner_healthcare'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_clinical'</span>, <span class="s1">'ner_jsl_slim'</span>, <span class="s1">'ner_covid_trials'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_events_admission_clinical'</span>, <span class="s1">'ner_events_healthcare'</span>, <span class="s1">'ner_events_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span><span class="o">]</span>:::[<span class="s1">'ner_medmentions_coarse'</span><span class="o">]</span>:::[<span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_covid_trials'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'ner_medmentions_coarse'</span><span class="o">]</span>:::[<span class="s1">'ner_drugs'</span><span class="o">]</span>:::[<span class="s1">'ner_clinical_icdem'</span>, <span class="s1">'ner_medmentions_coarse'</span><span class="o">]</span>:::[<span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_medmentions_coarse'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span><span class="o">]</span>:::[<span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_medmentions_coarse'</span>, <span class="s1">'ner_radiology_wip_clinical'</span>, <span class="s1">'ner_jsl_slim'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span>, <span class="s1">'ner_radiology'</span><span class="o">]</span>:::[<span class="s1">'ner_medmentions_coarse'</span>,<span class="s1">'ner_clinical_icdem'</span><span class="o">]</span>:::[<span class="s1">'ner_posology_experimental'</span><span class="o">]</span>:::[<span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_measurements_clinical'</span>, <span class="s1">'ner_radiology_wip_clinical'</span>, <span class="s1">'ner_radiology'</span><span class="o">]</span>:::[<span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_posology_small'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_posology_experimental'</span>, <span class="s1">'ner_posology_large'</span>, <span class="s1">'ner_posology_healthcare'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_posology_greedy'</span>, <span class="s1">'ner_posology'</span>, <span class="s1">'ner_jsl_greedy'</span><span class="o">]</span>:::[<span class="s1">'ner_covid_trials'</span>, <span class="s1">'ner_medmentions_coarse'</span>, <span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span><span class="o">]</span>:::[<span class="s1">'ner_deid_subentity_augmented'</span>, <span class="s1">'ner_deid_subentity_glove'</span>, <span class="s1">'ner_deidentify_dl'</span>, <span class="s1">'ner_deid_enriched'</span><span class="o">]</span>:::[<span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_covid_trials'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span><span class="o">]</span>:::[<span class="s1">'ner_medmentions_coarse'</span>, <span class="s1">'jsl_rd_ner_wip_greedy_clinical'</span>, <span class="s1">'ner_jsl_enriched'</span>, <span class="s1">'ner_jsl'</span>, <span class="s1">'jsl_ner_wip_modifier_clinical'</span>, <span class="s1">'ner_jsl_greedy'</span><span class="o">]</span>:::[<span class="s1">'ner_chemd_clinical'</span><span class="o">]</span>|medication:::drug:::treatment:::therapeutic procedure:::drug ingredient:::drug chemical:::diagnostic aid:::substance:::medical device:::diagnostic procedure:::administration:::measurement:::drug strength:::physiological reaction:::patient:::vaccine:::psychological condition:::abbreviation|
++----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -481,15 +490,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>distilbert_base_sequence_classifier_ag_news</td>
+      <td>sbertresolve_ner_model_finder</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.3+</td>
+      <td>Spark NLP for Healthcare 3.3.2+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -497,11 +506,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[token, document]</td>
+      <td>[sbert_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[class]</td>
+      <td>[models]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -509,33 +518,11 @@
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentense length:</td>
-      <td>512</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="data-source">Data Source</h2>
-
-<p><a href="https://huggingface.co/datasets/ag_news">https://huggingface.co/datasets/ag_news</a></p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>         precision    recall  f1-score   support
-
-    Business       0.90      0.90      0.90      1904
-    Sci/Tech       0.91      0.90      0.91      1935
-      Sports       0.99      0.98      0.98      1921
-       World       0.92      0.95      0.94      1840
-
-    accuracy                           0.93      7600
-   macro avg       0.93      0.93      0.93      7600
-weighted avg       0.93      0.93      0.93      7600
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-21T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-11-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -660,7 +647,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/16/redl_nihss_biobert_en.html">Extract relations between NIHSS entities</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/21/distilbert_base_sequence_classifier_amazon_polarity_en.html">DistilBERT Sequence Classification - Amazon Polarity (distilbert_base_sequence_classifier_amazon_polarity)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2021/11/24/ner_model_finder_en.html">NER Model Finder</a></div><div class="next nav_link"><span>NEXT</span><a href="/2021/11/26/ner_biomarker_en.html">Extraction of biomarker information</a></div></div></div>
 
 </div>
 </div>
