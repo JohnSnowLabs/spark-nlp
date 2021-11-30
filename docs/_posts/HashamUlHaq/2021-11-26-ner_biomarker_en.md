@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Extract biomarker entities
+title: Extraction of biomarker information
 author: John Snow Labs
 name: ner_biomarker
 date: 2021-11-26
