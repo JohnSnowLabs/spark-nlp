@@ -21,6 +21,7 @@ This model maps medical entities to SNOMED codes using `sent_biobert_clinical_ba
 
 ## Predicted Entities
 
+`SNOMED` codes from `Procedures` and `Measurements`
 
 
 {:.btn-box}
