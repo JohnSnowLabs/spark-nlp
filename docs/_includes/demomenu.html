@@ -11,9 +11,6 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_entitie" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/recognize_entitie">Recognize Entities</a>
       </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_clinical_entities" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
-      </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "detect_sentiment_emotion" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/detect_sentiment_emotion">Detect Sentiment &amp; Emotion</a>
       </li>
@@ -39,7 +36,10 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "languages_africa" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/languages_africa">African Languages</a>
       </li>
-      <li><strong>Spark NLP for Healthcare</strong></li>      
+      <li><strong>Spark NLP for Healthcare</strong></li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_clinical_entities" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/recognize_clinical_entities">Recognize Clinical Entities</a>
+      </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_biomedical_entities" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/recognize_biomedical_entities">Recognize Biomedical Entities</a>
       </li>
