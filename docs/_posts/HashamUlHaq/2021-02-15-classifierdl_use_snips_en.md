@@ -40,7 +40,7 @@ embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
     .setInputCols(["document"])\
     .setOutputCol("sentence_embeddings")
 
-classifier = ClassifierDLModel('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
+classifier = ClassifierDLModel.pretrained('classifierdl_use_snips').setInputCols(['sentence_embeddings']).setOutputCol('class')
 
 nlp_pipeline = Pipeline(stages=[document_assembler, embeddings, classifier])
 
@@ -54,7 +54,7 @@ val embeddings = UniversalSentenceEncoder.pretrained('tfhub_use', lang="en") \
     .setInputCols(Array("document"))\
     .setOutputCol("sentence_embeddings")
 
-val classifier = ClassifierDLModel('classifierdl_use_snips', 'en').setInputCols(Array('sentence_embeddings')).setOutputCol('class')
+val classifier = ClassifierDLModel.pretrained('classifierdl_use_snips', 'en').setInputCols(Array('sentence_embeddings')).setOutputCol('class')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, embeddings, classifier))
 
