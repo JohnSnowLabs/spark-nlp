@@ -160,10 +160,9 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
       Array("Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
         "becoming the first to reimpose such restrictions. It will also require the whole population to be " +
         "vaccinated from the second month of 2022, infuriating many in a country where scepticism about state mandates " +
-        "affecting individual freedoms runs high in the next 01-22.")
-    )
+        "affecting individual freedoms runs high in the next 02/2022."))
 
-    val inputFormats = Array("yyyy/dd/MM", "yyyy", "MM-yy")
+    val inputFormats = Array("yyyy/dd/MM", "yyyy", "MM/yyyy")
     val outputFormat = "yyyy/MM/dd"
 
     val date = new MultiDateMatcher()
@@ -174,14 +173,16 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
       .setOutputFormat(outputFormat)
       .transform(data)
 
-    val results = Annotation.collect(date, "date").flatten.toSeq
+    val results = Annotation.collect(date, "date").flatten.toSeq.sortBy(_.end)
 
-    println(results)
+    val expectedDates = Seq(
+      Annotation(DATE, 83, 86, "2021/01/01", Map("sentence" -> "0")),
+      Annotation(DATE, 83, 92, "2021/12/10", Map("sentence" -> "0")),
+      Annotation(DATE, 229, 232, "2022/01/01", Map("sentence" -> "0")),
+      Annotation(DATE, 354, 361, "2022/02/01", Map("sentence" -> "0"))
+    )
 
-//    val expectedDates = Seq(
-//      Annotation(DATE, 83, 92, "2021/12/10", Map("sentence" -> "0")))
-//
-//    assert(results == expectedDates)
+    assert(results == expectedDates)
   }
 
 }

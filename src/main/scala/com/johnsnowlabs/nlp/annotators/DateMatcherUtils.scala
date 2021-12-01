@@ -222,19 +222,19 @@ trait DateMatcherUtils extends Params {
     "yyyy/dd/MM" -> new Regex("\\b(\\d{2,4})[-/]([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "year", "day", "month"),
     "dd/MM/yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year"),
     "yyyy/MM/dd" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
-    "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
     "yyyy/MM" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])\\b", "year", "month"),
-    "MM/dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
     "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "MM/dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
+    "MM/yyyy" -> new Regex("\\s+\\b(0?[1-9]|1[012])[-/](\\d{2,4})\\b", "month", "year"),
 
-    "yyyy-dd-MM" -> new Regex("\\b(\\d{2,4})[--]([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "year", "day", "month"),
-    "dd-MM-yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])[--](\\d{2,4})\\b", "day", "month", "year"),
-    "yyyy-MM-dd" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
-    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
-    "yyyy-MM" -> new Regex("\\b(\\d{2,4})[--](0?[1-9]|1[012])\\b", "year", "month"),
-    "MM-dd" -> new Regex("\\b(0?[1-9]|1[012])[--]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
-    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[--](0?[1-9]|1[012])\\b", "day", "month"),
-    "MM-yy" -> new Regex("\\b(0?[1-9]|1[012])[--](\\d{2,4})\\b", "day", "month"),
+    "yyyy-dd-MM" -> new Regex("\\b(\\d{2,4})[-/]([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "year", "day", "month"),
+    "dd-MM-yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year"),
+    "yyyy-MM-dd" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
+    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "yyyy-MM" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])\\b", "year", "month"),
+    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "MM-dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
+    "MM-yyyy" -> new Regex("\\b(0?[1-9]|1[012])[-/](\\d{2,4})\\b", "month", "year"),
 
     "yyyy" -> new Regex("\\b(\\d{4})\\b", "year")
   )
@@ -337,7 +337,7 @@ trait DateMatcherUtils extends Params {
     def processMonth = {
       Try(formalDate.group("month")) match {
         case Success(_) => formalDate.group("month").toInt - 1
-        case Failure(_) => 1
+        case Failure(_) => 0
       }
     }
 
@@ -348,11 +348,16 @@ trait DateMatcherUtils extends Params {
       }
     }
 
-    MatchedDateTime(
-      calendar.setDate(processYear, processMonth, processDay).build(),
+    val res = MatchedDateTime(
+      calendar.setDate(
+        processYear,
+        processMonth,
+        processDay)
+        .build(),
       formalDate.start,
       formalDate.end
     )
+    res
   }
 
   protected def relativeDateFutureContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
