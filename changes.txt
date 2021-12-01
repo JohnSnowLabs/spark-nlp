@@ -1,2 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/_posts/HashamUlHaq/2021-02-15-classifierdl_use_snips_en.md
+docs/_posts/HashamUlHaq/2021-02-15-classifierdl_use_snips_en.md
