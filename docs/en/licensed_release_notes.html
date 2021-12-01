@@ -1445,7 +1445,7 @@ chunk_embeddings <span class="o">=</span> SentenceEmbeddings<span class="o">()</
     .setOutputCol<span class="o">(</span><span class="s2">"chunk_embeddings"</span><span class="o">)</span> <span class="se">\</span>
     .setPoolingStrategy<span class="o">(</span><span class="s2">"AVERAGE"</span><span class="o">)</span>
     
-er <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"roberta_base_biomedical_snomed"</span>, <span class="s2">"es"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
+er <span class="o">=</span> SentenceEntityResolverModel.pretrained<span class="o">(</span><span class="s2">"robertaresolve_snomed"</span>, <span class="s2">"es"</span>, <span class="s2">"clinical/models"</span><span class="o">)</span><span class="se">\</span>
     .setInputCols<span class="o">([</span><span class="s2">"ner_chunk_doc"</span>, <span class="s2">"chunk_embeddings"</span><span class="o">])</span> <span class="se">\</span>
     .setOutputCol<span class="o">(</span><span class="s2">"snomed_code"</span><span class="o">)</span> <span class="se">\</span>
     .setDistanceFunction<span class="o">(</span><span class="s2">"EUCLIDEAN"</span><span class="o">)</span>
