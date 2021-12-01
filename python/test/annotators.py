@@ -28,6 +28,34 @@ from pyspark.ml.clustering import KMeans
 from pyspark.sql.functions import split
 
 
+class BertEmbeddingsPytorchTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        # This implicitly sets up py4j for us
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["Peter lives in New York"],
+            ["Jon Snow lives in Winterfell"]
+        ]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \
+            .setInputCols("document") \
+            .setOutputCol("token")
+
+        bert_embeddings = BertEmbeddingsPytorch.load("/home/danilo/IdeaProjects/JSL/spark-nlp/tmp_bert_base_cased_pt") \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("bert") \
+            .setCaseSensitive(True)
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, bert_embeddings])
+        result_data_frame = pipeline.fit(self.data).transform(self.data)
+        result_data_frame.show()
+
+
 class BasicAnnotatorsTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -68,7 +96,16 @@ class RegexMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
         # This implicitly sets up py4j for us
-        self.data = SparkContextForTest.data
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["Rare Hendrix song draft sells for almost $17,000. This is my second sentenece! The third one here!"],
+            ["EU rejects German call to boycott British lamb ."],
+            ["TORONTO 1996-08-21"],
+            [" carbon emissions have come down without impinging on our growth . . ."],
+            ["carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."],
+            ["the "],
+            ["  "],
+            [" "]
+        ]).toDF("text")
 
     def runTest(self):
         document_assembler = DocumentAssembler() \

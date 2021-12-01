@@ -13,6 +13,7 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper, sentenceStartTokenId: Int,
 
   private var maxSentenceLength: Option[Int] = None
   private var batchLength: Option[Int] = None
+  private var dimension: Option[Int] = None
 
   private lazy val predictor = {
     val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
@@ -94,8 +95,18 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper, sentenceStartTokenId: Int,
   def tag(batch: Array[Array[Int]]): Array[Array[Array[Float]]] = {
     maxSentenceLength = Some(batch.map(encodedSentence => encodedSentence.length).max)
     batchLength = Some(batch.length)
-    val embeddings = predictor.predict(batch)
-    embeddings
+    val predictedEmbeddings = predictor.predict(batch)
+    val emptyVector = Array.fill(dimension.get)(0f)
+
+    batch.zip(predictedEmbeddings).map { case (ids, embeddings) =>
+      if (ids.length > embeddings.length) {
+        embeddings.take(embeddings.length - 1) ++
+          Array.fill(embeddings.length - ids.length)(emptyVector) ++
+          Array(embeddings.last)
+      } else {
+        embeddings
+      }
+    }
   }
 
   override def getBatchifier: Batchifier = {
@@ -109,9 +120,9 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper, sentenceStartTokenId: Int,
   }
 
   override def processOutput(ctx: TranslatorContext, list: NDList): Array[Array[Array[Float]]] = {
+    dimension = Some(list.get(0).getShape.get(2).toInt)
     val allEncoderLayers = list.get(0).toFloatArray
-    val dimension = allEncoderLayers.length / (batchLength.get * maxSentenceLength.get)
-    val embeddings = allEncoderLayers.grouped(dimension).toArray.grouped(maxSentenceLength.get).toArray
+    val embeddings = allEncoderLayers.grouped(dimension.get).toArray.grouped(maxSentenceLength.get).toArray
 
     embeddings
   }
