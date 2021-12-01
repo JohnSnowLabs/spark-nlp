@@ -116,8 +116,8 @@ class LongformerForTokenClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_longformerfortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedModel = LongformerForTokenClassification.load("./tmp_longformerfortoken_model")
-    loadedModel.getLabels
+    val loadedSequenceModel = LongformerForTokenClassification.load("./tmp_longformerfortoken_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

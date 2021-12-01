@@ -117,8 +117,8 @@ class RoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_robertafortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = RoBertaForTokenClassification.load("./tmp_robertafortoken_model")
-    loadedDistilBertModel.getLabels
+    val loadedSequenceModel = RoBertaForTokenClassification.load("./tmp_robertafortoken_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 
