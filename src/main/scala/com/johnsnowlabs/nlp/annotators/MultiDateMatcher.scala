@@ -125,11 +125,12 @@ class MultiDateMatcher(override val uid: String)
       text
   }
 
-  private def runFormalFactoryForInputFormats(text: String, factory: RuleFactory): Seq[MatchedDateTime] = {
-    factory
-      .findMatch(text)
+  private def findByInputFormatsRules(text: String, factory: RuleFactory): Seq[MatchedDateTime] =
+    factory.findMatch(text)
       .map(formalDateContentParse(_))
-  }
+      .groupBy(_.calendar)
+      .map{ case(_, group) => group.head}
+      .toSeq
 
   def runInputFormatsSearch(text: String): Seq[MatchedDateTime] = {
     val regexes: Array[Regex] = getInputFormats
@@ -140,7 +141,7 @@ class MultiDateMatcher(override val uid: String)
       formalFactoryInputFormats.addRule(r, "formal rule from input formats")
     }
 
-    runFormalFactoryForInputFormats(text, formalFactoryInputFormats)
+    findByInputFormatsRules(text, formalFactoryInputFormats)
   }
 
   def runDateExtractorChain(_text: String): Seq[MatchedDateTime] = {
