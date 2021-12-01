@@ -114,7 +114,7 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
 +-------------+-------------+
-|        token|    ner_label|
+|        token|          ner|
 +-------------+-------------+
 |        Mujer|            O|
 |           de|            O|
