@@ -21,6 +21,19 @@ from test.pretrained import *
 # Annotator tests
 unittest.TextTestRunner().run(BertEmbeddingsPytorchTestSpec())
 
+unittest.TextTestRunner().run(LinearRegressionTestSpec())
+
+# unittest.TextTestRunner().run(BasicAnnotatorsTestSpec())
+# unittest.TextTestRunner().run(RegexMatcherTestSpec())
+# unittest.TextTestRunner().run(TokenizerTestSpec())
+# unittest.TextTestRunner().run(NormalizerTestSpec())
+# unittest.TextTestRunner().run(ChunkTokenizerTestSpec())
+# unittest.TextTestRunner().run(LemmatizerTestSpec())
+# unittest.TextTestRunner().run(LemmatizerWithTrainingDataSetTestSpec())
+# unittest.TextTestRunner().run(DateMatcherTestSpec())
+# unittest.TextTestRunner().run(TextMatcherTestSpec())
+# unittest.TextTestRunner().run(DocumentNormalizerSpec())
+#
 # unittest.TextTestRunner().run(PerceptronApproachTestSpec())
 # unittest.TextTestRunner().run(ChunkerTestSpec())
 # unittest.TextTestRunner().run(ChunkDocSerializingTestSpec())
@@ -50,7 +63,6 @@ unittest.TextTestRunner().run(BertEmbeddingsPytorchTestSpec())
 # unittest.TextTestRunner().run(LanguageDetectorDLTestSpec())
 # unittest.TextTestRunner().run(GraphExtractionTestSpec())
 # unittest.TextTestRunner().run(EntityRulerTestSpec())
-# unittest.TextTestRunner().run(Doc2VecTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
