@@ -122,8 +122,8 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_bertforsequence_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = BertForSequenceClassification.load("./tmp_bertforsequence_model")
-    loadedDistilBertModel.getLabels
+    val loadedSequenceModel = BertForSequenceClassification.load("./tmp_bertforsequence_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

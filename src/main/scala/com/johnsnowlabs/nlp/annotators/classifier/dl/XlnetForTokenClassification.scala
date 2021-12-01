@@ -136,8 +136,12 @@ class XlnetForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
@@ -196,7 +200,7 @@ class XlnetForTokenClassification(override val uid: String)
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures
           )
         )
@@ -244,7 +248,7 @@ class XlnetForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        getLabels
+        $$(labels)
       )
     }) else {
       Seq(Seq.empty[Annotation])
