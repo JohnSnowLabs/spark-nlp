@@ -12995,6 +12995,12 @@ class BertForTokenClassification(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -13157,6 +13163,12 @@ class DistilBertForTokenClassification(AnnotatorModel,
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -13897,6 +13909,12 @@ class RoBertaForTokenClassification(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -14057,6 +14075,12 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -14225,6 +14249,12 @@ class AlbertForTokenClassification(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -14389,6 +14419,12 @@ class XlnetForTokenClassification(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -14552,6 +14588,12 @@ class LongformerForTokenClassification(AnnotatorModel,
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListString)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -14918,6 +14960,12 @@ class BertForSequenceClassification(AnnotatorModel,
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -15425,6 +15473,12 @@ class DistilBertForSequenceClassification(AnnotatorModel,
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -15608,6 +15662,12 @@ class RoBertaForSequenceClassification(AnnotatorModel,
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -15793,6 +15853,12 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -15976,6 +16042,12 @@ class LongformerForSequenceClassification(AnnotatorModel,
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -16161,6 +16233,12 @@ class AlbertForSequenceClassification(AnnotatorModel,
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
 
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -16344,6 +16422,12 @@ class XlnetForSequenceClassification(AnnotatorModel,
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
                               TypeConverters.toBoolean)
+
+    def getClasses(self):
+        """
+        Returns labels used to train this model
+        """
+        return self._call_java("getClasses")
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
