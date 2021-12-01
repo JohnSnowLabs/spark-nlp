@@ -24,7 +24,7 @@ data:
               src: /assets/images/Detect_drugs_and_prescriptions.svg
           image2: 
               src: /assets/images/Detect_drugs_and_prescriptions_f.svg
-          excerpt: Automatically identify diagnoses and procedures in Spanish clinical documents using the pre-trained Spark NLP clinical model.
+          excerpt: Automatically identify diagnoses and procedures in Spanish clinical documents.
           actions:
           - text: Live Demo
             type: normal
@@ -52,7 +52,7 @@ data:
               src: /assets/images/Detect_Tumor_Characteristics_in_Spanish_medical_texts.svg
           image2: 
               src: /assets/images/Detect_Tumor_Characteristics_in_Spanish_medical_texts_f.svg
-          excerpt: This demo shows how tumor characteristics (morphology) in Spanish medical texts can be detected automatically using Spark NLP NER model.
+          excerpt: This demo shows how to detect tumor characteristics (morphology) in Spanish medical texts.
           actions:
           - text: Live Demo
             type: normal

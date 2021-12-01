@@ -18,13 +18,13 @@ data:
           activemenu: analyze_medical_text_german
       source: yes
       source: 
-        - title: Detect symptoms, treatments and other NERs in German
+        - title: Detect symptoms, treatments and other clinical information in German
           id: detect_symptoms
           image: 
               src: /assets/images/Detect_causality_between_symptoms.svg
           image2: 
               src: /assets/images/Detect_causality_between_symptoms_f.svg
-          excerpt: Automatically identify entities such as symptoms, diagnoses, procedures, body parts or medication in German clinical text using the pretrained Spark NLP clinical model ner_healthcare.
+          excerpt: Automatically identify symptoms, diagnoses, procedures, body parts or medication in German clinical texts.
           actions:
           - text: Live Demo
             type: normal

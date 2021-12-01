@@ -10,11 +10,11 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Healthcare 
-      excerpt: Analyze Financial Models
+      excerpt: Analyze Financial Information
       secheader: yes
       secheader:
         - title: Spark NLP for Healthcare
-          subtitle: Analyze Financial Models
+          subtitle: Analyze Financial Information
           activemenu: analyze_financial_models
       source: yes
       source: 
@@ -24,7 +24,7 @@ data:
               src: /assets/images/Grammar_Analysis.svg
           image2: 
               src: /assets/images/Grammar_Analysis_f.svg
-          excerpt: Automatically identify entities such as persons, judges, lawyers, countries, cities, landscapes, organizations, courts, trademark laws, contracts, etc. in German legal text using the pretrained Spark NLP models ner_legal.
+          excerpt: Automatically identify entities such as persons, judges, lawyers, countries, cities, landscapes, organizations, courts, trademark laws, contracts, etc. in German legal text.
           actions:
           - text: Live Demo
             type: normal
@@ -52,7 +52,7 @@ data:
               src: /assets/images/Named_Entity_Recognition_for_Portuguese_Legal_Texts.svg
           image2: 
               src: /assets/images/Named_Entity_Recognition_for_Portuguese_Legal_Texts_f.svg
-          excerpt: Recognize Organization, Jurisprudence, Legislation, Person, Location, and Time in legal texts (Brazilian Portuguese) using pre-trained Spark NLP model with Bert Embeddings
+          excerpt: Recognize Organization, Jurisprudence, Legislation, Person, Location, and Time in legal texts (Brazilian Portuguese)
           actions:
           - text: Live Demo
             type: normal
