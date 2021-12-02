@@ -4832,7 +4832,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     useContrib = Param(Params._dummy(), "useContrib",
                        "whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.",
@@ -4874,7 +4874,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -5190,7 +5190,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
     includeConfidence = Param(Params._dummy(), "includeConfidence",
                               "whether to include confidence scores in annotation metadata",
                               TypeConverters.toBoolean)
@@ -5206,7 +5206,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -6386,14 +6386,14 @@ class BertEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -6589,14 +6589,14 @@ class BertSentenceEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -7456,7 +7456,7 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setLoadSP(self, value):
         """Sets whether to load SentencePiece ops file which is required only by
@@ -7475,7 +7475,7 @@ class UniversalSentenceEncoder(AnnotatorModel, HasEmbeddingsProperties, HasStora
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -7660,7 +7660,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     poolingLayer = Param(Params._dummy(),
                          "poolingLayer", "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo",
@@ -7671,7 +7671,7 @@ class ElmoEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitivePr
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -7867,7 +7867,7 @@ class ClassifierDLApproach(AnnotatorApproach):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     validationSplit = Param(Params._dummy(), "validationSplit",
                             "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
@@ -7923,7 +7923,7 @@ class ClassifierDLApproach(AnnotatorApproach):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -8118,7 +8118,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     classes = Param(Params._dummy(), "classes",
                     "get the tags used to trained this ClassifierDLModel",
@@ -8129,7 +8129,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -8298,7 +8298,7 @@ class AlbertEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -8310,7 +8310,7 @@ class AlbertEmbeddings(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -8519,7 +8519,7 @@ class XlnetEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     maxSentenceLength = Param(Params._dummy(),
                               "maxSentenceLength",
@@ -8531,7 +8531,7 @@ class XlnetEmbeddings(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -8806,7 +8806,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setLanguageModelClasses(self, count):
         """Sets number of classes to use during factorization of the softmax
@@ -9004,7 +9004,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -9200,7 +9200,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setWordMaxDistance(self, dist):
         """Sets maximum distance for the generated candidates for every word.
@@ -9291,7 +9291,7 @@ class ContextSpellCheckerModel(AnnotatorModel):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -9497,7 +9497,7 @@ class SentimentDLApproach(AnnotatorApproach):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     validationSplit = Param(Params._dummy(), "validationSplit",
                             "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
@@ -9558,7 +9558,7 @@ class SentimentDLApproach(AnnotatorApproach):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -9775,12 +9775,15 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
+
     threshold = Param(Params._dummy(), "threshold",
                       "The minimum threshold for the final result otheriwse it will be neutral", TypeConverters.toFloat)
+
     thresholdLabel = Param(Params._dummy(), "thresholdLabel",
                            "In case the score is less than threshold, what should be the label. Default is neutral.",
                            TypeConverters.toString)
+
     classes = Param(Params._dummy(), "classes",
                     "get the tags used to trained this SentimentDLModel",
                     TypeConverters.toListString)
@@ -9790,7 +9793,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -9935,16 +9938,20 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
+
     threshold = Param(Params._dummy(), "threshold",
                       "The minimum threshold for the final result otheriwse it will be either neutral or the value set in thresholdLabel.",
                       TypeConverters.toFloat)
+
     thresholdLabel = Param(Params._dummy(), "thresholdLabel",
                            "In case the score is less than threshold, what should be the label. Default is neutral.",
                            TypeConverters.toString)
+
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to false.",
                               TypeConverters.toBoolean)
+
     languages = Param(Params._dummy(), "languages",
                       "get the languages used to trained the model",
                       TypeConverters.toListString)
@@ -9954,7 +9961,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -10150,7 +10157,7 @@ class MultiClassifierDLApproach(AnnotatorApproach):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     validationSplit = Param(Params._dummy(), "validationSplit",
                             "Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.",
@@ -10424,9 +10431,11 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
+
     threshold = Param(Params._dummy(), "threshold",
                       "The minimum threshold for each label to be accepted. Default is 0.5", TypeConverters.toFloat)
+
     classes = Param(Params._dummy(), "classes",
                     "get the tags used to trained this MultiClassifierDLModel",
                     TypeConverters.toListString)
@@ -10447,7 +10456,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -11467,27 +11476,34 @@ class T5Transformer(AnnotatorModel):
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     task = Param(Params._dummy(), "task", "Transformer's task, e.g. summarize>", typeConverter=TypeConverters.toString)
 
     minOutputLength = Param(Params._dummy(), "minOutputLength", "Minimum length of the sequence to be generated",
                             typeConverter=TypeConverters.toInt)
+
     maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Maximum length of output text",
                             typeConverter=TypeConverters.toInt)
+
     doSample = Param(Params._dummy(), "doSample", "Whether or not to use sampling; use greedy decoding otherwise",
                      typeConverter=TypeConverters.toBoolean)
+
     temperature = Param(Params._dummy(), "temperature", "The value used to module the next token probabilities",
                         typeConverter=TypeConverters.toFloat)
+
     topK = Param(Params._dummy(), "topK",
                  "The number of highest probability vocabulary tokens to keep for top-k-filtering",
                  typeConverter=TypeConverters.toInt)
+
     topP = Param(Params._dummy(), "topP",
                  "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation",
                  typeConverter=TypeConverters.toFloat)
+
     repetitionPenalty = Param(Params._dummy(), "repetitionPenalty",
                               "The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details",
                               typeConverter=TypeConverters.toFloat)
+
     noRepeatNgramSize = Param(Params._dummy(), "noRepeatNgramSize",
                               "If set to int > 0, all ngrams of that size can only occur once",
                               typeConverter=TypeConverters.toInt)
@@ -11511,7 +11527,7 @@ class T5Transformer(AnnotatorModel):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -11786,7 +11802,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     langId = Param(Params._dummy(), "langId", "Transformer's task, e.g. summarize>",
                    typeConverter=TypeConverters.toString)
@@ -11818,7 +11834,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -12049,14 +12065,14 @@ class DistilBertEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -12266,14 +12282,14 @@ class RoBertaEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -12483,14 +12499,14 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -12993,7 +13009,7 @@ class BertForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -13006,7 +13022,7 @@ class BertForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -13162,7 +13178,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -13175,7 +13191,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -13374,14 +13390,14 @@ class LongformerEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -13558,14 +13574,14 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -13745,14 +13761,14 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -13907,7 +13923,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -13920,7 +13936,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -14074,7 +14090,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -14087,7 +14103,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -14247,7 +14263,7 @@ class AlbertForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -14260,7 +14276,7 @@ class AlbertForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -14417,7 +14433,7 @@ class XlnetForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -14430,7 +14446,7 @@ class XlnetForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -14587,7 +14603,7 @@ class LongformerForTokenClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     def getClasses(self):
         """
@@ -14600,7 +14616,7 @@ class LongformerForTokenClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -14955,7 +14971,7 @@ class BertForSequenceClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
@@ -14972,7 +14988,7 @@ class BertForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -15467,7 +15483,7 @@ class DistilBertForSequenceClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
@@ -15484,7 +15500,7 @@ class DistilBertForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -15657,7 +15673,7 @@ class RoBertaForSequenceClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
@@ -15674,7 +15690,7 @@ class RoBertaForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -15847,7 +15863,7 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     coalesceSentences = Param(Params._dummy(), "coalesceSentences",
                               "Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.",
@@ -15864,7 +15880,7 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -16054,7 +16070,7 @@ class LongformerForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -16244,7 +16260,7 @@ class AlbertForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -16434,7 +16450,7 @@ class XlnetForSequenceClassification(AnnotatorModel,
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
@@ -16641,25 +16657,32 @@ class GPT2Transformer(AnnotatorModel):
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
-                             TypeConverters.toListString)
+                             TypeConverters.toListInt)
 
     minOutputLength = Param(Params._dummy(), "minOutputLength", "Minimum length of the sequence to be generated",
                             typeConverter=TypeConverters.toInt)
+
     maxOutputLength = Param(Params._dummy(), "maxOutputLength", "Maximum length of output text",
                             typeConverter=TypeConverters.toInt)
+
     doSample = Param(Params._dummy(), "doSample", "Whether or not to use sampling; use greedy decoding otherwise",
                      typeConverter=TypeConverters.toBoolean)
+
     temperature = Param(Params._dummy(), "temperature", "The value used to module the next token probabilities",
                         typeConverter=TypeConverters.toFloat)
+
     topK = Param(Params._dummy(), "topK",
                  "The number of highest probability vocabulary tokens to keep for top-k-filtering",
                  typeConverter=TypeConverters.toInt)
+
     topP = Param(Params._dummy(), "topP",
                  "If set to float < 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation",
                  typeConverter=TypeConverters.toFloat)
+
     repetitionPenalty = Param(Params._dummy(), "repetitionPenalty",
                               "The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`__ for more details",
                               typeConverter=TypeConverters.toFloat)
+
     noRepeatNgramSize = Param(Params._dummy(), "noRepeatNgramSize",
                               "If set to int > 0, all ngrams of that size can only occur once",
                               typeConverter=TypeConverters.toInt)
@@ -16693,7 +16716,7 @@ class GPT2Transformer(AnnotatorModel):
 
         Parameters
         ----------
-        b : List[str]
+        b : List[int]
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
