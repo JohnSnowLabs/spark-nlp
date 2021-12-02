@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification</title>
-          <meta name="description" content="Spark NLP 3.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification" />
-          <meta name="keywords" content="Spark NLP 3.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification" />
+          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification</title>
+          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification" />
+          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -252,7 +252,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">StructuredDeidentification</span><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">StructuredDeidentification</span><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>, <span name="days">days: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="useRandomDateDisplacement">useRandomDateDisplacement: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="dateFormats">dateFormats: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="defval" name='<span class="name"><a href="Obfuscator$.html">Obfuscator.dateFormatsDefault.toList.asJava</a></span>'>...</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -274,7 +274,7 @@ The default entities are:</p><table class="doctbl">
 The allowed values are the following:
   'file': Takes the entities from the obfuscatorRefFile
   'faker': Takes the entities from the Faker module
-  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></dd></dl><div class="toggleContainer block">
+  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></dd><dt class="param">days</dt><dd class="cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</p></dd><dt class="param">useRandomDateDisplacement</dt><dd class="cmt"><p>Use a random displacement days in dates entities.If true use random displacement days in dates entities,if false use the days</p></dd><dt class="param">dateFormats</dt><dd class="cmt"><p>Format of dates to displaceFormat of dates to displace</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -325,9 +325,9 @@ The allowed values are the following:
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(columnsMap:java.util.Map[String,String],seedMap:java.util.Map[String,Int],obfuscateRefFile:String,obfuscateRefSource:String):com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification"></a><a id="&lt;init&gt;:StructuredDeidentification"></a>
+      <a id="&lt;init&gt;(columnsMap:java.util.Map[String,String],seedMap:java.util.Map[String,Int],obfuscateRefFile:String,obfuscateRefSource:String,days:Int,useRandomDateDisplacement:Boolean,dateFormats:java.util.List[String]):com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification"></a><a id="&lt;init&gt;:StructuredDeidentification"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/StructuredDeidentification.html#&lt;init&gt;(columnsMap:java.util.Map[String,String],seedMap:java.util.Map[String,Int],obfuscateRefFile:String,obfuscateRefSource:String):com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/StructuredDeidentification.html#&lt;init&gt;(columnsMap:java.util.Map[String,String],seedMap:java.util.Map[String,Int],obfuscateRefFile:String,obfuscateRefSource:String,days:Int,useRandomDateDisplacement:Boolean,dateFormats:java.util.List[String]):com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -336,7 +336,7 @@ The allowed values are the following:
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">StructuredDeidentification</span><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>)</span>
+        <span class="name">StructuredDeidentification</span><span class="params">(<span name="columnsMap">columnsMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="seedMap">seedMap: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Collections.emptyMap()</span></span>, <span name="obfuscateRefFile">obfuscateRefFile: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="obfuscateRefSource">obfuscateRefSource: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;both&quot;</span></span>, <span name="days">days: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">0</span></span>, <span name="useRandomDateDisplacement">useRandomDateDisplacement: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="dateFormats">dateFormats: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="defval" name='<span class="name"><a href="Obfuscator$.html">Obfuscator.dateFormatsDefault.toList.asJava</a></span>'>...</span></span>)</span>
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">columnsMap</dt><dd class="cmt"><p>Is a map that allows to select the name of the column with the entity.
@@ -355,7 +355,7 @@ The default entities are:</p><table class="doctbl">
 The allowed values are the following:
   'file': Takes the entities from the obfuscatorRefFile
   'faker': Takes the entities from the Faker module
-  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></dd></dl></div>
+  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></dd><dt class="param">days</dt><dd class="cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</p></dd><dt class="param">useRandomDateDisplacement</dt><dd class="cmt"><p>Use a random displacement days in dates entities.If true use random displacement days in dates entities,if false use the days</p></dd><dt class="param">dateFormats</dt><dd class="cmt"><p>Format of dates to displaceFormat of dates to displace</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -467,6 +467,38 @@ The allowed values are the following:
       </span>
       <span class="symbol">
         <span class="name">columnsMap</span><span class="result">: <span class="extype" name="java.util.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification#dateFormats" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="dateFormats:java.util.List[String]"></a><a id="dateFormats:List[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/StructuredDeidentification.html#dateFormats:java.util.List[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dateFormats</span><span class="result">: <span class="extype" name="java.util.List">List</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification#days" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="days:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/StructuredDeidentification.html#days:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">days</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
       
@@ -677,6 +709,22 @@ The allowed values are the following:
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.StructuredDeidentification#useRandomDateDisplacement" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="useRandomDateDisplacement:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/StructuredDeidentification.html#useRandomDateDisplacement:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">useRandomDateDisplacement</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">

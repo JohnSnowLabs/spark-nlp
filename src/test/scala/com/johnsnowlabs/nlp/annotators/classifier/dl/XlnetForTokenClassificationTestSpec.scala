@@ -119,8 +119,8 @@ class XlnetForTokenClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_xlnetfortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = XlnetForTokenClassification.load("./tmp_xlnetfortoken_model")
-    loadedDistilBertModel.getLabels
+    val loadedSequenceModel = XlnetForTokenClassification.load("./tmp_xlnetfortoken_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

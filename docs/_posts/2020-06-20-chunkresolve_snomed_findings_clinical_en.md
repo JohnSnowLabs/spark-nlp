@@ -10,7 +10,7 @@ date: 2020-06-20
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.1
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-## Predicted Entities 
+## Predicted Entities
 Snomed Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
@@ -28,7 +28,7 @@ Snomed Codes and their normalized definition with `clinical_embeddings`.
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_snomed_findings_clinical_en_2.5.1_2.4_1592617161564.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -39,7 +39,7 @@ Snomed Codes and their normalized definition with `clinical_embeddings`.
 snomed_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_findings_clinical","en","clinical/models")\
 	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("snomed_resolution")
-    
+
 pipeline_snomed = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, snomed_ner_converter, chunk_embeddings, snomed_resolver])
 
 data = ["""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 60 mg per 6 ml of sterile water q.d . , voriconazole 200 mg p.o . b.i.d . , acyclovir 400 mg p.o . b.i.d . , cyclosporine 50 mg p.o . b.i.d . , prednisone 60 mg p.o . q.d . , GCSF 480 mcg IV q.d . , Epogen 40,000 units subcu q . week , Protonix 40 mg q.d . , Simethicone 80 mg p.o . q . 8 , nitroglycerin paste 1 " ; q . 4 h . p.r.n . , flunisolide nasal inhaler , 2 puffs q . 8 , OxyCodone 10-15 mg p.o . q . 6 p.r.n . , Sudafed 30 mg q . 6 p.o . p.r.n . , Fluconazole 2% cream b.i.d . to erythematous skin lesions , Ditropan 5 mg p.o . b.i.d . , Tylenol 650 mg p.o . q . 4 h . p.r.n . , Ambien 5-10 mg p.o . q . h.s . p.r.n . , Neurontin 100 mg q . a.m . , 200 mg q . p.m . , Aquaphor cream b.i.d . p.r.n . , Lotrimin 1% cream b.i.d . to feet , Dulcolax 5-10 mg p.o . q.d . p.r.n . , Phoslo 667 mg p.o . t.i.d . , Peridex 0.12% , 15 ml p.o . b.i.d . mouthwash , Benadryl 25-50 mg q . 4-6 h . p.r.n . pruritus , Sarna cream q.d . p.r.n . pruritus , Nystatin 5 ml p.o . q.i.d . swish and !""",
@@ -59,7 +59,7 @@ results = model.transform(spark.createDataFrame([['William Henry Gates III (gebo
 val snomed_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_snomed_findings_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("snomed_resolution")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, snomed_ner_converter, chunk_embeddings, snomed_resolver))
 
 val data = Array("""Pentamidine 300 mg IV q . 36 hours , Pentamidine nasal wash 60 mg per 6 ml of sterile water q.d . , voriconazole 200 mg p.o . b.i.d . , acyclovir 400 mg p.o . b.i.d . , cyclosporine 50 mg p.o . b.i.d . , prednisone 60 mg p.o . q.d . , GCSF 480 mcg IV q.d . , Epogen 40,000 units subcu q . week , Protonix 40 mg q.d . , Simethicone 80 mg p.o . q . 8 , nitroglycerin paste 1 " ; q . 4 h . p.r.n . , flunisolide nasal inhaler , 2 puffs q . 8 , OxyCodone 10-15 mg p.o . q . 6 p.r.n . , Sudafed 30 mg q . 6 p.o . p.r.n . , Fluconazole 2% cream b.i.d . to erythematous skin lesions , Ditropan 5 mg p.o . b.i.d . , Tylenol 650 mg p.o . q . 4 h . p.r.n . , Ambien 5-10 mg p.o . q . h.s . p.r.n . , Neurontin 100 mg q . a.m . , 200 mg q . p.m . , Aquaphor cream b.i.d . p.r.n . , Lotrimin 1% cream b.i.d . to feet , Dulcolax 5-10 mg p.o . q.d . p.r.n . , Phoslo 667 mg p.o . t.i.d . , Peridex 0.12% , 15 ml p.o . b.i.d . mouthwash , Benadryl 25-50 mg q . 4-6 h . p.r.n . pruritus , Sarna cream q.d . p.r.n . pruritus , Nystatin 5 ml p.o . q.i.d . swish and !""",

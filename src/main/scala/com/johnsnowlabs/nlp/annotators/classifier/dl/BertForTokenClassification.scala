@@ -83,9 +83,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[BertForSequenceClassification]] for sentence-level classification
- * @see [[com.johnsnowlabs.nlp.embeddings.BertEmbeddings BertEmbeddings]] for token-level embeddings
- * @see [[com.johnsnowlabs.nlp.annotator.BertSentenceEmbeddings BertSentenceEmbeddings]] for sentence-level embeddings
+ * @see [[BertForTokenClassification]] for token-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -156,8 +154,12 @@ class BertForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
@@ -217,7 +219,7 @@ class BertForTokenClassification(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures,
             $$(vocabulary)
           )
@@ -266,7 +268,7 @@ class BertForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        getLabels
+        $$(labels)
       )
     }) else {
       Seq(Seq.empty[Annotation])

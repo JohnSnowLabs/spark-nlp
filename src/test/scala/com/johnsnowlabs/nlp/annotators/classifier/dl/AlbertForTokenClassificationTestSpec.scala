@@ -120,7 +120,7 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
     val loadedDistilBertModel = AlbertForTokenClassification.load("./tmp_albertfortoken_model")
-    loadedDistilBertModel.getLabels
+    println(tokenClassifier.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

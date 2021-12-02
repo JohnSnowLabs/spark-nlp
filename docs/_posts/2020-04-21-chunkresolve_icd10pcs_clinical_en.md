@@ -10,7 +10,7 @@ date: 2020-04-21
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.4.2
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 
-## Predicted Entities 
+## Predicted Entities
 ICD10-PCS Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
@@ -29,7 +29,7 @@ ICD10-PCS Codes and their normalized definition with `clinical_embeddings`.
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10pcs_clinical_en_2.4.5_2.4_1587491320087.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -39,7 +39,7 @@ ICD10-PCS Codes and their normalized definition with `clinical_embeddings`.
 model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 pipeline_icd10pcs = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model])
 
 data = ["""He has a starvation ketosis but nothing found for significant for dry oral mucosa"""]
@@ -56,7 +56,7 @@ result = light_pipeline.annotate(data)
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icd10pcs_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, ner, chunk_embeddings, model))
 
 val data = Seq("He has a starvation ketosis but nothing found for significant for dry oral mucosa").toDF("text")
