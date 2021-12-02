@@ -103,6 +103,7 @@ unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(RoBertaForSequenceClassificationTestSpec())
 # unittest.TextTestRunner().run(XlmRoBertaForSequenceClassificationTestSpec())
 # unittest.TextTestRunner().run(GetClassesTestSpec())
+#unittest.TextTestRunner().run(GPT2TransformerTextGenerationTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

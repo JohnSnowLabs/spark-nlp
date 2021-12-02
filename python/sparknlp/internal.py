@@ -488,3 +488,9 @@ class _XlnetSequenceClassifierLoader(ExtendedJavaWrapper):
         super(_XlnetSequenceClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _GPT2Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_GPT2Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer.loadSavedModel", path, jspark)
