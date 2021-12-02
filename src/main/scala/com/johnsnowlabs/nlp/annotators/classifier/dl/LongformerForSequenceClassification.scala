@@ -158,8 +158,12 @@ class LongformerForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /**
    * Holding merges.txt coming from Longformer model
@@ -244,7 +248,7 @@ class LongformerForSequenceClassification(override val uid: String)
             sentenceEndTokenId,
             padTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures,
             $$(merges),
             $$(vocabulary)
@@ -296,7 +300,7 @@ class LongformerForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          getLabels
+          $$(labels)
         )
       }
       else {

@@ -160,8 +160,12 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /**
    * Holding merges.txt coming from XLM-RoBERTa model
@@ -244,7 +248,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures
           )
         )
@@ -294,7 +298,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          getLabels
+          $$(labels)
         )
       }
       else {

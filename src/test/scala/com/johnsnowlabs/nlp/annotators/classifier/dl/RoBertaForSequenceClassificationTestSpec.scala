@@ -123,7 +123,7 @@ class RoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
     val loadedSequenceModel = RoBertaForSequenceClassification.load("./tmp_forsequence_model")
-    loadedSequenceModel.getLabels
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

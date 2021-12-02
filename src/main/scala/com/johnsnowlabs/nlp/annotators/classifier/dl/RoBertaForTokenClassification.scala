@@ -158,9 +158,12 @@ class RoBertaForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
-
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /**
    * Holding merges.txt coming from RoBERTa model
@@ -231,7 +234,7 @@ class RoBertaForTokenClassification(override val uid: String)
             sentenceEndTokenId,
             padTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures,
             $$(merges),
             $$(vocabulary)
@@ -281,7 +284,7 @@ class RoBertaForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        getLabels
+        $$(labels)
       )
     }) else {
       Seq(Seq.empty[Annotation])
