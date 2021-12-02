@@ -156,8 +156,12 @@ class BertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
@@ -231,7 +235,7 @@ class BertForSequenceClassification(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures,
             $$(vocabulary)
           )
@@ -282,7 +286,7 @@ class BertForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          getLabels
+          $$(labels)
         )
       }
       else {
