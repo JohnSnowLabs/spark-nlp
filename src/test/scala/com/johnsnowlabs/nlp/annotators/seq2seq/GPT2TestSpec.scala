@@ -1,16 +1,13 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.nlp.annotators.common.Sentence
-import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
-import java.io.File
-
-class GPT2TestSpec  extends AnyFlatSpec {
+class GPT2TestSpec extends AnyFlatSpec {
 
   "gpt2" should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
@@ -22,15 +19,15 @@ class GPT2TestSpec  extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val gpt2 = GPT2Transformer
-        .loadSavedModel("/models/gpt2/gpt2", spark = ResourceHelper.spark)
-        .setInputCols(Array("documents"))
-        .setMaxOutputLength(50)
-        .setDoSample(false)
-        .setTopK(50)
-        .setNoRepeatNgramSize(3)
-        .setOutputCol("generation")
+      .loadSavedModel("/models/gpt2/gpt2", spark = ResourceHelper.spark)
+      .setInputCols(Array("documents"))
+      .setMaxOutputLength(50)
+      .setDoSample(false)
+      .setTopK(50)
+      .setNoRepeatNgramSize(3)
+      .setOutputCol("generation")
 
-//    gpt2.write.overwrite.save("/tmp/gpt2")
+    //    gpt2.write.overwrite.save("/tmp/gpt2")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
 

@@ -21,4 +21,4 @@ class RobertaTokenizer(
                         vocab: Map[String, Int],
                         specialTokens: SpecialTokens,
                         padWithSentenceTokens: Boolean = false
-                      ) extends Gpt2Tokenizer(merges, vocab, specialTokens, padWithSentenceTokens, prependString="Ġ")
+                      ) extends Gpt2Tokenizer(merges, vocab, specialTokens, padWithSentenceTokens, prependString = "Ġ")
