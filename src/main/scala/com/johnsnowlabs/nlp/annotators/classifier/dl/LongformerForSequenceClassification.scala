@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -30,22 +29,22 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output)
- * e.g. for multi-class document classification tasks.
+ * LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top
+ * (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val sequenceClassifier = BertForSequenceClassification.pretrained()
+ * val sequenceClassifier = LongformerForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"bert_base_sequence_classifier_imdb"`, if no name is provided.
+ * The default model is `"longformer_base_sequence_classifier_imdb"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassificationTestSpec.scala BertForSequenceClassificationTestSpec]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassificationTestSpec.scala LongformerForSequenceClassification]].
  *
  * ==Example==
  * {{{
@@ -62,7 +61,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val sequenceClassifier = BertForSequenceClassification.pretrained()
+ * val sequenceClassifier = LongformerForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -85,7 +84,7 @@ import java.io.File
  * +--------------------+
  * }}}
  *
- * @see [[BertForSequenceClassification]] for sequnece-level classification
+ * @see [[LongformerForSequenceClassification]] for sequence-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -102,14 +101,14 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class BertForSequenceClassification(override val uid: String)
-  extends AnnotatorModel[BertForSequenceClassification]
-    with HasBatchedAnnotate[BertForSequenceClassification]
+class LongformerForSequenceClassification(override val uid: String)
+  extends AnnotatorModel[LongformerForSequenceClassification]
+    with HasBatchedAnnotate[LongformerForSequenceClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("BERT_FOR_SEQUENCE_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("LongformerForSequenceClassification"))
 
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
@@ -125,15 +124,18 @@ class BertForSequenceClassification(override val uid: String)
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
 
-  /** @group setParam */
   def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
+    $$(vocabulary)("<s>")
   }
 
-  /** @group setParam */
   def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
+    $$(vocabulary)("</s>")
   }
+
+  def padTokenId: Int = {
+    $$(vocabulary)("<pad>")
+  }
+
 
   /**
    * Vocabulary used to encode the words to ids with WordPieceEncoder
@@ -159,6 +161,16 @@ class BertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getLabels: Map[String, Int] = $$(labels)
 
+  /**
+   * Holding merges.txt coming from Longformer model
+   *
+   * @group param
+   */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
    * into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
@@ -180,7 +192,7 @@ class BertForSequenceClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): LongformerForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -193,7 +205,7 @@ class BertForSequenceClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 4096, "Longformer models do not support sequences longer than 4096 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -219,20 +231,22 @@ class BertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
+  private var _model: Option[Broadcast[TensorflowRoBertaClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForSequenceClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): LongformerForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertClassification(
+          new TensorflowRoBertaClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
+            padTokenId,
             configProtoBytes = getConfigProtoBytes,
             tags = getLabels,
             signatures = getSignatures,
+            $$(merges),
             $$(vocabulary)
           )
         )
@@ -243,7 +257,7 @@ class BertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
+  def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -258,7 +272,7 @@ class BertForSequenceClassification(override val uid: String)
 
   setDefault(
     batchSize -> 8,
-    maxSentenceLength -> 128,
+    maxSentenceLength -> 4096,
     caseSensitive -> true,
     coalesceSentences -> false
   )
@@ -296,38 +310,38 @@ class BertForSequenceClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_classification", BertForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_longformer_classification", LongformerForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertForSequenceModel extends ParamsAndFeaturesReadable[BertForSequenceClassification] with HasPretrained[BertForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
+trait ReadablePretrainedLongformerForSequenceModel extends ParamsAndFeaturesReadable[LongformerForSequenceClassification] with HasPretrained[LongformerForSequenceClassification] {
+  override val defaultModelName: Some[String] = Some("longformer_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForSequenceClassification = super.pretrained()
+  override def pretrained(): LongformerForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForSequenceClassification = super.pretrained(name)
+  override def pretrained(name: String): LongformerForSequenceClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForSequenceClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): LongformerForSequenceClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): LongformerForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[BertForSequenceClassification] =>
+trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[LongformerForSequenceClassification] =>
 
-  override val tfFile: String = "bert_classification_tensorflow"
+  override val tfFile: String = "longformer_classification_tensorflow"
 
-  def readTensorflow(instance: BertForSequenceClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: LongformerForSequenceClassification, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
+    val tf = readTensorflowModel(path, spark, "_longformer_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertForSequenceClassification = {
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): LongformerForSequenceClassification = {
 
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
@@ -339,11 +353,26 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
       s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
 
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(vocabPath.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
+    val vocabFile = new File(tfModelPath + "/assets", "vocab.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(vocabFile.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
 
-    val vocabResource = new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val mergesFile = new File(tfModelPath + "/assets", "merges.txt")
+    require(f.exists, s"Folder $tfModelPath not found")
+    require(f.isDirectory, s"File $tfModelPath is not folder")
+    require(mergesFile.exists(), s"merges file merges.txt not found in folder $tfModelPath")
+
+    val vocabResource = new ExternalResource(vocabFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+
+    val mergesResource = new ExternalResource(mergesFile.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val merges = ResourceHelper.parseLines(mergesResource)
+
+    val bytePairs: Map[(String, String), Int] = merges.map(_.split(" "))
+      .filter(w => w.length == 2)
+      .map { case Array(c1, c2) => (c1, c2) }
+      .zipWithIndex.toMap
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
@@ -359,8 +388,9 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertForSequenceClassification()
+    new LongformerForSequenceClassification()
       .setVocabulary(words)
+      .setMerges(bytePairs)
       .setLabels(labels)
       .setSignatures(_signatures)
       .setModelIfNotSet(spark, wrapper)
@@ -368,6 +398,6 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
 }
 
 /**
- * This is the companion object of [[BertForSequenceClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[LongformerForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object BertForSequenceClassification extends ReadablePretrainedBertForSequenceModel with ReadBertForSequenceTensorflowModel
+object LongformerForSequenceClassification extends ReadablePretrainedLongformerForSequenceModel with ReadLongformerForSequenceTensorflowModel

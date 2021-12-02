@@ -16,12 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
@@ -30,22 +31,22 @@ import org.apache.spark.sql.SparkSession
 import java.io.File
 
 /**
- * BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output)
- * e.g. for multi-class document classification tasks.
+ * XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top
+ * (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
  *
  * Pretrained models can be loaded with `pretrained` of the companion object:
  * {{{
- * val sequenceClassifier = BertForSequenceClassification.pretrained()
+ * val sequenceClassifier = XlnetForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  * }}}
- * The default model is `"bert_base_sequence_classifier_imdb"`, if no name is provided.
+ * The default model is `"xlnet_base_sequence_classifier_imdb"`, if no name is provided.
  *
  * For available pretrained models please see the [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
  *
  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
  * example shows how to import them [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
- * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassificationTestSpec.scala BertForSequenceClassificationTestSpec]].
+ * and the [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassificationTestSpec.scala XlnetForSequenceClassification]].
  *
  * ==Example==
  * {{{
@@ -62,7 +63,7 @@ import java.io.File
  *   .setInputCols("document")
  *   .setOutputCol("token")
  *
- * val sequenceClassifier = BertForSequenceClassification.pretrained()
+ * val sequenceClassifier = XlnetForSequenceClassification.pretrained()
  *   .setInputCols("token", "document")
  *   .setOutputCol("label")
  *   .setCaseSensitive(true)
@@ -85,7 +86,7 @@ import java.io.File
  * +--------------------+
  * }}}
  *
- * @see [[BertForSequenceClassification]] for sequnece-level classification
+ * @see [[XlnetForSequenceClassification]] for sequence-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -102,14 +103,15 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
-class BertForSequenceClassification(override val uid: String)
-  extends AnnotatorModel[BertForSequenceClassification]
-    with HasBatchedAnnotate[BertForSequenceClassification]
+class XlnetForSequenceClassification(override val uid: String)
+  extends AnnotatorModel[XlnetForSequenceClassification]
+    with HasBatchedAnnotate[XlnetForSequenceClassification]
     with WriteTensorflowModel
+    with WriteSentencePieceModel
     with HasCaseSensitiveProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("BERT_FOR_SEQUENCE_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("XlnetForSequenceClassification"))
 
   /**
    * Input Annotator Types: DOCUMENT, TOKEN
@@ -124,16 +126,6 @@ class BertForSequenceClassification(override val uid: String)
    * @group anno
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CATEGORY
-
-  /** @group setParam */
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-
-  /** @group setParam */
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
 
   /**
    * Vocabulary used to encode the words to ids with WordPieceEncoder
@@ -159,6 +151,16 @@ class BertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getLabels: Map[String, Int] = $$(labels)
 
+  /**
+   * Holding merges.txt coming from XLNet model
+   *
+   * @group param
+   */
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+
+  /** @group setParam */
+  def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
+
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
    * into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
@@ -180,7 +182,7 @@ class BertForSequenceClassification(override val uid: String)
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
+  def setConfigProtoBytes(bytes: Array[Int]): XlnetForSequenceClassification.this.type = set(this.configProtoBytes, bytes)
 
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
@@ -193,7 +195,7 @@ class BertForSequenceClassification(override val uid: String)
 
   /** @group setParam */
   def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value <= 512, "XLNet models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -219,21 +221,19 @@ class BertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
+  private var _model: Option[Broadcast[TensorflowXlnetClassification]] = None
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertForSequenceClassification = {
+  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): XlnetForSequenceClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertClassification(
+          new TensorflowXlnetClassification(
             tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
+            spp,
             configProtoBytes = getConfigProtoBytes,
             tags = getLabels,
-            signatures = getSignatures,
-            $$(vocabulary)
+            signatures = getSignatures
           )
         )
       )
@@ -243,7 +243,7 @@ class BertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
+  def getModelIfNotSet: TensorflowXlnetClassification = _model.get.value
 
 
   /** Whether to lowercase tokens or not
@@ -296,54 +296,51 @@ class BertForSequenceClassification(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_bert_classification", BertForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflowWrapper, "_xlnet_classification", XlnetForSequenceClassification.tfFile, configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(path, spark, getModelIfNotSet.spp, "_xlnet", XlnetForSequenceClassification.sppFile)
   }
-
 }
 
-trait ReadablePretrainedBertForSequenceModel extends ParamsAndFeaturesReadable[BertForSequenceClassification] with HasPretrained[BertForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
+trait ReadablePretrainedXlnetForSequenceModel extends ParamsAndFeaturesReadable[XlnetForSequenceClassification] with HasPretrained[XlnetForSequenceClassification] {
+  override val defaultModelName: Some[String] = Some("xlnet_base_sequence_classifier_imdb")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForSequenceClassification = super.pretrained()
+  override def pretrained(): XlnetForSequenceClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForSequenceClassification = super.pretrained(name)
+  override def pretrained(name: String): XlnetForSequenceClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForSequenceClassification = super.pretrained(name, lang)
+  override def pretrained(name: String, lang: String): XlnetForSequenceClassification = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+  override def pretrained(name: String, lang: String, remoteLoc: String): XlnetForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[BertForSequenceClassification] =>
+trait ReadXlnetForSequenceTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[XlnetForSequenceClassification] =>
 
-  override val tfFile: String = "bert_classification_tensorflow"
+  override val tfFile: String = "xlnet_classification_tensorflow"
+  override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(instance: BertForSequenceClassification, path: String, spark: SparkSession): Unit = {
+  def readTensorflow(instance: XlnetForSequenceClassification, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    val tf = readTensorflowModel(path, spark, "_xlnet_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_xlnet_spp", sppFile)
+    instance.setModelIfNotSet(spark, tf, spp)
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(tfModelPath: String, spark: SparkSession): BertForSequenceClassification = {
-
+  def loadSavedModel(tfModelPath: String, spark: SparkSession): XlnetForSequenceClassification = {
     val f = new File(tfModelPath)
     val savedModel = new File(tfModelPath, "saved_model.pb")
-
     require(f.exists, s"Folder $tfModelPath not found")
     require(f.isDirectory, s"File $tfModelPath is not folder")
     require(
       savedModel.exists(),
       s"savedModel file saved_model.pb not found in folder $tfModelPath"
     )
-
-    val vocabPath = new File(tfModelPath + "/assets", "vocab.txt")
-    require(vocabPath.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath/assets/")
-
-    val vocabResource = new ExternalResource(vocabPath.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
+    val sppModelPath = tfModelPath + "/assets"
+    val sppModel = new File(sppModelPath, "spiece.model")
+    require(sppModel.exists(), s"SentencePiece model spiece.model not found in folder $sppModelPath")
 
     val labelsPath = new File(tfModelPath + "/assets", "labels.txt")
     require(labelsPath.exists(), s"Labels file labels.txt not found in folder $tfModelPath/assets/")
@@ -352,6 +349,7 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
     val labels = ResourceHelper.parseLines(labelsResource).zipWithIndex.toMap
 
     val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
+    val spp = SentencePieceWrapper.read(sppModel.toString)
 
     val _signatures = signatures match {
       case Some(s) => s
@@ -359,15 +357,14 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
     }
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
-    new BertForSequenceClassification()
-      .setVocabulary(words)
+    new XlnetForSequenceClassification()
       .setLabels(labels)
       .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper)
+      .setModelIfNotSet(spark, wrapper, spp)
   }
 }
 
 /**
- * This is the companion object of [[BertForSequenceClassification]]. Please refer to that class for the documentation.
+ * This is the companion object of [[XlnetForSequenceClassification]]. Please refer to that class for the documentation.
  */
-object BertForSequenceClassification extends ReadablePretrainedBertForSequenceModel with ReadBertForSequenceTensorflowModel
+object XlnetForSequenceClassification extends ReadablePretrainedXlnetForSequenceModel with ReadXlnetForSequenceTensorflowModel
