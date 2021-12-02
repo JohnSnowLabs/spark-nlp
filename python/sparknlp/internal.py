@@ -457,3 +457,44 @@ class _DistilBertSequenceClassifierLoader(ExtendedJavaWrapper):
         super(_DistilBertSequenceClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _RoBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _XlmRoBertaSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlmRoBertaSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _LongformerSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LongformerSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _AlbertSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AlbertSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _XlnetSequenceClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_XlnetSequenceClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification.loadSavedModel", path,
+            jspark)
+
+
+class _GPT2Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_GPT2Loader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer.loadSavedModel", path, jspark)

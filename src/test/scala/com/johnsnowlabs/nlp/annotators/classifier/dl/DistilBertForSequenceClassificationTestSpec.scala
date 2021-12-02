@@ -121,8 +121,8 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_distilbertforsequence_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = DistilBertForSequenceClassification.load("./tmp_distilbertforsequence_model")
-    loadedDistilBertModel.getLabels
+    val loadedSequenceModel = DistilBertForSequenceClassification.load("./tmp_distilbertforsequence_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

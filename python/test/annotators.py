@@ -1933,6 +1933,8 @@ class AlbertForTokenClassificationTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+        print(token_classifier.getClasses())
+        print(token_classifier.getBatchSize())
 
 
 class XlnetForTokenClassificationTestSpec(unittest.TestCase):
@@ -2055,18 +2057,92 @@ class DistilBertForSequenceClassificationTestSpec(unittest.TestCase):
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        token_classifier = DistilBertForSequenceClassification.pretrained() \
+        doc_classifier = DistilBertForSequenceClassification.pretrained() \
             .setInputCols(["document", "token"]) \
-            .setOutputCol("ner")
+            .setOutputCol("class")
 
         pipeline = Pipeline(stages=[
             document_assembler,
             tokenizer,
-            token_classifier
+            doc_classifier
         ])
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+
+class RoBertaForSequenceClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = RoBertaForSequenceClassification.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class XlmRoBertaForSequenceClassificationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = XlmRoBertaForSequenceClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+
+class GetClassesTestSpec(unittest.TestCase):
+
+    def runTest(self):
+        print(AlbertForTokenClassification.pretrained().getClasses())
+        print(XlnetForTokenClassification.pretrained().getClasses())
+        print(BertForTokenClassification.pretrained().getClasses())
+        print(DistilBertForTokenClassification.pretrained().getClasses())
+        print(RoBertaForTokenClassification.pretrained().getClasses())
+        print(XlmRoBertaForTokenClassification.pretrained().getClasses())
+        print(LongformerForTokenClassification.pretrained().getClasses())
+
+        print(AlbertForSequenceClassification.pretrained().getClasses())
+        print(XlnetForSequenceClassification.pretrained().getClasses())
+        print(BertForSequenceClassification.pretrained().getClasses())
+        print(DistilBertForSequenceClassification.pretrained().getClasses())
+        print(RoBertaForSequenceClassification.pretrained().getClasses())
+        print(XlmRoBertaForSequenceClassification.pretrained().getClasses())
+        print(LongformerForSequenceClassification.pretrained().getClasses())
+
 
 class GPT2TransformerTextGenerationTestSpec(unittest.TestCase):
     def setUp(self):
@@ -2080,7 +2156,7 @@ class GPT2TransformerTextGenerationTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        gpt2 = GPT2Transformer\
+        gpt2 = GPT2Transformer \
             .loadSavedModel("/models/gpt2/gpt2", self.spark) \
             .setTask("is it true that") \
             .setMaxOutputLength(50) \

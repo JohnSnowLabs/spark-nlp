@@ -530,6 +530,11 @@ object PythonResourceDownloader {
     "EntityRulerModel" -> EntityRulerModel,
     "Doc2VecModel" -> Doc2VecModel,
     "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
+    "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
+    "XlmRoBertaForSequenceClassification" -> XlmRoBertaForSequenceClassification,
+    "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
+    "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
+    "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
     "GPT2Transformer" -> GPT2Transformer
   )
 
