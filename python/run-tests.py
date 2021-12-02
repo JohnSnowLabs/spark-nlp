@@ -100,9 +100,10 @@ unittest.TextTestRunner().run(Doc2VecTestSpec())
 # unittest.TextTestRunner().run(XlnetForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(LongformerForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(DistilBertForSequenceClassificationTestSpec())
+# unittest.TextTestRunner().run(RoBertaForSequenceClassificationTestSpec())
+# unittest.TextTestRunner().run(XlmRoBertaForSequenceClassificationTestSpec())
 
 # Misc tests
-
 unittest.TextTestRunner().run(UtilitiesTestSpec())
 unittest.TextTestRunner().run(SerializersTestSpec())
 unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())

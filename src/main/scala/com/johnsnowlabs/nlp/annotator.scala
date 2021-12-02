@@ -392,4 +392,24 @@ package object annotator {
 
   object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
 
+  type RoBertaForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification
+
+  object RoBertaForSequenceClassification extends ReadablePretrainedRoBertaForSequenceModel with ReadRoBertaForSequenceTensorflowModel
+
+  type XlmRoBertaForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification
+
+  object XlmRoBertaForSequenceClassification extends ReadablePretrainedXlmRoBertaForSequenceModel with ReadXlmRoBertaForSequenceTensorflowModel
+
+  type LongformerForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification
+
+  object LongformerForSequenceClassification extends ReadablePretrainedLongformerForSequenceModel with ReadLongformerForSequenceTensorflowModel
+
+  type AlbertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification
+
+  object AlbertForSequenceClassification extends ReadablePretrainedAlbertForSequenceModel with ReadAlbertForSequenceTensorflowModel
+
+  type XlnetForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification
+
+  object XlnetForSequenceClassification extends ReadablePretrainedXlnetForSequenceModel with ReadXlnetForSequenceTensorflowModel
+
 }
