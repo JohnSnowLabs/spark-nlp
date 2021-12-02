@@ -11,6 +11,23 @@ sidebar:
     nav: spark-ocr
 ---
 
+## 3.9.1
+
+Release date: 02-11-2021
+
+#### Overview
+
+Added preserving of original file formatting
+
+#### Enhancements
+
+* Added keepLayout param to the [ImageToText](ocr_pipeline_components#imagetotext)
+
+#### New and updated notebooks
+
+* [Preserve Original Formatting](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3.9.1/jupyter/SparkOcrPreserveOriginalFormatting.ipynb)
+
+
 ## 3.9.0
 
 Release date: 20-10-2021
