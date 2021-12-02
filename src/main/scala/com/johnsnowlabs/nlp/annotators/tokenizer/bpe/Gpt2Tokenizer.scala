@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
-import org.apache.commons.lang.StringUtils
 
 import java.nio.charset.Charset
 import scala.collection.mutable.ListBuffer

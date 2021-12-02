@@ -3,8 +3,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
-//import com.johnsnowlabs.nlp.embeddings.PoolingStrategy.AnnotatorType
-import org.tensorflow.{Session, Tensor}
+import org.tensorflow.Session
 import scala.collection.JavaConverters._
 
 import scala.collection.mutable
@@ -15,13 +14,13 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
                      configProtoBytes: Option[Array[Byte]] = None
                     ) extends Serializable {
 
-    // keys representing the input and output tensors of the GPT2 model
-    private val inputIdsKey = "serving1_serving1_input_ids:0"
-    private val attentionMaskKey = "serving1_serving1_attention_mask:0"
-    private val outputLogitsKey = "StatefulPartitionedCall:0"
+  // keys representing the input and output tensors of the GPT2 model
+  private val inputIdsKey = "serving1_serving1_input_ids:0"
+  private val attentionMaskKey = "serving1_serving1_attention_mask:0"
+  private val outputLogitsKey = "StatefulPartitionedCall:0"
 
-    private val paddingTokenId = 50256
-    private val eosTokenId = 50256
+  private val paddingTokenId = 50256
+  private val eosTokenId = 50256
 
   def generateSeq2Seq(sentences: Seq[Annotation],
                       batchSize: Int,
@@ -71,44 +70,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
         sentBegin += nextSentEnd + 1
         annots
     }
-//      val spIds = process(
-//        batchSP,
-//        minOutputLength,
-//        maxOutputLength,
-//        doSample,
-//        temperature,
-//        topK,
-//        topP,
-//        repetitionPenalty,
-//        noRepeatNgramSize,
-//        randomSeed,
-//        ignoreTokenIds)
-//      decode(spIds)
-//    }
-//
-////      encode(batch).map(_.map(_.toString)).map(
-////        x => new Annotation(
-////          annotatorType = DOCUMENT, 0, 0, result = x.mkString(" "), metadata = Map())
-////      )
-////      val spIds = process(batchSP, minOutputLength, maxOutputLength, doSample, temperature, topK, topP, repetitionPenalty, noRepeatNgramSize, randomSeed)
-////      decode(spIds)
-//
-//    }
-//
-//    var sentBegin, nextSentEnd = 0
-//    batchDecoder.zip(sentences).map {
-//      case (content, sent) =>
-//        nextSentEnd += content.length - 1
-//        val annots = new Annotation(
-//          annotatorType = AnnotatorType.DOCUMENT,
-//          begin = sentBegin,
-//          end = nextSentEnd,
-//          result = content,
-//          metadata = sent.metadata)
-//        sentBegin += nextSentEnd + 1
-//        annots
-//    }
-//    batchDecoder.toSeq
+
   }
 
   def process(
@@ -183,8 +145,8 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
     encoderOuts.foreach(_.close())
 
     val modelOutputs = generateNoBeamSearch(
-          batch, maxOutputLength, minOutputLength, doSample, temperature, topK, topP, repetitionPenalty,
-          noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session, ignoreTokenIds)
+      batch, maxOutputLength, minOutputLength, doSample, temperature, topK, topP, repetitionPenalty,
+      noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session, ignoreTokenIds)
 
     tensorEncoder.clearTensors()
     tensorEncoder.clearSession(encoderOuts)
@@ -209,9 +171,9 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
                           ): Array[Array[Int]] = {
 
     /**
-      * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
-      * independently.
-      * */
+     * Generate sequences for each example without beam search (numBeams == 1). All returned sequence are generated
+     * independently.
+     * */
     var decoderInputs = inputIds.toArray
 
     var curLen = decoderInputs(0).length
@@ -402,16 +364,16 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
 
   private def topKTopPFiltering(logits: Array[Array[Float]], topK: Int, topP: Double, filterValue: Float = Float.NegativeInfinity, minTokensToKeep: Int = 1): Array[Array[Float]] = {
     /**
-      * Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
-      * *
-      * Args:
-      * logits: logits distribution shape (batch size, vocabulary size)
-      * if topK > 0: keep only top k tokens with highest probability (top-k filtering).
-      * if topP < 1.0: keep the top tokens with cumulative probability >= topP (nucleus filtering).
-      * Nucleus filtering is described in Holtzman et al. (http://arxiv.org/abs/1904.09751)
-      * Make sure we keep at least minTokensToKeep per batch example in the output
-      * From: https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
-      * */
+     * Filter a distribution of logits using top-k and/or nucleus (top-p) filtering
+     * *
+     * Args:
+     * logits: logits distribution shape (batch size, vocabulary size)
+     * if topK > 0: keep only top k tokens with highest probability (top-k filtering).
+     * if topP < 1.0: keep the top tokens with cumulative probability >= topP (nucleus filtering).
+     * Nucleus filtering is described in Holtzman et al. (http://arxiv.org/abs/1904.09751)
+     * Make sure we keep at least minTokensToKeep per batch example in the output
+     * From: https://gist.github.com/thomwolf/1a5a29f6962089e871b94cbd09daf317
+     * */
 
     var logitsUpd = logits
     val logitsShape = Array(logits.length, logits(0).length)
