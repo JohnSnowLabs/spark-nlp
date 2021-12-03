@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.util.io
 
+import com.databricks.dbutils_v1.DBUtilsHolder.dbutils
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
@@ -28,7 +29,7 @@ import java.io._
 import java.net.{URL, URLDecoder}
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
-import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 
 /**
@@ -72,19 +73,21 @@ object ResourceHelper {
         return resource
 
       val files = fileSystem.listFiles(path, false)
-      val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
+//      val destination: Path = new Path(Files.createTempDirectory(prefix).toUri)
+      val destination = Files.createTempDirectory(prefix).toUri
 
-      if (fileSystem.getScheme == "hdfs") {
-        while (files.hasNext) {
-          fileSystem.copyToLocalFile(files.next.getPath, dst)
+      fileSystem.getScheme match {
+        case "hdfs" => while (files.hasNext) {
+          fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
         }
-      } else {
-        while (files.hasNext) {
-          fileSystem.copyFromLocalFile(files.next.getPath, dst)
+        case "dbfs" =>
+          dbutils.fs.cp(resource, destination.toString, recurse = true)
+        case _  => while (files.hasNext) {
+          fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
         }
       }
 
-      dst.toString
+      destination.toString
     }
 
     def close(): Unit = {
