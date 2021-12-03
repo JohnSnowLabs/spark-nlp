@@ -58,6 +58,12 @@ sparknlp:
         url: /docs/en/display
       - title:  Developers
         url:  /docs/en/developers
+      - title:  Experiment Tracking
+        url:  /docs/en/mlflow
+      - title:  Productionizing Spark NLP
+        url:  /docs/en/production-readiness
+      - title: GPU vs CPU benchmark on ClassifierDL
+        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
       - title: Release Notes
         url: /docs/en/release_notes
 
@@ -131,9 +137,7 @@ sparknlp-healthcare:
       - title: Release Notes
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
-        url: /docs/en/benchmark
-      - title: GPU vs CPU benchmark on ClassifierDL
-        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
+        url: /docs/en/benchmark      
 
 
 spark-ocr:
