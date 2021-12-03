@@ -305,4 +305,29 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
     assert(results == expectedDates)
   }
+
+  "a DateMatcher" should "correctly not match input formats" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+        "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
+        "The omicron variant was first detected by scientists in South Africa, " +
+        "where it is believed to be the cause of a recent spike in cases in the Gauteng province."))
+
+    val inputFormats = Array("MM/yyyy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq.sortBy(_.end)
+    val expectedDates = Seq.empty
+
+    assert(results == expectedDates)
+  }
 }
