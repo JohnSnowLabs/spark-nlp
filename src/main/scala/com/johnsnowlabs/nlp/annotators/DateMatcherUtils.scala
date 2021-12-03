@@ -348,16 +348,10 @@ trait DateMatcherUtils extends Params {
       }
     }
 
-    val res = MatchedDateTime(
-      calendar.setDate(
-        processYear,
-        processMonth,
-        processDay)
-        .build(),
+    MatchedDateTime(
+      calendar.setDate(processYear, processMonth, processDay).build(),
       formalDate.start,
-      formalDate.end
-    )
-    res
+      formalDate.end)
   }
 
   protected def relativeDateFutureContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
