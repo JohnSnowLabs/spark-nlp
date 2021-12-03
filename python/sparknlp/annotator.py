@@ -1961,9 +1961,14 @@ class LemmatizerModel(AnnotatorModel):
 class DateMatcherUtils(Params):
     """Base class for DateMatcher Annotators
     """
-    dateFormat = Param(Params._dummy(),
-                       "dateFormat",
-                       "desired format for dates extracted",
+    inputFormats = Param(Params._dummy(),
+                     "inputFormats",
+                     "input formats list of patterns to match",
+                     typeConverter=TypeConverters.toListString)
+
+    outputFormat = Param(Params._dummy(),
+                       "outputFormat",
+                       "desired output format for dates extracted",
                        typeConverter=TypeConverters.toString)
 
     readMonthFirst = Param(Params._dummy(),
@@ -2004,8 +2009,18 @@ class DateMatcherUtils(Params):
                            "source language for explicit translation",
                            typeConverter=TypeConverters.toString)
 
-    def setFormat(self, value):
-        """Sets desired format for extracted dates, by default yyyy/MM/dd.
+    def setInputFormats(self, value):
+        """Sets input formats patterns to match in the documents.
+
+        Parameters
+        ----------
+        value : List[str]
+            Input formats regex patterns to match dates in documents
+        """
+        return self._set(inputFormats=value)
+
+    def setOutputFormat(self, value):
+        """Sets desired output format for extracted dates, by default yyyy/MM/dd.
 
         Not all of the date information needs to be included. For example
         ``"YYYY"`` is also a valid input.
@@ -2013,9 +2028,9 @@ class DateMatcherUtils(Params):
         Parameters
         ----------
         value : str
-            Desired format for dates extracted.
+            Desired output format for dates extracted.
         """
-        return self._set(dateFormat=value)
+        return self._set(outputFormat=value)
 
     def setReadMonthFirst(self, value):
         """Sets whether to parse the date in mm/dd/yyyy format instead of
@@ -2156,7 +2171,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     ...     .setAnchorDateYear(2020) \\
     ...     .setAnchorDateMonth(1) \\
     ...     .setAnchorDateDay(11) \\
-    ...     .setDateFormat("yyyy/MM/dd")
+    ...     .setOutputFormat("yyyy/MM/dd")
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
     ...     date
@@ -2183,7 +2198,8 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd",
+            inputFormats=[""],
+            outputFormat="yyyy/MM/dd",
             readMonthFirst=True,
             defaultDayWhenMissing=1,
             anchorDateYear=-1,
@@ -2250,7 +2266,7 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     ...     .setAnchorDateYear(2020) \\
     ...     .setAnchorDateMonth(1) \\
     ...     .setAnchorDateDay(11) \\
-    ...     .setDateFormat("yyyy/MM/dd")
+    ...     .setOutputFormat("yyyy/MM/dd")
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
     ...     date
@@ -2273,7 +2289,8 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     def __init__(self):
         super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd",
+            inputFormats=[""],
+            outputFormat="yyyy/MM/dd",
             readMonthFirst=True,
             defaultDayWhenMissing=1
         )
