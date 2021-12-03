@@ -21,7 +21,7 @@ This model maps medical entities to SNOMED codes using Sentence Bert Embeddings.
 
 ## Predicted Entities
 
-`CPT codes and their descriptions.`
+`SNOMED Codes`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -45,7 +45,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli','en
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_procedures_measurements", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-      .setOutputCol("cpt_code")
+      .setOutputCol("snomed_code")
 
 pipelineModel = PipelineModel(
     stages = [
@@ -67,7 +67,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
 
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_procedures_measurements", "en", "clinical/models) \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
-     .setOutputCol("cpt_code")
+     .setOutputCol("snomed_code")
 
 val pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, resolver))
 
