@@ -1,12 +1,2 @@
-docs/_includes/demomenu.html
-docs/demos/analyze_financial_models.md
-docs/demos/analyze_medical_text_german.md
-docs/demos/analyze_medical_text_spanish.md
-docs/demos/medical_risk_scoring.md
-docs/demos/recognize_clinical_entities.md
-docs/_includes/demomenu.html
-docs/demos/analyze_financial_models.md
-docs/demos/analyze_medical_text_german.md
-docs/demos/analyze_medical_text_spanish.md
-docs/demos/medical_risk_scoring.md
-docs/demos/recognize_clinical_entities.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
