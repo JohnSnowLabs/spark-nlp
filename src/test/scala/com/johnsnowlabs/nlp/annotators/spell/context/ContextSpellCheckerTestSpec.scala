@@ -214,6 +214,32 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   }
 
+  it should "train with a external graph folder" in {
+    val path = "src/test/resources/test.txt"
+    val testDataset = SparkAccessor.spark.sparkContext.textFile(path).toDF("text")
+    //val testDataset = SparkAccessor.spark.sparkContext.parallelize(Seq("Peter lives in New York", "Jon Snow lives in Winterfell")).toDF("text")
+    val assembler = new DocumentAssembler().
+        setInputCol("text").
+        setOutputCol("doc")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = new ContextSpellCheckerApproach()
+      .setInputCols("token")
+      .setOutputCol("context_spell")
+      .setMinCount(1.0)
+      //.setGraphFolder("/home/danilo/JSL/tmp/models/tensorflow/context_spell/")
+
+    val stages = Array(assembler, tokenizer, spellChecker)
+
+    val trainingPipeline = new Pipeline().setStages(stages).fit(testDataset)
+    val resultDataFrame = trainingPipeline.transform(testDataset)
+    resultDataFrame.select("context_spell.result").show(5, false)
+    //resultDataFrame.show(false)
+  }
+
 
   "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",

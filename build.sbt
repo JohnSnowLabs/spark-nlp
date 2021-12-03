@@ -135,7 +135,8 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies ++
-        typedDependencyParserDependencies,
+        typedDependencyParserDependencies ++
+        Seq(dataBricks),
     // TODO potentially improve this?
     mavenProps := {
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""

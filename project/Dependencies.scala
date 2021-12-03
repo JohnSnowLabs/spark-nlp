@@ -91,5 +91,6 @@ object Dependencies {
 
   val tensorflowCPUVersion = "0.3.3"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
+  val dataBricks = "com.databricks" %% "dbutils-api" % "0.0.5"
   /** ------- Dependencies end  ------- */
 }
