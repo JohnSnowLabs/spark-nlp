@@ -2157,7 +2157,7 @@ class GPT2TransformerTextGenerationTestSpec(unittest.TestCase):
             .setOutputCol("documents")
 
         gpt2 = GPT2Transformer \
-            .loadSavedModel("/models/gpt2/gpt2", self.spark) \
+            .pretrained() \
             .setTask("is it true that") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
