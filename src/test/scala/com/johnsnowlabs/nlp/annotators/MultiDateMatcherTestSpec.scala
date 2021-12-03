@@ -154,7 +154,7 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
     assert(dateMatcherRead.getOutputFormat == dateMatcher.getOutputFormat)
   }
 
-  "a DateMatcher" should "correctly search for input formats to output format" taggedAs FastTest in {
+  "a MultiDateMatcher" should "correctly search for input formats to output format" taggedAs FastTest in {
 
     val data: Dataset[Row] = DataBuilder.multipleDataBuild(
       Array("Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
@@ -180,6 +180,93 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
       Annotation(DATE, 83, 92, "2021/12/10", Map("sentence" -> "0")),
       Annotation(DATE, 229, 232, "2022/01/01", Map("sentence" -> "0")),
       Annotation(DATE, 354, 361, "2022/02/01", Map("sentence" -> "0"))
+    )
+
+    assert(results == expectedDates)
+  }
+
+  "a MultiDateMatcher" should "correctly disambiguating non dates with input formats provided" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+        "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
+        "The omicron variant was first detected by scientists in South Africa, " +
+        "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +
+        "More updates will be reported in 2022."))
+
+    val inputFormats = Array("yyyy/dd/MM", "yyyy", "MM/yyyy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq.sortBy(_.end)
+
+    val expectedDates = Seq(
+      Annotation(DATE, 120, 123, "2021/01/01", Map("sentence" -> "0")),
+      Annotation(DATE, 120, 129, "2021/11/26", Map("sentence" -> "0")),
+      Annotation(DATE, 378, 381, "2022/01/01", Map("sentence" -> "0")))
+
+    assert(results == expectedDates)
+  }
+
+  "a MultiDateMatcher" should "correctly matches provided full input format" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+        "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
+        "The omicron variant was first detected by scientists in South Africa, " +
+        "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +
+        "More updates will be reported in 2022."))
+
+    val inputFormats = Array("yyyy/dd/MM")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq.sortBy(_.end)
+
+    val expectedDates = Seq(Annotation(DATE, 120, 129, "2021/11/26", Map("sentence" -> "0")))
+
+    assert(results == expectedDates)
+  }
+
+  "a MultiDateMatcher" should "correctly matches provided year input format" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array("Omicron is a new variant of COVID-19, which the World Health Organization designated a " +
+        "\"variant of concern\" on Nov. 26, 2021/26/11. The name comes from the letter in the Greek alphabet.\n\n" +
+        "The omicron variant was first detected by scientists in South Africa, " +
+        "where it is believed to be the cause of a recent spike in cases in the Gauteng province." +
+        "More updates will be reported in 2022."))
+
+    val inputFormats = Array("yyyy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+
+    val results = Annotation.collect(date, "date").flatten.toSeq.sortBy(_.end)
+
+    val expectedDates = Seq(
+      Annotation(DATE, 120, 123, "2021/01/01", Map("sentence" -> "0")),
+      Annotation(DATE, 378, 381, "2022/01/01", Map("sentence" -> "0"))
     )
 
     assert(results == expectedDates)
