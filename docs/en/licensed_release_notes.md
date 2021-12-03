@@ -36,7 +36,7 @@ We are glad to announce that Spark NLP Healthcare 3.3.4 has been released!
 
 We have three new clinical NER models.
 
-+ `ner_deid_subentity_augmented_i2b2` : This model annotates text to find protected health information(PHI) that may need to be removed. It is trained with an augmented version of 2014 i2b2 Deid dataset and can detect `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE` entities.
++ `ner_deid_subentity_augmented_i2b2` : This model annotates text to find protected health information(PHI) that may need to be removed. It is trained with 2014 i2b2 dataset (no augmentation applied) and can detect `MEDICALRECORD`, `ORGANIZATION`, `DOCTOR`, `USERNAME`, `PROFESSION`, `HEALTHPLAN`, `URL`, `CITY`, `DATE`, `LOCATION-OTHER`, `STATE`, `PATIENT`, `DEVICE`, `COUNTRY`, `ZIP`, `PHONE`, `HOSPITAL`, `EMAIL`, `IDNUM`, `SREET`, `BIOID`, `FAX`, `AGE` entities.
 
 *Example* : 
 
