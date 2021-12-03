@@ -39,7 +39,7 @@ documentAssembler = DocumentAssembler() \\
     .setInputCol("text") \\
     .setOutputCol("documents")
     
-gpt2 = GPT2Transformer.pretrained("gpt2") \\
+gpt2 = GPT2Transformer.pretrained("gpt2_medium") \\
     .setInputCols(["documents"]) \\
     .setMaxOutputLength(50) \\
     .setOutputCol("generation")
@@ -54,7 +54,7 @@ val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("documents")
 
-val gpt2 = GPT2Transformer.pretrained("gpt2")
+val gpt2 = GPT2Transformer.pretrained("gpt2_medium")
     .setInputCols(Array("documents"))
     .setMinOutputLength(10)
     .setMaxOutputLength(50)
