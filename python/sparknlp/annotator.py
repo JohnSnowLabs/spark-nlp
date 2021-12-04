@@ -16668,6 +16668,8 @@ class GPT2Transformer(AnnotatorModel):
                            "A list of token ids which are ignored in the decoder's output",
                            typeConverter=TypeConverters.toListInt)
 
+    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
+
     def setTask(self, value):
         """Sets the transformer's task, e.g. ``summarize:``.
 
@@ -16789,6 +16791,17 @@ class GPT2Transformer(AnnotatorModel):
         """
         return self._set(noRepeatNgramSize=value)
 
+    def setBatchSize(self, v):
+        """Sets batch size, by default 64.
+
+        Parameters
+        ----------
+        v : int
+            Batch size
+        """
+        self._set(batchSize=v)
+        return self
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer", java_model=None):
         super(GPT2Transformer, self).__init__(
@@ -16805,7 +16818,8 @@ class GPT2Transformer(AnnotatorModel):
             topP=1.0,
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
-            ignoreTokenIds=[]
+            ignoreTokenIds=[],
+            batchSize=8
         )
 
     @staticmethod
