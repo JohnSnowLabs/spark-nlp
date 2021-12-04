@@ -121,7 +121,6 @@ import java.io.File
 
 class GPT2Transformer(override val uid: String)
   extends AnnotatorModel[GPT2Transformer]
-    with HasSimpleAnnotate[GPT2Transformer]
     with HasBatchedAnnotate[GPT2Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel {
@@ -389,31 +388,6 @@ class GPT2Transformer(override val uid: String)
     noRepeatNgramSize -> 0,
     ignoreTokenIds -> Array()
   )
-
-  def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val nonEmptySentences = annotations.filter(_.result.nonEmpty)
-
-    if (nonEmptySentences.nonEmpty) {
-      this.getModelIfNotSet.generateSeq2Seq(
-        sentences = nonEmptySentences,
-        batchSize = 1,
-        minOutputLength = $(minOutputLength),
-        maxOutputLength = $(maxOutputLength),
-        doSample = $(doSample),
-        temperature = $(temperature),
-        topK = $(topK),
-        topP = $(topP),
-        repetitionPenalty = $(repetitionPenalty),
-        noRepeatNgramSize = $(noRepeatNgramSize),
-        task = $(task),
-        randomSeed = this.randomSeed,
-        ignoreTokenIds = $(ignoreTokenIds)
-      )
-    } else {
-      Seq.empty[Annotation]
-    }
-  }
-
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
