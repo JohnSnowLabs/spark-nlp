@@ -11332,7 +11332,7 @@ class WordSegmenterModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
 
-class T5Transformer(AnnotatorModel):
+class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
     """T5: the Text-To-Text Transfer Transformer
 
     T5 reconsiders all NLP tasks into a unified text-to-text-format where the
@@ -11633,7 +11633,8 @@ class T5Transformer(AnnotatorModel):
             topP=1.0,
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
-            ignoreTokenIds=[]
+            ignoreTokenIds=[],
+            batchSize=1
         )
 
     @staticmethod
@@ -16519,7 +16520,7 @@ class XlnetForSequenceClassification(AnnotatorModel,
         return ResourceDownloader.downloadModel(XlnetForSequenceClassification, name, lang, remote_loc)
 
 
-class GPT2Transformer(AnnotatorModel):
+class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
     """GPT2: the OpenAI Text-To-Text Transformer
 
     GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million
@@ -16668,8 +16669,6 @@ class GPT2Transformer(AnnotatorModel):
                            "A list of token ids which are ignored in the decoder's output",
                            typeConverter=TypeConverters.toListInt)
 
-    batchSize = Param(Params._dummy(), "batchSize", "Batch size", TypeConverters.toInt)
-
     def setTask(self, value):
         """Sets the transformer's task, e.g. ``summarize:``.
 
@@ -16791,17 +16790,6 @@ class GPT2Transformer(AnnotatorModel):
         """
         return self._set(noRepeatNgramSize=value)
 
-    def setBatchSize(self, v):
-        """Sets batch size, by default 64.
-
-        Parameters
-        ----------
-        v : int
-            Batch size
-        """
-        self._set(batchSize=v)
-        return self
-
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer", java_model=None):
         super(GPT2Transformer, self).__init__(
@@ -16819,7 +16807,7 @@ class GPT2Transformer(AnnotatorModel):
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
-            batchSize=8
+            batchSize=1
         )
 
     @staticmethod
