@@ -19,15 +19,13 @@ class GPT2TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val gpt2 = GPT2Transformer
-      .loadSavedModel("/models/gpt2/gpt2", spark = ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setMaxOutputLength(50)
       .setDoSample(false)
       .setTopK(50)
       .setNoRepeatNgramSize(3)
       .setOutputCol("generation")
-
-    //    gpt2.write.overwrite.save("/tmp/gpt2")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
 
@@ -47,7 +45,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val gpt2 = GPT2Transformer
-      .load("/tmp/gpt2")
+      .pretrained()
       .setTask("Is it true that")
       .setInputCols(Array("documents"))
       .setDoSample(true)
@@ -78,7 +76,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val gpt2 = GPT2Transformer
-      .load("/tmp/gpt2")
+      .pretrained()
       .setInputCols(Array("documents"))
       .setDoSample(true)
       .setMaxOutputLength(50)

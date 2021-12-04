@@ -284,7 +284,7 @@ class MarianTransformer(override val uid: String) extends
   setDefault(
     maxInputLength -> 40,
     maxOutputLength -> 40,
-    batchSize -> 1,
+    batchSize -> 8,
     langId -> "",
     ignoreTokenIds -> Array()
   )

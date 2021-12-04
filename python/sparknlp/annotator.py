@@ -11332,7 +11332,7 @@ class WordSegmenterModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
 
-class T5Transformer(AnnotatorModel):
+class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
     """T5: the Text-To-Text Transfer Transformer
 
     T5 reconsiders all NLP tasks into a unified text-to-text-format where the
@@ -11633,7 +11633,8 @@ class T5Transformer(AnnotatorModel):
             topP=1.0,
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
-            ignoreTokenIds=[]
+            ignoreTokenIds=[],
+            batchSize=8
         )
 
     @staticmethod
@@ -11862,7 +11863,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=1,
+            batchSize=8,
             maxInputLength=40,
             maxOutputLength=40,
             langId="",
@@ -16519,7 +16520,7 @@ class XlnetForSequenceClassification(AnnotatorModel,
         return ResourceDownloader.downloadModel(XlnetForSequenceClassification, name, lang, remote_loc)
 
 
-class GPT2Transformer(AnnotatorModel):
+class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
     """GPT2: the OpenAI Text-To-Text Transformer
 
     GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million
@@ -16805,7 +16806,8 @@ class GPT2Transformer(AnnotatorModel):
             topP=1.0,
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
-            ignoreTokenIds=[]
+            ignoreTokenIds=[],
+            batchSize=8
         )
 
     @staticmethod
