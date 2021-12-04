@@ -23,7 +23,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Predicted Entities
 
-Person-`PER`, Location-`LOC`, Organization-`ORG`
+`PER`, `LOC`, `ORG`
 
 
 {:.btn-box}
