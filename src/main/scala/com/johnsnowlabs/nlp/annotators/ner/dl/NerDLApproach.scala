@@ -190,6 +190,14 @@ class NerDLApproach(override val uid: String)
    * */
   val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
+  /** Whether to use contrib LSTM Cells (Default: `true`). Not compatible with Windows. Might slightly improve accuracy.
+   * This param is deprecated and only exists for backward compatibility
+   *
+   * @group param
+   * */
+  val useContrib = new BooleanParam(this, "useContrib", "deprecated param - the value won't have any effect")
+
+
   /** Choose the proportion of training dataset to be validated against the model on each Epoch (Default: `0.0f`).
    * The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
    *
@@ -277,6 +285,12 @@ class NerDLApproach(override val uid: String)
    * */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
+  /** Whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
+   *
+   * @group getParam
+   * */
+  def getUseContrib: Boolean = $(this.useContrib)
+
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
    *
    * @group getParam
@@ -349,6 +363,12 @@ class NerDLApproach(override val uid: String)
    * */
   def setConfigProtoBytes(bytes: Array[Int]): NerDLApproach.this.type = set(this.configProtoBytes, bytes)
 
+  /** Whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
+   *
+   * @group setParam
+   * */
+  def setUseContrib(value: Boolean): NerDLApproach.this.type = if (value && SystemUtils.IS_OS_WINDOWS) throw new UnsupportedOperationException("Cannot set contrib in Windows") else set(useContrib, value)
+
   /** Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
    *
    * @group setParam
@@ -420,6 +440,7 @@ class NerDLApproach(override val uid: String)
     batchSize -> 8,
     dropout -> 0.5f,
     verbose -> Verbose.Silent.id,
+    useContrib -> true,
     validationSplit -> 0.0f,
     evaluationLogExtended -> false,
     includeConfidence -> false,
