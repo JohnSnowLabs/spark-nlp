@@ -1962,14 +1962,14 @@ class DateMatcherUtils(Params):
     """Base class for DateMatcher Annotators
     """
     inputFormats = Param(Params._dummy(),
-                     "inputFormats",
-                     "input formats list of patterns to match",
-                     typeConverter=TypeConverters.toListString)
+                         "inputFormats",
+                         "input formats list of patterns to match",
+                         typeConverter=TypeConverters.toListString)
 
     outputFormat = Param(Params._dummy(),
-                       "outputFormat",
-                       "desired output format for dates extracted",
-                       typeConverter=TypeConverters.toString)
+                         "outputFormat",
+                         "desired output format for dates extracted",
+                         typeConverter=TypeConverters.toString)
 
     readMonthFirst = Param(Params._dummy(),
                            "readMonthFirst",
@@ -4783,7 +4783,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     enableMemoryOptimizer
         Whether to optimize for large datasets or not. Enabling this option can
         slow down training, by default False
-
+    useBestModel
+        Whether to restore and use the model that has achieved the best performance
+        at the end of the training.
     Examples
     --------
     >>> import sparknlp
@@ -4885,6 +4887,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     enableMemoryOptimizer = Param(Params._dummy(), "enableMemoryOptimizer",
                                   "Whether to optimize for large datasets or not. Enabling this option can slow down training.",
                                   TypeConverters.toBoolean)
+
+    useBestModel = Param(Params._dummy(), "useBestModel",
+                         "Whether to restore and use the model that has achieved the best performance at the end of the training.",
+                         TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -5069,6 +5075,17 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         """
         return self._set(outputLogsPath=p)
 
+    def setUseBestModel(self, value):
+        """Whether to restore and use the model that has achieved the best performance at the end of the training.
+        The metric that is being monitored is F1 for testDataset and if it's not set it will be validationSplit, and if it's not set finally looks for loss.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to restore and use the model that has achieved the best performance at the end of the training.
+        """
+        return self._set(useBestModel=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -5087,7 +5104,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             includeConfidence=False,
             includeAllConfidenceScores=False,
             enableOutputLogs=False,
-            enableMemoryOptimizer=False
+            enableMemoryOptimizer=False,
+            useBestModel=False
         )
 
 
