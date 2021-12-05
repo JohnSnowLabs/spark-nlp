@@ -92,7 +92,6 @@ class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrappe
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
@@ -109,6 +108,52 @@ class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrappe
     val dim = rawScores.length / (batchLength * maxSentenceLength)
     val batchScores: Array[Array[Array[Float]]] = rawScores.grouped(dim).map(scores =>
       calculateSoftmax(scores)).toArray.grouped(maxSentenceLength).toArray
+
+    batchScores
+  }
+
+  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
+      }
+
+    val session = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
+    val runner = session.runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+
+    runner
+      .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
+      .feed(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"), maskTensors)
+      .fetch(_tfDistilBertSignatures.getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
+
+    val outs = runner.run().asScala
+    val rawScores = TensorResources.extractFloats(outs.head)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val dim = rawScores.length / batchLength
+    val batchScores: Array[Array[Float]] = rawScores.grouped(dim).map(scores =>
+      calculateSoftmax(scores)).toArray
 
     batchScores
   }

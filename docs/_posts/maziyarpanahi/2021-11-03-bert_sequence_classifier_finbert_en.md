@@ -53,24 +53,24 @@ sequenceClassifier = BertForSequenceClassification \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['Stocks rallied and the British pound gained.']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_finbert", "en")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_finbert", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -78,7 +78,7 @@ val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_fi
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["Stocks rallied and the British pound gained."].toDS.toDF("text")
+val example = Seq("Stocks rallied and the British pound gained.").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

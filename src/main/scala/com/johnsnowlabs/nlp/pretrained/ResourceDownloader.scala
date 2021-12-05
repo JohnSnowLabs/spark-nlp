@@ -29,7 +29,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-import com.johnsnowlabs.nlp.annotators.seq2seq.{MarianTransformer, T5Transformer}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{GPT2Transformer, MarianTransformer, T5Transformer}
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
@@ -527,7 +527,16 @@ object PythonResourceDownloader {
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
     "LongformerForTokenClassification" -> LongformerForTokenClassification,
     "BertForSequenceClassification" -> BertForSequenceClassification,
-    "EntityRulerModel" -> EntityRulerModel
+    "EntityRulerModel" -> EntityRulerModel,
+    "Doc2VecModel" -> Doc2VecModel,
+    "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
+    "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
+    "XlmRoBertaForSequenceClassification" -> XlmRoBertaForSequenceClassification,
+    "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
+    "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
+    "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
+    "GPT2Transformer" -> GPT2Transformer,
+    "Word2VecModel" -> Word2VecModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

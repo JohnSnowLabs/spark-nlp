@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 BERT Model with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
-`bert_multilingual_sequence_classifier_allocine ` is a fine-tuned BERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance. 
+`bert_multilingual_sequence_classifier_allocine ` is a fine-tuned BERT model that is ready to be used for Sequence Classification tasks such as sentiment analysis or multi-class text classification and it achieves state-of-the-art performance.
 
 We used TFBertForSequenceClassification to train this model and used BertForSequenceClassification annotator in Spark NLP 🚀 for prediction at scale!
 
@@ -55,24 +55,24 @@ sequenceClassifier = BertForSequenceClassification \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['j'ai bien aime le film harry potter!']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_multilingual_sequence_classifier_allocine", "fr")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_multilingual_sequence_classifier_allocine", "fr")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -80,7 +80,7 @@ val tokenClassifier = BertForSequenceClassification("bert_multilingual_sequence_
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["j'ai bien aime le film harry potter!"].toDS.toDF("text")
+val example = Seq("j'ai bien aime le film harry potter!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

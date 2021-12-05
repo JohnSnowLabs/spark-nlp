@@ -10,7 +10,7 @@ date: 2020-09-06
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.5
 tags: [clinical,licensed,entity_resolution,de]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-## Predicted Entities 
+## Predicted Entities
 Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
@@ -29,7 +29,7 @@ Codes and their normalized definition with `clinical_embeddings`.
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_ICD10GM_de_2.5.5_2.4_1599431635423.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -41,7 +41,7 @@ icd10_resolution = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM",'d
   .setOutputCol("icd10_de_code")\
   .setDistanceFunction("EUCLIDEAN") \
   .setNeighbours(5)
-    
+
 pipeline_icd10 = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, de_embeddings, de_ner, ner_converter, chunk_embeddings, icd10_resolution])
 
 empty_data = spark.createDataFrame([['''Das Kleinzellige Bronchialkarzinom (Kleinzelliger Lungenkrebs, SCLC) ist Hernia femoralis, Akne, einseitig, ein hochmalignes bronchogenes Karzinom, das überwiegend im Zentrum der Lunge, in einem Hauptbronchus entsteht. Die mittlere Prävalenz wird auf 1/20.000 geschätzt. Vom SCLC sind hauptsächlich Peronen mittleren Alters (27-66 Jahre) mit Raucheranamnese betroffen. Etwa 70% der Patienten mit SCLC haben bei Stellung der Diagnose schon extra-thorakale Symptome. Zu den Symptomen gehören Thoraxschmerz, Dyspnoe, Husten und pfeifende Atmung. Die Beteiligung benachbarter Bereiche verursacht Heiserkeit, Dysphagie und Oberes Vena-cava-Syndrom (Obstruktion des Blutflusses durch die Vena cava superior). Zusätzliche Symptome als Folge einer Fernmetastasierung sind ebenfalls möglich. Rauchen und Strahlenexposition sind synergistisch wirkende Risikofaktoren. Die industrielle Exposition mit Bis (Chlormethyläther) ist ein weiterer Risikofaktor. Röntgenaufnahmen des Thorax sind nicht ausreichend empfindlich, um einen SCLC frühzeitig zu erkennen. Röntgenologischen Auffälligkeiten muß weiter nachgegangen werden, meist mit Computertomographie. Die Diagnose wird bioptisch gesichert. Patienten mit SCLC erhalten meist Bestrahlung und/oder Chemotherapie. In Hinblick auf eine Verbesserung der Überlebenschancen der Patienten ist sowohl bei ausgedehnten und bei begrenzten SCLC eine kombinierte Chemotherapie wirksamer als die Behandlung mit Einzelsubstanzen. Es kann auch eine prophylaktische Bestrahlung des Schädels erwogen werden, da innerhalb von 2-3 Jahren nach Behandlungsbeginn ein hohes Risiko für zentralnervöse Metastasen besteht. Das Kleinzellige Bronchialkarzinom ist der aggressivste Lungentumor: Die 5-Jahres-Überlebensrate beträgt 1-5%, der Median des gesamten Überlebens liegt bei etwa 6 bis 10 Monaten.''']]).toDF("text")
@@ -56,7 +56,7 @@ results = model.transform(data)
 ...
 
 val icd10_resolution = ChunkEntityResolverModel.pretrained("chunkresolve_ICD10GM",'de','clinical/models')
-  .setInputCols("token", "chunk_embeddings") 
+  .setInputCols("token", "chunk_embeddings")
   .setOutputCol("icd10_de_code")
   .setDistanceFunction("EUCLIDEAN")
   .setNeighbours(5)

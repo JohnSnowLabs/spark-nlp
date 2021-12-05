@@ -19,8 +19,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
-
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
@@ -131,7 +130,7 @@ import java.io.File
  */
 class T5Transformer(override val uid: String)
   extends AnnotatorModel[T5Transformer]
-    with HasSimpleAnnotate[T5Transformer]
+    with HasBatchedAnnotate[T5Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteSentencePieceModel {
@@ -313,6 +312,21 @@ class T5Transformer(override val uid: String)
   def getRandomSeed: Option[Long] = this.randomSeed
 
   /**
+    * A list of token ids which are ignored in the decoder's output
+    *
+    * @group param
+    * */
+  var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
+
+  /** @group setParam */
+  def setIgnoreTokenIds(tokenIds:  Array[Int]): T5Transformer.this.type = {
+    set(ignoreTokenIds, tokenIds)
+  }
+
+  /** @group getParam */
+  def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
+
+  /**
    * ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
    *
    * @group param
@@ -351,31 +365,39 @@ class T5Transformer(override val uid: String)
     topK -> 50,
     topP -> 1.0,
     repetitionPenalty -> 1.0,
-    noRepeatNgramSize -> 0
+    noRepeatNgramSize -> 0,
+    ignoreTokenIds -> Array(),
+    batchSize -> 8
   )
 
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
-    val nonEmptySentences = annotations.filter(_.result.nonEmpty)
-
-    if (nonEmptySentences.nonEmpty) {
-      this.getModelIfNotSet.generateSeq2Seq(
-        sentences = nonEmptySentences,
-        batchSize = 1,
-        minOutputLength = $(minOutputLength),
-        maxOutputLength = $(maxOutputLength),
-        doSample = $(doSample),
-        temperature = $(temperature),
-        topK = $(topK),
-        topP = $(topP),
-        repetitionPenalty = $(repetitionPenalty),
-        noRepeatNgramSize = $(noRepeatNgramSize),
-        task = $(task),
-        randomSeed = this.randomSeed
-      )
+    if (nonEmptyBatch.nonEmpty) {
+      nonEmptyBatch.map(batch => {
+        val nonEmptyAnnotations = batch.filter(_.result.nonEmpty)
+        if (nonEmptyAnnotations.nonEmpty) {
+          this.getModelIfNotSet.generateSeq2Seq(
+            sentences = nonEmptyAnnotations,
+            batchSize = 1,
+            minOutputLength = $(minOutputLength),
+            maxOutputLength = $(maxOutputLength),
+            doSample = $(doSample),
+            temperature = $(temperature),
+            topK = $(topK),
+            topP = $(topP),
+            repetitionPenalty = $(repetitionPenalty),
+            noRepeatNgramSize = $(noRepeatNgramSize),
+            task = $(task),
+            randomSeed = this.randomSeed,
+            $(ignoreTokenIds)
+          )
+        } else {
+          Seq()
+        }
+      })
     } else {
-      Seq.empty[Annotation]
+      Seq()
     }
   }
 

@@ -39,12 +39,12 @@ It is based on Facebook's RoBERTa model released in 2019. It is a large multi-li
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base", "en") \
+embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base", "xx") \
       .setInputCols("sentence") \
       .setOutputCol("embeddings")
 ```
 ```scala
-val embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base", "en")
+val embeddings = XlmRoBertaSentenceEmbeddings.pretrained("sent_xlm_roberta_base", "xx")
       .setInputCols("sentence")
       .setOutputCol("embeddings")
 ```

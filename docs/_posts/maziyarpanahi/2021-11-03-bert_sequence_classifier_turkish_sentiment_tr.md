@@ -37,9 +37,9 @@ and majority class of reviews are 5. Each category has 700 positive and 700 nega
 reviews in which average rating of negative reviews is 2.27 and of positive reviews
 is 4.5. This dataset is also used by the study [[1]](#paper-1).
 
-* The study [[3]](#paper-3) collected tweet dataset. They proposed a new approach for automatically classifying the sentiment of microblog messages. The proposed approach is based on utilizing robust feature representation and fusion. 
+* The study [[3]](#paper-3) collected tweet dataset. They proposed a new approach for automatically classifying the sentiment of microblog messages. The proposed approach is based on utilizing robust feature representation and fusion.
 
-*Merged Dataset* 
+*Merged Dataset*
 
 | *size*   | *data* |
 |--------|----|
@@ -50,7 +50,7 @@ is 4.5. This dataset is also used by the study [[1]](#paper-1).
 
 ### The dataset is used by following papers
 
-<a id="paper-1">[1]</a> Yildirim, SavasÌ§. (2020). Comparing Deep Neural Networks to Traditional Models for Sentiment Analysis in Turkish Language. 10.1007/978-981-15-1216-2_12. 
+<a id="paper-1">[1]</a> Yildirim, SavasÌ§. (2020). Comparing Deep Neural Networks to Traditional Models for Sentiment Analysis in Turkish Language. 10.1007/978-981-15-1216-2_12.
 
 <a id="paper-2">[2]</a> Demirtas, Erkin and Mykola Pechenizkiy. 2013. Cross-lingual polarity detection with machine translation. In Proceedings of the Second International Workshop on Issues of Sentiment
 Discovery and Opinion Mining (WISDOM â€™13)
@@ -89,24 +89,24 @@ sequenceClassifier = BertForSequenceClassification \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
-    document_assembler, 
+    document_assembler,
     tokenizer,
-    sequenceClassifier    
+    sequenceClassifier
 ])
 
 example = spark.createDataFrame([['bu telefon modelleri çok kaliteli , her parçası çok özel bence']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
-val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_turkish_sentiment", "tr")
+val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_turkish_sentiment", "tr")
       .setInputCols("document", "token")
       .setOutputCol("class")
       .setCaseSensitive(true)
@@ -114,7 +114,7 @@ val tokenClassifier = BertForSequenceClassification("bert_sequence_classifier_tu
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["bu telefon modelleri çok kaliteli , her parçası çok özel bence"].toDS.toDF("text")
+val example = Seq("bu telefon modelleri çok kaliteli , her parçası çok özel bence").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```

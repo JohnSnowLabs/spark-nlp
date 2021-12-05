@@ -10,7 +10,7 @@ date: 2020-07-27
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.1
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-## Predicted Entities 
+## Predicted Entities
 RxNorm Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
@@ -29,7 +29,7 @@ RxNorm Codes and their normalized definition with `clinical_embeddings`.
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_rxnorm_scd_clinical_en_2.5.1_2.4_1595813884363.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -43,7 +43,7 @@ rxnormResolver = ChunkEntityResolverModel()\
     .setNeighbours(200).setAlternatives(5).setDistanceWeights([3,3,2,0,0,7])\
     .setInputCols(['token', 'chunk_embs_drug'])\
     .setOutputCol('rxnorm_resolution')\
-    
+
 pipeline_rxnorm = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, jslNer, drugNer, jslConverter, drugConverter, jslChunkEmbeddings, drugChunkEmbeddings, rxnormResolver])
 
 model = pipeline_rxnorm.fit(spark.createDataFrame([['']]).toDF("text"))
