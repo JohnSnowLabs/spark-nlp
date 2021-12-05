@@ -17,12 +17,16 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, Params}
+import org.apache.spark.ml.param._
 
 import java.util.Calendar
 import scala.util.matching.Regex
+import scala.util.{Failure, Success, Try}
 
 trait DateMatcherUtils extends Params {
+
+  protected val EMPTY_INIT_ARRAY = Array("")
+  protected val SPACE_CHAR = " "
 
   /**
    * Container of a parsed date with identified bounds
@@ -68,18 +72,30 @@ trait DateMatcherUtils extends Params {
   protected val defaultMonthWhenMissing = 0
   protected val defaultYearWhenMissing: Int = Calendar.getInstance.get(Calendar.YEAR)
 
+  /** Date Matcher regex patterns.
+   *
+   * @group param
+   **/
+  val inputFormats: StringArrayParam = new StringArrayParam(this, "inputFormats", "Date Matcher inputFormats.")
+
+  /** @group getParam */
+  def getInputFormats: Array[String] = $(inputFormats)
+
+  /** @group setParam */
+  def setInputFormats(value: Array[String]): this.type = set(inputFormats, value)
+
   /**
    * Output format of parsed date (Default: `"yyyy/MM/dd"`)
    *
    * @group param
    * */
-  val dateFormat: Param[String] = new Param(this, "dateFormat", "Output format of parsed date")
+  val outputFormat: Param[String] = new Param(this, "outputFormat", "Output format of parsed date")
 
   /** @group getParam */
-  def getFormat: String = $(dateFormat)
+  def getOutputFormat: String = $(outputFormat)
 
   /** @group setParam */
-  def setFormat(value: String): this.type = set(dateFormat, value)
+  def setOutputFormat(value: String): this.type = set(outputFormat, value)
 
   /**
    * Add an anchor year for the relative dates such as a day after tomorrow (Default: `-1`).
@@ -190,13 +206,37 @@ trait DateMatcherUtils extends Params {
   def setSourceLanguage(value: String): this.type = set(sourceLanguage, value)
 
   setDefault(
-    dateFormat -> "yyyy/MM/dd",
+    inputFormats -> Array(""),
+    outputFormat -> "yyyy/MM/dd",
     anchorDateYear -> -1,
     anchorDateMonth -> -1,
     anchorDateDay -> -1,
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1,
     sourceLanguage -> "en"
+  )
+
+  protected val formalFactoryInputFormats = new RuleFactory(MatchStrategy.MATCH_ALL)
+
+  protected val formalInputFormats: Map[String, Regex] = Map(
+    "yyyy/dd/MM" -> new Regex("\\b(\\d{2,4})[-/]([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "year", "day", "month"),
+    "dd/MM/yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year"),
+    "yyyy/MM/dd" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
+    "yyyy/MM" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])\\b", "year", "month"),
+    "dd/MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "MM/dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
+    "MM/yyyy" -> new Regex("\\s+\\b(0?[1-9]|1[012])[-/](\\d{2,4})\\b", "month", "year"),
+
+    "yyyy-dd-MM" -> new Regex("\\b(\\d{2,4})[-/]([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "year", "day", "month"),
+    "dd-MM-yyyy" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])[-/](\\d{2,4})\\b", "day", "month", "year"),
+    "yyyy-MM-dd" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "year", "month", "day"),
+    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "yyyy-MM" -> new Regex("\\b(\\d{2,4})[-/](0?[1-9]|1[012])\\b", "year", "month"),
+    "dd-MM" -> new Regex("\\b([0-2]?[1-9]|[1-3][0-1])[-/](0?[1-9]|1[012])\\b", "day", "month"),
+    "MM-dd" -> new Regex("\\b(0?[1-9]|1[012])[-/]([0-2]?[1-9]|[1-3][0-1])\\b", "month", "day"),
+    "MM-yyyy" -> new Regex("\\b(0?[1-9]|1[012])[-/](\\d{2,4})\\b", "month", "year"),
+
+    "yyyy" -> new Regex("\\b(\\d{4})\\b", "year")
   )
 
   /**
@@ -278,22 +318,40 @@ trait DateMatcherUtils extends Params {
   protected def formalDateContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
     val formalDate = date.content
     val calendar = new Calendar.Builder()
-    MatchedDateTime(
-      calendar.setDate(
-        if (formalDate.group("year").toInt > 999)
-          formalDate.group("year").toInt
 
-        /** If year found is greater than <10> years from now, assume text is talking about 20th century */
-        else if (formalDate.group("year").toInt > Calendar.getInstance.get(Calendar.YEAR).toString.takeRight(2).toInt + 10)
-          formalDate.group("year").toInt + 1900
-        else
-          formalDate.group("year").toInt + 2000,
-        formalDate.group("month").toInt - 1,
-        if (formalDate.groupCount == 3) formalDate.group("day").toInt else $(defaultDayWhenMissing)
-      ).build(),
+    def processYear = {
+      Try(formalDate.group("year")) match {
+        case Success(_) =>
+          if (formalDate.group("year").toInt > 999)
+            formalDate.group("year").toInt
+
+          /** If year found is greater than <10> years from now, assume text is talking about 20th century */
+          else if (formalDate.group("year").toInt > Calendar.getInstance.get(Calendar.YEAR).toString.takeRight(2).toInt + 10)
+            formalDate.group("year").toInt + 1900
+          else
+            formalDate.group("year").toInt + 2000
+        case Failure(_) => Calendar.getInstance().get(Calendar.YEAR)
+      }
+    }
+
+    def processMonth = {
+      Try(formalDate.group("month")) match {
+        case Success(_) => formalDate.group("month").toInt - 1
+        case Failure(_) => 0
+      }
+    }
+
+    def processDay = {
+      Try(formalDate.group("day")) match {
+        case Success(_) => if (formalDate.groupCount == 3) formalDate.group("day").toInt else $(defaultDayWhenMissing)
+        case Failure(_) => 1
+      }
+    }
+
+    MatchedDateTime(
+      calendar.setDate(processYear, processMonth, processDay).build(),
       formalDate.start,
-      formalDate.end
-    )
+      formalDate.end)
   }
 
   protected def relativeDateFutureContentParse(date: RuleFactory.RuleMatch): MatchedDateTime = {
