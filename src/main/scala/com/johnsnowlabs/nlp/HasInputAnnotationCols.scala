@@ -34,7 +34,7 @@ trait HasInputAnnotationCols extends Params {
     new StringArrayParam(this, "inputCols", "the input annotation columns")
 
   /** Overrides required annotators column if different than default */
-  final def setInputCols(value: Array[String]): this.type = {
+  def setInputCols(value: Array[String]): this.type = {
     require(
       value.length == inputAnnotatorTypes.length,
       s"setInputCols in ${this.uid} expecting ${inputAnnotatorTypes.length} columns. " +

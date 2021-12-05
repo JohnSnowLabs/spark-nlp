@@ -1,4 +1,34 @@
 ========
+3.3.4
+========
+----------------
+Patch release
+----------------
+* Fix "ClassCastException" error in pretrained function for DistilBertForSequenceClassification in Python
+
+========
+3.3.3
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **DistilBertForSequenceClassification** annotator in Spark NLP 🚀. `DistilBertForSequenceClassification` DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `DistilBertForSequenceClassification` or `TFDistilBertForSequenceClassification` in HuggingFace 🤗
+* **NEW:** Introducing trainable and distributed **Doc2Vec** annotators based on Word2Vec in Spark ML
+* Improving BertEmbeddings for single document/sentence DataFrame per row on a single machine with a GPU device
+* Improving BertSentenceEmbeddings for single document/sentence DataFrame per row on a single machine with a GPU device
+* Add a new feature to the CoNLL() class, allowing it to read multiple CoNLL files at the same time into a single DataFrame
+* Add support for Long type in label column for ClassifierDLApproach and SentimentDLApproach
+
+----------------
+Bug Fixes
+----------------
+* Improve models and pipelines resolutions in Spark NLP when wrong models/pipelines are downloaded regardless of their Apache Spark version
+* Fix MarianTransformer bug on empty sequences
+* Fix TFInvalidArgumentException in MarianTransformer for sequences longer than 512
+* Fix MarianTransformer multi-lingual models and pipelines such as `opus_mt_mul_en` and `opus_mt_mul_en`
+
+
+========
 3.3.2
 ========
 ----------------

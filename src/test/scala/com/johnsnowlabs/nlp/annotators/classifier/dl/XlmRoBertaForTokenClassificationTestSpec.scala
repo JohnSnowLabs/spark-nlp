@@ -117,8 +117,8 @@ class XlmRoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_xlmrobertafortoken_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = XlmRoBertaForTokenClassification.load("./tmp_xlmrobertafortoken_model")
-    loadedDistilBertModel.getLabels
+    val loadedSequenceModel = XlmRoBertaForTokenClassification.load("./tmp_xlmrobertafortoken_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

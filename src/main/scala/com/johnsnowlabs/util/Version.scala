@@ -18,13 +18,25 @@ package com.johnsnowlabs.util
 
 
 case class Version(parts: List[Int]) {
-  override def toString(): String = {
+
+  override def toString: String = {
     parts.mkString(".")
   }
 
   def take(n: Int): Version = {
     Version(parts.take(n))
   }
+
+  def toFloat: Float = {
+    val versionString = parts.length match {
+      case 1 => parts.head.toString
+      case 2 => f"${parts.head.toString}.${parts(1).toString}"
+      case 3 => f"${parts.head.toString}.${parts(1).toString}${parts(2).toString}"
+      case _ => throw new UnsupportedOperationException(f"Cannot cast to float version ${this.toString()}")
+    }
+    versionString.toFloat
+  }
+
 }
 
 object Version {
