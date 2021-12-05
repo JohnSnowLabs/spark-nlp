@@ -137,9 +137,19 @@ trait NerApproach[T <: NerApproach[_]] extends Params {
 object Verbose extends Enumeration {
   type Level = Value
 
-  val All = Value(0)
-  val PerStep = Value(1)
-  val Epochs = Value(2)
-  val TrainingStat = Value(3)
-  val Silent = Value(4)
+  val All: Verbose.Value = Value(0)
+  val PerStep: Verbose.Value = Value(1)
+  val Epochs: Verbose.Value = Value(2)
+  val TrainingStat: Verbose.Value = Value(3)
+  val Silent: Verbose.Value = Value(4)
+}
+
+object ModelMetrics {
+
+  val testMicroF1 = "test_micro_f1"
+  val testMacroF1 = "test_macro_f1"
+  val valMicroF1 = "val_micro_f1"
+  val valMacroF1 = "val_macro_f1"
+  val loss = "loss"
+
 }
