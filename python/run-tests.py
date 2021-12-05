@@ -61,6 +61,7 @@ unittest.TextTestRunner().run(GraphExtractionTestSpec())
 unittest.TextTestRunner().run(EntityRulerTestSpec())
 unittest.TextTestRunner().run(Doc2VecTestSpec())
 unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
+unittest.TextTestRunner().run(Word2VecTestSpec())
 
 # Should be locally tested
 # print("Running ElmoEmbeddingsTestSpec")
@@ -103,7 +104,7 @@ unittest.TextTestRunner().run(AlbertForTokenClassificationTestSpec())
 # unittest.TextTestRunner().run(RoBertaForSequenceClassificationTestSpec())
 # unittest.TextTestRunner().run(XlmRoBertaForSequenceClassificationTestSpec())
 # unittest.TextTestRunner().run(GetClassesTestSpec())
-#unittest.TextTestRunner().run(GPT2TransformerTextGenerationTestSpec())
+# unittest.TextTestRunner().run(GPT2TransformerTextGenerationTestSpec())
 
 # Misc tests
 unittest.TextTestRunner().run(UtilitiesTestSpec())

@@ -416,4 +416,12 @@ package object annotator {
 
   object GPT2Transformer extends ReadablePretrainedGPT2TransformerModel with ReadGPT2TransformerTensorflowModel
 
+  type Word2VecApproach = com.johnsnowlabs.nlp.embeddings.Word2VecApproach
+
+  object Word2VecApproach extends DefaultParamsReadable[Word2VecApproach]
+
+  type Word2VecModel = com.johnsnowlabs.nlp.embeddings.Doc2VecModel
+
+  object Word2VecModel extends ReadablePretrainedWord2Vec
+
 }
