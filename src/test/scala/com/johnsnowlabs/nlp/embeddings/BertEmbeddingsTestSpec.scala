@@ -101,6 +101,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    pipelineDF.show(false)
     Benchmark.time("Time to save BertEmbeddings results") {
       pipelineDF.write.mode("overwrite").parquet("./tmp_bert_embeddings")
     }

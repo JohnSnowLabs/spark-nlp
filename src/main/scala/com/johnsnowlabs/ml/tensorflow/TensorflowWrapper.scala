@@ -56,12 +56,12 @@ class TensorflowWrapper(var variables: Variables,
     this(null, null)
   }
 
-  @transient private var m_session: Session = _
+  @transient private var session: Option[Session] = None
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
   def getSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
-
-    if (m_session == null) {
+    println("*************** In getSession")
+    if (this.session.isEmpty) {
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -94,17 +94,18 @@ class TensorflowWrapper(var variables: Variables,
       Files.delete(varData)
       Files.delete(varIdx)
 
-      m_session = session
+      this.session = Some(session)
     }
-    m_session
+    this.session.get
   }
 
   def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None,
                       initAllTables: Boolean = true,
                       loadSP: Boolean = false,
                       savedSignatures: Option[Map[String, String]] = None): Session = {
-
-    if (m_session == null) {
+    println("*************** In getTFHubSession")
+    if (this.session.isEmpty) {
+      println("************* In getTFHubSession m_session == null")
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -136,14 +137,14 @@ class TensorflowWrapper(var variables: Variables,
       Files.delete(varData)
       Files.delete(varIdx)
 
-      m_session = session
+      this.session = Some(session)
     }
-    m_session
+    this.session.get
   }
 
   def createSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
-
-    if (m_session == null) {
+    println("*************** In createSession")
+    if (this.session.isEmpty) {
 
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -156,9 +157,9 @@ class TensorflowWrapper(var variables: Variables,
       // create the session and load the variables
       val session = new Session(g, ConfigProto.parseFrom(config))
 
-      m_session = session
+      this.session = Some(session)
     }
-    m_session
+    this.session.get
   }
 
   def saveToFile(file: String, configProtoBytes: Option[Array[Byte]] = None): Unit = {
@@ -440,7 +441,8 @@ object TensorflowWrapper {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    tfWrapper.m_session = session
+    println("*********** In read. Before tfWrapper.m_session = session")
+    tfWrapper.session = Some(session)
     (tfWrapper, signatures)
   }
 
@@ -489,7 +491,8 @@ object TensorflowWrapper {
     t.clearTensors()
 
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    tfWrapper.m_session = session
+    println("*********** In readWithSP. Before tfWrapper.m_session = session")
+    tfWrapper.session = Some(session)
     tfWrapper
   }
 
@@ -563,7 +566,8 @@ object TensorflowWrapper {
     tensorResources.clearTensors()
 
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    tfWrapper.m_session = session
+    println("******** In readZippedSavedModel. Before tfWrapper.m_session = session")
+    tfWrapper.session = Some(session)
     tfWrapper
   }
 
@@ -614,7 +618,8 @@ object TensorflowWrapper {
     t.clearTensors()
 
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    tfWrapper.m_session = session
+    println("******** In readChkPoints. Before tfWrapper.m_session = session")
+    tfWrapper.session = Some(session)
     tfWrapper
   }
 
