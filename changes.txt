@@ -1,2 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/_posts/murat-gunay/2021-09-09-bert_token_classifier_ner_btc_en.md
+docs/_posts/murat-gunay/2021-09-09-bert_token_classifier_ner_btc_en.md
