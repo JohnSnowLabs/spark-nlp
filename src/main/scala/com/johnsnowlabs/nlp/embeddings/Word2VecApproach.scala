@@ -169,8 +169,8 @@ class Word2VecApproach(override val uid: String)
 
   /**
    * The minimum number of times a token must appear to be included in the word2vec model's
-   * vocabulary.
-   * Default: 5
+   * vocabulary (Default: `5`).
+   *
    *
    * @group param
    */

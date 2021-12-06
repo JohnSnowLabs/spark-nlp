@@ -302,7 +302,7 @@ class GPT2Transformer(override val uid: String)
   def getRandomSeed: Option[Int] = this.randomSeed
 
   /**
-   * A list of token ids which are ignored in the decoder's output
+   * A list of token ids which are ignored in the decoder's output (Default: `Array()`)
    *
    * @group param
    * */
