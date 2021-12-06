@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This pretrained pipeline is built on Few-NERD model and it detects :
 
-`PERSON`, ORGANIZATION`, `LOCATION`, `ART`, `BUILDING`, `PRODUCT`, `EVENT`, `OTHER`
+`PERSON`, `ORGANIZATION`, `LOCATION`, `ART`, `BUILDING`, `PRODUCT`, `EVENT`, `OTHER`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_FEW_NERD/){:.button.button-orange}
