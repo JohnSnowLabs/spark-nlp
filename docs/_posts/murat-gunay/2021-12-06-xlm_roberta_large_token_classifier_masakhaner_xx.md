@@ -49,7 +49,7 @@ tokenizer = Tokenizer()\
       .setInputCols(["sentence"])\
       .setOutputCol("token")
 
-tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_large_token_classifier_masakhaner", "tr"))\
+tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_large_token_classifier_masakhaner", "xx"))\
   .setInputCols(["sentence",'token'])\
   .setOutputCol("ner")
 
@@ -78,7 +78,7 @@ val tokenizer = Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-val tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_base_token_classifier_ner", "tr"))\
+val tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_large_token_classifier_masakhaner", "xx"))\
   .setInputCols(Array("sentence","token"))\
   .setOutputCol("ner")
 
