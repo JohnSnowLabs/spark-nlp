@@ -122,7 +122,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
