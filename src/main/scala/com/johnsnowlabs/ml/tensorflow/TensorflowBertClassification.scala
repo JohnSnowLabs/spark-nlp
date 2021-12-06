@@ -87,7 +87,7 @@ class TensorflowBertClassification(val tensorflowWrapper: TensorflowWrapper,
         segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
-    val session = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
+    val session = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
     val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
@@ -135,7 +135,7 @@ class TensorflowBertClassification(val tensorflowWrapper: TensorflowWrapper,
         segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
-    val session = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
+    val session = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
     val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)

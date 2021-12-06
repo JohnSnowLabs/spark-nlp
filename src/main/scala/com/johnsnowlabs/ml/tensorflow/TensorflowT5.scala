@@ -159,7 +159,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val encoderInputTensors = tensorEncoder.createLongBufferTensor(shape, encoderInputBuffers)
     val encoderAttentionMaskTensors = tensorEncoder.createLongBufferTensor(shape, encoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
     val runner = session.runner
 
     runner

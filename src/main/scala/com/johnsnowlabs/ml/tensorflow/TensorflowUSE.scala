@@ -54,7 +54,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
 
     val sentenceTensors = tensors.createTensor(sentencesContent)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
+    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
 
     runner
       .feed(inputKey, sentenceTensors)

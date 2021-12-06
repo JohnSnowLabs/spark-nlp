@@ -60,7 +60,7 @@ class TensorflowSpell(
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+    val lossWords = tensorflow.getTFSession(configProtoBytes=configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
@@ -81,7 +81,7 @@ class TensorflowSpell(
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+    val lossWords = tensorflow.getTFSession(configProtoBytes=configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
@@ -103,7 +103,7 @@ class TensorflowSpell(
     val paths = (dataset, cids, cwids).zipped.toList
 
     paths.flatMap { case (pathIds, pathCids, pathWids) =>
-      val lossWords = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+      val lossWords = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
         .feed(dropoutRate, tensors.createTensor(1.0f))
         .feed(wordIds, tensors.createTensor(Array(pathIds)))
         .feed(contextIds, tensors.createTensor(Array(pathCids.tail)))

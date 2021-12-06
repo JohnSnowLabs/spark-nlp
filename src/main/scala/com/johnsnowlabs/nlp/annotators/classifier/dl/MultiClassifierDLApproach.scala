@@ -474,7 +474,7 @@ class MultiClassifierDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getTFSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
 
     val model = new MultiClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)

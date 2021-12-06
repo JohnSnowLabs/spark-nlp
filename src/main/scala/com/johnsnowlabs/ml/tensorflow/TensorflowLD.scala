@@ -81,7 +81,7 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
       tokenBuffers.offset(offset).write(sentence)
     }
 
-    val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
     val tokenTensors = tensors.createFloatBufferTensor(shape, tokenBuffers)
 
     runner

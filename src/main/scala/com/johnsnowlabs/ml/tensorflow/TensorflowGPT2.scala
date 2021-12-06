@@ -130,7 +130,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
     val inputIdTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
     val attentionMaskTensors = tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
     val runner = session.runner
 
     runner

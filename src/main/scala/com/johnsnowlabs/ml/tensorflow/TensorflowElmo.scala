@@ -125,7 +125,7 @@ class TensorflowElmo(val tensorflow: TensorflowWrapper,
     }.toArray
 
     val sentenceTensors = tensors.createTensor(sentencesBytes)
-    val runner = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+    val runner = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
 
     runner
       .feed(TokensKey, sentenceTensors)
