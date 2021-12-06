@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Pre-trained Pipeline for Few-NERD-General NER Model
+title: Pretrained Pipeline for Few-NERD-General NER Model
 author: John Snow Labs
 name: nerdl_fewnerd_100d_pipeline
 date: 2021-12-03
