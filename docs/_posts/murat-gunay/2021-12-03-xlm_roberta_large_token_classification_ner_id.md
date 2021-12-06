@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Indonesion NER Model
+title: Indonesian NER Model
 author: John Snow Labs
 name: xlm_roberta_large_token_classification_ner
 date: 2021-12-03
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is imported from `Hugging Face-models`. It is the Indonesian fine-tuned of "xlm-roberta-large" language model.
+This model has been imported from `Hugging Face`. It's been trained using a `xlm-roberta-large` finetuned model on Indonesian texts.
 
 ## Predicted Entities
 
