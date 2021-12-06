@@ -92,8 +92,13 @@ representation.
 These are annotators that are trained in an external library, which are then
 loaded into Spark NLP.
 
+{% include_relative training_entries/AlbertForTokenClassification.md %}
+{% include_relative training_entries/BertForSequenceClassification.md %}
 {% include_relative training_entries/BertForTokenClassification.md %}
+{% include_relative training_entries/DistilBertForSequenceClassification.md %}
 {% include_relative training_entries/DistilBertForTokenClassification.md %}
+{% include_relative training_entries/RoBertaForTokenClassification.md %}
+{% include_relative training_entries/XlmRoBertaForTokenClassification.md %}
 
 
 ## TensorFlow Graphs
