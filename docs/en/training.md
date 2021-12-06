@@ -52,47 +52,53 @@ These are annotators that can be trained to process text for tasks such as
 dependency parsing, lemmatisation, part-of-speech tagging, sentence detection
 and word segmentation.
 
-{% include_relative training_entries/DependencyParser.md %}
+{% include_relative training_entries/DependencyParserApproach.md %}
 {% include_relative training_entries/Lemmatizer.md %}
-{% include_relative training_entries/Perceptron.md %}
-{% include_relative training_entries/SentenceDetectorDL.md %}
+{% include_relative training_entries/PerceptronApproach.md %}
+{% include_relative training_entries/SentenceDetectorDLApproach.md %}
 {% include_relative training_entries/TypedDependencyParser.md %}
-{% include_relative training_entries/WordSegmenter.md %}
+{% include_relative training_entries/WordSegmenterApproach.md %}
 
 ## Spell Checkers
 These are annotators that can be trained to correct text.
 
-{% include_relative training_entries/ContextSpellChecker.md %}
+{% include_relative training_entries/ContextSpellCheckerApproach.md %}
 {% include_relative training_entries/NorvigSweeting.md %}
 {% include_relative training_entries/SymmetricDelete.md %}
 
 ## Token Classification
 These are annotators that can be trained to recognize named entities in text.
 
-{% include_relative training_entries/NerCrf.md %}
-{% include_relative training_entries/NerDL.md %}
+{% include_relative training_entries/NerCrfApproach.md %}
+{% include_relative training_entries/NerDLApproach.md %}
 
 ## Text Classification
 These are annotators that can be trained to classify text into different
 classes, such as sentiment.
 
-{% include_relative training_entries/ClassifierDL.md %}
-{% include_relative training_entries/MultiClassifierDL.md %}
-{% include_relative training_entries/SentimentDL.md %}
-{% include_relative training_entries/ViveknSentiment.md %}
+{% include_relative training_entries/ClassifierDLApproach.md %}
+{% include_relative training_entries/MultiClassifierDLApproach.md %}
+{% include_relative training_entries/SentimentDLApproach.md %}
+{% include_relative training_entries/ViveknSentimentApproach.md %}
 
 ## Text Representation
 These are annotators that can be trained to turn text into a numerical
 representation.
 
 {% include_relative training_entries/Doc2VecApproach.md %}
+{% include_relative training_entries/Word2VecApproach.md %}
 
 ## External Trainable Models
 These are annotators that are trained in an external library, which are then
 loaded into Spark NLP.
 
+{% include_relative training_entries/AlbertForTokenClassification.md %}
+{% include_relative training_entries/BertForSequenceClassification.md %}
 {% include_relative training_entries/BertForTokenClassification.md %}
+{% include_relative training_entries/DistilBertForSequenceClassification.md %}
 {% include_relative training_entries/DistilBertForTokenClassification.md %}
+{% include_relative training_entries/RoBertaForTokenClassification.md %}
+{% include_relative training_entries/XlmRoBertaForTokenClassification.md %}
 
 
 ## TensorFlow Graphs

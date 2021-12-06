@@ -102,7 +102,7 @@ val embeddings = BertEmbeddings.pretrained("bert_base_japanese", "ja")
   .setOutputCol("embeddings")
 
 val nerTagger = NerDLModel.pretrained("ner_ud_gsd_bert_base_japanese", "ja")
-  .setInputCols("sentence", "token")
+  .setInputCols("sentence", "token", "embeddings")
   .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(
