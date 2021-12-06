@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 - This model is trained on Broad Twitter Corpus (BTC) dataset, so that it can detect entities in Twitter-based texts successfully.
-- It's based on `bert_base_cased` embeddings, which are included the model so, you don't need to use any embeddings components in the NLP pipeline.
+- It's based on `bert_base_cased` embeddings, which are included in the model, so you don't need to use any embeddings component in the NLP pipeline.
 
 ## Predicted Entities
 
