@@ -60,7 +60,7 @@ nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, t
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
-text = """Nama saya Sarah dan saya tinggal di London."""
+text = """Nama saya Sarah dan keluarga saya berasal dari Asia selepas Perang Dunia 2 dan telah menetap di London sejak Oktober 1955. Saya bekerja di syarikat Jeep Motors sebagai Pembantu Penyelia."""
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
@@ -86,7 +86,7 @@ ner_converter = NerConverter()\
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Nama saya Sarah dan saya tinggal di London."].toDS.toDF("text")
+val example = Seq.empty["Nama saya Sarah dan keluarga saya berasal dari Asia selepas Perang Dunia 2 dan telah menetap di London sejak Oktober 1955. Saya bekerja di syarikat Jeep Motors sebagai Pembantu Penyelia."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -95,12 +95,16 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-+-------+---------+
-|chunk  |ner_label|
-+-------+---------+
-|Sarah  |PER      |
-|London |GPE      |
-+-------+---------+
++---------------+---------+
+|chunk          |ner_label|
++---------------+---------+
+|Sarah          |PER      |
+|Asia           |GPE      |
+|Perang Dunia 2 |EVT      |
+|London         |GPE      |
+|Oktober 1955   |DAT      |
+|Jeep Motor     |ORG      |
++---------------+---------+
 ```
 
 {:.model-param}
