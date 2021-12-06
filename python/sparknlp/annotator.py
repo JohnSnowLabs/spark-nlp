@@ -16593,31 +16593,34 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
     Parameters
     ----------
     task
-        Transformer's task, e.g. ``summarize:``
+        Transformer's task, e.g. ``summarize:`` , by default ""
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     minOutputLength
-        Minimum length of the sequence to be generated
+        Minimum length of the sequence to be generated, by default 0
     maxOutputLength
-        Maximum length of output text
+        Maximum length of output text, by default 20
     doSample
-        Whether or not to use sampling; use greedy decoding otherwise
+        Whether or not to use sampling; use greedy decoding otherwise, by default False
     temperature
-        The value used to module the next token probabilities
+        The value used to module the next token probabilities, by default 1.0
     topK
         The number of highest probability vocabulary tokens to keep for
-        top-k-filtering
+        top-k-filtering, by default 50
     topP
-        Top cumulative probability for vocabulary tokens
+        Top cumulative probability for vocabulary tokens, by default 1.0
 
         If set to float < 1, only the most probable tokens with probabilities
         that add up to ``topP`` or higher are kept for generation.
     repetitionPenalty
-        The parameter for repetition penalty. 1.0 means no penalty.
+        The parameter for repetition penalty, 1.0 means no penalty. , by default
+        1.0
     noRepeatNgramSize
-        If set to int > 0, all ngrams of that size can only occur once
+        If set to int > 0, all ngrams of that size can only occur once, by
+        default 0
     ignoreTokenIds
-       A list of token ids which are ignored in the decoder's output
+        A list of token ids which are ignored in the decoder's output, by
+        default []
 
     Notes
     -----
@@ -17119,7 +17122,7 @@ class Word2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     Parameters
     ----------
     vectorSize
-        The dimension of codes after transforming from words (> 0) , by default
+        The dimension of codes after transforming from words (> 0), by default
         100
 
     References
