@@ -72,19 +72,21 @@ object ResourceHelper {
       if (fileSystem.getScheme == "file")
         return resource
 
-      val files = fileSystem.listFiles(path, false)
-//      val destination: Path = new Path(Files.createTempDirectory(prefix).toUri)
       val destination = Files.createTempDirectory(prefix).toUri
 
       fileSystem.getScheme match {
-        case "hdfs" => while (files.hasNext) {
-          fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
-        }
+        case "hdfs" =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
+          }
         case "dbfs" =>
           dbutils.fs.cp(resource, destination.toString, recurse = true)
-        case _  => while (files.hasNext) {
-          fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
-        }
+        case _  =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
+          }
       }
 
       destination.toString

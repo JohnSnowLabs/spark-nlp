@@ -111,7 +111,8 @@ lazy val utilDependencies = Seq(
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
   greex,
-  json4s
+  json4s,
+  databricks
 )
 
 lazy val typedDependencyParserDependencies = Seq(
@@ -135,8 +136,7 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies ++
-        typedDependencyParserDependencies ++
-        Seq(dataBricks),
+        typedDependencyParserDependencies,
     // TODO potentially improve this?
     mavenProps := {
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
