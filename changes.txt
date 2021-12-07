@@ -1,4 +1,4 @@
-docs/en/ocr_pipeline_components.md
-docs/en/ocr_release_notes.md
-docs/en/ocr_pipeline_components.md
-docs/en/ocr_release_notes.md
+docs/_data/navigation.yml
+docs/en/nlp_server/release_notes.md
+docs/_data/navigation.yml
+docs/en/nlp_server/release_notes.md
