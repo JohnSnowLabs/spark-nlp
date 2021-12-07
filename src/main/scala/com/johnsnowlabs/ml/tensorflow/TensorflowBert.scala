@@ -86,7 +86,6 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
         segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
-    println("**********In tag Before tensorflowWrapper.getTFHubSession")
     val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
@@ -145,7 +144,6 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
     }
 
-    println("*********** In tagSentence, Before tensorflowWrapper.getTFHubSession")
     val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
@@ -187,7 +185,6 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
       maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
     }
-
 
     val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 

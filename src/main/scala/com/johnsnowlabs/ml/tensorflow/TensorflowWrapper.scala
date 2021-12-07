@@ -59,9 +59,10 @@ class TensorflowWrapper(var variables: Variables,
   @transient private var session: Option[Session] = None
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def getSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
-    println("*************** In getSession")
+  def getSession(configProtoBytes: Option[Array[Byte]] = None): Session = this.synchronized {
+
     if (this.session.isEmpty) {
+      println("[TensorflowWrapper.getSession] session is empty. Creating one...")
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -102,10 +103,10 @@ class TensorflowWrapper(var variables: Variables,
   def getTFHubSession(configProtoBytes: Option[Array[Byte]] = None,
                       initAllTables: Boolean = true,
                       loadSP: Boolean = false,
-                      savedSignatures: Option[Map[String, String]] = None): Session = {
-    println("*************** In getTFHubSession")
+                      savedSignatures: Option[Map[String, String]] = None): Session = this.synchronized {
+
     if (this.session.isEmpty) {
-      println("************* In getTFHubSession m_session == null")
+      println("[TensorflowWrapper.getTFHubSession] session is empty. Creating one...")
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -142,10 +143,10 @@ class TensorflowWrapper(var variables: Variables,
     this.session.get
   }
 
-  def createSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
-    println("*************** In createSession")
-    if (this.session.isEmpty) {
+  def createSession(configProtoBytes: Option[Array[Byte]] = None): Session = this.synchronized {
 
+    if (this.session.isEmpty) {
+      println("[TensorflowWrapper.createSession] session is empty. Creating one...")
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
       LoadsContrib.loadContribToTensorflow()
@@ -441,7 +442,6 @@ object TensorflowWrapper {
     FileHelper.delete(tmpFolder)
     t.clearTensors()
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    println("*********** In read. Before tfWrapper.m_session = session")
     tfWrapper.session = Some(session)
     (tfWrapper, signatures)
   }
@@ -491,7 +491,6 @@ object TensorflowWrapper {
     t.clearTensors()
 
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    println("*********** In readWithSP. Before tfWrapper.m_session = session")
     tfWrapper.session = Some(session)
     tfWrapper
   }
@@ -566,7 +565,6 @@ object TensorflowWrapper {
     tensorResources.clearTensors()
 
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    println("******** In readZippedSavedModel. Before tfWrapper.m_session = session")
     tfWrapper.session = Some(session)
     tfWrapper
   }
@@ -618,7 +616,6 @@ object TensorflowWrapper {
     t.clearTensors()
 
     val tfWrapper = new TensorflowWrapper(Variables(varBytes, idxBytes), graph.toGraphDef.toByteArray)
-    println("******** In readChkPoints. Before tfWrapper.m_session = session")
     tfWrapper.session = Some(session)
     tfWrapper
   }
