@@ -380,7 +380,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     val Array(validation, train) = dataset.randomSplit(Array(getOrDefault(validationFraction), trainFraction))
 
-    val graph = findAndLoadGraphOld(getOrDefault(languageModelClasses), vocabulary.size, dataset.sparkSession)
+    val graph = findAndLoadGraph(getOrDefault(languageModelClasses), vocabulary.size, dataset.sparkSession)
 
     // create transducers for special classes
     val specialClassesTransducers = getOrDefault(specialClasses).
@@ -608,17 +608,15 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   private val graphFilePattern = ".*nlm_([0-9]{3})_([0-9]{1,2})_([0-9]{2,4})_([0-9]{3,6})\\.pb".r
 
   private def findAndLoadGraph(requiredClassCount: Int, vocabSize: Int, spark: SparkSession) = {
-    println(s"requiredClassCount: $requiredClassCount, vocabSize: $vocabSize")
+
     val graph = new Graph()
 
     if (broadcastGraph.isEmpty) {
       val availableGraphs = getGraphFiles(get(graphFolder))
-      println(s"availableGraphs: ${availableGraphs.mkString(" ")}")
       // get the one that better matches the class count
       val candidates = availableGraphs.map {
         // not looking into innerLayerSize or layerCount
         case filename@graphFilePattern(_, _, classCount, vSize) =>
-          println(s"classCount: ${classCount.toInt}, vSize: $vSize")
           val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
           val score = classCount.toFloat / requiredClassCount
           (filename, score, isValid)
@@ -635,34 +633,6 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     }
 
     graph.importGraphDef(GraphDef.parseFrom(broadcastGraph.get.value))
-    graph
-  }
-
-  private def findAndLoadGraphOld(requiredClassCount: Int, vocabSize: Int, spark: SparkSession) = {
-    println(s"requiredClassCount: $requiredClassCount, vocabSize: $vocabSize")
-    val graph = new Graph()
-
-    val availableGraphs = getGraphFiles(get(graphFolder))
-    println(s"availableGraphs: ${availableGraphs.mkString(" ")}")
-    // get the one that better matches the class count
-    val candidates = availableGraphs.map {
-      // not looking into innerLayerSize or layerCount
-      case filename@graphFilePattern(_, _, classCount, vSize) =>
-        println(s"classCount: ${classCount.toInt}, vSize: $vSize")
-        val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
-        val score = classCount.toFloat / requiredClassCount
-        (filename, score, isValid)
-      case _ =>
-        ("", 0f, false)
-    }.filter(_._3)
-
-    require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes, vocabSize: $vocabSize")
-
-    val bestGraph = candidates.minBy(_._2)._1
-    val graphStream = ResourceHelper.getResourceStream(bestGraph)
-    val graphBytesDef = IOUtils.toByteArray(graphStream)
-
-    graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
     graph
   }
 
