@@ -5,12 +5,13 @@ seotitle: NLP Server | John Snow Labs
 title: Release Notes
 permalink: /docs/en/nlp_server/release_notes
 key: docs-nlp-server
+modify_date: "2021-12-07"
 show_nav: true
 sidebar:
-  nav: nlp-server
+    nav: nlp-server
 ---
 
-## 0.4.0
+## NLP Server 0.4.0
 
 ### Highlights
 
