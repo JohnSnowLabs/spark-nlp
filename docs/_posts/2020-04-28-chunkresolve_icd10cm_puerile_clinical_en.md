@@ -10,7 +10,7 @@ date: 2020-04-28
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.4.5
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance
 
 
-## Predicted Entities 
+## Predicted Entities
 ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 
 {:.btn-box}
@@ -29,7 +29,7 @@ ICD10-CM Codes and their normalized definition with `clinical_embeddings`
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icd10cm_puerile_clinical_en_2.4.5_2.4_1588103916781.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
