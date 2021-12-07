@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 - This model is imported from `Hugging Face`.
 
-- It's been trained using `roberta` fine-tuned model on Icelandic texts.
+- This model was fine-tuned on the MIM-GOLD-NER dataset for the Icelandic language, leveraging `Roberta` embeddings and `RobertaForTokenClassification`.
 
 ## Predicted Entities
 
