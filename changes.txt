@@ -1,4 +1,4 @@
-docs/demos/european_languages.md
-docs/demos/recognize_entitie.md
-docs/demos/european_languages.md
-docs/demos/recognize_entitie.md
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
