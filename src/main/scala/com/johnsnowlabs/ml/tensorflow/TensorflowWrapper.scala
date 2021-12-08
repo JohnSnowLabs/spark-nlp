@@ -59,7 +59,7 @@ class TensorflowWrapper(var variables: Variables,
   @transient private var m_session: Session = _
   @transient private val logger = LoggerFactory.getLogger("TensorflowWrapper")
 
-  def getTFSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
+  def getTFSession(configProtoBytes: Option[Array[Byte]] = None): Session = this.synchronized {
 
     if (m_session == null) {
       val t = new TensorResources()
@@ -102,7 +102,7 @@ class TensorflowWrapper(var variables: Variables,
   def getTFSessionWithSignature(configProtoBytes: Option[Array[Byte]] = None,
                                 initAllTables: Boolean = true,
                                 loadSP: Boolean = false,
-                                savedSignatures: Option[Map[String, String]] = None): Session = {
+                                savedSignatures: Option[Map[String, String]] = None): Session = this.synchronized {
 
     if (m_session == null) {
       val t = new TensorResources()
