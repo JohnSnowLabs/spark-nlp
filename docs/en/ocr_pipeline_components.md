@@ -91,7 +91,7 @@ transformer = PdfToText() \
   .setInputCol("content") \
   .setOutputCol("text") \
   .setPageNumCol("pagenum") \
-  .setSplitPage(true)
+  .setSplitPage(True)
 
 data = transformer.transform(df)
 
@@ -194,7 +194,7 @@ pdfToImage = PdfToImage() \
  .setInputCol("content") \
  .setOutputCol("text") \
  .setPageNumCol("pagenum") \
- .setSplitPage(true)
+ .setSplitPage(True)
 
 data =  pdfToImage.transform(df)
 
