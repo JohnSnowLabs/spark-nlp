@@ -98,7 +98,7 @@ val result = pipeline.fit(example).transform(example)
 +------------------------+---------+
 |chunk                   |ner_label|
 +------------------------+---------+
-|Peter FERGUSSON         |PERSON   |
+|Peter Fergusson         |PERSON   |
 |oktober 2011            |DATE     |
 |New York                |GPE      |
 |5 jaar                  |DATE     |
