@@ -12,39 +12,40 @@ object Dependencies {
   val is_opt: String = System.getProperty("is_opt", "false")
   val is_spark23: String = System.getProperty("is_spark23", "false")
   val is_spark24: String = System.getProperty("is_spark24", "false")
+  val is_spark30: String = System.getProperty("is_spark30", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark32)
+  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark30)
 
   /** ------- Spark version end ------- */
 
 
   /** Package attributes */
-  def getPackageName(is_spark23: String, is_spark24: String, is_spark32: String, is_gpu: String): String = {
+  def getPackageName(is_spark23: String, is_spark24: String, is_spark30: String, is_gpu: String): String = {
     if (is_gpu.equals("true") && is_spark23.equals("true")) {
       "spark-nlp-gpu-spark23"
     } else if (is_gpu.equals("true") && is_spark24.equals("true")) {
       "spark-nlp-gpu-spark24"
-    } else if (is_gpu.equals("true") && is_spark32.equals("true")) {
-      "spark-nlp-gpu-spark32"
-    } else if (is_gpu.equals("true") && is_spark24.equals("false")) {
+    } else if (is_gpu.equals("true") && is_spark30.equals("true")) {
+      "spark-nlp-gpu-spark30"
+    } else if (is_gpu.equals("true") && is_spark30.equals("false")) {
       "spark-nlp-gpu"
     } else if (is_gpu.equals("false") && is_spark23.equals("true")) {
       "spark-nlp-spark23"
     } else if (is_gpu.equals("false") && is_spark24.equals("true")) {
       "spark-nlp-spark24"
-    } else if (is_gpu.equals("false") && is_spark32.equals("true")) {
-      "spark-nlp-spark32"
+    } else if (is_gpu.equals("false") && is_spark30.equals("true")) {
+      "spark-nlp-spark30"
     } else {
       "spark-nlp"
     }
   }
 
-  def getSparkVersion(is_spark23: String, is_spark24: String, is_spark32: String): String = {
+  def getSparkVersion(is_spark23: String, is_spark24: String, is_spark30: String): String = {
     if (is_spark24 == "true") spark24Ver
     else if (is_spark23 == "true") spark23Ver
-    else if (is_spark32 == "true") spark32Ver
-    else spark30Ver
+    else if (is_spark30 == "true") spark30Ver
+    else spark32Ver
   }
 
   def getJavaTarget(is_spark23: String, is_spark24: String): String = {
