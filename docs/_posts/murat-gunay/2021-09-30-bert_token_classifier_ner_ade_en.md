@@ -24,8 +24,8 @@ Detect adverse reactions of drugs in reviews, tweets, and medical text using the
 `DRUG`, `ADE`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_ade_en_3.2.2_2.4_1633008677011.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -43,8 +43,8 @@ tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_n
   .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-        .setInputCols(["document","token","ner"])\
-        .setOutputCol("ner_chunk")
+  .setInputCols(["document","token","ner"])\
+  .setOutputCol("ner_chunk")
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
@@ -62,8 +62,8 @@ val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifi
   .setCaseSensitive(True)
 
 val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+  .setInputCols(Array("document","token","ner"))
+  .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 

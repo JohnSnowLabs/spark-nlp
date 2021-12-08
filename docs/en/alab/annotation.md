@@ -69,9 +69,13 @@ Creating relations with the Annotation Lab is very simple. First select one labe
 
 <img class="image image--xl" src="/assets/images/annotation_lab/relations.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-You can add a label to the relation, change its direction or delete it using the relation box.
+You can add a label to the relation, change its direction or delete it using the contextual menu displayed next to the relation arrow or using the relation box.
+<img class="image image--xl" src="/assets/images/annotation_lab/2.3.0/relations.gif" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 
 <img class="image image--xl" src="/assets/images/annotation_lab/relations2.png" style="width:50%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
+
 
  
 ## Pre-annotations  

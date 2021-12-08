@@ -10,7 +10,7 @@ date: 2020-05-16
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.0
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -20,16 +20,16 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
-## Predicted Entities 
+## Predicted Entities
 LOINC Codes with ``clinical_embeddings``.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_LOINC/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_loinc_clinical_en_2.5.0_2.4_1589599195201.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPython.html %}
@@ -41,7 +41,7 @@ loinc_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_clinica
   .setOutputCol("loinc_code") \
   .setDistanceFunction("COSINE") \
   .setNeighbours(5)
-  
+
 pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, loinc_resolver])
 
 data = spark.createDataFrame([["""A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting."""]]).toDF("text")
@@ -58,7 +58,7 @@ val loinc_resolver = ChunkEntityResolverModel.pretrained("chunkresolve_loinc_cli
   .setOutputCol("loinc_code")
   .setDistanceFunction("COSINE")
   .setNeighbours(5)
-  
+
 val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk_embeddings, loinc_resolver))
 
 val data = Seq("A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting.").toDF("text")

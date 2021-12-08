@@ -30,9 +30,9 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
       "ly",
       "Ġgood",
       "Ġ3",
-      "ĠAs",
+      "As",
       "d",
-      "Ġ!"
+      "!"
     ).zipWithIndex.toMap
 
   val merges: Map[(String, String), Int] = Array(
@@ -62,7 +62,8 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
     "s d",
     "Ġun amb",
     "Ġgo od",
-    "Ġ 3"
+    "Ġ 3",
+    "Ġ I"
   ).map(_.split(" ")).map { case Array(c1, c2) => (c1, c2) }.zipWithIndex.toMap
 
   val modelType: String = "gpt2"
@@ -76,8 +77,8 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
 
   "Gpt2Tokenizer" should behave like correctBpeTokenizer(
     tokenizer = tokenizer,
-    text = "I unambigouosly good 3Asd!",
-    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
+    text = " I unambigouosly good 3Asd!",
+    expected = Array("ĠI", "Ġunamb", "ig", "ou", "os", "ly", "Ġgood", "Ġ3", "As", "d", "!"),
     expectedIds = Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
   )
 
@@ -85,8 +86,8 @@ class Gpt2TokenizerTestSpec extends AnyFlatSpec with BpeTokenizerBehaviours {
 
   it should behave like correctBpeTokenizerSpecialTokens(
     tokenizer = tokenizer,
-    text = "I unambigouosly <|endoftext|> good 3Asd <|endoftext|>",
-    expected = Array("I", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>"),
+    text = " I unambigouosly <|endoftext|> good 3Asd <|endoftext|>",
+    expected = Array("ĠI", "Ġunamb", "ig", "ou", "os", "ly", "<|endoftext|>", "Ġgood", "Ġ3", "As", "d", "<|endoftext|>"),
     expectedIds = Array(1, 2, 3, 4, 5, 6, 0, 7, 8, 9, 10, 0)
   )
 }

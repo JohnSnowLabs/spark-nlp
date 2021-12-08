@@ -35,7 +35,7 @@ class NerDLSpec extends AnyFlatSpec {
     val smallCustomDataset = "src/test/resources/conll2003/eng.testa"
     SparkAccessor.spark.conf.getAll.foreach(println)
 
-    for (samples <- Array(512, 1024, 2048, 4096, 8192)){
+    for (samples <- Array(512, 1024, 2048, 4096, 8192)) {
 
       val trainData =
         CoNLL(conllLabelIndex = 1)
@@ -85,9 +85,13 @@ class NerDLSpec extends AnyFlatSpec {
           ))
 
       val fitted =
-        Benchmark.time(s"${samples} fit ner dl time", true){pipeline.fit(trainData)}
+        Benchmark.time(s"$samples fit ner dl time", forcePrint = true) {
+          pipeline.fit(trainData)
+        }
       val transformed =
-        Benchmark.time(s"${samples} transform ner dl time", true){fitted.transform(testDataset)}
+        Benchmark.time(s"$samples transform ner dl time", forcePrint = true) {
+          fitted.transform(testDataset)
+        }
 
       println(s"transformed.count: ${transformed.count}")
       transformed.write.mode("overwrite")
@@ -138,7 +142,6 @@ class NerDLSpec extends AnyFlatSpec {
   }
 
   "NerDLModel" should "correctly train using dataset from file" taggedAs SlowTest in {
-    val spark = SparkAccessor.spark
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -217,7 +220,7 @@ class NerDLSpec extends AnyFlatSpec {
       .setGraphFolder("src/test/resources/graph/")
       .fit(trainData)
 
-    ner.write.overwrite()save("./tmp_ner_dl_tf115")
+    ner.write.overwrite() save ("./tmp_ner_dl_tf115")
   }
 
   "NerDLModel" should "successfully load saved model" taggedAs FastTest in {
@@ -229,7 +232,7 @@ class NerDLSpec extends AnyFlatSpec {
 
     val testData = embeddings.transform(test_data)
 
-    val nerModel = NerDLModel.load("./tmp_ner_dl_tf115")
+    NerDLModel.load("./tmp_ner_dl_tf115")
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
       .transform(testData)
@@ -242,7 +245,38 @@ class NerDLSpec extends AnyFlatSpec {
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
 
-    nerModel.getClasses.foreach(x=>println(x))
+    nerModel.getClasses.foreach(x => println(x))
+
+  }
+
+  "NerDLApproach" should "benchmark test" taggedAs SlowTest in {
+
+    val conll = CoNLL(explodeSentences = false)
+    val trainingData = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val testingData = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.testa")
+
+    val embeddings = WordEmbeddingsModel.pretrained()
+
+    val trainDF = embeddings.transform(trainingData)
+    embeddings.transform(testingData).write.mode("overwrite").parquet("./tmp_test_coll")
+
+    val nerModel = new NerDLApproach()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setOutputCol("ner")
+      .setLr(1e-3f) //0.001
+      .setPo(5e-3f) //0.005
+      .setDropout(5e-1f) //0.5
+      .setMaxEpochs(5)
+      .setRandomSeed(0)
+      .setVerbose(0)
+      .setBatchSize(32)
+      .setEvaluationLogExtended(true)
+//      .setGraphFolder("src/test/resources/graph/")
+      .setTestDataset("./tmp_test_coll")
+
+    nerModel.fit(trainDF)
 
   }
 
@@ -256,6 +290,7 @@ class NerDLSpec extends AnyFlatSpec {
     val nerModel = NerDLModel.pretrained()
       .setInputCols("sentence", "token", "embeddings")
       .setOutputCol("ner")
+      .setBatchSize(8)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -266,7 +301,7 @@ class NerDLSpec extends AnyFlatSpec {
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
 
     Benchmark.time("Time to save BertEmbeddings results") {
-      pipelineDF.write.mode("overwrite").parquet("./tmp_nerdl")
+      pipelineDF.select("ner.result").write.mode("overwrite").parquet("./tmp_nerdl")
     }
   }
 
@@ -289,7 +324,7 @@ class NerDLSpec extends AnyFlatSpec {
       ))
 
     val pipelineDF = pipeline.fit(training_data).transform(training_data)
-    pipelineDF.select("ner").show(1, false)
+    pipelineDF.select("ner").show(1, truncate = false)
   }
 
 }

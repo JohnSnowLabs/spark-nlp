@@ -127,6 +127,8 @@ import java.io.File
  * +--------------------------------------------------------------------------------+
  * }}}
  *
+ * @see [[com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification XlnetForTokenClassification]]
+ *      For Xlnet embeddings with a token classification layer on top
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @param uid required internal uid for saving annotator
  * @groupname anno Annotator types

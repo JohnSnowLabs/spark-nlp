@@ -21,8 +21,8 @@ Deidentification NER (DL) is a Named Entity Recognition model that annotates tex
 `Age`,`BIOID`,`City`,`Country`,`Country`,`Date`,`Device`,`Doctor`,`EMail`,`Hospital`,`Fax`,`Healthplan`,`Hospital`,,`Idnum`,`Location-Other`,`Medicalrecord`,`Organization`,`Patient`,`Phone`,`Profession`,`State`,`Street`,`URL`,`Username`,`Zip`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deidentify_dl_en_2.7.2_2.4_1612178436389.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

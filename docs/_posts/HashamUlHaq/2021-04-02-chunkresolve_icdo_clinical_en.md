@@ -9,7 +9,7 @@ task: Entity Resolution
 language: en
 edition: Spark NLP for Healthcare 3.0.0
 spark_version: 3.0
-supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -27,7 +27,7 @@ Given an oncological entity found in the text (via NER models like ner_jsl), it 
 ICD-O Codes and their normalized definition with `clinical_embeddings`.
 
 {:.btn-box}
-[Live Demo](https://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICDO/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_icdo_clinical_en_3.0.0_3.0_1617344918016.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -63,7 +63,7 @@ result = light_pipeline.annotate(data)
 val model = ChunkEntityResolverModel.pretrained("chunkresolve_icdo_clinical","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, clinical_ner_model, clinical_ner_chunker, chunk_embeddings, model))
 
 val data = Seq("DIAGNOSIS: Left breast adenocarcinoma stage T3 N1b M0, stage IIIA. She has been found more recently to have stage IV disease with metastatic deposits and recurrence involving the chest wall and lower left neck lymph nodes. PHYSICAL EXAMINATION NECK: On physical examination palpable lymphadenopathy is present in the left lower neck and supraclavicular area. No other cervical lymphadenopathy or supraclavicular lymphadenopathy is present. RESPIRATORY: Good air entry bilaterally. Examination of the chest wall reveals a small lesion where the chest wall recurrence was resected. No lumps, bumps or evidence of disease involving the right breast is present. ABDOMEN: Normal bowel sounds, no hepatomegaly. No tenderness on deep palpation. She has just started her last cycle of chemotherapy today, and she wishes to visit her daughter in Brooklyn, New York. After this she will return in approximately 3 to 4 weeks and begin her radiotherapy treatment at that time.").toDF("text")

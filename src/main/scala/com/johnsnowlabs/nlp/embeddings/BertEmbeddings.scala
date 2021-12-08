@@ -120,6 +120,8 @@ import java.io.File
  * }}}
  *
  * @see [[BertSentenceEmbeddings]] for sentence-level embeddings
+ * @see [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification BertForTokenClassification]] For
+ *      BertEmbeddings with a token classification layer on top
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based embeddings
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -291,24 +293,40 @@ class BertEmbeddings(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-      val tokenized = tokenizeWithAlignment(tokenizedSentences)
 
-      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
-        tokenized,
-        tokenizedSentences,
-        $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive)
-      )
-      WordpieceEmbeddingsSentence.pack(withEmbeddings)
-    }) else {
-      Seq(Seq.empty[Annotation])
-    }
+    //Unpack annotations and zip each sentence to the index or the row it belongs to
+    val sentencesWithRow = batchedAnnotations
+      .zipWithIndex
+      .flatMap { case (annotations, i) => TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i)) }
+
+    //Tokenize sentences
+    val tokenizedSentences = tokenizeWithAlignment(sentencesWithRow.map(_._1))
+
+    //Process all sentences
+    val sentenceWordEmbeddings = getModelIfNotSet.calculateEmbeddings(
+      tokenizedSentences,
+      sentencesWithRow.map(_._1),
+      $(batchSize),
+      $(maxSentenceLength),
+      $(caseSensitive)
+    )
+
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowEmbeddings = sentenceWordEmbeddings
+        //zip each annotation with its corresponding row index
+        .zip(sentencesWithRow)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowEmbeddings.nonEmpty)
+        WordpieceEmbeddingsSentence.pack(rowEmbeddings)
+      else
+        Seq.empty[Annotation]
+    })
+
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {

@@ -10,7 +10,7 @@ date: 2020-09-16
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.6.0
 tags: [clinical,licensed,entity_resolution,en]
-supported: true
+deprecated: true
 article_header:
    type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 Entity Resolution model Based on KNN using Word Embeddings + Word Movers Distance.
 
 
-## Predicted Entities 
+## Predicted Entities
 Athena Codes and their normalized definition.
 
 {:.btn-box}
@@ -30,7 +30,7 @@ Athena Codes and their normalized definition.
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/chunkresolve_athena_conditions_healthcare_en_2.6.0_2.4_1600265258887.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 {:.h2_title}
-## How to use 
+## How to use
 This model requires `embeddings_healthcare_100d` and `ner_healthcare` in the pipeline you use.
 
 <div class="tabs-box" markdown="1">
@@ -42,7 +42,7 @@ This model requires `embeddings_healthcare_100d` and `ner_healthcare` in the pip
 athena_re_model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_healthcare","en","clinical/models")\
 	.setInputCols("token","chunk_embeddings")\
 	.setOutputCol("entity")
-    
+
 pipeline_athena = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, word_embeddings, ner_model, ner_converter, chunk_embeddings, athena_re_model])
 
 model = pipeline_athena.fit(spark.createDataFrame([["""The patient is a 5-month-old infant who presented initially on Monday with a cold, cough, and runny nose for 2 days. Mom states she had no fever. Her appetite was good but she was spitting up a lot. She had no difficulty breathing and her cough was described as dry and hacky. At that time, physical exam showed a right TM, which was red. Left TM was okay. She was fairly congested but looked happy and playful. She was started on Amoxil and Aldex and we told to recheck in 2 weeks to recheck her ear. Mom returned to clinic again today because she got much worse overnight. She was having difficulty breathing. She was much more congested and her appetite had decreased significantly today. She also spiked a temperature yesterday of 102.6 and always having trouble sleeping secondary to congestion."""]]).toDF("text"))
@@ -54,7 +54,7 @@ results = model.transform(data)
 val athena_re_model = ChunkEntityResolverModel.pretrained("chunkresolve_athena_conditions_healthcare","en","clinical/models")
 	.setInputCols("token","chunk_embeddings")
 	.setOutputCol("entity")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, ner_model, ner_converter, chunk_embeddings, athena_re_model))
 
 val data = Seq("The patient is a 5-month-old infant who presented initially on Monday with a cold, cough, and runny nose for 2 days. Mom states she had no fever. Her appetite was good but she was spitting up a lot. She had no difficulty breathing and her cough was described as dry and hacky. At that time, physical exam showed a right TM, which was red. Left TM was okay. She was fairly congested but looked happy and playful. She was started on Amoxil and Aldex and we told to recheck in 2 weeks to recheck her ear. Mom returned to clinic again today because she got much worse overnight. She was having difficulty breathing. She was much more congested and her appetite had decreased significantly today. She also spiked a temperature yesterday of 102.6 and always having trouble sleeping secondary to congestion.").toDF("text")
@@ -72,7 +72,7 @@ val result = pipeline.fit(data).transform(data)
 1   cough                   PROBLEM                                       Cough  254761
 2   runny nose              PROBLEM                                  O/E - nose  4156058
 3   fever                   PROBLEM                                       Fever  437663
-4   difficulty breathing    PROBLEM                        Difficulty breathing  4041664 
+4   difficulty breathing    PROBLEM                        Difficulty breathing  4041664
 5   her cough               PROBLEM                                  Does cough  4122567
 6   dry                     PROBLEM                                    Dry eyes  4036620
 7   hacky                   PROBLEM    Resolving infantile idiopathic scoliosis  44833868
