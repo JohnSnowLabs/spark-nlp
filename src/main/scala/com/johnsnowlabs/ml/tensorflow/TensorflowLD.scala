@@ -24,18 +24,17 @@ import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
 /**
-  * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
-  *
-  * The models are trained on large datasets such as Wikipedia and Tatoeba
-  * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
-  *
-  *
-  * @param tensorflow           LanguageDetectorDL Model wrapper with TensorFlow Wrapper
-  * @param configProtoBytes     Configuration for TensorFlow session
-  * @param orderedLanguages     ordered ListMap of language codes detectable by this trained model
-  * @param orderedAlphabets     ordered ListMap of alphabets to be used to encode the inputs
-  *
-  **/
+ * Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow
+ *
+ * The models are trained on large datasets such as Wikipedia and Tatoeba
+ * The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+ *
+ * @param tensorflow       LanguageDetectorDL Model wrapper with TensorFlow Wrapper
+ * @param configProtoBytes Configuration for TensorFlow session
+ * @param orderedLanguages ordered ListMap of language codes detectable by this trained model
+ * @param orderedAlphabets ordered ListMap of alphabets to be used to encode the inputs
+ *
+ * */
 class TensorflowLD(val tensorflow: TensorflowWrapper,
                    configProtoBytes: Option[Array[Byte]] = None,
                    orderedLanguages: ListMap[String, Int],
@@ -55,13 +54,13 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
   def encode(docs: Seq[Sentence]): Array[Array[Float]] = {
     val charsArr = orderedAlphabets.keys.toArray
 
-    docs.map{ x =>
+    docs.map { x =>
       val chars = cleanText(x.content.map(_.toString).toList).take(maxSentenceLength)
       val tokens = mutable.ArrayBuffer[Float]()
 
-      chars.foreach{char =>
+      chars.foreach { char =>
         val charID = charsArr.indexOf(char).toFloat
-        if(charID >= 0){
+        if (charID >= 0) {
           tokens.append(charID + 1.0f)
         }
       }
@@ -76,7 +75,7 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val tokenBuffers = tensors.createFloatBuffer(inputs.length * inputSize)
     val shape = Array(inputs.length.toLong, inputSize)
 
-    inputs.zipWithIndex.foreach{ case (sentence, idx) =>
+    inputs.zipWithIndex.foreach { case (sentence, idx) =>
       val offset = idx * maxSentenceLength
       tokenBuffers.offset(offset).write(sentence)
     }
@@ -98,12 +97,12 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
 
   }
 
-  def calculateLanguageIdentification(
-                                       documents: Seq[Sentence],
-                                       threshold: Float = 0.01f,
-                                       thresholdLabel: String = "unk",
-                                       coalesceSentences: Boolean = false
-                                     ): Array[Annotation] = {
+  def predict(
+               documents: Seq[Sentence],
+               threshold: Float = 0.01f,
+               thresholdLabel: String = "unk",
+               coalesceSentences: Boolean = false
+             ): Array[Annotation] = {
 
 
     val sentences = encode(documents)
@@ -111,13 +110,13 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
     val outputDimension = orderedLanguages.toArray.length
 
     val scores = tag(sentences, maxSentenceLength, outputDimension)
-    val langLabels = orderedLanguages.map(x=>x._1.mkString).toArray
-    val outputs = scores.map(x=>x.zip(langLabels))
+    val langLabels = orderedLanguages.map(x => x._1.mkString).toArray
+    val outputs = scores.map(x => x.zip(langLabels))
 
-    if (coalesceSentences){
-      val avgScores = outputs.flatMap(x=>x.toList).groupBy(_._2).mapValues(_.map(_._1).sum/outputs.length)
+    if (coalesceSentences) {
+      val avgScores = outputs.flatMap(x => x.toList).groupBy(_._2).mapValues(_.map(_._1).sum / outputs.length)
       val maxResult = avgScores.maxBy(_._2)
-      val finalLabel = if(maxResult._2 >= threshold) maxResult._1 else thresholdLabel
+      val finalLabel = if (maxResult._2 >= threshold) maxResult._1 else thresholdLabel
 
       Array(
         Annotation(
@@ -130,9 +129,9 @@ class TensorflowLD(val tensorflow: TensorflowWrapper,
       )
 
     } else {
-      outputs.zip(documents).map{ case(score, sentence)=>
+      outputs.zip(documents).map { case (score, sentence) =>
         val maxResult = score.maxBy(_._1)
-        val finalLabel = if(maxResult._1 >= threshold) maxResult._2 else thresholdLabel
+        val finalLabel = if (maxResult._1 >= threshold) maxResult._2 else thresholdLabel
 
         Annotation(
           annotatorType = AnnotatorType.LANGUAGE,

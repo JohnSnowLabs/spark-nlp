@@ -264,7 +264,7 @@ class ElmoEmbeddings(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
     if (sentences.nonEmpty) {
-      val embeddings = getModelIfNotSet.calculateEmbeddings(sentences, $(poolingLayer))
+      val embeddings = getModelIfNotSet.predict(sentences, $(poolingLayer))
 
       WordpieceEmbeddingsSentence.pack(embeddings)
     } else {

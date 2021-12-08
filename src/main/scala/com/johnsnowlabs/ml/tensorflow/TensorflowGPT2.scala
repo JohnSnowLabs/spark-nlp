@@ -22,26 +22,26 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
   private val paddingTokenId = 50256
   private val eosTokenId = 50256
 
-  def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int,
-                      minOutputLength: Int,
-                      maxOutputLength: Int,
-                      doSample: Boolean,
-                      temperature: Double,
-                      topK: Int,
-                      topP: Double,
-                      repetitionPenalty: Double,
-                      noRepeatNgramSize: Int,
-                      task: String,
-                      randomSeed: Option[Int] = None,
-                      ignoreTokenIds: Array[Int] = Array()
-                     ): Seq[Annotation] = {
+  def predict(sentences: Seq[Annotation],
+              batchSize: Int,
+              minOutputLength: Int,
+              maxOutputLength: Int,
+              doSample: Boolean,
+              temperature: Double,
+              topK: Int,
+              topP: Double,
+              repetitionPenalty: Double,
+              noRepeatNgramSize: Int,
+              task: String,
+              randomSeed: Option[Int] = None,
+              ignoreTokenIds: Array[Int] = Array()
+             ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, task)
 
-      val spIds = process(
+      val spIds = tag(
         batchSP,
         minOutputLength,
         maxOutputLength,
@@ -73,18 +73,18 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
 
   }
 
-  def process(
-               batch: Seq[Array[Int]],
-               minOutputLength: Int,
-               maxOutputLength: Int,
-               doSample: Boolean,
-               temperature: Double,
-               topK: Int,
-               topP: Double,
-               repetitionPenalty: Double,
-               noRepeatNgramSize: Int,
-               randomSeed: Option[Int],
-               ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+  def tag(
+           batch: Seq[Array[Int]],
+           minOutputLength: Int,
+           maxOutputLength: Int,
+           doSample: Boolean,
+           temperature: Double,
+           topK: Int,
+           topP: Double,
+           repetitionPenalty: Double,
+           noRepeatNgramSize: Int,
+           randomSeed: Option[Int],
+           ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
 
     /* Actual size of each sentence to skip padding in the TF model */
