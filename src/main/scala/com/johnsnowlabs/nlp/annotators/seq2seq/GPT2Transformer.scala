@@ -386,7 +386,8 @@ class GPT2Transformer(override val uid: String)
     topP -> 1.0,
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 0,
-    ignoreTokenIds -> Array()
+    ignoreTokenIds -> Array(),
+    batchSize -> 8
   )
 
   /**
@@ -438,33 +439,6 @@ class GPT2Transformer(override val uid: String)
       else
         Seq.empty[Annotation]
     })
-//
-//    if (nonEmptyBatch.nonEmpty) {
-//      nonEmptyBatch.map(batch => {
-//        val nonEmptyAnnotations = batch.filter(_.result.nonEmpty)
-//        if (nonEmptyAnnotations.nonEmpty) {
-//          this.getModelIfNotSet.generateSeq2Seq(
-//            sentences = nonEmptyAnnotations,
-//            batchSize = 1,
-//            minOutputLength = $(minOutputLength),
-//            maxOutputLength = $(maxOutputLength),
-//            doSample = $(doSample),
-//            temperature = $(temperature),
-//            topK = $(topK),
-//            topP = $(topP),
-//            repetitionPenalty = $(repetitionPenalty),
-//            noRepeatNgramSize = $(noRepeatNgramSize),
-//            task = $(task),
-//            randomSeed = this.randomSeed,
-//            ignoreTokenIds = $(ignoreTokenIds)
-//          )
-//        } else {
-//          Seq()
-//        }
-//      })
-//    } else {
-//      Seq()
-//    }
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

@@ -9,18 +9,18 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class GPT2TestSpec extends AnyFlatSpec {
 
-  "gpt2" should "run SparkNLP pipelinee" taggedAs SlowTest in {
+  "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "My name is Leonardo."),
       (2, "My name is Leonardo and I come from Rome."),
       (3, "My name is"),
       (4, "What is my name?"),
-      (5, "Who is Donald Trump?"),
+      (5, "Who is Ronaldo?"),
       (6, "Who discovered the microscope?"),
       (7, "Where does petrol come from?"),
       (8, "What is the difference between diesel and petrol?"),
       (9, "Where is Sofia?"),
-      (10, "The Pope is convinced that"),
+      (10, "The priest is convinced that"),
     )).toDF("id", "text").repartition(1)
 
     val documentAssembler = new DocumentAssembler()
@@ -33,7 +33,7 @@ class GPT2TestSpec extends AnyFlatSpec {
       .setMaxOutputLength(50)
       .setDoSample(false)
       .setTopK(50)
-      .setBatchSize(1)
+      .setBatchSize(10)
       .setNoRepeatNgramSize(3)
       .setOutputCol("generation")
 
