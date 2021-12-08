@@ -47,10 +47,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-    val embeddings = AlbertEmbeddings.
-      loadSavedModel(
-        "/Users/maziyar/Downloads/albert-base-v2",
-        ResourceHelper.spark)
+    val embeddings = AlbertEmbeddings.pretrained()
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 
