@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-- This model is imported from `Hugging Face`.
-
-- It's been fine-tuned on Universal Dependencies Lassy dataset for Dutch language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
+This model was imported from `Hugging Face`, and has been fine-tuned on Universal Dependencies Lassy dataset for Dutch language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
