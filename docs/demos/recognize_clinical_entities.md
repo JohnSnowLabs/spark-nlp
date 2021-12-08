@@ -60,6 +60,20 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_POSOLOGY.ipynb
+        - title: Identify diagnosis and symptoms assertion status
+          id: identify_diagnosis_and_symptoms_assertion_status
+          image: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+          image2: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
         - title: Adverse drug events tagger
           id: adverse_drug_events_tagger
           image: 
@@ -171,22 +185,9 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY
           - text: Colab Netbook
             type: blue_btn
-            url:  
-        - title: Identify diagnosis and symptoms assertion status
-          id: identify_diagnosis_and_symptoms_assertion_status
-          image: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
-          image2: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status_f.svg
-          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb
+            url:          
         - title: Detect Drug Chemicals (Bert For Token Classification) 
+          hide: yes
           id: detect_drug_chemicals
           image: 
               src: /assets/images/Detect_Drug_Chemicals.svg
@@ -201,6 +202,7 @@ data:
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
         - title: Detect Wide Range of Clinical Entities (Bert For Token Classification) 
+          hide: yes
           id: detect_wide_range_clinical_entities
           image: 
               src: /assets/images/Detect_Wide_Range_of_Clinical_Entities.svg
@@ -214,4 +216,33 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
+        - title: Detect Wide Range of More Generalized Clinical Entities (Bert For Token Classification) 
+          hide: yes
+          id: detect_wide_range_clinical_entities_more
+          image: 
+              src: /assets/images/Detect_Wide_Range.svg
+          image2: 
+              src: /assets/images/Detect_Wide_Range_f.svg
+          excerpt: This demo shows how clinical terminology can be extracted from medical texts using Spark NLP model which trained with BertForTokenClassifier. 
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_BERT_TOKEN_CLASSIFIER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb        
+        - title: Detect Anatomical and Observation Entities in Chest Radiology Reports
+          id: detect_anatomical_observation_entities_chest_radiology_reports 
+          image: 
+              src: /assets/images/Detect_Anatomical_and_Observation_Entities_in_Chest_Radiology_Reports.svg
+          image2: 
+              src: /assets/images/Detect_Anatomical_and_Observation_Entities_in_Chest_Radiology_Reports_f.svg
+          excerpt: This demo shows how Anatomical and Observation entities can be extracted from Chest Radiology Reports.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_RADIOLOGY/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

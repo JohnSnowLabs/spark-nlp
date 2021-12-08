@@ -1,4 +1,52 @@
 ========
+3.3.4
+========
+----------------
+Patch release
+----------------
+* Fix "ClassCastException" error in pretrained function for DistilBertForSequenceClassification in Python
+
+========
+3.3.3
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing **DistilBertForSequenceClassification** annotator in Spark NLP 🚀. `DistilBertForSequenceClassification` DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `DistilBertForSequenceClassification` or `TFDistilBertForSequenceClassification` in HuggingFace 🤗
+* **NEW:** Introducing trainable and distributed **Doc2Vec** annotators based on Word2Vec in Spark ML
+* Improving BertEmbeddings for single document/sentence DataFrame per row on a single machine with a GPU device
+* Improving BertSentenceEmbeddings for single document/sentence DataFrame per row on a single machine with a GPU device
+* Add a new feature to the CoNLL() class, allowing it to read multiple CoNLL files at the same time into a single DataFrame
+* Add support for Long type in label column for ClassifierDLApproach and SentimentDLApproach
+
+----------------
+Bug Fixes
+----------------
+* Improve models and pipelines resolutions in Spark NLP when wrong models/pipelines are downloaded regardless of their Apache Spark version
+* Fix MarianTransformer bug on empty sequences
+* Fix TFInvalidArgumentException in MarianTransformer for sequences longer than 512
+* Fix MarianTransformer multi-lingual models and pipelines such as `opus_mt_mul_en` and `opus_mt_mul_en`
+
+
+========
+3.3.2
+========
+----------------
+New Features
+----------------
+* Comet.ml integration with Spark NLP
+* Introducing BertForSequenceClassification annotator
+
+----------------
+Bug Fixes
+----------------
+* Fix EntityRulerApproach name from import
+* Fix missing EntityRulerModel in ResourceDownloader
+* Fix NerDLApproach logs format on Databricks
+* Fix a missing batchSize param in NerDLModel that degraded GPU performance
+
+
+========
 3.3.1
 ========
 ----------------
@@ -31,11 +79,11 @@ Major features and improvements
 ----------------
 * **NEW:** Beginning of Spark NLP 3.3.0 release there will be no limitation of size when you import TensorFlow models! You can now import TF Hub & HuggingFace models larger than 2G of size.
 * **NEW:** Up to 50x faster when saving Spark NLP models and pipelines! 🚀  We have improved the way we package TensorFlow SavedModel while saving Spark NLP models & pipelines. For instace, it used to take up to 10 minutes to save `xlm_roberta_base` model prior to Spark NLP 3.3.0, and now it only takes up to 15 seconds!
-* **NEW:** Introducing **AlbertForTokenClassification** annotator in Spark NLP 🚀. `AlbertForTokenClassification` can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForTokenClassification` or `TFAlbertForTokenClassification` in HuggingFace 🤗 
-* **NEW:** Introducing **XlnetForTokenClassification** annotator in Spark NLP 🚀. `XlnetForTokenClassification` can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForTokenClassificationet` or `TFXLNetForTokenClassificationet` in HuggingFace 🤗 
-* **NEW:** Introducing **RoBertaForTokenClassification** annotator in Spark NLP 🚀. `RoBertaForTokenClassification` can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForTokenClassification` or `TFRobertaForTokenClassification` in HuggingFace 🤗 
-* **NEW:** Introducing **XlmRoBertaForTokenClassification** annotator in Spark NLP 🚀. `XlmRoBertaForTokenClassification` can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForTokenClassification` or `TFXLMRobertaForTokenClassification` in HuggingFace 🤗 
-* **NEW:** Introducing **LongformerForTokenClassification** annotator in Spark NLP 🚀. `LongformerForTokenClassification` can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForTokenClassification` or `TFLongformerForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **AlbertForTokenClassification** annotator in Spark NLP 🚀. `AlbertForTokenClassification` can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForTokenClassification` or `TFAlbertForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **XlnetForTokenClassification** annotator in Spark NLP 🚀. `XlnetForTokenClassification` can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForTokenClassificationet` or `TFXLNetForTokenClassificationet` in HuggingFace 🤗
+* **NEW:** Introducing **RoBertaForTokenClassification** annotator in Spark NLP 🚀. `RoBertaForTokenClassification` can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForTokenClassification` or `TFRobertaForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **XlmRoBertaForTokenClassification** annotator in Spark NLP 🚀. `XlmRoBertaForTokenClassification` can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForTokenClassification` or `TFXLMRobertaForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **LongformerForTokenClassification** annotator in Spark NLP 🚀. `LongformerForTokenClassification` can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForTokenClassification` or `TFLongformerForTokenClassification` in HuggingFace 🤗
 * **NEW:** Introducing new ResourceDownloader functions to easily look for pretrained models & pipelines inside Spark NLP (Python and Scala). You can filter models or pipelines via `language`, `version`, or the name of the `annotator`
 * Welcoming [Databricks Runtime 9.1 LTS](https://docs.databricks.com/release-notes/runtime/9.1.html), 9.1 ML, and 9.1 ML with GPU
 * Fix printing a wrong version return in sparknlp.version()
@@ -45,7 +93,7 @@ Bug Fixes
 ----------------
 * Fix a bug in RoBertaEmbeddings when all special tokens were identical
 * Fix a bug in RoBertaEmbeddings when special token contained valid regex
-* Fix a bug lead to memory leak inside NorvigSweeting spell checker. This issue caused issues with pretrained pipelines such as `explain_document_ml` and `explain_document_dl` when some inputs 
+* Fix a bug lead to memory leak inside NorvigSweeting spell checker. This issue caused issues with pretrained pipelines such as `explain_document_ml` and `explain_document_dl` when some inputs
 * Fix the wrong types being assigned to `minCount` and `classCount` in Python for `ContextSpellCheckerApproach` annotator
 * Fix `explain_document_ml` pretrained pipeline for Spark NLP 3.x on Apache Spark 2.x
 
@@ -63,7 +111,7 @@ Bug Fixes & Enhancements
 * Fix the default language for XlmRoBertaSentenceEmbeddings pretrained model in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6057
 * Fix SentenceEmbeddings issue concatenating sentences instead of each correspondent sentence https://github.com/JohnSnowLabs/spark-nlp/pull/6060
 * Fix GraphExctraction usage in LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6101
-* Fix compatibility issue in `explain_document_ml` pipeline 
+* Fix compatibility issue in `explain_document_ml` pipeline
 * Better import process for corrupted merges file in Longformer tokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6083
 
 
@@ -152,20 +200,20 @@ New Features
 * Migrate XlnetEmbeddings to BatchAnnotate to allow better performance on accelerated hardware such as GPU
 * Dynamically extract special tokens from SentencePiece model in XlmRoBertaEmbeddings
 * Add setIncludeAllConfidenceScores param in NerDLModel to merge confidence scores per label to only predicted label
-* Sync Python params with Scala params in ContextSpellCheckerApproach, WordSegmenterApproach, RegexMatcher, and ViveknSentimentApproach, 
+* Sync Python params with Scala params in ContextSpellCheckerApproach, WordSegmenterApproach, RegexMatcher, and ViveknSentimentApproach,
 
 ----------------
 Bug Fixes & Enhancements
 ----------------
 * Fix issue with SymmetricDeleteModel
 * Fix issue with encoding unknown bytes in RoBertaEmbeddings
-* Fix issue with multi-lingual UniversalSentenceEncoder models 
+* Fix issue with multi-lingual UniversalSentenceEncoder models
 
 ----------------
 Backward compatibility
 ----------------
 
-We have migrated XlnetEmbeddings to TensorFlow v2, the earlier models prior to 3.1.2 won't work after this release. 
+We have migrated XlnetEmbeddings to TensorFlow v2, the earlier models prior to 3.1.2 won't work after this release.
 We have already updated the models and uploaded them on Models Hub. You can use `pretrained()` that takes care of it automatically or please make sure you download the new models manually.
 
 ========
@@ -192,14 +240,14 @@ Bug Fixes & Enhancements
 * Add signatures to TF session to handle inputs/outputs more dynamically in BertEmbeddings, DistilBertEmbeddings, RoBertaEmbeddings, and XlmRoBertaEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/5715
 * Fix XlmRoBertaEmbeddings issue with `init_all_tables` https://github.com/JohnSnowLabs/spark-nlp/pull/5715
 * Add missing random seed param to ClassifierDLApproach, MultiClassifierDLApproach, and SentimentDLApproach https://github.com/JohnSnowLabs/spark-nlp/pull/5697
-* Make the Java Exceptions appear before Py4J exceptions for ease of debugging in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5709 
+* Make the Java Exceptions appear before Py4J exceptions for ease of debugging in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5709
 * Make sure batchSize set in NerDLModel is the same internally to feed TensorFlow https://github.com/JohnSnowLabs/spark-nlp/pull/5716
 
 ----------------
 Backward compatibility
 ----------------
 
-We have migrated AlbertEmbeddings to TensorFlow v2, the earlier models prior to 3.1.1 won't work after this release. 
+We have migrated AlbertEmbeddings to TensorFlow v2, the earlier models prior to 3.1.1 won't work after this release.
 We have already updated the models and uploaded them on Models Hub. You can use `pretrained()` that takes care of it automatically or please make sure you download the new models manually.
 
 ========
@@ -222,7 +270,7 @@ New Features
   * Databricks 8.1 ML & GPU
   * Databricks 8.2 ML & GPU
   * Databricks 8.3 ML & GPU
-* Welcoming a new EMR 6.x series to our Spark NLP family: 
+* Welcoming a new EMR 6.x series to our Spark NLP family:
   * EMR 6.3.0 (Apache Spark 3.1.1 / Hadoop 3.2.1)
 
 ----------------
@@ -259,7 +307,7 @@ New Features and Enhancements
 * Add proper conversions for Scala 2.11/2.12 in ContextSpellChecker to use models from Spark 2.x in Spark 3.x https://github.com/JohnSnowLabs/spark-nlp/pull/2758
 * Provide confidence scores for all available tags in NerDLModel and NerCrfModel https://github.com/JohnSnowLabs/spark-nlp/pull/2760
 ```
-# Previously in NerDLModel and NerCrfModel 
+# Previously in NerDLModel and NerCrfModel
 [[named_entity, 0, 4, B-LOC, [word -> Japan, confidence -> 0.9998], []]
 ```
 
@@ -321,7 +369,7 @@ New Features
   * Databricks 8.0
   * Databricks 8.0 ML (there is no GPU in 8.0)
   * Databricks 8.1 Beta
-* Welcoming 2x new EMR 6.x series to our Spark NLP family: 
+* Welcoming 2x new EMR 6.x series to our Spark NLP family:
   * EMR 6.1.0 (Apache Spark 3.0.0 / Hadoop 3.2.1)
   * EMR 6.2.0 (Apache Spark 3.0.1 / Hadoop 3.2.1)
 * Starting Spark NLP 3.0.0 the default packages  for CPU and GPU will be based on Apache Spark 3.x and Scala 2.12 (`spark-nlp` and `spark-nlp-gpu` will be compatible only with Apache Spark 3.x and Scala 2.12)
@@ -333,15 +381,15 @@ New Features
 ----------------
 Performance Improvements
 ----------------
-Introducing a new batch annotation technique implemented in Spark NLP 3.0.0 for NerDLModel, BertEmbeddings, and BertSentenceEmbeddings annotators to radically improve prediction/inferencing performance. 
-From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. 
-You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it. 
+Introducing a new batch annotation technique implemented in Spark NLP 3.0.0 for NerDLModel, BertEmbeddings, and BertSentenceEmbeddings annotators to radically improve prediction/inferencing performance.
+From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row.
+You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it.
 
 
 ----------------
 Breaking changes
 ----------------
-There are only 5 annotators that are not compatible with both Scala 2.11 (Apache Spark 2.3 and Apache Spark 2.4) and Scala 2.12 (Apache Spark 3.x). 
+There are only 5 annotators that are not compatible with both Scala 2.11 (Apache Spark 2.3 and Apache Spark 2.4) and Scala 2.12 (Apache Spark 3.x).
 You can either train and use them on Apache Spark 2.3.x/2.4.x or train and use them on Apache Spark 3.x. The rest of our models/pipelines can be used on all Apache Spark and Scala major versions.
 
 - TokenizerModel
@@ -491,7 +539,7 @@ Enhancements
 ----------------
 Bugfixes
 ----------------
-* Fix loading from a local folder with no access to the cache folder 
+* Fix loading from a local folder with no access to the cache folder
 * Fix NullPointerException in DocumentAssembler when there are null in the rows
 * Fix dynamic padding in BertSentenceEmbeddings
 
@@ -565,7 +613,7 @@ Major features and improvements
 * **NEW:** A new BertSentenceEmbeddings annotator with 41 available pre-trained models for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
 * **NEW:** A new YakeModel annotator for an unsupervised, corpus-independent, domain, and language-independent and single-document keyword extraction algorithm
 * Integrate 24 new Small BERT models where the smallest model is 24x times smaller and 28x times faster compare to BERT base models
-* Add 3 new ELECTRA small, base, and large models 
+* Add 3 new ELECTRA small, base, and large models
 * Add 4 new Finnish BERT models for BertEmbeddings and BertSentenceEmbeddings
 * Improve BertEmbeddings memory consumption by 30%
 * Improve BertEmbeddings performance by more than 70% with a new built-in dynamic shape inputs
@@ -618,7 +666,7 @@ New Features
 ---------------------
 Enhancements
 ---------------------
-* Retrained 6 new BioBERT and ClinicalBERT models 
+* Retrained 6 new BioBERT and ClinicalBERT models
 * Add a new param to `start()` function to start the session for Apache Spark 2.3.x
 
 ----------------
@@ -705,7 +753,7 @@ New Features
 ---------------
 * A new AlbertEmbeddings annotator with 4 available pre-trained models
 * A new XlnetEmbeddings annotator with 2 available pre-trained models
-* A new ContextSpellChecker annotator, the state-of-the-art annotator for spell checking 
+* A new ContextSpellChecker annotator, the state-of-the-art annotator for spell checking
 * A new SentimentDL annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets
 * Add new PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame
 * Introducing a new outputLogsPath param for NerDLApproach, ClassifierDLApproach and SentimentDLApproach annotators
@@ -800,13 +848,13 @@ Bugfixes
 ---------------
 Overview
 ---------------
-This minor release fixes a bug on our Python side that was introduced in 2.4.2 release. 
+This minor release fixes a bug on our Python side that was introduced in 2.4.2 release.
 As always, we thank our community for their feedback and questions in our Slack channel.
 
 ----------------
 Bugfixes
 ----------------
-* Fix Python imports which resulted in AttributeError: module 'sparknlp' has no attribute 
+* Fix Python imports which resulted in AttributeError: module 'sparknlp' has no attribute
 
 
 ========
@@ -815,7 +863,7 @@ Bugfixes
 ---------------
 Overview
 ---------------
-This minor release fixes a few bugs in some of our annotators reported by our community. 
+This minor release fixes a few bugs in some of our annotators reported by our community.
 As always, we thank our community for their feedback and questions in our Slack channel.
 
 ----------------
@@ -846,7 +894,7 @@ Documentation
 ---------------
 Overview
 ---------------
-This minor release fixes a few bugs in some of our annotators reported by our community. 
+This minor release fixes a few bugs in some of our annotators reported by our community.
 As always, we thank our community for their feedback and questions in our Slack channel.
 
 ----------------
@@ -871,7 +919,7 @@ Documentation
 ---------------
 Overview
 ---------------
-We are very excited to finally release Spark NLP v2.4.0! This has been one of the largest releases we have ever made since the inception of the library! 
+We are very excited to finally release Spark NLP v2.4.0! This has been one of the largest releases we have ever made since the inception of the library!
 The new release of Spark NLP `2.4.0` has been migrated to TensorFlow `1.15.0` which takes advantage of the latest deep learning technologies and pre-trained models.
 As always, thanks to the community for the feedback and questions in our Slack channel.
 Please beware as this release breaks backwards compatibility with previously saved models, particularly on Tensorflow and Embeddings, aside from code-breaking changes in the API.
@@ -937,8 +985,8 @@ Other
 ---------------
 Overview
 ---------------
-We would like to thank you all for your valuable feedback via our Slack channels and our GitHub repositories. 
-Spark NLP `2.3.4` is a very stable and rock-solid release. However, we wanted to fix the few remaining minor bugs before moving to our bigger release `2.4.0`! 
+We would like to thank you all for your valuable feedback via our Slack channels and our GitHub repositories.
+Spark NLP `2.3.4` is a very stable and rock-solid release. However, we wanted to fix the few remaining minor bugs before moving to our bigger release `2.4.0`!
 
 ---------------
 Bugfixes

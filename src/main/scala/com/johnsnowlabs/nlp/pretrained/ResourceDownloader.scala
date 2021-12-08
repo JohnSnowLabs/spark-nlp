@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
+import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
 import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
@@ -28,7 +29,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-import com.johnsnowlabs.nlp.annotators.seq2seq.{MarianTransformer, T5Transformer}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{GPT2Transformer, MarianTransformer, T5Transformer}
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
@@ -524,7 +525,18 @@ object PythonResourceDownloader {
     "XlmRoBertaForTokenClassification" -> XlmRoBertaForTokenClassification,
     "AlbertForTokenClassification" -> AlbertForTokenClassification,
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
-    "LongformerForTokenClassification" -> LongformerForTokenClassification
+    "LongformerForTokenClassification" -> LongformerForTokenClassification,
+    "BertForSequenceClassification" -> BertForSequenceClassification,
+    "EntityRulerModel" -> EntityRulerModel,
+    "Doc2VecModel" -> Doc2VecModel,
+    "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
+    "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
+    "XlmRoBertaForSequenceClassification" -> XlmRoBertaForSequenceClassification,
+    "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
+    "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
+    "XlnetForSequenceClassification" -> XlnetForSequenceClassification,
+    "GPT2Transformer" -> GPT2Transformer,
+    "Word2VecModel" -> Word2VecModel
   )
 
   def downloadModel(readerStr: String, name: String, language: String = null, remoteLoc: String = null): PipelineStage = {

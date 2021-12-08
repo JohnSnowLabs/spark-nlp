@@ -1,5 +1,5 @@
 {%- capture title -%}
-ViveknSentimentAproach
+ViveknSentimentApproach
 {%- endcapture -%}
 
 {%- capture description -%}
