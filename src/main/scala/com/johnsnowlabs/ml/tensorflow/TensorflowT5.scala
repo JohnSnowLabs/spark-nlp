@@ -281,7 +281,6 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
-          if (!bannedTokensSlice.isEmpty)
             bannedTokensIndicesMask = bannedTokensIndicesMask :+
               (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
         }
@@ -328,8 +327,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken.map(_.toLong)
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        if (x._1.contains(eosTokenId)) {
-          x._1
+        if (!eosTokenId.isNaN && x._1.contains(eosTokenId)) {
+          x._1 ++ Array(eosTokenId)
         } else {
           x._1 ++ Array(x._2)
         }

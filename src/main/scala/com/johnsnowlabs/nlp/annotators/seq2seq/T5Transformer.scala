@@ -19,13 +19,11 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
-
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
 import java.io.File
 
 /**
@@ -131,7 +129,7 @@ import java.io.File
  */
 class T5Transformer(override val uid: String)
   extends AnnotatorModel[T5Transformer]
-    with HasSimpleAnnotate[T5Transformer]
+    with HasBatchedAnnotate[T5Transformer]
     with ParamsAndFeaturesWritable
     with WriteTensorflowModel
     with WriteSentencePieceModel {
@@ -367,18 +365,25 @@ class T5Transformer(override val uid: String)
     topP -> 1.0,
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 0,
-    ignoreTokenIds -> Array()
+    ignoreTokenIds -> Array(),
+    batchSize -> 8
   )
 
 
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    val nonEmptySentences = annotations.filter(_.result.nonEmpty)
+    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
 
-    if (nonEmptySentences.nonEmpty) {
+    val allAnnotations = nonEmptyBatch
+      .zipWithIndex
+      .flatMap{
+        case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
+      }
+
+    val processedAnnotations = if (allAnnotations.nonEmpty) {
       this.getModelIfNotSet.generateSeq2Seq(
-        sentences = nonEmptySentences,
-        batchSize = 1,
+        sentences = allAnnotations.map(_._1),
+        batchSize = $(batchSize),
         minOutputLength = $(minOutputLength),
         maxOutputLength = $(maxOutputLength),
         doSample = $(doSample),
@@ -389,11 +394,27 @@ class T5Transformer(override val uid: String)
         noRepeatNgramSize = $(noRepeatNgramSize),
         task = $(task),
         randomSeed = this.randomSeed,
-        $(ignoreTokenIds)
+        ignoreTokenIds = $(ignoreTokenIds)
       )
     } else {
-      Seq.empty[Annotation]
+      Seq()
     }
+
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = processedAnnotations
+        //zip each annotation with its corresponding row index
+        .zip(allAnnotations)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
+        Seq.empty[Annotation]
+    })
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
