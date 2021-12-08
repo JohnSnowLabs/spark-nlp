@@ -121,7 +121,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
 
   }
 
-  def tagSentence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
     val tensorsSegments = new TensorResources()
@@ -167,7 +167,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
 
   }
 
-  def tagSentenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
@@ -209,12 +209,12 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
     embeddings.grouped(dim).toArray
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
-                          originalTokenSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(sentences: Seq[WordpieceTokenizedSentence],
+              originalTokenSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+              caseSensitive: Boolean
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
@@ -264,12 +264,12 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
     }.toSeq
   }
 
-  def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
-                                  sentences: Seq[Sentence],
-                                  batchSize: Int,
-                                  maxSentenceLength: Int,
-                                  isLong: Boolean = false
-                                 ): Seq[Annotation] = {
+  def predictSequence(tokens: Seq[WordpieceTokenizedSentence],
+                      sentences: Seq[Sentence],
+                      batchSize: Int,
+                      maxSentenceLength: Int,
+                      isLong: Boolean = false
+                     ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     tokens.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
@@ -277,9 +277,9 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
       val sentencesBatch = batch.map(x => x._1._2)
       val encoded = encode(tokensBatch, maxSentenceLength)
       val embeddings = if (isLong) {
-        tagSentenceSBert(encoded)
+        tagSequenceSBert(encoded)
       } else {
-        tagSentence(encoded)
+        tagSequence(encoded)
       }
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>

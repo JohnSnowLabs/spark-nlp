@@ -278,7 +278,7 @@ class AlbertEmbeddings(override val uid: String)
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
 
-      val embeddings = getModelIfNotSet.calculateEmbeddings(
+      val embeddings = getModelIfNotSet.predict(
         tokenizedSentences,
         $(batchSize),
         $(maxSentenceLength),

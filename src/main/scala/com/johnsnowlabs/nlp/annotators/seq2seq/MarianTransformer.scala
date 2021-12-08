@@ -299,7 +299,7 @@ class MarianTransformer(override val uid: String) extends
     val nonEmptySentences = batchedAnnotations.filter(x => x.nonEmpty)
 
     if (nonEmptySentences.nonEmpty) nonEmptySentences.map(tokenizedSentences => {
-      this.getModelIfNotSet.generateSeq2Seq(
+      this.getModelIfNotSet.predict(
         sentences = tokenizedSentences,
         maxInputLength = $(maxInputLength),
         maxOutputLength = $(maxOutputLength),
