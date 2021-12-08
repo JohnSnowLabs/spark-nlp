@@ -1,4 +1,2 @@
-docs/assets/images/annotation_lab/2.3.0/large_taxonomy.png
-docs/en/alab/release_notes.md
-docs/assets/images/annotation_lab/2.3.0/large_taxonomy.png
-docs/en/alab/release_notes.md
+docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
+docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
