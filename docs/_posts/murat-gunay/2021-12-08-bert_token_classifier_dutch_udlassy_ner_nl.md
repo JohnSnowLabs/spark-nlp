@@ -60,7 +60,7 @@ nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, t
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
-text = """Mijn naam is Peter FERGUSSON. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor."""
+text = """Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor."""
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
@@ -86,7 +86,7 @@ ner_converter = NerConverter()\
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Mijn naam is Peter FERGUSSON. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor."].toDS.toDF("text")
+val example = Seq.empty["Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
