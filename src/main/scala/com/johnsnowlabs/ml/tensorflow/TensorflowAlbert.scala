@@ -155,11 +155,11 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def calculateEmbeddings(tokenizedSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(tokenizedSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+              caseSensitive: Boolean
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
     wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>

@@ -229,7 +229,7 @@ class UniversalSentenceEncoder(override val uid: String)
     val nonEmptySentences = sentences.filter(_.content.nonEmpty)
 
     if (nonEmptySentences.nonEmpty)
-      getModelIfNotSet.calculateEmbeddings(nonEmptySentences)
+      getModelIfNotSet.predict(nonEmptySentences)
     else Seq.empty[Annotation]
   }
 

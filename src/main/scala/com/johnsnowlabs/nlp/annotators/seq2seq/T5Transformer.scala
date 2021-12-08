@@ -377,7 +377,7 @@ class T5Transformer(override val uid: String)
       nonEmptyBatch.map(batch => {
         val nonEmptyAnnotations = batch.filter(_.result.nonEmpty)
         if (nonEmptyAnnotations.nonEmpty) {
-          this.getModelIfNotSet.generateSeq2Seq(
+          this.getModelIfNotSet.predict(
             sentences = nonEmptyAnnotations,
             batchSize = 1,
             minOutputLength = $(minOutputLength),

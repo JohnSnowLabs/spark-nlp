@@ -317,7 +317,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
 
       if (sentences.nonEmpty) {
         val tokenized = tokenize(sentences)
-        getModelIfNotSet.calculateSentenceEmbeddings(
+        getModelIfNotSet.predictSequence(
           tokenized,
           sentences,
           $(batchSize),
