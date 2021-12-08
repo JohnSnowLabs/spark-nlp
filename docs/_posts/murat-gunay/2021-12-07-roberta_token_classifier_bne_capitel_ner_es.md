@@ -62,7 +62,7 @@ nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, t
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
-text = """Mi nombre es Wolfgang y trabajo en la fábrica de Mercedes-Benz vivida en Madrid."""
+text = """Me llamo Antonio y trabajo en la fábrica de Mercedes-Benz en Madrid."""
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
@@ -88,7 +88,7 @@ ner_converter = NerConverter()\
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Mi nombre es Wolfgang y trabajo en la fábrica de Mercedes-Benz vivida en Madrid."].toDS.toDF("text")
+val example = Seq.empty["Me llamo Antonio y trabajo en la fábrica de Mercedes-Benz en Madrid."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -100,7 +100,7 @@ val result = pipeline.fit(example).transform(example)
 +------------------------+---------+
 |chunk                   |ner_label|
 +------------------------+---------+
-|Wolfgang                |PER      |
+|Antonio                 |PER      |
 |fábrica de Mercedes-Benz|ORG      |
 |Madrid.                 |LOC      |
 +------------------------+---------+
