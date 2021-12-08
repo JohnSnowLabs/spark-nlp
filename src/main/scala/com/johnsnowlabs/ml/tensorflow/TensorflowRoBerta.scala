@@ -116,7 +116,7 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
    * @param batch batches of sentences
    * @return batches of vectors for each sentence
    */
-  def tagSentence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
 
@@ -157,12 +157,12 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
-                          originalTokenSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(sentences: Seq[WordpieceTokenizedSentence],
+              originalTokenSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+              caseSensitive: Boolean
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
@@ -212,18 +212,18 @@ class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
     }.toSeq
   }
 
-  def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
-                                  sentences: Seq[Sentence],
-                                  batchSize: Int,
-                                  maxSentenceLength: Int
-                                 ): Seq[Annotation] = {
+  def predictSequence(tokens: Seq[WordpieceTokenizedSentence],
+                      sentences: Seq[Sentence],
+                      batchSize: Int,
+                      maxSentenceLength: Int
+                     ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     tokens.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
       val tokensBatch = batch.map(x => (x._1._1, x._2))
       val sentencesBatch = batch.map(x => x._1._2)
       val encoded = prepareBatchInputs(tokensBatch, maxSentenceLength)
-      val embeddings = tagSentence(encoded)
+      val embeddings = tagSequence(encoded)
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
         Annotation(

@@ -303,7 +303,7 @@ class DistilBertEmbeddings(override val uid: String)
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
 
-      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
+      val withEmbeddings = getModelIfNotSet.predict(
         tokenized,
         tokenizedSentences,
         $(batchSize),

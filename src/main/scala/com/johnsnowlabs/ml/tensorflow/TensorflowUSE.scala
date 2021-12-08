@@ -43,7 +43,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
   private val inputKey = "input"
   private val outPutKey = "output"
 
-  def calculateEmbeddings(sentences: Seq[Sentence]): Seq[Annotation] = {
+  def predict(sentences: Seq[Sentence]): Seq[Annotation] = {
 
     val tensors = new TensorResources()
     val batchSize = sentences.length
