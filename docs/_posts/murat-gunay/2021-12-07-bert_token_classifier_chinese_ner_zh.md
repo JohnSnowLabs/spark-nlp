@@ -17,9 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-- This model is imported from `Hugging Face`.
-
-- It's been fine-tuned for traditional Chinese language, leveraging `bert` embeddings and `BertForTokenClassification`.
+This model was imported from `Hugging Face` and it's been fine-tuned for traditional Chinese language, leveraging `Bert` embeddings and `BertForTokenClassification` for NER purposes.
 
 ## Predicted Entities
 
