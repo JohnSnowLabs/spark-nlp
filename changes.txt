@@ -1,2 +1,4 @@
-docs/en/nlp_server/release_notes.md
-docs/en/nlp_server/release_notes.md
+docs/assets/images/annotation_lab/2.3.0/large_taxonomy.png
+docs/en/alab/release_notes.md
+docs/assets/images/annotation_lab/2.3.0/large_taxonomy.png
+docs/en/alab/release_notes.md
