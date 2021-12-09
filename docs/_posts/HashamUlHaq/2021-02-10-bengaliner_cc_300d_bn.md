@@ -20,7 +20,7 @@ Detect 4 different types of entities in Indian text.
 
 ## Predicted Entities
 
-`PER` - Person, `ORG` - Organization, `LOC` - Location, `TIME` - Time/Year.
+`PER`, `ORG`, `LOC`, `TIME`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_BN/){:.button.button-orange}
