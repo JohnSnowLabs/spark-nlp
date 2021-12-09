@@ -1,2 +1,2 @@
-docs/_posts/HashamUlHaq/2021-02-10-bengaliner_cc_300d_bn.md
-docs/_posts/HashamUlHaq/2021-02-10-bengaliner_cc_300d_bn.md
+docs/_posts/dcecchini/2021-01-27-ner_jifs_glove_840B_300d_bn.md
+docs/_posts/dcecchini/2021-01-27-ner_jifs_glove_840B_300d_bn.md
