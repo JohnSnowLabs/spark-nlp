@@ -7,6 +7,7 @@ date: 2020-12-05
 task: [Pipeline Public, Language Detection, Sentence Detection]
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [language_detection, open_source, pipeline, xx]
 supported: true
 article_header:
