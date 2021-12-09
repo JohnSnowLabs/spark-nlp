@@ -8,6 +8,7 @@ language: en
 date: 2020-09-13
 task: Sentence Detection
 edition: Spark NLP 2.6.2
+spark_version: 2.4
 tags: [open_source,sentence_detection,en]
 supported: true
 article_header:
