@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
-docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
+docs/_plugins/search_index.rb
+docs/_plugins/search_index.rb
