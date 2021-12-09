@@ -22,7 +22,7 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 
 ## Predicted Entities
 
-Persons - `PER`, Locations - `LOC`, Organizations - `ORG`, Object - `OBJ`, and Others - `O`.
+`PER`, `LOC`, `ORG`, `OBJ`, `O`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN/){:.button.button-orange}
