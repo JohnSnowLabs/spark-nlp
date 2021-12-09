@@ -200,6 +200,7 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     edition_short: edition_short,
     date: post.data['date'].strftime('%F'),
     supported: !!post.data['supported'],
+    deprecated: !!post.data['deprecated'],
     body: body,
     url: post.url
   }
@@ -258,6 +259,9 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
                 "type": "keyword"
             },
             "supported": {
+                "type": "boolean"
+            },
+            "deprecated": {
                 "type": "boolean"
             },
             "tags": {
