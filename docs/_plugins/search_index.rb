@@ -133,7 +133,7 @@ end
 editions = Set.new
 uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
-name_language_editions_to_models_mapping = {}
+name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
 
 changed_filenames = []
@@ -189,7 +189,7 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   end
 
   model = {
-    id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}",
+    id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
@@ -212,8 +212,8 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   changed_filenames.delete(post.basename)
 
   key = model[:id]
-  name_language_editions_to_models_mapping[key] = [] unless name_language_editions_to_models_mapping.has_key? key
-  name_language_editions_to_models_mapping[key] << model
+  name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
+  name_language_editions_sparkversion_to_models_mapping[key] << model
 end
 
 client = nil
@@ -314,7 +314,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)
-          if is_latest?(name_language_editions_to_models_mapping, model)
+          if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
             id = model.delete(:id)
             bulk_indexer.index(id, model)
           end
