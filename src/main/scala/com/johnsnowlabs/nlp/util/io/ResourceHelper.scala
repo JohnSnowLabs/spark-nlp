@@ -16,11 +16,11 @@
 
 package com.johnsnowlabs.nlp.util.io
 
-import com.databricks.dbutils_v1.DBUtilsHolder.dbutils
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
@@ -81,7 +81,14 @@ object ResourceHelper {
             fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
           }
         case "dbfs" =>
-          dbutils.fs.cp(resource, destination.toString, recurse = true)
+          val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
+          val localFiles = ResourceHelper.listLocalFiles(dbfsPath)
+          localFiles.foreach{ localFile =>
+            val inputStream = ResourceHelper.getResourceStream(localFile.toString)
+            val targetPath = destination + localFile.toString.split("/").last
+            val targetFile = new File(targetPath)
+            FileUtils.copyInputStreamToFile(inputStream, targetFile)
+          }
         case _  =>
           val files = fileSystem.listFiles(path, false)
           while (files.hasNext) {
@@ -508,7 +515,7 @@ object ResourceHelper {
 
   def listLocalFiles(path: String): List[File] = {
     val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    if (fileSystem.getScheme == "dbfs" || fileSystem.getScheme == "hdfs") {
+    if (fileSystem.getScheme == "hdfs") {
       val filesPath = Option(new File(path.replace("file:", "")).listFiles())
       val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
       return files.toList

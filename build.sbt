@@ -111,8 +111,7 @@ lazy val utilDependencies = Seq(
     exclude("com.google.guava", "guava")
     exclude("org.apache.commons", "commons-lang3"),
   greex,
-  json4s,
-  databricks
+  json4s
 )
 
 lazy val typedDependencyParserDependencies = Seq(
