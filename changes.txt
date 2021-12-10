@@ -1,2 +1,8 @@
-docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
-docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_en_de_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_en_es_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_en_fr_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_many_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_en_de_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_en_es_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_en_fr_xx.md
+docs/_posts/maziyarpanahi/2020-12-08-tfhub_use_xling_many_xx.md
