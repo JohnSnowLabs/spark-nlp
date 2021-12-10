@@ -2,6 +2,7 @@ require 'set'
 require 'uri'
 require 'net/http'
 require 'json'
+require 'date'
 require 'elasticsearch'
 require 'nokogiri'
 
@@ -132,9 +133,16 @@ end
 editions = Set.new
 uniq_to_models_mapping = {}
 uniq_for_indexing = Set.new
+name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
 
 changed_filenames = []
+
+def is_latest?(group, model)
+  models = group[model[:id]]
+  Date.parse(model[:date]) == models.map { |m| Date.parse(m[:date])}.max
+end
+
 if File.exist?("./changes.txt")
   changed_filenames = File.open("./changes.txt") \
     .each_line \
@@ -181,7 +189,7 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   end
 
   model = {
-    id: post.url,
+    id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
@@ -192,7 +200,9 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     edition_short: edition_short,
     date: post.data['date'].strftime('%F'),
     supported: !!post.data['supported'],
-    body: body
+    deprecated: !!post.data['deprecated'],
+    body: body,
+    url: post.url
   }
 
   uniq = "#{post.data['name']}_#{post.data['language']}"
@@ -201,6 +211,10 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   editions.add(edition_short) unless edition_short.empty?
   uniq_for_indexing << uniq if changed_filenames.include?(post.basename)
   changed_filenames.delete(post.basename)
+
+  key = model[:id]
+  name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
+  name_language_editions_sparkversion_to_models_mapping[key] << model
 end
 
 client = nil
@@ -218,6 +232,61 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
       },
     },
   )
+  exists =  client.indices.exists index: 'models'
+  puts "Index already exists: #{exists}"
+  unless exists
+    client.indices.create index: 'models', body: {
+       "mappings": {
+        "properties": {
+            "body": {
+                "type": "text",
+                "analyzer": "english"
+            },
+            "date": {
+                "type": "date",
+                "format": "yyyy-MM-dd"
+            },
+            "edition": {
+                "type": "keyword"
+            },
+            "edition_short": {
+                "type": "keyword"
+            },
+            "language": {
+                "type": "keyword"
+            },
+            "languages": {
+                "type": "keyword"
+            },
+            "supported": {
+                "type": "boolean"
+            },
+            "deprecated": {
+                "type": "boolean"
+            },
+            "tags": {
+                "type": "keyword"
+            },
+            "tags_glued": {
+                "type": "text"
+            },
+            "task": {
+                "type": "keyword"
+            },
+            "name": {
+                "type": "text"
+            },
+            "title": {
+                "type": "text",
+                "analyzer": "english"
+            },
+            "url": {
+              "type": "keyword"
+            }
+        }
+      }
+    }
+  end
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
@@ -245,12 +314,14 @@ Jekyll::Hooks.register :site, :post_render do |site|
         end
       end
 
-      models_json[model[:id]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
+      models_json[model[:url]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)
-          id = model.delete(:id)
-          bulk_indexer.index(id, model)
+          if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
+            id = model.delete(:id)
+            bulk_indexer.index(id, model)
+          end
         end
       end
     end
@@ -261,9 +332,9 @@ Jekyll::Hooks.register :site, :post_render do |site|
   if client
     changed_filenames.map do |filename|
       filename.gsub! /\A(\d{4})-(\d{2})-(\d{2})-(\w+)\.md\z/, '/\1/\2/\3/\4.html'
-    end.compact.each do |id|
-      puts "Removing #{id}..."
-      client.delete index: 'models', id: id, ignore: [404]
+    end.compact.each do |url|
+      puts "Removing #{url}..."
+      client.delete_by_query index: 'models', body: {query: {term: {url: url}}}
     end
   end
 end
