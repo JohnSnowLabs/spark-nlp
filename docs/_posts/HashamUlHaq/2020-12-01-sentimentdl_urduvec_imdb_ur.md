@@ -7,6 +7,7 @@ date: 2020-12-01
 task: Sentiment Analysis
 language: ur
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [sentiment, ur, open_source]
 supported: true
 article_header:

@@ -169,3 +169,5 @@ nlp-server:
         url:    /docs/en/nlp_server/nlp_server
       - title:  Installation
         url:    /docs/en/nlp_server/installation
+      - title:  Release Notes
+        url:    /docs/en/nlp_server/release_notes

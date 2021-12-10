@@ -7,6 +7,7 @@ date: 2020-12-09
 task: Part of Speech Tagging
 language: he
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [pos, open_source, he]
 supported: true
 article_header:

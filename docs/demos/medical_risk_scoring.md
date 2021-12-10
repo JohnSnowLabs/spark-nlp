@@ -18,7 +18,7 @@ data:
           activemenu: medical_risk_scoring
       source: yes
       source: 
-        - title: Calculate Medicare Risk Score
+        - title: Calculate Medicare HCC Risk Score
           id: calculate_medicare_risk_score 
           image: 
               src: /assets/images/Calculate_Medicare_Risk_Score.svg

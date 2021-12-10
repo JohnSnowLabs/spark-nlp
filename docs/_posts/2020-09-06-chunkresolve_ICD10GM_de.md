@@ -9,6 +9,7 @@ repository: clinical/models
 date: 2020-09-06
 task: Entity Resolution
 edition: Spark NLP for Healthcare 2.5.5
+spark_version: 2.4
 tags: [clinical,licensed,entity_resolution,de]
 deprecated: true
 article_header:

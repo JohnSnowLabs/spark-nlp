@@ -7,6 +7,7 @@ date: 2021-01-13
 task: Word Segmentation
 language: th
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [th, word_segmentation, open_source]
 supported: true
 article_header:

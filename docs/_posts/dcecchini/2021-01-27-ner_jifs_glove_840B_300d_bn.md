@@ -7,6 +7,7 @@ date: 2021-01-27
 task: Named Entity Recognition
 language: bn
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [bn, ner, open_source]
 supported: true
 article_header:
@@ -22,7 +23,7 @@ This model uses the pre-trained `glove_840B_300` embeddings model from `WordEmbe
 
 ## Predicted Entities
 
-Persons - `PER`, Locations - `LOC`, Organizations - `ORG`, Object - `OBJ`, and Others - `O`.
+`PER`, `LOC`, `ORG`, `OBJ`, `O`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN/){:.button.button-orange}
