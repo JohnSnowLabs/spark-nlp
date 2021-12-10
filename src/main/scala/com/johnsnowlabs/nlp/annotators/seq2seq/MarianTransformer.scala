@@ -284,7 +284,7 @@ class MarianTransformer(override val uid: String) extends
   setDefault(
     maxInputLength -> 40,
     maxOutputLength -> 40,
-    batchSize -> 1,
+    batchSize -> 8,
     langId -> "",
     ignoreTokenIds -> Array()
   )
@@ -296,11 +296,20 @@ class MarianTransformer(override val uid: String) extends
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptySentences = batchedAnnotations.filter(x => x.nonEmpty)
 
-    if (nonEmptySentences.nonEmpty) nonEmptySentences.map(tokenizedSentences => {
+    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
+
+    val allAnnotations = nonEmptyBatch
+      .zipWithIndex
+      .flatMap{
+        case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
+      }
+
+
+    val processedAnnotations = if (allAnnotations.nonEmpty) {
+
       this.getModelIfNotSet.generateSeq2Seq(
-        sentences = tokenizedSentences,
+        sentences = allAnnotations.map(_._1),
         maxInputLength = $(maxInputLength),
         maxOutputLength = $(maxOutputLength),
         vocabs = $(vocabulary),
@@ -308,11 +317,25 @@ class MarianTransformer(override val uid: String) extends
         batchSize = $(batchSize),
         ignoreTokenIds = $(ignoreTokenIds)
       ).toSeq
-    })
-    else {
-      Seq(Seq.empty[Annotation])
+    } else {
+      Seq()
     }
 
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = processedAnnotations
+        //zip each annotation with its corresponding row index
+        .zip(allAnnotations)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
+        Seq.empty[Annotation]
+    })
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
