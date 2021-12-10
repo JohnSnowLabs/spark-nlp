@@ -368,7 +368,7 @@ class T5TestSpec extends AnyFlatSpec {
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(200)
-      .setBatchSize(10)
+      .setBatchSize(5)
       .setNoRepeatNgramSize(3)
       .setIgnoreTokenIds(Array(12065))//ignore token "vegetable"
       .setOutputCol("summaries")
