@@ -13,14 +13,14 @@ class GPT2TestSpec extends AnyFlatSpec {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
       (1, "My name is Leonardo."),
       (2, "My name is Leonardo and I come from Rome."),
-      (3, "My name is"),
-      (4, "What is my name?"),
-      (5, "Who is Ronaldo?"),
-      (6, "Who discovered the microscope?"),
-      (7, "Where does petrol come from?"),
-      (8, "What is the difference between diesel and petrol?"),
-      (9, "Where is Sofia?"),
-      (10, "The priest is convinced that"),
+//      (3, "My name is"),
+//      (4, "What is my name?"),
+//      (5, "Who is Ronaldo?"),
+//      (6, "Who discovered the microscope?"),
+//      (7, "Where does petrol come from?"),
+//      (8, "What is the difference between diesel and petrol?"),
+//      (9, "Where is Sofia?"),
+//      (10, "The priest is convinced that"),
     )).toDF("id", "text").repartition(1)
 
     val documentAssembler = new DocumentAssembler()

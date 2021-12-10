@@ -327,11 +327,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken.map(_.toLong)
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        if (!eosTokenId.isNaN && x._1.contains(eosTokenId)) {
-          x._1 ++ Array(eosTokenId)
-        } else {
           x._1 ++ Array(x._2)
-        }
       })
       decoderOuts.foreach(_.close())
 
@@ -355,7 +351,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
       stopDecoder = (
-        !decoderInputs.exists(o => o.last != this.eosTokenId)
+        !decoderInputs.exists(o => !o.contains(this.eosTokenId))
           || (decoderInputs.head.length > maxOutputLength))
 
     }
