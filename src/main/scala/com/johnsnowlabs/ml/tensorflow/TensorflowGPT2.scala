@@ -241,11 +241,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        if (!eosTokenId.isNaN && x._1.contains(eosTokenId)) {
-          x._1 ++ Array(eosTokenId)
-        } else {
           x._1 ++ Array(x._2)
-        }
       })
       decoderOuts.foreach(_.close())
 

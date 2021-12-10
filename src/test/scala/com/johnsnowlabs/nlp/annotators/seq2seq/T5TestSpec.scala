@@ -331,7 +331,7 @@ class T5TestSpec extends AnyFlatSpec {
     val dataframe1 = results1.select("summaries.result").collect().toSeq.head.getAs[Seq[String]](0).head
     println(dataframe1)
 
-    assert(dataframe1 == "the lamb fillet of fat and cut into slices the thickness of a chop . melt dripping or 2 tablespoons vegetable oil in 'large pan'")
+    assert(dataframe1 == "a knob of dripping or 2 tablespoons vegetable oil in . heavy large pan - cut the kidneys in half and snip out the white core if desired .")
 
   }
 
@@ -370,7 +370,7 @@ class T5TestSpec extends AnyFlatSpec {
       .setMaxOutputLength(200)
       .setBatchSize(10)
       .setNoRepeatNgramSize(3)
-      //      .setIgnoreTokenIds(Array(12065))//ignore token "vegetable"
+      .setIgnoreTokenIds(Array(12065))//ignore token "vegetable"
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
