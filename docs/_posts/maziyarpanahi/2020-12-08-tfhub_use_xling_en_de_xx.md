@@ -8,6 +8,7 @@ task: Embeddings
 language: xx
 edition: Spark NLP 2.7.0
 spark_version: 2.4
+deprecated: true
 tags: [embeddings, open_source, xx]
 supported: true
 article_header:
