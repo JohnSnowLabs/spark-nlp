@@ -62,7 +62,6 @@ class TensorflowWrapper(var variables: Variables,
   def getTFSession(configProtoBytes: Option[Array[Byte]] = None): Session = this.synchronized {
 
     if (this.session.isEmpty) {
-      println("[TensorflowWrapper.getTFSession] session is empty. Creating one...")
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -106,7 +105,6 @@ class TensorflowWrapper(var variables: Variables,
                                 savedSignatures: Option[Map[String, String]] = None): Session = this.synchronized {
 
     if (this.session.isEmpty) {
-      println("[TensorflowWrapper.getTFSessionWithSignature] session is empty. Creating one...")
       val t = new TensorResources()
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
@@ -146,7 +144,6 @@ class TensorflowWrapper(var variables: Variables,
   def createSession(configProtoBytes: Option[Array[Byte]] = None): Session = {
 
     if (this.session.isEmpty) {
-      println("[TensorflowWrapper.createSession] session is empty. Creating one...")
       val config = configProtoBytes.getOrElse(TensorflowWrapper.TFSessionConfig)
 
       LoadsContrib.loadContribToTensorflow()
