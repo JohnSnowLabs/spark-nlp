@@ -1961,10 +1961,15 @@ class LemmatizerModel(AnnotatorModel):
 class DateMatcherUtils(Params):
     """Base class for DateMatcher Annotators
     """
-    dateFormat = Param(Params._dummy(),
-                       "dateFormat",
-                       "desired format for dates extracted",
-                       typeConverter=TypeConverters.toString)
+    inputFormats = Param(Params._dummy(),
+                         "inputFormats",
+                         "input formats list of patterns to match",
+                         typeConverter=TypeConverters.toListString)
+
+    outputFormat = Param(Params._dummy(),
+                         "outputFormat",
+                         "desired output format for dates extracted",
+                         typeConverter=TypeConverters.toString)
 
     readMonthFirst = Param(Params._dummy(),
                            "readMonthFirst",
@@ -2004,8 +2009,18 @@ class DateMatcherUtils(Params):
                            "source language for explicit translation",
                            typeConverter=TypeConverters.toString)
 
-    def setFormat(self, value):
-        """Sets desired format for extracted dates, by default yyyy/MM/dd.
+    def setInputFormats(self, value):
+        """Sets input formats patterns to match in the documents.
+
+        Parameters
+        ----------
+        value : List[str]
+            Input formats regex patterns to match dates in documents
+        """
+        return self._set(inputFormats=value)
+
+    def setOutputFormat(self, value):
+        """Sets desired output format for extracted dates, by default yyyy/MM/dd.
 
         Not all of the date information needs to be included. For example
         ``"YYYY"`` is also a valid input.
@@ -2013,9 +2028,9 @@ class DateMatcherUtils(Params):
         Parameters
         ----------
         value : str
-            Desired format for dates extracted.
+            Desired output format for dates extracted.
         """
-        return self._set(dateFormat=value)
+        return self._set(outputFormat=value)
 
     def setReadMonthFirst(self, value):
         """Sets whether to parse the date in mm/dd/yyyy format instead of
@@ -2156,7 +2171,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     ...     .setAnchorDateYear(2020) \\
     ...     .setAnchorDateMonth(1) \\
     ...     .setAnchorDateDay(11) \\
-    ...     .setDateFormat("yyyy/MM/dd")
+    ...     .setOutputFormat("yyyy/MM/dd")
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
     ...     date
@@ -2183,7 +2198,8 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     def __init__(self):
         super(DateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd",
+            inputFormats=[""],
+            outputFormat="yyyy/MM/dd",
             readMonthFirst=True,
             defaultDayWhenMissing=1,
             anchorDateYear=-1,
@@ -2250,7 +2266,7 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     ...     .setAnchorDateYear(2020) \\
     ...     .setAnchorDateMonth(1) \\
     ...     .setAnchorDateDay(11) \\
-    ...     .setDateFormat("yyyy/MM/dd")
+    ...     .setOutputFormat("yyyy/MM/dd")
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
     ...     date
@@ -2273,7 +2289,8 @@ class MultiDateMatcher(AnnotatorModel, DateMatcherUtils):
     def __init__(self):
         super(MultiDateMatcher, self).__init__(classname="com.johnsnowlabs.nlp.annotators.MultiDateMatcher")
         self._setDefault(
-            dateFormat="yyyy/MM/dd",
+            inputFormats=[""],
+            outputFormat="yyyy/MM/dd",
             readMonthFirst=True,
             defaultDayWhenMissing=1
         )
@@ -4766,7 +4783,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     enableMemoryOptimizer
         Whether to optimize for large datasets or not. Enabling this option can
         slow down training, by default False
-
+    useBestModel
+        Whether to restore and use the model that has achieved the best performance
+        at the end of the training.
     Examples
     --------
     >>> import sparknlp
@@ -4868,6 +4887,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     enableMemoryOptimizer = Param(Params._dummy(), "enableMemoryOptimizer",
                                   "Whether to optimize for large datasets or not. Enabling this option can slow down training.",
                                   TypeConverters.toBoolean)
+
+    useBestModel = Param(Params._dummy(), "useBestModel",
+                         "Whether to restore and use the model that has achieved the best performance at the end of the training.",
+                         TypeConverters.toBoolean)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -5052,6 +5075,17 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         """
         return self._set(outputLogsPath=p)
 
+    def setUseBestModel(self, value):
+        """Whether to restore and use the model that has achieved the best performance at the end of the training.
+        The metric that is being monitored is F1 for testDataset and if it's not set it will be validationSplit, and if it's not set finally looks for loss.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to restore and use the model that has achieved the best performance at the end of the training.
+        """
+        return self._set(useBestModel=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -5070,7 +5104,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             includeConfidence=False,
             includeAllConfidenceScores=False,
             enableOutputLogs=False,
-            enableMemoryOptimizer=False
+            enableMemoryOptimizer=False,
+            useBestModel=False
         )
 
 
@@ -11332,7 +11367,7 @@ class WordSegmenterModel(AnnotatorModel):
         return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
 
 
-class T5Transformer(AnnotatorModel):
+class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
     """T5: the Text-To-Text Transfer Transformer
 
     T5 reconsiders all NLP tasks into a unified text-to-text-format where the
@@ -11633,7 +11668,8 @@ class T5Transformer(AnnotatorModel):
             topP=1.0,
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
-            ignoreTokenIds=[]
+            ignoreTokenIds=[],
+            batchSize=8
         )
 
     @staticmethod
@@ -11862,7 +11898,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=1,
+            batchSize=8,
             maxInputLength=40,
             maxOutputLength=40,
             langId="",
@@ -16519,7 +16555,7 @@ class XlnetForSequenceClassification(AnnotatorModel,
         return ResourceDownloader.downloadModel(XlnetForSequenceClassification, name, lang, remote_loc)
 
 
-class GPT2Transformer(AnnotatorModel):
+class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
     """GPT2: the OpenAI Text-To-Text Transformer
 
     GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million
@@ -16557,31 +16593,34 @@ class GPT2Transformer(AnnotatorModel):
     Parameters
     ----------
     task
-        Transformer's task, e.g. ``summarize:``
+        Transformer's task, e.g. ``summarize:`` , by default ""
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     minOutputLength
-        Minimum length of the sequence to be generated
+        Minimum length of the sequence to be generated, by default 0
     maxOutputLength
-        Maximum length of output text
+        Maximum length of output text, by default 20
     doSample
-        Whether or not to use sampling; use greedy decoding otherwise
+        Whether or not to use sampling; use greedy decoding otherwise, by default False
     temperature
-        The value used to module the next token probabilities
+        The value used to module the next token probabilities, by default 1.0
     topK
         The number of highest probability vocabulary tokens to keep for
-        top-k-filtering
+        top-k-filtering, by default 50
     topP
-        Top cumulative probability for vocabulary tokens
+        Top cumulative probability for vocabulary tokens, by default 1.0
 
         If set to float < 1, only the most probable tokens with probabilities
         that add up to ``topP`` or higher are kept for generation.
     repetitionPenalty
-        The parameter for repetition penalty. 1.0 means no penalty.
+        The parameter for repetition penalty, 1.0 means no penalty. , by default
+        1.0
     noRepeatNgramSize
-        If set to int > 0, all ngrams of that size can only occur once
+        If set to int > 0, all ngrams of that size can only occur once, by
+        default 0
     ignoreTokenIds
-       A list of token ids which are ignored in the decoder's output
+        A list of token ids which are ignored in the decoder's output, by
+        default []
 
     Notes
     -----
@@ -16805,7 +16844,8 @@ class GPT2Transformer(AnnotatorModel):
             topP=1.0,
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
-            ignoreTokenIds=[]
+            ignoreTokenIds=[],
+            batchSize=8
         )
 
     @staticmethod
@@ -16849,3 +16889,325 @@ class GPT2Transformer(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(GPT2Transformer, name, lang, remote_loc)
+
+
+class Word2VecApproach(AnnotatorApproach, HasStorageRef):
+    """Trains a Word2Vec model that creates vector representations of words in a
+    text corpus.
+
+    The algorithm first constructs a vocabulary from the corpus and then learns
+    vector representation of words in the vocabulary. The vector representation
+    can be used as features in natural language processing and machine learning
+    algorithms.
+
+    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
+    implementation and a hierarchical softmax method to train the model. The
+    variable names in the implementation match the original C implementation.
+
+    For instantiated/pretrained models, see :class:`.Word2VecModel`.
+
+    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``TOKEN``              ``WORD_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    vectorSize
+        The dimension of codes after transforming from words (> 0), by default
+        100
+    windowSize
+        The window size (context words from [-window, window]) (> 0), by default
+        5
+    numPartitions
+        Number of partitions for sentences of words (> 0), by default 1
+    minCount
+        The minimum number of times a token must appear to be included in the
+        word2vec model's vocabulary (>= 0), by default 1
+    maxSentenceLength
+        The window size (Maximum length (in words) of each sentence in the input
+        data. Any sentence longer than this threshold will be divided into
+        chunks up to the size (> 0), by default 1000
+    stepSize
+        Step size (learning rate) to be used for each iteration of optimization
+        (> 0), by default 0.025
+    maxIter
+        Maximum number of iterations (>= 0), by default 1
+    seed
+        Random seed, by default 44
+
+
+    References
+    ----------
+    For the original C implementation, see https://code.google.com/p/word2vec/
+
+    For the research paper, see `Efficient Estimation of Word Representations in
+    Vector Space <https://arxiv.org/abs/1301.3781>`__ and `Distributed
+    Representations of Words and Phrases and their Compositionality
+    <https://arxiv.org/pdf/1310.4546v1.pdf>`__.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = Word2VecApproach() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> pipeline = Pipeline() \\
+    ...     .setStages([
+    ...       documentAssembler,
+    ...       tokenizer,
+    ...       embeddings
+    ...     ])
+    >>> path = "sherlockholmes.txt"
+    >>> dataset = spark.read.text(path).toDF("text")
+    >>> pipelineModel = pipeline.fit(dataset)
+    """
+
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    windowSize = Param(Params._dummy(),
+                       "windowSize",
+                       "the window size (context words from [-window, window]) (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    numPartitions = Param(Params._dummy(),
+                          "numPartitions",
+                          "number of partitions for sentences of words (> 0)",
+                          typeConverter=TypeConverters.toInt)
+
+    minCount = Param(Params._dummy(),
+                     "minCount",
+                     "the minimum number of times a token must " +
+                     "appear to be included in the word2vec model's vocabulary (>= 0)",
+                     typeConverter=TypeConverters.toInt)
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "the window size (Maximum length (in words) of each sentence in the input data. Any sentence longer than this threshold will " +
+                              "be divided into chunks up to the size (> 0)",
+                              typeConverter=TypeConverters.toInt)
+
+    stepSize = Param(Params._dummy(),
+                     "stepSize",
+                     "Step size (learning rate) to be used for each iteration of optimization (> 0)",
+                     typeConverter=TypeConverters.toFloat)
+
+    maxIter = Param(Params._dummy(),
+                    "maxIter",
+                    "maximum number of iterations (>= 0)",
+                    typeConverter=TypeConverters.toInt)
+
+    seed = Param(Params._dummy(),
+                 "seed",
+                 "Random seed",
+                 typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
+    def setWindowSize(self, windowSize):
+        """
+        Sets window size (default: 5).
+        """
+        return self._set(windowSize=windowSize)
+
+    def setStepSize(self, stepSize):
+        """
+        Sets initial learning rate (default: 0.025).
+        """
+        return self._set(stepSize=stepSize)
+
+    def setNumPartitions(self, numPartitions):
+        """
+        Sets number of partitions (default: 1). Use a small number for
+        accuracy.
+        """
+        return self._set(numPartitions=numPartitions)
+
+    def setMaxIter(self, numIterations):
+        """
+        Sets number of iterations (default: 1), which should be smaller
+        than or equal to number of partitions.
+        """
+        return self._set(maxIter=numIterations)
+
+    def setSeed(self, seed):
+        """
+        Sets random seed.
+        """
+        return self._set(seed=seed)
+
+    def setMinCount(self, minCount):
+        """
+        Sets minCount, the minimum number of times a token must appear
+        to be included in the word2vec model's vocabulary (default: 5).
+        """
+        return self._set(minCount=minCount)
+
+    def setMaxSentenceLength(self, maxSentenceLength):
+        """
+        Maximum length (in words) of each sentence in the input data.
+        Any sentence longer than this threshold will be divided into
+        chunks up to the size (> 0)
+        """
+        return self._set(maxSentenceLength=maxSentenceLength)
+
+    @keyword_only
+    def __init__(self):
+        super(Word2VecApproach, self).__init__(classname="com.johnsnowlabs.nlp.embeddings.Word2VecApproach")
+        self._setDefault(
+            vectorSize=100,
+            windowSize=5,
+            numPartitions=1,
+            minCount=1,
+            maxSentenceLength=1000,
+            stepSize=0.025,
+            maxIter=1,
+            seed=44
+        )
+
+    def _create_model(self, java_model):
+        return Word2VecModel(java_model=java_model)
+
+
+class Word2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
+    """Word2Vec model that creates vector representations of words in a text
+    corpus.
+
+    The algorithm first constructs a vocabulary from the corpus and then learns
+    vector representation of words in the vocabulary. The vector representation
+    can be used as features in natural language processing and machine learning
+    algorithms.
+
+    We use Word2Vec implemented in Spark ML. It uses skip-gram model in our
+    implementation and a hierarchical softmax method to train the model. The
+    variable names in the implementation match the original C implementation.
+
+    This is the instantiated model of the :class:`.Word2VecApproach`. For
+    training your own model, please see the documentation of that class.
+
+    Pretrained models can be loaded with :meth:`.pretrained` of the companion
+    object:
+
+    >>> embeddings = Word2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+
+    The default model is `"word2vec_gigaword_300"`, if no name is provided.
+
+    ====================== =======================
+    Input Annotation types Output Annotation type
+    ====================== =======================
+    ``TOKEN``              ``WORD_EMBEDDINGS``
+    ====================== =======================
+
+    Parameters
+    ----------
+    vectorSize
+        The dimension of codes after transforming from words (> 0), by default
+        100
+
+    References
+    ----------
+    For the original C implementation, see https://code.google.com/p/word2vec/
+
+    For the research paper, see `Efficient Estimation of Word Representations in
+    Vector Space <https://arxiv.org/abs/1301.3781>`__ and `Distributed
+    Representations of Words and Phrases and their Compositionality
+    <https://arxiv.org/pdf/1310.4546v1.pdf>`__.
+
+    Examples
+    --------
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> from pyspark.ml import Pipeline
+    >>> documentAssembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
+    ...     .setOutputCol("document")
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["document"]) \\
+    ...     .setOutputCol("token")
+    >>> embeddings = Word2VecModel.pretrained() \\
+    ...     .setInputCols(["token"]) \\
+    ...     .setOutputCol("embeddings")
+    >>> embeddingsFinisher = EmbeddingsFinisher() \\
+    ...     .setInputCols(["embeddings"]) \\
+    ...     .setOutputCols("finished_embeddings") \\
+    ...     .setOutputAsVector(True)
+    >>> pipeline = Pipeline().setStages([
+    ...     documentAssembler,
+    ...     tokenizer,
+    ...     embeddings,
+    ...     embeddingsFinisher
+    ... ])
+    >>> data = spark.createDataFrame([["This is a sentence."]]).toDF("text")
+    >>> result = pipeline.fit(data).transform(data)
+    >>> result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
+    +--------------------------------------------------------------------------------+
+    |                                                                          result|
+    +--------------------------------------------------------------------------------+
+    |[0.06222493574023247,0.011579325422644615,0.009919632226228714,0.109361454844...|
+    +--------------------------------------------------------------------------------+
+    """
+    name = "Word2VecModel"
+
+    vectorSize = Param(Params._dummy(),
+                       "vectorSize",
+                       "the dimension of codes after transforming from words (> 0)",
+                       typeConverter=TypeConverters.toInt)
+
+    def setVectorSize(self, vectorSize):
+        """
+        Sets vector size (default: 100).
+        """
+        return self._set(vectorSize=vectorSize)
+
+    def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.Word2VecModel", java_model=None):
+        super(Word2VecModel, self).__init__(
+            classname=classname,
+            java_model=java_model
+        )
+        self._setDefault(
+            vectorSize=100
+        )
+
+    @staticmethod
+    def pretrained(name="word2vec_gigaword_300", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "word2vec_wiki"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None. Will use
+            Spark NLPs repositories otherwise.
+
+        Returns
+        -------
+        Word2VecModel
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(Word2VecModel, name, lang, remote_loc)

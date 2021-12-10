@@ -302,7 +302,7 @@ class GPT2Transformer(override val uid: String)
   def getRandomSeed: Option[Int] = this.randomSeed
 
   /**
-   * A list of token ids which are ignored in the decoder's output
+   * A list of token ids which are ignored in the decoder's output (Default: `Array()`)
    *
    * @group param
    * */
@@ -397,9 +397,7 @@ class GPT2Transformer(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
-
-    val allAnnotations = nonEmptyBatch
+    val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
       .zipWithIndex
       .flatMap{
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))

@@ -18,12 +18,12 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
-import com.johnsnowlabs.nlp.annotators.ner.Verbose
+import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, Verbose}
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.apache.spark.ml.util.Identifiable
+import org.tensorflow.Session
 
-import scala.collection.Map
-import scala.collection.mutable
+import scala.collection.{Map, mutable}
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.JavaConverters._
 
@@ -51,9 +51,9 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   private val initKey = "training_1/init"
 
   def predict(dataset: Array[WordpieceEmbeddingsSentence],
-              configProtoBytes: Option[Array[Byte]] = None,
-              includeConfidence: Boolean = false,
-              includeAllConfidenceScores: Boolean = false,
+              configProtoBytes: Option[Array[Byte]],
+              includeConfidence: Boolean,
+              includeAllConfidenceScores: Boolean,
               batchSize: Int): Array[Array[(String, Option[Array[Map[String, String]]])]] = {
 
     val result = ArrayBuffer[Array[(String, Option[Array[Map[String, String]]])]]()
@@ -160,6 +160,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
             po: Float,
             dropout: Float,
             batchSize: Int = 8,
+            useBestModel: Boolean = false,
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
@@ -171,14 +172,28 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
             enableOutputLogs: Boolean = false,
             outputLogsPath: String,
             uuid: String = Identifiable.randomUID("annotator")
-           ): Unit = {
+           ): Session = {
+
+    var bestModelMetric: String = ModelMetrics.loss
+    var lastTestMircoF1, lastValMicroF1: Float = 0.0f
+    var lastLoss: Float = Float.MaxValue
+
+    if (test.nonEmpty) {
+      bestModelMetric = ModelMetrics.testMicroF1
+    } else if (validationSplit > 0.0) {
+      bestModelMetric = ModelMetrics.valMicroF1
+    } else {
+      bestModelMetric = ModelMetrics.loss
+    }
 
     log(s"Name of the selected graph: $graphFileName", Verbose.Epochs)
     outputLog(s"Name of the selected graph: $graphFileName", uuid, enableOutputLogs, outputLogsPath)
 
+    var lastCheckPoints: Session = tensorflow.createSession(configProtoBytes = configProtoBytes)
+
     // Initialize
     if (startEpoch == 0)
-      tensorflow.createSession(configProtoBytes = configProtoBytes).runner.addTarget(initKey).run()
+      lastCheckPoints.runner.addTarget(initKey).run()
 
     println(s"Training started - total epochs: $endEpoch - lr: $lr - batch size: $batchSize - labels: ${encoder.tags.length} " +
       s"- chars: ${encoder.chars.length} - training examples: $trainLength"
@@ -235,13 +250,36 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       if (validationSplit > 0.0) {
         println(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength")
         outputLog(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
-        measure(validDataset, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
+        val (_, newValMicroF1) = measure(validDataset, extended = evaluationLogExtended, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
+        if (useBestModel && bestModelMetric == ModelMetrics.valMicroF1) {
+          if (newValMicroF1 >= lastValMicroF1) {
+            lastCheckPoints = saveBestModel()
+            lastValMicroF1 = newValMicroF1
+          }
+        }
       }
 
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
         outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
-        measure(test, extended = evaluationLogExtended, includeConfidence = includeConfidence, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
+        val (_, newTestMicroF1) = measure(test, extended = evaluationLogExtended, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
+        if (useBestModel && bestModelMetric == ModelMetrics.testMicroF1) {
+          if (newTestMicroF1 >= lastTestMircoF1) {
+            lastCheckPoints = saveBestModel()
+            lastTestMircoF1 = newTestMicroF1
+          }
+        }
+      }
+
+      if (useBestModel && bestModelMetric == ModelMetrics.loss) {
+        if (loss < lastLoss) {
+          lastLoss = loss
+          lastCheckPoints = saveBestModel()
+        }
+      }
+
+      if (!useBestModel) {
+        lastCheckPoints = saveBestModel()
       }
 
     }
@@ -249,6 +287,13 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
     if (enableOutputLogs) {
       OutputHelper.exportLogFileToS3()
     }
+
+    lastCheckPoints
+
+  }
+
+  def saveBestModel(): Session = {
+    tensorflow.getSession()
   }
 
   def calcStat(tp: Int, fp: Int, fn: Int): (Float, Float, Float) = {
@@ -278,13 +323,11 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
   def measure(labeled: Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]],
               extended: Boolean = false,
-              includeConfidence: Boolean = false,
-              includeAllConfidenceScores: Boolean = false,
               enableOutputLogs: Boolean = false,
               outputLogsPath: String,
               batchSize: Int = 8,
               uuid: String = Identifiable.randomUID("annotator")
-             ): Unit = {
+             ): (Float, Float) = {
 
     val started = System.nanoTime()
 
@@ -297,7 +340,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
 
     for (batch <- labeled) {
 
-      val sentencePredictedTags = predict(batch.map(_._2), batchSize = batchSize)
+      val sentencePredictedTags = predict(batch.map(_._2), configProtoBytes = None, includeConfidence = false, includeAllConfidenceScores = false, batchSize = batchSize)
 
       val sentenceTokenTags = tagsForTokens(sentencePredictedTags, batch.map(_._2))
 
@@ -377,5 +420,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
     // ex: Precision =  TP1+TP2/TP1+TP2+FP1+FP2
     println(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
     outputLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", uuid, enableOutputLogs, outputLogsPath)
+
+    (f1, macroF1)
   }
 }

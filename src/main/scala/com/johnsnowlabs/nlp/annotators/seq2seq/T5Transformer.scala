@@ -369,12 +369,9 @@ class T5Transformer(override val uid: String)
     batchSize -> 8
   )
 
-
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
-
-    val allAnnotations = nonEmptyBatch
+    val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
       .zipWithIndex
       .flatMap{
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
