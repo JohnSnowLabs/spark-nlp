@@ -281,7 +281,6 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
-          if (!bannedTokensSlice.isEmpty)
             bannedTokensIndicesMask = bannedTokensIndicesMask :+
               (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
         }
@@ -328,11 +327,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken.map(_.toLong)
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        if (x._1.contains(eosTokenId)) {
-          x._1
-        } else {
           x._1 ++ Array(x._2)
-        }
       })
       decoderOuts.foreach(_.close())
 
@@ -356,7 +351,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
       stopDecoder = (
-        !decoderInputs.exists(o => o.last != this.eosTokenId)
+        !decoderInputs.exists(o => !o.contains(this.eosTokenId))
           || (decoderInputs.head.length > maxOutputLength))
 
     }

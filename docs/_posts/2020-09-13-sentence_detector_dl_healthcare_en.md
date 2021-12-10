@@ -9,6 +9,7 @@ repository: clinical/models
 date: 2020-09-13
 task: Sentence Detection
 edition: Spark NLP for Healthcare 2.6.0
+spark_version: 2.4
 tags: [clinical,sentence_detection,en]
 supported: true
 article_header:

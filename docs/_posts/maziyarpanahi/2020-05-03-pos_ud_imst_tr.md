@@ -7,6 +7,7 @@ date: 2020-05-03 12:43:00 +0800
 task: Part of Speech Tagging
 language: tr
 edition: Spark NLP 2.5.0
+spark_version: 2.4
 tags: [pos, tr]
 supported: true
 article_header:

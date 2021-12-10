@@ -2864,6 +2864,8 @@ to _outputCol_ and positions with font size to 'positionsCol' column.
 | modelType | [ModelType](ocr_structures#modeltype) | ModelType.BASE | Model type|
 | downloadModelData | bool | false | Download model data from JSL S3 |
 | withSpaces | bool | false | Include spaces to output positions.|
+| keepLayout | bool | false | Keep layout of text at result.|
+| outputSpaceCharacterWidth | int | 8 | Output space character width in pts for layout keeper.|
 
 #### Output Columns
 

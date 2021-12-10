@@ -7,6 +7,7 @@ date: 2021-02-16
 task: Spell Check
 language: en
 edition: Spark NLP 2.7.2
+spark_version: 2.4
 tags: [spelling, spellchecker, clinical, orthographic, spell_checker, medical_spell_checker, spelling_corrector, en, licensed]
 supported: true
 article_header:
