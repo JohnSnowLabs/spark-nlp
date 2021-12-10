@@ -101,7 +101,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
       effectiveBatch_size = batch.length
     }
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
 
     val maxSentenceLength = batch.map(_.length).max
 
