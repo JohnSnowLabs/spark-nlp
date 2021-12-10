@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
@@ -295,6 +295,7 @@ class T5Transformer(override val uid: String)
 
   /**
    * Optional Random seed for the model. Needs to be of type `Long`.
+   *
    * @group param
    */
   var randomSeed: Option[Long] = None
@@ -311,14 +312,14 @@ class T5Transformer(override val uid: String)
   def getRandomSeed: Option[Long] = this.randomSeed
 
   /**
-    * A list of token ids which are ignored in the decoder's output
-    *
-    * @group param
-    * */
+   * A list of token ids which are ignored in the decoder's output
+   *
+   * @group param
+   * */
   var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
-  def setIgnoreTokenIds(tokenIds:  Array[Int]): T5Transformer.this.type = {
+  def setIgnoreTokenIds(tokenIds: Array[Int]): T5Transformer.this.type = {
     set(ignoreTokenIds, tokenIds)
   }
 
@@ -373,7 +374,7 @@ class T5Transformer(override val uid: String)
 
     val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
       .zipWithIndex
-      .flatMap{
+      .flatMap {
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }
 

@@ -62,7 +62,7 @@ import java.io.File
  * automatic differentiation engine based on dynamic computation graphs. Marian is written entirely in C++. We describe
  * the design of the encoder-decoder framework and demonstrate that a research-friendly toolkit can achieve high
  * training and translation speed.''
-
+ *
  * '''Note:'''
  *
  * This is a very computationally expensive module especially on larger sequence.
@@ -212,14 +212,14 @@ class MarianTransformer(override val uid: String) extends
 
 
   /**
-    * A list of token ids which are ignored in the decoder's output
-    *
-    * @group param
-    * */
+   * A list of token ids which are ignored in the decoder's output
+   *
+   * @group param
+   * */
   var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
-  def setIgnoreTokenIds(tokenIds:  Array[Int]): MarianTransformer.this.type = {
+  def setIgnoreTokenIds(tokenIds: Array[Int]): MarianTransformer.this.type = {
     set(ignoreTokenIds, tokenIds)
   }
 
@@ -301,7 +301,7 @@ class MarianTransformer(override val uid: String) extends
 
     val allAnnotations = nonEmptyBatch
       .zipWithIndex
-      .flatMap{
+      .flatMap {
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }
 
