@@ -17,12 +17,12 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-- This model is trained on Broad Twitter Corpus (BTC) data-set, so that it can detect entities in Twitter-based texts successfully.
-- `BertForTokenClassification()` module, which uses the Deep Learning (`torch`) algorithm, is used to train this model.
-- The embeddings `bert_base_cased` is embedded inside the model so, you don't need to use any embeddings in the NLP pipeline.
+- This model is trained on Broad Twitter Corpus (BTC) dataset, so that it can detect entities in Twitter-based texts successfully.
+- It's based on `bert_base_cased` embeddings, which are included in the model, so you don't need to use any embeddings component in the NLP pipeline.
 
 ## Predicted Entities
 
+`PER`, `LOC`, `ORG`
 
 
 {:.btn-box}
@@ -51,7 +51,7 @@ ner_converter = NerConverter()\
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
 model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
-test_sentences = ["""Wengers big mistakes is not being ruthless enough with bad players.""", """my dream FUUUUUULHAAAAAAM !!!.."""]
+test_sentences = ["""Pentagram's Dominic Lippa is working on a new identity for University of Arts London."""]
 result = model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentences})))
 ```
 ```scala
@@ -68,7 +68,7 @@ val ner_converter = NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("Wengers big mistakes is not being ruthless enough with bad players.", "my dream FUUUUUULHAAAAAAM !!!..").toDF("text")
+val data = Seq("Pentagram's Dominic Lippa is working on a new identity for University of Arts London.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -77,12 +77,13 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+----------------+---------+
-|chunk           |ner_label|
-+----------------+---------+
-|Wengers         |PER      |
-|FUUUUUULHAAAAAAM|ORG      |
-+----------------+---------+
++--------------------------+---------+
+|chunk                     |ner_label|
++--------------------------+---------+
+|Pentagram's               |ORG      |
+|Dominic Lippa             |PER      |
+|University of Arts London |ORG      |
++--------------------------+---------+
 ```
 
 {:.model-param}

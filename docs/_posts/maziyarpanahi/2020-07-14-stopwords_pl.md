@@ -7,6 +7,7 @@ date: 2020-07-14 19:03:00 +0800
 task: Stop Words Removal
 language: pl
 edition: Spark NLP 2.5.4
+spark_version: 2.4
 tags: [stopwords, pl]
 supported: true
 article_header:

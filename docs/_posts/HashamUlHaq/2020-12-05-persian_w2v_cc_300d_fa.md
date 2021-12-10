@@ -7,6 +7,7 @@ date: 2020-12-05
 task: Embeddings
 language: fa
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [embeddings, fa, open_source]
 supported: true
 article_header:

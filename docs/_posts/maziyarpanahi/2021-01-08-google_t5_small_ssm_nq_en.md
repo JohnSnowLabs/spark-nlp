@@ -7,6 +7,7 @@ date: 2021-01-08
 task: Question Answering
 language: en
 edition: Spark NLP 2.7.1
+spark_version: 2.4
 tags: [open_source, t5, seq2seq, question_answering, en]
 supported: true
 article_header:
