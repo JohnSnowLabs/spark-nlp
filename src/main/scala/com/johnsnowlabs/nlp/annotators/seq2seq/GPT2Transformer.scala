@@ -1,7 +1,22 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowGPT2, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Gpt2Tokenizer}
@@ -385,7 +400,7 @@ class GPT2Transformer(override val uid: String)
     topK -> 50,
     topP -> 1.0,
     repetitionPenalty -> 1.0,
-    noRepeatNgramSize -> 0,
+    noRepeatNgramSize -> 3,
     ignoreTokenIds -> Array(),
     batchSize -> 8
   )
@@ -397,34 +412,47 @@ class GPT2Transformer(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
 
-    if (nonEmptyBatch.nonEmpty) {
-      nonEmptyBatch.map(batch => {
-        val nonEmptyAnnotations = batch.filter(_.result.nonEmpty)
-        if (nonEmptyAnnotations.nonEmpty) {
-          this.getModelIfNotSet.predict(
-            sentences = nonEmptyAnnotations,
-            batchSize = 1,
-            minOutputLength = $(minOutputLength),
-            maxOutputLength = $(maxOutputLength),
-            doSample = $(doSample),
-            temperature = $(temperature),
-            topK = $(topK),
-            topP = $(topP),
-            repetitionPenalty = $(repetitionPenalty),
-            noRepeatNgramSize = $(noRepeatNgramSize),
-            task = $(task),
-            randomSeed = this.randomSeed,
-            ignoreTokenIds = $(ignoreTokenIds)
-          )
-        } else {
-          Seq()
-        }
-      })
+    val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
+      .zipWithIndex
+      .flatMap {
+        case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
+      }
+    val processedAnnotations = if (allAnnotations.nonEmpty) {
+      this.getModelIfNotSet.predict(
+        sentences = allAnnotations.map(_._1),
+        batchSize = $(batchSize),
+        minOutputLength = $(minOutputLength),
+        maxOutputLength = $(maxOutputLength),
+        doSample = $(doSample),
+        temperature = $(temperature),
+        topK = $(topK),
+        topP = $(topP),
+        repetitionPenalty = $(repetitionPenalty),
+        noRepeatNgramSize = $(noRepeatNgramSize),
+        task = $(task),
+        randomSeed = this.randomSeed,
+        ignoreTokenIds = $(ignoreTokenIds)
+      )
     } else {
       Seq()
     }
+
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = processedAnnotations
+        //zip each annotation with its corresponding row index
+        .zip(allAnnotations)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
+        Seq.empty[Annotation]
+    })
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
@@ -446,11 +474,10 @@ trait ReadablePretrainedGPT2TransformerModel extends ParamsAndFeaturesReadable[G
   override def pretrained(name: String, lang: String, remoteLoc: String): GPT2Transformer = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[GPT2Transformer] =>
 
   override val tfFile: String = "gpt2_tensorflow"
-  override val sppFile: String = "gpt2_"
 
   def readTensorflow(instance: GPT2Transformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_gpt2_tf")
