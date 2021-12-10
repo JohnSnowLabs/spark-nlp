@@ -1,6 +1,6 @@
 ---
 layout: model
-title: News Classifier for Urdu text
+title: News Classifier for Urdu texts
 author: John Snow Labs
 name: classifierdl_bert_news
 date: 2021-12-10
@@ -50,7 +50,7 @@ classifierdl = ClassifierDLModel.pretrained("classifierdl_bert_news", "ur") \
 urdu_news_pipeline = Pipeline(stages=[document_assembler, embeddings, classifierdl])
 light_pipeline = LightPipeline(urdu_news_pipeline.fit(spark.createDataFrame([['']]).toDF("news")))
 
-result = light_pipeline.annotate(" سینٹ جیسی فاؤنڈيشنز کے مصنوعی ذہانت کے اداروں میں بہت سے امريکی ماہرين دلچسپ کام کر رہے ہیں۔ ای بے کے پاس مصنوعی ذہانت کے 45 مختلف شعبے ہیں اور اس نے مشرقی مصنوعی ذہانت کی کمپنیاں خریدنے کے لیے پانچ ارب پاؤنڈز خرچ کیے ہیں۔'")
+result = light_pipeline.annotate("گزشتہ ہفتے ایپل کے حصص میں 11 فیصد اضافہ ہوا ہے۔")
 result["class"]
 ```
 ```scala
@@ -69,7 +69,7 @@ val document_classifier = ClassifierDLModel.pretrained("classifierdl_bert_news",
 
 val nlpPipeline = new Pipeline().setStages(Array(document, embeddings, document_classifier))
 val light_pipeline = LightPipeline(nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text")))
-val result = light_pipeline.annotate(" سینٹ جیسی فاؤنڈيشنز کے مصنوعی ذہانت کے اداروں میں بہت سے امريکی ماہرين دلچسپ کام کر رہے ہیں۔ ای بے کے پاس مصنوعی ذہانت کے 45 مختلف شعبے ہیں اور اس نے مشرقی مصنوعی ذہانت کی کمپنیاں خریدنے کے لیے پانچ ارب پاؤنڈز خرچ کیے ہیں۔'")
+val result = light_pipeline.annotate("گزشتہ ہفتے ایپل کے حصص میں 11 فیصد اضافہ ہوا ہے۔")
 
 ```
 </div>
@@ -77,7 +77,7 @@ val result = light_pipeline.annotate(" سینٹ جیسی فاؤنڈيشنز کے
 ## Results
 
 ```bash
-['weird_news']
+['business']
 ```
 
 {:.model-param}
