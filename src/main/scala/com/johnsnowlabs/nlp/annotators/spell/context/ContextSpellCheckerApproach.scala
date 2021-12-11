@@ -18,19 +18,20 @@ package com.johnsnowlabs.nlp.annotators.spell.context
 
 import com.github.liblevenshtein.transducer.factory.TransducerBuilder
 import com.github.liblevenshtein.transducer.{Algorithm, Candidate}
-
 import com.johnsnowlabs.ml.tensorflow.{TensorflowSpell, TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType, HasFeatures}
 import org.apache.commons.io.IOUtils
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 import org.tensorflow.Graph
+import org.tensorflow.op.core.BroadcastTo
 
 import java.io.{BufferedWriter, File, FileWriter}
 import java.util
@@ -307,6 +308,17 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    */
   val maxSentLen = new IntParam(this, "maxSentLen", "Maximum length for a sentence - internal use during training")
 
+  /** Folder path that contain external graph files
+   *
+   * @group setParam
+   * */
+  val graphFolder = new Param[String](this, "graphFolder", "Folder path that contain external graph files")
+
+  /** Folder path that contain external graph files
+   *
+   * @group setParam
+   * */
+  def setGraphFolder(path: String): this.type = set(this.graphFolder, path)
 
   setDefault(
     minCount -> 3.0,
@@ -328,6 +340,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     caseStrategy -> CandidateStrategy.ALL,
     errorThreshold -> 10f
   )
+
+  private var broadcastGraph: Option[Broadcast[Array[Byte]]] = None
 
   /** Adds a new class of words to correct, based on a vocabulary.
    *
@@ -366,7 +380,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
 
     val Array(validation, train) = dataset.randomSplit(Array(getOrDefault(validationFraction), trainFraction))
 
-    val graph = findAndLoadGraph(getOrDefault(languageModelClasses), vocabulary.size)
+    val graph = findAndLoadGraph(getOrDefault(languageModelClasses), vocabulary.size, dataset.sparkSession)
 
     // create transducers for special classes
     val specialClassesTransducers = getOrDefault(specialClasses).
@@ -591,27 +605,34 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     DatasetIterator
   }
 
-  private val graphFilePattern = "spell_nlm\\/nlm_([0-9]{3})_([0-9]{1,2})_([0-9]{2,4})_([0-9]{3,6})\\.pb".r
+  private val graphFilePattern = ".*nlm_([0-9]{3})_([0-9]{1,2})_([0-9]{2,4})_([0-9]{3,6})\\.pb".r
 
-  private def findAndLoadGraph(requiredClassCount: Int, vocabSize: Int) = {
-    val availableGraphs = ResourceHelper.listResourceDirectory("/spell_nlm")
+  private def findAndLoadGraph(requiredClassCount: Int, vocabSize: Int, spark: SparkSession) = {
 
-    // get the one that better matches the class count
-    val candidates = availableGraphs.map {
-      // not looking into innerLayerSize or layerCount
-      case filename@graphFilePattern(_, _, classCount, vSize) =>
-        val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
-        val score = classCount.toFloat / requiredClassCount
-        (filename, score, isValid)
-    }.filter(_._3)
-
-    require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes.")
-
-    val bestGraph = candidates.minBy(_._2)._1
     val graph = new Graph()
-    val graphStream = ResourceHelper.getResourceStream(bestGraph)
-    val graphBytesDef = IOUtils.toByteArray(graphStream)
-    graph.importGraphDef(GraphDef.parseFrom(graphBytesDef))
+
+    if (broadcastGraph.isEmpty) {
+      val availableGraphs = getGraphFiles(get(graphFolder))
+      // get the one that better matches the class count
+      val candidates = availableGraphs.map {
+        // not looking into innerLayerSize or layerCount
+        case filename@graphFilePattern(_, _, classCount, vSize) =>
+          val isValid = classCount.toInt >= requiredClassCount && vocabSize < vSize.toInt
+          val score = classCount.toFloat / requiredClassCount
+          (filename, score, isValid)
+        case _ =>
+          ("", 0f, false)
+      }.filter(_._3)
+
+      require(candidates.nonEmpty, s"We couldn't find any suitable graph for $requiredClassCount classes, vocabSize: $vocabSize")
+
+      val bestGraph = candidates.minBy(_._2)._1
+      val graphStream = ResourceHelper.getResourceStream(bestGraph)
+      val graphBytesDef = IOUtils.toByteArray(graphStream)
+      broadcastGraph = Some(spark.sparkContext.broadcast(graphBytesDef))
+    }
+
+    graph.importGraphDef(GraphDef.parseFrom(broadcastGraph.get.value))
     graph
   }
 
@@ -623,6 +644,14 @@ class ContextSpellCheckerApproach(override val uid: String) extends
       else
         array.dropRight(array.length - maxLen)
     }
+  }
+
+  private def getGraphFiles(localGraphPath: Option[String]): Seq[String] = {
+    val graphFiles = localGraphPath.map(path =>
+      ResourceHelper.listLocalFiles(ResourceHelper.copyToLocal(path)).map(_.getAbsolutePath))
+      .getOrElse(ResourceHelper.listResourceDirectory("/spell_nlm"))
+
+    graphFiles
   }
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
