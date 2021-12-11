@@ -103,7 +103,7 @@ class TensorflowClassifier(
         val dpTensor = tensors.createTensor(dropout.toFloat)
 
         val calculated = tensorflow
-          .getSession(configProtoBytes = configProtoBytes)
+          .getTFSession(configProtoBytes = configProtoBytes)
           .runner
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
@@ -150,7 +150,7 @@ class TensorflowClassifier(
     val inputs = encoder.extractSentenceEmbeddings(docs)
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputs))
       .fetch(predictionKey)
@@ -183,7 +183,7 @@ class TensorflowClassifier(
     val tensors = new TensorResources()
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputs))
       .fetch(predictionKey)
