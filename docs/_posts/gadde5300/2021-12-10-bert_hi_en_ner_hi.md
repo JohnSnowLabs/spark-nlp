@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from Hugging Face to carry out Name Entity Recognition with mixed Hindi-English texts. This model is trained using the LinCE repository.
+This model was imported from Hugging Face to carry out Name Entity Recognition with mixed Hindi-English texts, provided by the LinCE repository.
 
 ## Predicted Entities
 
@@ -59,7 +59,7 @@ nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer
 
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-result = pipeline_model.transform(spark.createDataFrame([['रिलायंस इंडस्ट्रीज़ लिमिटेड एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई, में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।']], ["text"]))
+result = pipeline_model.transform(spark.createDataFrame([["""रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।"""]], ["text"]))
 
 ```
 ```scala
@@ -75,7 +75,7 @@ val tokenizer = Tokenizer()\
     .setInputCols("sentence") 
     .setOutputCol("token")
 
-val tokenClassifier_loaded  = BertForTokenClassification.pretrained(""bert_hi_en_ner"")
+val tokenClassifier_loaded  = BertForTokenClassification.pretrained("bert_hi_en_ner")
   .setInputCols("sentence","token")
   .setOutputCol("ner")
 
@@ -85,7 +85,7 @@ val ner_converter = NerConverter()
 
 val nlp_pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, tokenClassifier_loaded, ner_converter))
 
-val data = Seq("'रिलायंस इंडस्ट्रीज़ लिमिटेड एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई, में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।'").toDF("text")
+val data = Seq("""रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।""").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -95,18 +95,23 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+---------------------------+--------------------------------+
-|chunk                      |ner_label                    |
-+---------------------------+--------------------------------+
-|रिलायंस इंडस्ट्रीज़ लिमिटेड|ORGANISATION|
-|मुंबई                      |PLACE                          |
-|महाराष्ट्र                 |PLACE                           |
-|नवल टाटा                   |PERSON                  |
-|मुम्बई                     |PLACE                          |
-|टाटा समुह                  |ORGANISATION      |
-|भारत                       |PLACE                         |
-|जमशेदजी टाटा               |PERSON               |
-+---------------------------+--------------------------------+
+
+| chunk                 	| ner_label    	|
+|-----------------------	|--------------	|
+| रिलायंस इंडस्ट्रीज़ लिमिटेड           |  ORGANISATION |
+|Reliance Industries Limited    | ORGANISATION  |
+| मुंबई                   	| PLACE        	|
+| महाराष्ट्र              	        | PLACE        	|
+|Maharashtra                    |PLACE          |
+| नवल टाटा              	| PERSON       	|
+| मुम्बई                  	| PLACE        	|
+|Mumbai                         | PLACE         |
+| टाटा समुह              	| ORGANISATION 	|
+| भारत                  	| PLACE        	|
+| जमशेदजी टाटा           	| PERSON       	|
+
+
+
 ```
 
 {:.model-param}
