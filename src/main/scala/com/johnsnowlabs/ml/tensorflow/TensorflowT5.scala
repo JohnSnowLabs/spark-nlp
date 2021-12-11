@@ -54,25 +54,25 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private val eosTokenId = 1L
   private val pieceSize = spp.getSppModel.getPieceSize
 
-  def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int,
-                      minOutputLength: Int,
-                      maxOutputLength: Int,
-                      doSample: Boolean,
-                      temperature: Double,
-                      topK: Int,
-                      topP: Double,
-                      repetitionPenalty: Double,
-                      noRepeatNgramSize: Int,
-                      task: String,
-                      randomSeed: Option[Long] = None,
-                      ignoreTokenIds: Array[Int] = Array()
-                     ): Seq[Annotation] = {
+  def predict(sentences: Seq[Annotation],
+              batchSize: Int,
+              minOutputLength: Int,
+              maxOutputLength: Int,
+              doSample: Boolean,
+              temperature: Double,
+              topK: Int,
+              topP: Double,
+              repetitionPenalty: Double,
+              noRepeatNgramSize: Int,
+              task: String,
+              randomSeed: Option[Long] = None,
+              ignoreTokenIds: Array[Int] = Array()
+             ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, task)
-      val spIds = process(
+      val spIds = tag(
         batchSP,
         minOutputLength,
         maxOutputLength,
@@ -102,18 +102,18 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def process(
-               batch: Seq[Array[Long]],
-               minOutputLength: Int,
-               maxOutputLength: Int,
-               doSample: Boolean,
-               temperature: Double,
-               topK: Int,
-               topP: Double,
-               repetitionPenalty: Double,
-               noRepeatNgramSize: Int,
-               randomSeed: Option[Long],
-               ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
+  def tag(
+           batch: Seq[Array[Long]],
+           minOutputLength: Int,
+           maxOutputLength: Int,
+           doSample: Boolean,
+           temperature: Double,
+           topK: Int,
+           topP: Double,
+           repetitionPenalty: Double,
+           noRepeatNgramSize: Int,
+           randomSeed: Option[Long],
+           ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
 
 
     /* Actual size of each sentence to skip padding in the TF model */
@@ -159,7 +159,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val encoderInputTensors = tensorEncoder.createLongBufferTensor(shape, encoderInputBuffers)
     val encoderAttentionMaskTensors = tensorEncoder.createLongBufferTensor(shape, encoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
     val runner = session.runner
 
     runner

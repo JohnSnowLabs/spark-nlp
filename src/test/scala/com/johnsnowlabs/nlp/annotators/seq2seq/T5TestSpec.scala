@@ -369,7 +369,7 @@ class T5TestSpec extends AnyFlatSpec {
       .setMaxOutputLength(200)
       .setBatchSize(5)
       .setNoRepeatNgramSize(3)
-      .setIgnoreTokenIds(Array(12065))//ignore token "vegetable"
+      .setIgnoreTokenIds(Array(12065)) //ignore token "vegetable"
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
@@ -419,7 +419,7 @@ class T5TestSpec extends AnyFlatSpec {
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(200)
-      .setIgnoreTokenIds(Array(12065))//ignore token "vegetable"
+      .setIgnoreTokenIds(Array(12065)) //ignore token "vegetable"
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))

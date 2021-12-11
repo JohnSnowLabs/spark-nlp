@@ -303,7 +303,7 @@ class BertEmbeddings(override val uid: String)
     val tokenizedSentences = tokenizeWithAlignment(sentencesWithRow.map(_._1))
 
     //Process all sentences
-    val sentenceWordEmbeddings = getModelIfNotSet.calculateEmbeddings(
+    val sentenceWordEmbeddings = getModelIfNotSet.predict(
       tokenizedSentences,
       sentencesWithRow.map(_._1),
       $(batchSize),

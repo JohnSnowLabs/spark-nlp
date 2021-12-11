@@ -52,13 +52,13 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   private val langCodeRe = ">>.+<<".r
 
-  def process(
-               batch: Seq[Array[Int]],
-               maxOutputLength: Int,
-               paddingTokenId: Int,
-               eosTokenId: Int,
-               vocabSize: Int,
-               ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+  def tag(
+           batch: Seq[Array[Int]],
+           maxOutputLength: Int,
+           paddingTokenId: Int,
+           eosTokenId: Int,
+           vocabSize: Int,
+           ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
@@ -90,7 +90,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val encoderAttentionMaskKeyTensors = tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
     val decoderAttentionMaskTensors = tensorEncoder.createIntBufferTensor(shape, decoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false, savedSignatures = signatures)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false, savedSignatures = signatures)
     val runner = session.runner
 
     runner
@@ -243,14 +243,16 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
    * @param langId          language id for multi-lingual models
    * @return
    */
-  def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int = 10,
-                      maxInputLength: Int,
-                      maxOutputLength: Int,
-                      vocabs: Array[String],
-                      langId: String,
-                      ignoreTokenIds: Array[Int] = Array()
-                     ): Array[Annotation] = {
+
+  def predict(sentences: Seq[Annotation],
+              batchSize: Int = 10,
+              maxInputLength: Int,
+              maxOutputLength: Int,
+              vocabs: Array[String],
+              langId: String,
+              ignoreTokenIds: Array[Int] = Array()
+             ): Array[Annotation] = {
+
     val normalizer = new MosesPunctNormalizer()
 
     val paddingTokenId = vocabs.indexOf("<pad>")
@@ -269,7 +271,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, normalizer, maxInputLength, vocabs, langIdPieceId, unknownTokenId, eosTokenId)
-      val spIds = process(batchSP, maxOutputLength, paddingTokenId, eosTokenId, vocabSize, ignoreTokenIdsWithPadToken)
+      val spIds = tag(batchSP, maxOutputLength, paddingTokenId, eosTokenId, vocabSize, ignoreTokenIdsWithPadToken)
       decode(spIds, vocabs)
 
     }

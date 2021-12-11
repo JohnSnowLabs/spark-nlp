@@ -375,7 +375,7 @@ class SentimentDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tf.getTFSession(configProtoBytes = getConfigProtoBytes)), tf.graph)
 
     val model = new SentimentDLModel()
       .setDatasetParams(classifier.encoder.params)
