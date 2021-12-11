@@ -154,10 +154,17 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         .grouped(vocabSize).toArray.grouped(decoderInputLength).toArray
 
       val outputIds = decoderOutputs.map(
-        batch => batch.map(
-          input => input.indexOf(
-            input.zipWithIndex.filter(x => !ignoreTokenIds.contains(x._2)).map(_._1).max
-          )).last)
+        batch => batch.map(input => {
+          var maxArg = -1
+          var maxValue = Float.MinValue
+          (0 to (input.length - 1)).foreach(i => {
+            if ((input(i) >= maxValue) && (!ignoreTokenIds.contains(i))){
+              maxArg = i
+              maxValue = input(i)
+            }
+          })
+          maxArg
+        }).last)
       decoderInputs = decoderInputs.zip(outputIds).map(x => x._1 ++ Array(x._2))
       modelOutputs = modelOutputs.zip(outputIds).map(x => {
         if (x._1.contains(eosTokenId)) {
@@ -244,7 +251,6 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
                       langId: String,
                       ignoreTokenIds: Array[Int] = Array()
                      ): Array[Annotation] = {
-
     val normalizer = new MosesPunctNormalizer()
 
     val paddingTokenId = vocabs.indexOf("<pad>")
