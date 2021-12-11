@@ -328,7 +328,7 @@ class BertSentenceEmbeddings(override val uid: String)
     val tokenizedSentences = tokenize(sentencesWithRow.map(_._1))
 
     //Process all sentences
-    val allAnnotations = getModelIfNotSet.calculateSentenceEmbeddings(
+    val allAnnotations = getModelIfNotSet.predictSequence(
       tokenizedSentences,
       sentencesWithRow.map(_._1),
       $(batchSize),

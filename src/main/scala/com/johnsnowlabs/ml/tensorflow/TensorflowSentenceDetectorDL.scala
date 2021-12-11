@@ -137,7 +137,7 @@ class TensorflowSentenceDetectorDL(
         val classWeightsTensor = tensors.createTensor(outputClassWeights)
         val dropoutTensor = tensors.createTensor(dropout)
 
-        val calculated = model.getSession(configProtoBytes).runner
+        val calculated = model.getTFSession(configProtoBytes).runner
           .feed(inputsKey, inputTensor)
           .feed(targetsKey, labelTensor)
           .feed(learningRateKey, lrTensor)
@@ -189,7 +189,7 @@ class TensorflowSentenceDetectorDL(
     val labelTensor = tensors.createTensor(labels)
     val classWeightsTensor = tensors.createTensor(classWeights)
 
-    val calculated = model.getSession(configProtoBytes).runner
+    val calculated = model.getTFSession(configProtoBytes).runner
       .feed(inputsKey, inputTensor)
       .feed(targetsKey, labelTensor)
       .feed(classWeightsKey, classWeightsTensor)
@@ -212,7 +212,7 @@ class TensorflowSentenceDetectorDL(
     val tensors = new TensorResources()
     val inputTensor = tensors.createTensor(features.map(x => x.padTo(_inputDim, 0.0f)))
 
-    val calculated = model.getSession(configProtoBytes).runner
+    val calculated = model.getTFSession(configProtoBytes).runner
       .feed(inputsKey, inputTensor)
       .fetch(predictionsKey)
       .fetch(outputsKey)

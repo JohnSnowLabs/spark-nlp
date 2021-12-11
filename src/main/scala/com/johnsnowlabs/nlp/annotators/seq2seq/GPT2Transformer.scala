@@ -1,7 +1,22 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowGPT2, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Gpt2Tokenizer}
@@ -397,13 +412,14 @@ class GPT2Transformer(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+
     val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
       .zipWithIndex
-      .flatMap{
+      .flatMap {
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }
     val processedAnnotations = if (allAnnotations.nonEmpty) {
-      this.getModelIfNotSet.generateSeq2Seq(
+      this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
         batchSize = $(batchSize),
         minOutputLength = $(minOutputLength),

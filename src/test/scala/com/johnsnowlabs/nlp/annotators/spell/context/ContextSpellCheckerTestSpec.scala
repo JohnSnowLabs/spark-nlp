@@ -214,7 +214,6 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   }
 
-
   "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",
       "He wos re1uctant to clange .",
