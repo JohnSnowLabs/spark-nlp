@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
@@ -28,7 +29,7 @@ import java.io._
 import java.net.{URL, URLDecoder}
 import java.nio.file.{Files, Paths}
 import java.util.jar.JarFile
-import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map => MMap}
+import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 import scala.io.BufferedSource
 
 /**
@@ -71,20 +72,31 @@ object ResourceHelper {
       if (fileSystem.getScheme == "file")
         return resource
 
-      val files = fileSystem.listFiles(path, false)
-      val dst: Path = new Path(Files.createTempDirectory(prefix).toUri)
+      val destination = Files.createTempDirectory(prefix).toUri
 
-      if (fileSystem.getScheme == "hdfs") {
-        while (files.hasNext) {
-          fileSystem.copyToLocalFile(files.next.getPath, dst)
-        }
-      } else {
-        while (files.hasNext) {
-          fileSystem.copyFromLocalFile(files.next.getPath, dst)
-        }
+      fileSystem.getScheme match {
+        case "hdfs" =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyToLocalFile(files.next.getPath, new Path(destination))
+          }
+        case "dbfs" =>
+          val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
+          val localFiles = ResourceHelper.listLocalFiles(dbfsPath)
+          localFiles.foreach{ localFile =>
+            val inputStream = ResourceHelper.getResourceStream(localFile.toString)
+            val targetPath = destination + localFile.toString.split("/").last
+            val targetFile = new File(targetPath)
+            FileUtils.copyInputStreamToFile(inputStream, targetFile)
+          }
+        case _  =>
+          val files = fileSystem.listFiles(path, false)
+          while (files.hasNext) {
+            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
+          }
       }
 
-      dst.toString
+      destination.toString
     }
 
     def close(): Unit = {
@@ -503,7 +515,7 @@ object ResourceHelper {
 
   def listLocalFiles(path: String): List[File] = {
     val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    if (fileSystem.getScheme == "dbfs" || fileSystem.getScheme == "hdfs") {
+    if (fileSystem.getScheme == "hdfs") {
       val filesPath = Option(new File(path.replace("file:", "")).listFiles())
       val files = filesPath.getOrElse(throw new FileNotFoundException(s"folder: $path not found"))
       return files.toList
