@@ -243,7 +243,7 @@ class LanguageDetectorDL(override val uid: String)
     val sentences = SentenceSplit.unpack(annotations)
     val nonEmptySentences = sentences.filter(_.content.nonEmpty)
     if (nonEmptySentences.nonEmpty) {
-      getModelIfNotSet.calculateLanguageIdentification(
+      getModelIfNotSet.predict(
         nonEmptySentences,
         $(threshold),
         $(thresholdLabel),

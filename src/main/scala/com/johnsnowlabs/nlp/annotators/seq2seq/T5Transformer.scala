@@ -379,7 +379,7 @@ class T5Transformer(override val uid: String)
       }
 
     val processedAnnotations = if (allAnnotations.nonEmpty) {
-      this.getModelIfNotSet.generateSeq2Seq(
+      this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
         batchSize = $(batchSize),
         minOutputLength = $(minOutputLength),

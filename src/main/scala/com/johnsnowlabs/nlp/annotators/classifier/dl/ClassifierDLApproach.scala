@@ -406,7 +406,7 @@ class ClassifierDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tfWrapper.getSession(configProtoBytes = getConfigProtoBytes)), tfWrapper.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tfWrapper.getTFSession(configProtoBytes = getConfigProtoBytes)), tfWrapper.graph)
 
     val model = new ClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)

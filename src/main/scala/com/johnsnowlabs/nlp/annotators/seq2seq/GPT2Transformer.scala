@@ -412,13 +412,14 @@ class GPT2Transformer(override val uid: String)
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+
     val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
       .zipWithIndex
       .flatMap {
         case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }
     val processedAnnotations = if (allAnnotations.nonEmpty) {
-      this.getModelIfNotSet.generateSeq2Seq(
+      this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
         batchSize = $(batchSize),
         minOutputLength = $(minOutputLength),

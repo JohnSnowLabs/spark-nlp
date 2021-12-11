@@ -68,7 +68,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       else {
         val tensors = new TensorResources()
 
-        val calculator = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+        val calculator = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
           .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
@@ -222,7 +222,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
         val batchTags = encoder.encodeTags(tags)
 
         val tensors = new TensorResources()
-        val calculated = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+        val calculated = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
           .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
           .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
           .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
@@ -293,7 +293,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   }
 
   def saveBestModel(): Session = {
-    tensorflow.getSession()
+    tensorflow.getTFSession()
   }
 
   def calcStat(tp: Int, fp: Int, fn: Int): (Float, Float, Float) = {

@@ -308,7 +308,7 @@ class MarianTransformer(override val uid: String) extends
 
     val processedAnnotations = if (allAnnotations.nonEmpty) {
 
-      this.getModelIfNotSet.generateSeq2Seq(
+      this.getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
         maxInputLength = $(maxInputLength),
         maxOutputLength = $(maxOutputLength),
