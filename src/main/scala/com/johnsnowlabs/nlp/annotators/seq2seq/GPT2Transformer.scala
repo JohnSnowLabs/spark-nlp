@@ -387,7 +387,7 @@ class GPT2Transformer(override val uid: String)
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 3,
     ignoreTokenIds -> Array(),
-    batchSize -> 8
+    batchSize -> 4
   )
 
   /**
