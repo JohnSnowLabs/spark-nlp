@@ -7,6 +7,7 @@ date: 2021-01-25
 task: Word Segmentation
 language: zh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [word_segmentation, zh, open_source]
 supported: true
 article_header:

@@ -7,6 +7,7 @@ date: 2021-01-04
 task: Named Entity Recognition
 language: zh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [zh, ner, open_source]
 supported: true
 article_header:

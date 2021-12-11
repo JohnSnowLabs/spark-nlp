@@ -7,6 +7,7 @@ date: 2020-12-28
 task: Translation
 language: xx
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [open_source, seq2seq, translation, is, en, xx]
 supported: true
 article_header:

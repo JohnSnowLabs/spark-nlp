@@ -7,6 +7,7 @@ date: 2021-01-18
 task: Part of Speech Tagging
 language: bh
 edition: Spark NLP 2.7.0
+spark_version: 2.4
 tags: [bho, bh, pos, open_source]
 supported: true
 article_header:
