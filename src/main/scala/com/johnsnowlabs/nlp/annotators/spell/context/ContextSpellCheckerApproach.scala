@@ -31,7 +31,6 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 import org.tensorflow.Graph
-import org.tensorflow.op.core.BroadcastTo
 
 import java.io.{BufferedWriter, File, FileWriter}
 import java.util
