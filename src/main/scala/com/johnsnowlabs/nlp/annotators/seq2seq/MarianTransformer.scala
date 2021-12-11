@@ -62,7 +62,7 @@ import java.io.File
  * automatic differentiation engine based on dynamic computation graphs. Marian is written entirely in C++. We describe
  * the design of the encoder-decoder framework and demonstrate that a research-friendly toolkit can achieve high
  * training and translation speed.''
-
+ *
  * '''Note:'''
  *
  * This is a very computationally expensive module especially on larger sequence.
@@ -212,14 +212,14 @@ class MarianTransformer(override val uid: String) extends
 
 
   /**
-    * A list of token ids which are ignored in the decoder's output
-    *
-    * @group param
-    * */
+   * A list of token ids which are ignored in the decoder's output
+   *
+   * @group param
+   * */
   var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
-  def setIgnoreTokenIds(tokenIds:  Array[Int]): MarianTransformer.this.type = {
+  def setIgnoreTokenIds(tokenIds: Array[Int]): MarianTransformer.this.type = {
     set(ignoreTokenIds, tokenIds)
   }
 
@@ -296,11 +296,20 @@ class MarianTransformer(override val uid: String) extends
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptySentences = batchedAnnotations.filter(x => x.nonEmpty)
 
-    if (nonEmptySentences.nonEmpty) nonEmptySentences.map(tokenizedSentences => {
+    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
+
+    val allAnnotations = nonEmptyBatch
+      .zipWithIndex
+      .flatMap {
+        case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
+      }
+
+
+    val processedAnnotations = if (allAnnotations.nonEmpty) {
+
       this.getModelIfNotSet.predict(
-        sentences = tokenizedSentences,
+        sentences = allAnnotations.map(_._1),
         maxInputLength = $(maxInputLength),
         maxOutputLength = $(maxOutputLength),
         vocabs = $(vocabulary),
@@ -308,11 +317,25 @@ class MarianTransformer(override val uid: String) extends
         batchSize = $(batchSize),
         ignoreTokenIds = $(ignoreTokenIds)
       ).toSeq
-    })
-    else {
-      Seq(Seq.empty[Annotation])
+    } else {
+      Seq()
     }
 
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = processedAnnotations
+        //zip each annotation with its corresponding row index
+        .zip(allAnnotations)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
+        Seq.empty[Annotation]
+    })
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

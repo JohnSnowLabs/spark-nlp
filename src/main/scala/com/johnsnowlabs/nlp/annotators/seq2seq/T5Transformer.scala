@@ -19,12 +19,11 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{ReadSentencePieceModel, SentencePieceWrapper, WriteSentencePieceModel}
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowT5, TensorflowWrapper, WriteTensorflowModel}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate, HasPretrained, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntArrayParam, IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
 import java.io.File
 
 /**
@@ -296,6 +295,7 @@ class T5Transformer(override val uid: String)
 
   /**
    * Optional Random seed for the model. Needs to be of type `Long`.
+   *
    * @group param
    */
   var randomSeed: Option[Long] = None
@@ -312,14 +312,14 @@ class T5Transformer(override val uid: String)
   def getRandomSeed: Option[Long] = this.randomSeed
 
   /**
-    * A list of token ids which are ignored in the decoder's output
-    *
-    * @group param
-    * */
+   * A list of token ids which are ignored in the decoder's output
+   *
+   * @group param
+   * */
   var ignoreTokenIds = new IntArrayParam(this, "ignoreTokenIds", "A list of token ids which are ignored in the decoder's output")
 
   /** @group setParam */
-  def setIgnoreTokenIds(tokenIds:  Array[Int]): T5Transformer.this.type = {
+  def setIgnoreTokenIds(tokenIds: Array[Int]): T5Transformer.this.type = {
     set(ignoreTokenIds, tokenIds)
   }
 
@@ -371,34 +371,48 @@ class T5Transformer(override val uid: String)
   )
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
 
-    if (nonEmptyBatch.nonEmpty) {
-      nonEmptyBatch.map(batch => {
-        val nonEmptyAnnotations = batch.filter(_.result.nonEmpty)
-        if (nonEmptyAnnotations.nonEmpty) {
-          this.getModelIfNotSet.predict(
-            sentences = nonEmptyAnnotations,
-            batchSize = 1,
-            minOutputLength = $(minOutputLength),
-            maxOutputLength = $(maxOutputLength),
-            doSample = $(doSample),
-            temperature = $(temperature),
-            topK = $(topK),
-            topP = $(topP),
-            repetitionPenalty = $(repetitionPenalty),
-            noRepeatNgramSize = $(noRepeatNgramSize),
-            task = $(task),
-            randomSeed = this.randomSeed,
-            $(ignoreTokenIds)
-          )
-        } else {
-          Seq()
-        }
-      })
+    val allAnnotations = batchedAnnotations.filter(_.nonEmpty)
+      .zipWithIndex
+      .flatMap {
+        case (annotations, i) => annotations.filter(_.result.nonEmpty).map(x => (x, i))
+      }
+
+    val processedAnnotations = if (allAnnotations.nonEmpty) {
+      this.getModelIfNotSet.predict(
+        sentences = allAnnotations.map(_._1),
+        batchSize = $(batchSize),
+        minOutputLength = $(minOutputLength),
+        maxOutputLength = $(maxOutputLength),
+        doSample = $(doSample),
+        temperature = $(temperature),
+        topK = $(topK),
+        topP = $(topP),
+        repetitionPenalty = $(repetitionPenalty),
+        noRepeatNgramSize = $(noRepeatNgramSize),
+        task = $(task),
+        randomSeed = this.randomSeed,
+        ignoreTokenIds = $(ignoreTokenIds)
+      )
     } else {
       Seq()
     }
+
+    //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = processedAnnotations
+        //zip each annotation with its corresponding row index
+        .zip(allAnnotations)
+        //select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        //leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
+        Seq.empty[Annotation]
+    })
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
