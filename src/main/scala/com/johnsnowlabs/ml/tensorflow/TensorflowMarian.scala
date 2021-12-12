@@ -157,8 +157,8 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
         batch => batch.map(input => {
           var maxArg = -1
           var maxValue = Float.MinValue
-          (0 to (input.length - 1)).foreach(i => {
-            if ((input(i) >= maxValue) && (!ignoreTokenIds.contains(i))){
+          input.indices.foreach(i => {
+            if ((input(i) >= maxValue) && (!ignoreTokenIds.contains(i))) {
               maxArg = i
               maxValue = input(i)
             }
