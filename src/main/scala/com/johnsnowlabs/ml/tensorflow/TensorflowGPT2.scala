@@ -176,7 +176,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
       nextTokenLogits = nextTokenLogits.map(logits => {
-        (0 to logits.length - 1).map(i => {
+        logits.indices.map(i => {
           if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
         }).toArray
       })
@@ -242,7 +242,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-          x._1 ++ Array(x._2)
+        x._1 ++ Array(x._2)
       })
       decoderOuts.foreach(_.close())
 
