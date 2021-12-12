@@ -367,7 +367,7 @@ class T5Transformer(override val uid: String)
     repetitionPenalty -> 1.0,
     noRepeatNgramSize -> 0,
     ignoreTokenIds -> Array(),
-    batchSize -> 8
+    batchSize -> 4
   )
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {

@@ -11669,7 +11669,7 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
-            batchSize=8
+            batchSize=4
         )
 
     @staticmethod
@@ -11898,7 +11898,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=8,
+            batchSize=4,
             maxInputLength=40,
             maxOutputLength=40,
             langId="",
@@ -16845,7 +16845,7 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate):
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
-            batchSize=8
+            batchSize=4
         )
 
     @staticmethod

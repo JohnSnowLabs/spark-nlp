@@ -50,7 +50,7 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       .setOutputCol("translation")
       .setBatchSize(8)
       .setMaxInputLength(50)
-    //      .setIgnoreTokenIds(Array(64171))
+      .setIgnoreTokenIds(Array(64171))
 
     val pipeline = new Pipeline()
       .setStages(Array(
