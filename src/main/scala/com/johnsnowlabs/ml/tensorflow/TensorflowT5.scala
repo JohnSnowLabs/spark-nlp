@@ -263,8 +263,10 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(vocab_size).toArray.grouped(decoderInputLength).toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
-      nextTokenLogits = nextTokenLogits.map(x => {
-        x.zipWithIndex.map(x => if (ignoreTokenIds.contains(x._2)) Float.MinValue else x._1)
+      nextTokenLogits = nextTokenLogits.map(logits => {
+        logits.indices.map(i => {
+          if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
+        }).toArray
       })
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
@@ -281,8 +283,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
-            bannedTokensIndicesMask = bannedTokensIndicesMask :+
-              (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
+          bannedTokensIndicesMask = bannedTokensIndicesMask :+
+            (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
         }
         if (!bannedTokensIndicesMask.isEmpty)
           nextTokenLogits = for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(bannedTokensIndicesMask)) yield setTensorByIndicesToValue(
@@ -327,7 +329,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken.map(_.toLong)
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-          x._1 ++ Array(x._2)
+        x._1 ++ Array(x._2)
       })
       decoderOuts.foreach(_.close())
 
