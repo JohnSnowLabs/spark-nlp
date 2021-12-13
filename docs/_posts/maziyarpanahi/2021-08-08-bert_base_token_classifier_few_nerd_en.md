@@ -23,72 +23,72 @@ This model is fine-tuned on the Few-NERD dataset. Few-NERD is a large-scale, fin
 
 ## Predicted Entities
 
-`art-broadcastprogram`
-`art-film`
-`art-music`
-`art-other`
-`art-painting`
-`art-writtenart`
-`building-airport`
-`building-hospital`
-`building-hotel`
-`building-library`
-`building-other`
-`building-restaurant`
-`building-sportsfacility`
-`building-theater`
-`event-attack/battle/war/militaryconflict`
-`event-disaster`
-`event-election`
-`event-other`
-`event-protest`
-`event-sportsevent`
-`location-GPE`
-`location-bodiesofwater`
-`location-island`
-`location-mountain`
-`location-other`
-`location-park`
-`location-road/railway/highway/transit`
-`organization-company`
-`organization-education`
-`organization-government/governmentagency`
-`organization-media/newspaper`
-`organization-other`
-`organization-politicalparty`
-`organization-religion`
-`organization-showorganization`
-`organization-sportsleague`
-`organization-sportsteam`
-`other-astronomything`
-`other-award`
-`other-biologything`
-`other-chemicalthing`
-`other-currency`
-`other-disease`
-`other-educationaldegree`
-`other-god`
-`other-language`
-`other-law`
-`other-livingthing`
-`other-medical`
-`person-actor`
-`person-artist/author`
-`person-athlete`
-`person-director`
-`person-other`
-`person-politician`
-`person-scholar`
-`person-soldier`
-`product-airplane`
-`product-car`
-`product-food`
-`product-game`
-`product-other`
-`product-ship`
-`product-software`
-`product-train`
-`product-weapon`
+- art-broadcastprogram
+- art-film
+- art-music
+- art-other
+- art-painting
+- art-writtenart
+- building-airport
+- building-hospital
+- building-hotel
+- building-library
+- building-other
+- building-restaurant
+- building-sportsfacility
+- building-theater
+- event-attack/battle/war/militaryconflict
+- event-disaster
+- event-election
+- event-other
+- event-protest
+- event-sportsevent
+- location-GPE
+- location-bodiesofwater
+- location-island
+- location-mountain
+- location-other
+- location-park
+- location-road/railway/highway/transit
+- organization-company
+- organization-education
+- organization-government/governmentagency
+- organization-media/newspaper
+- organization-other
+- organization-politicalparty
+- organization-religion
+- organization-showorganization
+- organization-sportsleague
+- organization-sportsteam
+- other-astronomything
+- other-award
+- other-biologything
+- other-chemicalthing
+- other-currency
+- other-disease
+- other-educationaldegree
+- other-god
+- other-language
+- other-law
+- other-livingthing
+- other-medical
+- person-actor
+- person-artist/author
+- person-athlete
+- person-director
+- person-other
+- person-politician
+- person-scholar
+- person-soldier
+- product-airplane
+- product-car
+- product-food
+- product-game
+- product-other
+- product-ship
+- product-software
+- product-train
+- product-weapon
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

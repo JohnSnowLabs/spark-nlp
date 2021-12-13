@@ -21,7 +21,7 @@ Relate scale items and their measurements according to NIHSS guidelines.
 
 ## Predicted Entities
 
-`Has_Value : Measurement is related to the entity`, `0 : Measurement is not related to the entity`
+`Has_Value` : Measurement is related to the entity, `0` : Measurement is not related to the entity
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

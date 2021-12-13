@@ -21,7 +21,7 @@ This model runs on Spark NLP for Heathcare v3.1.0 and after. The model maps extr
 
 ## Predicted Entities
 
-Outputs 7-digit billable ICD codes. In the result, look for ` aux_label ` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: `billable status`, ` hcc status`, and `hcc score`.`For example, in the example shared below the `billable status ` is 1, ` hcc status ` is 1, and `hcc score ` is 8.
+Outputs 7-digit billable ICD codes. In the result, look for `aux_label` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: `billable status`, `hcc status`, and `hcc score`.`For example, in the example shared below the `billable status` is 1, `hcc status` is 1, and `hcc score` is 8.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
