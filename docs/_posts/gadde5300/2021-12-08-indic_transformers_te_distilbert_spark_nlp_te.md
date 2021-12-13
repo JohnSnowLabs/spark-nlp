@@ -2,7 +2,7 @@
 layout: model
 title: Telugu Word Embeddings (DistilBERT)
 author: John Snow Labs
-name: indic_transformers_te_distilbert_spark_nlp
+name: indic-transformers-te-distilbert
 date: 2021-12-08
 tags: [open_source, te, telugu, distilbert, embeddings]
 task: Embeddings
