@@ -1,6 +1,9 @@
 'use strict';
 
 const { resolve } = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -26,10 +29,63 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
+          exclude: /\.module\.css$/,
           use: [
-            'style-loader',
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             {
               loader: 'css-loader',
+              options: {
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    [
+                      'postcss-preset-env',
+                      {
+                        stage: 2,
+                        features: {
+                          'nesting-rules': true,
+                        },
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
+          test: /\.module\.css$/,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    [
+                      'postcss-preset-env',
+                      {
+                        stage: 2,
+                        features: {
+                          'nesting-rules': true,
+                        },
+                      },
+                    ],
+                  ],
+                },
+              },
             },
           ],
         },
@@ -42,5 +98,18 @@ module.exports = (env, argv) => {
         '/': 'http://localhost:4000',
       },
     },
+    optimization: {
+      moduleIds: 'deterministic',
+      minimize: isProduction,
+      minimizer: isProduction
+        ? [new TerserPlugin(), new CssMinimizerPlugin()]
+        : undefined,
+    },
+    plugins: [
+      isProduction &&
+        new MiniCssExtractPlugin({
+          filename: '[name].css',
+        }),
+    ].filter(Boolean),
   };
 };

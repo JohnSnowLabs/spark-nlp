@@ -1,4 +1,5 @@
 import Select from '../Select';
+import './FilterForm.css';
 
 const { createElement: e } = React;
 

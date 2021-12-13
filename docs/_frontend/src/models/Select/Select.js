@@ -1,3 +1,5 @@
+import './Select.css';
+
 const { createElement: e, Children } = React;
 
 const Select = ({

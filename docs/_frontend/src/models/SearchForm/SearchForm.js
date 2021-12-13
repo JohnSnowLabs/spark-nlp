@@ -1,4 +1,5 @@
 import Spinner from '../Spinner';
+import './SearchForm.css';
 
 const { createElement: e, useState, useEffect } = React;
 

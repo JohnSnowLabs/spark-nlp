@@ -31,27 +31,27 @@
     padding: 5px 15px;
     color: black;
   }
+}
 
-  &--value {
-    display: flex;
-    align-items: center;
-    padding-right: 6px;
+.select--value {
+  display: flex;
+  align-items: center;
+  padding-right: 6px;
 
-    & .select__value {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      flex-grow: 1;
-      text-align: left;
-    }
+  & .select__value {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex-grow: 1;
+    text-align: left;
+  }
 
-    & .select__clear-button {
-      color: white;
-    }
+  & .select__clear-button {
+    color: white;
+  }
 
-    & .select__value + .select__clear-button {
-      margin-left: 10px;
-    }
+  & .select__value + .select__clear-button {
+    margin-left: 10px;
   }
 }
 
