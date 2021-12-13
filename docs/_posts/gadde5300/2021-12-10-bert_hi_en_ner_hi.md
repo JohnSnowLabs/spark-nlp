@@ -99,13 +99,13 @@ val result = pipeline.fit(data).transform(data)
 | chunk                 	| ner_label    	|
 |-----------------------	|--------------	|
 | रिलायंस इंडस्ट्रीज़ लिमिटेड           |  ORGANISATION |
-|Reliance Industries Limited    | ORGANISATION  |
+| Reliance Industries Limited   | ORGANISATION  |
 | मुंबई                   	| PLACE        	|
 | महाराष्ट्र              	        | PLACE        	|
-|Maharashtra                    |PLACE          |
+| Maharashtra                   | PLACE         | 
 | नवल टाटा              	| PERSON       	|
 | मुम्बई                  	| PLACE        	|
-|Mumbai                         | PLACE         |
+| Mumbai                        | PLACE         |
 | टाटा समुह              	| ORGANISATION 	|
 | भारत                  	| PLACE        	|
 | जमशेदजी टाटा           	| PERSON       	|
