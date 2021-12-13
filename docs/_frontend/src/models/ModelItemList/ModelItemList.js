@@ -1,4 +1,5 @@
 import Pagination from '../Pagination';
+import './ModelItemList.css';
 
 const { createElement: e, Fragment } = React;
 

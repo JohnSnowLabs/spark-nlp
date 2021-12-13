@@ -1,4 +1,5 @@
 const { createElement: e } = React;
+import './Pagination.css';
 
 const Pagination = ({ page, totalPages, onChange }) => {
   if (totalPages <= 1) {

@@ -1,4 +1,5 @@
 import ModelItemTag from '../ModelItemTag';
+import './ModelItem.css';
 
 const { createElement: e } = React;
 
