@@ -1,7 +1,6 @@
 import Pagination from '../Pagination';
+import Sidebar from '../Sidebar';
 import './ModelItemList.css';
-
-const { createElement: e, Fragment } = React;
 
 const formatNumber = (value) => {
   return String(value)
@@ -16,6 +15,7 @@ const ModelItemList = ({
   meta,
   params,
   children,
+  onSubmit,
   onPageChange,
   onSupportedToggle,
 }) => {
@@ -25,34 +25,31 @@ const ModelItemList = ({
   };
 
   return ReactDOM.createPortal(
-    e(Fragment, null, [
-      e('div', { key: 'items', className: 'grid--container model-items' }, [
-        e(
-          'div',
-          {
-            key: 'header',
-            className: 'model-items__header',
-          },
-          e(
-            'div',
-            { className: 'model-items__header-total-results' },
-            formatNumber(meta.totalItems) + ' Models & Pipelines Results:'
-          ),
-          e('label', { className: 'model-items__header-supported' }, [
-            e('input', {
-              type: 'checkbox',
-              name: 'supported',
-              checked: params.supported,
-              onChange: handleSupportedChange,
-            }),
-            e('span', {}, 'Supported models only'),
-          ])
-        ),
-        e('div', { key: 'grid', className: 'grid' }, children),
-        e(Pagination, { key: 'pagination', ...meta, onChange: onPageChange }),
-      ]),
-    ]),
-
+    <div key="items" className="grid--container model-items">
+      <div className="model-items__sidebar-wrapper">
+        <div className="model-items__sidebar">
+          <Sidebar params={params} meta={meta} onSubmit={onSubmit} />
+        </div>
+      </div>
+      <div className="model-items__content-wrapper">
+        <div className="model-items__header">
+          <div className="model-items__header-total-results">
+            {formatNumber(meta.totalItems) + ' Models & Pipelines Results:'}
+          </div>
+          <label className="model-items__header-supported">
+            <input
+              type="checkbox"
+              name="supported"
+              checked={params.supported}
+              onChange={handleSupportedChange}
+            />
+            <span>Supported models only</span>
+          </label>
+        </div>
+        <div className="grid">{children}</div>
+        <Pagination {...meta} onChange={onPageChange} />
+      </div>
+    </div>,
     document.getElementById('results')
   );
 };

@@ -1,35 +1,74 @@
-import ModelItemList from '../ModelItemList';
-import ModelItem from '../ModelItem';
 import Form from '../Form';
+import ModelItem from '../ModelItem';
+import ModelItemList from '../ModelItemList';
 
 const { createElement: e, useState, useEffect } = React;
 
 const SEARCH_ORIGIN = 'https://search.modelshub.johnsnowlabs.com';
 
 const toSearchString = (params) => {
-  let isEmpty = true;
   const searchParams = Object.keys(params).reduce((acc, k) => {
-    if (params[k] && k !== 'type') {
-      let value = params[k];
-      if (k === 'supported') {
-        value = Number(value);
+    if (params[k]) {
+      switch (k) {
+        case '_type':
+          break;
+
+        case 'supported':
+          acc.append(k, Number(params[k]));
+          break;
+
+        case 'tags':
+        case 'predicted_entities':
+          params[k].forEach((v) => {
+            acc.append(k, v);
+          });
+          break;
+
+        default:
+          acc.append(k, params[k]);
+          break;
       }
-      acc.append(k, value);
-      isEmpty = false;
     }
     return acc;
   }, new URLSearchParams());
 
-  return isEmpty ? '' : '?' + searchParams;
+  const search = searchParams.toString();
+  return search ? '?' + search : '';
 };
 
 const fromSearchString = () => {
-  const params = Object.fromEntries(
-    new URLSearchParams(window.location.search)
-  );
-  if ('supported' in params && params.supported === '1') {
-    params.supported = true;
-  }
+  const params = {};
+  const searchParams = new URLSearchParams(window.location.search);
+  [
+    'q',
+    'edition',
+    'language',
+    'task',
+    'supported',
+    'type',
+    'tags',
+    'predicted_entities',
+  ].forEach((key) => {
+    if (!searchParams.has(key)) {
+      return;
+    }
+    switch (key) {
+      case 'tags':
+      case 'predicted_entities':
+        params[key] = searchParams.getAll(key);
+        break;
+
+      case 'supported':
+        if (params[key] === '1') {
+          params[key] = true;
+        }
+        break;
+
+      default:
+        params[key] = searchParams.get(key);
+        break;
+    }
+  });
   return params;
 };
 
@@ -90,7 +129,7 @@ const useFilterQuery = () => {
       return;
     }
     let nextParams;
-    switch (event.type) {
+    switch (event._type) {
       case 'SUBMIT':
         nextParams = { ...params, ...event };
         break;
@@ -116,15 +155,15 @@ const App = () => {
   const [state, send] = useFilterQuery();
 
   const handleSubmit = (params) => {
-    send({ type: 'SUBMIT', ...params, page: undefined });
+    send({ _type: 'SUBMIT', ...params, page: undefined });
   };
 
   const handlePageChange = (page) => {
-    send({ type: 'CHANGE_PAGE', page });
+    send({ _type: 'CHANGE_PAGE', page });
   };
 
   const handleSupportedToggle = (supported) => {
-    send({ type: 'SUBMIT', page: undefined, supported });
+    send({ _type: 'SUBMIT', page: undefined, supported });
   };
 
   let result;
@@ -147,6 +186,7 @@ const App = () => {
           key: 'model-items',
           meta: state.context.meta,
           params: state.context.params,
+          onSubmit: handleSubmit,
           onPageChange: handlePageChange,
           onSupportedToggle: handleSupportedToggle,
           children,
