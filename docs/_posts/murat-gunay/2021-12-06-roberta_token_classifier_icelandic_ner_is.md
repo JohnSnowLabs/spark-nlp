@@ -60,7 +60,7 @@ nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, t
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
-text = """Ég heiti Peter FERGUSSON. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."""
+text = """Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."""
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
@@ -86,7 +86,7 @@ ner_converter = NerConverter()\
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Ég heiti Peter FERGUSSON. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."].toDS.toDF("text")
+val example = Seq.empty["Ég heiti Peter Fergusson. Ég hef búið í New York síðan í október 2011 og unnið hjá Tesla Motor og þénað 100K $ á ári."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -98,7 +98,7 @@ val result = pipeline.fit(example).transform(example)
 +----------------+------------+
 |chunk           |ner_label   |
 +----------------+------------+
-|Peter FERGUSSON |Person      |
+|Peter Fergusson |Person      |
 |New York        |Location    |
 |október 2011    |Date        |
 |Tesla Motor     |Organization|
