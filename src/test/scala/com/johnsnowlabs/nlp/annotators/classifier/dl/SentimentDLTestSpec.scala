@@ -27,7 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class SentimentDLTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
 
-  "SentimentDL" should "correctly train on a test dataset" taggedAs FastTest in {
+  "SentimentDL" should "correctly train on a test dataset" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/classifier/sentiment.csv")
 
