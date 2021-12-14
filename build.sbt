@@ -44,17 +44,6 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
-/** Bintray settings */
-bintrayPackageLabels := Seq("nlp", "nlu",
-  "natural-language-processing", "natural-language-understanding",
-  "spark", "spark-ml", "pyspark", "machine-learning",
-  "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
-  "tokenizer", "stemmer", "part-of-speech-tagger", "annotation-framework")
-
-bintrayRepository := "spark-nlp"
-
-bintrayOrganization := Some("johnsnowlabs")
-
 sonatypeProfileName := "com.johnsnowlabs"
 
 publishTo := Some(
