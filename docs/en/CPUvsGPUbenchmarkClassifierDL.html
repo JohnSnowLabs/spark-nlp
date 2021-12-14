@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/models">Models</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/production-readiness">Productionizing Spark NLP</a></li><li class="toc-h2 active"><a href="/docs/en/CPUvsGPUbenchmarkClassifierDL">GPU vs CPU benchmark on ClassifierDL</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -530,45 +530,54 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="gpu-vs-cpu-benchmark-on-classifierdl">GPU vs CPU benchmark on ClassifierDL</h2>
+  <h2 id="gpu-vs-cpu-benchmarks">GPU vs CPU benchmarks</h2>
+  <p>This section includes benchmarks for different Approach() (training classes), comparing their performance when running in <code class="language-plaintext highlighter-rouge">m5.8xlarge</code> CPU vs a <code class="language-plaintext highlighter-rouge">Tesla V100 SXM2</code> GPU, as described in the <code class="language-plaintext highlighter-rouge">Machine Specs</code> section below.</p>
 
-  <p>This experiment consisted of training a document level Deep Learning Binary Classifier (Question vs Statement classes) using a fully connected CNN and Bert Sentence Embeddings. Only 1 Spark node was used for the training.</p>
+  <p>Different benchmarks, as well as their takeaways and some conclusions of how to get the best of GPU, are included as well, to guide you in the process of getting the best performance out of Spark NLP on GPU.</p>
 
-  <p>We used the Spark NLP class <code class="language-plaintext highlighter-rouge">ClassifierDL</code> and its method <code class="language-plaintext highlighter-rouge">Approach()</code> as described in the <a href="https://nlp.johnsnowlabs.com/docs/en/annotators#classifierdl">documentation</a>.</p>
-
-  <p>The pipeline looks as follows:</p>
-
-  <p><img src="/assets/images/gpu_vs_cpu_pic3.png" alt="" /></p>
+  <p>Big improvements have been carried out from version 3.3.4, so please, make sure you use at least that version to fully levearge Spark NLP capabilities on GPU.</p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="machine-specs">Machine specs</h2>
+  <h3 id="machine-specs">Machine specs</h3>
 
-  <h3 id="cpu">CPU</h3>
+  <h4 id="cpu">CPU</h4>
   <p>An AWS <code class="language-plaintext highlighter-rouge">m5.8xlarge</code> machine was used for the CPU benchmarking. This machine consists of <code class="language-plaintext highlighter-rouge">32 vCPUs</code> and <code class="language-plaintext highlighter-rouge">128 GB of RAM</code>, as you can check in the official specification webpage available <a href="https://aws.amazon.com/ec2/instance-types/m5/">here</a></p>
 
-  <h3 id="gpu">GPU</h3>
+  <h4 id="gpu">GPU</h4>
   <p>A <code class="language-plaintext highlighter-rouge">Tesla V100 SXM2</code> GPU with <code class="language-plaintext highlighter-rouge">32GB</code> of memory was used to calculate the GPU benchmarking.</p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="versions">Versions</h2>
+  <h3 id="versions">Versions</h3>
   <p>The benchmarking was carried out with the following Spark NLP versions:</p>
 
   <p>Spark version: <code class="language-plaintext highlighter-rouge">3.0.2</code></p>
 
   <p>Hadoop version: <code class="language-plaintext highlighter-rouge">3.2.0</code></p>
 
-  <p>SparkNLP version: <code class="language-plaintext highlighter-rouge">3.1.2</code></p>
+  <p>SparkNLP version: <code class="language-plaintext highlighter-rouge">3.3.4</code></p>
 
   <p>Spark nodes: 1</p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="dataset">Dataset</h2>
+  <h3 id="benchmark-on-classifierdlapproach">Benchmark on classifierDLApproach()</h3>
+
+  <p>This experiment consisted of training a Deep Learning Binary Classifier (Question vs Statement classes) at sentence-level, using a fully connected CNN and Bert Sentence Embeddings. Only 1 Spark node was usd for the training.</p>
+
+  <p>We used the Spark NLP class <code class="language-plaintext highlighter-rouge">ClassifierDL</code> and it’s method <code class="language-plaintext highlighter-rouge">Approach()</code> as described in the <a href="https://nlp.johnsnowlabs.com/docs/en/annotators#classifierdl">documentation</a>.</p>
+
+  <p>The pipeline looks as follows:
+<img src="/assets/images/gpu_v2_pic3.png" alt="" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="dataset">Dataset</h4>
   <p>The size of the dataset was relatively small (200K), consisting of:</p>
 
   <p>Training (rows): <code class="language-plaintext highlighter-rouge">162250</code></p>
@@ -578,7 +587,7 @@
 </div>
 <div class="h3-box">
 
-  <h2 id="training-params">Training params</h2>
+  <h4 id="training-params">Training params</h4>
   <p>Different batch sizes were tested to demonstrate how GPU performance improves with bigger batches compared to CPU, for a constant number of epochs and learning rate.</p>
 
   <p>Epochs: <code class="language-plaintext highlighter-rouge">10</code></p>
@@ -590,12 +599,15 @@
 </div>
 <div class="h3-box">
 
-  <h2 id="results">Results</h2>
-  <p>Even for this average-sized dataset, we can observe that GPU is able to beat the CPU machine by an <code class="language-plaintext highlighter-rouge">19% in training time</code>, and a <code class="language-plaintext highlighter-rouge">15% in inference time</code>.</p>
+  <h4 id="results">Results</h4>
+  <p>Even for this average-sized dataset, we can observe that GPU is able to beat the CPU machine by a <code class="language-plaintext highlighter-rouge">76%</code> in both <code class="language-plaintext highlighter-rouge">training</code> and <code class="language-plaintext highlighter-rouge">inference</code> times.</p>
 
-  <h3 id="training-times-depending-on-batch-in-minutes">Training times depending on batch (in minutes)</h3>
+</div>
+<div class="h3-box">
 
-  <p><img src="/assets/images/gpu_vs_cpu_pic1.png" alt="" /></p>
+  <h4 id="training-times-depending-on-batch-in-minutes">Training times depending on batch (in minutes)</h4>
+
+  <p><img src="/assets/images/gpu_v2_pic1.png" alt="" /></p>
 
   <table class="table-model-big">
     <thead>
@@ -609,75 +621,270 @@
       <tr>
         <td style="text-align: center">32</td>
         <td style="text-align: center">66</td>
-        <td style="text-align: center">60</td>
+        <td style="text-align: center">16.1</td>
       </tr>
       <tr>
         <td style="text-align: center">64</td>
         <td style="text-align: center">65</td>
-        <td style="text-align: center">56</td>
+        <td style="text-align: center">15.3</td>
       </tr>
       <tr>
         <td style="text-align: center">256</td>
         <td style="text-align: center">64</td>
-        <td style="text-align: center">53</td>
+        <td style="text-align: center">14.5</td>
       </tr>
       <tr>
         <td style="text-align: center">1024</td>
         <td style="text-align: center">64</td>
-        <td style="text-align: center">52</td>
+        <td style="text-align: center">14</td>
       </tr>
     </tbody>
   </table>
 
-  <p>We can see that CPU didn’t scale with bigger batches, although GPU got improvement specially up to a 256 batch size, not providing much more improvement afterwards.</p>
-
 </div>
 <div class="h3-box">
 
-  <h3 id="inference-times-in-minutes">Inference times (in minutes)</h3>
+  <h4 id="inference-times-in-minutes">Inference times (in minutes)</h4>
   <p>The average inference time remained more or less constant regardless the batch size:
-CPU: 8.7 min
-GPU: 7.4 min</p>
+CPU: <code class="language-plaintext highlighter-rouge">8.7 min</code>
+GPU: <code class="language-plaintext highlighter-rouge">2 min</code></p>
 
-  <p><img src="/assets/images/gpu_vs_cpu_pic5.png" alt="" /></p>
+  <p><img src="/assets/images/gpu_v2_pic5.png" alt="" /></p>
 
 </div>
 <div class="h3-box">
 
-  <h3 id="performance-metrics">Performance metrics</h3>
+  <h4 id="performance-metrics">Performance metrics</h4>
   <p>A weighted F1-score of 0.88 was achieved, with a 0.90 score for question detection and 0.83 for statements.</p>
 
-  <p><img src="/assets/images/gpu_vs_cpu_pic2.png" alt="" /></p>
+  <p><img src="/assets/images/gpu_v2_pic2.png" alt="" /></p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="takeaways">Takeaways</h2>
-  <p>The main takeaways of this benchmark were:</p>
-  <ul>
-    <li>GPU provides with an improvement in performance even for relatively small datasets</li>
-    <li>GPU performance scales with bigger batch sizes compared to almost constant CPU times</li>
-    <li>We achieve bigger improvement in training stage than in inference, although both times are better than in CPU</li>
-  </ul>
+  <h3 id="benchmark-on-nerdlapproach">Benchmark on NerDLApproach()</h3>
+
+  <p>This experiment consisted of training a Name Entity Recognition model (token-level), using our class NerDLApproach(), using Bert Word Embeddings and a Char-CNN-BiLSTM Neural Network. Only 1 Spark node was used for the training.</p>
+
+  <p>We used the Spark NLP class <code class="language-plaintext highlighter-rouge">NerDL</code> and it’s method <code class="language-plaintext highlighter-rouge">Approach()</code> as described in the <a href="https://nlp.johnsnowlabs.com/docs/en/annotators#nerdl">documentation</a>.</p>
+
+  <p>The pipeline looks as follows:
+<img src="/assets/images/gpu_v2_pic4.png" alt="" /></p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="how-to-get-the-best-of-the-gpu">How to get the best of the GPU</h2>
-  <p>Not always GPU will beat CPU machines. Even in our use case, where we got almost a 20% of improvement, the GPU remains only at 40% of its utilization, what shows there is still room for improvement:</p>
+  <h4 id="dataset-1">Dataset</h4>
+  <p>The size of the dataset was small (17K), consisting of:</p>
 
-  <p><img src="/assets/images/gpu_vs_cpu_pic4.png" alt="" /></p>
+  <p>Training (rows): <code class="language-plaintext highlighter-rouge">14041</code></p>
 
-  <p>The level of improvement depends on the specs on both machines and, evidently, on the model to be trained and the size of the dataset.</p>
-
-  <p>Bigger improvements can be achived with bigger datasets and big batch sizes.</p>
-
-  <p>Also, pipelines with heavy computational cost, as <code class="language-plaintext highlighter-rouge">SentenceEntityResolver</code> (see Training documentation <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_training">here</a> are more suitable to achieve improvements using a GPU.</p>
+  <p>Test (rows): <code class="language-plaintext highlighter-rouge">3250</code></p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="where-to-look-for-more-information-about-training">Where to look for more information about Training</h2>
+  <h4 id="training-params-1">Training params</h4>
+  <p>Different batch sizes were tested to demonstrate how GPU performance improves with bigger batches compared to CPU, for a constant number of epochs and learning rate.</p>
+
+  <p>Epochs: <code class="language-plaintext highlighter-rouge">10</code></p>
+
+  <p>Learning rate:  <code class="language-plaintext highlighter-rouge">0.003</code></p>
+
+  <p>Batch sizes: <code class="language-plaintext highlighter-rouge">32</code>, <code class="language-plaintext highlighter-rouge">64</code>, <code class="language-plaintext highlighter-rouge">256</code>,  <code class="language-plaintext highlighter-rouge">512</code>, <code class="language-plaintext highlighter-rouge">1024</code>, <code class="language-plaintext highlighter-rouge">2048</code></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="results-1">Results</h4>
+  <p>Even for this small dataset, we can observe that GPU is able to beat the CPU machine by a <code class="language-plaintext highlighter-rouge">62%</code> in <code class="language-plaintext highlighter-rouge">training</code> time and a <code class="language-plaintext highlighter-rouge">68%</code> in <code class="language-plaintext highlighter-rouge">inference</code> times. It’s important to mention that the batch size is very relevant when using GPU, since CPU scales much worse with bigger batch sizes than GPU.</p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="training-times-depending-on-batch-in-minutes-1">Training times depending on batch (in minutes)</h4>
+
+  <p><img src="/assets/images/gpu_v2_pic6.png" alt="" /></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th style="text-align: center">Batch size</th>
+        <th style="text-align: center">CPU</th>
+        <th style="text-align: center">GPU</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">32</td>
+        <td style="text-align: center">9.5</td>
+        <td style="text-align: center">10</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">64</td>
+        <td style="text-align: center">8.1</td>
+        <td style="text-align: center">6.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">256</td>
+        <td style="text-align: center">6.9</td>
+        <td style="text-align: center">3.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">512</td>
+        <td style="text-align: center">6.7</td>
+        <td style="text-align: center">3</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">1024</td>
+        <td style="text-align: center">6.5</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">2048</td>
+        <td style="text-align: center">6.5</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="inference-times-in-minutes-1">Inference times (in minutes)</h4>
+  <p>Although CPU times in inference remain more or less constant regardless the batch sizes, GPU time experiment good improvements the bigger the batch size is.</p>
+
+  <p>CPU times: <code class="language-plaintext highlighter-rouge">~29 min</code></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th style="text-align: center">Batch size</th>
+        <th style="text-align: center">GPU</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">32</td>
+        <td style="text-align: center">10</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">64</td>
+        <td style="text-align: center">6.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">256</td>
+        <td style="text-align: center">3.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">512</td>
+        <td style="text-align: center">3</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">1024</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">2048</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><img src="/assets/images/gpu_v2_pic7.png" alt="" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="performance-metrics-1">Performance metrics</h4>
+  <p>A macro F1-score of about <code class="language-plaintext highlighter-rouge">0.92</code> (<code class="language-plaintext highlighter-rouge">0.90</code> in micro) was achieved, with the following charts extracted from the <code class="language-plaintext highlighter-rouge">NERDLApproach()</code> logs:</p>
+
+  <p><img src="/assets/images/gpu_v2_pic8.png" alt="" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="inference-benchmark-on-bertsentenceembeddings">Inference benchmark on BertSentenceEmbeddings()</h3>
+
+  <p>This experiment consisted of benchmarking the improvement obtained in inference by using GPU on BertSentenceEmbeddings().</p>
+
+  <p>We used the Spark NLP class <code class="language-plaintext highlighter-rouge">BertSentenceEmbeddings()</code> described in the Transformers <a href="https://nlp.johnsnowlabs.com/docs/en/transformers#bertsentenceembeddings">documentation</a>.</p>
+
+  <p>The pipeline contains only two components and looks as follows:
+<img src="/assets/images/gpu_v2_pic9.png" alt="" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="dataset-2">Dataset</h4>
+  <p>The size of the dataset was bigger than the previous ones, with <code class="language-plaintext highlighter-rouge">417735</code> rows for inference.</p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="results-2">Results</h4>
+  <p>We have observed in previous experiments, using BertSentenceEmbeddings (classifierDL) and also BertEmbeddings (NerDL) how GPU improved both training and inference times. In this case, we observe again big improvements in inference, what is already pointing that one of the main reasons of why GPU improves so much over CPU is the better management of Embeddings (word, sentence level) and bigger batch sizes.</p>
+
+  <p>Batch sizes: <code class="language-plaintext highlighter-rouge">32</code>, <code class="language-plaintext highlighter-rouge">64</code>, <code class="language-plaintext highlighter-rouge">256</code>, <code class="language-plaintext highlighter-rouge">1024</code></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="inference-times-depending-on-batch-in-minutes">Inference times depending on batch (in minutes)</h4>
+  <p><img src="/assets/images/gpu_v2_pic10.png" alt="" /></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th style="text-align: center">Batch size</th>
+        <th style="text-align: center">CPU</th>
+        <th style="text-align: center">GPU</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">32</td>
+        <td style="text-align: center">80</td>
+        <td style="text-align: center">9.9</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">64</td>
+        <td style="text-align: center">77</td>
+        <td style="text-align: center">9.8</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">256</td>
+        <td style="text-align: center">63</td>
+        <td style="text-align: center">9.4</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">1024</td>
+        <td style="text-align: center">62</td>
+        <td style="text-align: center">9.1</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="takeaways-how-to-get-the-best-of-the-gpu">Takeaways: How to get the best of the GPU</h3>
+  <p>You will experiment big GPU improvements in the following cases:</p>
+
+  <p>1) Embeddings and Transformers are used in your pipeline. Take into consideration that GPU will performance very well in Embeddings / Transformer components, but other components of your pipeline may not leverage as well GPU capabilities;
+2) Bigger batch sizes get the best of GPU, while CPU does not scale with bigger batch sizes;
+3) Bigger dataset sizes get the best of GPU, while may be a bottleneck while running in CPU and lead to performance drops;</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="multigpu-training">MultiGPU training</h3>
+  <p>Right now, we don’t support multigpu training (1 model in different GPUs in parallel), but you can train different models in different GPU.</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="where-to-look-for-more-information-about-training">Where to look for more information about Training</h3>
   <p>Please, take a look at the <a href="https://nlp.johnsnowlabs.com/docs/en/training">Spark NLP</a> and <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_training">Spark NLP for Healthcare</a> Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.</p>
 
 </div>
@@ -808,7 +1015,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/production-readiness">Productionizing Spark NLP</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/release_notes">Release Notes</a></div></div></div>
 
 </div>
 </div>

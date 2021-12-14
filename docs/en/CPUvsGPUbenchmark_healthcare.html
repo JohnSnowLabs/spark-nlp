@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP for Healthcare | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>GPU vs CPU benchmark on ClassifierDL</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/licensed_install"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/CPUvsGPUbenchmark_healthcare"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">CPUvsGPUBenchmark</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2 active"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">CPUvsGPUBenchmark</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -519,535 +519,219 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Spark NLP for Healthcare Installation</li>
+    <li>GPU vs CPU benchmark on ClassifierDL</li>
   </ul>
-</div></div><header><h1>Spark NLP for Healthcare Installation</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header><h1>GPU vs CPU benchmark on ClassifierDL</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_install.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP for Healthcare Installation"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/CPUvsGPUbenchmark_healthcare.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="GPU vs CPU benchmark on ClassifierDL"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="install-nlp-libraries-on-ubuntu">Install NLP libraries on Ubuntu</h2>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-<p>For installing John Snow Labs NLP libraries on an Ubuntu machine/VM please run the following command:</p>
+  <h2 id="gpu-vs-cpu-benchmarks">GPU vs CPU benchmarks</h2>
+  <p>This section includes a benchmark for MedicalNerApproach(), comparing its performance when running in <code class="language-plaintext highlighter-rouge">m5.8xlarge</code> CPU vs a <code class="language-plaintext highlighter-rouge">Tesla V100 SXM2</code> GPU, as described in the <code class="language-plaintext highlighter-rouge">Machine Specs</code> section below.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://setup.johnsnowlabs.com/nlp/install.sh <span class="nt">-O</span> - | <span class="nb">sudo </span>bash <span class="nt">-s</span> <span class="nt">--</span> <span class="nt">-a</span> PATH_TO_LICENSE_JSON_FILE <span class="nt">-i</span> <span class="nt">-r</span>
-</code></pre></div></div>
+  <p>Big improvements have been carried out from version 3.3.4, so please, make sure you use at least that version to fully levearge Spark NLP capabilities on GPU.</p>
 
-<p>This script will install <code class="language-plaintext highlighter-rouge">Spark NLP</code>, <code class="language-plaintext highlighter-rouge">Spark NLP for Healthcare</code>, <code class="language-plaintext highlighter-rouge">Spark OCR</code>, <code class="language-plaintext highlighter-rouge">NLU</code> and <code class="language-plaintext highlighter-rouge">Spark NLP Display</code> on the specified virtual environment. It will also create a special folder, <code class="language-plaintext highlighter-rouge">./JohnSnowLabs</code>,  dedicated to all resources necessary for using the libraries.  Under <code class="language-plaintext highlighter-rouge">./JohnSnowLabs/example_notebooks</code> you will find some ready to use example notebooks that you can use to test the libraries on your data.</p>
+</div>
+<div class="h3-box">
 
-<p>For a complete step by step guide on how to install NLP Libraries check the video below:</p>
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><div class="extensions extensions--video">
-  <iframe src="https://www.youtube.com/embed/E-zAkeym06g?rel=0&amp;showinfo=0" frameborder="0" scrolling="no" allowfullscreen=""></iframe>
-</div><div class="video-descr">Install John Snow Labs NLP Libraries on Ubuntu</div></div></div>
+  <h3 id="machine-specs">Machine specs</h3>
 
-<p>The install script offers several options:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">-h</code>    show brief help</li>
-  <li><code class="language-plaintext highlighter-rouge">-i</code>    install mode: create a virtual environment and install the library</li>
-  <li><code class="language-plaintext highlighter-rouge">-r</code>    run mode: start jupyter after installation of the library</li>
-  <li><code class="language-plaintext highlighter-rouge">-v</code>    path to virtual environment (default: ./sparknlp_env)</li>
-  <li><code class="language-plaintext highlighter-rouge">-j</code>    path to license json file for Spark NLP for Healthcare</li>
-  <li><code class="language-plaintext highlighter-rouge">-o</code>    path to license json file for Spark OCR</li>
-  <li><code class="language-plaintext highlighter-rouge">-a</code>    path to a single license json file for both Spark OCR and Spark NLP</li>
-  <li><code class="language-plaintext highlighter-rouge">-s</code>    specify pyspark version</li>
-  <li><code class="language-plaintext highlighter-rouge">-p</code>    specify port of jupyter notebook</li>
-</ul>
+  <h4 id="cpu">CPU</h4>
+  <p>An AWS <code class="language-plaintext highlighter-rouge">m5.8xlarge</code> machine was used for the CPU benchmarking. This machine consists of <code class="language-plaintext highlighter-rouge">32 vCPUs</code> and <code class="language-plaintext highlighter-rouge">128 GB of RAM</code>, as you can check in the official specification webpage available <a href="https://aws.amazon.com/ec2/instance-types/m5/">here</a></p>
 
-<p>Use the <code class="language-plaintext highlighter-rouge">-i</code> flag for installing the libraries in a new virtual environment.</p>
+</div>
+<div class="h3-box">
 
-<p>You can provide the desired path for virtual env using <code class="language-plaintext highlighter-rouge">-v</code> flag, otherwise a default location of <code class="language-plaintext highlighter-rouge">./sparknlp_env</code> will be selected.</p>
+  <h4 id="gpu">GPU</h4>
+  <p>A <code class="language-plaintext highlighter-rouge">Tesla V100 SXM2</code> GPU with <code class="language-plaintext highlighter-rouge">32GB</code> of memory was used to calculate the GPU benchmarking.</p>
 
-<p>The <code class="language-plaintext highlighter-rouge">PATH_TO_LICENSE_JSON_FILE</code> parameter must be replaced with the path where the license file is available on the local machine. According to the libraries you want to use different flags are available: <code class="language-plaintext highlighter-rouge">-j</code>, <code class="language-plaintext highlighter-rouge">-o</code> or <code class="language-plaintext highlighter-rouge">-a</code>. The license files can be easily downloaded from <em>My Subscription</em> section in your <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a> account.</p>
+</div>
+<div class="h3-box">
 
-<p>To start using Jupyter Notebook after the installation of the libraries use the <code class="language-plaintext highlighter-rouge">-r</code> flag.</p>
+  <h3 id="versions">Versions</h3>
+  <p>The benchmarking was carried out with the following Spark NLP versions:</p>
 
-<p>The install script downloads a couple of example notebooks that you can use to start experimenting with the libraries. Those will be availabe under <code class="language-plaintext highlighter-rouge">./JohnSnowLabs/example_notebooks</code> folder.</p>
+  <p>Spark version: <code class="language-plaintext highlighter-rouge">3.0.2</code></p>
 
-<h2 id="install-via-docker">Install via Docker</h2>
+  <p>Hadoop version: <code class="language-plaintext highlighter-rouge">3.2.0</code></p>
 
-<p>A docker image that contains all the required libraries for installing and running Spark NLP for Healthcare is also available. However, it does not contain the library itself, as it is licensed, and requires installation credentials.</p>
+  <p>SparkNLP version: <code class="language-plaintext highlighter-rouge">3.3.4</code></p>
 
-<p>Make sure you have a valid license for Spark NLP for Healthcare (in case you do not have one, you can ask for a trial <a href="https://www.johnsnowlabs.com/install/">here</a> ), and follow the instructions below:</p>
+  <p>SparkNLP for Healthcare version: <code class="language-plaintext highlighter-rouge">3.3.4</code></p>
 
-<h3 id="instructions">Instructions</h3>
+  <p>Spark nodes: 1</p>
 
-<ul>
-  <li>Run the following commands to download the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> and the <code class="language-plaintext highlighter-rouge">sparknlp_keys.txt</code> files on your local machine:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-o</span> docker-compose.yaml https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/513a4d682f11abc33b2e26ef8a9d72ad52a7b4f0/jupyter/docker_image_nlp_hc/docker-compose.yaml
-curl <span class="nt">-o</span> sparknlp_keys.txt https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jupyter/docker_image_nlp_hc/sparknlp_keys.txt
-</code></pre></div>    </div>
-  </li>
-  <li>Download your license key in json format from <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a></li>
-  <li>Populate License keys in <code class="language-plaintext highlighter-rouge">sparknlp_keys.txt</code> file.</li>
-  <li>Run the following command to run the container in detached mode:</li>
-</ul>
+</div>
+<div class="h3-box">
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker-compose up <span class="nt">-d</span>
-</code></pre></div></div>
-<ul>
-  <li>By default, the jupyter notebook runs on port <code class="language-plaintext highlighter-rouge">8888</code> - you can access it by typing <code class="language-plaintext highlighter-rouge">localhost:8888</code> in your browser.</li>
-</ul>
+  <h3 id="benchmark-on-medicalnerdlapproach">Benchmark on MedicalNerDLApproach()</h3>
 
-<h3 id="troubleshooting">Troubleshooting</h3>
+  <p>This experiment consisted of training a Name Entity Recognition model (token-level), using our class NerDLApproach(), using Bert Word Embeddings and a Char-CNN-BiLSTM Neural Network. Only 1 Spark node was used for the training.</p>
 
-<ul>
-  <li>Make sure docker is installed on your system.</li>
-  <li>If you face any error while importing the lib inside jupyter, make sure all the credentials are correct in the key files and restart the service again.</li>
-  <li>If the default port <code class="language-plaintext highlighter-rouge">8888</code> is already occupied by another process, please change the mapping.</li>
-  <li>You can change/adjust volume and port mapping in the <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> file.</li>
-  <li>You don’t have a license key? Ask for a trial license <a href="https://www.johnsnowlabs.com/install/">here</a>.</li>
-</ul>
+  <p>We used the Spark NLP class <code class="language-plaintext highlighter-rouge">MedicalNer</code> and it’s method <code class="language-plaintext highlighter-rouge">Approach()</code> as described in the <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_annotators#medicalner">documentation</a>.</p>
 
-<h2 id="install-locally-on-python">Install locally on Python</h2>
+  <p>The pipeline looks as follows:
+<img src="/assets/images/CPUvsGPUbenchmarkpic4.png" alt="" /></p>
 
-<p>You can install the Spark NLP for Healthcare package by using:</p>
+</div>
+<div class="h3-box">
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-q</span> spark-nlp-jsl<span class="o">==</span><span class="k">${</span><span class="nv">version</span><span class="k">}</span> <span class="nt">--extra-index-url</span> https://pypi.johnsnowlabs.com/<span class="k">${</span><span class="nv">secret</span><span class="p">.code</span><span class="k">}</span> <span class="nt">--upgrade</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">{version}</code> is the version part of the <code class="language-plaintext highlighter-rouge">{secret.code}</code> (<code class="language-plaintext highlighter-rouge">{secret.code}.split('-')[0]</code>) (i.e. <code class="language-plaintext highlighter-rouge">2.6.0</code>)</p>
-
-<p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license.</p>
-
-<p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. Then, you can obtain the secret code by visiting your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Read more on how to get a license <a href="licensed_install#get-a-spark-nlp-for-healthcare-license">here</a>.</p>
-
-<h3 id="setup-aws-cli-credentials-for-licensed-pretrained-models">Setup AWS-CLI Credentials for licensed pretrained models</h3>
-
-<p>Starting from Spark NLP for Healthcare version 2.4.2, you need to first setup your AWS credentials to be able to access the private repository for John Snow Labs Pretrained Models.
-You can do this setup via Amazon AWS Command Line Interface (AWSCLI).</p>
-
-<p>Instructions about how to install AWSCLI are available at:</p>
-
-<p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">Installing the AWS CLI</a></p>
-
-<p>Make sure you configure your credentials with AWS configure following the instructions at:</p>
-
-<p><a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring the AWS CLI</a></p>
-
-<p>Please substitute the <code class="language-plaintext highlighter-rouge">ACCESS_KEY</code> and <code class="language-plaintext highlighter-rouge">SECRET_KEY</code> with the credentials available on your license json file. This is available on your account from <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. <a href="licensed_install#get-a-spark-nlp-for-healthcare-license">Read this</a> for more information.</p>
-
-<h3 id="start-spark-nlp-for-healthcare-session-from-python">Start Spark NLP for Healthcare Session from Python</h3>
-
-<p>The following will initialize the spark session in case you have run the Jupyter Notebook directly. If you have started the notebook using
-pyspark this cell is just ignored.</p>
-
-<p>Initializing the spark session takes some seconds (usually less than 1 minute) as the jar from the server needs to be loaded.</p>
-
-<p>The <code class="language-plaintext highlighter-rouge">{secret.code}</code> is a secret code that is only available to users with valid/trial license.</p>
-
-<p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. Then, you can obtain the secret code by visiting your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Read more on how to get a license <a href="licensed_install#get-a-spark-nlp-for-healthcare-license">here</a>.</p>
-
-<p>You can either use our convenience function to start your Spark Session that will use standard configuration arguments:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
-<span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="s">"{secret.code}"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Or use the SparkSession module for more flexibility:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
-
-<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span> \
-    <span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP Enterprise"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">master</span><span class="p">(</span><span class="s">"local[*]"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span><span class="s">"16"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.maxResultSize"</span><span class="p">,</span> <span class="s">"0"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"1000M"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.11:2.7.6"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>If you want to download the source files (jar and whl files) locally, you can follow the instructions <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/SparkNLP_offline_installation.ipynb">here</a>.</p>
-
-<h3 id="spark-nlp-for-healthcare-cheat-sheet">Spark NLP for Healthcare Cheat Sheet</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Spark NLP from PyPI</span>
-pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.2.3
-
-<span class="c">#install Spark NLP helathcare</span>
-
-pip <span class="nb">install </span>spark-nlp-jsl<span class="o">==</span><span class="k">${</span><span class="nv">version</span><span class="k">}</span> <span class="nt">--extra-index-url</span> https://pypi.johnsnowlabs.com/<span class="k">${</span><span class="nv">secret</span><span class="p">.code</span><span class="k">}</span> <span class="nt">--upgrade</span>
-
-<span class="c"># Load Spark NLP with Spark Shell</span>
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 <span class="nt">--jars</span> spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
-
-<span class="c"># Load Spark NLP with PySpark</span>
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3  <span class="nt">--jars</span> spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
-
-<span class="c"># Load Spark NLP with Spark Submit</span>
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.2.3 <span class="nt">--jars</span> spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
-</code></pre></div></div>
-
-<h2 id="install-locally-for-scala">Install locally for Scala</h2>
-
-<h3 id="use-spark-nlp-for-healthcare-in-spark-shell">Use Spark NLP for Healthcare in Spark shell</h3>
-
-<p>1.Download the fat jar for Spark NLP for Healthcare</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
-</code></pre></div></div>
-
-<p>2.Set up the <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
-    <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
-    <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
-</code></pre></div></div>
-
-<p>3.The preferred way to use the library when running Spark programs is using the <code class="language-plaintext highlighter-rouge">--packages</code>and <code class="language-plaintext highlighter-rouge">--jar</code> option as specified in the <code class="language-plaintext highlighter-rouge">spark-packages</code> section.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:<span class="k">${</span><span class="nv">public</span><span class="p">-version</span><span class="k">}</span> <span class="nt">--jars</span> /spark-nlp-jsl-<span class="k">${</span><span class="nv">version</span><span class="k">}</span>.jar
-</code></pre></div></div>
-
-<h3 id="use-spark-nlp-for-healthcare-in-sbt-project">Use Spark NLP for Healthcare in Sbt project</h3>
-
-<p>1.Download the fat jar for Spark NLP for Healthcare.</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
-</code></pre></div></div>
-
-<p>2.Set up the <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
-    <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
-    <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
-</code></pre></div></div>
-
-<p>3.Add the spark-nlp jar in your build.sbt project</p>
-
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp"</span> <span class="o">%</span> <span class="s">"{public-version}"</span>
-</code></pre></div></div>
-
-<p>4.You need to create the /lib folder and paste the spark-nlp-jsl-${version}.jar file.</p>
-
-<p>5.Add the fat spark-nlp-healthcare in your classpath. You can do it by adding this line in your build.sbt</p>
-
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unmanagedJars</span> <span class="n">in</span> <span class="nc">Compile</span> <span class="o">+=</span> <span class="nf">file</span><span class="o">(</span><span class="s">"lib/sparknlp-jsl.jar"</span><span class="o">)</span>
-</code></pre></div></div>
-
-<h2 id="install-on-databricks">Install on Databricks</h2>
-
-<h3 id="automatic-deployment-of-john-snow-labs-nlp-libraries">Automatic deployment of John Snow Labs NLP libraries</h3>
-
-<p>You can automatically deploy John Snow Labs libraries on Databricks by filling in the form available <a href="https://www.johnsnowlabs.com/databricks/">here</a>. 
-This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.</p>
-
-<h3 id="manual-deployment-of-spark-nlp-for-healthcare">Manual deployment of Spark NLP for Healthcare</h3>
-
-<ol>
-  <li>Create a cluster if you don’t have one already</li>
-  <li>
-    <p>On a new cluster or existing one you need to add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab, in <code class="language-plaintext highlighter-rouge">Spark.Config</code> box:</p>
-
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 1000M
- spark.serializer org.apache.spark.serializer.KryoSerializer
- spark.driver.extraJavaOptions <span class="nt">-Dspark</span>.jsl.settings.pretrained.credentials.secret_access_key<span class="o">=</span>xxx <span class="nt">-Dspark</span>.jsl.settings.pretrained.credentials.access_key_id<span class="o">=</span>yyy
-
-</code></pre></div>    </div>
-    <ul>
-      <li>Please add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab, in <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</li>
-    </ul>
-
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
-</code></pre></div>    </div>
-
-    <ul>
-      <li>(OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows:</li>
-    </ul>
-
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> %scala
- val script <span class="o">=</span> <span class="s2">"""
- #!/bin/bash
-
- echo "</span><span class="k">********</span> Inject Spark NLP AWS Profile Credentials <span class="k">********</span> <span class="s2">"
-
- mkdir ~/.aws/
-
- cat &lt;&lt; EOF &gt; ~/.aws/credentials
- [spark_nlp]
- aws_access_key_id=&lt;YOUR_AWS_ACCESS_KEY&gt;
- aws_secret_access_key=&lt;YOUR_AWS_SECRET_KEY&gt;
- EOF
-
- echo "</span><span class="k">********</span> End Inject Spark NLP AWS Profile Credentials  <span class="k">********</span> <span class="s2">"
-
- """</span>
-</code></pre></div>    </div>
-  </li>
-  <li>In <code class="language-plaintext highlighter-rouge">Libraries</code> tab inside your cluster you need to follow these steps:
-    <ul>
-      <li>Install New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">spark-nlp</code> -&gt; Install</li>
-      <li>Install New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:${version}</code> -&gt; Install</li>
-      <li>Please add following jars:
-        <ul>
-          <li>Install New -&gt; Python Whl -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${version}-py3-none-any.whl</code></li>
-          <li>Install New -&gt; Jar -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${version}.jar</code></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>Now you can attach your notebook to the cluster and use Spark NLP!</li>
-</ol>
-
-<h2 id="use-on-google-colab">Use on Google Colab</h2>
-
-<p>Run the following code in Google Colab notebook and start using Spark NLP right away.</p>
-
-<p>The first thing that you need is to create the json file with the credentials and the configuration in your local system.</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"PUBLIC_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.2.3"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"JSL_VERSION"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{version}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"SECRET"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{version}-{secret.code}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"SPARK_NLP_LICENSE"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xxxxx"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"AWS_ACCESS_KEY_ID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yyyy"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"AWS_SECRET_ACCESS_KEY"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zzzz"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>If you have a valid floating license, the license json file can be downloaded from your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a> on <strong>My Subscriptions</strong> section. To get a trial license please visit</p>
-
-<p>Then you need to write that piece of code to load the credentials that you created before.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">files</span>
-
-<span class="n">license_keys</span> <span class="o">=</span> <span class="n">files</span><span class="p">.</span><span class="n">upload</span><span class="p">()</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">license_keys</span><span class="p">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">license_keys</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This is only to setup PySpark and Spark NLP on Colab</span>
-<span class="o">!</span>wget https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp-workshop/master/jsl_colab_setup.sh
-</code></pre></div></div>
-
-<p>This script comes with the two options to define <code class="language-plaintext highlighter-rouge">pyspark</code>,<code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code> versions via options:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
-<span class="c"># -s is for spark-nlp</span>
-<span class="c"># by default they are set to the latest</span>
-<span class="o">!</span>bash jsl_colab_setup.sh
-</code></pre></div></div>
-
-<p><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions for HealthCare.</p>
-
-<h2 id="install-on-gcp-dataproc">Install on GCP Dataproc</h2>
-
-<ol>
-  <li>Create a cluster if you don’t have one already as follows.</li>
-</ol>
-
-<p>At gcloud shell:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud services <span class="nb">enable </span>dataproc.googleapis.com <span class="se">\</span>
-  compute.googleapis.com <span class="se">\</span>
-  storage-component.googleapis.com <span class="se">\</span>
-  bigquery.googleapis.com <span class="se">\</span>
-  bigquerystorage.googleapis.com
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
-gsutil mb <span class="nt">-c</span> standard <span class="nt">-l</span> <span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
-<span class="nv">ZONE</span><span class="o">=</span>&lt;zone&gt;
-<span class="nv">CLUSTER_NAME</span><span class="o">=</span>&lt;cluster_name&gt;
-<span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
-</code></pre></div></div>
-
-<p>You can set image-version, master-machine-type, worker-machine-type,
-master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
-If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
-And, you should enable gateway.
-As noticed below, you should explicitly write JSL_SECRET and JSL_VERSION at metadata param inside the quotes.
-This will start the pip installation using the wheel file of Licensed SparkNLP!</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--network</span><span class="o">=</span><span class="k">${</span><span class="nv">NETWORK</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--zone</span><span class="o">=</span><span class="k">${</span><span class="nv">ZONE</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--image-version</span><span class="o">=</span>2.0 <span class="se">\</span>
-  <span class="nt">--master-machine-type</span><span class="o">=</span>n1-standard-4 <span class="se">\</span>
-  <span class="nt">--worker-machine-type</span><span class="o">=</span>n1-standard-2 <span class="se">\</span>
-  <span class="nt">--master-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
-  <span class="nt">--worker-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
-  <span class="nt">--num-workers</span><span class="o">=</span>2 <span class="se">\</span>
-  <span class="nt">--bucket</span><span class="o">=</span><span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--optional-components</span><span class="o">=</span>JUPYTER <span class="se">\</span>
-  <span class="nt">--enable-component-gateway</span> <span class="se">\</span>
-  <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=google-cloud-bigquery google-cloud-storage spark-nlp-display
-  https://s3.eu-west-1.amazonaws.com/pypi.johnsnowlabs.com/JSL_SECRET/spark-nlp-jsl/spark_nlp_jsl-JSL_VERSION-py3-none-any.whl'</span> <span class="se">\</span>
-  <span class="nt">--initialization-actions</span> gs://goog-dataproc-initialization-actions-<span class="k">${</span><span class="nv">REGION</span><span class="k">}</span>/python/pip-install.sh
-</code></pre></div></div>
-
-<ol>
-  <li>
-    <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
-  </li>
-  <li>
-    <p>Now, you can attach your notebook to the cluster and use Spark NLP via following the instructions.
-The key part of this usage is how to start SparkNLP sessions using Apache Hadoop YARN cluster manager.</p>
-  </li>
-</ol>
-
-<p>3.1. Read license file from the notebook using GCS.</p>
-
-<p>3.2. Set the right path of the Java Home Path.</p>
-
-<p>3.3. Use the start function to start the SparkNLP JSL version such as follows:</p>
-
-<pre><code class="language-Python">def start(secret):
-    builder = SparkSession.builder \
-        .appName("Spark NLP Licensed") \
-        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        .config("spark.kryoserializer.buffer.max", "2000M") \
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:"+version) \
-        .config("spark.jars", "https://pypi.johnsnowlabs.com/"+secret+"/spark-nlp-jsl-"+jsl_version+".jar")
-
-    return builder.getOrCreate()
-
-spark = start(SECRET)
-</code></pre>
-
-<p>As you see, we did not set <code class="language-plaintext highlighter-rouge">.master('local[*]')</code> explicitly to let YARN manage the cluster.
-Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn')</code>.</p>
-
-<h2 id="spark-nlp-for-healthcare-in-aws-emr">Spark-NLP for Healthcare in AWS EMR</h2>
-
-<p>In this page we explain how to setup Spark-NLP + Spark-NLP Healthcare in AWS EMR, using the AWS console.</p>
-
-<h3 id="steps">Steps</h3>
-<ol>
-  <li>You must go to the blue button “Create Cluster” on the UI. By doing that you will get directed to the “Create Cluster - Quick Options” page. Don’t use the quick options, click on “Go to advanced options” instead.</li>
-  <li>Now in Advanced Options, on Step 1, “Software and Steps”, please pick the following selection in the checkboxes,
-<img src="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/platforms/emr/software_configs.png?raw=true" alt="software config" />
-Also in the “Edit Software Settings” page, enter the following,</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{
-  "Classification": "spark-env",
-  "Configurations": [{
-    "Classification": "export",
-    "Properties": {
-      "PYSPARK_PYTHON": "/usr/bin/python3",
-      "AWS_ACCESS_KEY_ID": "XYXYXYXYXYXYXYXYXYXY",
-      "AWS_SECRET_ACCESS_KEY": "XYXYXYXYXYXYXYXYXYXY", 
-      "SPARK_NLP_LICENSE": "XYXYXYXYXYXYXYXYXYXYXYXYXYXY"
-    }
-  }]
-},
-{
-  "Classification": "spark-defaults",
-    "Properties": {
-      "spark.yarn.stagingDir": "hdfs:///tmp",
-      "spark.yarn.preserve.staging.files": "true",
-      "spark.kryoserializer.buffer.max": "2000M",
-      "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
-      "spark.driver.maxResultSize": "0",
-      "spark.driver.memory": "32G"
-    }
-}]
-</code></pre></div></div>
-<p>Make sure that you replace all the secret information(marked here as XYXYXYXYXY) by the appropriate values that you received with your license.<br /></p>
-<ol>
-  <li>In “Step 2” choose the hardware and networking configuration you prefer, or just pick the defaults. Move to next step by clocking the “Next” blue button.<br /></li>
-  <li>Now you are in “Step 3”, in which you assign a name to your cluster, and you can change the location of the cluster logs. If the location of the logs is OK for you, take note of the path so you can debug potential problems by using the logs.<br /></li>
-  <li>Still on “Step 3”, go to the bottom of the page, and expand the “Bootstrap Actions” tab. We’re gonna add an action to execute during bootstrap of the cluster. Select “Custom Action”, then press on “Configure and add”.<br />
-You need to provide a path to a script on S3. The path needs to be public. Keep this in mind, no secret information can be contained there.<br />
-The script we’ll used for this setup is <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/platforms/emr/emr_bootstrap.sh">emr_bootstrap.sh</a> .
-<br />
-This script will install Spark-NLP 3.1.0, and Spark-NLP Healthcare 3.1.1. You’ll have to edit the script if you need different versions.<br />
-After you entered the route to S3 in which you place the <code class="language-plaintext highlighter-rouge">emr_bootstrap.sh</code> file, and before clicking “add” in the dialog box, you must pass an additional parameter containing the SECRET value you received with your license. Just paste the secret on the “Optional arguments” field in that dialog box.<br /></li>
-  <li>There’s not much additional setup you need to perform. So just start a notebook server, connect it to the cluster you just created(be patient, it takes a while), and test with the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/platforms/emr/NLP_EMR_Setup.ipynb">NLP_EMR_Setup.ipynb</a> test notebook.<br /></li>
-</ol>
-
-<h2 id="amazon-linux-2-support">Amazon Linux 2 Support</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update Package List &amp; Install  Required Packages</span>
-<span class="nb">sudo </span>yum update
-<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> amazon-linux-extras
-<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>python3-pip
-
-<span class="c"># Create Python virtual environment and activate it:</span>
-python3 <span class="nt">-m</span> venv .sparknlp-env
-<span class="nb">source</span> .sparknlp-env/bin/activate
-</code></pre></div></div>
-
-<p>Check JAVA version:</p>
-<ul>
-  <li>For Sparknlp versions above 3.x, please use JAVA-11</li>
-  <li>For Sparknlp versions below 3.x and SparkOCR, please use JAVA-8</li>
-</ul>
-
-<p>Checking Java versions installed on your machine:</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>alternatives <span class="nt">--config</span> java
-</code></pre></div></div>
-
-<p>You can pick the index number (I am using java-8 as default - index 2):</p>
-
-<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
-
-<p><img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-<p>&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;</p>
-
-<p>If you dont have java-11 or java-8 in you system, you can easily install via:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>java-1.8.0-openjdk
-</code></pre></div></div>
-
-<p>Now, we can start installing the required libraries:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>jupyter
-</code></pre></div></div>
-
-<p>We can start jupyter notebook via:</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">### Now we are in the jupyter notebook cell:</span>
-import json
-import os
-
-with open<span class="o">(</span><span class="s1">'sparknlp_for_healthcare.json) as f:
-    license_keys = json.load(f)
-
-# Defining license key-value pairs as local variables
-locals().update(license_keys)
-
-# Adding license key-value pairs to environment variables
-os.environ.update(license_keys)
-
-# Installing pyspark and spark-nlp
-! pip install --upgrade -q pyspark==3.1.2 spark-nlp==$PUBLIC_VERSION
-
-# Installing Spark NLP Healthcare
-! pip install --upgrade -q spark-nlp-jsl==$JSL_VERSION  --extra-index-url https://pypi.johnsnowlabs.com/$SECRET
-</span></code></pre></div></div>
-
-<h2 id="get-a-spark-nlp-for-healthcare-license">Get a Spark NLP for Healthcare license</h2>
-
-<p>You can ask for a free trial for Spark NLP for Healthcare <a href="https://www.johnsnowlabs.com/install/">here</a>. This will automatically create a new account for you on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Login in to your new account and from <code class="language-plaintext highlighter-rouge">My Subscriptions</code> section, you can download your license key as a json file.</p>
-
-<p>The license json file contains:</p>
-<ul>
-  <li>the secrets for installing the Spark NLP for Healthcare and Spark OCR libraries,</li>
-  <li>the license key as well as</li>
-  <li>AWS credentials that you need to access the s3 bucket where the healthcare models and pipelines are published.</li>
-</ul>
-
-<p>If you have asked for a trial license but you cannot access your account on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a> and you did not receive the license information via email, please contact us at <a href="mailto:support@johnsnowlabs.com">support@johnsnowlabs.com</a>.</p>
+  <h4 id="dataset">Dataset</h4>
+  <p>The size of the dataset was small (17K), consisting of:</p>
+
+  <p>Training (rows): <code class="language-plaintext highlighter-rouge">14041</code></p>
+
+  <p>Test (rows): <code class="language-plaintext highlighter-rouge">3250</code></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="training-params">Training params</h4>
+  <p>Different batch sizes were tested to demonstrate how GPU performance improves with bigger batches compared to CPU, for a constant number of epochs and learning rate.</p>
+
+  <p>Epochs: <code class="language-plaintext highlighter-rouge">10</code></p>
+
+  <p>Learning rate:  <code class="language-plaintext highlighter-rouge">0.003</code></p>
+
+  <p>Batch sizes: <code class="language-plaintext highlighter-rouge">32</code>, <code class="language-plaintext highlighter-rouge">64</code>, <code class="language-plaintext highlighter-rouge">256</code>,  <code class="language-plaintext highlighter-rouge">512</code>, <code class="language-plaintext highlighter-rouge">1024</code>, <code class="language-plaintext highlighter-rouge">2048</code></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="results">Results</h4>
+  <p>Even for this small dataset, we can observe that GPU is able to beat the CPU machine by a <code class="language-plaintext highlighter-rouge">62%</code> in <code class="language-plaintext highlighter-rouge">training</code> time and a <code class="language-plaintext highlighter-rouge">68%</code> in <code class="language-plaintext highlighter-rouge">inference</code> times. It’s important to mention that the batch size is very relevant when using GPU, since CPU scales much worse with bigger batch sizes than GPU.</p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="training-times-depending-on-batch-in-minutes">Training times depending on batch (in minutes)</h4>
+
+  <p><img src="/assets/images/CPUvsGPUbenchmarkpic6.png" alt="" /></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th style="text-align: center">Batch size</th>
+        <th style="text-align: center">CPU</th>
+        <th style="text-align: center">GPU</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">32</td>
+        <td style="text-align: center">9.5</td>
+        <td style="text-align: center">10</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">64</td>
+        <td style="text-align: center">8.1</td>
+        <td style="text-align: center">6.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">256</td>
+        <td style="text-align: center">6.9</td>
+        <td style="text-align: center">3.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">512</td>
+        <td style="text-align: center">6.7</td>
+        <td style="text-align: center">3</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">1024</td>
+        <td style="text-align: center">6.5</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">2048</td>
+        <td style="text-align: center">6.5</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="inference-times-in-minutes">Inference times (in minutes)</h4>
+  <p>Although CPU times in inference remain more or less constant regardless the batch sizes, GPU time experiment good improvements the bigger the batch size is.</p>
+
+  <p>CPU times: <code class="language-plaintext highlighter-rouge">~29 min</code></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th style="text-align: center">Batch size</th>
+        <th style="text-align: center">GPU</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">32</td>
+        <td style="text-align: center">10</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">64</td>
+        <td style="text-align: center">6.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">256</td>
+        <td style="text-align: center">3.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">512</td>
+        <td style="text-align: center">3</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">1024</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">2048</td>
+        <td style="text-align: center">2.5</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><img src="/assets/images/CPUvsGPUbenchmarkpic7.png" alt="" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h4 id="performance-metrics">Performance metrics</h4>
+  <p>A macro F1-score of about <code class="language-plaintext highlighter-rouge">0.92</code> (<code class="language-plaintext highlighter-rouge">0.90</code> in micro) was achieved, with the following charts extracted from the <code class="language-plaintext highlighter-rouge">MedicalNerApproach()</code> logs:</p>
+
+  <p><img src="/assets/images/CPUvsGPUbenchmarkpic8.png" alt="" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="takeaways-how-to-get-the-best-of-the-gpu">Takeaways: How to get the best of the GPU</h3>
+  <p>You will experiment big GPU improvements in the following cases:</p>
+
+  <p>1) Embeddings and Transformers are used in your pipeline. Take into consideration that GPU will performance very well in Embeddings / Transformer components, but other components of your pipeline may not leverage as well GPU capabilities;
+2) Bigger batch sizes get the best of GPU, while CPU does not scale with bigger batch sizes;
+3) Bigger dataset sizes get the best of GPU, while may be a bottleneck while running in CPU and lead to performance drops;</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="multigpu-training">MultiGPU training</h3>
+  <p>Right now, we don’t support multigpu training (1 model in different GPUs in parallel), but you can train different models in different GPU.</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="where-to-look-for-more-information-about-training">Where to look for more information about Training</h3>
+  <p>Please, take a look at the <a href="https://nlp.johnsnowlabs.com/docs/en/training">Spark NLP</a> and <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_training">Spark NLP for Healthcare</a> Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.</p>
+
+</div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-03-09T00:00:00+00:00">Mar 09, 2021</time>
+      <time itemprop="dateModified" datetime="2021-08-31T00:00:00+00:00">Aug 31, 2021</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1173,7 +857,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/license_getting_started">Getting Started</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/licensed_annotators">Annotators</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></div></div></div>
 
 </div>
 </div>
