@@ -55,9 +55,9 @@ class YakeTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, sentenceDetector, token, keywords))
 
     val result = pipeline.fit(testData).transform(testData)
-    result.select("text").show(3, false)
-    result.select("keywords").show(3, false)
-    result.select("keywords.result").show(3, false)
+    result.select("text").show(3)
+    result.select("keywords").show(3)
+    result.select("keywords.result").show(3)
     succeed
   }
 }

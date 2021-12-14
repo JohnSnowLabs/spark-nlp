@@ -52,7 +52,7 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
     val sentenceDetector = new SentenceDetectorDLApproach()
       .setInputCols(Array("document"))
       .setOutputCol("sentences")
-      .setEpochsNumber(100)
+      .setEpochsNumber(1)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
 
