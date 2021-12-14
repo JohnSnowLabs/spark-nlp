@@ -26,7 +26,8 @@
 <meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
-<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" >
+<link rel="stylesheet" href="/static/models.css" /><!-- start custom head snippets -->
  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> 
  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <!-- end custom head snippets -->
@@ -415,72 +416,74 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">art-broadcastprogram</code>
-<code class="language-plaintext highlighter-rouge">art-film</code>
-<code class="language-plaintext highlighter-rouge">art-music</code>
-<code class="language-plaintext highlighter-rouge">art-other</code>
-<code class="language-plaintext highlighter-rouge">art-painting</code>
-<code class="language-plaintext highlighter-rouge">art-writtenart</code>
-<code class="language-plaintext highlighter-rouge">building-airport</code>
-<code class="language-plaintext highlighter-rouge">building-hospital</code>
-<code class="language-plaintext highlighter-rouge">building-hotel</code>
-<code class="language-plaintext highlighter-rouge">building-library</code>
-<code class="language-plaintext highlighter-rouge">building-other</code>
-<code class="language-plaintext highlighter-rouge">building-restaurant</code>
-<code class="language-plaintext highlighter-rouge">building-sportsfacility</code>
-<code class="language-plaintext highlighter-rouge">building-theater</code>
-<code class="language-plaintext highlighter-rouge">event-attack/battle/war/militaryconflict</code>
-<code class="language-plaintext highlighter-rouge">event-disaster</code>
-<code class="language-plaintext highlighter-rouge">event-election</code>
-<code class="language-plaintext highlighter-rouge">event-other</code>
-<code class="language-plaintext highlighter-rouge">event-protest</code>
-<code class="language-plaintext highlighter-rouge">event-sportsevent</code>
-<code class="language-plaintext highlighter-rouge">location-GPE</code>
-<code class="language-plaintext highlighter-rouge">location-bodiesofwater</code>
-<code class="language-plaintext highlighter-rouge">location-island</code>
-<code class="language-plaintext highlighter-rouge">location-mountain</code>
-<code class="language-plaintext highlighter-rouge">location-other</code>
-<code class="language-plaintext highlighter-rouge">location-park</code>
-<code class="language-plaintext highlighter-rouge">location-road/railway/highway/transit</code>
-<code class="language-plaintext highlighter-rouge">organization-company</code>
-<code class="language-plaintext highlighter-rouge">organization-education</code>
-<code class="language-plaintext highlighter-rouge">organization-government/governmentagency</code>
-<code class="language-plaintext highlighter-rouge">organization-media/newspaper</code>
-<code class="language-plaintext highlighter-rouge">organization-other</code>
-<code class="language-plaintext highlighter-rouge">organization-politicalparty</code>
-<code class="language-plaintext highlighter-rouge">organization-religion</code>
-<code class="language-plaintext highlighter-rouge">organization-showorganization</code>
-<code class="language-plaintext highlighter-rouge">organization-sportsleague</code>
-<code class="language-plaintext highlighter-rouge">organization-sportsteam</code>
-<code class="language-plaintext highlighter-rouge">other-astronomything</code>
-<code class="language-plaintext highlighter-rouge">other-award</code>
-<code class="language-plaintext highlighter-rouge">other-biologything</code>
-<code class="language-plaintext highlighter-rouge">other-chemicalthing</code>
-<code class="language-plaintext highlighter-rouge">other-currency</code>
-<code class="language-plaintext highlighter-rouge">other-disease</code>
-<code class="language-plaintext highlighter-rouge">other-educationaldegree</code>
-<code class="language-plaintext highlighter-rouge">other-god</code>
-<code class="language-plaintext highlighter-rouge">other-language</code>
-<code class="language-plaintext highlighter-rouge">other-law</code>
-<code class="language-plaintext highlighter-rouge">other-livingthing</code>
-<code class="language-plaintext highlighter-rouge">other-medical</code>
-<code class="language-plaintext highlighter-rouge">person-actor</code>
-<code class="language-plaintext highlighter-rouge">person-artist/author</code>
-<code class="language-plaintext highlighter-rouge">person-athlete</code>
-<code class="language-plaintext highlighter-rouge">person-director</code>
-<code class="language-plaintext highlighter-rouge">person-other</code>
-<code class="language-plaintext highlighter-rouge">person-politician</code>
-<code class="language-plaintext highlighter-rouge">person-scholar</code>
-<code class="language-plaintext highlighter-rouge">person-soldier</code>
-<code class="language-plaintext highlighter-rouge">product-airplane</code>
-<code class="language-plaintext highlighter-rouge">product-car</code>
-<code class="language-plaintext highlighter-rouge">product-food</code>
-<code class="language-plaintext highlighter-rouge">product-game</code>
-<code class="language-plaintext highlighter-rouge">product-other</code>
-<code class="language-plaintext highlighter-rouge">product-ship</code>
-<code class="language-plaintext highlighter-rouge">product-software</code>
-<code class="language-plaintext highlighter-rouge">product-train</code>
-<code class="language-plaintext highlighter-rouge">product-weapon</code></p>
+<ul>
+  <li>art-broadcastprogram</li>
+  <li>art-film</li>
+  <li>art-music</li>
+  <li>art-other</li>
+  <li>art-painting</li>
+  <li>art-writtenart</li>
+  <li>building-airport</li>
+  <li>building-hospital</li>
+  <li>building-hotel</li>
+  <li>building-library</li>
+  <li>building-other</li>
+  <li>building-restaurant</li>
+  <li>building-sportsfacility</li>
+  <li>building-theater</li>
+  <li>event-attack/battle/war/militaryconflict</li>
+  <li>event-disaster</li>
+  <li>event-election</li>
+  <li>event-other</li>
+  <li>event-protest</li>
+  <li>event-sportsevent</li>
+  <li>location-GPE</li>
+  <li>location-bodiesofwater</li>
+  <li>location-island</li>
+  <li>location-mountain</li>
+  <li>location-other</li>
+  <li>location-park</li>
+  <li>location-road/railway/highway/transit</li>
+  <li>organization-company</li>
+  <li>organization-education</li>
+  <li>organization-government/governmentagency</li>
+  <li>organization-media/newspaper</li>
+  <li>organization-other</li>
+  <li>organization-politicalparty</li>
+  <li>organization-religion</li>
+  <li>organization-showorganization</li>
+  <li>organization-sportsleague</li>
+  <li>organization-sportsteam</li>
+  <li>other-astronomything</li>
+  <li>other-award</li>
+  <li>other-biologything</li>
+  <li>other-chemicalthing</li>
+  <li>other-currency</li>
+  <li>other-disease</li>
+  <li>other-educationaldegree</li>
+  <li>other-god</li>
+  <li>other-language</li>
+  <li>other-law</li>
+  <li>other-livingthing</li>
+  <li>other-medical</li>
+  <li>person-actor</li>
+  <li>person-artist/author</li>
+  <li>person-athlete</li>
+  <li>person-director</li>
+  <li>person-other</li>
+  <li>person-politician</li>
+  <li>person-scholar</li>
+  <li>person-soldier</li>
+  <li>product-airplane</li>
+  <li>product-car</li>
+  <li>product-food</li>
+  <li>product-game</li>
+  <li>product-other</li>
+  <li>product-ship</li>
+  <li>product-software</li>
+  <li>product-train</li>
+  <li>product-weapon</li>
+</ul>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>

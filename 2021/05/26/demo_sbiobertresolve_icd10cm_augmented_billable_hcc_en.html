@@ -26,7 +26,8 @@
 <meta name="msapplication-TileColor" content="#ffc40d"><meta name="msapplication-config" content="/assets/browserconfig.xml">
 
 <meta name="theme-color" content="#ffffff">
-<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
+<!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" >
+<link rel="stylesheet" href="/static/models.css" /><!-- start custom head snippets -->
  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> 
  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <!-- end custom head snippets -->
@@ -413,7 +414,7 @@
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p>Outputs 7-digit billable ICD codes. In the result, look for ` aux_label ` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: <code class="language-plaintext highlighter-rouge">billable status</code>, ` hcc status<code class="language-plaintext highlighter-rouge">, and </code>hcc score<code class="language-plaintext highlighter-rouge">.</code>For example, in the example shared below the <code class="language-plaintext highlighter-rouge">billable status </code> is 1, ` hcc status ` is 1, and <code class="language-plaintext highlighter-rouge">hcc score </code> is 8.</p>
+<p>Outputs 7-digit billable ICD codes. In the result, look for <code class="language-plaintext highlighter-rouge">aux_label</code> parameter in the metadata to get HCC status. The HCC status can be divided to get further information: <code class="language-plaintext highlighter-rouge">billable status</code>, <code class="language-plaintext highlighter-rouge">hcc status</code>, and <code class="language-plaintext highlighter-rouge">hcc score</code>.<code class="language-plaintext highlighter-rouge">For example, in the example shared below the </code>billable status<code class="language-plaintext highlighter-rouge"> is 1, </code>hcc status<code class="language-plaintext highlighter-rouge"> is 1, and </code>hcc score` is 8.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
