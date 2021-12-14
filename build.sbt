@@ -114,6 +114,8 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
   else
     Seq(tensorflowCPU)
 
+val djlDependencies = Seq(djlPytorchEngine) ++ Seq(djlPytorchNative)
+
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
@@ -124,7 +126,8 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies ++
-        typedDependencyParserDependencies,
+        typedDependencyParserDependencies ++
+        djlDependencies,
     // TODO potentially improve this?
     mavenProps := {
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
