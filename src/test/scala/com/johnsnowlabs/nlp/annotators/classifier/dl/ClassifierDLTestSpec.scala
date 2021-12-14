@@ -27,9 +27,9 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ClassifierDLTestSpec extends AnyFlatSpec {
 
 
-  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
+  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs FastTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header","true").csv("src/test/resources/classifier/sentiment.csv")
+    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/classifier/sentiment.csv")
 
     println("count of training dataset: ", smallCorpus.count)
 
@@ -37,7 +37,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val useEmbeddings = UniversalSentenceEncoder.pretrained()
+    val sentenceEmbeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
@@ -45,8 +45,8 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCols("sentence_embeddings")
       .setOutputCol("category")
       .setLabelColumn("label")
-      .setBatchSize(64)
-      .setMaxEpochs(20)
+      .setBatchSize(8)
+      .setMaxEpochs(1)
       .setLr(5e-3f)
       .setDropout(0.5f)
       .setRandomSeed(44)
@@ -55,7 +55,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setStages(
         Array(
           documentAssembler,
-          useEmbeddings,
+          sentenceEmbeddings,
           docClassifier
         )
       )
@@ -109,7 +109,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
 
   "ClassifierDL" should "correctly download and load pre-trained model" taggedAs FastTest in {
     val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
-    classifierDL.getClasses.foreach(x=>print(x+", "))
+    classifierDL.getClasses.foreach(x => print(x + ", "))
   }
 
 }
