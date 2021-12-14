@@ -51,12 +51,7 @@ jobs:
           sbt -mem 4096 -Dis_spark24=true assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 2.4.x
         run: |
-          sbt -mem 4096 -Dis_spark24=true coverage test
-      - name: Upload coverage data to Coveralls
-        run: sbt coverageReport coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_FLAG_NAME: Apache Spark 2.4.x - Scala 2.11
+          sbt -mem 4096 -Dis_spark24=true test
       - name: Test Spark NLP in Python - Apache Spark 2.4.x
         run: |
           cd python
@@ -90,12 +85,7 @@ jobs:
           sbt -mem 4096 -Dis_spark23=true assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 2.3.x
         run: |
-          sbt -mem 4096 -Dis_spark23=true coverage test
-      - name: Upload coverage data to Coveralls
-        run: sbt coverageReport coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_FLAG_NAME: Apache Spark 2.3.x - Scala 2.11
+          sbt -mem 4096 -Dis_spark23=true test
       - name: Test Spark NLP in Python - Apache Spark 2.3.x
         run: |
           cd python
