@@ -98,7 +98,7 @@ val result = pipeline.fit(data).transform(data)
 
 | chunk                 	| ner_label    	|
 |-----------------------	|--------------	|
-| रिलायंस इंडस्ट्रीज़ लिमिटेड           |  ORGANISATION |
+| रिलायंस इंडस्ट्रीज़ लिमिटेड           | ORGANISATION |
 | Reliance Industries Limited   | ORGANISATION  |
 | मुंबई                   	| PLACE        	|
 | महाराष्ट्र              	        | PLACE        	|
