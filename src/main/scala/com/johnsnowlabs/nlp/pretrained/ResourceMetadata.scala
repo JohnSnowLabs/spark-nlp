@@ -76,7 +76,7 @@ case class ResourceMetadata
     if (this.sparkVersion == that.sparkVersion) {
       if (this.libVersion.get.toFloat > that.libVersion.get.toFloat) {
         value = Some(1)
-      } else value = Some(-1)
+      } else value = orderByTimeStamp(this.time, that.time)
     } else {
       if (this.sparkVersion.get.toFloat > that.sparkVersion.get.toFloat) {
         value = Some(1)
@@ -84,6 +84,10 @@ case class ResourceMetadata
     }
 
     value.get
+  }
+
+  private def orderByTimeStamp(thisTime: Timestamp, thatTime: Timestamp): Option[Int] = {
+    if (thisTime.after(thatTime)) Some(1) else Some(-1)
   }
 
 }
@@ -112,7 +116,8 @@ object ResourceMetadata {
         && Version.isCompatible(request.sparkVersion, item.sparkVersion)
       )
 
-    compatibleCandidates.sorted.lastOption
+    val sortedResult = compatibleCandidates.sorted
+    sortedResult.lastOption
   }
 
   def readResources(file: String): List[ResourceMetadata] = {
