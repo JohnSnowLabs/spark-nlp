@@ -27,7 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ClassifierDLTestSpec extends AnyFlatSpec {
 
 
-  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs FastTest in {
+  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/classifier/sentiment.csv")
 

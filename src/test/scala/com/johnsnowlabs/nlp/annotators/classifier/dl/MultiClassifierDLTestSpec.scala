@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator.BertSentenceEmbeddings
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, udf}
@@ -29,7 +29,7 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
 
   val spark: SparkSession = ResourceHelper.getActiveSparkSession
 
-  "MultiClassifierDL" should "correctly train E2E Challenge" taggedAs FastTest in {
+  "MultiClassifierDL" should "correctly train E2E Challenge" taggedAs SlowTest in {
     def splitAndTrim = udf { labels: String =>
       labels.split(", ").map(x => x.trim)
     }
