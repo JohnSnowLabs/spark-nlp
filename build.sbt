@@ -8,9 +8,9 @@ organization := "com.johnsnowlabs.nlp"
 
 version := "3.4.0"
 
-scalaVersion in ThisBuild := scalaVer
+(ThisBuild / scalaVersion) := scalaVer
 
-scalacOptions in ThisBuild += "-target:jvm-1.8"
+(ThisBuild / scalacOptions) += "-target:jvm-1.8"
 
 scalacOptions ++= Seq(
   "-unchecked",
@@ -18,7 +18,7 @@ scalacOptions ++= Seq(
   "-language:implicitConversions"
 )
 
-scalacOptions in(Compile, doc) ++= Seq(
+(Compile / doc / scalacOptions) ++= Seq(
   "-groups",
   "-doc-title",
   "Spark NLP " + version.value + " ScalaDoc",
@@ -27,33 +27,22 @@ scalacOptions in(Compile, doc) ++= Seq(
   "-nowarn"
 )
 
-target in Compile in doc := baseDirectory.value / "docs/api"
+Compile / doc / target := baseDirectory.value / "docs/api"
 
 licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
-resolvers in ThisBuild := m2Resolvers
+(ThisBuild / resolvers) := m2Resolvers
 
-assemblyShadeRules in assembly := Seq(
+(assembly / assemblyShadeRules) := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
   ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll
 )
 
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(
+(assembly / assemblyOption) := (assembly / assemblyOption).value.copy(
   includeScala = false
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
-
-/** Bintray settings */
-bintrayPackageLabels := Seq("nlp", "nlu",
-  "natural-language-processing", "natural-language-understanding",
-  "spark", "spark-ml", "pyspark", "machine-learning",
-  "named-entity-recognition", "sentiment-analysis", "lemmatizer", "spell-checker",
-  "tokenizer", "stemmer", "part-of-speech-tagger", "annotation-framework")
-
-bintrayRepository := "spark-nlp"
-
-bintrayOrganization := Some("johnsnowlabs")
 
 sonatypeProfileName := "com.johnsnowlabs"
 
@@ -73,7 +62,7 @@ scmInfo := Some(
   )
 )
 
-developers in ThisBuild := List(
+(ThisBuild / developers) := List(
   Developer(id = "saifjsl", name = "Saif Addin", email = "saif@johnsnowlabs.com", url = url("https://github.com/saifjsl")),
   Developer(id = "maziyarpanahi", name = "Maziyar Panahi", email = "maziyar@johnsnowlabs.com", url = url("https://github.com/maziyarpanahi")),
   Developer(id = "albertoandreottiATgmail", name = "Alberto Andreotti", email = "alberto@pacific.ai", url = url("https://github.com/albertoandreottiATgmail")),
@@ -142,7 +131,7 @@ lazy val root = (project in file("."))
     }
   )
 
-assemblyMergeStrategy in assembly := {
+(assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
   case PathList("apache.commons.lang3", _@_*) => MergeStrategy.discard
   case PathList("org.apache.hadoop", _@_*) => MergeStrategy.first
@@ -151,7 +140,7 @@ assemblyMergeStrategy in assembly := {
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("org", "tensorflow", _@_*) => MergeStrategy.first
   case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
 }
 
@@ -163,42 +152,42 @@ lazy val SlowTest = config("slow") extend Test
 
 configs(FastTest, SlowTest)
 
-parallelExecution in Test := false
-logBuffered in Test := false
-testOptions in Test := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+(Test / parallelExecution) := false
+(Test / logBuffered) := false
+(Test / testOptions) := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
 
 inConfig(FastTest)(Defaults.testTasks)
-testOptions in FastTest := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
-parallelExecution in FastTest := false
+(FastTest / testOptions) := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+(FastTest / parallelExecution) := false
 
 inConfig(SlowTest)(Defaults.testTasks)
-testOptions in SlowTest := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
-parallelExecution in SlowTest := false
+(SlowTest / testOptions) := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
+(SlowTest / parallelExecution) := false
 
 /** Test tagging end */
 
 /** Enable for debugging */
-testOptions in Test += Tests.Argument("-oF")
+(Test / testOptions) += Tests.Argument("-oF")
 
 /** Disables tests in assembly */
-test in assembly := {}
+(assembly / test) := {}
 
 /** Publish test artifact * */
-publishArtifact in Test := true
+(Test / publishArtifact) := true
 
 /** Copies the assembled jar to the pyspark/lib dir * */
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to pyspark/lib")
 lazy val copyAssembledJarForPyPi = taskKey[Unit]("Copy assembled jar to pyspark/sparknlp/lib")
 
 copyAssembledJar := {
-  val jarFilePath = (assemblyOutputPath in assembly).value
+  val jarFilePath = (assembly / assemblyOutputPath).value
   val newJarFilePath = baseDirectory(_ / "python" / "lib" / "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
 }
 
 copyAssembledJarForPyPi := {
-  val jarFilePath = (assemblyOutputPath in assembly).value
+  val jarFilePath = (assembly / assemblyOutputPath).value
   val newJarFilePath = baseDirectory(_ / "python" / "sparknlp" / "lib" / "sparknlp.jar").value
   IO.copyFile(jarFilePath, newJarFilePath)
   println(s"[info] $jarFilePath copied to $newJarFilePath ")
