@@ -74,9 +74,13 @@ case class ResourceMetadata
     }
 
     if (this.sparkVersion == that.sparkVersion) {
-      if (this.libVersion.get.toFloat > that.libVersion.get.toFloat) {
-        value = Some(1)
-      } else value = orderByTimeStamp(this.time, that.time)
+      if (this.libVersion.get.toFloat == that.libVersion.get.toFloat) {
+        value = orderByTimeStamp(this.time, that.time)
+      } else {
+        if (this.libVersion.get.toFloat > that.libVersion.get.toFloat) {
+          value = Some(1)
+        } else value = Some(-1)
+      }
     } else {
       if (this.sparkVersion.get.toFloat > that.sparkVersion.get.toFloat) {
         value = Some(1)
