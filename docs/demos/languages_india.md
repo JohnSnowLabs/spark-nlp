@@ -88,4 +88,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_PIPELINES_MODELS.ipynb
+        - title: NER Model for Hindi+English
+          id: ner_model_hindi_english
+          image: 
+              src: /assets/images/NER_Model_for_Hindi_English.svg
+          image2: 
+              src: /assets/images/NER_Model_for_Hindi_English_f.svg
+          excerpt: This model shows how Places an Organizations can be detected in mixed Hindi+English texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/NER_HINDI_ENGLISH/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HINDI_ENGLISH.ipynb
 ---

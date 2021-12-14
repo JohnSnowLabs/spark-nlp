@@ -137,7 +137,9 @@ sparknlp-healthcare:
       - title: Release Notes
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
-        url: /docs/en/benchmark      
+        url: /docs/en/benchmark  
+      - title: CPUvsGPUBenchmark
+        url: /docs/en/CPUvsGPUbenchmark_healthcare      
 
 
 spark-ocr:
