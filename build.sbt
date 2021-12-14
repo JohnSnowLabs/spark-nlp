@@ -30,7 +30,7 @@ scalacOptions ++= Seq(
 Compile / doc / target := baseDirectory.value / "docs/api"
 
 // exclude memory-intensive modules from coverage
-coverageExcludedPackages := "<empty>;*.embeddings.*;*.ml.*"
+coverageExcludedPackages := ".*nlp.embeddings*;.*nlp.ml.*;nlp.embeddings*;nlp.embeddings;.*BertEmbeddings*"
 
 licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
