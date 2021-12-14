@@ -94,7 +94,7 @@ data:
               src: /assets/images/NER_Model_for_Hindi_English.svg
           image2: 
               src: /assets/images/NER_Model_for_Hindi_English_f.svg
-          excerpt: This model shows how Places an Organizations can be detected in Hindi-English text.
+          excerpt: This model shows how Places an Organizations can be detected in Hindi+English text.
           actions:
           - text: Live Demo
             type: normal
