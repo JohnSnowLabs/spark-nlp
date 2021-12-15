@@ -11,6 +11,7 @@ const ModelItem = ({
   edition,
   date,
   supported,
+  deprecated,
   highlight,
 }) => {
   let body;
@@ -23,19 +24,26 @@ const ModelItem = ({
     return month + '.' + year;
   };
 
+  let label;
+  if (deprecated) {
+    label = e(
+      'div',
+      { key: 'deprecated', className: 'model-item__deprecated' },
+      'Deprecated'
+    );
+  } else if (supported) {
+    label = e(
+      'div',
+      { key: 'supported', className: 'model-item__supported' },
+      'Supported'
+    );
+  }
+
   return e(
     'div',
     { className: 'cell cell--12 cell--md-6 cell--lg-4' },
     e('div', { className: 'model-item' }, [
-      supported &&
-        e(
-          'div',
-          {
-            key: 'supported',
-            className: 'model-item__supported',
-          },
-          'Supported'
-        ),
+      label,
       e(
         'div',
         { key: 'header', className: 'model-item__header' },
