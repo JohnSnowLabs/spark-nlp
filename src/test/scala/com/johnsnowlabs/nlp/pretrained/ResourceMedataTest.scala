@@ -5,9 +5,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
-import java.time.{Instant, ZoneId}
-import java.util.{Date, TimeZone}
+import java.util.TimeZone
 
 class ResourceMedataTest extends AnyFlatSpec {
 
