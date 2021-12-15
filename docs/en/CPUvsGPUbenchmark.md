@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: GPU vs CPU benchmark on ClassifierDL
+title: GPU vs CPU benchmark
 permalink: /docs/en/CPUvsGPUbenchmarkClassifierDL
 key: docs-concepts
 modify_date: "2021-08-31"
