@@ -1,4 +1,10 @@
-docs/_frontend/src/models/ModelItem/ModelItem.js
-docs/_layouts/models.html
-docs/_frontend/src/models/ModelItem/ModelItem.js
-docs/_layouts/models.html
+docs/assets/images/annotation_lab/settings/large_taxonomy.png
+docs/en/alab/install.md
+docs/en/alab/release_notes.md
+docs/en/alab/terminology.md
+docs/en/alab/tips.md
+docs/assets/images/annotation_lab/settings/large_taxonomy.png
+docs/en/alab/install.md
+docs/en/alab/release_notes.md
+docs/en/alab/terminology.md
+docs/en/alab/tips.md
