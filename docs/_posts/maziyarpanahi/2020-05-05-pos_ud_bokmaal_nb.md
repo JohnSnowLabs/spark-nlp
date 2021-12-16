@@ -9,6 +9,7 @@ language: nb
 edition: Spark NLP 2.5.0
 spark_version: 2.4
 tags: [pos, nb]
+supported: true
 deprecated: true
 article_header:
    type: cover
