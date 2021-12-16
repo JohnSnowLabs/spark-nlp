@@ -51,7 +51,7 @@ sequenceClassifier = RoBertaForSequenceClassification \
       .pretrained('roberta_base_sequence_classifier_ag_news', 'en') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
-      .setCaseSensitive(False) \
+      .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
@@ -75,7 +75,7 @@ val tokenizer = Tokenizer()
 val sequenceClassifier = RoBertaForSequenceClassification.pretrained("roberta_base_sequence_classifier_ag_news", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
-      .setCaseSensitive(false)
+      .setCaseSensitive(true)
       .setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
