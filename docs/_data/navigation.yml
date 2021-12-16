@@ -63,7 +63,7 @@ sparknlp:
       - title:  Productionizing Spark NLP
         url:  /docs/en/production-readiness
       - title: GPU vs CPU benchmarks
-        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
+        url: /docs/en/CPUvsGPUbenchmark
       - title: Release Notes
         url: /docs/en/release_notes
 
