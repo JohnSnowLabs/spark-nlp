@@ -5442,6 +5442,11 @@ ul.list1 {
       left: 0;
       top: 10px; }
 
+ol.list1 {
+  margin: 0 0 0 35px; }
+  ol.list1 li {
+    margin-bottom: 15px; }
+
 .benchmark-section {
   text-align: left;
   position: relative;

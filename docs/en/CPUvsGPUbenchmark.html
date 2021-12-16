@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>GPU vs CPU benchmark</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/CPUvsGPUbenchmarkClassifierDL"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/CPUvsGPUbenchmark"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/models">Models</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/production-readiness">Productionizing Spark NLP</a></li><li class="toc-h2 active"><a href="/docs/en/CPUvsGPUbenchmarkClassifierDL">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/models">Models</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/production-readiness">Productionizing Spark NLP</a></li><li class="toc-h2 active"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -530,7 +530,6 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="gpu-vs-cpu-benchmarks">GPU vs CPU benchmarks</h2>
   <p>This section includes benchmarks for different Approach() (training classes), comparing their performance when running in <code class="language-plaintext highlighter-rouge">m5.8xlarge</code> CPU vs a <code class="language-plaintext highlighter-rouge">Tesla V100 SXM2</code> GPU, as described in the <code class="language-plaintext highlighter-rouge">Machine Specs</code> section below.</p>
 
   <p>Different benchmarks, as well as their takeaways and some conclusions of how to get the best of GPU, are included as well, to guide you in the process of getting the best performance out of Spark NLP on GPU.</p>
@@ -871,9 +870,11 @@ GPU: <code class="language-plaintext highlighter-rouge">2 min</code></p>
   <h3 id="takeaways-how-to-get-the-best-of-the-gpu">Takeaways: How to get the best of the GPU</h3>
   <p>You will experiment big GPU improvements in the following cases:</p>
 
-  <p>1) Embeddings and Transformers are used in your pipeline. Take into consideration that GPU will performance very well in Embeddings / Transformer components, but other components of your pipeline may not leverage as well GPU capabilities;
-2) Bigger batch sizes get the best of GPU, while CPU does not scale with bigger batch sizes;
-3) Bigger dataset sizes get the best of GPU, while may be a bottleneck while running in CPU and lead to performance drops;</p>
+  <ol class="list1">
+    <li>Embeddings and Transformers are used in your pipeline. Take into consideration that GPU will performance very well in Embeddings / Transformer components, but other components of your pipeline may not leverage as well GPU capabilities;</li>
+    <li>Bigger batch sizes get the best of GPU, while CPU does not scale with bigger batch sizes;</li>
+    <li>Bigger dataset sizes get the best of GPU, while may be a bottleneck while running in CPU and lead to performance drops;</li>
+  </ol>
 
 </div>
 <div class="h3-box">
