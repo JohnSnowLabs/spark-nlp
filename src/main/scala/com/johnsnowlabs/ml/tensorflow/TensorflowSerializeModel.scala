@@ -18,16 +18,14 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
-import com.johnsnowlabs.nlp.embeddings.NewBertEmbeddings
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.util.FileHelper
+import org.apache.commons.io.FileUtils
+import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.spark.sql.SparkSession
 
 import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
-import org.apache.commons.io.FileUtils
-import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.sql.SparkSession
 
 trait WriteTensorflowModel {
 

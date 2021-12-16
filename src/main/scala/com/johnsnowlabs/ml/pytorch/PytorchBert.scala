@@ -4,7 +4,7 @@ import ai.djl.Model
 import ai.djl.ndarray.NDList
 import ai.djl.pytorch.engine.PtModel
 import ai.djl.translate.{Batchifier, Translator, TranslatorContext}
-import com.johnsnowlabs.nlp.annotators.common.{TokenPiece, TokenPieceEmbeddings, TokenizedSentence, WordpieceEmbeddingsSentence, WordpieceTokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common._
 
 import java.io.ByteArrayInputStream
 

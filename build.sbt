@@ -114,7 +114,7 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
   else
     Seq(tensorflowCPU)
 
-val djlDependencies = Seq(djlPytorchEngine) ++ Seq(djlPytorchNative)
+val djlDependencies = Seq(djlPytorchEngine) //++ Seq(djlPytorchNative)
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
