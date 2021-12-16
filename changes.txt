@@ -1,14 +1,2 @@
-docs/_data/navigation.yml
-docs/_includes/demomenu.html
-docs/_sass/custom.scss
 docs/demos/radiology.md
-docs/demos/recognize_clinical_entities.md
-docs/en/CPUvsGPUbenchmark.md
-docs/en/CPUvsGPUbenchmark_healthcare.md
-docs/_data/navigation.yml
-docs/_includes/demomenu.html
-docs/_sass/custom.scss
 docs/demos/radiology.md
-docs/demos/recognize_clinical_entities.md
-docs/en/CPUvsGPUbenchmark.md
-docs/en/CPUvsGPUbenchmark_healthcare.md
