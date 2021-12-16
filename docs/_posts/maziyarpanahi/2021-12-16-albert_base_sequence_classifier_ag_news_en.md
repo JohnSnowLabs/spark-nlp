@@ -47,11 +47,11 @@ tokenizer = Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier = albert_base_sequence_classifier_ag_news \
+sequenceClassifier = AlbertForSequenceClassification \
       .pretrained('albert_base_sequence_classifier_ag_news', 'en') \
       .setInputCols(['token', 'document']) \
       .setOutputCol('class') \
-      .setCaseSensitive(True) \
+      .setCaseSensitive(False) \
       .setMaxSentenceLength(512)
 
 pipeline = Pipeline(stages=[
@@ -72,10 +72,10 @@ val tokenizer = Tokenizer()
     .setInputCols("document") 
     .setOutputCol("token")
 
-val tokenClassifier = albert_base_sequence_classifier_ag_news.pretrained("albert_base_sequence_classifier_ag_news", "en")
+val tokenClassifier = AlbertForSequenceClassification.pretrained("albert_base_sequence_classifier_ag_news", "en")
       .setInputCols("document", "token")
       .setOutputCol("class")
-      .setCaseSensitive(true)
+      .setCaseSensitive(false)
       .setMaxSentenceLength(512)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
