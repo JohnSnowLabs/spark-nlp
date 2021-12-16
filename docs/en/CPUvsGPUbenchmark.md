@@ -2,7 +2,7 @@
 layout: docs
 header: true
 title: GPU vs CPU benchmark
-permalink: /docs/en/CPUvsGPUbenchmarkClassifierDL
+permalink: /docs/en/CPUvsGPUbenchmark
 key: docs-concepts
 modify_date: "2021-08-31"
 use_language_switcher: "Python-Scala"
@@ -13,7 +13,6 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## GPU vs CPU benchmarks
 This section includes benchmarks for different Approach() (training classes), comparing their performance when running in `m5.8xlarge` CPU vs a `Tesla V100 SXM2` GPU, as described in the `Machine Specs` section below.
 
 Different benchmarks, as well as their takeaways and some conclusions of how to get the best of GPU, are included as well, to guide you in the process of getting the best performance out of Spark NLP on GPU.
@@ -250,9 +249,10 @@ Batch sizes: `32`, `64`, `256`, `1024`
 ### Takeaways: How to get the best of the GPU
 You will experiment big GPU improvements in the following cases:
 
-1) Embeddings and Transformers are used in your pipeline. Take into consideration that GPU will performance very well in Embeddings / Transformer components, but other components of your pipeline may not leverage as well GPU capabilities;
-2) Bigger batch sizes get the best of GPU, while CPU does not scale with bigger batch sizes;
-3) Bigger dataset sizes get the best of GPU, while may be a bottleneck while running in CPU and lead to performance drops;
+{:.list1}
+1. Embeddings and Transformers are used in your pipeline. Take into consideration that GPU will performance very well in Embeddings / Transformer components, but other components of your pipeline may not leverage as well GPU capabilities;
+2. Bigger batch sizes get the best of GPU, while CPU does not scale with bigger batch sizes;
+3. Bigger dataset sizes get the best of GPU, while may be a bottleneck while running in CPU and lead to performance drops;
 
 </div>
 <div class="h3-box" markdown="1">
