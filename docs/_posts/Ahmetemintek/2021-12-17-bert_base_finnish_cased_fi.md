@@ -44,12 +44,10 @@ document_assembler = DocumentAssembler()\
   .setInputCol("text")\
   .setOutputCol("document")
 
-# Sentence Detector annotator, processes various sentences per line
 sentence_detector = SentenceDetector()\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
 
-# Tokenizer splits words in a relevant format for NLP
 tokenizer = Tokenizer()\
   .setInputCols(["sentence"])\
   .setOutputCol("token")
@@ -69,12 +67,10 @@ val document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("document")
 
-# Sentence Detector annotator, processes various sentences per line
 val sentence_detector = SentenceDetector()\
       .setInputCols(["document"])\
       .setOutputCol("sentence")
 
-# Tokenizer splits words in a relevant format for NLP
 val tokenizer = Tokenizer()\
       .setInputCols(["sentence"])\
       .setOutputCol("token")
