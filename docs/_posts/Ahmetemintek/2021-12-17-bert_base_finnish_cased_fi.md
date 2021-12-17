@@ -62,7 +62,6 @@ pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(sample_data)
 ```
 ```scala
-...
 val document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("document")
