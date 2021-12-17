@@ -39,22 +39,46 @@ FinBERT has been pre-trained for 1 million steps on over 3 billion tokens (24B c
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-...
+
+document_assembler = DocumentAssembler()\
+  .setInputCol("text")\
+  .setOutputCol("document")
+
+sentence_detector = SentenceDetector()\
+  .setInputCols(["document"])\
+  .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+  .setInputCols(["sentence"])\
+  .setOutputCol("token")
+
 embeddings = BertEmbeddings.pretrained("bert_base_finnish_uncased", "fi") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
 
+sample_data= spark.createDataFrame([['Syväoppimisen tavoitteena on luoda algoritmien avulla neuroverkko, joka pystyy ratkaisemaan sille annetut ongelmat.']], ["text"])
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame([['Rakastan NLP: tä']], ["text"]))
+result = pipeline_model.transform(sample_data)
 ```
 ```scala
-...
+val document_assembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("document")
+
+val sentence_detector = SentenceDetector()\
+      .setInputCols(["document"])\
+      .setOutputCol("sentence")
+
+val tokenizer = Tokenizer()\
+      .setInputCols(["sentence"])\
+      .setOutputCol("token")
+
 val embeddings = BertEmbeddings.pretrained("bert_base_finnish_uncased", "fi")
       .setInputCols("sentence", "token")
       .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val data = Seq("Rakastan NLP: tä").toDF("text")
+val data = Seq("Syväoppimisen tavoitteena on luoda algoritmien avulla neuroverkko, joka pystyy ratkaisemaan sille annetut ongelmat.").toDF("text")
 val result = pipeline.fit(data).transform(data)
 ```
 </div>
@@ -62,14 +86,25 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+--------------------+--------+
-|          embeddings|   token|
-+--------------------+--------+
-|[0.75768787, 0.99...|Rakastan|
-|[0.4912446, 0.388...|     NLP|
-|[0.9057018, 0.253...|       :|
-|[-0.6122347, 0.55...|      tä|
-+--------------------+--------+
++--------------------+-------------+
+|          embeddings|        token|
++--------------------+-------------+
+|[0.9422476, -0.14...|Syväoppimisen|
+|[2.0408847, -1.45...|  tavoitteena|
+|[2.33223, -1.7228...|           on|
+|[0.6425015, -0.96...|        luoda|
+|[0.10455999, -0.2...|  algoritmien|
+|[0.28626734, -0.2...|       avulla|
+|[1.0091506, -0.75...|  neuroverkko|
+|[1.501086, -0.651...|            ,|
+|[1.2654709, -0.82...|         joka|
+|[1.710053, -0.406...|       pystyy|
+|[0.43736708, -0.2...| ratkaisemaan|
+|[1.0496894, 0.191...|        sille|
+|[0.8630942, -0.16...|      annetut|
+|[0.50174934, -1.3...|     ongelmat|
+|[0.27278847, -0.9...|            .|
++--------------------+-------------+
 ```
 
 {:.model-param}
