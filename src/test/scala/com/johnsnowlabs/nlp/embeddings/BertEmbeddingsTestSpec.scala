@@ -231,4 +231,36 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     assert(totalTokens == totalEmbeddings)
 
   }
+
+  it should "infer with Pytorch model" in {
+
+    import ResourceHelper.spark.implicits._
+
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = BertEmbeddings.load("tmp_bert_base_cased_pt")
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setDeepLearningEngine("pytorch")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        tokenizer,
+        embeddings
+      ))
+
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    pipelineDF.show()
+  }
+
 }
