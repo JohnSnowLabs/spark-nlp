@@ -1,8 +1,2 @@
-docs/_posts/Digaari/2020-08-31-bert_finnish_cased.md
-docs/_posts/Digaari/2020-08-31-bert_finnish_uncased.md
-docs/_posts/Digaari/2020-08-31-sent_bert_finnish_cased.md
-docs/_posts/Digaari/2020-08-31-sent_bert_finnish_uncased.md
-docs/_posts/Digaari/2020-08-31-bert_finnish_cased.md
-docs/_posts/Digaari/2020-08-31-bert_finnish_uncased.md
-docs/_posts/Digaari/2020-08-31-sent_bert_finnish_cased.md
-docs/_posts/Digaari/2020-08-31-sent_bert_finnish_uncased.md
+docs/demos/languages_india.md
+docs/demos/languages_india.md
