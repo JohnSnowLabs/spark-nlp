@@ -232,8 +232,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "infer with Pytorch model" in {
-
+  "BertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
 
     val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
@@ -246,7 +245,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val embeddings = BertEmbeddings.load("tmp_bert_base_cased_pt")
+    val embeddings = BertEmbeddings.load("./tmp_bert_base_cased_pt")
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
