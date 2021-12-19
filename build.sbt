@@ -114,7 +114,18 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
   else
     Seq(tensorflowCPU)
 
-val djlDependencies = Seq(djlPytorchEngine) //++ Seq(djlPytorchNative)
+val pytorchDependencies: Seq[sbt.ModuleID] =
+  if (is_gpu.equals("true")) {
+    Seq(
+      pytorchEngine,
+      pytorchCPU
+    )
+  } else {
+    Seq(
+      pytorchEngine,
+      pytorchCPU
+    )
+  }
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
@@ -127,7 +138,7 @@ lazy val root = (project in file("."))
         utilDependencies ++
         tensorflowDependencies ++
         typedDependencyParserDependencies ++
-        djlDependencies,
+        pytorchDependencies,
     // TODO potentially improve this?
     mavenProps := {
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
@@ -151,6 +162,7 @@ lazy val root = (project in file("."))
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("org", "tensorflow", _@_*) => MergeStrategy.first
+  case PathList("ai", "djl.pytorch", _@_*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
