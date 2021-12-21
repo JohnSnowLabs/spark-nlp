@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Text Cleaner v1
+title: Text cleaner v1
 author: John Snow Labs
 name: text_cleaner_v1
 date: 2021-12-21
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Spark NLP 3.3.4
+edition: Spark NLP 3.0.0
 spark_version: 2.4
 supported: true
 article_header:
@@ -26,7 +26,7 @@ Model for cleaning image with text. It is based on text detection model with ext
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/text_cleaner_v1_en_3.3.4_2.4_1640083694049.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/text_cleaner_v1_en_3.0.0_2.4_1640088709401.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -55,7 +55,7 @@ cleaner = ImageTextCleaner \
 |---|---|
 |Model Name:|text_cleaner_v1|
 |Type:|ocr|
-|Compatibility:|Spark NLP 3.3.4+|
+|Compatibility:|Spark NLP 3.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|
