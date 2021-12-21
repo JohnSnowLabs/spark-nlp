@@ -117,12 +117,10 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
 val pytorchDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true")) {
     Seq(
-      pytorchEngine,
       pytorchCPU
     )
   } else {
     Seq(
-      pytorchEngine,
       pytorchCPU
     )
   }
@@ -156,13 +154,17 @@ lazy val root = (project in file("."))
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
+  case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("apache.commons.lang3", _@_*) => MergeStrategy.discard
-  case PathList("org.apache.hadoop", _@_*) => MergeStrategy.first
   case PathList("com.amazonaws", _@_*) => MergeStrategy.last
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
-  case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
+  case PathList("com", "google", xs@_*) => MergeStrategy.last
+  case PathList("com", "googlecode", xs@_*) => MergeStrategy.last
+  case PathList("org.apache.hadoop", _@_*) => MergeStrategy.first
   case PathList("org", "tensorflow", _@_*) => MergeStrategy.first
-  case PathList("ai", "djl.pytorch", _@_*) => MergeStrategy.first
+  case PathList("org.apache.commons", _@_*) => MergeStrategy.first
+  case PathList("org", "slf4j", xs@_*) => MergeStrategy.first
+  case PathList("ai", "djl", _@_*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
