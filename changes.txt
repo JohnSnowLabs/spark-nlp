@@ -1,2 +1,0 @@
-docs/demos/languages_india.md
-docs/demos/languages_india.md
