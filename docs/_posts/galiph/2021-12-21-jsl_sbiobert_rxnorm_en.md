@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is trained to generate contextual sentence embeddings of input sentences.
+This model maps sentences & documents to a 768 dimensional dense vector space by using average pooling on top of BioBert model. It's also fine tuned on RxNorm dataset to help generalisation over medication-related datasets.
 
 ## Predicted Entities
 
@@ -39,6 +39,14 @@ sentence_embeddings = BertSentenceEmbeddings.pretrained("jsl_sbiobert_rxnorm", "
         .setInputCols(["sentence"])\
         .setOutputCol("sbioert_embeddings")
 
+```
+
+```scala
+
+val sentence_embeddings = BertSentenceEmbeddings.pretrained('jsl_sbiobert_rxnorm', 'en','clinical/models')\
+      .setInputCols("sentence")\
+      .setOutputCol("sbioert_embeddings")
+    
 ```
 
 </div>
