@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model detects chemical compounds/drugs and genes/proteins in medical text and research articles.
+This model detects chemical compounds/drugs and genes/proteins in medical text and research articles. Chemical compounds/drugs are labeled as `CHEMICAL`, genes/proteins are labeled as `GENE` and entity mentions of type `GENE` and of type `CHEMICAL` that overlap such as enzymes and small peptides are labeled as `GENE_AND_CHEMICAL`.
 
 ## Predicted Entities
 
@@ -57,7 +57,7 @@ results = model.transform(spark.createDataFrame([[EXAMPLE_TEXT]]).toDF("text"))
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-  
+
 val ner = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
