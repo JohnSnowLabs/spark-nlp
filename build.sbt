@@ -37,15 +37,6 @@ licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 (ThisBuild / resolvers) := m2Resolvers
 
-(assembly / assemblyShadeRules) := Seq(
-  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
-  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll
-)
-
-(assembly / assemblyOption) := (assembly / assemblyOption).value.copy(
-  includeScala = false
-)
-
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
 sonatypeProfileName := "com.johnsnowlabs"
@@ -134,6 +125,15 @@ lazy val root = (project in file("."))
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
     }
   )
+
+(assembly / assemblyShadeRules) := Seq(
+  ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll
+)
+
+(assembly / assemblyOption) := (assembly / assemblyOption).value.copy(
+  includeScala = false
+)
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
