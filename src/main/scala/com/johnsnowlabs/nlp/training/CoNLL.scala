@@ -324,8 +324,10 @@ case class CoNLL(documentCol: String = "document",
           readLines(lines).map(doc => coreTransformation(doc))
         }.persist(storageLevel)
 
-      spark.createDataFrame(rdd).
+      val df = spark.createDataFrame(rdd).
         toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
+
+      spark.createDataFrame(df.rdd, schema)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
       packDocs(readDocs(er), spark)
