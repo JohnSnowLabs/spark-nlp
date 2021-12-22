@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamValidators}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /** A tokenizer that splits text by a regex pattern.
  *
@@ -248,3 +248,8 @@ class RegexTokenizer(override val uid: String)
   }
 }
 
+
+/**
+ * This is the companion object of [[RegexTokenizer]]. Please refer to that class for the documentation.
+ */
+object RegexTokenizer extends DefaultParamsReadable[RegexTokenizer]
