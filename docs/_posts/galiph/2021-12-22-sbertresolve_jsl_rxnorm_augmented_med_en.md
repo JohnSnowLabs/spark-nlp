@@ -54,10 +54,8 @@ rxnorm_pipelineModel = PipelineModel(
         sbert_embedder,
         rxnorm_resolver])
 
-clinical_note = """
-She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
-levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
-Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily."""
+light_model = LightPipeline(pipelineModel)
+result = light_model.fullAnnotate(['folic acid', 'levothyroxine', 'aspirin', 'magnesium citrate',])
 
 ```
 ```scala
@@ -76,9 +74,8 @@ val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_r
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
 
-val data = Seq("She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, 
-levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., 
-Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily.").toDF("text")
+val light_model = LightPipeline(pipelineModel)
+val result = light_model.fullAnnotate(['folic acid', 'levothyroxine', 'aspirin', 'magnesium citrate'])
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -87,15 +84,13 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
-|            chunk|begin|end|         entity|confidence|RxNormCode|                                         all_codes|                                       resolutions|                                     Concept Class|
-+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
-|       folic acid|  121|130|Drug_Ingredient|   0.59705|      4511|4511:::1162058:::1162059:::62356:::1376005:::54...|folic acid:::folic acid oral product:::folic ac...|Ingredient:::Clinical Dose Group:::Clinical Dos...|
-|    levothyroxine|  144|156|Drug_Ingredient|    0.6059|     10582|10582:::1868004:::40144:::1602753:::1602745:::2...|levothyroxine:::levothyroxine injection:::levot...|Ingredient:::Clinical Drug Form:::Precise Ingre...|
-|          aspirin|  219|225|Drug_Ingredient|    0.9814|      1191|1191:::405403:::218266:::1154070:::215568:::202...|aspirin:::ysp aspirin:::med aspirin:::aspirin p...|Ingredient:::Brand Name:::Brand Name:::Clinical...|
-|magnesium citrate|  313|329|Drug_Ingredient|   0.53295|     52356|52356:::29155:::1314220:::1006900:::52358:::291...|magnesium citrate:::magnesium carbonate:::magne...|Ingredient:::Ingredient:::Precise Ingredient:::...|
-|          insulin|  376|382|Drug_Ingredient|    0.4832|    139825|139825:::1740938:::274783:::86009:::1605101:::5...|insulin detemir:::insulin argine:::insulin glar...|Ingredient:::Ingredient:::Ingredient:::Ingredie...|
-+-----------------+-----+---+---------------+----------+----------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+
+|    | chunk             |   RxNormCode | all_k_results                     | all_k_distances                   | all_k_cosine_distances            | all_k_resolutions                 | all_k_aux_labels                  |
+|---:|:------------------|-------------:|:----------------------------------|:----------------------------------|:----------------------------------|:----------------------------------|:----------------------------------|
+|  0 | folic acid        |       619037 | 619037:::4511:::62356:::144086... | 0.0000:::0.0000:::9.6048:::9.9... | 0.0000:::0.0000:::0.1439:::0.1... | folic acid :::folic acid:::fol... | Clinical Drug Form:::Ingredien... |
+|  1 | levothyroxine     |        10582 | 10582:::1001569:::3292:::37177... | 0.0000:::0.0000:::7.9957:::7.9... | 0.0000:::0.0000:::0.1006:::0.1... | levothyroxine:::levothyroxine ... | Ingredient:::Clinical Drug For... |
+|  2 | aspirin           |      1537020 | 1537020:::1191:::405403:::2187... | 0.0000:::0.0000:::9.0615:::9.4... | 0.0000:::0.0000:::0.1268:::0.1... | aspirin :::aspirin:::ysp aspir... | Clinical Drug Form:::Ingredien... |
+|  3 | magnesium citrate |       204730 | 204730:::52356:::314718:::1314... | 0.0000:::0.0000:::5.0972:::5.7... | 0.0000:::0.0000:::0.0398:::0.0... | magnesium citrate :::magnesium... | Clinical Drug Form:::Ingredien... |
+
 ```
 
 {:.model-param}
