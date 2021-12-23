@@ -48,8 +48,9 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
     val marian = MarianTransformer.pretrained("opus_mt_mul_en", "xx")
       .setInputCols("sentence")
       .setOutputCol("translation")
+      .setBatchSize(8)
       .setMaxInputLength(50)
-    //      .setIgnoreTokenIds(Array(64171))
+      .setIgnoreTokenIds(Array(64171))
 
     val pipeline = new Pipeline()
       .setStages(Array(

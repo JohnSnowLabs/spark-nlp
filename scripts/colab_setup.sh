@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="3.3.4"
+SPARKNLP="3.4.0"
 PYSPARK="3.0.3"
 
 while getopts s:p: option
