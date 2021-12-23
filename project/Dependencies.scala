@@ -21,21 +21,21 @@ object Dependencies {
 
 
   /** Package attributes */
-  def getPackageName(is_spark23: String, is_spark24: String, is_spark30: String, is_gpu: String): String = {
+  def getPackageName(is_spark23: String, is_spark24: String, is_spark32: String, is_gpu: String): String = {
     if (is_gpu.equals("true") && is_spark23.equals("true")) {
       "spark-nlp-gpu-spark23"
     } else if (is_gpu.equals("true") && is_spark24.equals("true")) {
       "spark-nlp-gpu-spark24"
-    } else if (is_gpu.equals("true") && is_spark30.equals("true")) {
-      "spark-nlp-gpu-spark30"
-    } else if (is_gpu.equals("true") && is_spark30.equals("false")) {
+    } else if (is_gpu.equals("true") && is_spark32.equals("true")) {
+      "spark-nlp-gpu-spark32"
+    } else if (is_gpu.equals("true") && is_spark32.equals("false")) {
       "spark-nlp-gpu"
     } else if (is_gpu.equals("false") && is_spark23.equals("true")) {
       "spark-nlp-spark23"
     } else if (is_gpu.equals("false") && is_spark24.equals("true")) {
       "spark-nlp-spark24"
-    } else if (is_gpu.equals("false") && is_spark30.equals("true")) {
-      "spark-nlp-spark30"
+    } else if (is_gpu.equals("false") && is_spark32.equals("true")) {
+      "spark-nlp-spark32"
     } else {
       "spark-nlp"
     }
