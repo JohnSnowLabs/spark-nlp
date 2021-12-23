@@ -77,7 +77,6 @@ val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler
 val light_model = LightPipeline(pipelineModel)
 val result = light_model.fullAnnotate(['folic acid', 'levothyroxine', 'aspirin', 'magnesium citrate'])
 
-val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
