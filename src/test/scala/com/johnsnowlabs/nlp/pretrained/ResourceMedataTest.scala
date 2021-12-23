@@ -3,6 +3,10 @@ package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.util.Version
 import org.scalatest.flatspec.AnyFlatSpec
 
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.TimeZone
+
 class ResourceMedataTest extends AnyFlatSpec {
 
 
@@ -141,7 +145,7 @@ class ResourceMedataTest extends AnyFlatSpec {
     assert(versions.get.libVersion.get == expectedSparkNLPVersion)
   }
 
-  it should "get model with spark==3.0 and spark-nlp==3.3.0 when spark==3.0 and spark-nlp==3.3.0 when newest model version is 3.0" in {
+  it should "get model with spark==3.0 and spark-nlp==3.3.0 when spark==3.0 and spark-nlp==3.3.0 and newest model version is 3.0" in {
     val resourcePath = "src/test/resources/resource-downloader/test_bert_v3_newest.json"
     val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
     val resourceMetadata = mockResourceDownloader.resources
@@ -200,6 +204,31 @@ class ResourceMedataTest extends AnyFlatSpec {
 
     assert(versions.get.sparkVersion.get == expectedSparkVersion)
     assert(versions.get.libVersion.get == expectedSparkNLPVersion)
+  }
+
+  it should "get most recent model when spark and spark-nlp versions are the same" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_bert_v2_newest.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    val resourceRequest = ResourceRequest("tfhub_use_multi", libVersion = Version(List(3, 3, 4)),
+      sparkVersion = Version(List(3, 0)))
+    val expectedSparkNLPVersion = Version(List(3, 3, 0))
+    val expectedSparkVersion = Version(List(3, 0))
+    val expectedTimestamp = getTimestamp("2021-05-06T17:52:37.778Z")
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.get.sparkVersion.get == expectedSparkVersion)
+    assert(versions.get.libVersion.get == expectedSparkNLPVersion)
+    assert(versions.get.time == expectedTimestamp)
+  }
+
+  private def getTimestamp(date: String): Timestamp = {
+    val UTC = TimeZone.getTimeZone("UTC")
+    val dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    dateFormat.setTimeZone(UTC)
+    val parsedDate = dateFormat.parse(date)
+    new Timestamp(parsedDate.getTime)
   }
 
 }

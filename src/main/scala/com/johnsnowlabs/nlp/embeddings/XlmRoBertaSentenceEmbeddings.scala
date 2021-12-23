@@ -263,7 +263,7 @@ class XlmRoBertaSentenceEmbeddings(override val uid: String)
       val sentences = SentenceSplit.unpack(annotations).toArray
 
       if (sentences.nonEmpty) {
-        getModelIfNotSet.calculateSentenceEmbeddings(
+        getModelIfNotSet.predictSequence(
           sentences,
           $(batchSize),
           $(maxSentenceLength)

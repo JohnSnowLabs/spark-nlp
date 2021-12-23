@@ -217,6 +217,7 @@ class NerDLSpec extends AnyFlatSpec {
       .setRandomSeed(0)
       .setVerbose(0)
       .setEvaluationLogExtended(true)
+      .setEnableOutputLogs(true)
       .setGraphFolder("src/test/resources/graph/")
       .fit(trainData)
 
@@ -273,7 +274,7 @@ class NerDLSpec extends AnyFlatSpec {
       .setVerbose(0)
       .setBatchSize(32)
       .setEvaluationLogExtended(true)
-//      .setGraphFolder("src/test/resources/graph/")
+      .setGraphFolder("src/test/resources/graph/")
       .setTestDataset("./tmp_test_coll")
 
     nerModel.fit(trainDF)

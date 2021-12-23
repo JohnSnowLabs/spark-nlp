@@ -17,7 +17,7 @@
 package com.johnsnowlabs.util
 
 import java.io.File
-import java.nio.file.{Files, Paths, StandardCopyOption}
+import java.nio.file.Paths
 import java.sql.Timestamp
 import java.util.Date
 
@@ -44,34 +44,28 @@ object TrainingHelper {
     // 1. Get current timestamp
     val timestamp = new Timestamp(new Date().getTime)
 
+    // 2. Create resource metadata
+    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category)
 
-    // 2. Save model to file
-    val file = Paths.get(folder, timestamp.toString).toString.replaceAllLiterally("\\", "/")
+    // 3. Save model to file
+    val file = Paths.get(folder, meta.key).toString.replaceAllLiterally("\\", "/")
     modelWriter.save(file)
 
-    // 3. Zip file
-    val tempzipFile = Paths.get(folder, timestamp + ".zip")
-    ZipArchiveUtil.zip(file, tempzipFile.toString)
+    // 4. Zip file
+    val zipFile = Paths.get(folder, meta.fileName).toString
+    ZipArchiveUtil.zip(file, zipFile)
 
-    // 4. Set checksum
-    val checksum = FileHelper.generateChecksum(tempzipFile.toString)
+    // 5. Remove original file
+    FileUtils.forceDeleteOnExit(new File(file))
 
-    // 5. Create resource metadata
-    val meta = new ResourceMetadata(name, language, libVersion, sparkVersion, true, timestamp, true, category = category, checksum)
-
-    val zipfile = Paths.get(meta.fileName)
-
-    // 6. Move the zip
-    Files.move(tempzipFile, zipfile, StandardCopyOption.REPLACE_EXISTING)
-
-    // 7. Remove original file
+    // 6. Remove original file
     try {
       FileUtils.deleteDirectory(new File(file))
     } catch {
       case _: java.io.IOException => //file lock may prevent deletion, ignore and continue
     }
 
-    // 6. Add to metadata.json info about resource
+    // 7. Add to metadata.json info about resource
     val metadataFile = Paths.get(folder, "metadata.json").toString
     ResourceMetadata.addMetadataToFile(metadataFile, meta)
   }

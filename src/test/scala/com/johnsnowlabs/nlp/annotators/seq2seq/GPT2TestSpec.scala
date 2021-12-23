@@ -1,18 +1,43 @@
+/*
+ * Copyright 2017-2021 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class GPT2TestSpec extends AnyFlatSpec {
 
-  "gpt2" should "run SparkNLP pipeline" taggedAs SlowTest in {
+  "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "My name is Leonardo.")
-    )).toDF("id", "text")
+      (1, "My name is Leonardo."),
+      (2, "My name is Leonardo and I come from Rome."),
+      (3, "My name is"),
+      (4, "What is my name?"),
+      (5, "Who is Ronaldo?"),
+      (6, "Who discovered the microscope?"),
+      (7, "Where does petrol come from?"),
+      (8, "What is the difference between diesel and petrol?"),
+      (9, "Where is Sofia?"),
+      (10, "The priest is convinced that")
+    )).toDF("id", "text").repartition(1)
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -24,15 +49,18 @@ class GPT2TestSpec extends AnyFlatSpec {
       .setMaxOutputLength(50)
       .setDoSample(false)
       .setTopK(50)
+      .setBatchSize(5)
       .setNoRepeatNgramSize(3)
       .setOutputCol("generation")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
 
     val model = pipeline.fit(testData)
-    val results = model.transform(testData)
 
-    results.select("generation.result").show(truncate = false)
+    Benchmark.time("Time to generate text", true) {
+      val results = model.transform(testData)
+      results.select("generation.result").show(truncate = false)
+    }
   }
 
   "gpt2" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {

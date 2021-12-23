@@ -6,6 +6,8 @@ name: ner_deidentify_dl
 date: 2021-02-01
 tags: [ner, deidentify, en, clinical, licensed]
 supported: true
+edition: Spark NLP 2.7.2
+spark_version: 2.4
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

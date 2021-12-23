@@ -22,26 +22,26 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
   private val paddingTokenId = 50256
   private val eosTokenId = 50256
 
-  def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int,
-                      minOutputLength: Int,
-                      maxOutputLength: Int,
-                      doSample: Boolean,
-                      temperature: Double,
-                      topK: Int,
-                      topP: Double,
-                      repetitionPenalty: Double,
-                      noRepeatNgramSize: Int,
-                      task: String,
-                      randomSeed: Option[Int] = None,
-                      ignoreTokenIds: Array[Int] = Array()
-                     ): Seq[Annotation] = {
+  def predict(sentences: Seq[Annotation],
+              batchSize: Int,
+              minOutputLength: Int,
+              maxOutputLength: Int,
+              doSample: Boolean,
+              temperature: Double,
+              topK: Int,
+              topP: Double,
+              repetitionPenalty: Double,
+              noRepeatNgramSize: Int,
+              task: String,
+              randomSeed: Option[Int] = None,
+              ignoreTokenIds: Array[Int] = Array()
+             ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, task)
 
-      val spIds = process(
+      val spIds = tag(
         batchSP,
         minOutputLength,
         maxOutputLength,
@@ -73,85 +73,46 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
 
   }
 
-  def process(
-               batch: Seq[Array[Int]],
-               minOutputLength: Int,
-               maxOutputLength: Int,
-               doSample: Boolean,
-               temperature: Double,
-               topK: Int,
-               topP: Double,
-               repetitionPenalty: Double,
-               noRepeatNgramSize: Int,
-               randomSeed: Option[Int],
-               ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+  def tag(
+           batch: Seq[Array[Int]],
+           minOutputLength: Int,
+           maxOutputLength: Int,
+           doSample: Boolean,
+           temperature: Double,
+           topK: Int,
+           topP: Double,
+           repetitionPenalty: Double,
+           noRepeatNgramSize: Int,
+           randomSeed: Option[Int],
+           ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
-
-    /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max // - curLen
 
     val numReturn_sequences = 1
     //from config
     val vocab_size = 50257
 
     var effectiveBatch_size = 1
-    var effectiveBatch_mult = 1
 
     // set effective batch size and effective batch multiplier according to do_sample
     if (doSample) {
       effectiveBatch_size = batch.length * numReturn_sequences
-      effectiveBatch_mult = numReturn_sequences
     }
     else {
       effectiveBatch_size = batch.length
-      effectiveBatch_mult = 1
     }
 
-    //Run encoder
-    val tensorEncoder = new TensorResources()
-    val inputDim = batch.length * maxSentenceLength
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
 
-    val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
-    val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
+    val maxSentenceLength = batch.map(_.length).max
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
-      val offset = idx * maxSentenceLength
+    val paddedBatch = batch.map { tokenIds =>
       val diff = maxSentenceLength - tokenIds.length
-
-      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
-      encoderInputBuffers.offset(offset).write(s)
-      val mask = s.map(x => if (x != this.paddingTokenId) 1 else 0)
-      encoderAttentionMaskBuffers.offset(offset).write(mask)
+      Array.fill[Int](diff)(this.paddingTokenId) ++ tokenIds.take(maxSentenceLength)
     }
 
-    val inputIdTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
-    val attentionMaskTensors = tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
-
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
-    val runner = session.runner
-
-    runner
-      .feed(inputIdsKey, inputIdTensors)
-      .feed(attentionMaskKey, attentionMaskTensors)
-      .fetch(outputLogitsKey)
-
-    val encoderOuts = runner.run().asScala
-    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
-    val dim = encoderOutsFloats.length / inputDim
-
-    encoderOuts.foreach(_.close())
-
-    val modelOutputs = generateNoBeamSearch(
-      batch, maxOutputLength, minOutputLength, doSample, temperature, topK, topP, repetitionPenalty,
+    generateNoBeamSearch(
+      paddedBatch, maxOutputLength, minOutputLength, doSample, temperature, topK, topP, repetitionPenalty,
       noRepeatNgramSize, effectiveBatch_size, vocab_size, randomSeed, session, ignoreTokenIds)
-
-    tensorEncoder.clearTensors()
-    tensorEncoder.clearSession(encoderOuts)
-    modelOutputs
-
   }
 
   def generateNoBeamSearch(inputIds: Seq[Array[Int]],
@@ -214,8 +175,10 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
       val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(vocab_size).toArray.grouped(decoderInputLength).toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
-      nextTokenLogits = nextTokenLogits.map(x => {
-        x.zipWithIndex.map(x => if (ignoreTokenIds.contains(x._2)) Float.MinValue else x._1)
+      nextTokenLogits = nextTokenLogits.map(logits => {
+        logits.indices.map(i => {
+          if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
+        }).toArray
       })
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
@@ -232,14 +195,14 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
-          if (!bannedTokensSlice.isEmpty)
-            bannedTokensIndicesMask = bannedTokensIndicesMask :+
-              (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
+          bannedTokensIndicesMask = bannedTokensIndicesMask :+
+            (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
         }
-        if (!bannedTokensIndicesMask.isEmpty)
+        if (!bannedTokensIndicesMask.isEmpty) {
           nextTokenLogits = for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(bannedTokensIndicesMask)) yield setTensorByIndicesToValue(
             nextTokenLogit, bannedTokensIndexMask, Float.NegativeInfinity
           )
+        }
       }
 
       // set eos token prob to zero if minLength is not reached
@@ -279,11 +242,7 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        if (x._1.contains(eosTokenId)) {
-          x._1
-        } else {
-          x._1 ++ Array(x._2)
-        }
+        x._1 ++ Array(x._2)
       })
       decoderOuts.foreach(_.close())
 

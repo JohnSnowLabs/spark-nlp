@@ -84,7 +84,7 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
         maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
@@ -127,7 +127,7 @@ class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
         maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
-    val session = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
+    val session = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false)
     val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)

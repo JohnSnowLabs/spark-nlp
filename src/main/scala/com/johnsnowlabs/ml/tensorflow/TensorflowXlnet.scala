@@ -121,7 +121,7 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(_tfXlnetSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
@@ -155,11 +155,11 @@ class TensorflowXlnet(val tensorflow: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(tokenizedSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(tokenizedSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+              caseSensitive: Boolean
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
     wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>

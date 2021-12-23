@@ -495,8 +495,7 @@ class NerDLApproach(override val uid: String)
       settings
     )
 
-    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1,
-      get(graphFolder))
+    val graphFile = NerDLApproach.searchForSuitableGraph(labels.size, embeddingsDim, chars.size + 1, get(graphFolder))
 
     val graph = new Graph()
     val graphStream = ResourceHelper.getResourceStream(graphFile)
@@ -672,7 +671,6 @@ trait WithGraphResolver {
     if (localGraphPath.isDefined && localGraphPath.get.startsWith("s3://")) {
 
       val bucketName = localGraphPath.get.substring("s3://".length).split("/").head
-
 
       require(bucketName != "", "S3 bucket name is not define. Please define it with parameter setS3BucketName")
 

@@ -7,6 +7,7 @@ date: 2020-08-27
 task: Embeddings
 language: en
 edition: Spark NLP 2.6.0
+spark_version: 2.4
 tags: [open_source, embeddings, en]
 supported: true
 article_header:
