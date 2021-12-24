@@ -15,7 +15,7 @@ object Dependencies {
   val is_spark30: String = System.getProperty("is_spark30", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark30)
+  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark32)
 
   /** ------- Spark version end ------- */
 
@@ -41,11 +41,11 @@ object Dependencies {
     }
   }
 
-  def getSparkVersion(is_spark23: String, is_spark24: String, is_spark30: String): String = {
+  def getSparkVersion(is_spark23: String, is_spark24: String, is_spark32: String): String = {
     if (is_spark24 == "true") spark24Ver
     else if (is_spark23 == "true") spark23Ver
-    else if (is_spark30 == "true") spark30Ver
-    else spark32Ver
+    else if (is_spark32 == "true") spark32Ver
+    else spark30Ver
   }
 
   def getJavaTarget(is_spark23: String, is_spark24: String): String = {
