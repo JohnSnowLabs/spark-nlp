@@ -51,42 +51,42 @@ word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'cl
       .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
 
-jsl_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
-     .setInputCols(["sentence", "token", "embeddings"]) \
-     .setOutputCol("jsl_ner")
+rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
+      .setInputCols(["sentence", "token", "embeddings"]) \
+      .setOutputCol("ner")
 
-jsl_ner_converter = NerConverter() \
-    .setInputCols(["sentence", "token", "jsl_ner"]) \
-    .setOutputCol("jsl_ner_chunk")\
-    .setWhiteList(['Test'])
+rad_ner_converter = NerConverter() \
+      .setInputCols(["sentence", "token", "ner"]) \
+      .setOutputCol("ner_chunk")\
+      .setWhiteList(['Test'])
 
 chunk2doc = Chunk2Doc() \
-    .setInputCols("jsl_ner_chunk") \
-    .setOutputCol("ner_chunk_doc")
+      .setInputCols("ner_chunk") \
+      .setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-    .setInputCols(["ner_chunk_doc"])\
-    .setOutputCol("sbert_embeddings")\
-    .setCaseSensitive(True)
+      .setInputCols(["ner_chunk_doc"])\
+      .setOutputCol("sbert_embeddings")\
+      .setCaseSensitive(True)
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") \
-    .setInputCols(["jsl_ner_chunk", "sbert_embeddings"])\
-    .setOutputCol("resolution")\
-    .setDistanceFunction("EUCLIDEAN")
+      .setInputCols(["ner_chunk", "sbert_embeddings"])\
+      .setOutputCol("resolution")\
+      .setDistanceFunction("EUCLIDEAN")
 
 pipeline_loinc = Pipeline(stages = [
     documentAssembler, 
     sentenceDetector, 
     tokenizer,  
     word_embeddings, 
-    jsl_ner, 
-    jsl_ner_converter, 
+    rad_ner, 
+    rad_ner_converter, 
     chunk2doc, 
     sbert_embedder, 
     resolver
 ])
 
-test = 'The patient is a 22-year-old female with a history of obesity. She has a Body Mass Index of 33.5 kg/m2, Aspartate Aminotransferase 64, and Alanine Aminotransferase 126. Her Hemoglabin is 8.2%.'
+test = 'The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglobin is 8.2%.'
 model = pipeline_loinc.fit(spark.createDataFrame([['']]).toDF("text"))
 
 sparkDF = spark.createDataFrame([[test]]).toDF("text")
@@ -109,17 +109,17 @@ val word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en',
           .setInputCols(Array("sentence", "token"))\
           .setOutputCol("embeddings")
 
-val jsl_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
+val rad_ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
          .setInputCols(Array("sentence", "token", "embeddings")) \
-         .setOutputCol("jsl_ner")
+         .setOutputCol("ner")
 
-val jsl_ner_converter = NerConverter() \
-         .setInputCols(Array("sentence", "token", "jsl_ner")) \
-         .setOutputCol("jsl_ner_chunk")\
+val rad_ner_converter = NerConverter() \
+         .setInputCols(Array("sentence", "token", "ner")) \
+         .setOutputCol("ner_chunk")\
          .setWhiteList(Array(Test'))
 
 val chunk2doc = Chunk2Doc() \
-        .setInputCols("jsl_ner_chunk") \
+        .setInputCols("ner_chunk") \
         .setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
@@ -128,13 +128,13 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
         .setCaseSensitive(True)
 
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") \
-        .setInputCols(Array("jsl_ner_chunk", "sbert_embeddings"))\
+        .setInputCols(Array("ner_chunk", "sbert_embeddings"))\
         .setOutputCol("resolution")\
         .setDistanceFunction("EUCLIDEAN")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, jsl_ner, jsl_ner_converter, chunk2doc,  sbert_embedder, resolver))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, rad_ner, rad_ner_converter, chunk2doc,  sbert_embedder, resolver))
 
-val data = Seq("The patient is a 22-year-old female with a history of obesity. She has a Body Mass Index of 33.5 kg/m2, Aspartate Aminotransferase 64, and Alanine Aminotransferase 126. Her Hemoglabin is 8.2%.").toDF("text")
+val data = Seq("The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hemoglabin is 8.2%.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 
@@ -148,11 +148,13 @@ val result = pipeline.fit(data).transform(data)
 +-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |                            ner_chunk|entity| resolution|                                           all_codes|                                                                                                                                                                                             resolutions|
 +-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|                      Body Mass Index|  Test|    39156-5|[39156-5, LP35925-4, BDYCRC, 73964-9, 59574-4,...   |[Body mass index, Body mass index (BMI), Body circumference, Body muscle mass, Body mass index (BMI) [Percentile], ...                                                                                  |
-|           Aspartate Aminotransferase|  Test|    14409-7|[14409-7, 1916-6, 16325-3, 16324-6, 43822-6, 308... |[Aspartate aminotransferase, Aspartate aminotransferase/Alanine aminotransferase, Alanine aminotransferase/Aspartate aminotransferase, Alanine aminotransferase, Aspartate aminotransferase [Prese...   |
-|             Alanine Aminotransferase|  Test|    16324-6|[16324-6, 16325-3, 14409-7, 1916-6, 59245-1, 30...  |[Alanine aminotransferase, Alanine aminotransferase/Aspartate aminotransferase, Aspartate aminotransferase, Aspartate aminotransferase/Alanine aminotransferase, Alanine glyoxylate aminotransfer,...   |
-|                           Hemoglobin|  Test|    14775-1|[14775-1, 16931-8, 12710-0, 29220-1, 15082-1, 72... |[Hemoglobin, Hematocrit/Hemoglobin, Hemoglobin pattern, Haptoglobin, Methemoglobin, Oxyhemoglobin, Hemoglobin test status, Verdohemoglobin, Hemoglobin A, Hemoglobin distribution width, Myoglobin,...  |
-+-------------------------------------+------+-----------+------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                  BMI|  Test|  LP35925-4|[LP35925-4, 59574-4, BDYCRC, 73964-9, 59574-4,...   |[Body mass index (BMI), Body mass index, Body circumference, Body muscle mass, Body mass index (BMI) [Percentile], ...                                                                                  |
+|           aspartate aminotransferase|  Test|    14409-7|[14409-7, 1916-6, 16325-3, 16324-6, 43822-6, 308... |[Aspartate aminotransferase, Aspartate aminotransferase/Alanine aminotransferase, Alanine aminotransferase/Aspartate aminotransferase, Alanine aminotransferase, Aspartate aminotransferase [Prese...   |
+|             alanine aminotransferase|  Test|    16324-6|[16324-6, 16325-3, 14409-7, 1916-6, 59245-1, 30...  |[Alanine aminotransferase, Alanine aminotransferase/Aspartate aminotransferase, Aspartate aminotransferase, Aspartate aminotransferase/Alanine aminotransferase, Alanine glyoxylate aminotransfer,...   |
+|                           hemoglobin|  Test|    14775-1|[14775-1, 16931-8, 12710-0, 29220-1, 15082-1, 72... |[Hemoglobin, Hematocrit/Hemoglobin, Hemoglobin pattern, Haptoglobin, Methemoglobin, Oxyhemoglobin, Hemoglobin test status, Verdohemoglobin, Hemoglobin A, Hemoglobin distribution width, Myoglobin,...  |
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
 ```
 
 {:.model-param}
