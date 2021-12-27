@@ -73,6 +73,9 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "radiology" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/radiology">Radiology</a>
       </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "oncology" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/oncology">Oncology</a>
+      </li>
       <li><strong>Spark OCR</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/extract_text_from_documents">Extract Text from Documents</a>
