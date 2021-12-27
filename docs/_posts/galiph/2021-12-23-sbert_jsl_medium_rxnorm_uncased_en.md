@@ -36,7 +36,7 @@ This model maps sentences & documents to a 512-dimensional dense vector space by
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")
-        .setInputCols(["sentence"])
+        .setInputCols(Array("sentence"))
         .setOutputCol("sbert_embeddings")
 ```
 ```scala
