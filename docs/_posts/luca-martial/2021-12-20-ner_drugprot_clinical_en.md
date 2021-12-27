@@ -76,8 +76,8 @@ val result = pipeline.fit(Seq.empty[EXAMPLE_TEXT]).transform(data)
 +-------------------------------+---------+
 |chunk                          |ner_label|
 +-------------------------------+---------+
-|clenbuterol     |CHEMICAL   |
-|beta 2-adrenoceptor |GENE   |
+|clenbuterol                    |CHEMICAL |
+|beta 2-adrenoceptor            |GENE     |
 +-------------------------------+---------+
 ```
 
