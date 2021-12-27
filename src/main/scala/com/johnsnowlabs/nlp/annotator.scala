@@ -224,7 +224,7 @@ package object annotator {
 
   type BertEmbeddings = com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 
-  object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel
+  object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertModel
 
   type SentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 
@@ -256,7 +256,7 @@ package object annotator {
 
   type AlbertEmbeddings = com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings
 
-  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertTensorflowModel
+  object AlbertEmbeddings extends ReadablePretrainedAlbertModel with ReadAlbertModel
 
   type XlnetEmbeddings = com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings
 

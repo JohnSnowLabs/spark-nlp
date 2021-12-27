@@ -19,6 +19,7 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.embeddings.TransformerEmbeddings
 import org.tensorflow.ndarray.buffer.DataBuffers
 
 import scala.collection.JavaConverters._
@@ -64,29 +65,27 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
                        batchSize: Int,
                        configProtoBytes: Option[Array[Byte]] = None,
                        signatures: Option[Map[String, String]] = None
-                      ) extends Serializable {
+                      ) extends Serializable with TransformerEmbeddings {
 
   val _tfAlbertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   // keys representing the input and output tensors of the ALBERT model
-  private val SentenceStartTokenId = spp.getSppModel.pieceToId("[CLS]")
-  private val SentenceEndTokenId = spp.getSppModel.pieceToId("[SEP]")
-  private val SentencePadTokenId = spp.getSppModel.pieceToId("[pad]")
-  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  override protected val sentenceStartTokenId: Int = spp.getSppModel.pieceToId("[CLS]")
+  override protected val sentenceEndTokenId: Int = spp.getSppModel.pieceToId("[SEP]")
+  override protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("[pad]")
 
-  def prepareBatchInputs(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) => wpTokSentence.tokens.length }.max).min
+  private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
+  override def tokenizeWithAlignment(tokenizedSentences: Seq[TokenizedSentence], caseSensitive: Boolean,
+                                     maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = sentencePieceDelimiterId)
 
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(SentenceEndTokenId) ++ padding
-      }
+    val sentenceTokenPieces = tokenizedSentences.map { s =>
+      val shrinkedSentence = s.indexedTokens.take(maxSentenceLength - 2)
+      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+    sentenceTokenPieces
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -111,11 +110,11 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
       val diff = maxSentenceLength - tokenIds.length
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
 
-      val padding = Array.fill(diff)(SentencePadTokenId)
+      val padding = Array.fill(diff)(sentencePadTokenId)
       val newTokenIds = tokenIds ++ padding
 
       tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
+      maskBuffers.offset(offset).write(newTokenIds.map(x => if (x == sentencePadTokenId) 0 else 1))
     }
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
@@ -153,59 +152,6 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
         embeddings
       }
     }
-  }
-
-  def predict(tokenizedSentences: Seq[TokenizedSentence],
-              batchSize: Int,
-              maxSentenceLength: Int,
-              caseSensitive: Boolean
-             ): Seq[WordpieceEmbeddingsSentence] = {
-
-    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
-    wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val batchedInputsIds = prepareBatchInputs(batch, maxSentenceLength)
-      val vectors = tag(batchedInputsIds)
-
-      /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map { case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.tokens.length
-        /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-          case (token, tokenEmbedding) =>
-            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
-              token =>
-                val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
-                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                    pieceId = tokenWithEmbeddings.pieceId,
-                    isWordStart = tokenWithEmbeddings.isWordStart,
-                    begin = token.begin,
-                    end = token.end
-                  ),
-                  tokenEmbedding
-                )
-                originalTokenWithEmbedding
-            }
-            originalTokensWithEmbeddings
-        }
-
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
-      }
-    }.toSeq
-  }
-
-  def tokenizeWithAlignment(sentences: Seq[TokenizedSentence], maxSeqLength: Int, caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = SentencePieceDelimiterId)
-
-    val sentenceTokenPieces = sentences.map { s =>
-      val shrinkedSentence = s.indexedTokens.take(maxSeqLength - 2)
-      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-    sentenceTokenPieces
   }
 
 }

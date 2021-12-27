@@ -294,7 +294,8 @@ class BertSentenceEmbeddings(override val uid: String)
           sentenceStartTokenId,
           sentenceEndTokenId,
           configProtoBytes = getConfigProtoBytes,
-          signatures = getSignatures
+          signatures = getSignatures,
+          vocabulary = $$(vocabulary)
         )))
     }
 

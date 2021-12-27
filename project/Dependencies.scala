@@ -102,8 +102,11 @@ object Dependencies {
   val tensorflowCPUVersion = "0.3.3"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
 
-  val pytorchCPUVersion = "0.0.11"
-  val pytorchCPU = "com.johnsnowlabs.nlp" %% "pytorch-cpu" % pytorchCPUVersion % "compile"
+  val pytorchCPUVersion = "0.14.0"
+  val pytorchCPU = "ai.djl.pytorch" % "pytorch-engine" % pytorchCPUVersion
+
+//  val pytorchGPUVersion = "1.9.1"
+//  val pytorchGPU = "ai.djl.pytorch" % "pytorch-native-cu111" % pytorchGPUVersion
 
   /** ------- Dependencies end  ------- */
 }

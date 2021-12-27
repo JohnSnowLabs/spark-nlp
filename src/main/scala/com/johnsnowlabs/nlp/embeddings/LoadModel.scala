@@ -2,7 +2,6 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.pytorch.PytorchWrapper
 import com.johnsnowlabs.ml.tensorflow.TensorflowWrapper
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.sql.SparkSession
 
 import java.io.File
@@ -60,31 +59,18 @@ trait LoadModel[T] {
       case None => throw new Exception("Cannot load signature definitions from model!")
     }
 
-    val vocabulary = loadVocabulary(tfModelPath, "tensorflow")
-    createEmbeddingsFromTensorflow(tfWrapper, signatures, vocabulary, spark)
+    createEmbeddingsFromTensorflow(tfWrapper, signatures, tfModelPath, spark)
   }
 
   def createEmbeddingsFromTensorflow(tfWrapper: TensorflowWrapper, signatures: Map[String, String],
-                                     vocabulary: Map[String, Int], spark: SparkSession): T
+                                     tfModelPath: String, spark: SparkSession): T
 
   private def loadTorchScriptModel(torchModelPath: String, spark: SparkSession): T = {
     val pytorchWrapper = PytorchWrapper(torchModelPath)
-    val vocabulary = loadVocabulary(torchModelPath, "pytorch")
 
-    createEmbeddingsFromPytorch(pytorchWrapper, vocabulary, spark)
+    createEmbeddingsFromPytorch(pytorchWrapper, torchModelPath, spark)
   }
 
-  def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, vocabulary: Map[String, Int], spark: SparkSession): T
-
-  private def loadVocabulary(modelPath: String, engine: String): Map[String, Int] = {
-
-    val vocab = if(engine == "pytorch") new File(modelPath, "vocab.txt") else new File(modelPath + "/assets", "vocab.txt")
-    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $modelPath")
-
-    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
-
-    words
-  }
+  def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, torchModelPath: String, spark: SparkSession): T
 
 }

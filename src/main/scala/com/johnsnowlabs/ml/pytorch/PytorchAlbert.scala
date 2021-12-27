@@ -1,23 +1,26 @@
 package com.johnsnowlabs.ml.pytorch
 
+import ai.djl.{Device, Model}
 import ai.djl.ndarray.NDList
 import ai.djl.pytorch.engine.PtModel
 import ai.djl.translate.{Batchifier, Translator, TranslatorContext}
-import ai.djl.{Device, Model}
-import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
+import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, WordpieceTokenizedSentence}
 import com.johnsnowlabs.nlp.embeddings.TransformerEmbeddings
 
 import java.io.ByteArrayInputStream
 
-class PytorchBert(val pytorchWrapper: PytorchWrapper,
-                  val sentenceStartTokenId: Int,
-                  val sentenceEndTokenId: Int,
-                  vocabulary: Map[String, Int]) extends Serializable
-    with Translator[Array[Array[Int]], Array[Array[Array[Float]]]]
-    with TransformerEmbeddings {
+class PytorchAlbert(val pytorchWrapper: PytorchWrapper, val sentencePieceWrapper: SentencePieceWrapper)
+  extends Serializable
+  with Translator[Array[Array[Int]], Array[Array[Array[Float]]]]
+  with TransformerEmbeddings {
 
-  override protected val sentencePadTokenId: Int = 0
+  // keys representing the input and output tensors of the ALBERT model
+  override protected val sentenceStartTokenId: Int = sentencePieceWrapper.getSppModel.pieceToId("[CLS]")
+  override protected val sentenceEndTokenId: Int = sentencePieceWrapper.getSppModel.pieceToId("[SEP]")
+  override protected val sentencePadTokenId: Int = sentencePieceWrapper.getSppModel.pieceToId("[pad]")
+
+  private val sentencePieceDelimiterId = sentencePieceWrapper.getSppModel.pieceToId("▁")
 
   private var maxSentenceLength: Option[Int] = None
   private var dimension: Option[Int] = None
@@ -25,7 +28,7 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper,
   private lazy val predictor = {
     val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
     val device = Device.cpu() //TODO: Check with gpu
-    val model = Model.newInstance("bert-model", device)
+    val model = Model.newInstance("albert-model", device)
     println(s"Device Id: ${model.getNDManager.getDevice.getDeviceId}")
     println(s"Device Type: ${model.getNDManager.getDevice.getDeviceType}")
 
@@ -35,24 +38,16 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper,
     pyTorchModel.newPredictor(this)
   }
 
-  override def tokenizeWithAlignment(tokens: Seq[TokenizedSentence], caseSensitive: Boolean,
+  override def tokenizeWithAlignment(tokenizedSentences: Seq[TokenizedSentence], caseSensitive: Boolean,
                                      maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer(caseSensitive)
-    val encoder = new WordpieceEncoder(vocabulary)
+    val encoder = new SentencepieceEncoder(sentencePieceWrapper, caseSensitive, delimiterId = sentencePieceDelimiterId)
 
-    tokens.map { tokenIndex =>
-      // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if (caseSensitive) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
+    val sentenceTokenPieces = tokenizedSentences.map { s =>
+      val shrinkedSentence = s.indexedTokens.take(maxSentenceLength - 2)
+      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
+    sentenceTokenPieces
   }
 
   override def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -70,7 +65,6 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper,
       }
     }
   }
-
 
   override def getBatchifier: Batchifier = {
     Batchifier.fromString("none")

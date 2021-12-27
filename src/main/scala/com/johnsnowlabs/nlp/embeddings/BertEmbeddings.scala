@@ -20,17 +20,17 @@ import com.johnsnowlabs.ml.pytorch.{PytorchBert, PytorchWrapper, ReadPytorchMode
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param}
+import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
+import scala.language.higherKinds
 
 /**
  * Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
@@ -138,12 +138,13 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbeddings]
-    with HasBatchedAnnotate[BertEmbeddings]
     with TensorflowParams[BertEmbeddings]
+    with WriteTensorflowModel
+    with WritePytorchModel
+    with HasBatchedAnnotate[BertEmbeddings]
     with HasEmbeddingsProperties
     with HasCaseSensitiveProperties
-    with WriteTensorflowModel
-    with WritePytorchModel {
+    with HasStorageRef {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
@@ -234,7 +235,8 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures
+            signatures = getSignatures,
+            vocabulary = $$(vocabulary)
           )
         )
       )
@@ -246,7 +248,7 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
   def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): BertEmbeddings = {
     if (pytorchModel.isEmpty) {
       pytorchModel = Some(spark.sparkContext.broadcast(
-        new PytorchBert(pytorchWrapper, sentenceStartTokenId, sentenceEndTokenId))
+        new PytorchBert(pytorchWrapper, sentenceStartTokenId, sentenceEndTokenId, $$(vocabulary)))
       )
     }
     this
@@ -283,12 +285,8 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
       .zipWithIndex
       .flatMap { case (annotations, i) => TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i)) }
 
-    //Tokenize sentences
-    val tokenizedSentences = tokenizeWithAlignment(sentencesWithRow.map(_._1))
-
     //Process all sentences
     val sentenceWordEmbeddings = getModelIfNotSet.predict(
-      tokenizedSentences,
       sentencesWithRow.map(_._1),
       $(batchSize),
       $(maxSentenceLength),
@@ -318,32 +316,14 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
     ).toArray
 
     /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-      val tokenized = tokenizeWithAlignment(tokenizedSentences)
-      val withEmbeddings = getPytorchModelIfNotSet.calculateEmbeddings(tokenized, tokenizedSentences, $(batchSize),
+    if (batchedTokenizedSentences.nonEmpty) {
+      batchedTokenizedSentences.map(tokenizedSentences => {
+      val withEmbeddings = getPytorchModelIfNotSet.predict(tokenizedSentences, $(batchSize),
         $(maxSentenceLength), $(caseSensitive))
       WordpieceEmbeddingsSentence.pack(withEmbeddings)
-    }) else {
+      })
+    } else {
       Seq(Seq.empty[Annotation])
-    }
-  }
-
-  def tokenizeWithAlignment(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
-    val basicTokenizer = new BasicTokenizer($(caseSensitive))
-    val encoder = new WordpieceEncoder($$(vocabulary))
-
-    tokens.map { tokenIndex =>
-      // filter empty and only whitespace tokens
-      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
-        val content = if ($(caseSensitive)) token.token else token.token.toLowerCase()
-        val sentenceBegin = token.begin
-        val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
-        if (result.nonEmpty) result.head else IndexedToken("")
-      }
-      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take($(maxSentenceLength))
-      WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
 
@@ -380,7 +360,7 @@ trait ReadablePretrainedBertModel extends ParamsAndFeaturesReadable[BertEmbeddin
   override def pretrained(name: String, lang: String, remoteLoc: String): BertEmbeddings = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertTensorflowModel extends LoadModel[BertEmbeddings]
+trait ReadBertModel extends LoadModel[BertEmbeddings]
   with ParamsAndFeaturesReadable[BertEmbeddings]
   with ReadTensorflowModel
   with ReadPytorchModel {
@@ -388,25 +368,26 @@ trait ReadBertTensorflowModel extends LoadModel[BertEmbeddings]
   override val tfFile: String = "bert_tensorflow"
   override val torchscriptFile: String = "bert_pytorch"
 
-  addReader(readTensorflow)
-  addReader(readPytorch)
+  addReader(readModel)
 
-  def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
-    if (instance.getDeepLearningEngine == "tensorflow") {
-      val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
-      instance.setModelIfNotSet(spark, tf)
-    }
-  }
-
-  def readPytorch(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
-    if (instance.getDeepLearningEngine == "pytorch") {
-      val pytorchWrapper = readPytorchModel(s"$path/$torchscriptFile", spark, "_bert")
-      instance.setPytorchModelIfNotSet(spark, pytorchWrapper)
+  def readModel(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
+    instance.getDeepLearningEngine match {
+      case "tensorflow" => {
+        val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, tf)
+      }
+      case "pytorch" => {
+        val pytorchWrapper = readPytorchModel(s"$path/$torchscriptFile", spark, "_bert")
+        instance.setPytorchModelIfNotSet(spark, pytorchWrapper)
+      }
+      case _ => throw new IllegalArgumentException(s"Deep learning engine ${instance.getDeepLearningEngine} not supported")
     }
   }
 
   override def createEmbeddingsFromTensorflow(tfWrapper: TensorflowWrapper, signatures: Map[String, String],
-                                              vocabulary: Map[String, Int], sparkSession: SparkSession): BertEmbeddings = {
+                                              tfModelPath: String, sparkSession: SparkSession): BertEmbeddings = {
+
+    val vocabulary = loadVocabulary(tfModelPath, "tensorflow")
 
     /** the order of setSignatures is important if we use getSignatures inside setModelIfNotSet */
     new BertEmbeddings()
@@ -415,12 +396,25 @@ trait ReadBertTensorflowModel extends LoadModel[BertEmbeddings]
       .setModelIfNotSet(sparkSession, tfWrapper)
   }
 
-  override def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, vocabulary: Map[String, Int],
+  override def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, torchModelPath: String,
                                            spark: SparkSession): BertEmbeddings = {
+
+    val vocabulary = loadVocabulary(torchModelPath, "pytorch")
 
     new BertEmbeddings()
       .setVocabulary(vocabulary)
       .setPytorchModelIfNotSet(spark, pytorchWrapper)
+  }
+
+  private def loadVocabulary(modelPath: String, engine: String): Map[String, Int] = {
+
+    val vocab = if(engine == "pytorch") new File(modelPath, "vocab.txt") else new File(modelPath + "/assets", "vocab.txt")
+    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $modelPath")
+
+    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex
+
+    words.toMap
   }
 
 }
@@ -429,6 +423,6 @@ trait ReadBertTensorflowModel extends LoadModel[BertEmbeddings]
 /**
  * This is the companion object of [[BertEmbeddings]]. Please refer to that class for the documentation.
  */
-object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertTensorflowModel {
+object BertEmbeddings extends ReadablePretrainedBertModel with ReadBertModel {
   private[BertEmbeddings] val logger: Logger = LoggerFactory.getLogger("BertEmbeddings")
 }
