@@ -1,2 +1,6 @@
-docs/_posts/maziyarpanahi/2021-11-22-lemma_antbnc_en.md
-docs/_posts/maziyarpanahi/2021-11-22-lemma_antbnc_en.md
+docs/_includes/demomenu.html
+docs/demos/oncology.md
+docs/demos/recognize_clinical_entities.md
+docs/_includes/demomenu.html
+docs/demos/oncology.md
+docs/demos/recognize_clinical_entities.md
