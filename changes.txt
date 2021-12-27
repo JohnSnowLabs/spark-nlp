@@ -1,6 +1,6 @@
-docs/_includes/demomenu.html
-docs/demos/oncology.md
-docs/demos/recognize_clinical_entities.md
-docs/_includes/demomenu.html
-docs/demos/oncology.md
-docs/demos/recognize_clinical_entities.md
+docs/_posts/HashamUlHaq/2021-04-29-sbiobertresolve_loinc_en.md
+docs/_posts/HashamUlHaq/2021-04-29-sbluebertresolve_loinc_en.md
+docs/_posts/HashamUlHaq/2021-05-16-sbiobertresolve_loinc_en.md
+docs/_posts/HashamUlHaq/2021-04-29-sbiobertresolve_loinc_en.md
+docs/_posts/HashamUlHaq/2021-04-29-sbluebertresolve_loinc_en.md
+docs/_posts/HashamUlHaq/2021-05-16-sbiobertresolve_loinc_en.md
