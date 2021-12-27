@@ -129,21 +129,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_LAB/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb
-        - title: Detect biological concepts
-          id: detect_tumor_characteristics
-          image: 
-              src: /assets/images/Detect_tumor_characteristics.svg
-          image2: 
-              src: /assets/images/Detect_tumor_characteristics_f.svg
-          excerpt: Automatically identify <b>biological</b> entities such as <b>Amino_acids, Anatomical systems, Cancer, Cells or Cellular components</b> using our pertained Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_TUMOR
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_TUMOR.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb        
         - title: Detect clinical entities in text
           id: detect_clinical_entities_in_text
           image: 
