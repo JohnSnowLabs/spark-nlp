@@ -18,13 +18,13 @@ data:
           activemenu: oncology
       source: yes
       source: 
-        - title: Detect biological concepts
+        - title: Detect oncological & biological concepts
           id: detect_tumor_characteristics
           image: 
               src: /assets/images/Detect_tumor_characteristics.svg
           image2: 
               src: /assets/images/Detect_tumor_characteristics_f.svg
-          excerpt: Automatically identify <b>biological</b> entities such as <b>Amino_acids, Anatomical systems, Cancer, Cells or Cellular components</b> using our pertained Spark NLP model.
+          excerpt: Automatically identify <b>oncological</b> and <b>biological</b> entities such as <b>Amino_acids, Anatomical systems, Cancer, Cells or Cellular components</b> using our pertained Spark NLP model.
           actions:
           - text: Live Demo
             type: normal
