@@ -45,6 +45,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setInputCols(["ner_chunk_doc"])\
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
+
     
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc", "en", "clinical/models") \
      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
@@ -66,11 +67,10 @@ resolver_pipeline = Pipeline(
         icd_resolver
   ])
 
-
-empty_data = spark.createDataFrame([['']]).toDF("text")
-model = resolver_pipeline.fit(empty_data)
+model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
 
 clinical_note = 'A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection.'
+
 data_ner = spark.createDataFrame([[clinical_note]]).toDF("text")
 
 result = model.transform(data_ner)
@@ -78,16 +78,17 @@ result = model.transform(data_ner)
 ```scala
 ...
 
-chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
-val sbert_embedder = BertSentenceEmbeddings
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
-     .setInputCols(Array("ner_chunk_doc"))
-     .setOutputCol("sbert_embeddings")
+val sbert_embedder = BertSentenceEmbeddings\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+     .setInputCols(Array("ner_chunk_doc"))\
+     .setOutputCol("sbert_embeddings")\
+     .setCaseSensitive(False)
  
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
-     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-     .setOutputCol("resolution")
+val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")\
+     .setInputCols(Array("ner_chunk", "sbert_embeddings"))\
+     .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icd10_resolver))

@@ -36,7 +36,6 @@ This model maps clinical entities to Medical Subject Heading (MeSH) codes using 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 ...
-
 c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
       .setOutputCol("ner_chunk_doc") 
@@ -45,7 +44,6 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setInputCols(["ner_chunk_doc"])\
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
-
 
 mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
@@ -67,6 +65,7 @@ resolver_pipeline = Pipeline(
 
 
 model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
+
 text = """She was admitted to the hospital with chest pain and found to have bilateral pleural effusion, the right greater than the left. We reviewed the pathology obtained from the pericardectomy in March 2006, which was diagnostic of mesothelioma. At this time, chest tube placement for drainage of the fluid occurred and thoracoscopy with fluid biopsies, which were performed, which revealed malignant mesothelioma."""
 
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
@@ -83,7 +82,6 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli'
       .setInputCols("ner_chunk_doc")\
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
-
 
 val mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
       .setInputCols(Array("ner_chunk", "sentence_embeddings")) \

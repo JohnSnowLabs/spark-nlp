@@ -40,7 +40,9 @@ chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+     .setOutputCol("sbert_embeddings")\
+     .setCaseSensitive(False)
+
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
@@ -49,7 +51,9 @@ resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augment
 
 pipeline_loinc = Pipeline(stages = [documentAssembler, sentenceDetector, tokenizer, stopwords, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, resolver])
 
-model = pipeline_loinc.fit(spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""]]).toDF("text"))
+model = pipeline_loinc.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+data = spark.createDataFrame([["""The patient is a 22-year-old female with a history of obesity. She has a Body mass index (BMI) of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%."""]]).toDF("text")
 
 results = model.transform(data)
 ```
@@ -60,7 +64,9 @@ val documentAssembler = DocumentAssembler()\
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
       .setInputCols("ner_chunk")\
-      .setOutputCol("sbert_embeddings")
+      .setOutputCol("sbert_embeddings")\
+      .setCaseSensitive(False)
+
     
 val loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented", "en", "clinical/models") \
       .setInputCols(Array("ner_chunk", "sbert_embeddings")) \

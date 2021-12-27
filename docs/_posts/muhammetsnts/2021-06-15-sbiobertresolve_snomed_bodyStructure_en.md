@@ -41,7 +41,8 @@ documentAssembler = DocumentAssembler()\
 
 jsl_sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli','en','clinical/models')\
       .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+      .setOutputCol("sbert_embeddings")\
+      .setCaseSensitive(False)
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
@@ -63,7 +64,8 @@ val document_assembler = DocumentAssembler()\
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+     .setOutputCol("sbert_embeddings")\
+     .setCaseSensitive(False)
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_bodyStructure, "en", "clinical/models) \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \

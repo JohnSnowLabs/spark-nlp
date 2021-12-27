@@ -42,7 +42,7 @@ documentAssembler = DocumentAssembler()\
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli','en','clinical/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("sbert_embeddings")\
-      .setCaseSensitive(True)
+      .setCaseSensitive(False)
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
@@ -65,10 +65,11 @@ val document_assembler = DocumentAssembler()\
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk"])\
-     .setOutputCol("sbert_embeddings")
+     .setOutputCol("sbert_embeddings")\
+     .setCaseSensitive(False)
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models")\
+     .setInputCols(["ner_chunk", "sbert_embeddings"])\
      .setOutputCol("snomed_code")
 
 val snomed_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, snomed_resolver))
