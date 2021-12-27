@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP for Healthcare 3.0.4
 spark_version: 3.0
 supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
