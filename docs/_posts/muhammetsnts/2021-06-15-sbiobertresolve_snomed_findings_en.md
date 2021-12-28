@@ -61,6 +61,7 @@ results = model.transform(data)
 ...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
+<<<<<<< HEAD
 val sbert_embedder = BertSentenceEmbeddings
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")
      .setInputCols(Array("ner_chunk_doc"))
@@ -71,6 +72,17 @@ val snomed_resolver = SentenceEntityResolverModel
      .pretrained("sbiobertresolve_snomed_findings","en", "clinical/models")
      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
      .setOutputCol("resolution")
+=======
+val sbert_embedder = BertSentenceEmbeddings\
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+     .setInputCols(Array("ner_chunk_doc"))\
+     .setOutputCol("sbert_embeddings")\
+     .setCaseSensitive(False)
+ 
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_findings","en", "clinical/models")\
+     .setInputCols(Array("ner_chunk", "sbert_embeddings"))\
+     .setOutputCol("resolution")\
+>>>>>>> 66c5c176513e7ae828f10d7531be590fe24491f5
      .setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, snomed_resolver))
