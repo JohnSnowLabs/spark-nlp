@@ -60,7 +60,7 @@ nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, t
 empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
-text = """Ich bin Michael, ich lebe in Stuttgart und habe im Mercedes-Benz Werk gearbeitet."""
+text = """Ibser begann seine Karriere beim ASK Ebreichsdorf. 2004 wechselte er zu Admira Wacker Mödling, wo er auch in der Akademie spielte."""
 result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
@@ -86,7 +86,7 @@ ner_converter = NerConverter()\
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Ich bin Michael, ich lebe in Stuttgart und habe im Mercedes-Benz Werk gearbeitet."].toDS.toDF("text")
+val example = Seq.empty["Ibser begann seine Karriere beim ASK Ebreichsdorf. 2004 wechselte er zu Admira Wacker Mödling, wo er auch in der Akademie spielte."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -95,13 +95,13 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-+------------------+---------+
-|chunk             |ner_label|
-+------------------+---------+
-|Michael           |PER      |
-|Stuttgart         |LOC      |
-|Mercedes-Benz Werk|ORG      |
-+------------------+---------+
++----------------------+---------+
+|chunk                 |ner_label|
++----------------------+---------+
+|Ibser                 |PER      |
+|ASK Ebreichsdorf      |ORG      |
+|Admira Wacker Mödling |ORG      |
++----------------------+---------+
 ```
 
 {:.model-param}
