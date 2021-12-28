@@ -62,7 +62,7 @@ val documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
       
-val sbert_embedder = BertSentenceEmbeddings.pretrained('jsl_sbiobert_rxnorm', "en", "clinical/models")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("jsl_sbiobert_rxnorm", "en", "clinical/models")\
       .setInputCols("ner_chunk")\
       .setOutputCol("sbert_embeddings")
     
