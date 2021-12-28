@@ -62,7 +62,7 @@ val documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
       
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_rxnorm_uncased', "en", "clinical/models")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")\
       .setInputCols("ner_chunk")\
       .setOutputCol("sbert_embeddings")
     
@@ -75,7 +75,7 @@ val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler
 
 val light_model = LightPipeline(pipelineModel)
 
-val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "avandia 4 mg"))
+val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "Neurontin 300", "avandia 4 mg"))
 ```
 </div>
 
