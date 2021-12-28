@@ -75,7 +75,7 @@ val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler
 
 val light_model = LightPipeline(pipelineModel)
 
-val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin"))
+val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", "Neurontin 300"))
 ```
 </div>
 
