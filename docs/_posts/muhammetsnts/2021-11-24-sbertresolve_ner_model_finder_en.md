@@ -40,13 +40,15 @@ documentAssembler = DocumentAssembler()\
     .setOutputCol("ner_chunk")
 
 
-sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
+sbert_embedder = BertSentenceEmbeddings\
+    .pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
     .setInputCols(["ner_chunk"])\
     .setOutputCol("sbert_embeddings")\
     .setCaseSensitive(False)
 
 
-ner_model_finder = SentenceEntityResolverModel.pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")\
+ner_model_finder = SentenceEntityResolverModel\
+    .pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")\
     .setInputCols(["ner_chunk", "sbert_embeddings"])\
     .setOutputCol("model_names")\
     .setDistanceFunction("EUCLIDEAN")
@@ -60,20 +62,20 @@ annotations = light_pipeline.fullAnnotate("medication")
 
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("ner_chunk")
 
-
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-    .setInputCols("ner_chunk")\
-    .setOutputCol("sbert_embeddings")\
+val sbert_embedder = BertSentenceEmbeddings
+    .pretrained("sbert_jsl_medium_uncased","en","clinical/models")
+    .setInputCols(Array("ner_chunk"))
+    .setOutputCol("sbert_embeddings")
     .setCaseSensitive(False)
-
-
-val ner_model_finder = SentenceEntityResolverModel.pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")\
-    .setInputCols(Array("ner_chunk", "sbert_embeddings"))\
-    .setOutputCol("model_names")\
+    
+val ner_model_finder = SentenceEntityResolverModel
+    .pretrained("sbertresolve_ner_model_finder", "en", "clinical/models")
+    .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+    .setOutputCol("model_names")
     .setDistanceFunction("EUCLIDEAN")
 
     

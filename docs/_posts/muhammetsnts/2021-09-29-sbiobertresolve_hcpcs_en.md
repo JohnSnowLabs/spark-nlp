@@ -40,11 +40,14 @@ documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+sbert_embedder = BertSentenceEmbeddings\
+      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk"])\
-      .setOutputCol("sentence_embeddings")
+      .setOutputCol("sentence_embeddings")\
+      .setCaseSensitive(False)
     
-hcpcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") \
+hcpcs_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("hcpcs_code")\
       .setDistanceFunction("EUCLIDEAN")
@@ -55,26 +58,29 @@ hcpcs_pipelineModel = PipelineModel(
         sbert_embedder,
         hcpcs_resolver])
 
-res = hcpcs_pipelineModel.transform(spark.createDataFrame([["Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"]]).toDF("text"))
+results = hcpcs_pipelineModel.transform(spark.createDataFrame([["Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"]]).toDF("text"))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+      .setInputCols(Array("ner_chunk"))
       .setOutputCol("sentence_embeddings")
+      .setCaseSensitive(False)
     
-val hcpcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-      .setOutputCol("hcpcs_code")\
+val hcpcs_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") 
+      .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+      .setOutputCol("hcpcs_code")
       .setDistanceFunction("EUCLIDEAN")
 
 val hcpcs_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, hcpcs_resolver))
     
 val data = Seq("Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type").toDF("text")    
-val res = hcpcs_pipelineModel.transform(data)
+val results = hcpcs_pipelineModel.fit(data).transform(data)
 ```
 </div>
 

@@ -35,6 +35,7 @@ Predicts CPT codes and their descriptions.
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings\
@@ -42,7 +43,8 @@ sbert_embedder = BertSentenceEmbeddings\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
  
-cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt","en", "clinical/models") \
+cpt_resolver = SentenceEntityResolverModel\
+     .pretrained("sbiobertresolve_cpt","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
@@ -62,7 +64,8 @@ val sbert_embedder = BertSentenceEmbeddings
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
  
-val cpt_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt","en", "clinical/models")
+val cpt_resolver = SentenceEntityResolverModel
+     .pretrained("sbiobertresolve_cpt","en", "clinical/models")
      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
      .setOutputCol("resolution")
      .setDistanceFunction("EUCLIDEAN")

@@ -41,12 +41,14 @@ c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
       .setOutputCol("ner_chunk_doc") 
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+sbert_embedder = BertSentenceEmbeddings\
+      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk_doc"])\
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
     
-ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
+ndc_resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("ndc_code")\
       .setDistanceFunction("EUCLIDEAN")\
@@ -75,19 +77,21 @@ result = model.transform(spark.createDataFrame([[clinical_note]]).toDF("text"))
 ```scala
 ...
 
-val c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
+val c2doc = Chunk2Doc()
+      .setInputCols("ner_chunk")
       .setOutputCol("ner_chunk_doc") 
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols("ner_chunk_doc")\
-      .setOutputCol("sentence_embeddings")\
+val sbert_embedder = BertSentenceEmbeddings
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+      .setInputCols(Array("ner_chunk_doc"))
+      .setOutputCol("sentence_embeddings")
       .setCaseSensitive(False)
     
-val ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sentence_embeddings")) \
-      .setOutputCol("ndc_code")\
-      .setDistanceFunction("EUCLIDEAN")\
+val ndc_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_ndc", "en", "clinical/models") 
+      .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+      .setOutputCol("ndc_code")
+      .setDistanceFunction("EUCLIDEAN")
       .setCaseSensitive(False)
     
 val resolver_pipeline = new Pipeline().setStages(Array(
@@ -102,10 +106,9 @@ val resolver_pipeline = new Pipeline().setStages(Array(
         ndc_resolver
         ))
 
-val model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
-
 val clinical_note = Seq("The patient was transferred secondary to inability and continue of her diabetes, the sacral decubitus, left foot pressure wound, and associated complications of diabetes. She is given aspirin 81 mg, folic acid 1 g daily, insulin glargine 100 UNT/ML injection and metformin 500 mg p.o. p.r.n.")
-val result = model.transform(spark.createDataFrame([[clinical_note]]).toDF("text"))
+
+val result = resolver_pipeline.fit(clinical_note).transform(clinical_note)
 ```
 </div>
 

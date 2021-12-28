@@ -41,16 +41,20 @@ chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
-     .setOutputCol("sbert_embeddings")
+     .setOutputCol("sbert_embeddings")\
+     .setCaseSensitive(False)
  
-icd10pcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10pcs","en", "clinical/models") \
+icd10pcs_resolver = SentenceEntityResolverModel\  
+     .pretrained("sbiobertresolve_icd10pcs","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, icd10pcs_resolver])
 
-model = nlpPipeline.fit(spark.createDataFrame([["This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."]]).toDF("text"))
+model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+
+data = spark.createDataFrame([["This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret\'s Center for Women & Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."]]).toDF("text")
 
 results = model.transform(data)
 ```
@@ -62,8 +66,10 @@ val sbert_embedder = BertSentenceEmbeddings
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
+     .setCaseSensitive(False)
  
-val icd10pcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10pcs","en", "clinical/models")
+val icd10pcs_resolver = SentenceEntityResolverModel
+     .pretrained("sbiobertresolve_icd10pcs","en", "clinical/models")
      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
      .setOutputCol("resolution")
      .setDistanceFunction("EUCLIDEAN")

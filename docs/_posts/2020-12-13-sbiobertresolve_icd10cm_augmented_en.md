@@ -57,6 +57,7 @@ results = model.transform(data)
 
 ```
 ```scala
+...
 chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
 val sbert_embedder = BertSentenceEmbeddings
@@ -64,7 +65,8 @@ val sbert_embedder = BertSentenceEmbeddings
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
  
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models")
+val icd10_resolver = SentenceEntityResolverModel
+     .pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models")
      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
      .setOutputCol("resolution")
      .setDistanceFunction("EUCLIDEAN")
