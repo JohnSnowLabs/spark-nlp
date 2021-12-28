@@ -44,7 +44,7 @@ sbert_embedder = BertSentenceEmbeddings\
      .setOutputCol("sbert_embeddings")\
      .setCaseSensitive(False)
 
-resolver = SentenceEntityResolverModel
+resolver = SentenceEntityResolverModel\
      .pretrained("sbiobertresolve_HPO", "en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
