@@ -74,7 +74,7 @@ val icd10_resolver = SentenceEntityResolverModel
      .setReturnCosineDistances(True)
 
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
-val data = Seq("bladder cancer"9.toDS.toDF("text")
+val data = Seq("bladder cancer").toDF("text")
 val result = bert_pipeline_icd.fit(data).transform(data)
 ```
 </div>

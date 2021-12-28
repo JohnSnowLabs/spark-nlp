@@ -73,7 +73,7 @@ val documentAssembler = DocumentAssembler()
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
       .setInputCols(Array("ner_chunk"))
       .setOutputCol("sbert_embeddings")
-      .setCaseSensitive(False)
+      .setCaseSensitive(False) 
     
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
       .setInputCols(Array("ner_chunk", "sbert_embeddings"))

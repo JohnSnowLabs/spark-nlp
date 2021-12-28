@@ -61,20 +61,22 @@ data = spark.createDataFrame([["metastatic lung cancer"]]).toDF("text")
 results = model.transform(data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
+val document_assembler = DocumentAssembler()
+  .setInputCol("text")
   .setOutputCol("document")
 
-val sbert_embedder = BertSentenceEmbeddings\
-     .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
-     .setInputCols(["document"])\
-     .setOutputCol("sbert_embeddings")\
+val sbert_embedder = BertSentenceEmbeddings
+     .pretrained("sbiobert_base_cased_mli","en","clinical/models")
+     .setInputCols(Array("document"))
+     .setOutputCol("sbert_embeddings")
      .setCaseSensitive(False)
 
-val icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["document", "sbert_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
+val icd10_resolver = SentenceEntityResolverModel
+     .pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models")
+     .setInputCols(Array("document", "sbert_embeddings"))
+     .setOutputCol("icd10cm_code")
+     .setDistanceFunction("EUCLIDEAN")
+     .setReturnCosineDistances(True)
 
 val bert_pipeline_icd = new Pipeline().setStages(Array(document_assembler, sbert_embedder, icd10_resolver))
 

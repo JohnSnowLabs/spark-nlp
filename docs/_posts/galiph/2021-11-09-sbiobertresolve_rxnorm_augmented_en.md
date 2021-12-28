@@ -70,12 +70,13 @@ val documentAssembler = DocumentAssembler()
       .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-      .pretrained('sbiobert_base_cased_mli', 'en','clinical/models')
+      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
       .setInputCols(Array("ner_chunk"))
       .setOutputCol("sbert_embeddings")
       .setCaseSensitive(False)
     
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
+val rxnorm_resolver = SentenceEntityResolverModel
+      .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
       .setInputCols(Array("ner_chunk", "sbert_embeddings"))
       .setOutputCol("rxnorm_code")
       .setDistanceFunction("EUCLIDEAN")

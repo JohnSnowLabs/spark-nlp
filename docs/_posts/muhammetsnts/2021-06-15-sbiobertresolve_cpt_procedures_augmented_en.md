@@ -71,7 +71,7 @@ val sbert_embedder = BertSentenceEmbeddings
      .setCaseSensitive(False)
 
 val cpt_resolver = SentenceEntityResolverModel
-     .pretrained("sbiobertresolve_cpt_procedures_augmented", "en", "clinical/models) 
+     .pretrained("sbiobertresolve_cpt_procedures_augmented", "en", "clinical/models") 
      .setInputCols(Array("ner_chunk", "sbert_embeddings")) 
      .setOutputCol("cpt_code")
 
