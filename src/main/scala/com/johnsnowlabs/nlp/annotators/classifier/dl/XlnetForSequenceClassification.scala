@@ -286,7 +286,7 @@ class XlnetForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          $$(labels),
+          $$(labels)
         )
       }
       else {
