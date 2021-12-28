@@ -122,7 +122,7 @@ class XlnetForSequenceClassificationTestSpec extends AnyFlatSpec {
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
     val loadedSequenceModel = XlnetForSequenceClassification.load("./tmp_forsequence_model")
-    loadedSequenceModel.getLabels
+    loadedSequenceModel.getClasses
 
   }
 
