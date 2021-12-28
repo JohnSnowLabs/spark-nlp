@@ -62,7 +62,7 @@ val document_assembler = DocumentAssembler()
   .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")
-     .setInputCols("ner_chunk")
+     .setInputCols(Array("ner_chunk"))
      .setOutputCol("sbert_embeddings")
 
 val snomed_resolver = SentenceEntityResolverModel
