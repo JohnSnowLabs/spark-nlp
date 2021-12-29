@@ -31,5 +31,33 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_HEALTHCARE_DE/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_HEALTHCARE_DE.ipynb
+        - title: Resolve German Clinical Health Information using the SNOMED taxonomy
+          id: resolve_german_clinical_health_information_using_snomed_taxonomy 
+          image: 
+              src: /assets/images/Resolve_German_Clinical_Health_Information_using_the_SNOMED_taxonomy.svg
+          image2: 
+              src: /assets/images/Resolve_German_Clinical_Health_Information_using_the_SNOMED_taxonomy_f.svg
+          excerpt: This demo shows how German clinical health information (like diagnoses/procedures) can be mapped to codes using the SNOMED taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED_DE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/14.German_Healthcare_Models.ipynb
+        - title: Resolve German Clinical Findings using the ICD10-GM taxonomy 
+          id: resolve_german_clinical_findings_using_icd10_gm_taxonomy 
+          image: 
+              src: /assets/images/Resolve_German_Clinical_Findings_using_the_ICD10-GM_taxonomy.svg
+          image2: 
+              src: /assets/images/Resolve_German_Clinical_Findings_using_the_ICD10-GM_taxonomy_f.svg
+          excerpt: This demo shows how German clinical findings can be mapped to codes using the ICD10-GM taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_ICD10_GM_DE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_GM_DE.ipynb     
 ---
