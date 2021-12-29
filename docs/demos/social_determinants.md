@@ -2,7 +2,7 @@
 layout: demopage
 title: Spark NLP in Action
 full_width: true
-permalink: /recognize_social_determinants
+permalink: /social_determinants
 key: demo
 license: false
 show_edit_on_github: false
@@ -10,12 +10,12 @@ show_date: false
 data:
   sections:  
     - title: Spark NLP for Healthcare 
-      excerpt: Recognize Social Determinants 
+      excerpt: Social Determinants 
       secheader: yes
       secheader:
         - title: Spark NLP for Healthcare
-          subtitle: Recognize Social Determinants 
-          activemenu: recognize_social_determinants
+          subtitle: Social Determinants 
+          activemenu: social_determinants
       source: yes
       source: 
         - title: Detect demographic information
