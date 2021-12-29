@@ -70,6 +70,9 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "medical_risk_scoring" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/medical_risk_scoring">Medical Risk Scoring</a>
       </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "radiology" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/radiology">Radiology</a>
+      </li>
       <li><strong>Spark OCR</strong></li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/extract_text_from_documents">Extract Text from Documents</a>

@@ -102,4 +102,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_CYBERBULLYING.ipynb 
+        - title: Analyze sentiment in Turkish texts
+          id: analyze_sentiment_turkish_texts 
+          image: 
+              src: /assets/images/Analyze_sentiment_in_Turkish_texts.svg
+          image2: 
+              src: /assets/images/Analyze_sentiment_in_Turkish_texts_f.svg
+          excerpt: This demo shows how sentiment can be identified (positive or negative) in Turkish texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_TR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_SENTIMENT.ipynb
 ---

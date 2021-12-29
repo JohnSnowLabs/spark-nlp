@@ -42,27 +42,27 @@ This model fine-tuned for the Named Entity Recognition (NER) task on a mixed NER
 
 ## Predicted Entities
 
-`B-DAT`
-`B-EVE`
-`B-FAC`
-`B-LOC`
-`B-MON`
-`B-ORG`
-`B-PCT`
-`B-PER`
-`B-PRO`
-`B-TIM`
-`I-DAT`
-`I-EVE`
-`I-FAC`
-`I-LOC`
-`I-MON`
-`I-ORG`
-`I-PCT`
-`I-PER`
-`I-PRO`
-`I-TIM`
-`O`
+- B-DAT
+- B-EVE
+- B-FAC
+- B-LOC
+- B-MON
+- B-ORG
+- B-PCT
+- B-PER
+- B-PRO
+- B-TIM
+- I-DAT
+- I-EVE
+- I-FAC
+- I-LOC
+- I-MON
+- I-ORG
+- I-PCT
+- I-PER
+- I-PRO
+- I-TIM
+- O
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

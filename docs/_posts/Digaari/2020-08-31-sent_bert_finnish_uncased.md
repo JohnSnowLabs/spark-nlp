@@ -10,6 +10,7 @@ edition: Spark NLP 2.6.0
 spark_version: 2.4
 tags: [open_source, embeddings, fi]
 supported: true
+deprecated: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
