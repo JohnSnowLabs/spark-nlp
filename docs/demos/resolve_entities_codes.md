@@ -188,4 +188,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Map clinical terminology to HCPCS taxonomy
+          id: map_clinical_terminology_hcpcs_taxonomy  
+          image: 
+              src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy.svg
+          image2: 
+              src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy_f.svg
+          excerpt: This demo shows how clinical terminology can be automatically mapped to the Healthcare Common procedure Coding System (HCPCS) taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_HCPCS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
 ---
