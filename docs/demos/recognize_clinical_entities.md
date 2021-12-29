@@ -203,5 +203,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb  
-
+        - title: Detect Covid-related clinical terminology 
+          id: detect_covid_related_clinical_terminology
+          image: 
+              src: /assets/images/Detect_Covid-related_clinical_terminology.svg
+          image2: 
+              src: /assets/images/Detect_Covid-related_clinical_terminology_f.svg
+          excerpt: This demo shows how Covid-related clinical terminology can be detected using Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_COVID/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: NER Model Finder 
+          id: ner_model_finder
+          image: 
+              src: /assets/images/NER_Model_Finder.svg
+          image2: 
+              src: /assets/images/NER_Model_Finder_f.svg
+          excerpt: This demo shows how NER Model Finder pretrained pipeline can return top models to the given entity name and most related categories.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_MODEL_FINDER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb
+        - title: Extract the Names of Drugs & Chemicals 
+          id: extract_names_of_drugs_chemicals 
+          image: 
+              src: /assets/images/Extract_the_Names_of_Drugs_Chemicals.svg
+          image2: 
+              src: /assets/images/Extract_the_Names_of_Drugs_Chemicals_f.svg
+          excerpt: This demo shows how Names of Drugs & Chemicals can be detected using Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_CHEMD/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---
