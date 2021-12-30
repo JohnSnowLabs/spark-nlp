@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model identifies the sentiments (positive or negative) in Swahili texts.
+This model identifies positive or negative sentiments in Swahili texts.
 
 ## Predicted Entities
 
@@ -69,9 +69,9 @@ sw_pipeline = Pipeline(stages=[document_assembler, tokenizer, normalizer, stopwo
 
 light_pipeline = LightPipeline(sw_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-result1 = light_pipeline.annotate("Nimechanganyikiwa sana siku hizi.")
+result1 = light_pipeline.annotate("Hadithi yenyewe ni ya kutabirika tu na ya uvivu.")
 
-result2 = light_pipeline.annotate("Nilishusha pumzi ndefu nilipogundua kuwa nimefaulu mtihani wangu.")
+result2 = light_pipeline.annotate("Mtandao wa kushangaza wa 4G katika mji wa Mombasa pamoja na mipango nzuri sana na ya bei rahisi.")
 
 print(result1["class"], result2["class"], sep = "\n")
 ```
@@ -110,9 +110,9 @@ val sw_sentiment_pipeline = new Pipeline().setStages(Array(document_assembler, t
 
 val light_pipeline = LightPipeline(sw_sentiment_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-val result1 = light_pipeline.annotate("Nimechanganyikiwa sana siku hizi.")
+val result1 = light_pipeline.annotate("Hadithi yenyewe ni ya kutabirika tu na ya uvivu.")
 
-val result2 = light_pipeline.annotate("Nilishusha pumzi ndefu nilipogundua kuwa nimefaulu mtihani wangu.")
+val result2 = light_pipeline.annotate("Mtandao wa kushangaza wa 4G katika mji wa Mombasa pamoja na mipango nzuri sana na ya bei rahisi.")
 ```
 </div>
 
