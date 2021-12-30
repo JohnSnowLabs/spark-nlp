@@ -54,7 +54,7 @@ nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer,
 
 data = spark.createDataFrame([["He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day"]]).toDF("text")
 
-results = model.fit(data).transform(data)
+results = nlpPipeline.fit(data).transform(data)
 
 ```
 ```scala
