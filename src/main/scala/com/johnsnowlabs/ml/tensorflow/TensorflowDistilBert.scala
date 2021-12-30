@@ -18,6 +18,8 @@ package com.johnsnowlabs.ml.tensorflow
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.TransformerEmbeddings
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
@@ -57,27 +59,35 @@ import scala.collection.JavaConverters._
  * @param configProtoBytes     Configuration for TensorFlow session
  */
 class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
-                           sentenceStartTokenId: Int,
-                           sentenceEndTokenId: Int,
+                           val sentenceStartTokenId: Int,
+                           val sentenceEndTokenId: Int,
                            configProtoBytes: Option[Array[Byte]] = None,
-                           signatures: Option[Map[String, String]] = None
-                          ) extends Serializable {
+                           signatures: Option[Map[String, String]] = None,
+                           vocabulary: Map[String, Int]
+                          ) extends Serializable with TransformerEmbeddings {
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary */
-  def encode(sentences: Seq[(WordpieceTokenizedSentence, Int)], maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) => wpTokSentence.tokens.length }.max).min
+  override protected val sentencePadTokenId: Int = 0
 
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
+  override def tokenizeWithAlignment(tokenizedSentences: Seq[TokenizedSentence], caseSensitive: Boolean,
+                                     maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
 
-        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(sentenceEndTokenId) ++ padding
+      val basicTokenizer = new BasicTokenizer(caseSensitive)
+      val encoder = new WordpieceEncoder(vocabulary)
+
+    tokenizedSentences.map { tokenIndex =>
+        // filter empty and only whitespace tokens
+        val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
+          val content = if (caseSensitive) token.token else token.token.toLowerCase()
+          val sentenceBegin = token.begin
+          val sentenceEnd = token.end
+          val sentenceInedx = tokenIndex.sentenceIndex
+          val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+          if (result.nonEmpty) result.head else IndexedToken("")
+        }
+        val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
+        WordpieceTokenizedSentence(wordpieceTokens)
       }
   }
 
@@ -118,7 +128,10 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
     tensors.clearTensors()
 
     val dim = embeddings.length / (batchLength * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] = embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+    val shrinkedEmbeddings: Array[Array[Array[Float]]] =
+      embeddings
+      .grouped(dim).toArray
+      .grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
@@ -133,6 +146,16 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
     }
 
   }
+
+  override def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
+                                sentence: (WordpieceTokenizedSentence, Int)): Option[IndexedToken] = {
+
+    val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
+      p => p.begin == tokenWithEmbeddings.begin)
+
+    originalTokensWithEmbeddings
+  }
+
 
   /**
    *
@@ -178,61 +201,6 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
     val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
 
-  }
-
-  def predict(sentences: Seq[WordpieceTokenizedSentence],
-              originalTokenSentences: Seq[TokenizedSentence],
-              batchSize: Int,
-              maxSentenceLength: Int,
-              caseSensitive: Boolean
-             ): Seq[WordpieceEmbeddingsSentence] = {
-
-    /*Run embeddings calculation by batches*/
-    sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
-      val encoded = encode(batch, maxSentenceLength)
-      val vectors = tag(encoded)
-
-      /*Combine tokens and calculated embeddings*/
-      batch.zip(vectors).map { case (sentence, tokenVectors) =>
-        val tokenLength = sentence._1.tokens.length
-
-        /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-
-        /*Word-level and span-level alignment with Tokenizer
-        https://github.com/google-research/bert#tokenization
-
-        ### Input
-        orig_tokens = ["John", "Johanson", "'s",  "house"]
-        labels      = ["NNP",  "NNP",      "POS", "NN"]
-
-        # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
-        # orig_to_tok_map == [1, 2, 4, 6]*/
-
-        val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
-          case (token, tokenEmbedding) =>
-            val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(
-              p => p.begin == tokenWithEmbeddings.begin).map {
-              token =>
-                val originalTokenWithEmbedding = TokenPieceEmbeddings(
-                  TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
-                    token = if (caseSensitive) token.token else token.token.toLowerCase(),
-                    pieceId = tokenWithEmbeddings.pieceId,
-                    isWordStart = tokenWithEmbeddings.isWordStart,
-                    begin = token.begin,
-                    end = token.end
-                  ),
-                  tokenEmbedding
-                )
-                originalTokenWithEmbedding
-            }
-            originalTokensWithEmbeddings
-        }
-
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
-      }
-    }.toSeq
   }
 
   def predictSequence(tokens: Seq[WordpieceTokenizedSentence],

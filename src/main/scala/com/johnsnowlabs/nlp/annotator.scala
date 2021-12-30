@@ -320,7 +320,7 @@ package object annotator {
 
   type DistilBertEmbeddings = com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings
 
-  object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertTensorflowModel
+  object DistilBertEmbeddings extends ReadablePretrainedDistilBertModel with ReadDistilBertModel
 
   type RoBertaEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings
 

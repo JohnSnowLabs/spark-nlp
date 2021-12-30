@@ -78,6 +78,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
 
   override def tokenizeWithAlignment(tokenizedSentences: Seq[TokenizedSentence], caseSensitive: Boolean,
                                      maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
+
     val encoder = new SentencepieceEncoder(spp, caseSensitive, delimiterId = sentencePieceDelimiterId)
 
     val sentenceTokenPieces = tokenizedSentences.map { s =>
@@ -152,6 +153,16 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
         embeddings
       }
     }
+  }
+
+  override def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
+                                sentence: (WordpieceTokenizedSentence, Int)): Option[IndexedToken] = {
+
+    val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
+      p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+
+    originalTokensWithEmbeddings
+
   }
 
 }

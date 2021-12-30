@@ -24,7 +24,7 @@ trait TransformerEmbeddings {
         val tokenLength = sentence._1.tokens.length
 
         /*All wordpiece embeddings*/
-        val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
+        val tokenEmbeddings: Array[Array[Float]] = tokenVectors.slice(1, tokenLength + 1)
 
         val wordpieceEmbeddingsSentence = wordAndSpanLevelAlignmentWithTokenizer(tokenEmbeddings, caseSensitive,
           tokenizedSentences, sentence)
@@ -68,11 +68,12 @@ trait TransformerEmbeddings {
   def wordAndSpanLevelAlignmentWithTokenizer(tokenEmbeddings: Array[Array[Float]], caseSensitive: Boolean,
                                              tokenizedSentences: Seq[TokenizedSentence],
                                              sentence: (WordpieceTokenizedSentence, Int)): WordpieceEmbeddingsSentence = {
+
     val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
       case (token, tokenEmbedding) =>
         val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-        val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
-          p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
+        val indexedToken = findIndexedToken(tokenizedSentences, tokenWithEmbeddings, sentence)
+        val originalTokensWithEmbeddings = indexedToken.map {
           token =>
             val originalTokenWithEmbedding = TokenPieceEmbeddings(
               TokenPiece(wordpiece = tokenWithEmbeddings.wordpiece,
@@ -91,5 +92,8 @@ trait TransformerEmbeddings {
 
     WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
   }
+
+  def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
+                       sentence: (WordpieceTokenizedSentence, Int)): Option[IndexedToken]
 
 }

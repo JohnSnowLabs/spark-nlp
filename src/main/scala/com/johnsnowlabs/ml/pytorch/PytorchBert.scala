@@ -35,19 +35,21 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper,
     pyTorchModel.newPredictor(this)
   }
 
-  override def tokenizeWithAlignment(tokens: Seq[TokenizedSentence], caseSensitive: Boolean,
+  override def tokenizeWithAlignment(tokenizedSentences: Seq[TokenizedSentence], caseSensitive: Boolean,
                                      maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
+
+    //TODO: Check how many Transformers implement this in the same way. For now: Bert, Distilbert
     val basicTokenizer = new BasicTokenizer(caseSensitive)
     val encoder = new WordpieceEncoder(vocabulary)
 
-    tokens.map { tokenIndex =>
+    tokenizedSentences.map { tokenIndex =>
       // filter empty and only whitespace tokens
       val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
         val content = if (caseSensitive) token.token else token.token.toLowerCase()
         val sentenceBegin = token.begin
         val sentenceEnd = token.end
-        val sentenceInedx = tokenIndex.sentenceIndex
-        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        val sentenceIndex = tokenIndex.sentenceIndex
+        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
         if (result.nonEmpty) result.head else IndexedToken("")
       }
       val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
@@ -71,6 +73,15 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper,
     }
   }
 
+  override def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
+                                sentence: (WordpieceTokenizedSentence, Int)): Option[IndexedToken] = {
+
+    val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
+      p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+
+    originalTokensWithEmbeddings
+  }
+
 
   override def getBatchifier: Batchifier = {
     Batchifier.fromString("none")
@@ -83,6 +94,7 @@ class PytorchBert(val pytorchWrapper: PytorchWrapper,
   }
 
   override def processOutput(ctx: TranslatorContext, list: NDList): Array[Array[Array[Float]]] = {
+
     dimension = Some(list.get(0).getShape.get(2).toInt)
     val allEncoderLayers = list.get(0).toFloatArray
     val embeddings = allEncoderLayers

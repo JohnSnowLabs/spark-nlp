@@ -262,14 +262,6 @@ class AlbertEmbeddings(override val uid: String) extends AnnotatorModel[AlbertEm
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    getDeepLearningEngine match {
-      case "tensorflow" => batchAnnotateTensorflow(batchedAnnotations)
-      case "pytorch" => batchAnnotatePytorch(batchedAnnotations)
-      case _ => throw new IllegalArgumentException(s"Deep learning engine $getDeepLearningEngine not supported")
-    }
-  }
-
-  def batchAnnotateTensorflow(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
     val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
       TokenizedWithSentence.unpack(annotations).toArray
@@ -279,32 +271,19 @@ class AlbertEmbeddings(override val uid: String) extends AnnotatorModel[AlbertEm
     if (batchedTokenizedSentences.nonEmpty) {
       batchedTokenizedSentences.map(tokenizedSentences => {
 
-        val embeddings = getModelIfNotSet.predict(
-          tokenizedSentences,
-          $(batchSize),
-          $(maxSentenceLength),
-          $(caseSensitive)
-        )
+        val embeddings = getDeepLearningEngine match {
+          case "tensorflow" => {
+            getModelIfNotSet.predict(tokenizedSentences, $(batchSize), $(maxSentenceLength), $(caseSensitive))
+          }
+          case "pytorch" => {
+            getPytorchModelIfNotSet.predict(tokenizedSentences, $(batchSize), $(maxSentenceLength), $(caseSensitive))
+          }
+          case _ => throw new IllegalArgumentException(s"Deep learning engine $getDeepLearningEngine not supported")
+        }
+
         WordpieceEmbeddingsSentence.pack(embeddings)
       })
-    } else {
-      Seq(Seq.empty[Annotation])
-    }
-  }
 
-  def batchAnnotatePytorch(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
-
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) {
-      batchedTokenizedSentences.map(tokenizedSentences => {
-        val withEmbeddings = getPytorchModelIfNotSet.predict(tokenizedSentences, $(batchSize),
-          $(maxSentenceLength), $(caseSensitive))
-        WordpieceEmbeddingsSentence.pack(withEmbeddings)
-      })
     } else {
       Seq(Seq.empty[Annotation])
     }

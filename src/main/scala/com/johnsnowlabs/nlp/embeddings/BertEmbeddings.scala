@@ -30,7 +30,6 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
-import scala.language.higherKinds
 
 /**
  * Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense
@@ -169,6 +168,7 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
     "Deep Learning engine for creating embeddings [tensorflow|pytorch]")
 
   private var tfModel: Option[Broadcast[TensorflowBert]] = None
+
   private var pytorchModel: Option[Broadcast[PytorchBert]] = None
 
   /** @group setParam */
@@ -272,26 +272,22 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    getDeepLearningEngine match {
-      case "tensorflow" => batchAnnotateTensorflow(batchedAnnotations)
-      case "pytorch" => batchAnnotatePytorch(batchedAnnotations)
-      case _ => throw new IllegalArgumentException(s"Deep learning engine $getDeepLearningEngine not supported")
-    }
-  }
 
-  def batchAnnotateTensorflow(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     //Unpack annotations and zip each sentence to the index or the row it belongs to
     val sentencesWithRow = batchedAnnotations
       .zipWithIndex
       .flatMap { case (annotations, i) => TokenizedWithSentence.unpack(annotations).toArray.map(x => (x, i)) }
 
     //Process all sentences
-    val sentenceWordEmbeddings = getModelIfNotSet.predict(
-      sentencesWithRow.map(_._1),
-      $(batchSize),
-      $(maxSentenceLength),
-      $(caseSensitive)
-    )
+    val sentenceWordEmbeddings = getDeepLearningEngine match {
+      case "tensorflow" => {
+        getModelIfNotSet.predict(sentencesWithRow.map(_._1), $(batchSize), $(maxSentenceLength), $(caseSensitive))
+      }
+      case "pytorch" => {
+        getPytorchModelIfNotSet.predict(sentencesWithRow.map(_._1), $(batchSize), $(maxSentenceLength), $(caseSensitive))
+      }
+      case _ => throw new IllegalArgumentException(s"Deep learning engine $getDeepLearningEngine not supported")
+    }
 
     //Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
     batchedAnnotations.indices.map(rowIndex => {
@@ -308,23 +304,6 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
       else
         Seq.empty[Annotation]
     })
-  }
-
-  def batchAnnotatePytorch(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations.map(annotations =>
-      TokenizedWithSentence.unpack(annotations).toArray
-    ).toArray
-
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) {
-      batchedTokenizedSentences.map(tokenizedSentences => {
-      val withEmbeddings = getPytorchModelIfNotSet.predict(tokenizedSentences, $(batchSize),
-        $(maxSentenceLength), $(caseSensitive))
-      WordpieceEmbeddingsSentence.pack(withEmbeddings)
-      })
-    } else {
-      Seq(Seq.empty[Annotation])
-    }
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {

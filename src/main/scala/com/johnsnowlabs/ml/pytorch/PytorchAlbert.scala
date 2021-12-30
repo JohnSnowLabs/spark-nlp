@@ -5,7 +5,7 @@ import ai.djl.ndarray.NDList
 import ai.djl.pytorch.engine.PtModel
 import ai.djl.translate.{Batchifier, Translator, TranslatorContext}
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
-import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, WordpieceTokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPieceEmbeddings, TokenizedSentence, WordpieceTokenizedSentence}
 import com.johnsnowlabs.nlp.embeddings.TransformerEmbeddings
 
 import java.io.ByteArrayInputStream
@@ -65,6 +65,16 @@ class PytorchAlbert(val pytorchWrapper: PytorchWrapper, val sentencePieceWrapper
       }
     }
   }
+
+  override def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
+                                sentence: (WordpieceTokenizedSentence, Int)): Option[IndexedToken] = {
+
+    val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
+      p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+
+    originalTokensWithEmbeddings
+  }
+
 
   override def getBatchifier: Batchifier = {
     Batchifier.fromString("none")
