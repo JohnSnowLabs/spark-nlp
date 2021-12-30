@@ -1,0 +1,107 @@
+package com.johnsnowlabs.ml.pytorch
+
+import ai.djl.{Device, Model}
+import ai.djl.ndarray.NDList
+import ai.djl.pytorch.engine.PtModel
+import ai.djl.translate.{Batchifier, Translator, TranslatorContext}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPieceEmbeddings, TokenizedSentence, WordpieceTokenizedSentence}
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import com.johnsnowlabs.nlp.embeddings.TransformerEmbeddings
+
+import java.io.ByteArrayInputStream
+
+class PytorchDistilBert(val pytorchWrapper: PytorchWrapper,
+                        val sentenceStartTokenId: Int,
+                        val sentenceEndTokenId: Int,
+                        vocabulary: Map[String, Int]) extends Serializable
+  with Translator[Array[Array[Int]], Array[Array[Array[Float]]]]
+  with TransformerEmbeddings {
+
+  override protected val sentencePadTokenId: Int = 0
+
+  private var maxSentenceLength: Option[Int] = None
+  private var dimension: Option[Int] = None
+
+  private lazy val predictor = {
+    val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
+    val device = Device.cpu() //TODO: Check with gpu
+    val model = Model.newInstance("bert-model", device)
+    println(s"Device Id: ${model.getNDManager.getDevice.getDeviceId}")
+    println(s"Device Type: ${model.getNDManager.getDevice.getDeviceType}")
+
+    val pyTorchModel: PtModel = model.asInstanceOf[PtModel]
+    pyTorchModel.load(modelInputStream)
+
+    pyTorchModel.newPredictor(this)
+  }
+
+  override def tokenizeWithAlignment(tokenizedSentences: Seq[TokenizedSentence], caseSensitive: Boolean,
+                                     maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
+
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder = new WordpieceEncoder(vocabulary)
+
+    tokenizedSentences.map { tokenIndex =>
+      // filter empty and only whitespace tokens
+      val bertTokens = tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map { token =>
+        val content = if (caseSensitive) token.token else token.token.toLowerCase()
+        val sentenceBegin = token.begin
+        val sentenceEnd = token.end
+        val sentenceInedx = tokenIndex.sentenceIndex
+        val result = basicTokenizer.tokenize(Sentence(content, sentenceBegin, sentenceEnd, sentenceInedx))
+        if (result.nonEmpty) result.head else IndexedToken("")
+      }
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+  }
+
+  override def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+
+    maxSentenceLength = Some(batch.map(encodedSentence => encodedSentence.length).max)
+    val predictedEmbeddings = predictor.predict(batch.toArray)
+    val emptyVector = Array.fill(dimension.get)(0f)
+
+    batch.zip(predictedEmbeddings).map { case (ids, embeddings) =>
+      if (ids.length > embeddings.length) {
+        embeddings.take(embeddings.length - 1) ++
+          Array.fill(embeddings.length - ids.length)(emptyVector) ++
+          Array(embeddings.last)
+      } else {
+        embeddings
+      }
+    }
+
+  }
+
+  override def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
+                                sentence: (WordpieceTokenizedSentence, Int)): Option[IndexedToken] = {
+
+    val originalTokensWithEmbeddings = tokenizedSentences(sentence._2).indexedTokens.find(
+      p => p.begin == tokenWithEmbeddings.begin)
+
+    originalTokensWithEmbeddings
+
+  }
+
+  override def getBatchifier: Batchifier = {
+    Batchifier.fromString("none")
+  }
+
+  override def processInput(ctx: TranslatorContext, input: Array[Array[Int]]): NDList = {
+    val manager = ctx.getNDManager
+    val array = manager.create(input)
+    new NDList(array)
+  }
+
+  override def processOutput(ctx: TranslatorContext, list: NDList): Array[Array[Array[Float]]] = {
+
+    dimension = Some(list.get(0).getShape.get(2).toInt)
+    val allEncoderLayers = list.get(0).toFloatArray
+    val embeddings = allEncoderLayers
+      .grouped(dimension.get).toArray
+      .grouped(maxSentenceLength.get).toArray
+
+    embeddings
+  }
+}
