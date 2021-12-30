@@ -441,7 +441,8 @@
      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
 
-<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_HPO"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
+     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_HPO"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
@@ -452,7 +453,7 @@
 
 <span class="n">text</span><span class="o">=</span><span class="s">"""These disorders include cancer, bipolar disorder, schizophrenia, autism, Cri-du-chat syndrome, myopia, cortical cataract-linked Alzheimer's disease, and infectious diseases"""</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>

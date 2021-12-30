@@ -474,7 +474,8 @@
      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
  
-<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_hcc_augmented"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+<span class="n">resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
+     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_hcc_augmented"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"resolution"</span><span class="p">)</span>\
      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
@@ -483,17 +484,17 @@
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is an 82 - year-old male with a history of prior tobacco use , hypertension , chronic renal insufficiency , COPD , gastritis , and TIA who initially presented to Braintree with a non-ST elevation MI and Guaiac positive stools , transferred to St . Margaret</span><span class="se">\'</span><span class="s">s Center for Women &amp; Infants for cardiac catheterization with PTCA to mid LAD lesion complicated by hypotension and bradycardia requiring Atropine , IV fluids and transient dopamine possibly secondary to vagal reaction , subsequently transferred to CCU for close monitoring , hemodynamically stable at the time of admission to the CCU ."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
+<div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_doc"</span><span class="o">))</span>
      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
- 
-<span class="k">val</span> <span class="nv">resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_hcc_augmented"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+     
+<span class="k">val</span> <span class="nv">resolver</span> <span class="k">=</span> <span class="nc">SentenceEntityResolverModel</span>
+     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_hcc_augmented"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"resolution"</span><span class="o">)</span>
      <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
@@ -552,7 +553,7 @@
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[hcc_score]</td>
+      <td>[hcc_code]</td>
     </tr>
     <tr>
       <td>Language:</td>

@@ -431,11 +431,13 @@
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
+<span class="n">sbert_embedder</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'sbiobert_base_cased_mli'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span><span class="s">'clinical/models'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
     
-<span class="n">hcpcs_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_hcpcs"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+<span class="n">hcpcs_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_hcpcs"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hcpcs_code"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
@@ -446,25 +448,30 @@
         <span class="n">sbert_embedder</span><span class="p">,</span>
         <span class="n">hcpcs_resolver</span><span class="p">])</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="n">hcpcs_pipelineModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">hcpcs_pipelineModel</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()\</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)\</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="ss">'sbiobert_base_cased_ml</span><span class="n">i</span><span class="o">',</span> <span class="ss">'e</span><span class="n">n</span><span class="sc">','</span><span class="n">clinical</span><span class="o">/</span><span class="n">models</span><span class="o">')\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span><span class="o">])\</span>
+<span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nc">BertSentenceEmbeddings</span>
+      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">))</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
     
-<span class="k">val</span> <span class="nv">hcpcs_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_hcpcs"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">ner_chunk</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sentence_embeddings</span><span class="err">"</span><span class="o">])</span> <span class="o">\</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hcpcs_code"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">hcpcs_resolver</span> <span class="k">=</span> <span class="nc">SentenceEntityResolverModel</span>
+      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_hcpcs"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span> 
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hcpcs_code"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">hcpcs_pipelineModel</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">hcpcs_resolver</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">hcpcs_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sbert_embedder</span><span class="o">,</span> <span class="n">hcpcs_resolver</span><span class="o">))</span>
     
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Breast prosthesis, mastectomy bra, with integrated breast prosthesis form, unilateral, any size, any type"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>    
-<span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">hcpcs_pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">hcpcs_pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
