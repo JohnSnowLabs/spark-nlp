@@ -51,17 +51,17 @@ word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'cl
       .setInputCols(["sentence", "token"])\
       .setOutputCol("embeddings")
 
-jsl_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") \
+ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") \
      .setInputCols(["sentence", "token", "embeddings"]) \
-     .setOutputCol("jsl_ner")
+     .setOutputCol("ner")
 
-jsl_ner_converter = NerConverter() \
-    .setInputCols(["sentence", "token", "jsl_ner"]) \
-    .setOutputCol("jsl_ner_chunk")\
+ner_converter = NerConverter() \
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")\
     .setWhiteList(['Test'])
 
 chunk2doc = Chunk2Doc() \
-    .setInputCols("jsl_ner_chunk") \
+    .setInputCols("ner_chunk") \
     .setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli", "en", "clinical/models")\
@@ -70,7 +70,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli",
      .setCaseSensitive(True)
 
 resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_uncased", "en", "clinical/models") \
-      .setInputCols(["jsl_ner_chunk", "sbert_embeddings"])\
+      .setInputCols(["ner_chunk", "sbert_embeddings"])\
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 
@@ -79,8 +79,8 @@ pipeline_loinc = Pipeline(stages = [
     sentenceDetector, 
     tokenizer,  
     word_embeddings, 
-    jsl_ner, 
-    jsl_ner_converter, 
+    ner, 
+    ner_converter, 
     chunk2doc, 
     sbert_embedder, 
     resolver
@@ -107,21 +107,21 @@ val tokenizer = Tokenizer()
          .setInputCols("document") 
          .setOutputCol("token")
 
-val word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en", "clinical/models")
          .setInputCols(Array("sentence", "token"))
          .setOutputCol("embeddings")
 
-val jsl_ner = MedicalNerModel.pretrained("ner_jsl", "en", "clinical/models") 
+val ner = MedicalNerModel.pretrained("ner_radiology", "en", "clinical/models") 
         .setInputCols(Array("sentence", "token", "embeddings")) 
-        .setOutputCol("jsl_ner")
+        .setOutputCol("ner")
 
-val jsl_ner_converter = NerConverter() 
-        .setInputCols(Array("sentence", "token", "jsl_ner")) 
-        .setOutputCol("jsl_ner_chunk")
+val ner_converter = NerConverter() 
+        .setInputCols(Array("sentence", "token", "ner")) 
+        .setOutputCol("ner_chunk")
         .setWhiteList(Array("Test"))
 
 val chunk2doc = Chunk2Doc() 
-        .setInputCols("jsl_ner_chunk") 
+        .setInputCols("ner_chunk") 
         .setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli", "en", "clinical/models")
@@ -130,11 +130,11 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_m
          .setCaseSensitive(True)
 
 val resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_uncased", "en", "clinical/models") 
-         .setInputCols(Array("jsl_ner_chunk", "sbert_embeddings"))
+         .setInputCols(Array("ner_chunk", "sbert_embeddings"))
          .setOutputCol("resolution")
          .setDistanceFunction("EUCLIDEAN")
 
-val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, jsl_ner, jsl_ner_converter, chunk2doc, sbert_embedder, resolver))
+val pipeline_loinc = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, ner, ner_converter, chunk2doc, sbert_embedder, resolver))
 
 val data = Seq("The patient is a 22-year-old female with a history of obesity. She has a BMI of 33.5 kg/m2, aspartate aminotransferase 64, and alanine aminotransferase 126. Her hgba1c is 8.2%.").toDF("text")
 
@@ -145,11 +145,14 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-|    |   sent_id | ner_chunk                  | entity   | resolution   | all_codes                                                                                                                                                                                                                                                                                     | resolutions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|---:|----------:|:---------------------------|:---------|:-------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  0 |         1 | aspartate aminotransferase | Test     | 14409-7      | ['14409-7', '16325-3', '1916-6', '16324-6',...]                                              | ['Aspartate aminotransferase', 'Alanine aminotransferase/Aspartate aminotransferase', 'Aspartate aminotransferase/Alanine aminotransferase', 'Alanine aminotransferase', ...] |
-|  1 |         1 | alanine aminotransferase   | Test     | 16324-6      | ['16324-6', '1916-6', '16325-3', '59245-1',...]                                           | ['Alanine aminotransferase', 'Aspartate aminotransferase/Alanine aminotransferase', 'Alanine aminotransferase/Aspartate aminotransferase', 'Alanine glyoxylate aminotransferase',...]         |
-|  2 |         2 | hgba1c                     | Test     | 41995-2      | ['41995-2', 'LP35944-5', 'LP19717-5', '43150-2',...] | ['Hemoglobin A1c', 'HbA1c measurement device', 'HBA1 gene', 'HbA1c measurement device panel', ...]                                                                                                                                                                                                   |
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                            ner_chunk|entity| resolution|                                           all_codes|                                                                                                                                                                                             resolutions|
++-------------------------------------+------+-----------+----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                  BMI|  Test|    39156-5|[39156-5, LP35925-4, BDYCRC, 73964-9, 59574-4,...]  |[Body mass index, Body mass index (BMI), Body circumference, Body muscle mass, Body mass index (BMI) [Percentile], ...]                                                                                 |
+|           aspartate aminotransferase|  Test|    14409-7|['14409-7', '16325-3', '1916-6', '16324-6',...]     |['Aspartate aminotransferase', 'Alanine aminotransferase/Aspartate aminotransferase', 'Aspartate aminotransferase/Alanine aminotransferase', 'Alanine aminotransferase', ...]                           |
+|             alanine aminotransferase|  Test|    16324-6|['16324-6', '1916-6', '16325-3', '59245-1',...]     |['Alanine aminotransferase', 'Aspartate aminotransferase/Alanine aminotransferase', 'Alanine aminotransferase/Aspartate aminotransferase', 'Alanine glyoxylate aminotransferase',...]                   |
+|                               hgba1c|  Test|    41995-2|['41995-2', 'LP35944-5', 'LP19717-5', '43150-2',...]|['Hemoglobin A1c', 'HbA1c measurement device', 'HBA1 gene', 'HbA1c measurement device panel', ...]                                                                                                      |
++-------------------------------------+------+-----------+------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 {:.model-param}
