@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Transformers
 permalink: /docs/en/transformers
 key: docs-transformers
-modify_date: "2021-08-05"
+modify_date: "2022-01-01"
 use_language_switcher: "Python-Scala-Java"
 show_nav: true
 sidebar:
@@ -27,7 +27,7 @@ sidebar:
 
 ### Overview
 
-We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models since `3.1.0` to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any `BERT`, `DistilBERT`, `RoBERTa`, `XLM-RoBERTa`, `Longformer`, `BertForTokenClassification`, `DistilBertForTokenClassification`, `AlbertForTokenClassification`, `RoBertaForTokenClassification`, `XlmRoBertaForTokenClassification`, `XlnetForTokenClassification`,  `LongformerForTokenClassification`, `BertForSequenceClassification`, and `DistilBertForSequenceClassification`  models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
+We have extended support for `HuggingFace` 🤗   and `TF Hub` exported models since `3.1.0` to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the `saved_model` feature in HuggingFace within a few lines of codes and import any `BERT`, `DistilBERT`, `RoBERTa`, `XLM-RoBERTa`, `Longformer`, `BertForTokenClassification`, `DistilBertForTokenClassification`, `AlbertForTokenClassification`, `RoBertaForTokenClassification`, `XlmRoBertaForTokenClassification`, `XlnetForTokenClassification`,  `LongformerForTokenClassification`, `BertForSequenceClassification`, `DistilBertForSequenceClassification`, `AlbertForSequenceClassification`, `RoBertaForSequenceClassification`, `XlmRoBertaForSequenceClassification`, `XlnetForSequenceClassification`,  `LongformerForSequenceClassification`  models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊
 
 ### Compatibility
 
@@ -52,19 +52,25 @@ XlmRoBertaEmbeddings |   | ✅   | XLM-RoBERTa
 AlbertEmbeddings | ✅  |  ✅   |  ALBERT
 XlnetEmbeddings |   | ✅  |  XLNet
 LongformerEmbeddings |   | ✅  | Longformer
-ElmoEmbeddings | ❎  |  ❎  |
+ElmoEmbeddings | ❎  |    |
 UniversalSentenceEncoder |  ❎ |   |
-BertForTokenClassification |   | ✅  |  TFBertForTokenClassification
-DistilBertForTokenClassification |   | ✅  |  TFDistilBertForTokenClassification
-AlbertForTokenClassification |   | ✅  |  TFAlbertForTokenClassification
-RoBertaForTokenClassification |   | ✅  |  TFRobertaForTokenClassification
-XlmRoBertaForTokenClassification |   | ✅  |  TFXLMRobertaForTokenClassification
-XlnetForTokenClassification |   | ✅  |  TFXLNetForTokenClassificationet
-LongformerForTokenClassification |   | ✅  |  TFLongformerForTokenClassification
-BertForSequenceClassification |   | ✅  |  TFBertForSequenceClassification
-DistilBertForSequenceClassification |   | ✅  |  TFDistilBertForSequenceClassification
+BertForTokenClassification |   | ✅  |  [TFBertForTokenClassification](https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForTokenClassification)
+DistilBertForTokenClassification |   | ✅  |  [TFDistilBertForTokenClassification](https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForTokenClassification)
+AlbertForTokenClassification |   | ✅  |  [TFAlbertForTokenClassification](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForTokenClassification)
+RoBertaForTokenClassification |   | ✅  |  [TFRobertaForTokenClassification](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForTokenClassification)
+XlmRoBertaForTokenClassification |   | ✅  |  [TFXLMRobertaForTokenClassification](https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForTokenClassification)
+XlnetForTokenClassification |   | ✅  |  [TFXLNetForTokenClassificationet](https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForTokenClassificationet)
+LongformerForTokenClassification |   | ✅  |  [TFLongformerForTokenClassification](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForTokenClassification)
+BertForSequenceClassification |   | ✅  |  [TFBertForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/bert#transformers.TFBertForSequenceClassification)
+DistilBertForSequenceClassification |   | ✅  |  [TFDistilBertForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/distilbert#transformers.TFDistilBertForSequenceClassification)
+AlbertForSequenceClassification |   | ✅  |  [TFAlbertForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/albert#transformers.TFAlbertForSequenceClassification)
+RoBertaForSequenceClassification |   | ✅  |  [TFRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/roberta#transformers.TFRobertaForSequenceClassification)
+XlmRoBertaForSequenceClassification |   | ✅  |  [TFXLMRobertaForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlmroberta#transformers.TFXLMRobertaForSequenceClassification)
+XlnetForSequenceClassification |   | ✅  |  [TFXLNetForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/xlnet#transformers.TFXLNetForSequenceClassification)
+LongformerForSequenceClassification |   | ✅  |  [TFLongformerForSequenceClassification](https://huggingface.co/docs/transformers/model_doc/longformer#transformers.TFLongformerForSequenceClassification)
 T5Transformer |   |  ❌ |
 MarianTransformer|   | ❌  |
+OpenAI GPT2|   | ❌  |
 
 ### Example Notebooks
 

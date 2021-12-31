@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2021-11-21"
+modify_date: "2022-01-01"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -30,14 +30,13 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.0
 spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.0
 
 # Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
-spark-shell --jar spark-nlp-assembly-3.4.0
+spark-shell --jars spark-nlp-assembly-3.4.0.jar
 ```
 <div class="h3-box" markdown="1">
 
 ## Python
 
-Spark NLP supports Python 3.6.x and 3.7.x if you are using PySpark 2.3.x or 2.4.x and Python 3.8.x if you are using PySpark 3.x.
-
+Spark NLP supports Python 3.6.x and above depending on your major PySpark version.
 #### Quick Install
 
 Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any enviroment.
@@ -45,7 +44,7 @@ Let's create a new Conda environment to manage all the dependencies there. You c
 ```bash
 $ java -version
 # should be Java 8 (Oracle or OpenJDK)
-$ conda create -n sparknlp python=3.7 -y
+$ conda create -n sparknlp python=3.8 -y
 $ conda activate sparknlp
 $ pip install spark-nlp==3.4.0 pyspark==3.1.2
 ```
@@ -87,7 +86,7 @@ spark = SparkSession.builder \
 
 Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and Scala 2.12.x if you are using Apache Spark 3.0.x or 3.1.x. Our packages are deployed to Maven central. To add any of our packages as a dependency in your application you can follow these coordinates:
 
-**spark-nlp** on Apache Spark 3.x:
+**spark-nlp** on Apache Spark 3.0.x and 3.1.x:
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp -->
@@ -105,6 +104,28 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.12</artifactId>
+    <version>3.4.0</version>
+</dependency>
+```
+
+**spark-nlp** on Apache Spark 3.2.x:
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark32 -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark32_2.12</artifactId>
+    <version>3.4.0</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark32 -->
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu-spark32_2.12</artifactId>
     <version>3.4.0</version>
 </dependency>
 ```
@@ -127,7 +148,7 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
     <artifactId>spark-nlp-gpu_2.11</artifactId>
-    <version>3.4.0/version>
+    <version>3.4.0</version>
 </dependency>
 ```
 
@@ -157,7 +178,7 @@ Spark NLP supports Scala 2.11.x if you are using Apache Spark 2.3.x or 2.4.x and
 
 #### SBT
 
-**spark-nlp** on Apache Spark 3.x.x:
+**spark-nlp** on Apache Spark 3.0.x and 3.1.x:
 
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
@@ -169,6 +190,20 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "3.4.0"
 ```sbtshell
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "3.4.0"
+```
+
+**spark-nlp** on Apache Spark 3.2.x:
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-spark32
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-spark32" % "3.4.0"
+```
+
+**spark-nlp-gpu:**
+
+```sbtshell
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu-spark32
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark32" % "3.4.0"
 ```
 
 **spark-nlp** on Apache Spark 2.4.x:
@@ -201,6 +236,8 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu-spark23" % "3.4.
 
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
 
+If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects [Spark NLP SBT Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
+
 </div><div class="h3-box" markdown="1">
 
 ## Google Colab Notebook
@@ -220,7 +257,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -p is for pyspark
 # -s is for spark-nlp
 # by default they are set to the latest
-!bash colab.sh -p 3.1.2 -s 3.4.0
+!wget http://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.1.2 -s 3.4.0
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
@@ -268,7 +305,16 @@ Spark NLP 3.4.0 has been tested and is compatible with the following runtimes:
 - 8.3 ML
 - 8.4
 - 8.4 ML
-
+- 9.0
+- 9.0 ML
+- 9.1
+- 9.1 ML
+- 10.0
+- 10.0 ML
+- 10.1
+- 10.1 ML
+- 10.2
+- 10.2 ML
 
 **GPU:**
 
@@ -276,8 +322,13 @@ Spark NLP 3.4.0 has been tested and is compatible with the following runtimes:
 - 8.2 ML & GPU
 - 8.3 ML & GPU
 - 8.4 ML & GPU
+- 9.0 ML & GPU
+- 9.1 ML & GPU
+- 10.0 ML & GPU
+- 10.1 ML & GPU
+- 10.2 ML & GPU
 
-NOTE: Spark NLP 3.1.x is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11. are 8.1 ML with GPU, 8.2 ML with GPU, and 8.3 ML with GPU.
+NOTE: Spark NLP 3.4.0 is based on TensorFlow 2.4.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks runtimes supporting CUDA 11 are 8.x and above as listed under GPU.
 
 </div><div class="h3-box" markdown="1">
 
@@ -332,9 +383,13 @@ Spark NLP 3.4.0 has been tested and is compatible with the following EMR release
 - emr-5.30.1
 - emr-5.31.0
 - emr-5.32.0
+- emr-5.33.0
+- emr-5.33.1
 - emr-6.1.0
 - emr-6.2.0
 - emr-6.3.0
+- emr-6.3.1
+- emr-6.4.0
 
 Full list of [Amazon EMR 5.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html)
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
