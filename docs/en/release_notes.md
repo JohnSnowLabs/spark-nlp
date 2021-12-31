@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Spark NLP release notes
 permalink: /docs/en/release_notes
 key: docs-release-notes
-modify_date: "2021-10-02"
+modify_date: "2022-01-01"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -27,11 +27,11 @@ Major features and improvements
 
 * **NEW:** Starting Spark NLP 3.3.0 release there will be `no limitation of size` when you import TensorFlow models! You can now import TF Hub & HuggingFace models larger than 2 Gigabytes of size.
 * **NEW:** Up to **50x faster** saving Spark NLP models and pipelines!  We have improved the way we package TensorFlow SavedModel while saving Spark NLP models & pipelines. For instance, it used to take up to 10 minutes to save the `xlm_roberta_base` model before Spark NLP 3.3.0, and now it only takes up to 15 seconds!
-* **NEW:** Introducing **AlbertForTokenClassification** annotator in Spark NLP 🚀. `AlbertForTokenClassification` can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForTokenClassification` or `TFAlbertForTokenClassification` in HuggingFace 🤗 
-* **NEW:** Introducing **XlnetForTokenClassification** annotator in Spark NLP 🚀. `XlnetForTokenClassification` can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForTokenClassificationet` or `TFXLNetForTokenClassificationet` in HuggingFace 🤗 
-* **NEW:** Introducing **RoBertaForTokenClassification** annotator in Spark NLP 🚀. `RoBertaForTokenClassification` can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForTokenClassification` or `TFRobertaForTokenClassification` in HuggingFace 🤗 
-* **NEW:** Introducing **XlmRoBertaForTokenClassification** annotator in Spark NLP 🚀. `XlmRoBertaForTokenClassification` can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForTokenClassification` or `TFXLMRobertaForTokenClassification` in HuggingFace 🤗 
-* **NEW:** Introducing **LongformerForTokenClassification** annotator in Spark NLP 🚀. `LongformerForTokenClassification` can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForTokenClassification` or `TFLongformerForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **AlbertForTokenClassification** annotator in Spark NLP 🚀. `AlbertForTokenClassification` can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForTokenClassification` or `TFAlbertForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **XlnetForTokenClassification** annotator in Spark NLP 🚀. `XlnetForTokenClassification` can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForTokenClassificationet` or `TFXLNetForTokenClassificationet` in HuggingFace 🤗
+* **NEW:** Introducing **RoBertaForTokenClassification** annotator in Spark NLP 🚀. `RoBertaForTokenClassification` can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForTokenClassification` or `TFRobertaForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **XlmRoBertaForTokenClassification** annotator in Spark NLP 🚀. `XlmRoBertaForTokenClassification` can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForTokenClassification` or `TFXLMRobertaForTokenClassification` in HuggingFace 🤗
+* **NEW:** Introducing **LongformerForTokenClassification** annotator in Spark NLP 🚀. `LongformerForTokenClassification` can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForTokenClassification` or `TFLongformerForTokenClassification` in HuggingFace 🤗
 * **NEW:** Introducing new ResourceDownloader functions to easily look for pretrained models & pipelines inside Spark NLP (Python and Scala). You can filter models or pipelines via `language`, `version`, or the name of the `annotator`
 
 ```python
@@ -69,7 +69,7 @@ Bug Fixes
 
 * Fix a bug in RoBertaEmbeddings when all special tokens were identical
 * Fix a bug in RoBertaEmbeddings when a special token contained valid regex
-* Fix a bug that leads to memory leak inside NorvigSweeting spell checker. This issue caused issues with pretrained pipelines such as `explain_document_ml` and `explain_document_dl` due to some inputs 
+* Fix a bug that leads to memory leak inside NorvigSweeting spell checker. This issue caused issues with pretrained pipelines such as `explain_document_ml` and `explain_document_dl` due to some inputs
 * Fix the wrong types being assigned to `minCount` and `classCount` in Python for `ContextSpellCheckerApproach` annotator
 * Fix `explain_document_ml` pretrained pipeline for Spark NLP 3.x on Apache Spark 2.x
 * Fix WordSegmenterModel `wordseg_best` model for Thai language
@@ -78,7 +78,7 @@ Bug Fixes
 Models and Pipelines
 
 Spark NLP 3.3.0 comes with:
-* New ALBERT, RoBERTa, XLNet, and XLM-RoBERTa for Token Classification models 
+* New ALBERT, RoBERTa, XLNet, and XLM-RoBERTa for Token Classification models
 * New XLM-RoBERTa models in Luganda, Kinyarwanda, Igbo, Hausa, and Amharic languages
 
 #### New Transformer Models
@@ -118,7 +118,7 @@ XlmRoBertaForTokenClassification|[HuggingFace in Spark NLP - XlmRoBertaForTokenC
 
 Documentation
 
-* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
 * [Spark NLP Scala APIs](https://nlp.johnsnowlabs.com/api)
@@ -304,7 +304,7 @@ Bug Fixes & Enhancements
 * Fix the default language for XlmRoBertaSentenceEmbeddings pretrained model in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6057
 * Fix SentenceEmbeddings issue concatenating sentences instead of each correspondent sentence https://github.com/JohnSnowLabs/spark-nlp/pull/6060
 * Fix GraphExctraction usage in LightPipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6101
-* Fix compatibility issue in `explain_document_ml` pipeline 
+* Fix compatibility issue in `explain_document_ml` pipeline
 * Better import process for corrupted `merges` file in Longformer tokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6083
 
 Models and Pipelines
@@ -313,7 +313,7 @@ Spanish, Greek, Swedish, Dutch, German, French, Romanian, and Japanese
 
 #### BERT Embeddings (Word and Sentence)
 
-| Model                | Name               | Build            | Lang | 
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings | [bert_base_uncased_legal](https://nlp.johnsnowlabs.com/2021/09/07/bert_base_uncased_legal_en.html) | 3.2.2 |      `en`
 | BertEmbeddings | [bert_base_uncased](https://nlp.johnsnowlabs.com/2021/09/07/bert_base_uncased_es.html) | 3.2.2 |      `es`
@@ -331,7 +331,7 @@ Spanish, Greek, Swedish, Dutch, German, French, Romanian, and Japanese
 
 #### Other multilingual models
 
-| Model                | Name               | Build            | Lang | 
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | WordEmbeddingsModel | [japanese_cc_300d](https://nlp.johnsnowlabs.com/2021/09/09/japanese_cc_300d_ja.html) | 3.2.2 | `ja`
 | NerDLModel | [ner_ud_gsd_cc_300d](https://nlp.johnsnowlabs.com/2021/09/09/ner_ud_gsd_cc_300d_ja.html) | 3.2.2 |      `ja`
@@ -353,7 +353,7 @@ Please visit the following page for more information: [https://modelshub.johnsno
 
 Documentation
 
-* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
 * [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
@@ -558,7 +558,7 @@ Spark NLP 3.2.2 comes with new Turkish text classifier pipelines, Expert BERT Wo
 
 #### Named Entity Recognition
 
-| Model                | Name               | Build            | Lang | 
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | NerDLModel | [ner_conll_elmo](https://nlp.johnsnowlabs.com/2021/08/31/ner_conll_elmo_en.html) | 3.2.2 |      `en`
 | NerDLModel | [ner_conll_albert_base_uncased](https://nlp.johnsnowlabs.com/2021/08/31/ner_conll_albert_base_uncased_en.html) | 3.2.2 |      `en`
@@ -567,7 +567,7 @@ Spark NLP 3.2.2 comes with new Turkish text classifier pipelines, Expert BERT Wo
 
 #### BERT Embeddings
 
-| Model                | Name               | Build            | Lang | 
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings | [bert_muril](https://nlp.johnsnowlabs.com/2021/08/29/bert_muril_xx.html) | 3.2.0 |      `xx`
 | BertEmbeddings | [bert_wiki_books_sst2](https://nlp.johnsnowlabs.com/2021/08/30/bert_wiki_books_sst2_en.html) | 3.2.0 |      `en`
@@ -592,7 +592,7 @@ Spark NLP 3.2.2 comes with new Turkish text classifier pipelines, Expert BERT Wo
 
 Yiddish, Ukrainian, Telugu, Tamil, Somali, Sindhi, Russian, Punjabi, Nepali, Marathi, Malayalam, Kannada, Indonesian, Gujrati, Bosnian
 
-| Model                | Name               | Build            | Lang | 
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | SentenceDetectorDLModel | [sentence_detector_dl](https://nlp.johnsnowlabs.com/2021/08/30/sentence_detector_dl_yi.html) | 3.2.0 |      `yi`
 | SentenceDetectorDLModel | [sentence_detector_dl](https://nlp.johnsnowlabs.com/2021/08/30/sentence_detector_dl_uk.html) | 3.2.0 |      `uk`
@@ -614,7 +614,7 @@ The complete list of all 3700+ models & pipelines in 200+ languages is available
 
 Documentation
 
-* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
 * [Spark NLP documentation](https://nlp.johnsnowlabs.com/docs/en/quickstart)
@@ -769,7 +769,7 @@ Patch release
 
 Documentation
 
-* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP publications](https://medium.com/spark-nlp)
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
@@ -935,12 +935,12 @@ We have trained two NER models based on Longformer Base and Large embeddings:
 |ner_conll_longformer_base_4096  | 94.75% | 90.09 | 94.22
 |ner_conll_longformer_large_4096 | 95.79% | 91.25 | 94.82
 
-* **NEW:** Introducing **BertForTokenClassification** annotator. `BertForTokenClassification` can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `BertForTokenClassification` or `TFBertForTokenClassification` in HuggingFace 🤗 
+* **NEW:** Introducing **BertForTokenClassification** annotator. `BertForTokenClassification` can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `BertForTokenClassification` or `TFBertForTokenClassification` in HuggingFace 🤗
 * **NEW:** Introducing **DistilBertForTokenClassification** annotator. `DistilBertForTokenClassification` can load BERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks. This annotator is compatible with all the models trained/fine-tuned by using `DistilBertForTokenClassification` or `TFDistilBertForTokenClassification` in HuggingFace 🤗
 * **NEW:** Introducing **GraphExctraction** and **GraphFinisher** annotators to extract a dependency graph between entities. The **GraphExtraction** class takes e.g. extracted entities from a `NerDLModel` and creates a dependency tree that describes how the entities relate to each other. For that, a triple store format is used. Nodes represent the entities and the edges represent the relations between those entities. The graph can then be used to find relevant relationships between words
 * **NEW:** Introducing support for multilingual **DateMatcher** and **MultiDateMatcher** annotators. These two annotators will support **English**, **French**, **Italian**, **Spanish**, **German**, and **Portuguese** languages
 * **NEW:** Introducing new **Python APIs** and fully documented **Pydoc**
-* **NEW:** Introducing new **Spark NLP configurations** via spark.conf() by deprecating `application.conf` usage. You can easily change Spark NLP configurations in SparkSession. For more examples please visti [Spark NLP Configuration](https://github.com/JohnSnowLabs/spark-nlp#spark-nlp-configuration) 
+* **NEW:** Introducing new **Spark NLP configurations** via spark.conf() by deprecating `application.conf` usage. You can easily change Spark NLP configurations in SparkSession. For more examples please visti [Spark NLP Configuration](https://github.com/JohnSnowLabs/spark-nlp#spark-nlp-configuration)
 * Add support for Amazon S3 to `log_folder` Spark NLP config and `outputLogsPath` param in `NerDLApproach`, `ClassifierDlApproach`, `MultiClassifierDlApproach`, and `SentimentDlApproach` annotators
 * Added examples to all Spark NLP Scaladoc
 * Added examples to all Spark NLP Pydoc
@@ -950,11 +950,11 @@ We have trained two NER models based on Longformer Base and Large embeddings:
 
 Models and Pipelines
 
-Spark NLP 3.2.0 comes with new LongformerEmbeddings, BertForTokenClassification, and DistilBertForTokenClassification annotators. 
+Spark NLP 3.2.0 comes with new LongformerEmbeddings, BertForTokenClassification, and DistilBertForTokenClassification annotators.
 
 #### New Longformer Models
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | LongformerEmbeddings | [longformer_base_4096](https://nlp.johnsnowlabs.com/2021/08/04/longformer_base_4096_en.html) | 3.2.0 |      `en`
 | LongformerEmbeddings | [longformer_large_4096](https://nlp.johnsnowlabs.com/2021/08/04/longformer_large_4096_en.html) | 3.2.0 |      `en`
@@ -963,7 +963,7 @@ Spark NLP 3.2.0 comes with new LongformerEmbeddings, BertForTokenClassification,
 
 New NER models for **CoNLL** (4 entities) and **OntoNotes** (18 entities) trained by using **BERT**, **RoBERTa**, **DistilBERT**, **XLM-RoBERTa**, and **Longformer** Embeddings:
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | NerDLModel     | [ner_ontonotes_roberta_base](https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_roberta_base_en.html) | 3.2.0 |      `en`
 | NerDLModel     | [ner_ontonotes_roberta_large](https://nlp.johnsnowlabs.com/2021/08/04/ner_ontonotes_roberta_large_en.html) | 3.2.0 |      `en`
@@ -981,7 +981,7 @@ New NER models for **CoNLL** (4 entities) and **OntoNotes** (18 entities) traine
 New BERT and DistilBERT fine-tuned for the Named Entity Recognition (NER) in **English**, **Persian**, **Spanish**, **Swedish**, and **Turkish**:
 
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertForTokenClassification | [bert_base_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/08/05/bert_base_token_classifier_conll03_en.html) | 3.2.0 |      `en`
 | BertForTokenClassification | [bert_large_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/08/05/bert_large_token_classifier_conll03_en.html) | 3.2.0 |      `en`
@@ -1029,7 +1029,7 @@ GraphExtraction | [Graph Extraction Explode Entities](https://github.com/JohnSno
 
 Documentation
 
-* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [TF Hub & HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP publications](https://medium.com/spark-nlp)
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
@@ -1180,7 +1180,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp-gpu-spark23_2.11:3.2.0
 
 Overview
 
-We are pleased to release Spark NLP 🚀  3.1.3! In this release, we bring notebooks to easily import models for BERT and ALBERT models from TF Hub into Spark NLP, new multilingual NER models for 40 languages with a fine-tuned XLM-RoBERTa model, and new state-of-the-art document/sentence embeddings models for English and 100+ languages! 
+We are pleased to release Spark NLP 🚀  3.1.3! In this release, we bring notebooks to easily import models for BERT and ALBERT models from TF Hub into Spark NLP, new multilingual NER models for 40 languages with a fine-tuned XLM-RoBERTa model, and new state-of-the-art document/sentence embeddings models for English and 100+ languages!
 
 As always, we would like to thank our community for their feedback, questions, and feature requests.
 
@@ -1193,11 +1193,11 @@ New Features
 
 New Models
 
-We have trained multilingual NER models by using the entire `XTREME` (40 languages) and `WIKINER` (8 languages). 
+We have trained multilingual NER models by using the entire `XTREME` (40 languages) and `WIKINER` (8 languages).
 
 **Multilingual Named Entity Recognition:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | NerDLModel      | [ner_xtreme_xlm_roberta_xtreme_base](https://nlp.johnsnowlabs.com/2021/07/19/ner_xtreme_xlm_roberta_xtreme_base_xx.html) | 3.1.3 |      `xx`
 | NerDLModel      | [ner_xtreme_glove_840B_300](https://nlp.johnsnowlabs.com/2021/07/19/ner_xtreme_glove_840B_300_xx.html) | 3.1.3 |      `xx`
@@ -1209,7 +1209,7 @@ We have trained multilingual NER models by using the entire `XTREME` (40 languag
 
 **Fine-tuned XLM-RoBERTa base model by randomly masking 15% of XTREME dataset:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | XlmRoBertaEmbeddings      | [xlm_roberta_xtreme_base](https://nlp.johnsnowlabs.com/2021/07/19/xlm_roberta_xtreme_base_xx.html) | 3.1.3 |      `xx`
 
@@ -1217,7 +1217,7 @@ We have trained multilingual NER models by using the entire `XTREME` (40 languag
 
 The models extend the BERT transformer architecture and that is why we use them with BertSentenceEmbeddings.
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertSentenceEmbeddings      | [sent_bert_use_cmlm_en_base](https://nlp.johnsnowlabs.com/2021/07/20/sent_bert_use_cmlm_en_base_en.html) | 3.1.3 |      `en`
 | BertSentenceEmbeddings      | [sent_bert_use_cmlm_en_large](https://nlp.johnsnowlabs.com/2021/07/20/sent_bert_use_cmlm_en_large_en.html) | 3.1.3 |      `en`
@@ -1257,7 +1257,7 @@ AlbertEmbeddings |  [TF Hub in Spark NLP - ALBERT](https://github.com/JohnSnowLa
 
 Documentation
 
-* [HuggingFace & TF Hub to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [HuggingFace & TF Hub to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP publications](https://medium.com/spark-nlp)
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
@@ -1423,7 +1423,7 @@ Bug Fixes & Enhancements
 
 * Fix issue with SymmetricDeleteModel
 * Fix issue with encoding unknown bytes in RoBertaEmbeddings
-* Fix issue with multi-lingual UniversalSentenceEncoder models 
+* Fix issue with multi-lingual UniversalSentenceEncoder models
 * Sync params between Python and Scala for `ContextSpellChecker`
   * change setWordMaxDist to setWordMaxDistance in Scala
   * change setLMClasses to setLanguageModelClasses in Scala
@@ -1447,16 +1447,16 @@ Bug Fixes & Enhancements
 
 Performance Improvements
 
-Introducing a new batch annotation technique implemented in Spark NLP 3.1.2 for XlnetEmbeddings annotator to radically improve prediction/inferencing performance. From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it. 
+Introducing a new batch annotation technique implemented in Spark NLP 3.1.2 for XlnetEmbeddings annotator to radically improve prediction/inferencing performance. From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it.
 
 Backward compatibility
 
-We have migrated XlnetEmbeddings to TensorFlow v2, the earlier models prior to 3.1.2 won't work after this release. 
+We have migrated XlnetEmbeddings to TensorFlow v2, the earlier models prior to 3.1.2 won't work after this release.
 We have already updated the models and uploaded them on Models Hub. You can use `pretrained()` that takes care of it automatically or please make sure you download the new models manually.
 
 Documentation
 
-* [HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP publications](https://medium.com/spark-nlp)
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
@@ -1626,24 +1626,24 @@ Bug Fixes & Enhancements
 * Fix issue with `logger` inside session on some setup https://github.com/JohnSnowLabs/spark-nlp/pull/5715
 * Add signatures to TF session to handle inputs/outputs more dynamically in BertEmbeddings, DistilBertEmbeddings, RoBertaEmbeddings, and XlmRoBertaEmbeddings https://github.com/JohnSnowLabs/spark-nlp/pull/5715
 * Fix XlmRoBertaEmbeddings issue with `init_all_tables` https://github.com/JohnSnowLabs/spark-nlp/pull/5715
-* Add missing YakeModel from annotators 
+* Add missing YakeModel from annotators
 * Add missing random seed param to ClassifierDLApproach, MultiClassifierDLApproach, and SentimentDLApproach https://github.com/JohnSnowLabs/spark-nlp/pull/5697
-* Make the Java Exceptions appear before Py4J exceptions for ease of debugging in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5709 
+* Make the Java Exceptions appear before Py4J exceptions for ease of debugging in Python https://github.com/JohnSnowLabs/spark-nlp/pull/5709
 * Make sure batchSize set in NerDLModel is the same internally to feed TensorFlow https://github.com/JohnSnowLabs/spark-nlp/pull/5716
 * Fix a typo in documentation https://github.com/JohnSnowLabs/spark-nlp/pull/5664 thanks to @roger-yu-ds
 
 Performance Improvements
 
-Introducing a new batch annotation technique implemented in Spark NLP 3.1.1 for AlbertEmbeddings annotator to radically improve prediction/inferencing performance. From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it. 
+Introducing a new batch annotation technique implemented in Spark NLP 3.1.1 for AlbertEmbeddings annotator to radically improve prediction/inferencing performance. From now on the `batchSize` for these annotators means the number of rows that can be fed into the models for prediction instead of sentences per row. You can control the throughput when you are on accelerated hardware such as GPU to fully utilize it.
 
 #### Performance achievements by using Spark NLP 2.x/3.0.x vs. Spark NLP 3.1.1
 
 (Performed on a Databricks cluster)
 
-| Spark NLP 2.x/3.0.x vs. 3.1.1  |  CPU   |  GPU  | 
+| Spark NLP 2.x/3.0.x vs. 3.1.1  |  CPU   |  GPU  |
 |------------------|-------------------------|------------------------
-|ALBERT Base     | 22% | 340% |  
-|Albert Large       | 20% | 770% |  
+|ALBERT Base     | 22% | 340% |
+|Albert Large       | 20% | 770% |
 
 We will update this benchmark table in future pre-releases.
 
@@ -1653,7 +1653,7 @@ We have migrated AlbertEmbeddings to TensorFlow v2, the earlier models prior to 
 
 Documentation
 
-* [HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP publications](https://medium.com/spark-nlp)
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
@@ -1825,17 +1825,17 @@ Major features and improvements
   * Databricks 8.1 ML & GPU
   * Databricks 8.2 ML & GPU
   * Databricks 8.3 ML & GPU
-* Welcoming a new EMR 6.x series to our Spark NLP family: 
+* Welcoming a new EMR 6.x series to our Spark NLP family:
   * EMR 6.3.0 (Apache Spark 3.1.1 / Hadoop 3.2.1)
  * Added examples to Spark NLP Scaladoc
 
 Models and Pipelines
 
-Spark NLP 3.1.0 comes with over 2600+ new pretrained models and pipelines in over 200 languages available for Windows, Linux, and macOS users. 
+Spark NLP 3.1.0 comes with over 2600+ new pretrained models and pipelines in over 200 languages available for Windows, Linux, and macOS users.
 
 **Featured Transformers:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings           | [bert_base_dutch_cased](https://nlp.johnsnowlabs.com/2021/05/20/bert_base_dutch_cased_nl.html) | 3.1.0 |      `nl`
 | BertEmbeddings           | [bert_base_german_cased](https://nlp.johnsnowlabs.com/2021/05/20/bert_base_german_cased_de.html) | 3.1.0 |      `de`
@@ -1857,7 +1857,7 @@ Spark NLP 3.1.0 comes with over 2600+ new pretrained models and pipelines in ove
 
 **Featured Translation Models:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 |  MarianTransformer    | [Chinese to Vietnamese](https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_vi_xx.html) | 3.1.0 |      `xx`
 |  MarianTransformer    | [Chinese to Ukrainian](https://nlp.johnsnowlabs.com/2021/06/01/opus_mt_zh_uk_xx.html) | 3.1.0 |      `xx`
@@ -1881,8 +1881,8 @@ Spark NLP | HuggingFace Notebooks
 :------------ | :-------------|
 BertEmbeddings |  [HuggingFace in Spark NLP - BERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT.ipynb)
 BertSentenceEmbeddings | [HuggingFace in Spark NLP - BERT Sentence](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
-DistilBertEmbeddings| [HuggingFace in Spark NLP - DistilBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb)  
-RoBertaEmbeddings | [HuggingFace in Spark NLP - RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb)  
+DistilBertEmbeddings| [HuggingFace in Spark NLP - DistilBERT](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb)
+RoBertaEmbeddings | [HuggingFace in Spark NLP - RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb)
 XlmRoBertaEmbeddings | [HuggingFace in Spark NLP - XLM-RoBERTa](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb)
 
 The complete list of all 3700+ models & pipelines in 200+ languages is available on [Models Hub](https://nlp.johnsnowlabs.com/models).
@@ -1893,7 +1893,7 @@ Backward compatibility
 
 Documentation
 
-* [HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669) 
+* [HuggingFace to Spark NLP](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669)
 * [Models Hub](https://nlp.johnsnowlabs.com/models) with new models
 * [Spark NLP publications](https://medium.com/spark-nlp)
 * [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo)
@@ -2068,13 +2068,13 @@ Models and Pipelines
 
 New multilingual models and pipelines for `Farsi`, `Hebrew`, `Korean`, and `Turkish`
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | ClassifierDLModel | [classifierdl_bert_news](https://nlp.johnsnowlabs.com/2021/05/03/classifierdl_bert_news_tr.html) | 3.0.2 |  `tr`
 | UniversalSentenceEncoder | [tfhub_use_multi](https://nlp.johnsnowlabs.com/2021/05/06/tfhub_use_multi_xx.html) | 3.0.0 |  `xx`
 | UniversalSentenceEncoder | [tfhub_use_multi_lg](https://nlp.johnsnowlabs.com/2021/05/06/tfhub_use_multi_lg_xx.html) | 3.0.0 |  `xx`
 
-| Pipeline                | Name               | Build            | Lang |  
+| Pipeline                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | PretrainedPipeline | [recognize_entities_dl](https://nlp.johnsnowlabs.com/2021/04/26/recognize_entities_dl_fa.html) | 3.0.0 |  `fa`
 | PretrainedPipeline | [explain_document_lg](https://nlp.johnsnowlabs.com/2021/04/30/explain_document_lg_he.html) | 3.0.2 |  `he`
@@ -2262,14 +2262,14 @@ Enhancements
 
 Bug Fixes
 
-* Fix an exception in NerConverter when the documents/sentences don't carry the used tokens in NerDLModel https://github.com/JohnSnowLabs/spark-nlp/pull/2784 thanks to @rahulraina7 
+* Fix an exception in NerConverter when the documents/sentences don't carry the used tokens in NerDLModel https://github.com/JohnSnowLabs/spark-nlp/pull/2784 thanks to @rahulraina7
 * Fix an exception in AlbertEmbeddings when the original tokens are longer than the piece tokens https://github.com/JohnSnowLabs/spark-nlp/pull/2777
 
 Models and Pipelines
 
 New multilingual models for `Afrikaans`, `Welsh`, `Maltese`, `Tamil`, and `Vietnamese`
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | PerceptronModel | [pos_afribooms](https://nlp.johnsnowlabs.com/2021/04/06/pos_afribooms_af.html) | 3.0.0 |  `af`
 | LemmatizerModel | [lemma](https://nlp.johnsnowlabs.com/2021/04/02/lemma_cy.html) |     3.0.0     |`cy`
@@ -2621,7 +2621,7 @@ New Features
   * Databricks 8.0
   * Databricks 8.0 ML (there is no GPU in 8.0)
   * Databricks 8.1 Beta
-* Welcoming 2x new EMR 6.x series to our Spark NLP family: 
+* Welcoming 2x new EMR 6.x series to our Spark NLP family:
   * EMR 6.1.0 (Apache Spark 3.0.0 / Hadoop 3.2.1)
   * EMR 6.2.0 (Apache Spark 3.0.1 / Hadoop 3.2.1)
 * Starting Spark NLP 3.0.0 the default packages  for CPU and GPU will be based on Apache Spark 3.x and Scala 2.12 (`spark-nlp` and `spark-nlp-gpu` will be compatible only with Apache Spark 3.x and Scala 2.12)
@@ -2640,13 +2640,13 @@ Introducing a new batch annotation technique implemented in Spark NLP 3.0.0 for 
 
 | Spark NLP 3.0.0 vs. 2.7.x  |  PySpark 3.x on CPU   |  PySpark 3.x on GPU  |
 |--------------------------|-----------------------|-----------------------|
-|BertEmbeddings (bert-base)                         | +10%   | +550% (6.6x)  
+|BertEmbeddings (bert-base)                         | +10%   | +550% (6.6x)
 |BertEmbeddings (bert-large)                        | +12%.   | +690% (7.9x)
-|NerDLModel                                                     | +185% | +327% (4.2x)  
+|NerDLModel                                                     | +185% | +327% (4.2x)
 
 Breaking changes
 
-There are only 6 annotators that are not compatible to be used with both Scala 2.11 (Apache Spark 2.3 and Apache Spark 2.4) and Scala 2.12 (Apache Spark 3.x) at the same time. You can either train and use them on Apache Spark 2.3.x/2.4.x or train and use them on Apache Spark 3.x. 
+There are only 6 annotators that are not compatible to be used with both Scala 2.11 (Apache Spark 2.3 and Apache Spark 2.4) and Scala 2.12 (Apache Spark 3.x) at the same time. You can either train and use them on Apache Spark 2.3.x/2.4.x or train and use them on Apache Spark 3.x.
 
 - TokenizerModel
 - PerceptronApproach (POS Tagger)
@@ -2988,7 +2988,7 @@ Enhancements
 
 Models and Pipelines
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | NerDLModel  | [bengali_cc_300d](https://nlp.johnsnowlabs.com/2021/02/10/bengaliner_cc_300d_bn.html) | 2.7.3 |  `bn`
 | WordEmbeddingsModel  | [bengaliner_cc_300d](https://nlp.johnsnowlabs.com/2021/02/10/bengali_cc_300d_bn.html) | 2.7.3 |  `bn`
@@ -2997,7 +2997,7 @@ Models and Pipelines
 
 The complete list of all 1100+ models & pipelines in 192+ languages is available on [Models Hub](https://nlp.johnsnowlabs.com/models).
 
-Compatibility 
+Compatibility
 
 Starting today, we have moved all of the Fat JARs hosted on our S3 to the `auxdata.johnsnowlabs.com/public/jars/` location. We have also fixed the links in the previous releases.
 
@@ -3140,14 +3140,14 @@ This release comes with support for Bengali Named Entity Recognition and Hindi W
 
 **New Bengali and Hindi Models:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | NerDLModel  | [ner_jifs_glove_840B_300d](https://nlp.johnsnowlabs.com/2021/01/27/ner_jifs_glove_840B_300d_bn.html) | 2.7.0 |      `bn`
 | WordEmbeddingsModel  | [hindi_cc_300d](https://nlp.johnsnowlabs.com/2021/02/03/hindi_cc_300d_hi.html) | 2.7.0 |      `hi`
 
 **New Transformer-based OntoNotes Models & Pipelines:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | NerDLModel  | [onto_small_bert_L2_128](https://nlp.johnsnowlabs.com/2020/12/05/onto_small_bert_L2_128_en.html) | 2.7.0 |      `en`
 | NerDLModel  | [onto_small_bert_L4_256](https://nlp.johnsnowlabs.com/2020/12/05/onto_small_bert_L4_256_en.html) | 2.7.0 |      `en`
@@ -3159,7 +3159,7 @@ This release comes with support for Bengali Named Entity Recognition and Hindi W
 | NerDLModel  | [onto_electra_base_uncased](https://nlp.johnsnowlabs.com/2020/12/05/onto_electra_base_uncased_en.html) | 2.7.0 |      `en`
 | NerDLModel  | [onto_electra_large_uncased](https://nlp.johnsnowlabs.com/2020/12/05/onto_electra_large_uncased_en.html) | 2.7.0 |      `en`
 
-| Pipeline               | Build            | Lang |  
+| Pipeline               | Build            | Lang |
 |:-----------------------------|:-----------------|:------|
 [onto_recognize_entities_bert_tiny](https://nlp.johnsnowlabs.com/2020/12/09/onto_recognize_entities_bert_tiny_en.html) | 2.7.0 |      `en`
 [onto_recognize_entities_bert_mini](https://nlp.johnsnowlabs.com/2020/12/09/onto_recognize_entities_bert_mini_en.html) | 2.7.0 |      `en`
@@ -3313,11 +3313,11 @@ Enhancements
 
 Models and Pipelines
 
-The 2.7.x release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users. 
+The 2.7.x release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users.
 
 **New Text Classifier models:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | SentimentDLModel  | [sentimentdl_glove_imdb](https://nlp.johnsnowlabs.com/2021/01/09/sentimentdl_glove_imdb_en.html) | 2.7.1 |      `en`
 | SentimentDLModel  | [sentimentdl_use_imdb](https://nlp.johnsnowlabs.com/2021/01/15/sentimentdl_use_imdb_en.html) | 2.7.1 |      `en`
@@ -3334,7 +3334,7 @@ The 2.7.x release comes with over 720+ new pretrained models and pipelines avail
 **New Multi-lingual models:**
 Some of the new models for Amharic, Bengali, Bhojpuri, Japanese, and Korean languages
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | SentimentDLModel  | [sentiment_jager_use](https://nlp.johnsnowlabs.com/2021/01/14/sentiment_jager_use_th.html) | 2.7.1 |      `th`
 | SentimentDLModel | [sentimentdl_urduvec_imdb](https://nlp.johnsnowlabs.com/2021/01/09/sentimentdl_urduvec_imdb_ur.html) | 2.7.1 |      `ur`
@@ -3491,11 +3491,11 @@ Backward compatibility
 
 Models and Pipelines
 
-The 2.7.x release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users. 
+The 2.7.x release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users.
 
 **New optimized T5 models:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | T5Transformer           | [t5_small](https://nlp.johnsnowlabs.com/2021/01/08/t5_small_en.html) | 2.7.1 |      `en`
 | T5Transformer           | [t5_base](https://nlp.johnsnowlabs.com/2021/01/08/t5_base_en.html) | 2.7.1 |      `en`
@@ -3503,7 +3503,7 @@ The 2.7.x release comes with over 720+ new pretrained models and pipelines avail
 
 **Question classification of open-domain and fact-based questions:**
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | ClassifierDL           | [classifierdl_use_trec6](https://nlp.johnsnowlabs.com/2021/01/08/classifierdl_use_trec6_en.html) | 2.7.1 |      `en`
 | ClassifierDL           | [classifierdl_use_trec50](https://nlp.johnsnowlabs.com/2021/01/08/classifierdl_use_trec50_en.html) | 2.7.1 |      `en`
@@ -3630,7 +3630,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp-spark23-gpu_2.11:2.7.1
 
 Overview
 
-We are very excited to release Spark NLP 2.7.0! This has been one of the biggest releases we have ever done that we are so proud to share it with our community! 
+We are very excited to release Spark NLP 2.7.0! This has been one of the biggest releases we have ever done that we are so proud to share it with our community!
 
 In this release, we are bringing support to state-of-the-art Seq2Seq and Text2Text transformers. We have developed annotators for Google T5 (Text-To-Text Transfer Transformer) and MarianMNT for Neural Machine Translation with over 646 pretrained models and pipelines.
 
@@ -3664,11 +3664,11 @@ Bugfixes and Enhancements
 
 Models and Pipelines
 
-The 2.7.0 release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users. 
+The 2.7.0 release comes with over 720+ new pretrained models and pipelines available for Windows, Linux, and macOS users.
 
 Selected T5 and Marian models
 
-| Model                | Name               | Build            | Lang |  
+| Model                | Name               | Build            | Lang |
 |:---------------------|:-------------------|:-----------------|:------|
 | T5Transformer           | `google_t5_small_ssm_nq` | 2.7.0 |      `en`
 | T5Transformer           | `t5_small`         | 2.7.0 |      `en`
@@ -3775,37 +3775,37 @@ Selected T5 and Marian models
 
 Chinese models
 
-| Models                        | Name               | Build            | Lang |  
+| Models                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-|   WordSegmenterModel  | `wordseg_weibo`  | 2.7.0 |   `zh` 
-|   WordSegmenterModel  | `wordseg_pku`  | 2.7.0 |   `zh` 
-|   WordSegmenterModel  | `wordseg_msra`  | 2.7.0 |   `zh` 
-|   WordSegmenterModel  | `wordseg_large`  | 2.7.0 |   `zh` 
-|   WordSegmenterModel  | `wordseg_ctb9`  | 2.7.0 |   `zh` 
-|   PerceptronModel  | `pos_ud_gsd`  | 2.7.0 |   `zh` 
-|   PerceptronModel  | `pos_ctb9`  | 2.7.0 |   `zh` 
-|   NerDLModel  | `ner_msra_bert_768d`  | 2.7.0 |   `zh` 
-|   NerDLModel  | `ner_weibo_bert_768d`  | 2.7.0 |   `zh` 
+|   WordSegmenterModel  | `wordseg_weibo`  | 2.7.0 |   `zh`
+|   WordSegmenterModel  | `wordseg_pku`  | 2.7.0 |   `zh`
+|   WordSegmenterModel  | `wordseg_msra`  | 2.7.0 |   `zh`
+|   WordSegmenterModel  | `wordseg_large`  | 2.7.0 |   `zh`
+|   WordSegmenterModel  | `wordseg_ctb9`  | 2.7.0 |   `zh`
+|   PerceptronModel  | `pos_ud_gsd`  | 2.7.0 |   `zh`
+|   PerceptronModel  | `pos_ctb9`  | 2.7.0 |   `zh`
+|   NerDLModel  | `ner_msra_bert_768d`  | 2.7.0 |   `zh`
+|   NerDLModel  | `ner_weibo_bert_768d`  | 2.7.0 |   `zh`
 
 Arabic models
 
-| Models                        | Name               | Build            | Lang |  
+| Models                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-|   StopWordsCleaner  | `stopwords_ar`  | 2.7.0 |   `ar` 
-|   LemmatizerModel  | `lemma`  | 2.7.0 |   `ar` 
-|   PerceptronModel  | `pos_ud_padt`  | 2.7.0 |   `ar` 
-|   WordEmbeddingsModel  | `arabic_w2v_cc_300d`  | 2.7.0 |   `ar` 
-|   NerDLModel  | `aner_cc_300d`  | 2.7.0 |   `ar` 
+|   StopWordsCleaner  | `stopwords_ar`  | 2.7.0 |   `ar`
+|   LemmatizerModel  | `lemma`  | 2.7.0 |   `ar`
+|   PerceptronModel  | `pos_ud_padt`  | 2.7.0 |   `ar`
+|   WordEmbeddingsModel  | `arabic_w2v_cc_300d`  | 2.7.0 |   `ar`
+|   NerDLModel  | `aner_cc_300d`  | 2.7.0 |   `ar`
 
 Persian models
 
-| Models                        | Name               | Build            | Lang |  
+| Models                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-|   StopWordsCleaner  | `stopwords_fa`  | 2.7.0 |   `fa` 
-|   LemmatizerModel  | `lemma`  | 2.7.0 |   `fa` 
-|   PerceptronModel  | `pos_ud_perdt`  | 2.7.0 |   `fa` 
-|   WordEmbeddingsModel  | `persian_w2v_cc_300d`  | 2.7.0 |   `fa` 
-|   NerDLModel  | `personer_cc_300d`  | 2.7.0 |   `fa` 
+|   StopWordsCleaner  | `stopwords_fa`  | 2.7.0 |   `fa`
+|   LemmatizerModel  | `lemma`  | 2.7.0 |   `fa`
+|   PerceptronModel  | `pos_ud_perdt`  | 2.7.0 |   `fa`
+|   WordEmbeddingsModel  | `persian_w2v_cc_300d`  | 2.7.0 |   `fa`
+|   NerDLModel  | `personer_cc_300d`  | 2.7.0 |   `fa`
 
 The complete list of all 1100+ models & pipelines in 192+ languages is available on [Models Hub](https://nlp.johnsnowlabs.com/models).
 
@@ -4174,7 +4174,7 @@ Overview
 
 We are glad to release Spark NLP 2.6.3! This release comes with a refactored NerDLApproach that allows users to train their NerDL on any size of the CoNLL file regardless of the memory limitations. We also have some bug fixes and improvements in the 2.6.3 release.
 
-Spark NLP has a new and improved [Website](https://nlp.johnsnowlabs.com/) for its documentation and models. We have been moving our 330+ pretrained models and pipelines into [Models Hubs](https://nlp.johnsnowlabs.com/models) and we would appreciate your feedback! :) 
+Spark NLP has a new and improved [Website](https://nlp.johnsnowlabs.com/) for its documentation and models. We have been moving our 330+ pretrained models and pipelines into [Models Hubs](https://nlp.johnsnowlabs.com/models) and we would appreciate your feedback! :)
 
 As always, we would like to thank our community for their feedback, questions, and feature requests.
 
@@ -4309,7 +4309,7 @@ Overview
 
 We are glad to release Spark NLP 2.6.2! This release comes with a brand new SentenceDetectorDL (SDDL) that is based on a general-purpose neural network model for sentence boundary detection with higher accuracy. In addition, we are releasing 12 new and improved BioBERT models for BertEmbeddings and BertSentenceEembeddings used for sequence and text classifications.
 
-Spark NLP has a new and improved [Website](https://nlp.johnsnowlabs.com/) for its documentation and models. We have been moving our 330+ pretrained models and pipelines into [Models Hubs](https://nlp.johnsnowlabs.com/models) and we would appreciate your feedback! :) 
+Spark NLP has a new and improved [Website](https://nlp.johnsnowlabs.com/) for its documentation and models. We have been moving our 330+ pretrained models and pipelines into [Models Hubs](https://nlp.johnsnowlabs.com/models) and we would appreciate your feedback! :)
 
 As always, we would like to thank our community for their feedback, questions, and feature requests.
 
@@ -4337,16 +4337,16 @@ Deprecations
 
 Models
 
-| Model                        | Name               | Build            | Lang |  
+| Model                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-| BertEmbeddings                    | `biobert_pubmed_base_cased`        | 2.6.2 |      `en`         | 
+| BertEmbeddings                    | `biobert_pubmed_base_cased`        | 2.6.2 |      `en`         |
 | BertEmbeddings                    | `biobert_pubmed_large_cased`        | 2.6.2 |      `en`        |
-| BertEmbeddings                    | `biobert_pmc_base_cased`        | 2.6.2 |      `en`            | 
+| BertEmbeddings                    | `biobert_pmc_base_cased`        | 2.6.2 |      `en`            |
 | BertEmbeddings                    | `biobert_pubmed_pmc_base_cased`        | 2.6.2 |      `en`     |
-| BertEmbeddings                    | `biobert_clinical_base_cased`        | 2.6.2 |      `en`       | 
+| BertEmbeddings                    | `biobert_clinical_base_cased`        | 2.6.2 |      `en`       |
 | BertEmbeddings                    | `biobert_discharge_base_cased`        | 2.6.2 |      `en`      |
-| BertSentenceEmbeddings   | `sent_biobert_pubmed_base_cased`        | 2.6.2 |      `en`         | 
-| BertSentenceEmbeddings   | `sent_biobert_pubmed_large_cased`        | 2.6.2 |      `en`        | 
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_base_cased`        | 2.6.2 |      `en`         |
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_large_cased`        | 2.6.2 |      `en`        |
 | BertSentenceEmbeddings   | `sent_biobert_pmc_base_cased`        | 2.6.2 |      `en`            |
 | BertSentenceEmbeddings   | `sent_biobert_pubmed_pmc_base_cased`        | 2.6.0 |      `en`     |
 | BertSentenceEmbeddings   | `sent_biobert_clinical_base_cased`        | 2.6.2 |      `en`       |
@@ -4475,10 +4475,10 @@ Bugfixes
 
 Models and Pipelines
 
-| Model                        | Name               | Build            | Lang |  
+| Model                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings                    | `bert_portuguese_base_cased`       | 2.6.0 |      `pt`
-| BertEmbeddings                    | `bert_portuguese_large_cased`       | 2.6.0 |      `pt` 
+| BertEmbeddings                    | `bert_portuguese_large_cased`       | 2.6.0 |      `pt`
 
 The complete list of all 330+ models & pipelines in 46+ languages is [available here](https://github.com/JohnSnowLabs/spark-nlp-models/).
 
@@ -4605,7 +4605,7 @@ Major features and improvements
 * **NEW:** A new BertSentenceEmbeddings annotator with 42 available pre-trained models for sentence embeddings used in SentimentDL, ClassifierDL, and MultiClassifierDL annotators
 * **NEW:** A new YakeModel annotator for an unsupervised, corpus-independent, domain, and language-independent and single-document keyword extraction algorithm
 * **NEW:** Integrate 24 new Small BERT models where the smallest model is 24x times smaller and 28x times faster compare to BERT base models
-* **NEW:** Add 3 new ELECTRA small, base, and large models 
+* **NEW:** Add 3 new ELECTRA small, base, and large models
 * **NEW:** Add 4 new Finnish BERT models for BertEmbeddings and BertSentenceEmbeddings
 * Improve BertEmbeddings memory consumption by 30%
 * Improve BertEmbeddings performance by more than 70% with a new built-in dynamic shape inputs
@@ -4623,96 +4623,96 @@ Bugfixes
 
 Models and Pipelines
 
-This release comes with over 100+ new pretrained models and pipelines available for Windows, Linux, and macOS users. 
+This release comes with over 100+ new pretrained models and pipelines available for Windows, Linux, and macOS users.
 
 The complete list of all 330+ models & pipelines in 46+ languages is [available here](https://github.com/JohnSnowLabs/spark-nlp-models/).
 
 #### Some selected Transformers:
 
 {:.table-model-big}
-| Model                        | Name               | Build            | Lang |  
+| Model                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
 | BertEmbeddings                    | `electra_small_uncased`       | 2.6.0 |      `en`
-| BertEmbeddings                    | `electra_base_uncased`       | 2.6.0 |      `en` 
+| BertEmbeddings                    | `electra_base_uncased`       | 2.6.0 |      `en`
 | BertEmbeddings                    | `electra_large_uncased`       | 2.6.0 |      `en`
 | BertEmbeddings                    | `covidbert_large_uncased`        | 2.6.0 |      `en`
-| BertEmbeddings                    | `small_bert_L2_128`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L4_128`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L6_128`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L8_128`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L10_128`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L12_128`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L2_256`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L4_256`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L6_256`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L8_256`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L10_256`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L12_256`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L2_512`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L4_512`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L6_512`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L8_512`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L10_512`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L12_512`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L2_768`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L4_768`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L6_768`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L8_768`        | 2.6.0 |      `en`      
-| BertEmbeddings                    | `small_bert_L10_768`        | 2.6.0 |      `en`     
-| BertEmbeddings                    | `small_bert_L12_768`        | 2.6.0 |      `en` 
-| BertEmbeddings   | `bert_finnish_cased`       | 2.6.0 |      `fi`      
-| BertEmbeddings   | `bert_finnish_uncased`       | 2.6.0 |      `fi`    
+| BertEmbeddings                    | `small_bert_L2_128`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L4_128`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L6_128`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L8_128`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L10_128`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L12_128`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L2_256`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L4_256`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L6_256`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L8_256`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L10_256`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L12_256`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L2_512`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L4_512`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L6_512`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L8_512`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L10_512`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L12_512`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L2_768`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L4_768`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L6_768`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L8_768`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L10_768`        | 2.6.0 |      `en`
+| BertEmbeddings                    | `small_bert_L12_768`        | 2.6.0 |      `en`
+| BertEmbeddings   | `bert_finnish_cased`       | 2.6.0 |      `fi`
+| BertEmbeddings   | `bert_finnish_uncased`       | 2.6.0 |      `fi`
 | BertSentenceEmbeddings   | `sent_bert_finnish_cased`       | 2.6.0 |   `fi`
 | BertSentenceEmbeddings   | `sent_bert_finnish_uncased`       | 2.6.0 | `fi`
-| BertSentenceEmbeddings   | `sent_electra_small_uncased`       | 2.6.0 |      `en`    
-| BertSentenceEmbeddings   | `sent_electra_base_uncased`         | 2.6.0 |      `en`        
-| BertSentenceEmbeddings   | `sent_electra_large_uncased`      | 2.6.0 |      `en`          
-| BertSentenceEmbeddings   | `sent_bert_base_uncased`       | 2.6.0 |      `en`             
-| BertSentenceEmbeddings   | `sent_bert_base_cased`         | 2.6.0 |      `en`             
-| BertSentenceEmbeddings   | `sent_bert_large_uncased`      | 2.6.0 |      `en`             
-| BertSentenceEmbeddings   | `sent_bert_large_cased`        | 2.6.0 |      `en`             
-| BertSentenceEmbeddings   | `sent_biobert_pubmed_base_cased`        | 2.6.0 |      `en`    
-| BertSentenceEmbeddings   | `sent_biobert_pubmed_large_cased`        | 2.6.0 |      `en`   
-| BertSentenceEmbeddings   | `sent_biobert_pmc_base_cased`        | 2.6.0 |      `en`       
+| BertSentenceEmbeddings   | `sent_electra_small_uncased`       | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_electra_base_uncased`         | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_electra_large_uncased`      | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_bert_base_uncased`       | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_bert_base_cased`         | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_bert_large_uncased`      | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_bert_large_cased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_base_cased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_biobert_pubmed_large_cased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_biobert_pmc_base_cased`        | 2.6.0 |      `en`
 | BertSentenceEmbeddings   | `sent_biobert_pubmed_pmc_base_cased`        | 2.6.0 |      `en`
-| BertSentenceEmbeddings   | `sent_biobert_clinical_base_cased`        | 2.6.0 |      `en`  
-| BertSentenceEmbeddings   | `sent_biobert_discharge_base_cased`        | 2.6.0 |      `en` 
-| BertSentenceEmbeddings   | `sent_covidbert_large_uncased`        | 2.6.0 |      `en`      
-| BertSentenceEmbeddings   | `sent_small_bert_L2_128`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L4_128`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L6_128`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L8_128`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L10_128`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L12_128`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L2_256`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L4_256`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L6_256`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L8_256`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L10_256`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L12_256`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L2_512`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L4_512`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L6_512`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L8_512`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L10_512`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L12_512`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L2_768`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L4_768`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L6_768`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L8_768`        | 2.6.0 |      `en`            
-| BertSentenceEmbeddings   | `sent_small_bert_L10_768`        | 2.6.0 |      `en`           
-| BertSentenceEmbeddings   | `sent_small_bert_L12_768`        | 2.6.0 |      `en`    
-| BertSentenceEmbeddings | `sent_bert_multi_cased` | 2.6.0 |   `xx`   
-| BertSentenceEmbeddings | `labse` | 2.6.0 |   `xx`  
+| BertSentenceEmbeddings   | `sent_biobert_clinical_base_cased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_biobert_discharge_base_cased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_covidbert_large_uncased`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L2_128`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L4_128`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L6_128`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L8_128`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L10_128`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L12_128`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L2_256`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L4_256`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L6_256`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L8_256`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L10_256`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L12_256`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L2_512`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L4_512`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L6_512`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L8_512`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L10_512`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L12_512`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L2_768`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L4_768`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L6_768`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L8_768`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L10_768`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings   | `sent_small_bert_L12_768`        | 2.6.0 |      `en`
+| BertSentenceEmbeddings | `sent_bert_multi_cased` | 2.6.0 |   `xx`
+| BertSentenceEmbeddings | `labse` | 2.6.0 |   `xx`
 
 #### Danish pipelines
 
 {:.table-model-big}
-| Pipeline                        | Name               | Build            | Lang |  
+| Pipeline                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `da` 
-| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `da` 
-| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `da` 
+| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `da`
+| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `da`
+| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `da`
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.6.0 |   `da`
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.6.0 |   `da`
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.6.0 |   `da`
@@ -4720,11 +4720,11 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 #### Finnish pipelines
 
 {:.table-model-big}
-| Pipeline                        | Name               | Build            | Lang |  
+| Pipeline                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `fi` 
-| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `fi` 
-| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `fi` 
+| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `fi`
+| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `fi`
+| Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `fi`
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.6.0 |   `fi`
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.6.0 |   `fi`
 | Entity Recognizer Large   | `entity_recognizer_lg`  | 2.6.0 |   `fi`
@@ -4732,10 +4732,10 @@ The complete list of all 330+ models & pipelines in 46+ languages is [available 
 #### Swedish pipelines
 
 {:.table-model-big}
-| Pipeline                        | Name               | Build            | Lang |  
+| Pipeline                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `sv` 
-| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `sv` 
+| Explain Document Small    | `explain_document_sm`  | 2.6.0 |   `sv`
+| Explain Document Medium   | `explain_document_md`  | 2.6.0 |   `sv`
 | Explain Document Large    | `explain_document_lg`  | 2.6.0 |   `sv`
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.6.0 |   `sv`
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.6.0 |   `sv`
@@ -4886,36 +4886,36 @@ Models
 * We have added 28 new pretrained models for Lemma and POS in 14 languages:
 
 {:.table-model-big}
-| Model                        | Name               | Build            | Lang |  
+| Model                        | Name               | Build            | Lang |
 |:-----------------------------|:-------------------|:-----------------|:------|
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `br`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `ca`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `da`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `ga`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `hi`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `hy`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `eu`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `mr`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `yo`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `la`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `lv`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `sl`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `gl`    
-| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `id`    
-| PerceptronModel (POS UD) | `pos_ud_keb`            | 2.5.5 |   `br`    
-| PerceptronModel (POS UD) | `pos_ud_ancora`            | 2.5.5 |   `ca`    
-| PerceptronModel (POS UD) | `pos_ud_ddt`            | 2.5.5 |   `da`    
-| PerceptronModel (POS UD) | `pos_ud_idt`            | 2.5.5 |   `ga`    
-| PerceptronModel (POS UD) | `pos_ud_hdtb`            | 2.5.5 |   `hi`    
-| PerceptronModel (POS UD) | `pos_ud_armtdp`            | 2.5.5 |   `hy`    
-| PerceptronModel (POS UD) | `pos_ud_bdt`            | 2.5.5 |   `eu`    
-| PerceptronModel (POS UD) | `pos_ud_ufal`            | 2.5.5 |   `mr`    
-| PerceptronModel (POS UD) | `pos_ud_ytb`            | 2.5.5 |   `yo`    
-| PerceptronModel (POS UD) | `pos_ud_llct`            | 2.5.5 |   `la`    
-| PerceptronModel (POS UD) | `pos_ud_lvtb`            | 2.5.5 |   `lv`    
-| PerceptronModel (POS UD) | `pos_ud_ssj`            | 2.5.5 |   `sl`    
-| PerceptronModel (POS UD) | `pos_ud_treegal`            | 2.5.5 |   `gl`    
-| PerceptronModel (POS UD) | `pos_ud_gsd`            | 2.5.5 |   `id`    
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `br`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `ca`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `da`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `ga`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `hi`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `hy`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `eu`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `mr`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `yo`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `la`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `lv`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `sl`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `gl`
+| LemmatizerModel (Lemmatizer) | `lemma`            | 2.5.5 |   `id`
+| PerceptronModel (POS UD) | `pos_ud_keb`            | 2.5.5 |   `br`
+| PerceptronModel (POS UD) | `pos_ud_ancora`            | 2.5.5 |   `ca`
+| PerceptronModel (POS UD) | `pos_ud_ddt`            | 2.5.5 |   `da`
+| PerceptronModel (POS UD) | `pos_ud_idt`            | 2.5.5 |   `ga`
+| PerceptronModel (POS UD) | `pos_ud_hdtb`            | 2.5.5 |   `hi`
+| PerceptronModel (POS UD) | `pos_ud_armtdp`            | 2.5.5 |   `hy`
+| PerceptronModel (POS UD) | `pos_ud_bdt`            | 2.5.5 |   `eu`
+| PerceptronModel (POS UD) | `pos_ud_ufal`            | 2.5.5 |   `mr`
+| PerceptronModel (POS UD) | `pos_ud_ytb`            | 2.5.5 |   `yo`
+| PerceptronModel (POS UD) | `pos_ud_llct`            | 2.5.5 |   `la`
+| PerceptronModel (POS UD) | `pos_ud_lvtb`            | 2.5.5 |   `lv`
+| PerceptronModel (POS UD) | `pos_ud_ssj`            | 2.5.5 |   `sl`
+| PerceptronModel (POS UD) | `pos_ud_treegal`            | 2.5.5 |   `gl`
+| PerceptronModel (POS UD) | `pos_ud_gsd`            | 2.5.5 |   `id`
 
 Languages: Armenian, Basque, Breton, Catalan, Danish, Galician, Hindi, Indonesian, Irish, Latin, Latvian, Marathi, Slovenian, Yoruba
 
@@ -5051,7 +5051,7 @@ New Features
 
 Enhancements
 
-* Retrained 6 new BioBERT and ClinicalBERT models 
+* Retrained 6 new BioBERT and ClinicalBERT models
 * Add a new param `spark23` to `start()` function to start the session for Apache Spark 2.3.x
 
 Bugfixes
@@ -5402,7 +5402,7 @@ As always, we thank our community for their feedback and questions in our Slack 
 
 New Features
 
-* Add Python support for PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame 
+* Add Python support for PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame
 * Add 6 new pre-trained BERT models from BioBERT and ClinicalBERT
 
 Models
@@ -5489,7 +5489,7 @@ Major features and improvements
 
 * **NEW:** A new AlbertEmbeddings annotator with 4 available pre-trained models
 * **NEW:** A new XlnetEmbeddings annotator with 2 available pre-trained models
-* **NEW:** A new ContextSpellChecker annotator, the state-of-the-art annotator for spell checking 
+* **NEW:** A new ContextSpellChecker annotator, the state-of-the-art annotator for spell checking
 * **NEW:** A new SentimentDL annotator for multi-class sentiment analysis. This annotator comes with 2 available pre-trained models trained on IMDB and Twitter datasets
 * **NEW:** Support for 14 new languages with 80+ pretrained models and pipelines!
 * Add new PubTator reader to convert automatic annotations of the biomedical datasets into DataFrame
@@ -5506,7 +5506,7 @@ Bugfixes
 
 Models and Pipelines
 
-Spark NLP `2.5.0` comes with 87 new pretrained models and pipelines in 14 new languages available for all Windows, Linux, and macOS users. We added new languages such as Dutch, Norwegian. Polish, Portuguese, Bulgarian, Czech, Greek, Finnish, Hungarian, Romanian, Slovak, Swedish, Turkish, and Ukrainian. 
+Spark NLP `2.5.0` comes with 87 new pretrained models and pipelines in 14 new languages available for all Windows, Linux, and macOS users. We added new languages such as Dutch, Norwegian. Polish, Portuguese, Bulgarian, Czech, Greek, Finnish, Hungarian, Romanian, Slovak, Swedish, Turkish, and Ukrainian.
 
 The complete list of 160+ models & pipelines in 22+ languages is [available here](https://github.com/JohnSnowLabs/spark-nlp-models/).
 
@@ -5522,7 +5522,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 | Explain Document Large    | `explain_document_lg`  | 2.5.0 |   `nl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_nl_2.5.0_2.4_1588612556770.zip)  |
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `nl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_nl_2.5.0_2.4_1588546655907.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `nl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_nl_2.5.0_2.4_1588546645304.zip)  |
-| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `nl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_nl_2.5.0_2.4_1588612569958.zip)  |  
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `nl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_nl_2.5.0_2.4_1588612569958.zip)  |
 
 **Norwegian - Pipelines**
 
@@ -5534,7 +5534,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 | Explain Document Large    | `explain_document_lg`  | 2.5.0 |   `no` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_no_2.5.0_2.4_1588782610672.zip)  |
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `no` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_no_2.5.0_2.4_1588794567766.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `no` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_no_2.5.0_2.4_1588794357614.zip)  |
-| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `no` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_no_2.5.0_2.4_1588793261642.zip)  |  
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `no` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_no_2.5.0_2.4_1588793261642.zip)  |
 
 **Polish - Pipelines**
 
@@ -5546,7 +5546,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 | Explain Document Large    | `explain_document_lg`  | 2.5.0 |   `pl` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_pl_2.5.0_2.4_1588529695577.zip)  |
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pl_2.5.0_2.4_1588532616080.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pl_2.5.0_2.4_1588532376753.zip)  |
-| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pl_2.5.0_2.4_1588531171903.zip)  |  
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pl` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pl_2.5.0_2.4_1588531171903.zip)  |
 
 **Portuguese - Pipelines**
 
@@ -5558,7 +5558,7 @@ The complete list of 160+ models & pipelines in 22+ languages is [available here
 | Explain Document Large    | `explain_document_lg`  | 2.5.0 |   `pt` |           | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_lg_pt_2.5.0_2.4_1588500056427.zip)  |
 | Entity Recognizer Small   | `entity_recognizer_sm`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_sm_pt_2.5.0_2.4_1588502815900.zip)  |
 | Entity Recognizer Medium  | `entity_recognizer_md`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_md_pt_2.5.0_2.4_1588502606198.zip)  |
-| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pt_2.5.0_2.4_1588501526324.zip)  |  
+| Entity Recognizer Large   | `entity_recognizer_lg`  | 2.5.0 |   `pt` |          | [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/entity_recognizer_lg_pt_2.5.0_2.4_1588501526324.zip)  |
 
 Documentation
 
@@ -5691,7 +5691,7 @@ Overview
 * We are also happy to announce the support of yet another language: Russian! We have trained and prepared 5 pre-trained models and 6 pre-trained pipelines in Russian.
 
 **NOTE**: ClassifierDL is an experimental feature in 2.4.4 before it becomes stable in 2.4.5 release. We have worked hard to aim for simplicity and we are looking forward to your feedback as always.
-We will add more examples by the upcoming days: 
+We will add more examples by the upcoming days:
 
 Examples: [Python](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/classification) and [Scala](https://johnsnowlabs.github.io/spark-nlp-workshop/databricks/index.html#training/3-%20Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.html)
 
@@ -5890,7 +5890,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.11:2.4.3
 
 Overview
 
-This minor release fixes a few bugs in some of our annotators reported by our community. 
+This minor release fixes a few bugs in some of our annotators reported by our community.
 As always, we thank our community for their feedback and questions in our Slack channel.
 
 Bugfixes
@@ -6063,7 +6063,7 @@ Major features and improvements
 * **NEW:** TensorFlow 1.15.0 now works behind Spark NLP. This brings implicit improvements in performance, accuracy, and functionalities
 * **NEW:** UniversalSentenceEncoder annotator with 2 pre-trained models from TF Hub
 * **NEW:** ElmoEmbeddings with a pre-trained model from TF Hub
-* **NEW:** All our pre-trained models are now cross-platform! 
+* **NEW:** All our pre-trained models are now cross-platform!
 * **NEW:** For the first time, all the multi-lingual models and pipelines are available for Windows users (French, German and Italian)
 * **NEW:** MultiDateMatcher capable of matching more than one date per sentence (Extends DateMatcher algorithm)
 * **NEW:** BigTextMatcher works best with large amounts of input data
@@ -6125,7 +6125,7 @@ from sparknlp.pretrained import PretrainedPipeline
 import sparknlp
 
 # Start Spark Session with Spark NLP
-# If you already have a SparkSession (Zeppelin, Databricks, etc.) 
+# If you already have a SparkSession (Zeppelin, Databricks, etc.)
 # you can skip this
 spark = sparknlp.start()
 
@@ -6139,7 +6139,7 @@ Emmanuel Jean-Michel Frédéric Macron est le fils de Jean-Michel Macron, né en
 
 # Annotate your testing dataset
 result = pipeline.annotate(text)
- 
+
 # What's in the pipeline
 list(result.keys())
 # result:
