@@ -39,7 +39,7 @@ licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
-sonatypeProfileName := "com.johnsnowlabs"
+sonatypeProfileName := "com.johnsnowlabs.nlp"
 
 publishTo := sonatypePublishToBundle.value
 
