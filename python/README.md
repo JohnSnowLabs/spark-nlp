@@ -197,7 +197,7 @@ For more examples, you can visit our dedicated [repository](https://github.com/J
 
 ## Apache Spark Support
 
-Spark NLP *3.4.0* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x and Apache Spark 2.4.x:
+Spark NLP *3.4.0* has been built on top of Apache Spark 3.x while fully supports Apache Spark 2.3.x, 2.4.x, 3.0.x, 3.1.x, and 3.2.x:
 
 | Spark NLP   | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x |
 |-------------|----------------|-------------|-------------|-------------|-------------|
@@ -216,8 +216,6 @@ Spark NLP *3.4.0* has been built on top of Apache Spark 3.x while fully supports
 | 1.5.x       |YES             |NO           |NO           |NO           |NO           |
 
 - Starting 3.0.0 release, the default `spark-nlp` and `spark-nlp-gpu` pacakges are based on Scala 2.12 and Apache Spark 3.x by default.
-
-- Starting the 3.0.0 release, we support all major releases of Apache Spark 2.3.x, Apache Spark 2.4.x, Apache Spark 3.0.x, Apache Spark 3.1.x, and Apache Spark 3.2.x
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
