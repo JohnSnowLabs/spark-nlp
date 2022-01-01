@@ -35,35 +35,87 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+document_assembler = DocumentAssembler()\
       .setInputCol("text")\
-      .setOutputCol("ner_chunk")
+      .setOutputCol("document")
 
+sentence_detector = SentenceDetectorDLModel.pretrained()\
+      .setInputCols(["document"])\
+      .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+      .setInputCols(["sentence"])\
+      .setOutputCol("token")\
+
+word_embeddings = WordEmbeddingsModel\
+      .pretrained("embeddings_clinical", "en", "clinical/models")\
+      .setInputCols(["sentence", "token"])\
+      .setOutputCol("embeddings")
+
+posology_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/models") \
+      .setInputCols(["sentence", "token", "embeddings"]) \
+      .setOutputCol("ner")
+
+ner_converter = NerConverter() \
+      .setInputCols(["sentence", "token", "ner"]) \
+      .setOutputCol("ner_chunk")\
+      .setWhiteList(["DRUG"])
+
+chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
+ 
 sbert_embedder = BertSentenceEmbeddings\
-      .pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-      .setInputCols(["ner_chunk"])\
+      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
+      .setInputCols(["ner_chunk_doc"])\
       .setOutputCol("sbert_embeddings")
-    
+ 
 rxnorm_resolver = SentenceEntityResolverModel\
-      .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
-      .setInputCols(["ner_chunk", "sbert_embeddings"])\
-      .setOutputCol("rxnorm_code")\
+      .pretrained("sbiobertresolve_rxnorm_augmented","en", "clinical/models") \
+      .setInputCols(["ner_chunk_doc", "sbert_embeddings"]) \
+      .setOutputCol("resolution")\
       .setDistanceFunction("EUCLIDEAN")
-
-rxnorm_pipeline = Pipeline(
-    stages = [
-        documentAssembler,
-        sbert_embedder,
-        rxnorm_resolver])
-
-data = spark.createDataFrame([["She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily, levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily."]]).toDF("text")
-
-results = rxnorm_pipeline.fit(data).transform(data)
+ 
+nlpPipeline = Pipeline(stages=[document_assembler, 
+                              sentence_detector,
+                              tokenizer, 
+                              word_embeddings, 
+                              posology_ner, 
+                              ner_converter, 
+                              chunk2doc, 
+                              sbert_embedder,
+                              rxnorm_resolver])
+ 
+data = spark.createDataFrame([["""She is given Fragmin 5000 units subcutaneously daily , Xenaderm to wounds topically b.i.d., lantus 40 units subcutaneously at bedtime , OxyContin 30 mg p.o.q. , folic acid 1 mg daily , levothyroxine 0.1 mg  p.o. daily , Prevacid 30 mg daily , Avandia 4 mg daily , norvasc 10 mg daily , lexapro 20 mg daily , aspirin 81 mg daily , Neurontin 400 mg ."""]]).toDF("text")
+ 
+results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val document_assembler = DocumentAssembler()
       .setInputCol("text")
+      .setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+val tokenizer = Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+val word_embeddings = WordEmbeddingsModel
+      .pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("embeddings")
+
+val posology_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/models") 
+      .setInputCols(Array("sentence", "token", "embeddings")) 
+      .setOutputCol("ner")
+
+val ner_converter = NerConverter() 
+      .setInputCols(Array("sentence", "token", "ner")) 
       .setOutputCol("ner_chunk")
+      .setWhiteList(Array("DRUG"))
+
+val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings
       .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
@@ -72,11 +124,11 @@ val sbert_embedder = BertSentenceEmbeddings
     
 val rxnorm_resolver = SentenceEntityResolverModel
       .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+      .setInputCols(Array("ner_chunk_doc", "sbert_embeddings"))
       .setOutputCol("rxnorm_code")
       .setDistanceFunction("EUCLIDEAN")
 
-val rxnorm_pipeline = new Pipeline().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
+val rxnorm_pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector,  tokenizer, word_embeddings, posology_ner, ner_converter, chunk2doc, sbert_embedder, rxnorm_resolver"))
 
 val data = Seq("She is given Fragmin 5000 units subcutaneously daily, Xenaderm to wounds topically b.i.d., OxyContin 30 mg p.o. q.12 h., folic acid 1 mg daily,  levothyroxine 0.1 mg p.o. daily, Prevacid 30 mg daily, Avandia 4 mg daily, aspirin 81 mg daily, Neurontin 400 mg p.o. t.i.d., Percocet 5/325 mg 2 tablets q.4 h. p.r.n., magnesium citrate 1 bottle p.o. p.r.n., sliding scale coverage insulin, Wellbutrin 100 mg p.o. daily.").toDF("text")
 
