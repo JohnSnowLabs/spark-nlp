@@ -51,7 +51,7 @@ ner_converter = NerConverter()\
 
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings, nerdl, ner_converter])
 
-text = """2 star restaurants with inside dining and 5 star resturants are in my town. Besides that, Hong Kong restaurant reasonable prices a great lunch spot but open till 2 am, called Passims Kitchen."""
+text = """Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day."""
 
 data = spark.createDataFrame([[text]]).toDF("text")
 
@@ -74,7 +74,7 @@ val ner_converter = NerConverter()
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, nerdl, ner_converter))
 
-val data = Seq("2 star restaurants with inside dining and 5 star resturants are in my town. Besides that, Hong Kong restaurant reasonable prices a great lunch spot but open till 2 am, called Passims Kitchen.").toDF("text")
+val data = Seq("Hong Kong’s favourite pasta bar also offers one of the most reasonably priced lunch sets in town! With locations spread out all over the territory Sha Tin – Pici’s formidable lunch menu reads like a highlight reel of the restaurant. Choose from starters like the burrata and arugula salad or freshly tossed tuna tartare, and reliable handmade pasta dishes like pappardelle. Finally, round out your effortless Italian meal with a tidy one-pot tiramisu, of course, an espresso to power you through the rest of the day.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -83,18 +83,26 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+---------------+---------------+
-|chunk          |ner_label      |
-+---------------+---------------+
-|2 star         |Rating         |
-|inside dining  |Amenity        |
-|5 star         |Rating         |
-|in my town.    |Location       |
-|Hong Kong      |Restaurant_Name|
-|reasonable     |Price          |
-|open till 2 am |Hours          |
-|Passims Kitchen|Restaurant_Name|
-+---------------+---------------+
++---------------------------+---------------+
+|chunk                      |ner_label      |
++---------------------------+---------------+
+|favourite                  |Rating         |
+|pasta bar                  |Dish           |
+|most reasonably            |Price          |
+|lunch                      |Hours          |
+|in town!                   |Location       |
+|Sha Tin – Pici’s           |Restaurant_Name|
+|burrata                    |Dish           |
+|arugula salad              |Dish           |
+|freshly tossed tuna tartare|Dish           |
+|reliable                   |Price          |
+|handmade pasta             |Dish           |
+|pappardelle                |Dish           |
+|effortless                 |Amenity        |
+|Italian                    |Cuisine        |
+|tidy one-pot               |Amenity        |
+|espresso                   |Dish           |
++---------------------------+---------------+
 ```
 
 {:.model-param}
