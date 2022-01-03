@@ -122,7 +122,7 @@ val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clin
 
 val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter, sentence_chunk_embeddings, abbr_resolver)
 
-val sample_text = Seq("The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991.").toDF('text')
+val sample_text = Seq("The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991.").toDF("text")
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
 </div>
@@ -131,7 +131,7 @@ val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 
 ```bash
 +-------+---------+------+------------------------+-------------------------------------------------------------------------+-----------------+---------------------------------+
-|sent_id|ner_chunk|entity|            abbr_meaning|                                                            all_k_results|all_k_resolutions|                  all_k_distances|
+|sent_id|ner_chunk|entity|            abbr_meaning|                                                            all_k_results|all_k_resolutions|           all_k_cosine_distances|
 +-------+---------+------+------------------------+-------------------------------------------------------------------------+-----------------+---------------------------------+
 |      0|       IR|  ABBR|interventional radiology|interventional radiology:::immediate-release:::(stage) IA:::intraarterial|IR:::IR:::IA:::IA|0.0156:::0.0945:::0.1046:::0.1111|
 +-------+---------+------+------------------------+-------------------------------------------------------------------------+-----------------+---------------------------------+
