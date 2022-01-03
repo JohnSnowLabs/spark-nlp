@@ -293,7 +293,8 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   }
 
   def saveBestModel(): Session = {
-    tensorflow.getTFSession()
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tensorflow.getTFSession()), tensorflow.graph)
+    newWrapper.getTFSession()
   }
 
   def calcStat(tp: Int, fp: Int, fn: Int): (Float, Float, Float) = {
