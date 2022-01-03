@@ -68,7 +68,7 @@ urdu_fake_pipeline = Pipeline(stages=[document_assembler, tokenizer, normalizer,
 
 light_pipeline = LightPipeline(urdu_fake_pipeline.fit(spark.createDataFrame([['']]).toDF("news")))
 
-result = light_pipeline.annotate("پاکستان کے اخبارات روزانہ اس بات کی مثالیں دیتے ہیں کہ کس طرح مصنوعی ذہانت کو ذاتی مقاصد کے لیے استعمال کیا جا سکتا ہے۔")
+result = light_pipeline.annotate("ایک امریکی تھنک ٹینک نے خبردار کیا ہے کہ جیسے جیسے چین مصنوعی ذہانت (آرٹیفیشل انٹیلی جنس) کے میدان میں ترقی کر رہا ہے، دنیا کا اقتصادی اور عسکری توازن تبدیل ہو سکتا ہے۔")
 result["class"]
 ```
 ```scala
@@ -105,14 +105,14 @@ val urdu_fake_pipeline = new Pipeline().setStages(Array(document_assembler, toke
 
 val light_pipeline = LightPipeline(urdu_fake_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-val result = light_pipeline.annotate("پاکستان کے اخبارات روزانہ اس بات کی مثالیں دیتے ہیں کہ کس طرح مصنوعی ذہانت کو ذاتی مقاصد کے لیے استعمال کیا جا سکتا ہے۔")
+val result = light_pipeline.annotate("ایک امریکی تھنک ٹینک نے خبردار کیا ہے کہ جیسے جیسے چین مصنوعی ذہانت (آرٹیفیشل انٹیلی جنس) کے میدان میں ترقی کر رہا ہے، دنیا کا اقتصادی اور عسکری توازن تبدیل ہو سکتا ہے۔")
 ```
 </div>
 
 ## Results
 
 ```bash
-['fake']
+['real']
 ```
 
 {:.model-param}
