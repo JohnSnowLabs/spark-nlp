@@ -46,13 +46,13 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
-        - title: Identify assertion status for image findings of Radiology
+        - title: Assign an assertion status (confirmed, suspected or negative) to Image Findings
           id: identify_assertion_status_image_findings_Radiology  
           image: 
               src: /assets/images/Identify_assertion_status_for_image_findings_of_Radiology.svg
           image2: 
               src: /assets/images/Identify_assertion_status_for_image_findings_of_Radiology_f.svg
-          excerpt: This demo shows how Imaging-Findings in Radiology reports can be detected as confirmed, suspected or negative using Spark NLP Assertion Status model.
+          excerpt: This demo shows how Imaging-Findings in Radiology reports can be detected as confirmed, suspected or negative using a Spark NLP Assertion Status model.
           actions:
           - text: Live Demo
             type: normal
@@ -66,7 +66,7 @@ data:
               src: /assets/images/Identify_relations_between_problems_tests_and_findings.svg
           image2: 
               src: /assets/images/Identify_relations_between_problems_tests_and_findings_f.svg
-          excerpt: This demo shows how relations between problems, tests and findings in radiology reports can be identified using Spark NLP Healthcare model.
+          excerpt: This demo shows how relations between problems, tests and findings in radiology reports can be identified using a Spark NLP RE model.
           actions:
           - text: Live Demo
             type: normal
