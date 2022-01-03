@@ -164,6 +164,8 @@ class Doc2VecModel(override val uid: String)
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
   setDefault(
+    inputCols -> Array(TOKEN),
+    outputCol -> "doc2vec",
     vectorSize -> 100
   )
 
