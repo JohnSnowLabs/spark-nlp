@@ -81,7 +81,7 @@ val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert
     .setOutputCol("sentence_embeddings")
     .setChunkWeight(0.5)
 
-val abbr_resolver = SentenceEntityResolverModel.pretraind("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
+val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
       .setInputCols(Array("merged_chunk", "sentence_embeddings")) 
       .setOutputCol("abbr_meaning")
       .setDistanceFunction("EUCLIDEAN")
