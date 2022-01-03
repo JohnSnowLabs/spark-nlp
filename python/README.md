@@ -164,10 +164,11 @@ from sparknlp.pretrained import PretrainedPipeline
 import sparknlp
 
 # Start SparkSession with Spark NLP
-# start() functions has 4 parameters: gpu, spark23, spark24, and memory
+# start() functions has 5 parameters: gpu, spark23, spark24, spark32, and memory
 # sparknlp.start(gpu=True) will start the session with GPU support
 # sparknlp.start(spark23=True) is when you have Apache Spark 2.3.x installed
 # sparknlp.start(spark24=True) is when you have Apache Spark 2.4.x installed
+# sparknlp.start(spark32=True) is when you have Apache Spark 3.2.x installed
 # sparknlp.start(memory="16G") to change the default driver memory in SparkSession
 spark = sparknlp.start()
 
@@ -324,6 +325,16 @@ Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/Re
 NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.4.0
 
 ## Usage
+
+## Packages Cheatsheet
+
+This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
+
+|ENV| Spark/PySpark 2.3.x | Spark/PySpark 2.4.x | Spark/PySpark 3.0.x/3.1.x | Spark/PySpark 3.2.x |
+|----|----------------|-------------|-------------|-------------|
+|CPU|`spark-nlp-spark23` |`spark-nlp-spark24` |`spark-nlp`|`spark-nlp-spark32`|
+|GPU|`spark-nlp-gpu-spark23` |`spark-nlp-gpu-spark24`|`spark-nlp-gpu`|`spark-nlp-gpu-spark32`|
+|Start Function|`sparknlp.start(spark23=True)`|`sparknlp.start(spark24=True)`|`sparknlp.start()`|`sparknlp.start(spark32=True)`
 
 ## Spark Packages
 
