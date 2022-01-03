@@ -219,6 +219,7 @@ class NerDLSpec extends AnyFlatSpec {
       .setEvaluationLogExtended(true)
       .setEnableOutputLogs(true)
       .setGraphFolder("src/test/resources/graph/")
+      .setUseBestModel(true)
       .fit(trainData)
 
     ner.write.overwrite() save ("./tmp_ner_dl_tf115")
