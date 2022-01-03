@@ -45,7 +45,7 @@ sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_bas
     .setOutputCol("sentence_embeddings")\
     .setChunkWeight(0.5)
 
-abbr_resolver = SentenceEntityResolverModel.pretraind("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
+abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
       .setInputCols(["merged_chunk", "sentence_embeddings"]) \
       .setOutputCol("abbr_meaning")\
       .setDistanceFunction("EUCLIDEAN")\
@@ -72,19 +72,19 @@ abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
 ```
 ```scala
 ...
-val c2doc = Chunk2Doc()\
-      .setInputCols("merged_chunk")\
+val c2doc = Chunk2Doc()
+      .setInputCols("merged_chunk")
       .setOutputCol("ner_chunk_doc") 
 
-val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-    .setInputCols(Array("document", "merged_chunk"))\
-    .setOutputCol("sentence_embeddings")\
+val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
+    .setInputCols(Array("document", "merged_chunk"))
+    .setOutputCol("sentence_embeddings")
     .setChunkWeight(0.5)
 
-val abbr_resolver = SentenceEntityResolverModel.pretraind("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
-      .setInputCols(Array("merged_chunk", "sentence_embeddings")) \
-      .setOutputCol("abbr_meaning")\
-      .setDistanceFunction("EUCLIDEAN")\
+val abbr_resolver = SentenceEntityResolverModel.pretraind("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
+      .setInputCols(Array("merged_chunk", "sentence_embeddings")) 
+      .setOutputCol("abbr_meaning")
+      .setDistanceFunction("EUCLIDEAN")
       .setCaseSensitive(False)
     
 val resolver_pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter_icd, entity_extractor, chunk_merge, c2doc, sentence_chunk_embeddings, abbr_resolver))
