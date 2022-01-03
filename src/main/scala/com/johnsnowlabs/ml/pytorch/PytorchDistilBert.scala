@@ -14,20 +14,15 @@ class PytorchDistilBert(val pytorchWrapper: PytorchWrapper,
                         val sentenceStartTokenId: Int,
                         val sentenceEndTokenId: Int,
                         vocabulary: Map[String, Int]) extends Serializable
-  with Translator[Array[Array[Int]], Array[Array[Array[Float]]]]
+  with Translator[Array[Array[Int]], Array[Array[Float]]]
   with TransformerEmbeddings {
 
   override protected val sentencePadTokenId: Int = 0
-
-  private var maxSentenceLength: Option[Int] = None
-  private var dimension: Option[Int] = None
 
   private lazy val predictor = {
     val modelInputStream = new ByteArrayInputStream(pytorchWrapper.modelBytes)
     val device = Device.cpu() //TODO: Check with gpu
     val model = Model.newInstance("bert-model", device)
-    println(s"Device Id: ${model.getNDManager.getDevice.getDeviceId}")
-    println(s"Device Type: ${model.getNDManager.getDevice.getDeviceType}")
 
     val pyTorchModel: PtModel = model.asInstanceOf[PtModel]
     pyTorchModel.load(modelInputStream)
@@ -58,10 +53,15 @@ class PytorchDistilBert(val pytorchWrapper: PytorchWrapper,
 
   override def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
-    maxSentenceLength = Some(batch.map(encodedSentence => encodedSentence.length).max)
-    val predictedEmbeddings = predictor.predict(batch.toArray)
-    val emptyVector = Array.fill(dimension.get)(0f)
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val output = predictor.predict(batch.toArray)
+    val dimension = output.head.head.toInt
+    val allEncoderLayers = output.last
+    val predictedEmbeddings = allEncoderLayers
+      .grouped(dimension).toArray
+      .grouped(maxSentenceLength).toArray
 
+    val emptyVector = Array.fill(dimension)(0f)
     batch.zip(predictedEmbeddings).map { case (ids, embeddings) =>
       if (ids.length > embeddings.length) {
         embeddings.take(embeddings.length - 1) ++
@@ -71,7 +71,6 @@ class PytorchDistilBert(val pytorchWrapper: PytorchWrapper,
         embeddings
       }
     }
-
   }
 
   override def findIndexedToken(tokenizedSentences: Seq[TokenizedSentence], tokenWithEmbeddings: TokenPieceEmbeddings,
@@ -94,14 +93,11 @@ class PytorchDistilBert(val pytorchWrapper: PytorchWrapper,
     new NDList(array)
   }
 
-  override def processOutput(ctx: TranslatorContext, list: NDList): Array[Array[Array[Float]]] = {
+  override def processOutput(ctx: TranslatorContext, list: NDList): Array[Array[Float]] = {
 
-    dimension = Some(list.get(0).getShape.get(2).toInt)
+    val dimension = Array(list.get(0).getShape.get(2).toFloat)
     val allEncoderLayers = list.get(0).toFloatArray
-    val embeddings = allEncoderLayers
-      .grouped(dimension.get).toArray
-      .grouped(maxSentenceLength.get).toArray
 
-    embeddings
+    Array(dimension, allEncoderLayers)
   }
 }
