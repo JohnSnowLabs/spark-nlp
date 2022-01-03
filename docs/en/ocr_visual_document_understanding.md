@@ -243,7 +243,7 @@ document_ner = VisualDocumentNer() \
 pipeline = PipelineModel(stages=[
     binary_to_image,
     ocr,
-    document_ner,    
+    document_ner,
 ])
 
 result = pipeline.transform(df)
@@ -262,4 +262,141 @@ Output:
 | B-COMPANY, [word -> AEON, token -> aeon], []], [entity, 0, 0, B-COMPANY,|
 | [word -> CO., token -> co], ...                                         |
 +-------------------------------------------------------------------------+
+```
+
+## VisualDocumentNERv2
+
+`VisualDocumentNERv2` is a DL model for NER documents which is an improved version of `VisualDocumentNER`. There is available pretrained model trained on FUNSD dataset.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCols | Array[String] | hocr | Сolumn names for HOCR of the document and image|
+
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| maxSentenceLength | int | 512 | Maximum sentence length. |
+| whiteList | Array[String] | | Whitelist of output labels |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | entities | Name of output column with entities Annotation. |
+
+
+**Example:**
+
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+
+var dataFrame = spark.read.format("binaryFile").load(imagePath)
+
+var bin2imTransformer = new BinaryToImage()
+bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
+
+val ocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+  .setIgnoreResolution(false)
+  .setOcrParams(Array("preserve_interword_spaces=0"))
+
+val tokenizer = new HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val visualDocumentNER = VisualDocumentNERv2
+  .pretrained("layoutlmv2_funsd", "en", "clinical/ocr")
+  .setInputCols(Array("token", "image"))
+
+val pipeline = new Pipeline()
+  .setStages(Array(
+    bin2imTransformer,
+    ocr,
+    tokenizer,
+    visualDocumentNER
+  ))
+
+val results = pipeline
+  .fit(dataFrame)
+  .transform(dataFrame)
+  .select("entities")
+  .cache()
+
+result.select("entities").show()
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binToImage = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr()\
+    .setInputCol("image")\
+    .setOutputCol("hocr")\
+    .setIgnoreResolution(False)\
+    .setOcrParams(["preserve_interword_spaces=0"])
+
+tokenizer = HocrTokenizer()\
+    .setInputCol("hocr")\
+    .setOutputCol("token")
+
+ner = VisualDocumentNerV2()\
+    .pretrained("layoutlmv2_funsd", "en", "clinical/ocr")\
+    .setInputCols(["token", "image"])\
+    .setOutputCol("entities")
+
+pipeline = PipelineModel(stages=[
+    binToImage,
+    ocr,
+    tokenizer,
+    ner
+    ])
+
+result = pipeline.transform(df)
+result.withColumn('filename', path\_array.getItem(f.size(path_array)- 1)) \
+    .withColumn("exploded_entities", f.explode("entities")) \
+    .select("filename", "exploded_entities") \
+    .show(truncate=False)
+```
+
+</div>
+
+Output sample:
+
+```
++---------+-------------------------------------------------------------------------------------------------------------------------+
+|filename |exploded_entities                                                                                                        |
++---------+-------------------------------------------------------------------------------------------------------------------------+
+|form1.jpg|[entity, 0, 6, i-answer, [x -> 1027, y -> 89, height -> 19, confidence -> 96, word -> Version:, width -> 90], []]        |
+|form1.jpg|[entity, 25, 35, b-header, [x -> 407, y -> 190, height -> 37, confidence -> 96, word -> Institution, width -> 241], []]  |
+|form1.jpg|[entity, 37, 40, i-header, [x -> 667, y -> 190, height -> 37, confidence -> 96, word -> Name, width -> 130], []]         |
+|form1.jpg|[entity, 42, 52, b-question, [x -> 498, y -> 276, height -> 19, confidence -> 96, word -> Institution, width -> 113], []]|
+|form1.jpg|[entity, 54, 60, i-question, [x -> 618, y -> 276, height -> 19, confidence -> 96, word -> Address, width -> 89], []]     |
++---------+-------------------------------------------------------------------------------------------------------------------------+
 ```
