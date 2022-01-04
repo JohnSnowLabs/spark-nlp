@@ -1,4 +1,71 @@
 ========
+3.4.0
+========
+----------------
+Major features and improvements
+----------------
+* **NEW:** Introducing **GPT2Transformer** annotator in Spark NLP 🚀. OpenAI GPT2 - huggingface `TFGPT2LMHeadModel`
+* **NEW:** Introducing **RoBertaForSequenceClassification** annotator in Spark NLP 🚀. `RoBertaForSequenceClassification` can load RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `RobertaForSequenceClassification` for **PyTorch** or `TFRobertaForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **XlmRoBertaForSequenceClassification** annotator in Spark NLP 🚀. `XlmRoBertaForSequenceClassification` can load XLM-RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLMRobertaForSequenceClassification` for **PyTorch** or `TFXLMRobertaForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **LongformerForSequenceClassification** annotator in Spark NLP 🚀. `LongformerForSequenceClassification` can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `LongformerForSequenceClassification` for **PyTorch** or `TFLongformerForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **AlbertForSequenceClassification** annotator in Spark NLP 🚀. `AlbertForSequenceClassification` can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `AlbertForSequenceClassification` for **PyTorch** or `TFAlbertForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing **XlnetForSequenceClassification** annotator in Spark NLP 🚀. `XlnetForSequenceClassification` can load XLNet Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using `XLNetForSequenceClassification` for **PyTorch** or `TFXLNetForSequenceClassification` for **TensorFlow** models in HuggingFace 🤗
+* **NEW:** Introducing trainable and distributed Word2Vec annotators based on Word2Vec in Spark ML
+* Support for Apache Spark and PySpark 3.2.x on Scala 2.12
+* Introducing `useBestModel` param in NerDLApproach annotator. This param in the NerDLApproach preserves and restores the model that has achieved the best performance at the end of the training. The priority is metrics from testDataset (micro F1), metrics from validationSplit (micro F1), and if none is set it will keep track of loss during the training
+* Welcoming 6x new Databricks runtimes to our Spark NLP family:
+  * Databricks 10.0
+  * Databricks 10.0 ML GPU
+  * Databricks 10.1
+  * Databricks 10.1 ML GPU
+  * Databricks 10.2
+  * Databricks 10.2 ML GPU
+* Welcoming 3x new EMR 6.x series to our Spark NLP family:
+  * EMR 5.33.1 (Apache Spark 2.4.7 / Hadoop 2.10.1)
+  * EMR 6.3.1 (Apache Spark 3.1.1 / Hadoop 3.2.1)
+  * EMR 6.4.0 (Apache Spark 3.1.2 / Hadoop 3.2.1)
+* Adding a new param to sparknlp.start() function in Python for Apache Spark 3.2.x (`spark32=True`)
+* Add new scripts/notebook to generate custom TensroFlow graphs for `ContextSpellCheckerApproach` annotator
+* Add a new `graphFolder` param to `ContextSpellCheckerApproach` annotator. This param allows to train ContextSpellChecker from a custom made TensorFlow graph
+* Support DBFS file system in `graphFolder` param. Starting Spark NLP 3.4.0 you can point NerDLApproach or ContextSpellCheckerApproach to a TF graph hosted on Databricks
+* Add new feature to all classifiers (`ForTokenClassification` and `ForSequenceClassification`) to retrieve classes from the pretrained models
+* Add `inputFormats` param to DateMatcher and MultiDateMatcher annotators. DateMatcher and MultiDateMatcher can now define a list of acceptable input formats via date patterns to search in the text. Consequently, the output format will be defining the output pattern for the unique output format.
+* Enable batch processing in T5Transformer and MarianTransformer annotators
+* Add Schema to `readDataset` in CoNLL() class
+
+----------------
+Bug Fixes
+----------------
+* Fix a race condition in a cluster mode when the accessing TF session is called as many times as the number of available cores on the Driver machine for the very first time. Loading a model multiple times result in disk activities and IO becomes a bottleneck for larger models especially on a machine(s) with slower disks) https://github.com/JohnSnowLabs/spark-nlp/pull/6575
+* Fix a performance issue introduced in the 3.3.3 release for T5Transformer and MarianTransformer annotators. While we added support for ignored tokens, accidentally we introduced a bug that degraded the performance for these two annotators (sometimes twice slower). Please do update to 3.4.0 if you are using any of these annotators. https://github.com/JohnSnowLabs/spark-nlp/pull/6605
+* Fix a bug in model resolution by not filtering based on the timestamp
+* Fix configProtoBytes param type in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6549
+* Fix missing DefaultParamsReadable in RegexTokenizer annotator https://github.com/JohnSnowLabs/spark-nlp/pull/6653
+* Fix missing models `lemma_antbnc`, `sentiment_vivekn`, and `spellcheck_norvig` for Spark 3.x
+* Fix missing pipelines `clean_slang`, `check_spelling`, `match_chunks`, and `match_datetime` for Spark 3.x
+* Fix `saveModel` in TrainingHelper
+* Fix Keyword/Yake module naming in Scala https://github.com/JohnSnowLabs/spark-nlp/pull/6562
+
+----------------
+Backward Compatibility
+----------------
+
+* The parameter `dateFormat` in DateMatcher and MultiDateMatcher annotators has been renamed to `outputFormat`:
+
+```python=
+
+# previously
+.setDateFormat("yyyy/MM/dd")
+
+# after 3.4.0 release
+.setOutputFormat("yyyy/MM/dd")
+
+```
+
+* Deprecating xling TF Hub models for UniversalSentenceEncoder annotator (there are `CMLM` models available which outperform xling models with support for more languages)
+* Deprecating Finnish old BERT models (there are newer models available now)
+
+========
 3.3.4
 ========
 ----------------
