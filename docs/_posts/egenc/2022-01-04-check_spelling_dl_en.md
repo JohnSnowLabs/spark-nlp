@@ -31,10 +31,10 @@ Spell Checker is a sequence-to-sequence pipeline that detects and corrects spell
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-pipeline_local = PretrainedPipeline("clean_slang")
+pipeline_local = PretrainedPipeline("check_spelling_dl")
 
 testDoc = '''
-yo, what is wrong with ya?
+During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.
 '''
 
 result=pipeline_local.annotate(testDoc)
@@ -50,7 +50,37 @@ val result = pipeline.fullAnnotate("During the summer we have the hottest ueathe
 ## Results
 
 ```bash
-['hey', 'what', 'is', 'wrong', 'with', 'you']
+('During', 'During'),
+ ('the', 'the'),
+ ('summer', 'summer'),
+ ('we', 'we'),
+ ('have', 'have'),
+ ('the', 'the'),
+ ('hottest', 'hottest'),
+ ('ueather', 'weather'),
+ ('.', '.'),
+ ('I', 'I'),
+ ('have', 'have'),
+ ('a', 'a'),
+ ('black', 'black'),
+ ('ueather', 'leather'),
+ ('jacket', 'jacket'),
+ (',', ','),
+ ('so', 'so'),
+ ('nice', 'nice'),
+ ('.', '.'),
+ ('I', 'I'),
+ ('intrduce', 'introduce'),
+ ('you', 'you'),
+ ('to', 'to'),
+ ('my', 'my'),
+ ('sister', 'sister'),
+ (',', ','),
+ ('she', 'she'),
+ ('is', 'is'),
+ ('called', 'called'),
+ ('ueather', 'Heather'),
+ ('.', '.')
 ```
 
 {:.model-param}
