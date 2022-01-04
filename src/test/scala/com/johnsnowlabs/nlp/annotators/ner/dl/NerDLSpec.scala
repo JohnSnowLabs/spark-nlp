@@ -273,13 +273,14 @@ class NerDLSpec extends AnyFlatSpec {
       .setMaxEpochs(5)
       .setRandomSeed(0)
       .setVerbose(0)
-      .setBatchSize(32)
+      .setBatchSize(8)
       .setEvaluationLogExtended(true)
       .setGraphFolder("src/test/resources/graph/")
       .setTestDataset("./tmp_test_coll")
+      .setUseBestModel(true)
+      .fit(trainDF)
 
-    nerModel.fit(trainDF)
-
+    nerModel.write.overwrite() save ("./tmp_ner_dl_glove_conll03_100d")
   }
 
   "NerDLModel" should "benchmark test" taggedAs SlowTest in {
