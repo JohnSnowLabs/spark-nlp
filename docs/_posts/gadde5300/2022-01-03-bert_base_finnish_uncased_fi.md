@@ -66,11 +66,11 @@ val document_assembler = DocumentAssembler()
       .setOutputCol("document")
       
 val sentence_detector = SentenceDetector()
-      .setInputCols("document")
+      .setInputCols(Array("document"))
       .setOutputCol("sentence")
       
 val tokenizer = Tokenizer()
-      .setInputCols("sentence")
+      .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_finnish_uncased", "fi")
