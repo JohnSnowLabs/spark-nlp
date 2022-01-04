@@ -1,6 +1,6 @@
-docs/_posts/Ahmetemintek/2021-12-04-electra_medal_acronym_en.md
-docs/_posts/Ahmetemintek/2021-12-17-bert_base_finnish_cased_fi.md
-docs/_posts/Ahmetemintek/2021-12-17-bert_base_finnish_uncased_fi.md
-docs/_posts/Ahmetemintek/2021-12-04-electra_medal_acronym_en.md
-docs/_posts/Ahmetemintek/2021-12-17-bert_base_finnish_cased_fi.md
-docs/_posts/Ahmetemintek/2021-12-17-bert_base_finnish_uncased_fi.md
+docs/_posts/gadde5300/2022-01-03-bert_base_finnish_cased_fi.md
+docs/_posts/gadde5300/2022-01-03-bert_base_finnish_uncased_fi.md
+docs/_posts/josejuanmartinez/2022-01-04-electra_medal_acronym_en.md
+docs/_posts/gadde5300/2022-01-03-bert_base_finnish_cased_fi.md
+docs/_posts/gadde5300/2022-01-03-bert_base_finnish_uncased_fi.md
+docs/_posts/josejuanmartinez/2022-01-04-electra_medal_acronym_en.md
