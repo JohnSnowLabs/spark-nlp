@@ -61,16 +61,16 @@ pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 result = pipeline_model.transform(sample_data)
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-      .setInputCol("text")\
+val document_assembler = DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("document")
 
-val sentence_detector = SentenceDetector()\
-      .setInputCols(["document"])\
+val sentence_detector = SentenceDetector()
+      .setInputCols("document")
       .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
+val tokenizer = Tokenizer()
+      .setInputCols("sentence")
       .setOutputCol("token")
 
 val embeddings = BertEmbeddings.pretrained("bert_base_finnish_cased", "fi")
