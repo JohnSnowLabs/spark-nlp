@@ -12174,6 +12174,11 @@ class DistilBertEmbeddings(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
 
+    deepLearningEngine = Param(Params._dummy(),
+                               "deepLearningEngine",
+                               "Deep Learning engine for creating embeddings [tensorflow|pytorch]",
+                               typeConverter=TypeConverters.toString)
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -12193,6 +12198,9 @@ class DistilBertEmbeddings(AnnotatorModel,
             Max sentence length to process
         """
         return self._set(maxSentenceLength=value)
+
+    def setDeepLearningEngine(self, value):
+        return self._set(deepLearningEngine=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings", java_model=None):

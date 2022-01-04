@@ -16,8 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.{SparkSessionTest, StopWordsCleaner}
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -26,11 +25,11 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class BertEmbeddingsTestSpec extends AnyFlatSpec {
+class BertEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   "Bert Embeddings" should "correctly embed tokens and sentences" taggedAs SlowTest in {
 
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val ddd = Seq(
       "Something is weird on the notebooks, something is happening."
@@ -48,19 +47,11 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       "Tyrion makes saddle modifications for Bran that will allow the paraplegic boy to ride."
     ).toDF("text")
 
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
     val embeddings = BertEmbeddings.pretrained("small_bert_L2_128", "en")
       .setInputCols(Array("token", "document"))
       .setOutputCol("bert")
 
-    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
     pipeline.fit(ddd).transform(ddd)
     pipeline.fit(data1).transform(data1)
@@ -71,15 +62,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Bert Embeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+    val smallCorpus = spark.read.option("header", "true").csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
@@ -107,7 +90,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
   }
 
   "Bert Embeddings" should "benchmark test" taggedAs SlowTest in {
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val conll = CoNLL(explodeSentences = false)
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
@@ -149,19 +132,11 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Bert Embeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val ddd = Seq(
       "Something is weird on the notebooks, something is happening."
     ).toDF("text")
-
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
 
     val tfModelPath = "src/test/resources/tf-hub-bert/model"
 
@@ -170,7 +145,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("bert")
       .setStorageRef("tf_hub_bert_test")
 
-    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
     pipeline.fit(ddd).write.overwrite().save("./tmp_bert_pipeline")
     val pipelineModel = PipelineModel.load("./tmp_bert_pipeline")
@@ -180,7 +155,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "Bert Embeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
 
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val ddd = Seq(
       "Rare Hendrix song draft sells for almost $17,000.",
@@ -191,14 +166,6 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
     ).toDF("text")
 
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
     val embeddings = BertEmbeddings.pretrained("small_bert_L2_128")
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
@@ -206,7 +173,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setMaxSentenceLength(512)
       .setBatchSize(12)
 
-    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -232,34 +199,87 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "BertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest in {
-    import ResourceHelper.spark.implicits._
+  "BertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest ignore {
+    //TODO: Load pretrained python model enable this test
+    import spark.implicits._
 
     val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
-    val embeddings = BertEmbeddings.load("./tmp_bert_base_cased_pt")
+    val bert = BertEmbeddings.load("./tmp_bert_base_cased_pt")
       .setInputCols("document", "token")
-      .setOutputCol("embeddings")
+      .setOutputCol("bert")
       .setCaseSensitive(true)
       .setDeepLearningEngine("pytorch")
-
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        documentAssembler,
-        tokenizer,
-        embeddings
-      ))
-
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, bert))
     val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
-    pipelineDF.show()
+
+    val embeddingsDF = pipelineDF.select($"bert.embeddings"(0))
+
+    assert(!embeddingsDF.isEmpty)
+  }
+
+  "BertEmbeddings" should "raise an error when setting a not supported deep learning engine" taggedAs SlowTest in {
+    import spark.implicits._
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = BertEmbeddings.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setDeepLearningEngine("mxnet")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    val expectedErrorMessage = "Deep learning engine mxnet not supported"
+
+    val caught = intercept[Exception] {
+      pipelineDF.collect()
+    }
+
+    assert(caught.getMessage.contains(expectedErrorMessage))
+  }
+
+  "BertEmbeddings" should "raise an error when setting a deep learning engine different from pre-trained model" taggedAs SlowTest in {
+    import spark.implicits._
+
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = BertEmbeddings.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("distilbert")
+      .setCaseSensitive(true)
+      .setDeepLearningEngine("pytorch")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    val expectedErrorMessage = "Pytorch model is empty. Please verify that deep learning engine parameter matches your model."
+
+    val caught = intercept[Exception] {
+      pipelineDF.collect()
+    }
+
+    assert(caught.getMessage.contains(expectedErrorMessage))
+  }
+
+  "BertEmbeddings" should "raise an error when sentence length is not between 1 and 512" taggedAs SlowTest in {
+
+    var expectedErrorMessage = "requirement failed: " +
+      "BERT models do not support sequences longer than 512 because of trainable positional embeddings"
+
+    var caught = intercept[IllegalArgumentException] {
+      BertEmbeddings.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("distilbert")
+        .setMaxSentenceLength(600)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
+
+    expectedErrorMessage = "requirement failed: " + "The maxSentenceLength must be at least 1"
+
+    caught = intercept[IllegalArgumentException] {
+      BertEmbeddings.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("distilbert")
+        .setMaxSentenceLength(0)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
+
   }
 
 }

@@ -16,15 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.pytorch.{PytorchDistilBert, PytorchWrapper, ReadPytorchModel, WritePytorchModel}
+import com.johnsnowlabs.ml.DeepLearningEngine
+import com.johnsnowlabs.ml.pytorch.{PytorchDistilBert, PytorchWrapper, ReadPytorchModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -141,14 +139,11 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[DistilBertEmbeddings]
-    with TensorflowParams[DistilBertEmbeddings]
-    with WriteTensorflowModel
-    with WritePytorchModel
+class DistilBertEmbeddings(override val uid: String) extends AnnotatorModel[DistilBertEmbeddings]
     with HasBatchedAnnotate[DistilBertEmbeddings]
     with HasEmbeddingsProperties
-    with HasCaseSensitiveProperties
-    with HasStorageRef {
+    with HasTransformerProperties
+    with DeepLearningEngine[TensorflowDistilBert, PytorchDistilBert, DistilBertEmbeddings] {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("DISTILBERT_EMBEDDINGS"))
@@ -172,33 +167,8 @@ class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[Dis
    * */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
 
-  /** Max sentence length to process (Default: `128`)
-   *
-   * @group param
-   * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-
-  val deepLearningEngine = new Param[String](this, "deepLearningEngine",
-    "Deep Learning engine for creating embeddings [tensorflow|pytorch]")
-
-  private var tfModel: Option[Broadcast[TensorflowDistilBert]] = None
-
-  private var pytorchModel: Option[Broadcast[PytorchDistilBert]] = None
-
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
-  /** @group setParam */
-  def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
-    require(value >= 1, "The maxSentenceLength must be at least 1")
-    set(maxSentenceLength, value)
-    this
-  }
-
-  def setDeepLearningEngine(value: String): this.type = {
-    set(deepLearningEngine, value)
-  }
 
   /** Set Embeddings dimensions for the DistilBERT model.
    * Only possible to set this when the first time is saved
@@ -222,13 +192,7 @@ class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[Dis
     this
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> false,
-    deepLearningEngine -> "tensorflow"
-  )
+  setDefault(dimension -> 768, batchSize -> 8)
 
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -239,7 +203,7 @@ class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[Dis
   }
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertEmbeddings = {
+  override def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): DistilBertEmbeddings = {
     if (tfModel.isEmpty) {
       tfModel = Some(
         spark.sparkContext.broadcast(
@@ -258,7 +222,7 @@ class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[Dis
     this
   }
 
-  def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): DistilBertEmbeddings = {
+  override def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): DistilBertEmbeddings = {
     if (pytorchModel.isEmpty) {
       pytorchModel = Some(spark.sparkContext.broadcast(
         new PytorchDistilBert(pytorchWrapper, sentenceStartTokenId, sentenceEndTokenId, $$(vocabulary)))
@@ -266,17 +230,6 @@ class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[Dis
     }
     this
   }
-
-  /** @group getParam */
-  def getMaxSentenceLength: Int = $(maxSentenceLength)
-
-  /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBert = tfModel.get.value
-
-  /** @group getParam */
-  def getPytorchModelIfNotSet: PytorchDistilBert = pytorchModel.get.value
-
-  def getDeepLearningEngine: String = $(deepLearningEngine).toLowerCase
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -292,7 +245,6 @@ class DistilBertEmbeddings(override val uid: String)  extends AnnotatorModel[Dis
 
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
-
       val withEmbeddings = getDeepLearningEngine match {
         case "tensorflow" => {
           getModelIfNotSet.predict(tokenizedSentences, $(batchSize), $(maxSentenceLength), $(caseSensitive))
@@ -400,38 +352,6 @@ trait ReadDistilBertModel extends LoadModel[DistilBertEmbeddings]
     words.toMap
   }
 
-//  def loadSavedModel(tfModelPath: String, spark: SparkSession): DistilBertEmbeddings = {
-//
-//    val f = new File(tfModelPath)
-//    val savedModel = new File(tfModelPath, "saved_model.pb")
-//    require(f.exists, s"Folder $tfModelPath not found")
-//    require(f.isDirectory, s"File $tfModelPath is not folder")
-//    require(
-//      savedModel.exists(),
-//      s"savedModel file saved_model.pb not found in folder $tfModelPath"
-//    )
-//
-//    val vocab = new File(tfModelPath + "/assets", "vocab.txt")
-//    require(f.exists, s"Folder $tfModelPath not found")
-//    require(f.isDirectory, s"File $tfModelPath is not folder")
-//    require(vocab.exists(), s"Vocabulary file vocab.txt not found in folder $tfModelPath")
-//
-//    val vocabResource = new ExternalResource(vocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
-//    val words = ResourceHelper.parseLines(vocabResource).zipWithIndex.toMap
-//
-//    val (wrapper, signatures) = TensorflowWrapper.read(tfModelPath, zipped = false, useBundle = true)
-//
-//    val _signatures = signatures match {
-//      case Some(s) => s
-//      case None => throw new Exception("Cannot load signature definitions from model!")
-//    }
-//
-//    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
-//    new DistilBertEmbeddings()
-//      .setVocabulary(words)
-//      .setSignatures(_signatures)
-//      .setModelIfNotSet(spark, wrapper)
-//  }
 }
 
 

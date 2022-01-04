@@ -16,14 +16,12 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.pytorch.{PytorchAlbert, PytorchWrapper, ReadPytorchModel, WritePytorchModel}
+import com.johnsnowlabs.ml.DeepLearningEngine
+import com.johnsnowlabs.ml.pytorch.{PytorchAlbert, PytorchWrapper, ReadPytorchModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -152,14 +150,11 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
 class AlbertEmbeddings(override val uid: String) extends AnnotatorModel[AlbertEmbeddings]
-    with TensorflowParams[AlbertEmbeddings]
-    with WriteTensorflowModel
-    with WritePytorchModel
     with WriteSentencePieceModel
     with HasBatchedAnnotate[AlbertEmbeddings]
     with HasEmbeddingsProperties
-    with HasCaseSensitiveProperties
-    with HasStorageRef {
+    with HasTransformerProperties
+    with DeepLearningEngine[TensorflowAlbert, PytorchAlbert, AlbertEmbeddings] {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("ALBERT_EMBEDDINGS"))
@@ -177,49 +172,31 @@ class AlbertEmbeddings(override val uid: String) extends AnnotatorModel[AlbertEm
    */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
-  /**
-   * Max sentence length to process (Default: `128`)
-   *
-   * @group param
-   */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-
-  val deepLearningEngine = new Param[String](this, "deepLearningEngine",
-    "Deep Learning engine for creating embeddings [tensorflow|pytorch]")
-
-  private var tfModel: Option[Broadcast[TensorflowAlbert]] = None
-  private var pytorchModel: Option[Broadcast[PytorchAlbert]] = None
-
-  /** @group setParam */
-  def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "ALBERT models do not support sequences longer than 512 because of trainable positional embeddings")
-    require(value >= 1, "The maxSentenceLength must be at least 1")
-    set(maxSentenceLength, value)
-    this
-  }
-
-  def setDeepLearningEngine(value: String): this.type = {
-    set(deepLearningEngine, value)
-  }
-
-  /** @group getParam */
-  def getMaxSentenceLength: Int = $(maxSentenceLength)
-
   /** @group setParam */
   override def setDimension(value: Int): this.type = {
     if (get(dimension).isEmpty)
       set(this.dimension, value)
     this
   }
+
+  private var sentencePieceWrapper: Option[SentencePieceWrapper] = None
+
+  def setSentencePieceWrapper(spp: SentencePieceWrapper): this.type ={
+    if (sentencePieceWrapper.isEmpty) {
+      sentencePieceWrapper = Some(spp)
+    }
+    this
+  }
+
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper, spp: SentencePieceWrapper): AlbertEmbeddings = {
+  override def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): AlbertEmbeddings = {
     if (tfModel.isEmpty) {
 
       tfModel = Some(
         spark.sparkContext.broadcast(
           new TensorflowAlbert(
             tensorflowWrapper,
-            spp,
+            sentencePieceWrapper.get,
             batchSize = $(batchSize),
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
@@ -231,29 +208,16 @@ class AlbertEmbeddings(override val uid: String) extends AnnotatorModel[AlbertEm
     this
   }
 
-  def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper,
-                              sentencePieceWrapper: SentencePieceWrapper): AlbertEmbeddings = {
+  override def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): AlbertEmbeddings = {
     if (pytorchModel.isEmpty) {
       pytorchModel = Some(spark.sparkContext.broadcast(
-        new PytorchAlbert(pytorchWrapper, sentencePieceWrapper)
+        new PytorchAlbert(pytorchWrapper, sentencePieceWrapper.get)
       ))
     }
     this
   }
 
-  setDefault(
-    batchSize -> 32,
-    dimension -> 768,
-    maxSentenceLength -> 128,
-    caseSensitive -> false,
-    deepLearningEngine -> "tensorflow"
-  )
-
-  def getModelIfNotSet: TensorflowAlbert = tfModel.get.value
-
-  def getPytorchModelIfNotSet: PytorchAlbert = pytorchModel.get.value
-
-  def getDeepLearningEngine: String = $(deepLearningEngine).toLowerCase
+  setDefault(batchSize -> 32, dimension -> 768)
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -340,14 +304,16 @@ trait ReadAlbertModel extends LoadModel[AlbertEmbeddings]
 
   def readModel(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
     val sentencePieceWrapper = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
+    instance.setSentencePieceWrapper(sentencePieceWrapper)
+
     instance.getDeepLearningEngine match {
       case "tensorflow" => {
         val tf = readTensorflowModel(path, spark, "_albert_tf")
-        instance.setModelIfNotSet(spark, tf, sentencePieceWrapper)
+        instance.setModelIfNotSet(spark, tf)
       }
       case "pytorch" => {
         val pytorchWrapper = readPytorchModel(s"$path/$torchscriptFile", spark, "_albert")
-        instance.setPytorchModelIfNotSet(spark, pytorchWrapper, sentencePieceWrapper)
+        instance.setPytorchModelIfNotSet(spark, pytorchWrapper)
       }
       case _ => throw new IllegalArgumentException(s"Deep learning engine ${instance.getDeepLearningEngine} not supported")
     }
@@ -361,7 +327,8 @@ trait ReadAlbertModel extends LoadModel[AlbertEmbeddings]
     /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
     new AlbertEmbeddings()
       .setSignatures(signatures)
-      .setModelIfNotSet(spark, tfWrapper, sentencePieceWrapper)
+      .setSentencePieceWrapper(sentencePieceWrapper)
+      .setModelIfNotSet(spark, tfWrapper)
   }
 
   override def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, torchModelPath: String,
@@ -370,7 +337,8 @@ trait ReadAlbertModel extends LoadModel[AlbertEmbeddings]
     val sentencePieceWrapper = loadSentencepiece(torchModelPath, "pytorch")
 
     new AlbertEmbeddings()
-      .setPytorchModelIfNotSet(spark, pytorchWrapper, sentencePieceWrapper)
+      .setSentencePieceWrapper(sentencePieceWrapper)
+      .setPytorchModelIfNotSet(spark, pytorchWrapper)
   }
 
   def loadSentencepiece(tfModelPath: String, engine: String): SentencePieceWrapper = {

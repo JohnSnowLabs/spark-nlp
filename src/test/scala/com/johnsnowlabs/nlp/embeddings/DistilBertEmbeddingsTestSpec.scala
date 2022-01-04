@@ -16,34 +16,21 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotators.{SparkSessionTest, StopWordsCleaner}
 import com.johnsnowlabs.nlp.training.CoNLL
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
-
 import org.scalatest.flatspec.AnyFlatSpec
 
-class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
+class DistilBertEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
 
 
   "DistilBertEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper
-      .spark.read.option("header", "true")
+    val smallCorpus = spark.read.option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
 
     val stopWordsCleaner = new StopWordsCleaner()
       .setInputCols("token")
@@ -71,10 +58,10 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
   }
 
   "DistilBertEmbeddings" should "benchmark test" taggedAs SlowTest in {
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val conll = CoNLL()
-    val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+    val training_data = conll.readDataset(spark, "src/test/resources/conll2003/eng.train")
     println(training_data.count())
 
     val embeddings = DistilBertEmbeddings.pretrained()
@@ -114,19 +101,11 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "DistilBertEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
 
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val ddd = Seq(
       "This is just a simple sentence for the testing purposes!"
     ).toDF("text")
-
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
 
     val embeddings = DistilBertEmbeddings.pretrained()
       .setInputCols("document", "token")
@@ -135,7 +114,7 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
       .setMaxSentenceLength(512)
       .setBatchSize(16)
 
-    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
     val pipelineModel = pipeline.fit(ddd)
     pipelineModel.transform(ddd).show()
@@ -157,6 +136,89 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
 
     val loadedDistilBertModel = DistilBertEmbeddings.load("./tmp_distilbert_model")
     loadedDistilBertModel.getDimension
+
+  }
+
+  "DistilBert Embeddings" should "infer with Pytorch load model" taggedAs SlowTest ignore {
+    //TODO: Load pretrained python model enable this test
+    import spark.implicits._
+
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = DistilBertEmbeddings.load("./tmp_distilbert_base_pt")
+      .setInputCols("document", "token")
+      .setOutputCol("distilbert")
+      .setCaseSensitive(true)
+      .setDeepLearningEngine("pytorch")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+
+    val embeddingsDF = pipelineDF.select($"distilbert.embeddings"(0))
+
+    assert(!embeddingsDF.isEmpty)
+  }
+
+  "DistilBert Embeddings" should "raise an error when setting a not supported deep learning engine" taggedAs SlowTest in {
+    import spark.implicits._
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = DistilBertEmbeddings.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setDeepLearningEngine("mxnet")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    val expectedErrorMessage = "Deep learning engine mxnet not supported"
+
+    val caught = intercept[Exception] {
+      pipelineDF.collect()
+    }
+
+    assert(caught.getMessage.contains(expectedErrorMessage))
+  }
+
+  "DistilBert Embeddings" should "raise an error when setting a deep learning engine different from pre-trained model" taggedAs SlowTest in {
+    import spark.implicits._
+
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = DistilBertEmbeddings.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("distilbert")
+      .setCaseSensitive(true)
+      .setDeepLearningEngine("pytorch")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    val expectedErrorMessage = "Pytorch model is empty. Please verify that deep learning engine parameter matches your model."
+
+    val caught = intercept[Exception] {
+          pipelineDF.collect()
+    }
+
+    assert(caught.getMessage.contains(expectedErrorMessage))
+  }
+
+  "DistilBert Embeddings" should "raise an error when sentence length is not between 1 and 512" taggedAs SlowTest in {
+
+    var expectedErrorMessage = "requirement failed: " +
+      "DISTILBERT models do not support sequences longer than 512 because of trainable positional embeddings"
+
+    var caught = intercept[IllegalArgumentException] {
+      DistilBertEmbeddings.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("distilbert")
+        .setMaxSentenceLength(513)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
+
+    expectedErrorMessage = "requirement failed: " + "The maxSentenceLength must be at least 1"
+
+    caught = intercept[IllegalArgumentException] {
+      DistilBertEmbeddings.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("distilbert")
+        .setMaxSentenceLength(-2)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
 
   }
 

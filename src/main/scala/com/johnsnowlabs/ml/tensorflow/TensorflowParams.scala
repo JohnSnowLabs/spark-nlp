@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.param.IntArrayParam
 
-trait TensorflowParams[T <: TensorflowParams[_]] extends WriteTensorflowModel with HasStorageRef {
+trait TensorflowParams extends WriteTensorflowModel with HasStorageRef {
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *

@@ -16,15 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.ml.pytorch.{PytorchBert, PytorchWrapper, ReadPytorchModel, WritePytorchModel}
+import com.johnsnowlabs.ml.DeepLearningEngine
+import com.johnsnowlabs.ml.pytorch.{PytorchBert, PytorchWrapper, ReadPytorchModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{IntParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
@@ -137,13 +135,10 @@ import java.io.File
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  * */
 class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbeddings]
-    with TensorflowParams[BertEmbeddings]
-    with WriteTensorflowModel
-    with WritePytorchModel
     with HasBatchedAnnotate[BertEmbeddings]
     with HasEmbeddingsProperties
-    with HasCaseSensitiveProperties
-    with HasStorageRef {
+    with HasTransformerProperties
+    with DeepLearningEngine[TensorflowBert, PytorchBert, BertEmbeddings] {
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
@@ -158,33 +153,8 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
    * */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
 
-  /** Max sentence length to process (Default: `128`)
-   *
-   * @group param
-   * */
-  val maxSentenceLength = new IntParam(this, "maxSentenceLength", "Max sentence length to process")
-
-  val deepLearningEngine = new Param[String](this, "deepLearningEngine",
-    "Deep Learning engine for creating embeddings [tensorflow|pytorch]")
-
-  private var tfModel: Option[Broadcast[TensorflowBert]] = None
-
-  private var pytorchModel: Option[Broadcast[PytorchBert]] = None
-
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
-  /** @group setParam */
-  def setMaxSentenceLength(value: Int): this.type = {
-    require(value <= 512, "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
-    require(value >= 1, "The maxSentenceLength must be at least 1")
-    set(maxSentenceLength, value)
-    this
-  }
-
-  def setDeepLearningEngine(value: String): this.type = {
-    set(deepLearningEngine, value)
-  }
 
   /** Set Embeddings dimensions for the BERT model
    * Only possible to set this when the first time is saved
@@ -208,13 +178,8 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
     this
   }
 
-  setDefault(
-    dimension -> 768,
-    batchSize -> 8,
-    maxSentenceLength -> 128,
-    caseSensitive -> false,
-    deepLearningEngine -> "tensorflow"
-  )
+  setDefault(dimension -> 768, batchSize -> 8)
+
   /** @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -226,7 +191,7 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
   }
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertEmbeddings = {
+  override def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): BertEmbeddings = {
     if (tfModel.isEmpty) {
       tfModel = Some(
         spark.sparkContext.broadcast(
@@ -245,7 +210,7 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
     this
   }
 
-  def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): BertEmbeddings = {
+  override def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): BertEmbeddings = {
     if (pytorchModel.isEmpty) {
       pytorchModel = Some(spark.sparkContext.broadcast(
         new PytorchBert(pytorchWrapper, sentenceStartTokenId, sentenceEndTokenId, $$(vocabulary)))
@@ -253,17 +218,6 @@ class BertEmbeddings(override val uid: String) extends AnnotatorModel[BertEmbedd
     }
     this
   }
-
-  /** @group getParam */
-  def getMaxSentenceLength: Int = $(maxSentenceLength)
-
-  /** @group getParam */
-  def getModelIfNotSet: TensorflowBert = tfModel.get.value
-
-  /** @group getParam */
-  def getPytorchModelIfNotSet: PytorchBert = pytorchModel.get.value
-
-  def getDeepLearningEngine: String = $(deepLearningEngine).toLowerCase
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type

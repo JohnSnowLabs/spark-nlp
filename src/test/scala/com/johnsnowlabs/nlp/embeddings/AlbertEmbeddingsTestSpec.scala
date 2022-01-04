@@ -17,27 +17,23 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
-
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 
-class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
+class AlbertEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   "AlbertEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
 
-    val smallCorpus = ResourceHelper.spark.read.option("header", "true")
+    val smallCorpus = spark.read.option("header", "true")
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
 
     val sentence = new SentenceDetector()
       .setInputCols("document")
@@ -71,7 +67,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
   }
 
   "AlbertEmbeddings" should "benchmark test" taggedAs SlowTest in {
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val conll = CoNLL()
     val training_data = conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
@@ -119,7 +115,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
 
   "AlbertEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
 
-    import ResourceHelper.spark.implicits._
+    import spark.implicits._
 
     val ddd = Seq(
       "Rare Hendrix song draft sells for almost $17,000.",
@@ -129,21 +125,13 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
       "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009."
     ).toDF("text")
 
-    val document = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
-
-    val tokenizer = new Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
-
     val embeddings = AlbertEmbeddings
       .pretrained()
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setMaxSentenceLength(512)
 
-    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
@@ -166,4 +154,88 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     assert(totalTokens == totalEmbeddings)
 
   }
+
+  "AlbertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest ignore {
+    //TODO: Load pretrained python model enable this test
+    import spark.implicits._
+
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val bert = AlbertEmbeddings.load("./tmp_albert_base_pt")
+      .setInputCols("document", "token")
+      .setOutputCol("albert")
+      .setCaseSensitive(true)
+      .setDeepLearningEngine("pytorch")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, bert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+
+    val embeddingsDF = pipelineDF.select($"albert.embeddings"(0))
+
+    assert(!embeddingsDF.isEmpty)
+  }
+
+  "AlbertEmbeddings" should "raise an error when setting a not supported deep learning engine" taggedAs SlowTest in {
+    import spark.implicits._
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = AlbertEmbeddings.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setDeepLearningEngine("mxnet")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    val expectedErrorMessage = "Deep learning engine mxnet not supported"
+
+    val caught = intercept[Exception] {
+      pipelineDF.collect()
+    }
+
+    assert(caught.getMessage.contains(expectedErrorMessage))
+  }
+
+  "AlbertEmbeddings" should "raise an error when setting a deep learning engine different from pre-trained model" taggedAs SlowTest in {
+    import spark.implicits._
+
+    val dataFrame = Seq("Peter lives in New York", "Jon Snow lives in Winterfell").toDS().toDF("text")
+    val distilBert = AlbertEmbeddings.pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("distilbert")
+      .setCaseSensitive(true)
+      .setDeepLearningEngine("pytorch")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilBert))
+    val pipelineDF = pipeline.fit(dataFrame).transform(dataFrame)
+    val expectedErrorMessage = "Pytorch model is empty. Please verify that deep learning engine parameter matches your model."
+
+    val caught = intercept[Exception] {
+      pipelineDF.collect()
+    }
+
+    assert(caught.getMessage.contains(expectedErrorMessage))
+  }
+
+  "AlbertEmbeddings" should "raise an error when sentence length is not between 1 and 512" taggedAs SlowTest in {
+
+    var expectedErrorMessage = "requirement failed: " +
+      "ALBERT models do not support sequences longer than 512 because of trainable positional embeddings"
+
+    var caught = intercept[IllegalArgumentException] {
+      AlbertEmbeddings.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("albert")
+        .setMaxSentenceLength(700)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
+
+    expectedErrorMessage = "requirement failed: " + "The maxSentenceLength must be at least 1"
+
+    caught = intercept[IllegalArgumentException] {
+      AlbertEmbeddings.pretrained()
+        .setInputCols("document", "token")
+        .setOutputCol("albert")
+        .setMaxSentenceLength(-25)
+    }
+
+    assert(caught.getMessage == expectedErrorMessage)
+
+  }
+
 }
