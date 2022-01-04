@@ -41,7 +41,6 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
   override def serializeObject(spark: SparkSession, path: String, field: String, specialClasses: Seq[SpecialClassParser]): Unit = {
     import spark.implicits._
     val dataPath = getFieldPath(path, field)
-    val serializer = new PlainTextSerializer
 
     specialClasses.foreach { case specialClass =>
 
@@ -59,7 +58,6 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
-    val serializer = new PlainTextSerializer
 
     if (fs.exists(dataPath)) {
       val elements = fs.listStatus(dataPath)
@@ -123,11 +121,11 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
 
 trait SpecialClassParser {
 
-  val label:String
+  var label:String
 
   @transient
   var transducer : ITransducer[Candidate] = null
-  val maxDist: Int
+  var maxDist: Int
 
   def generateTransducer: ITransducer[Candidate]
 
@@ -400,6 +398,7 @@ class GenericVocabParser(override var vocab: Set[String],
                          override val label: String,
                          override val maxDist: Int = 3)  extends VocabParser with SerializableClass {
   transducer = generateTransducer
+
 
   @throws[IOException]
   private def readObject(aInputStream: ObjectInputStream): Unit = {
