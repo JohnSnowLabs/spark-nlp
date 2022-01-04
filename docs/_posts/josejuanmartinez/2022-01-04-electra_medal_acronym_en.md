@@ -47,7 +47,7 @@ tokenizer= Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = BertEmbeddings.pretrained("electra_medal_ acronym", "en") \
+embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") \
       .setInputCols("sentence", "token") \
       .setOutputCol("embeddings")
 
@@ -66,7 +66,7 @@ val tokenizer= Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
-val embeddings = BertEmbeddings.pretrained("electra_medal_ acronym", "en") 
+val embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") 
        .setInputCols("sentence", "token")
        .setOutputCol("embeddings")
 
