@@ -8,7 +8,7 @@ tags: [open_source, embeddings, fi, bert]
 task: Embeddings
 language: fi
 edition: Spark NLP 3.3.4
-spark_version: 2.4
+spark_version: 3.0
 supported: true
 article_header:
   type: cover
