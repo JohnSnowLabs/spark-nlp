@@ -279,7 +279,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       }
 
       if (!useBestModel) {
-        lastCheckPoints = saveBestModel()
+        lastCheckPoints = tensorflow.getTFSession()
       }
 
     }
