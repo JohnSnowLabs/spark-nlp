@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
   private val inputKey = "input"
   private val outPutKey = "output"
 
-  def calculateEmbeddings(sentences: Seq[Sentence]): Seq[Annotation] = {
+  def predict(sentences: Seq[Sentence]): Seq[Annotation] = {
 
     val tensors = new TensorResources()
     val batchSize = sentences.length
@@ -54,7 +54,7 @@ class TensorflowUSE(val tensorflow: TensorflowWrapper,
 
     val sentenceTensors = tensors.createTensor(sentencesContent)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
+    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, loadSP = loadSP).runner
 
     runner
       .feed(inputKey, sentenceTensors)

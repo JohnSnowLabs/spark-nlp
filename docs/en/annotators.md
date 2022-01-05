@@ -94,6 +94,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="TypedDependencyParser" summary="Labeled parser that finds a grammatical relation between two words in a sentence."%}
 {% include templates/anno_table_entry.md path="" name="ViveknSentiment" summary="Sentiment analyser inspired by the algorithm by Vivek Narayanan."%}
 {% include templates/anno_table_entry.md path="" name="WordEmbeddings" summary="Word Embeddings lookup annotator that maps tokens to vectors."%}
+{% include templates/anno_table_entry.md path="" name="Word2Vec" summary="Word2Vec model that creates vector representations of words in a text corpus."%}
 {% include templates/anno_table_entry.md path="" name="WordSegmenter" summary="Tokenizes non-english or non-whitespace separated texts."%}
 {% include templates/anno_table_entry.md path="" name="YakeKeywordExtraction" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
 
@@ -105,6 +106,7 @@ Additionally, these transformers are available to generate embeddings.
 |---|---|---|
 {% include templates/anno_table_entry.md path="./transformers" name="AlbertEmbeddings" summary="ALBERT: A Lite BERT for Self-supervised Learning of Language Representations"%}
 {% include templates/anno_table_entry.md path="./transformers" name="AlbertForTokenClassification" summary="AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
+{% include templates/anno_table_entry.md path="./transformers" name="AlbertForSequenceClassification" summary="AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertEmbeddings" summary="Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture."%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertForSequenceClassification" summary="Bert Models with sequence classification/regression head on top."%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertForTokenClassification" summary="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
@@ -113,19 +115,24 @@ Additionally, these transformers are available to generate embeddings.
 {% include templates/anno_table_entry.md path="./transformers" name="DistilBertForSequenceClassification" summary="DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DistilBertForTokenClassification" summary="DistilBertForTokenClassification can load DistilBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="ElmoEmbeddings" summary="Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark."%}
+{% include templates/anno_table_entry.md path="./transformers" name="GPT2Transformer" summary="GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages."%}
 {% include templates/anno_table_entry.md path="./transformers" name="LongformerEmbeddings" summary="Longformer is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents."%}
+{% include templates/anno_table_entry.md path="./transformers" name="LongformerForSequenceClassification" summary="LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="LongformerForTokenClassification" summary="LongformerForTokenClassification can load Longformer Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MarianTransformer" summary="Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies."%}
 {% include templates/anno_table_entry.md path="./transformers" name="RoBertaEmbeddings" summary="RoBERTa: A Robustly Optimized BERT Pretraining Approach"%}
+{% include templates/anno_table_entry.md path="./transformers" name="RoBertaForSequenceClassification" summary="RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="RoBertaForTokenClassification" summary="RoBertaForTokenClassification can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="RoBertaSentenceEmbeddings" summary="Sentence-level embeddings using RoBERTa."%}
 {% include templates/anno_table_entry.md path="./transformers" name="T5Transformer" summary="T5 reconsiders all NLP tasks into a unified text-to-text-format where the input and output are always text strings, in contrast to BERT-style models that can only output either a class label or a span of the input."%}
 {% include templates/anno_table_entry.md path="./transformers" name="UniversalSentenceEncoder" summary="The Universal Sentence Encoder encodes text into high dimensional vectors that can be used for text classification, semantic similarity, clustering and other natural language tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlmRoBertaEmbeddings" summary="XlmRoBerta is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl"%}
+{% include templates/anno_table_entry.md path="./transformers" name="XlmRoBertaForSequenceClassification" summary="XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlmRoBertaForTokenClassification" summary="XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlmRoBertaSentenceEmbeddings" summary="Sentence-level embeddings using XLM-RoBERTa."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlnetEmbeddings" summary="XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlnetForTokenClassification" summary="XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
+{% include templates/anno_table_entry.md path="./transformers" name="XlnetForSequenceClassification" summary="XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
 
 </div>
 

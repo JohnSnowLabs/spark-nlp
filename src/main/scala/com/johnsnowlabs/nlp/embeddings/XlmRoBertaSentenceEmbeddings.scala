@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -263,7 +263,7 @@ class XlmRoBertaSentenceEmbeddings(override val uid: String)
       val sentences = SentenceSplit.unpack(annotations).toArray
 
       if (sentences.nonEmpty) {
-        getModelIfNotSet.calculateSentenceEmbeddings(
+        getModelIfNotSet.predictSequence(
           sentences,
           $(batchSize),
           $(maxSentenceLength)

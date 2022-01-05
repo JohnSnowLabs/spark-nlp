@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,25 +54,25 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private val eosTokenId = 1L
   private val pieceSize = spp.getSppModel.getPieceSize
 
-  def generateSeq2Seq(sentences: Seq[Annotation],
-                      batchSize: Int,
-                      minOutputLength: Int,
-                      maxOutputLength: Int,
-                      doSample: Boolean,
-                      temperature: Double,
-                      topK: Int,
-                      topP: Double,
-                      repetitionPenalty: Double,
-                      noRepeatNgramSize: Int,
-                      task: String,
-                      randomSeed: Option[Long] = None,
-                      ignoreTokenIds: Array[Int] = Array()
-                     ): Seq[Annotation] = {
+  def predict(sentences: Seq[Annotation],
+              batchSize: Int,
+              minOutputLength: Int,
+              maxOutputLength: Int,
+              doSample: Boolean,
+              temperature: Double,
+              topK: Int,
+              topP: Double,
+              repetitionPenalty: Double,
+              noRepeatNgramSize: Int,
+              task: String,
+              randomSeed: Option[Long] = None,
+              ignoreTokenIds: Array[Int] = Array()
+             ): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
 
       val batchSP = encode(batch, task)
-      val spIds = process(
+      val spIds = tag(
         batchSP,
         minOutputLength,
         maxOutputLength,
@@ -102,18 +102,18 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def process(
-               batch: Seq[Array[Long]],
-               minOutputLength: Int,
-               maxOutputLength: Int,
-               doSample: Boolean,
-               temperature: Double,
-               topK: Int,
-               topP: Double,
-               repetitionPenalty: Double,
-               noRepeatNgramSize: Int,
-               randomSeed: Option[Long],
-               ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
+  def tag(
+           batch: Seq[Array[Long]],
+           minOutputLength: Int,
+           maxOutputLength: Int,
+           doSample: Boolean,
+           temperature: Double,
+           topK: Int,
+           topP: Double,
+           repetitionPenalty: Double,
+           noRepeatNgramSize: Int,
+           randomSeed: Option[Long],
+           ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
 
 
     /* Actual size of each sentence to skip padding in the TF model */
@@ -159,7 +159,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     val encoderInputTensors = tensorEncoder.createLongBufferTensor(shape, encoderInputBuffers)
     val encoderAttentionMaskTensors = tensorEncoder.createLongBufferTensor(shape, encoderAttentionMaskBuffers)
 
-    val session = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes)
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
     val runner = session.runner
 
     runner
@@ -263,8 +263,10 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       val decoderOutputs = TensorResources.extractFloats(decoderOuts.head).grouped(vocab_size).toArray.grouped(decoderInputLength).toArray
       var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
 
-      nextTokenLogits = nextTokenLogits.map(x => {
-        x.zipWithIndex.map(x => if (ignoreTokenIds.contains(x._2)) Float.MinValue else x._1)
+      nextTokenLogits = nextTokenLogits.map(logits => {
+        logits.indices.map(i => {
+          if (ignoreTokenIds.contains(i)) Float.MinValue else logits(i)
+        }).toArray
       })
 
       // repetition penalty from CTRL paper (https://arxiv.org/abs/1909.05858)
@@ -281,9 +283,8 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         // create bannedTokens boolean mask
         var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
         for (bannedTokensSlice <- bannedTokens) {
-          if (!bannedTokensSlice.isEmpty)
-            bannedTokensIndicesMask = bannedTokensIndicesMask :+
-              (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
+          bannedTokensIndicesMask = bannedTokensIndicesMask :+
+            (for (token <- 0 until vocab_size) yield if (bannedTokensSlice.contains(token)) true else false)
         }
         if (!bannedTokensIndicesMask.isEmpty)
           nextTokenLogits = for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(bannedTokensIndicesMask)) yield setTensorByIndicesToValue(
@@ -328,11 +329,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
         tokensToAdd = nextToken.map(_.toLong)
 
       decoderInputs = decoderInputs.zip(tokensToAdd).map(x => {
-        if (x._1.contains(eosTokenId)) {
-          x._1
-        } else {
-          x._1 ++ Array(x._2)
-        }
+        x._1 ++ Array(x._2)
       })
       decoderOuts.foreach(_.close())
 
@@ -356,7 +353,7 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
       stopDecoder = (
-        !decoderInputs.exists(o => o.last != this.eosTokenId)
+        !decoderInputs.exists(o => !o.contains(this.eosTokenId))
           || (decoderInputs.head.length > maxOutputLength))
 
     }

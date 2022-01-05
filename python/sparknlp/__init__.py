@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ embeddings = annotator
 def start(gpu=False,
           spark23=False,
           spark24=False,
+          spark32=False,
           memory="16G",
           cache_folder="",
           log_folder="",
@@ -75,6 +76,7 @@ def start(gpu=False,
         :param gpu: start Spark NLP with GPU
         :param spark23: start Spark NLP on Apache Spark 2.3.x
         :param spark24: start Spark NLP on Apache Spark 2.4.x
+        :param spark32: start Spark NLP on Apache Spark 3.2.x
         :param memory: set driver memory for SparkSession
         :param cache_folder: The location to download and exctract pretrained Models and Pipelines
         :param log_folder: The location to save logs from annotators during training such as NerDLApproach,
@@ -103,6 +105,8 @@ def start(gpu=False,
         Whether to use the Spark 2.3.x version of Spark NLP, by default False
     spark24 : bool, optional
         Whether to use the Spark 2.4.x version of Spark NLP, by default False
+    spark32 : bool, optional
+        Whether to use the Spark 3.2.x version of Spark NLP, by default False
     memory : str, optional
         How much memory to allocate for the Spark driver, by default "16G"
     real_time_output : bool, optional
@@ -116,7 +120,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "3.3.4"
+    current_version = "3.4.0"
 
     class SparkNLPConfig:
 
@@ -124,7 +128,10 @@ def start(gpu=False,
             self.master, self.app_name = "local[*]", "Spark NLP"
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
-            # Spark NLP on Apache Spark 3.0.x
+            # Spark NLP on Apache Spark 3.2.x
+            self.maven_spark32 = "com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:{}".format(current_version)
+            self.maven_gpu_spark32 = "com.johnsnowlabs.nlp:spark-nlp-gpu-spark32_2.12:{}".format(current_version)
+            # Spark NLP on Apache Spark 3.0.x/3.1.x
             self.maven_spark = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
             self.maven_gpu_spark = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
             # Spark NLP on Apache Spark 2.4.x
@@ -147,10 +154,14 @@ def start(gpu=False,
             builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark23)
         elif gpu and spark24:
             builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark24)
+        elif gpu and spark32:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark32)
         elif spark23:
             builder.config("spark.jars.packages", spark_nlp_config.maven_spark23)
         elif spark24:
             builder.config("spark.jars.packages", spark_nlp_config.maven_spark24)
+        elif spark32:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_spark32)
         elif gpu:
             builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark)
         else:
@@ -267,4 +278,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '3.3.4'
+    return '3.4.0'

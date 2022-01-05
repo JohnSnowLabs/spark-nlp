@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcher</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcher" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcher" />
+          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.DateMatcher</title>
+          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.DateMatcher" />
+          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.DateMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -510,7 +510,7 @@
                         <a class="class" href="RegexMatcherModel.html" title="Instantiated model of the RegexMatcher."></a>
                         <a href="RegexMatcherModel.html" title="Instantiated model of the RegexMatcher.">RegexMatcherModel</a>
                       </li><li class="current-entities indented4">
-                        <span class="separator"></span>
+                        <a class="object" href="RegexTokenizer$.html" title="This is the companion object of RegexTokenizer."></a>
                         <a class="class" href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern."></a>
                         <a href="RegexTokenizer.html" title="A tokenizer that splits text by a regex pattern.">RegexTokenizer</a>
                       </li><li class="current-entities indented4">
@@ -872,6 +872,38 @@ Should be deleted once Spark releases UserDefinedTypes to @developerAPI
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#EMPTY_INIT_ARRAY" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EMPTY_INIT_ARRAY:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#EMPTY_INIT_ARRAY:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EMPTY_INIT_ARRAY</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="java.lang.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#SPACE_CHAR" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="SPACE_CHAR:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#SPACE_CHAR:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SPACE_CHAR</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#_transform" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="_transform(dataset:org.apache.spark.sql.Dataset[_],recursivePipeline:Option[org.apache.spark.ml.PipelineModel]):org.apache.spark.sql.DataFrame"></a><a id="_transform(Dataset[_],Option[PipelineModel]):DataFrame"></a>
       <span class="permalink">
@@ -989,7 +1021,7 @@ If it is not set, the by default it will use the current year. Example: 2021
         <span class="name">annotate</span><span class="params">(<span name="annotations">annotations: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">One to one relationship between content document and output annotation</p><div class="fullcomment"><div class="comment cmt"><p>One to one relationship between content document and output annotation</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>Any found date, empty if not. Final format is <a href="#dateFormat:org.apache.spark.ml.param.Param[String]" class="extmbr" name="com.johnsnowlabs.nlp.annotators.DateMatcher#dateFormat">dateFormat</a> or default yyyy/MM/dd</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a> → <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
+      <p class="shortcomment cmt">One to one relationship between content document and output annotation</p><div class="fullcomment"><div class="comment cmt"><p>One to one relationship between content document and output annotation</p></div><dl class="paramcmts block"><dt class="param">annotations</dt><dd class="cmt"><p>Annotations that correspond to inputAnnotationCols generated by previous annotators if any</p></dd><dt>returns</dt><dd class="cmt"><p>Any found date, empty if not. Final format is <a href="#outputFormat:org.apache.spark.ml.param.Param[String]" class="extmbr" name="com.johnsnowlabs.nlp.annotators.DateMatcher#outputFormat">outputFormat</a> or default yyyy/MM/dd</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a> → <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -1126,24 +1158,6 @@ If it is not set, the by default it will use the current year. Example: 2021
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#dateFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
-      <a id="dateFormat:org.apache.spark.ml.param.Param[String]"></a><a id="dateFormat:Param[String]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#dateFormat:org.apache.spark.ml.param.Param[String]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dateFormat</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Output format of parsed date (Default: <code>&quot;yyyy/MM/dd&quot;</code>)
-</p><div class="fullcomment"><div class="comment cmt"><p>Output format of parsed date (Default: <code>&quot;yyyy/MM/dd&quot;</code>)
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
@@ -1431,6 +1445,38 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
 Matching strategy is to find first match only, ignore additional matches from then
 Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX Century e.g. 1954
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#formalFactoryInputFormats" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="formalFactoryInputFormats:com.johnsnowlabs.nlp.util.regex.RuleFactory"></a><a id="formalFactoryInputFormats:RuleFactory"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#formalFactoryInputFormats:com.johnsnowlabs.nlp.util.regex.RuleFactory" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">formalFactoryInputFormats</span><span class="result">: <a href="../util/regex/RuleFactory.html" class="extype" name="com.johnsnowlabs.nlp.util.regex.RuleFactory">RuleFactory</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#formalInputFormats" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="formalInputFormats:Map[String,scala.util.matching.Regex]"></a><a id="formalInputFormats:Map[String,Regex]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#formalInputFormats:Map[String,scala.util.matching.Regex]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">formalInputFormats</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.util.matching.Regex">Regex</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#get" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="get[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T]):Option[T]"></a><a id="get[T](StructFeature[T]):Option[T]"></a>
       <span class="permalink">
@@ -1610,22 +1656,6 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
-      <a id="getFormat:String"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#getFormat:String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getFormat</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -1642,6 +1672,22 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>input annotations columns currently used</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getInputFormats" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getInputFormats:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#getInputFormats:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInputFormats</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <span class="permalink">
@@ -1690,6 +1736,22 @@ Any 4 digit year will be assumed a year, any 2 digit year will be as part of XX 
       </span>
       
       <p class="shortcomment cmt">Gets annotation column name going to generate</p><div class="fullcomment"><div class="comment cmt"><p>Gets annotation column name going to generate</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#getOutputFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getOutputFormat:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#getOutputFormat:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getOutputFormat</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getParam" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getParam(paramName:String):org.apache.spark.ml.param.Param[Any]"></a><a id="getParam(String):Param[Any]"></a>
       <span class="permalink">
@@ -1876,6 +1938,23 @@ AnnotatorType is used both as input and output columns if not specified
 </p><div class="fullcomment"><div class="comment cmt"><p>columns that contain annotations necessary to run this annotator
 AnnotatorType is used both as input and output columns if not specified
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#inputFormats" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="inputFormats:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputFormats:StringArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#inputFormats:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">inputFormats</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Date Matcher regex patterns.</p><div class="fullcomment"><div class="comment cmt"><p>Date Matcher regex patterns.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -2300,6 +2379,24 @@ AnnotatorType is used both as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#outputFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="outputFormat:org.apache.spark.ml.param.Param[String]"></a><a id="outputFormat:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#outputFormat:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outputFormat</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Output format of parsed date (Default: <code>&quot;yyyy/MM/dd&quot;</code>)
+</p><div class="fullcomment"><div class="comment cmt"><p>Output format of parsed date (Default: <code>&quot;yyyy/MM/dd&quot;</code>)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a><a id="params:Array[Param[_]]"></a>
       <span class="permalink">
@@ -2533,6 +2630,22 @@ Strategy used is to match first only.</p><div class="fullcomment"><div class="co
 Strategy used is to match first only. any other matches discarded
 Auto completes short versions of months. Any two digit year is considered to be XX century
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcher#runInputFormatsSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="runInputFormatsSearch(text:String):Option[DateMatcher.this.MatchedDateTime]"></a><a id="runInputFormatsSearch(String):Option[MatchedDateTime]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#runInputFormatsSearch(text:String):Option[DateMatcher.this.MatchedDateTime]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">runInputFormatsSearch</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils.MatchedDateTime">MatchedDateTime</span>]</span>
+      </span>
+      
+      
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2832,22 +2945,6 @@ Auto completes short versions of months. Any two digit year is considered to be 
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
-      <a id="setFormat(value:String):DateMatcherUtils.this.type"></a><a id="setFormat(String):DateMatcher.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#setFormat(value:String):DateMatcherUtils.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setFormat</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):DateMatcher.this.type"></a>
       <span class="permalink">
@@ -2880,6 +2977,22 @@ Auto completes short versions of months. Any two digit year is considered to be 
       </span>
       
       <p class="shortcomment cmt">Overrides required annotators column if different than default</p><div class="fullcomment"><div class="comment cmt"><p>Overrides required annotators column if different than default</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setInputFormats" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setInputFormats(value:Array[String]):DateMatcherUtils.this.type"></a><a id="setInputFormats(Array[String]):DateMatcher.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#setInputFormats(value:Array[String]):DateMatcherUtils.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setInputFormats</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):DateMatcher.this.type"></a>
       <span class="permalink">
@@ -2912,6 +3025,22 @@ Auto completes short versions of months. Any two digit year is considered to be 
       </span>
       
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils#setOutputFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setOutputFormat(value:String):DateMatcherUtils.this.type"></a><a id="setOutputFormat(String):DateMatcher.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DateMatcher.html#setOutputFormat(value:String):DateMatcherUtils.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOutputFormat</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcher">DateMatcher</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="DateMatcherUtils.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DateMatcherUtils">DateMatcherUtils</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.Model#setParent" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setParent(parent:org.apache.spark.ml.Estimator[M]):M"></a><a id="setParent(Estimator[DateMatcher]):DateMatcher"></a>
       <span class="permalink">

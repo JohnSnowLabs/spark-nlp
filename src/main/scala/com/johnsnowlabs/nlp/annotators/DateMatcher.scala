@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,16 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.regex.RuleFactory
+import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
 import com.johnsnowlabs.nlp.util.regex.RuleFactory.RuleMatch
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+import scala.util.matching.Regex
 
 /**
  * Matches standard date formats into a provided format
@@ -118,6 +121,22 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("DATE"))
 
+  private def runFormalFactoryForInputFormats(text: String, factory: RuleFactory): Option[MatchedDateTime] = {
+    factory.findMatchFirstOnly(text).map{ possibleDate => formalDateContentParse(possibleDate)}
+  }
+
+  def runInputFormatsSearch(text: String): Option[MatchedDateTime] = {
+    val regexes: Array[Regex] = getInputFormats
+      .filter(formalInputFormats.contains(_))
+      .map(formalInputFormats(_))
+
+    for(r <- regexes){
+      formalFactoryInputFormats.addRule(r, "formal rule from input formats")
+    }
+
+    runFormalFactoryForInputFormats(text, formalFactoryInputFormats)
+  }
+
   /**
    * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
    *
@@ -126,26 +145,38 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
    */
   private[annotators] def extractDate(text: String): Option[MatchedDateTime] = {
 
-    val sourceLanguage = getSourceLanguage
-    val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
+    val _text: String = runTranslation(text)
 
-    val _text =
-      if (translationPreds.forall(_.equals(true)))
-        new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
+    def inputFormatsAreDefined = !getInputFormats.sameElements(EMPTY_INIT_ARRAY)
+
+    val possibleDate: Option[MatchedDateTime] =
+      if (inputFormatsAreDefined)
+        runInputFormatsSearch(_text)
       else
-        text
+        runDateExtractorChain(_text)
 
-    val possibleDate = extractFormalDate(_text)
+    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
+  }
+
+  private def runDateExtractorChain(_text: String) = {
+    extractFormalDate(_text)
       .orElse(extractRelativeDatePast(_text))
       .orElse(extractRelativeDateFuture(_text))
       .orElse(extractRelaxedDate(_text))
       .orElse(extractRelativeDate(_text))
       .orElse(extractTomorrowYesterday(_text))
       .orElse(extractRelativeExactDay(_text))
-
-    possibleDate.orElse(setTimeIfAny(possibleDate, _text))
   }
 
+  private def runTranslation(text: String) = {
+    val sourceLanguage = getSourceLanguage
+    val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
+
+    if (translationPreds.forall(_.equals(true)))
+      new DateMatcherTranslator(SingleDatePolicy).translate(text, sourceLanguage)
+    else
+      text
+  }
 
   private def extractFormalDate(text: String): Option[MatchedDateTime] = {
     formalFactory.findMatchFirstOnly(text).map { possibleDate =>
@@ -154,7 +185,7 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
   }
 
   private def isNotMonthSubwordMatch(text: String, d: RuleMatch): Boolean = {
-    val words = text.replaceAll("""([?.!:]|\b\p{IsLetter}{1,2}\b)\s*""", "").split(" ")
+    val words = text.replaceAll("""([?.!:]|\b\p{IsLetter}{1,2}\b)\s*""", "").split(SPACE_CHAR)
     val notSubWordMatches = words
       .map(_.toLowerCase)
       .filter( w => w.contains(d.content.matched.toLowerCase) && w.length <= d.content.matched.length)
@@ -282,10 +313,10 @@ class DateMatcher(override val uid: String) extends AnnotatorModel[DateMatcher] 
 
   /** One to one relationship between content document and output annotation
    *
-   * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
+   * @return Any found date, empty if not. Final format is [[outputFormat]] or default yyyy/MM/dd
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val simpleDateFormat = new SimpleDateFormat(getFormat)
+    val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
     annotations.flatMap(annotation =>
       extractDate(annotation.result).map(matchedDate => Annotation(
         outputAnnotatorType,

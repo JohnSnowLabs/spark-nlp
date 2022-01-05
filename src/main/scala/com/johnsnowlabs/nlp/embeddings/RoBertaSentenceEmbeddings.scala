@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -317,7 +317,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
 
       if (sentences.nonEmpty) {
         val tokenized = tokenize(sentences)
-        getModelIfNotSet.calculateSentenceEmbeddings(
+        getModelIfNotSet.predictSequence(
           tokenized,
           sentences,
           $(batchSize),

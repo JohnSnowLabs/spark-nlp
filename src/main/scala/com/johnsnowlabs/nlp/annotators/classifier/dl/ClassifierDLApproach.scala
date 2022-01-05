@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -406,7 +406,7 @@ class ClassifierDLApproach(override val uid: String)
         throw e
     }
 
-    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tfWrapper.getSession(configProtoBytes = getConfigProtoBytes)), tfWrapper.graph)
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tfWrapper.getTFSession(configProtoBytes = getConfigProtoBytes)), tfWrapper.graph)
 
     val model = new ClassifierDLModel()
       .setDatasetParams(classifier.encoder.params)

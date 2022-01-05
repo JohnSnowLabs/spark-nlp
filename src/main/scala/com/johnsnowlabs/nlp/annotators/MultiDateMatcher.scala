@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.commons.lang.time.DateUtils
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
@@ -23,6 +24,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import scala.collection.mutable.ListBuffer
+import scala.util.matching.Regex
 
 /**
  * Matches standard date formats into a provided format.
@@ -113,24 +115,37 @@ class MultiDateMatcher(override val uid: String)
   /** Internal constructor to submit a random UID */
   def this() = this(Identifiable.randomUID("MULTI_DATE"))
 
-  /**
-   * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
-   *
-   * @param text input text coming from target document
-   * @return a possible date-time match
-   */
-  private[annotators] def extractDate(text: String): Seq[MatchedDateTime] = {
-
+  private def runTranslation(text: String) = {
     val sourceLanguage = getSourceLanguage
     val translationPreds = Array(sourceLanguage.length == 2, !sourceLanguage.equals("en"))
 
-    val _text =
-      if (translationPreds.forall(_.equals(true)))
-        new DateMatcherTranslator(MultiDatePolicy).translate(text, sourceLanguage)
-      else
-        text
+    if (translationPreds.forall(_.equals(true)))
+      new DateMatcherTranslator(MultiDatePolicy).translate(text, sourceLanguage)
+    else
+      text
+  }
 
-    val strategies = Seq(
+  private def findByInputFormatsRules(text: String, factory: RuleFactory): Seq[MatchedDateTime] =
+    factory.findMatch(text)
+      .map(formalDateContentParse(_))
+      .groupBy(_.calendar)
+      .map{ case(_, group) => group.head}
+      .toSeq
+
+  def runInputFormatsSearch(text: String): Seq[MatchedDateTime] = {
+    val regexes: Array[Regex] = getInputFormats
+      .filter(formalInputFormats.contains(_))
+      .map(formalInputFormats(_))
+
+    for(r <- regexes){
+      formalFactoryInputFormats.addRule(r, "formal rule from input formats")
+    }
+
+    findByInputFormatsRules(text, formalFactoryInputFormats)
+  }
+
+  def runDateExtractorChain(_text: String): Seq[MatchedDateTime] = {
+    val strategies: Seq[() => Seq[MatchedDateTime]] = Seq(
       () => extractFormalDate(_text),
       () => extractRelativeDatePast(_text),
       () => extractRelativeDateFuture(_text),
@@ -140,18 +155,42 @@ class MultiDateMatcher(override val uid: String)
       () => extractRelativeExactDay(_text)
     )
 
-    strategies.foldLeft(Seq.empty[MatchedDateTime])((previousResults, strategy) => {
-      // Always keep earliest match of each strategy by date found
-      val newResults = strategy()
-      newResults.foldLeft(previousResults)((previous, newResult) => {
-        // Prioritize previous results on this index, ignore new ones if overlapping previous results
-        if (previous.exists(_.start == newResult.start))
-          previous
-        else
-          previous :+ newResult
-      })
-    })
+    strategies.foldLeft(Seq.empty[MatchedDateTime])(
+      (previousResults, strategy) => {
+        // Always keep earliest match of each strategy by date found
+        val newResults = strategy()
+        newResults.foldLeft(previousResults)(
+          (previous, newResult) => {
+            // Prioritize previous results on this index, ignore new ones if overlapping previous results
+            if (previous.exists(_.start == newResult.start))
+              previous
+            else
+              previous :+ newResult
+          }
+        )
+      }
+    )
+  }
 
+  /**
+   * Finds dates in a specific order, from formal to more relaxed. Add time of any, or stand-alone time
+   *
+   * @param text input text coming from target document
+   * @return a possible date-time match
+   */
+  private[annotators] def extractDate(text: String): Seq[MatchedDateTime] = {
+
+    val _text: String = runTranslation(text)
+
+    def inputFormatsAreDefined = !getInputFormats.sameElements(EMPTY_INIT_ARRAY)
+
+    val possibleDates: Seq[MatchedDateTime] =
+      if (inputFormatsAreDefined)
+        runInputFormatsSearch(_text)
+      else
+        runDateExtractorChain(_text)
+
+    possibleDates
   }
 
   private def extractRelativeDateFuture(text: String): Seq[MatchedDateTime] = {
@@ -262,10 +301,10 @@ class MultiDateMatcher(override val uid: String)
 
   /** One to one relationship between content document and output annotation
    *
-   * @return Any found date, empty if not. Final format is [[dateFormat]] or default yyyy/MM/dd
+   * @return Any found date, empty if not. Final format is [[outputFormat]] or default yyyy/MM/dd
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val simpleDateFormat = new SimpleDateFormat(getFormat)
+    val simpleDateFormat = new SimpleDateFormat(getOutputFormat)
     annotations.flatMap(annotation =>
       extractDate(annotation.result)
         .map(matchedDate => Annotation(

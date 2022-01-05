@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ object NerDLCoNLL2003 extends App {
     val model = new TensorflowNer(tf, encoder, Verbose.All)
     for (epoch <- 0 until 150) {
       model.train(trainDataset.grouped(32), trainDataset.size, Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]().grouped(32),
-        trainDataset.length, 1e-3f, 0.005f, 0.5f, 8, epoch, epoch + 1, outputLogsPath = "")
+        trainDataset.length, 1e-3f, 0.005f, 0.5f, 8, false, epoch, epoch + 1, outputLogsPath = "")
 
       System.out.println("\n\nQuality on train data")
       model.measure(trainDataset.grouped(32), extended = true, outputLogsPath = "")

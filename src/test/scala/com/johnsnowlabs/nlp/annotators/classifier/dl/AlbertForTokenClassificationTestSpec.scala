@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
     val loadedDistilBertModel = AlbertForTokenClassification.load("./tmp_albertfortoken_model")
-    loadedDistilBertModel.getLabels
+    println(tokenClassifier.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

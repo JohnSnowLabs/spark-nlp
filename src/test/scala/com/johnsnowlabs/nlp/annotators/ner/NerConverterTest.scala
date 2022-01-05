@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-
+import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NerConverterTest extends AnyFlatSpec {
@@ -125,15 +125,16 @@ class NerConverterTest extends AnyFlatSpec {
     val ner = NerDLModel.pretrained("onto_small_bert_L2_128")
       .setInputCols("sentence", "token_normalized", "embeddings")
       .setOutputCol("ner")
-      .setIncludeConfidence(true)
-      .setIncludeAllConfidenceScores(true)
+      .setIncludeConfidence(false)
+      .setIncludeAllConfidenceScores(false)
 
     val converter = new NerConverter()
       .setInputCols("sentence", "token_normalized", "ner")
       .setOutputCol("entities")
       .setPreservePosition(false)
+      .setWhiteList("O", "I-PER", "B-PER")
 
-    val recursivePipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         document_normalizer,
@@ -145,16 +146,18 @@ class NerConverterTest extends AnyFlatSpec {
         converter
       ))
 
-    val nermodel = recursivePipeline.fit(testDF).transform(testDF)
+    val nermodel = pipeline.fit(testDF).transform(testDF)
 
-    nermodel.select("document.result").show(1, false)
-    nermodel.select("document_normalized.result").show(1, false)
-    nermodel.select("sentence.result").show(1, false)
-    nermodel.select("token.result").show(1, false)
-    nermodel.select("token_normalized.result").show(1, false)
-    nermodel.select("embeddings.result").show(1, false)
-    nermodel.select("entities.result").show(1, false)
-    nermodel.select("entities").show(1, false)
+    /*
+    nermodel.select("document.result").show(1)
+    nermodel.select("document_normalized.result").show(1)
+    nermodel.select("sentence.result").show(1)
+    nermodel.select("token.result").show(1)
+    nermodel.select("token_normalized.result").show(1)
+    nermodel.select("embeddings.result").show(1)
+    */
+    nermodel.select("entities.result").show(1, truncate = false)
+    nermodel.select("entities").show(1, truncate = false)
 
   }
 }

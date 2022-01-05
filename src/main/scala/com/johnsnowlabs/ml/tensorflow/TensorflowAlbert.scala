@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
     val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
-    val runner = tensorflow.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(_tfAlbertSignatures.getOrElse(ModelSignatureConstants.InputIdsV1.key, "missing_input_id_key"), tokenTensors)
@@ -155,11 +155,11 @@ class TensorflowAlbert(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def calculateEmbeddings(tokenizedSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(tokenizedSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+              caseSensitive: Boolean
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
     wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
