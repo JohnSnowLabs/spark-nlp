@@ -434,7 +434,7 @@
                   <h2 class="h2_title grey">Transformers at Scale</h2>
                   <div class="transformer-descr">
                     <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as
-                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, and <b>MarianMT</b> not only to <b>Python</b>, and <b>R</b>
+                    <b>BERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Google T5</b>, <b>MarianMT</b>, and <b>OpenAI GPT2</b> not only to <b>Python</b>, and <b>R</b>
                     but also to <b>JVM</b> ecosystem (<b>Java</b>, <b>Scala</b>, and <b>Kotlin</b>) at <b>scale</b> by extending <b>Apache Spark</b> natively
                   </div>
                 </div>
@@ -452,22 +452,22 @@
                   <div class="highlight-box">
     
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">    <span class="c"># Install Spark NLP from PyPI</span>
-    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.3.4 <span class="nv">pyspark</span><span class="o">==</span>3.1.2
+    <span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.4.0 <span class="nv">pyspark</span><span class="o">==</span>3.1.2
 
     <span class="c"># Install Spark NLP from Anaconda/Conda</span>
     <span class="nv">$ </span>conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
 
     <span class="c"># Load Spark NLP with Spark Shell</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.4
+    <span class="nv">$ </span>spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.0
 
     <span class="c"># Load Spark NLP with PySpark</span>
-    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.4
+    <span class="nv">$ </span>pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.0
 
     <span class="c"># Load Spark NLP with Spark Submit</span>
-    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.4
+    <span class="nv">$ </span>spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.0
 
-    <span class="c"># Load Spark NLP as external JAR after comiling and bulding Spark NLP by `sbt assembly`</span>
-    <span class="nv">$ </span>spark-shell <span class="nt">--jar</span> spark-nlp-assembly-3.3.4
+    <span class="c"># Load Spark NLP as an external Fat JAR</span>
+    <span class="nv">$ </span>spark-shell <span class="nt">--jars</span> spark-nlp-assembly-3.4.0.jar
     </code></pre></figure>
 
                     </div>
@@ -502,10 +502,9 @@
                     <li><strong>Dependency</strong> parsing</li>
                     <li><strong>Sentiment</strong> Detection (ML models)</li>
                     <li><strong>Spell</strong> Checker (ML & DL models)</li>
-                  </ul>
-                  <ul class="list1">
-                    <li>Word Embeddings (<strong>GloVe</strong> & <strong>Word2Vec</strong>)</li>
                     <li>Doc2Vec Embeddings (<strong>Word2Vec</strong>)</li>
+                    <li>Word2Vec Embeddings (<strong>Word2Vec</strong>)</li>
+                    <li>Word Embeddings (<strong>GloVe</strong> & <strong>Word2Vec</strong>)</li>
                     <li><strong>BERT</strong> Embeddings</li>
                     <li><strong>DistilBERT</strong> Embeddings</li>
                     <li><strong>RoBERTa</strong> Embeddings</li>
@@ -513,38 +512,37 @@
                     <li><strong>Longformer</strong> Embeddings</li>
                     <li><strong>ALBERT</strong> Embeddings</li>
                     <li><strong>XLNet</strong> Embeddings</li>
+
+                  </ul>
+                  <ul class="list1">
                     <li><strong>ELMO</strong> Embeddings</li>
                     <li><strong>Universal Sentence</strong> Encoder</li>
                     <li><strong>Sentence</strong> Embeddings</li>
                     <li><strong>Chunk</strong> Embeddings</li>
                     <li>Neural <strong>Machine Translation</strong> (MarianMT)</li>
                     <li><strong>Text-To-Text</strong> Transfer Transformer <strong>(Google T5)</strong></li>
+                    <li><strong>Generative Pre-trained</strong> Transformer 2 <strong>(OpenAI GPT-2)</strong></li>
                     <li>Unsupervised <strong>keywords extraction</strong></li>
-                  </ul>
-                  <ul class="list1">
                     <li>Language <strong>Detection</strong> & <strong>Identification</strong> (up to 375 languages)</li>
                     <li>Multi-class Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-label Text <strong>Classification</strong> (DL model)</li>
                     <li>Multi-class <strong>Sentiment Analysis</strong> (DL model)</li>
-                    <li>BERT for <strong>Sequence Classification</strong></li>
-                    <li>DistilBERT for <strong>Sequence Classification</strong></li>
-                    <li>BERT for <strong>Token Classification</strong></li>
-                    <li>DistilBERT for <strong>Token Classification</strong></li>
-                    <li>ALBERT for <strong>Token Classification</strong></li>
-                    <li>RoBERTa for <strong>Token Classification</strong></li>
-                    <li>XLM-RoBERTa for <strong>Token Classification</strong></li>
-                    <li>XLNet for <strong>Token Classification</strong></li>
-                    <li>Longformer for <strong>Token Classification</strong></li>
+                    <li>BERT for <strong>Token & Sequence Classification</strong></li>
+                    <li>DistilBERT for <strong>Token & Sequence Classification</strong></li>
+                    <li>ALBERT for <strong>Token & Sequence Classification</strong></li>
+                    <li>RoBERTa for <strong>Token & Sequence Classification</strong></li>
+                    <li>XLM-RoBERTa for <strong>Token & Sequence Classification</strong></li>
+                    <li>XLNet for <strong>Token & Sequence Classification</strong></li>
+                    <li>Longformer for <strong>Token & Sequence Classification</strong></li>
                     <li><strong>Named entity</strong> recognition (DL model)</li>
                     <li>Easy <strong>TensorFlow</strong> integration</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
-                    <li><strong>2000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
+                    <li><strong>2300+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
                     <li><strong>1700+</strong> pre-trained <strong>pipelines </strong> in <strong>200+ languages! </strong>
                   </ul>
                 </div>
 
-    
 <figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
     <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
     <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
@@ -565,8 +563,7 @@
 
     <span class="c1"># Check the results
 </span>    <span class="n">result</span><span class="p">[</span><span class="s">'entities'</span><span class="p">]</span>
-    <span class="n">Output</span><span class="p">:</span> <span class="p">[</span><span class="s">'Mona Lisa'</span><span class="p">,</span> <span class="s">'Leonardo'</span><span class="p">,</span> <span class="s">'Louvre'</span><span class="p">,</span> <span class="s">'Paris'</span><span class="p">]</span>
-    </code></pre></figure>
+    <span class="n">Output</span><span class="p">:</span> <span class="p">[</span><span class="s">'Mona Lisa'</span><span class="p">,</span> <span class="s">'Leonardo'</span><span class="p">,</span> <span class="s">'Louvre'</span><span class="p">,</span> <span class="s">'Paris'</span><span class="p">]</span></code></pre></figure>
 
                 </div>
               </div>

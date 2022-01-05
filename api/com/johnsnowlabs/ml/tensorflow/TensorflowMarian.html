@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowMarian</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
+          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowMarian</title>
+          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
+          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowMarian" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -257,6 +257,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="TensorflowForClassification.html" title=""></a>
                         <a href="TensorflowForClassification.html" title="">TensorflowForClassification</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="TensorflowGPT2.html" title=""></a>
+                        <a href="TensorflowGPT2.html" title="">TensorflowGPT2</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TensorflowLD.html" title="Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow"></a>
@@ -627,24 +631,6 @@ Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/a
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#generateSeq2Seq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxInputLength:Int,maxOutputLength:Int,vocabs:Array[String],langId:String,ignoreTokenIds:Array[Int]):Array[com.johnsnowlabs.nlp.Annotation]"></a><a id="generateSeq2Seq(Seq[Annotation],Int,Int,Int,Array[String],String,Array[Int]):Array[Annotation]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowMarian.html#generateSeq2Seq(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxInputLength:Int,maxOutputLength:Int,vocabs:Array[String],langId:String,ignoreTokenIds:Array[Int]):Array[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">generateSeq2Seq</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">10</span></span>, <span name="maxInputLength">maxInputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabs">vocabs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="langId">langId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">generate seq2seq via encoding, generating, and decoding
-</p><div class="fullcomment"><div class="comment cmt"><p>generate seq2seq via encoding, generating, and decoding
-</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>none empty Annotation</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>size of baches to be process at the same time</p></dd><dt class="param">maxInputLength</dt><dd class="cmt"><p>maximum length for input</p></dd><dt class="param">maxOutputLength</dt><dd class="cmt"><p>maximum length for output</p></dd><dt class="param">vocabs</dt><dd class="cmt"><p>list of all vocabs</p></dd><dt class="param">langId</dt><dd class="cmt"><p>language id for multi-lingual models</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -753,10 +739,10 @@ Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/a
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#process" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="process(batch:Seq[Array[Int]],maxOutputLength:Int,paddingTokenId:Int,eosTokenId:Int,vocabSize:Int,ignoreTokenIds:Array[Int]):Array[Array[Int]]"></a><a id="process(Seq[Array[Int]],Int,Int,Int,Int,Array[Int]):Array[Array[Int]]"></a>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#predict" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="predict(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxInputLength:Int,maxOutputLength:Int,vocabs:Array[String],langId:String,ignoreTokenIds:Array[Int]):Array[com.johnsnowlabs.nlp.Annotation]"></a><a id="predict(Seq[Annotation],Int,Int,Int,Array[String],String,Array[Int]):Array[Annotation]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowMarian.html#process(batch:Seq[Array[Int]],maxOutputLength:Int,paddingTokenId:Int,eosTokenId:Int,vocabSize:Int,ignoreTokenIds:Array[Int]):Array[Array[Int]]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowMarian.html#predict(sentences:Seq[com.johnsnowlabs.nlp.Annotation],batchSize:Int,maxInputLength:Int,maxOutputLength:Int,vocabs:Array[String],langId:String,ignoreTokenIds:Array[Int]):Array[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -765,10 +751,12 @@ Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/a
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">process</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="paddingTokenId">paddingTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="eosTokenId">eosTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabSize">vocabSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+        <span class="name">predict</span><span class="params">(<span name="sentences">sentences: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">10</span></span>, <span name="maxInputLength">maxInputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabs">vocabs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="langId">langId: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">generate seq2seq via encoding, generating, and decoding
+</p><div class="fullcomment"><div class="comment cmt"><p>generate seq2seq via encoding, generating, and decoding
+</p></div><dl class="paramcmts block"><dt class="param">sentences</dt><dd class="cmt"><p>none empty Annotation</p></dd><dt class="param">batchSize</dt><dd class="cmt"><p>size of baches to be process at the same time</p></dd><dt class="param">maxInputLength</dt><dd class="cmt"><p>maximum length for input</p></dd><dt class="param">maxOutputLength</dt><dd class="cmt"><p>maximum length for output</p></dd><dt class="param">vocabs</dt><dd class="cmt"><p>list of all vocabs</p></dd><dt class="param">langId</dt><dd class="cmt"><p>language id for multi-lingual models</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#sppSrc" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="sppSrc:com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper"></a><a id="sppSrc:SentencePieceWrapper"></a>
       <span class="permalink">
@@ -817,6 +805,22 @@ Marian: Fast Neural Machine Translation in C++ <a href="https://www.aclweb.org/a
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#tag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="tag(batch:Seq[Array[Int]],maxOutputLength:Int,paddingTokenId:Int,eosTokenId:Int,vocabSize:Int,ignoreTokenIds:Array[Int]):Array[Array[Int]]"></a><a id="tag(Seq[Array[Int]],Int,Int,Int,Int,Array[Int]):Array[Array[Int]]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowMarian.html#tag(batch:Seq[Array[Int]],maxOutputLength:Int,paddingTokenId:Int,eosTokenId:Int,vocabSize:Int,ignoreTokenIds:Array[Int]):Array[Array[Int]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">tag</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="paddingTokenId">paddingTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="eosTokenId">eosTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabSize">vocabSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowMarian#tensorflow" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper"></a><a id="tensorflow:TensorflowWrapper"></a>
       <span class="permalink">

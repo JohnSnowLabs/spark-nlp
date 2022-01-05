@@ -817,6 +817,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#word2vec">Word2Vec</a></td>
+        <td>Word2Vec model that creates vector representations of words in a text corpus.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#wordsegmenter">WordSegmenter</a></td>
         <td>Tokenizes non-english or non-whitespace separated texts.</td>
         <td>Opensource</td>
@@ -849,6 +854,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#albertfortokenclassification">AlbertForTokenClassification</a></td>
         <td>AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#albertforsequenceclassification">AlbertForSequenceClassification</a></td>
+        <td>AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -892,8 +902,18 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#gpt2transformer">GPT2Transformer</a></td>
+        <td>GPT-2 is a large transformer-based language model with 1.5 billion parameters, trained on a dataset of 8 million web pages.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#longformerembeddings">LongformerEmbeddings</a></td>
         <td>Longformer is a BERT-like model started from the RoBERTa checkpoint and pretrained for MLM on long documents.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#longformerforsequenceclassification">LongformerForSequenceClassification</a></td>
+        <td>LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -909,6 +929,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#robertaembeddings">RoBertaEmbeddings</a></td>
         <td>RoBERTa: A Robustly Optimized BERT Pretraining Approach</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#robertaforsequenceclassification">RoBertaForSequenceClassification</a></td>
+        <td>RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -937,6 +962,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#xlmrobertaforsequenceclassification">XlmRoBertaForSequenceClassification</a></td>
+        <td>XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#xlmrobertafortokenclassification">XlmRoBertaForTokenClassification</a></td>
         <td>XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
         <td>Opensource</td>
@@ -954,6 +984,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#xlnetfortokenclassification">XlnetForTokenClassification</a></td>
         <td>XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#xlnetforsequenceclassification">XlnetForSequenceClassification</a></td>
+        <td>XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
         <td>Opensource</td>
       </tr>
     </tbody>
@@ -8583,6 +8618,269 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
           </tr>
         </tbody>
       </table>
+
+    </div>
+
+  </div>
+
+  <div class="tabs-box">
+
+    <h2 id="word2vec">Word2Vec</h2>
+
+    <div class="top_tab_li" style="text-align: center;">
+    <button class="tab-li code-selector-active approach-button">Approach</button>
+    <button class="tab-li code-selector-un-active model-button">Model</button>
+</div>
+
+    <div class="h3-box approach-content">
+
+      <p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p>
+
+      <p>The algorithm first constructs a vocabulary from the corpus
+and then learns vector representation of words in the vocabulary.
+The vector representation can be used as features in
+natural language processing and machine learning algorithms.</p>
+
+      <p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
+method to train the model. The variable names in the implementation match the original C implementation.</p>
+
+      <p>For instantiated/pretrained models, see Word2VecModel.</p>
+
+      <p><strong>Sources</strong> :</p>
+
+      <p>For the original C implementation, see https://code.google.com/p/word2vec/</p>
+
+      <p>For the research paper, see
+<a href="https://arxiv.org/abs/1301.3781">Efficient Estimation of Word Representations in Vector Space</a>
+and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations of Words and Phrases and their Compositionality</a>.</p>
+
+      <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
+
+      <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">WORD_EMBEDDINGS</code></p>
+
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Word2VecApproach.html">Word2VecApproach</a></td>
+            <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/Word2VecApproach">Word2VecApproach</a></td>
+            <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/Word2VecApproach.scala">Word2VecApproach</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+          <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">Word2VecApproach</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span>
+      <span class="n">documentAssembler</span><span class="p">,</span>
+      <span class="n">tokenizer</span><span class="p">,</span>
+      <span class="n">embeddings</span>
+    <span class="p">])</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s">"sherlockholmes.txt"</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">text</span><span class="p">(</span><span class="n">path</span><span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</code></pre></div>          </div>
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.</span><span class="o">{</span><span class="nc">Tokenizer</span><span class="o">,</span> <span class="nc">Word2VecApproach</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Word2VecApproach</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">embeddings</span>
+  <span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">path</span> <span class="k">=</span> <span class="s">"src/test/resources/spell/sherlockholmes.txt"</span>
+<span class="k">val</span> <span class="nv">dataset</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">sparkContext</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="n">path</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">dataset</span><span class="o">)</span>
+</code></pre></div>          </div>
+
+        </div>
+
+</details>
+
+    </div>
+
+    <div class="h3-box model-content" style="display: none;">
+
+      <p>Word2Vec model that creates vector representations of words in a text corpus.</p>
+
+      <p>The algorithm first constructs a vocabulary from the corpus
+and then learns vector representation of words in the vocabulary.
+The vector representation can be used as features in
+natural language processing and machine learning algorithms.</p>
+
+      <p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
+method to train the model. The variable names in the implementation match the original C implementation.</p>
+
+      <p>This is the instantiated model of the Word2VecApproach.
+For training your own model, please see the documentation of that class.</p>
+
+      <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val embeddings = Word2VecModel.pretrained()
+  .setInputCols("token")
+  .setOutputCol("embeddings")
+</code></pre></div>      </div>
+      <p>The default model is <code class="language-plaintext highlighter-rouge">"word2vec_gigaword_300"</code>, if no name is provided.</p>
+
+      <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+
+      <p><strong>Sources</strong> :</p>
+
+      <p>For the original C implementation, see https://code.google.com/p/word2vec/</p>
+
+      <p>For the research paper, see
+<a href="https://arxiv.org/abs/1301.3781">Efficient Estimation of Word Representations in Vector Space</a>
+and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations of Words and Phrases and their Compositionality</a>.</p>
+
+      <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
+
+      <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">WORD_EMBEDDINGS</code></p>
+
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Word2VecModel.html">Word2VecModel</a></td>
+            <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/Word2VecModel">Word2VecModel</a></td>
+            <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/Word2VecModel.scala">Word2VecModel</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+          <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">Word2VecModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"finished_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">embeddingsFinisher</span>
+<span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"This is a sentence."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="mf">0.06222493574023247</span><span class="p">,</span><span class="mf">0.011579325422644615</span><span class="p">,</span><span class="mf">0.009919632226228714</span><span class="p">,</span><span class="mf">0.109361454844</span><span class="p">...</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>          </div>
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.</span><span class="o">{</span><span class="nc">Tokenizer</span><span class="o">,</span> <span class="nc">Word2VecModel</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.EmbeddingsFinisher</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">Word2VecModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddingsFinisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EmbeddingsFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"finished_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputAsVector</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">embeddingsFinisher</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"This is a sentence."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+</span>
+<span class="o">|[</span><span class="err">0</span><span class="kt">.</span><span class="err">06222493574023247</span>,<span class="err">0</span><span class="kt">.</span><span class="err">011579325422644615</span>,<span class="err">0</span><span class="kt">.</span><span class="err">009919632226228714</span>,<span class="err">0</span><span class="kt">.</span><span class="err">109361454844</span><span class="kt">...|</span>
+<span class="kt">+--------------------------------------------------------------------------------+</span>
+</code></pre></div>          </div>
+
+        </div>
+
+</details>
 
     </div>
 

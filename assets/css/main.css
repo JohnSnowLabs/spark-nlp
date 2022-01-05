@@ -5408,8 +5408,8 @@ b {
     height: calc(100% - 111px); }
   .features-inner .features-ul {
     display: flex;
-    justify-content: flex-start;
-    margin: 0 0 57px -47px; }
+    justify-content: center;
+    margin: 0 0 0px 0px; }
   .features-inner .highlight {
     overflow-x: hidden;
     overflow-y: auto;

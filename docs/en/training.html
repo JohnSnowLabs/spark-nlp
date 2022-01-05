@@ -2959,7 +2959,7 @@ Formally, multi-label classification is the problem of finding a model that maps
 
 <div class="h3-box model-content">
 
-  <h3 id="viveknsentimentaproach">ViveknSentimentAproach</h3>
+  <h3 id="viveknsentimentapproach">ViveknSentimentApproach</h3>
 
   <p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.</p>
 
@@ -3229,9 +3229,474 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 </div>
 
+<div class="h3-box model-content">
+
+  <h3 id="word2vecapproach">Word2VecApproach</h3>
+
+  <p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p>
+
+  <p>The algorithm first constructs a vocabulary from the corpus
+and then learns vector representation of words in the vocabulary.
+The vector representation can be used as features in
+natural language processing and machine learning algorithms.</p>
+
+  <p>We use Word2Vec implemented in Spark ML. It uses skip-gram model in our implementation and a hierarchical softmax
+method to train the model. The variable names in the implementation match the original C implementation.</p>
+
+  <p>For instantiated/pretrained models, see Word2VecModel.</p>
+
+  <p><strong>Sources</strong> :</p>
+
+  <p>For the original C implementation, see https://code.google.com/p/word2vec/</p>
+
+  <p>For the research paper, see
+<a href="https://arxiv.org/abs/1301.3781">Efficient Estimation of Word Representations in Vector Space</a>
+and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations of Words and Phrases and their Compositionality</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">WORD_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.Word2VecApproach.html">Word2VecApproach</a></td>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/Word2VecApproach">Word2VecApproach</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/Word2VecApproach.scala">Word2VecApproach</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">Word2VecApproach</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span>
+      <span class="n">documentAssembler</span><span class="p">,</span>
+      <span class="n">tokenizer</span><span class="p">,</span>
+      <span class="n">embeddings</span>
+    <span class="p">])</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s">"sherlockholmes.txt"</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">text</span><span class="p">(</span><span class="n">path</span><span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator.</span><span class="o">{</span><span class="nc">Tokenizer</span><span class="o">,</span> <span class="nc">Word2VecApproach</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Word2VecApproach</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">embeddings</span>
+  <span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">path</span> <span class="k">=</span> <span class="s">"src/test/resources/spell/sherlockholmes.txt"</span>
+<span class="k">val</span> <span class="nv">dataset</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">sparkContext</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="n">path</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">dataset</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <h2 id="external-trainable-models">External Trainable Models</h2>
 <p>These are annotators that are trained in an external library, which are then
 loaded into Spark NLP.</p>
+
+<div class="h3-box model-content">
+
+  <h3 id="albertfortokenclassification">AlbertForTokenClassification</h3>
+
+  <p>AlbertForTokenClassification can load Albert Models with a token classification head
+on top (a linear layer on top of the hidden-states output) e.g. for
+Named-Entity-Recognition (NER) tasks.</p>
+
+  <p>Since Spark NLP 3.2.x, this annotator needs to be trained externally using the
+transformers library. After the training process is done, the model checkpoint
+can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
+the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
+
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb">Spark NLP Workshop</a>.</p>
+
+  <p>Example for loading a saved transformers model:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
+</span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">transformers</span><span class="o">==</span><span class="mf">4.10</span><span class="p">.</span><span class="mi">0</span> <span class="n">tensorflow</span><span class="o">==</span><span class="mf">2.4</span><span class="p">.</span><span class="mi">1</span> <span class="n">sentencepiece</span>
+
+<span class="c1"># Loading the external transformers model
+</span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFAlbertForTokenClassification</span><span class="p">,</span> <span class="n">AlbertTokenizer</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'HooshvareLab/albert-fa-zwnj-base-v2-ner'</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AlbertTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">'./{}_tokenizer/'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="c1"># just in case if there is no TF/Keras file provided in the model
+# we can just use `from_pt` and convert PyTorch to TensorFlow
+</span><span class="k">try</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'try downloading TF weights'</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">TFAlbertForTokenClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'try downloading PyTorch weights'</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">TFAlbertForTokenClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">"./{}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="n">saved_model</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Extracting the tokenizer resources
+</span><span class="n">asset_path</span> <span class="o">=</span> <span class="s">'{}/saved_model/1/assets'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+
+<span class="err">!</span><span class="n">cp</span> <span class="p">{</span><span class="n">MODEL_NAME</span><span class="p">}</span><span class="n">_tokenizer</span><span class="o">/</span><span class="n">spiece</span><span class="p">.</span><span class="n">model</span> <span class="p">{</span><span class="n">asset_path</span><span class="p">}</span>
+
+<span class="c1"># Get label2id dictionary
+</span><span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">label2id</span>
+<span class="c1"># Sort the dictionary based on the id
+</span><span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">labels</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">asset_path</span><span class="o">+</span><span class="s">'/labels.txt'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+</code></pre></div>  </div>
+
+  <p>Then the model can be loaded and used into Spark NLP in the following examples:</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.AlbertForTokenClassification.html">AlbertForTokenClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForTokenClassification">AlbertForTokenClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForTokenClassification.scala">AlbertForTokenClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'HooshvareLab/albert-fa-zwnj-base-v2-ner'</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">AlbertForTokenClassification</span>\
+  <span class="p">.</span><span class="n">loadSavedModel</span><span class="p">(</span><span class="s">'{}/saved_model/1'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="n">spark</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="c1"># Optionally the classifier can be saved to load it more conveniently into Spark NLP
+</span><span class="n">tokenClassifier</span><span class="p">.</span><span class="n">write</span><span class="p">().</span><span class="n">overwrite</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="n">tokenClassifier_loaded</span> <span class="o">=</span> <span class="n">AlbertForTokenClassification</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">tokenClassifier</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"ner.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+-----------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                               <span class="o">|</span>
+<span class="o">+-----------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">ORG</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+-----------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The model needs to be trained with the transformers library.</span>
+<span class="c1">// Afterwards it can be loaded into the scala version of Spark NLP.</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ModelName</span> <span class="k">=</span> <span class="s">"HooshvareLab/albert-fa-zwnj-base-v2-ner"</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">AlbertForTokenClassification</span>
+  <span class="o">.</span><span class="py">loadSavedModel</span><span class="o">(</span><span class="n">s</span><span class="s">"$ModelName/saved_model/1"</span><span class="o">,</span> <span class="n">spark</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
+
+<span class="c1">// Optionally the classifier can be saved to load it more conveniently into Spark NLP</span>
+<span class="nv">tokenClassifier</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">overwrite</span><span class="o">().</span><span class="py">save</span><span class="o">(</span><span class="n">s</span><span class="s">"${ModelName}_spark_nlp"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenClassifierLoaded</span> <span class="k">=</span> <span class="nv">AlbertForTokenClassification</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">s</span><span class="s">"${ModelName}_spark_nlp"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">tokenClassifierLoaded</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"دفتر مرکزی شرکت کامیکو در شهر ساسکاتون ساسکاچوان قرار دارد."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"ner.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+-----------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                               <span class="o">|</span>
+<span class="o">+-----------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-ORG</span>, <span class="kt">I-ORG</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">I-LOC</span>, <span class="kt">I-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span><span class="o">]|</span>
+<span class="o">+-----------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h3 id="bertforsequenceclassification">BertForSequenceClassification</h3>
+
+  <p>BertForSequenceClassification can load Bert Models with sequence
+classification/regression head on top (a linear layer on top of the pooled
+output) e.g. for multi-class document classification tasks.</p>
+
+  <p>Since Spark NLP 3.2.x, this annotator needs to be trained externally using the
+transformers library. After the training process is done, the model checkpoint
+can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
+the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
+
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">Spark NLP Workshop</a>.</p>
+
+  <p>Example for loading a saved transformers model:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
+</span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">transformers</span><span class="o">==</span><span class="mf">4.8</span><span class="p">.</span><span class="mi">1</span> <span class="n">tensorflow</span><span class="o">==</span><span class="mf">2.4</span><span class="p">.</span><span class="mi">1</span>
+
+<span class="c1"># Loading the external transformers model
+</span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFBertForSequenceClassification</span><span class="p">,</span> <span class="n">BertTokenizer</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'finiteautomata/beto-sentiment-analysis'</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">'./{}_tokenizer/'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">"./{}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="n">saved_model</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Extracting the tokenizer resources
+</span><span class="n">asset_path</span> <span class="o">=</span> <span class="s">'{}/saved_model/1/assets'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+
+<span class="err">!</span><span class="n">cp</span> <span class="p">{</span><span class="n">MODEL_NAME</span><span class="p">}</span><span class="n">_tokenizer</span><span class="o">/</span><span class="n">vocab</span><span class="p">.</span><span class="n">txt</span> <span class="p">{</span><span class="n">asset_path</span><span class="p">}</span>
+
+<span class="c1"># Get label2id dictionary
+</span><span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">label2id</span>
+<span class="c1"># Sort the dictionary based on the id
+</span><span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">labels</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">asset_path</span><span class="o">+</span><span class="s">'/labels.txt'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+</code></pre></div>  </div>
+
+  <p>Then the model can be loaded and used into Spark NLP in the following examples:</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.BertForSequenceClassification.html">BertForSequenceClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassification">BertForSequenceClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassification.scala">BertForSequenceClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'finiteautomata/beto-sentiment-analysis'</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">loadSavedModel</span><span class="p">(</span>
+    <span class="s">'{}/saved_model/1'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span>
+    <span class="n">spark</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="c1"># Optionally the classifier can be saved to load it more conveniently into Spark NLP
+</span><span class="n">tokenClassifier</span><span class="p">.</span><span class="n">write</span><span class="p">().</span><span class="n">overwrite</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">tokenClassifier</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"¡La película fue genial!"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">POS</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The model needs to be trained with the transformers library.</span>
+<span class="c1">// Afterwards it can be loaded into the scala version of Spark NLP.</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ModelName</span> <span class="k">=</span> <span class="s">"finiteautomata/beto-sentiment-analysis"</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">BertForSequenceClassification</span>
+  <span class="o">.</span><span class="py">loadSavedModel</span><span class="o">(</span><span class="n">s</span><span class="s">"$ModelName/saved_model/1"</span><span class="o">,</span> <span class="n">spark</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
+
+<span class="c1">// Optionally the classifier can be saved to load it more conveniently into Spark NLP</span>
+<span class="nv">tokenClassifier</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">overwrite</span><span class="o">().</span><span class="py">save</span><span class="o">(</span><span class="n">s</span><span class="s">"${ModelName}_spark_nlp"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenClassifierLoaded</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">s</span><span class="s">"${ModelName}_spark_nlp"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">tokenClassifierLoaded</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"¡La película fue genial!"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"ner.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">POS</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
 
 <div class="h3-box model-content">
 
@@ -3395,6 +3860,180 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 <span class="o">+------------------------------------------------------------------------------------+</span>
 <span class="o">|[</span><span class="kt">B-PER</span>, <span class="kt">I-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span><span class="o">]|</span>
 <span class="o">+------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h3 id="distilbertforsequenceclassification">DistilBertForSequenceClassification</h3>
+
+  <p>DistilBertForSequenceClassification can load Bert Models with sequence
+classification/regression head on top (a linear layer on top of the pooled
+output) e.g. for multi-class document classification tasks.</p>
+
+  <p>Since Spark NLP 3.2.x, this annotator needs to be trained externally using the
+transformers library. After the training process is done, the model checkpoint
+can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
+the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
+
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb">Spark NLP Workshop</a>.</p>
+
+  <p>Example for loading a saved transformers model:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
+</span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">transformers</span><span class="o">==</span><span class="mf">4.8</span><span class="p">.</span><span class="mi">1</span> <span class="n">tensorflow</span><span class="o">==</span><span class="mf">2.4</span><span class="p">.</span><span class="mi">1</span>
+
+<span class="c1"># Loading the external transformers model
+</span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFDistilBertForSequenceClassification</span><span class="p">,</span> <span class="n">DistilBertTokenizer</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'distilbert-base-uncased-finetuned-sst-2-english'</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">DistilBertTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">'./{}_tokenizer/'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">TFDistilBertForSequenceClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">TFDistilBertForSequenceClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">"./{}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="n">saved_model</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Extracting the tokenizer resources
+</span><span class="n">asset_path</span> <span class="o">=</span> <span class="s">'{}/saved_model/1/assets'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+
+<span class="err">!</span><span class="n">cp</span> <span class="p">{</span><span class="n">MODEL_NAME</span><span class="p">}</span><span class="n">_tokenizer</span><span class="o">/</span><span class="n">vocab</span><span class="p">.</span><span class="n">txt</span> <span class="p">{</span><span class="n">asset_path</span><span class="p">}</span>
+
+<span class="c1"># Get label2id dictionary
+</span><span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">label2id</span>
+<span class="c1"># Sort the dictionary based on the id
+</span><span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">labels</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">asset_path</span><span class="o">+</span><span class="s">'/labels.txt'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+</code></pre></div>  </div>
+
+  <p>Then the model can be loaded and used into Spark NLP in the following examples:</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.DistilBertForSequenceClassification.html">DistilBertForSequenceClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassification">DistilBertForSequenceClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassification.scala">DistilBertForSequenceClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'distilbert-base-uncased-finetuned-sst-2-english'</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">.</span><span class="n">loadSavedModel</span><span class="p">(</span>
+    <span class="s">'{}/saved_model/1'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span>
+    <span class="n">spark</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="c1"># Optionally the classifier can be saved to load it more conveniently into Spark NLP
+</span><span class="n">tokenClassifier</span><span class="p">.</span><span class="n">write</span><span class="p">().</span><span class="n">overwrite</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">DistilBertForSequenceClassification</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">tokenClassifier</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"The movie was great!"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+----------+</span>
+<span class="o">|</span><span class="n">result</span>    <span class="o">|</span>
+<span class="o">+----------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">POSITIVE</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+----------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The model needs to be trained with the transformers library.</span>
+<span class="c1">// Afterwards it can be loaded into the scala version of Spark NLP.</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ModelName</span> <span class="k">=</span> <span class="s">"distilbert-base-uncased-finetuned-sst-2-english"</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nc">DistilBertForSequenceClassification</span>
+  <span class="o">.</span><span class="py">loadSavedModel</span><span class="o">(</span><span class="n">s</span><span class="s">"$ModelName/saved_model/1"</span><span class="o">,</span> <span class="n">spark</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
+
+<span class="c1">// Optionally the classifier can be saved to load it more conveniently into Spark NLP</span>
+<span class="nv">tokenClassifier</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">overwrite</span><span class="o">().</span><span class="py">save</span><span class="o">(</span><span class="n">s</span><span class="s">"${ModelName}_spark_nlp"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenClassifierLoaded</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">s</span><span class="s">"${ModelName}_spark_nlp"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">tokenClassifierLoaded</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"The movie was great!"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"ner.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+----------+</span>
+<span class="o">|</span><span class="n">result</span>    <span class="o">|</span>
+<span class="o">+----------+</span>
+<span class="o">|[</span><span class="kt">POSITIVE</span><span class="o">]|</span>
+<span class="o">+----------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -3569,6 +4208,370 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 <span class="o">+------------------------------------------------------------------------------------+</span>
 <span class="o">|[</span><span class="kt">B-PER</span>, <span class="kt">I-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span><span class="o">]|</span>
 <span class="o">+------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h3 id="robertafortokenclassification">RoBertaForTokenClassification</h3>
+
+  <p>RoBertaForTokenClassification can load RoBERTa Models with a token
+classification head on top (a linear layer on top of the hidden-states output)
+e.g. for Named-Entity-Recognition (NER) tasks.</p>
+
+  <p>Since Spark NLP 3.2.x, this annotator needs to be trained externally using the
+transformers library. After the training process is done, the model checkpoint
+can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
+the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
+
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb">Spark NLP Workshop</a>.</p>
+
+  <p>Example for loading a saved transformers model:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
+</span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">transformers</span><span class="o">==</span><span class="mf">4.10</span><span class="p">.</span><span class="mi">0</span> <span class="n">tensorflow</span><span class="o">==</span><span class="mf">2.4</span><span class="p">.</span><span class="mi">1</span>
+
+<span class="c1"># Loading the external transformers model
+</span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFRobertaForTokenClassification</span><span class="p">,</span> <span class="n">RobertaTokenizer</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'philschmid/distilroberta-base-ner-wikiann-conll2003-3-class'</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RobertaTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">'./{}_tokenizer/'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="c1"># just in case if there is no TF/Keras file provided in the model
+# we can just use `from_pt` and convert PyTorch to TensorFlow
+</span><span class="k">try</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'try downloading TF weights'</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">TFRobertaForTokenClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'try downloading PyTorch weights'</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">TFRobertaForTokenClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">"./{}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="n">saved_model</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># get assets
+</span><span class="n">asset_path</span> <span class="o">=</span> <span class="s">'{}/saved_model/1/assets'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+
+<span class="c1"># let's save the vocab as txt file
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'{}_tokenizer/vocab.txt'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="p">.</span><span class="n">get_vocab</span><span class="p">().</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
+
+<span class="c1"># let's copy both vocab.txt and merges.txt files to saved_model/1/assets
+</span><span class="err">!</span><span class="n">cp</span> <span class="p">{</span><span class="n">MODEL_NAME</span><span class="p">}</span><span class="n">_tokenizer</span><span class="o">/</span><span class="n">vocab</span><span class="p">.</span><span class="n">txt</span> <span class="p">{</span><span class="n">asset_path</span><span class="p">}</span>
+<span class="err">!</span><span class="n">cp</span> <span class="p">{</span><span class="n">MODEL_NAME</span><span class="p">}</span><span class="n">_tokenizer</span><span class="o">/</span><span class="n">merges</span><span class="p">.</span><span class="n">txt</span> <span class="p">{</span><span class="n">asset_path</span><span class="p">}</span>
+
+<span class="c1"># get label2id dictionary
+</span><span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">label2id</span>
+<span class="c1"># sort the dictionary based on the id
+</span><span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">labels</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">asset_path</span><span class="o">+</span><span class="s">'/labels.txt'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+</code></pre></div>  </div>
+
+  <p>Then the model can be loaded and used into Spark NLP in the following examples:</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.RoBertaForTokenClassification.html">RoBertaForTokenClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForTokenClassification">RoBertaForTokenClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForTokenClassification.scala">RoBertaForTokenClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'philschmid/distilroberta-base-ner-wikiann-conll2003-3-class'</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">loadSavedModel</span><span class="p">(</span>
+    <span class="s">'{}/saved_model/1'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span>
+    <span class="n">spark</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="c1"># Optionally the classifier can be saved to load it more conveniently into Spark NLP
+</span><span class="n">tokenClassifier</span><span class="p">.</span><span class="n">write</span><span class="p">().</span><span class="n">overwrite</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">tokenClassifier</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The model needs to be trained with the transformers library.</span>
+<span class="c1">// Afterwards it can be loaded into the scala version of Spark NLP.</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">modelName</span> <span class="k">=</span> <span class="s">"philschmid/distilroberta-base-ner-wikiann-conll2003-3-class"</span>
+<span class="k">var</span> <span class="n">tokenClassifier</span> <span class="k">=</span> <span class="nv">RoBertaForTokenClassification</span><span class="o">.</span><span class="py">loadSavedModel</span><span class="o">(</span><span class="n">s</span><span class="s">"$modelName/saved_model/1"</span><span class="o">,</span> <span class="n">spark</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
+
+<span class="c1">// Optionally the classifier can be saved to load it more conveniently into Spark NLP</span>
+<span class="nv">tokenClassifier</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">overwrite</span><span class="o">.</span><span class="py">save</span><span class="o">(</span><span class="n">s</span><span class="s">"${modelName}_spark_nlp"</span><span class="o">)</span>
+
+<span class="n">tokenClassifier</span> <span class="k">=</span> <span class="nv">RoBertaForTokenClassification</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">s</span><span class="s">"${modelName}_spark_nlp"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">tokenClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">B-PER</span>, <span class="kt">I-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">B-LOC</span><span class="o">]|</span>
+<span class="o">+------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box model-content">
+
+  <h3 id="xlmrobertafortokenclassification">XlmRoBertaForTokenClassification</h3>
+
+  <p>XlmRoBertaForTokenClassification can load XLM-RoBERTa Models with a token
+classification head on top (a linear layer on top of the hidden-states output)
+e.g. for Named-Entity-Recognition (NER) tasks.</p>
+
+  <p>Since Spark NLP 3.2.x, this annotator needs to be trained externally using the
+transformers library. After the training process is done, the model checkpoint
+can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
+the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
+
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb">Spark NLP Workshop</a>.</p>
+
+  <p>Example for loading a saved transformers model:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
+</span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">transformers</span><span class="o">==</span><span class="mf">4.10</span><span class="p">.</span><span class="mi">0</span> <span class="n">tensorflow</span><span class="o">==</span><span class="mf">2.4</span><span class="p">.</span><span class="mi">1</span>
+
+<span class="c1"># Loading the external transformers model
+</span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFXLMRobertaForTokenClassification</span><span class="p">,</span> <span class="n">XLMRobertaTokenizer</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'wpnbos/xlm-roberta-base-conll2002-dutch'</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">XLMRobertaTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="n">tokenizer</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">'./{}_tokenizer/'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="c1"># just in case if there is no TF/Keras file provided in the model
+# we can just use `from_pt` and convert PyTorch to TensorFlow
+</span><span class="k">try</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'try downloading TF weights'</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">TFXLMRobertaForTokenClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'try downloading PyTorch weights'</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">TFXLMRobertaForTokenClassification</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s">"./{}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span> <span class="n">saved_model</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># get assets
+</span><span class="n">asset_path</span> <span class="o">=</span> <span class="s">'{}/saved_model/1/assets'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+
+<span class="c1"># let's copy sentencepiece.bpe.model file to saved_model/1/assets
+</span><span class="err">!</span><span class="n">cp</span> <span class="p">{</span><span class="n">MODEL_NAME</span><span class="p">}</span><span class="n">_tokenizer</span><span class="o">/</span><span class="n">sentencepiece</span><span class="p">.</span><span class="n">bpe</span><span class="p">.</span><span class="n">model</span> <span class="p">{</span><span class="n">asset_path</span><span class="p">}</span>
+
+<span class="c1"># get label2id dictionary
+</span><span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">label2id</span>
+<span class="c1"># sort the dictionary based on the id
+</span><span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">labels</span><span class="p">.</span><span class="n">get</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">asset_path</span><span class="o">+</span><span class="s">'/labels.txt'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+</code></pre></div>  </div>
+
+  <p>Then the model can be loaded and used into Spark NLP in the following examples:</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.annotator.XlmRoBertaForTokenClassification.html">XlmRoBertaForTokenClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForTokenClassification">XlmRoBertaForTokenClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForTokenClassification.scala">XlmRoBertaForTokenClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box">
+
+      <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s">'wpnbos/xlm-roberta-base-conll2002-dutch'</span>
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForTokenClassification</span><span class="p">.</span><span class="n">loadSavedModel</span><span class="p">(</span>
+    <span class="s">'{}/saved_model/1'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">),</span>
+    <span class="n">spark</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+<span class="c1"># Optionally the classifier can be saved to load it more conveniently into Spark NLP
+</span><span class="n">tokenClassifier</span><span class="p">.</span><span class="n">write</span><span class="p">().</span><span class="n">overwrite</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>
+
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">XlmRoBertaForTokenClassification</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"./{}_spark_nlp"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">))</span>\
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">tokenClassifier</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John Lenon is geboren in Londen en heeft in Parijs gewoond. Mijn naam is Sarah en ik woon in Londen"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                                                                                                                       <span class="o">|</span>
+<span class="o">+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">LABEL_1</span><span class="p">,</span> <span class="n">LABEL_2</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_5</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_5</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_1</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_0</span><span class="p">,</span> <span class="n">LABEL_5</span><span class="p">]</span><span class="o">|</span>
+<span class="o">+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The model needs to be trained with the transformers library.</span>
+<span class="c1">// Afterwards it can be loaded into the scala version of Spark NLP.</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">modelName</span> <span class="k">=</span> <span class="s">"wpnbos/xlm-roberta-base-conll2002-dutch"</span>
+<span class="k">var</span> <span class="n">tokenClassifier</span> <span class="k">=</span> <span class="nv">XlmRoBertaForTokenClassification</span><span class="o">.</span><span class="py">loadSavedModel</span><span class="o">(</span><span class="n">s</span><span class="s">"$modelName/saved_model/1"</span><span class="o">,</span> <span class="n">spark</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">128</span><span class="o">)</span>
+
+<span class="c1">// Optionally the classifier can be saved to load it more conveniently into Spark NLP</span>
+<span class="nv">tokenClassifier</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">overwrite</span><span class="o">.</span><span class="py">save</span><span class="o">(</span><span class="n">s</span><span class="s">"${modelName}_spark_nlp"</span><span class="o">)</span>
+
+<span class="n">tokenClassifier</span> <span class="k">=</span> <span class="nv">XlmRoBertaForTokenClassification</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">s</span><span class="s">"${modelName}_spark_nlp"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">tokenClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                                                                                                                       <span class="o">|</span>
+<span class="o">+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">LABEL_1</span>, <span class="kt">LABEL_2</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_5</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_5</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_1</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_0</span>, <span class="kt">LABEL_5</span><span class="o">]|</span>
+<span class="o">+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 </code></pre></div>      </div>
 
     </div>

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowLD</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
+          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowLD</title>
+          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
+          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowLD" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -259,6 +259,10 @@
                         <a href="TensorflowForClassification.html" title="">TensorflowForClassification</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="class" href="TensorflowGPT2.html" title=""></a>
+                        <a href="TensorflowGPT2.html" title="">TensorflowGPT2</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="" title="Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow"></a>
                         <a href="" title="Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow">TensorflowLD</a>
                       </li><li class="current-entities indented4">
@@ -358,7 +362,8 @@
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification and Detection by using CNNs and RNNs architectures in TensowrFlow</p><p>The models are trained on large datasets such as Wikipedia and Tatoeba
-The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias</p></div><div class="toggleContainer block">
+The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/List_of_Wikipedias
+</p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -498,22 +503,6 @@ The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD#calculateLanguageIdentification" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="calculateLanguageIdentification(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]"></a><a id="calculateLanguageIdentification(Seq[Sentence],Float,String,Boolean):Array[Annotation]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowLD.html#calculateLanguageIdentification(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">calculateLanguageIdentification</span><span class="params">(<span name="documents">documents: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.01f</span></span>, <span name="thresholdLabel">thresholdLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;unk&quot;</span></span>, <span name="coalesceSentences">coalesceSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD#cleanText" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="cleanText(docs:List[String]):List[String]"></a><a id="cleanText(List[String]):List[String]"></a>
       <span class="permalink">
@@ -732,6 +721,22 @@ The output is a language code in Wiki Code style: https://en.wikipedia.org/wiki/
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowLD#predict" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="predict(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]"></a><a id="predict(Seq[Sentence],Float,String,Boolean):Array[Annotation]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowLD.html#predict(documents:Seq[com.johnsnowlabs.nlp.annotators.common.Sentence],threshold:Float,thresholdLabel:String,coalesceSentences:Boolean):Array[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">predict</span><span class="params">(<span name="documents">documents: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../nlp/annotators/common/Sentence.html" class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</a>]</span>, <span name="threshold">threshold: <span class="extype" name="scala.Float">Float</span> = <span class="symbol">0.01f</span></span>, <span name="thresholdLabel">thresholdLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;unk&quot;</span></span>, <span name="coalesceSentences">coalesceSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<a href="../../nlp/Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
