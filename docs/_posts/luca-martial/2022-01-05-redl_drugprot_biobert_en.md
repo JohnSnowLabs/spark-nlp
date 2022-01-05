@@ -48,27 +48,27 @@ tokenizer = Tokenizer()\
     .setInputCols(["sentences"])\
     .setOutputCol("tokens")
 
-words_embedder = WordEmbeddingsModel() \
-    .pretrained("embeddings_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
+words_embedder = WordEmbeddingsModel()\
+    .pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentences", "tokens"])\
     .setOutputCol("embeddings")
 
 drugprot_ner_tagger = MedicalNerModel.pretrained("ner_drugprot_clinical", "en", "clinical/models")\
     .setInputCols("sentences", "tokens", "embeddings")\
     .setOutputCol("ner_tags")   
 
-ner_converter = NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
+ner_converter = NerConverter()\
+    .setInputCols(["sentences", "tokens", "ner_tags"])\
     .setOutputCol("ner_chunks")
 
 pos_tagger = PerceptronModel()\
-    .pretrained("pos_clinical", "en", "clinical/models") \
+    .pretrained("pos_clinical", "en", "clinical/models")\
     .setInputCols(["sentences", "tokens"])\
     .setOutputCol("pos_tags")
 
-dependency_parser = DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["sentences", "pos_tags", "tokens"]) \
+dependency_parser = DependencyParserModel()\
+    .pretrained("dependency_conllu", "en")\
+    .setInputCols(["sentences", "pos_tags", "tokens"])\
     .setOutputCol("dependencies")
 
 # Set a filter on pairs of named entities which will be treated as relation candidates
@@ -134,7 +134,6 @@ val drugprot_re_ner_chunk_filter = RENerChunksFilter()
     .setOutputCol("re_ner_chunks")
     // .setRelationPairs(Array("CHEMICAL-GENE"))
 
-// The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val drugprot_re_Model = RelationExtractionDLModel()
     .pretrained("redl_drugprot_biobert", "en", "clinical/models")
