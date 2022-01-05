@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ class TensorflowSentenceDetectorDL(
         val classWeightsTensor = tensors.createTensor(outputClassWeights)
         val dropoutTensor = tensors.createTensor(dropout)
 
-        val calculated = model.getSession(configProtoBytes).runner
+        val calculated = model.getTFSession(configProtoBytes).runner
           .feed(inputsKey, inputTensor)
           .feed(targetsKey, labelTensor)
           .feed(learningRateKey, lrTensor)
@@ -189,7 +189,7 @@ class TensorflowSentenceDetectorDL(
     val labelTensor = tensors.createTensor(labels)
     val classWeightsTensor = tensors.createTensor(classWeights)
 
-    val calculated = model.getSession(configProtoBytes).runner
+    val calculated = model.getTFSession(configProtoBytes).runner
       .feed(inputsKey, inputTensor)
       .feed(targetsKey, labelTensor)
       .feed(classWeightsKey, classWeightsTensor)
@@ -212,7 +212,7 @@ class TensorflowSentenceDetectorDL(
     val tensors = new TensorResources()
     val inputTensor = tensors.createTensor(features.map(x => x.padTo(_inputDim, 0.0f)))
 
-    val calculated = model.getSession(configProtoBytes).runner
+    val calculated = model.getTFSession(configProtoBytes).runner
       .feed(inputsKey, inputTensor)
       .fetch(predictionsKey)
       .fetch(outputsKey)

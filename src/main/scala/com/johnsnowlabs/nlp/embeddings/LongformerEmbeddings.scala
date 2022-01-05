@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -311,7 +311,7 @@ class LongformerEmbeddings(override val uid: String)
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
       val tokenized = tokenizeWithAlignment(tokenizedSentences)
 
-      val withEmbeddings = getModelIfNotSet.calculateEmbeddings(
+      val withEmbeddings = getModelIfNotSet.predict(
         tokenized,
         tokenizedSentences,
         $(batchSize),

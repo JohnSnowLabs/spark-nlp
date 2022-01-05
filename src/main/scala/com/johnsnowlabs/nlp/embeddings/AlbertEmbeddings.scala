@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -278,7 +278,7 @@ class AlbertEmbeddings(override val uid: String)
     /*Return empty if the real tokens are empty*/
     if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
 
-      val embeddings = getModelIfNotSet.calculateEmbeddings(
+      val embeddings = getModelIfNotSet.predict(
         tokenizedSentences,
         $(batchSize),
         $(maxSentenceLength),

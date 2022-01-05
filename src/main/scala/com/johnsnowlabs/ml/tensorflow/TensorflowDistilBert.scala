@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
       }
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
@@ -139,7 +139,7 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
    * @param batch batches of sentences
    * @return batches of vectors for each sentence
    */
-  def tagSentence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
 
@@ -159,7 +159,7 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
       maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
     }
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
@@ -180,12 +180,12 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(sentences: Seq[WordpieceTokenizedSentence],
-                          originalTokenSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int,
-                          caseSensitive: Boolean
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(sentences: Seq[WordpieceTokenizedSentence],
+              originalTokenSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int,
+              caseSensitive: Boolean
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     /*Run embeddings calculation by batches*/
     sentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
@@ -235,18 +235,18 @@ class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
     }.toSeq
   }
 
-  def calculateSentenceEmbeddings(tokens: Seq[WordpieceTokenizedSentence],
-                                  sentences: Seq[Sentence],
-                                  batchSize: Int,
-                                  maxSentenceLength: Int
-                                 ): Seq[Annotation] = {
+  def predictSequence(tokens: Seq[WordpieceTokenizedSentence],
+                      sentences: Seq[Sentence],
+                      batchSize: Int,
+                      maxSentenceLength: Int
+                     ): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     tokens.zip(sentences).zipWithIndex.grouped(batchSize).flatMap { batch =>
       val tokensBatch = batch.map(x => (x._1._1, x._2))
       val sentencesBatch = batch.map(x => x._1._2)
       val encoded = encode(tokensBatch, maxSentenceLength)
-      val embeddings = tagSentence(encoded)
+      val embeddings = tagSequence(encoded)
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
         Annotation(

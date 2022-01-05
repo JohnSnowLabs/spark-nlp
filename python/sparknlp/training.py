@@ -1,4 +1,4 @@
-#  Copyright 2017-2021 John Snow Labs
+#  Copyright 2017-2022 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -123,7 +123,12 @@ class CoNLL(ExtendedJavaWrapper):
         spark : :class:`pyspark.sql.SparkSession`
             Initiated Spark Session with Spark NLP
         path : str
-            Path to the resource
+            Path to the resource, it can take two forms; a path to a conll file, or a path to a folder containing multiple CoNLL files.
+            When the path points to a folder, the path must end in '*'.
+            Examples:
+                "/path/to/single/file.conll'
+                "/path/to/folder/containing/multiple/files/*'
+
         read_as : str, optional
             How to read the resource, by default ReadAs.TEXT
         partitions : sets the minimum number of partitions for the case of lifting multiple files in parallel into a single dataframe. Defaults to 8.

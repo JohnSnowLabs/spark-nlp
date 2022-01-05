@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,8 +121,8 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
     val loadedPipelineModel = PipelineModel.load("./tmp_distilbertforsequence_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedDistilBertModel = DistilBertForSequenceClassification.load("./tmp_distilbertforsequence_model")
-    loadedDistilBertModel.getLabels
+    val loadedSequenceModel = DistilBertForSequenceClassification.load("./tmp_distilbertforsequence_model")
+    println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 

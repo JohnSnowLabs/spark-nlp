@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
 import com.johnsnowlabs.nlp.annotators.common.IndexedToken
 
+import java.nio.charset.Charset
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 
@@ -25,7 +26,8 @@ class Gpt2Tokenizer(
                      merges: Map[(String, String), Int],
                      vocab: Map[String, Int],
                      specialTokens: SpecialTokens,
-                     padWithSentenceTokens: Boolean = true
+                     padWithSentenceTokens: Boolean = true,
+                     prependString: String = ""
                    ) extends BpeTokenizer(merges, vocab, specialTokens, padWithSentenceTokens) {
 
   /**
@@ -50,18 +52,33 @@ class Gpt2Tokenizer(
   }
 
   // Differs from Transformers, space is always prepended.
-  override val prependForPieceId: Option[String] = Some("Ġ")
+  //FIX: Space should not be prepended to all tokens, but to the beginning of the text only. Otherwise token
+  // such as '.' get space prepended and they should not.
+  override val prependForPieceId: Option[String] = if (prependString.nonEmpty) Some(prependString) else None
 
-  override def preProcessTokenForBpe(token: String): String =
+  private val decoderVocab = vocab.map(x => (x._2, x._1))
+
+  private val unicodeToByteMapping: Map[String, Int] = bytesToUnicodeMapping.map(x => (x._2, x._1))
+
+  override def preProcessTokenForBpe(token: String): String = {
     token.foldLeft("")(_ + bytesToUnicodeMapping(_))
+  }
 
   val splitPattern: Regex = raw"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""".r
 
   override def tokenizeSubText(text: String, indexOffset: Int): Array[IndexedToken] = {
     // split pattern based on gpt2's bpe tokenizer
     splitPattern
-      .findAllMatchIn(text)
-      .map(tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1))
+      .findAllMatchIn(if (prependForPieceId.isDefined || text.startsWith(" ")) text else " " + text) //Prepend space to the beginning of text
+      .map(
+        tok => IndexedToken(tok.matched, tok.start + indexOffset, tok.end + indexOffset - 1)
+      )
       .toArray
+  }
+
+  def decodeTokens(tokens: Array[Int]): String = {
+    val text = tokens.map(token => decoderVocab(token)).filter(x => !specialTokens.contains(x)).mkString("")
+    val bytes = text.map(x => unicodeToByteMapping(x.toString)).map(x => x.toByte).toArray
+    new String(bytes, Charset.forName("UTF-8"))
   }
 }
