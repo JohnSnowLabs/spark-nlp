@@ -76,7 +76,7 @@ drugprot_re_model = RelationExtractionModel()\
         .setInputCols(["embeddings", "pos_tags", "ner_chunks", "dependencies"])\
         .setOutputCol("relations")\
         .setMaxSyntacticDistance(4)\
-        .setPredictionThreshold(0.9)\ #default: 0.5 
+        .setPredictionThreshold(0.9)\
         .setRelationPairs(['CHEMICAL-GENE']) # Possible relation pairs. Default: All Relations.
 
 pipeline = Pipeline(stages=[documenter, sentencer, tokenizer, words_embedder, drugprot_ner_tagger, ner_converter, pos_tagger, dependency_parser, drugprot_re_model])
