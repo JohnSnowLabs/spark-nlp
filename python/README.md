@@ -330,11 +330,11 @@ NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.4.0
 
 This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
 
-|ENV| Spark/PySpark 2.3.x | Spark/PySpark 2.4.x | Spark/PySpark 3.0.x/3.1.x | Spark/PySpark 3.2.x |
+|ENV| Spark/PySpark 3.0.x/3.1.x | Spark/PySpark 3.2.x | Spark/PySpark 2.4.x | Spark/PySpark 2.3.x |
 |----|----------------|-------------|-------------|-------------|
-|CPU|`spark-nlp-spark23` |`spark-nlp-spark24` |`spark-nlp`|`spark-nlp-spark32`|
-|GPU|`spark-nlp-gpu-spark23` |`spark-nlp-gpu-spark24`|`spark-nlp-gpu`|`spark-nlp-gpu-spark32`|
-|Start Function|`sparknlp.start(spark23=True)`|`sparknlp.start(spark24=True)`|`sparknlp.start()`|`sparknlp.start(spark32=True)`
+|CPU|`spark-nlp` |`spark-nlp-spark32` |`spark-nlp-spark24`|`spark-nlp-spark23`|
+|GPU|`spark-nlp-gpu` |`spark-nlp-gpu-spark32`|`spark-nlp-gpu-spark24`|`spark-nlp-gpu-spark23`|
+|Start Function|`sparknlp.start()`|`sparknlp.start(spark32=True)`|`sparknlp.start(spark24=True)`|`sparknlp.start(spark23=True)`
 
 ## Spark Packages
 
