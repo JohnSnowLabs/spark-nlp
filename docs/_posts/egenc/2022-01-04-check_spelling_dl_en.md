@@ -43,7 +43,7 @@ result=pipeline_local.annotate(testDoc)
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline = new PretrainedPipeline("check_spelling_dl", lang = "en")
-val result = pipeline.fullAnnotate("During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.")
+val result = pipeline.annotate("During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.")
 ```
 </div>
 
