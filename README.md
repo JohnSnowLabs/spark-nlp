@@ -117,7 +117,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - Longformer for Token & Sequence Classification
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
-- Generative Pre-trained Transformer 2 (GPT-2)
+- Generative Pre-trained Transformer 2 (OpenAI GPT2)
 - Named entity recognition (Deep learning)
 - Easy TensorFlow integration
 - GPU Support
