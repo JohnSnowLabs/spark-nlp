@@ -1,2 +1,4 @@
-docs/demos/recognize_clinical_entities.md
-docs/demos/recognize_clinical_entities.md
+README.md
+python/README.md
+README.md
+python/README.md
