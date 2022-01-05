@@ -8,6 +8,7 @@ on:
       - 'scripts/**'
       - 'example/**'
       - '**.md'
+      - '**.yaml'
     branches:
       - 'master'
       - '*release*'
@@ -20,6 +21,7 @@ on:
       - 'scripts/**'
       - 'example/**'
       - '**.md'
+      - '**.yaml'
     branches:
       - 'master'
       - 'main'
