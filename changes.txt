@@ -1,6 +1,6 @@
-docs/_posts/gadde5300/2022-01-03-bert_base_finnish_cased_fi.md
-docs/_posts/gadde5300/2022-01-03-bert_base_finnish_uncased_fi.md
-docs/_posts/josejuanmartinez/2022-01-04-electra_medal_acronym_en.md
-docs/_posts/gadde5300/2022-01-03-bert_base_finnish_cased_fi.md
-docs/_posts/gadde5300/2022-01-03-bert_base_finnish_uncased_fi.md
-docs/_posts/josejuanmartinez/2022-01-04-electra_medal_acronym_en.md
+docs/_posts/egenc/2022-01-04-check_spelling_dl_en.md
+docs/_posts/egenc/2022-01-04-match_chunks_en.md
+docs/_posts/egenc/2022-01-04-match_datetime_en.md
+docs/_posts/egenc/2022-01-04-check_spelling_dl_en.md
+docs/_posts/egenc/2022-01-04-match_chunks_en.md
+docs/_posts/egenc/2022-01-04-match_datetime_en.md

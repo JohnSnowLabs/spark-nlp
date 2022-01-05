@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Electra MeDAL Acronym BERT Embeddings- Spark NLP Model</title><meta name="description" content="DescriptionElectra model fine tuned on MeDAL, a large dataset on abbreviation disambiguation, designed for pretraining natural language understanding models ...">
-<link rel="canonical" href="/2022/01/04/electra_medal_acronym_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Spell Checker in English Text- Spark NLP Model</title><meta name="description" content="DescriptionSpell Checker is a sequence-to-sequence pipeline that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton...">
+<link rel="canonical" href="/2022/01/04/check_spelling_dl_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -405,18 +405,16 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 04, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-04T00:00:00+00:00"></div><header><h1>Electra MeDAL Acronym BERT Embeddings</h1></header></div><meta itemprop="headline" content="Electra MeDAL Acronym BERT Embeddings"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>acronym</li><li>abbreviation</li><li>en</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-04T00:00:00+00:00">
-    <meta itemprop="keywords" content="acronym,abbreviation,en,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-04T00:00:00+00:00"></div><header><h1>Spell Checker in English Text</h1></header></div><meta itemprop="headline" content="Spell Checker in English Text"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-04T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Electra model fine tuned on MeDAL, a large dataset on abbreviation disambiguation, designed for pretraining natural language understanding models in the medical domain. Check the reference <a href="https://aclanthology.org/2020.clinicalnlp-1.15.pdf">here</a>.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
+<p>Spell Checker is a sequence-to-sequence pipeline that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton for generating candidate corrections and a Neural Language Model for ranking corrections. You can download the pretrained pipeline that comes ready to use.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/electra_medal_acronym_en_3.3.3_3.0_1641310227830.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/check_spelling_dl_en_3.3.4_3.0_1641304582335.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -424,43 +422,55 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span><span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline_local</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"check_spelling_dl"</span><span class="p">)</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">testDoc</span> <span class="o">=</span> <span class="s">'''
+During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.
+'''</span>
 
-<span class="n">tokenizer</span><span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"electra_medal_acronym"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-
-<span class="n">nlpPipeline</span><span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
+<span class="n">result</span><span class="o">=</span><span class="n">pipeline_local</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">testDoc</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span><span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span><span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-        <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"electra_medal_acronym"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span> 
-       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"check_spelling_dl"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather."</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
+
+<h2 id="results">Results</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="s1">'During'</span>, <span class="s1">'During'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'the'</span>, <span class="s1">'the'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'summer'</span>, <span class="s1">'summer'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'we'</span>, <span class="s1">'we'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'have'</span>, <span class="s1">'have'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'the'</span>, <span class="s1">'the'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'hottest'</span>, <span class="s1">'hottest'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'ueather'</span>, <span class="s1">'weather'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'.'</span>, <span class="s1">'.'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'I'</span>, <span class="s1">'I'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'have'</span>, <span class="s1">'have'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'a'</span>, <span class="s1">'a'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'black'</span>, <span class="s1">'black'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'ueather'</span>, <span class="s1">'leather'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'jacket'</span>, <span class="s1">'jacket'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">','</span>, <span class="s1">','</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'so'</span>, <span class="s1">'so'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'nice'</span>, <span class="s1">'nice'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'.'</span>, <span class="s1">'.'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'I'</span>, <span class="s1">'I'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'intrduce'</span>, <span class="s1">'introduce'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'you'</span>, <span class="s1">'you'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'to'</span>, <span class="s1">'to'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'my'</span>, <span class="s1">'my'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'sister'</span>, <span class="s1">'sister'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">','</span>, <span class="s1">','</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'she'</span>, <span class="s1">'she'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'is'</span>, <span class="s1">'is'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'called'</span>, <span class="s1">'called'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'ueather'</span>, <span class="s1">'Heather'</span><span class="o">)</span>,
+ <span class="o">(</span><span class="s1">'.'</span>, <span class="s1">'.'</span><span class="o">)</span>
+</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -468,11 +478,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>electra_medal_acronym</td>
+      <td>check_spelling_dl</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.3+</td>
+      <td>Spark NLP 3.3.4+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -483,31 +497,24 @@
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[sentence, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[electra]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>66.0 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
+      <td>118.1 MB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="data-source">Data Source</h2>
+<h2 id="included-models">Included Models</h2>
 
-<p>https://github.com/BruceWen120/medal</p>
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>ContextSpellCheckerModel</li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-04T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -633,7 +640,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/04/match_datetime_en.html">Match Datetime in Texts</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/03/word2vec_gigaword_wiki_300_en.html">Word2Vec Gigaword and Wikipedia - 300 dimensions</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/04/match_chunks_en.html">Match Chunks in Texts</a></div></div></div>
 
 </div>
 </div>
