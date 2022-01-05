@@ -1,4 +1,4 @@
-README.md
-python/README.md
-README.md
-python/README.md
+docs/_posts/luca-martial/2022-01-05-re_drugprot_clinical_en.md
+docs/_posts/luca-martial/2022-01-05-redl_drugprot_biobert_en.md
+docs/_posts/luca-martial/2022-01-05-re_drugprot_clinical_en.md
+docs/_posts/luca-martial/2022-01-05-redl_drugprot_biobert_en.md
