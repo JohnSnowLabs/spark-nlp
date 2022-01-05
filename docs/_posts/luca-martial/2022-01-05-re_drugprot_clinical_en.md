@@ -124,11 +124,11 @@ val dependency_parser = DependencyParserModel()
 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
 val drugprot_re_Model = RelationExactionModel()
-    .pretrained("re_drugprot_clinical", "en", 'clinical/models')
+    .pretrained("re_drugprot_clinical", "en", "clinical/models")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
     .setMaxSyntacticDistance(4)
-    .setPredictionThreshold(0.9) #default: 0.5 
+    .setPredictionThreshold(0.9)
     .setRelationPairs(Array("CHEMICAL-GENE")) # Possible relation pairs. Default: All Relations.
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, words_embedder, drugprot_ner_tagger, ner_converter, pos_tagger, dependency_parser, drugprot_re_Model))
