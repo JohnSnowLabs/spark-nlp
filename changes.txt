@@ -1,2 +1,2 @@
-docs/_posts/luca-martial/2022-01-05-re_drugprot_clinical_en.md
-docs/_posts/luca-martial/2022-01-05-re_drugprot_clinical_en.md
+docs/_posts/murat-gunay/2021-12-26-xlm_roberta_large_token_classifier_hrl_xx.md
+docs/_posts/murat-gunay/2021-12-26-xlm_roberta_large_token_classifier_hrl_xx.md
