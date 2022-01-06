@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Extract relations between drugs and proteins- Spark NLP Model</title><meta name="description" content="DescriptionDetect interactions between chemical compounds/drugs and genes/proteins using Spark NLP’s RelationExtractionModel() by classifying whether a speci...">
+<!-- End Google Tag Manager --><title>Extract relations between drugs and proteins- Spark NLP Model</title><meta name="description" content="DescriptionNOTE: This model has been improved by a new SOTA, Bert-based, Relation Extraction model, you can find hereDetect interactions between chemical com...">
 <link rel="canonical" href="/2022/01/05/re_drugprot_clinical_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -409,6 +409,8 @@
     <meta itemprop="keywords" content="relation_extraction,clinical,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
+
+<p>NOTE: This model has been improved by a new SOTA, Bert-based, Relation Extraction model, you can find <a href="https://nlp.johnsnowlabs.com/2022/01/05/redl_drugprot_biobert_en.html">here</a></p>
 
 <p>Detect interactions between chemical compounds/drugs and genes/proteins using Spark NLP’s <code class="language-plaintext highlighter-rouge">RelationExtractionModel()</code> by classifying whether a specified semantic relation holds between a chemical and gene entities within a sentence or document. The entity labels used during training were derived from the <a href="https://nlp.johnsnowlabs.com/2021/12/20/ner_drugprot_clinical_en.html">custom NER model</a> created by our team for the <a href="https://zenodo.org/record/5119892">DrugProt corpus</a>. These include <code class="language-plaintext highlighter-rouge">CHEMICAL</code> for chemical compounds/drugs, <code class="language-plaintext highlighter-rouge">GENE</code> for genes/proteins and <code class="language-plaintext highlighter-rouge">GENE_AND_CHEMICAL</code> for entity mentions of type <code class="language-plaintext highlighter-rouge">GENE</code> and of type <code class="language-plaintext highlighter-rouge">CHEMICAL</code> that overlap (such as enzymes and small peptides). The relation categories from the <a href="https://zenodo.org/record/5119892">DrugProt corpus</a> were condensed from 13 categories to 10 categories due to low numbers of examples for certain categories. This merging process involved grouping the <code class="language-plaintext highlighter-rouge">SUBSTRATE_PRODUCT-OF</code> and <code class="language-plaintext highlighter-rouge">SUBSTRATE</code> relation categories together and grouping the <code class="language-plaintext highlighter-rouge">AGONIST-ACTIVATOR</code>, <code class="language-plaintext highlighter-rouge">AGONIST-INHIBITOR</code> and <code class="language-plaintext highlighter-rouge">AGONIST</code> relation categories together.</p>
 
