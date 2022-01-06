@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
        .setInputCols("sentence")\
        .setOutputCol("token")
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")\
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")\
   .setInputCols("token", "sentence")\
   .setOutputCol("ner")\
   .setCaseSensitive(True)
@@ -77,7 +77,7 @@ val tokenizer = Tokenizer()
        .setInputCols("sentence")
        .setOutputCol("token")
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")
+val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")
   .setInputCols("token", "sentence")
   .setOutputCol("ner")
   .setCaseSensitive(True)
