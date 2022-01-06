@@ -528,7 +528,85 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Spark NLP release notes"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="334">3.3.4</h3>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h3 id="340">3.4.0</h3>
+
+<h4 id="john-snow-labs-spark-nlp-340-new-openai-gpt-2-new-albert-xlnet-roberta-xlm-roberta-and-longformer-for-sequence-classification-support-for-spark-32-new-distributed-word2vec-extend-support-to-more-databricks--emr-runtimes-new-state-of-the-art-transformer-models-bug-fixes-and-lots-more">John Snow Labs Spark-NLP 3.4.0: New OpenAI GPT-2, new ALBERT, XLNet, RoBERTa, XLM-RoBERTa, and Longformer for Sequence Classification, support for Spark 3.2, new distributed Word2Vec, extend support to more Databricks &amp; EMR runtimes, new state-of-the-art transformer models, bug fixes, and lots more!</h4>
+
+<p>Overview</p>
+
+<p>We are very excited to release Spark NLP 3.4.0! This has been one of the biggest releases we have ever done and we are so proud to share this with our community at the dawn of 2022! 🎉</p>
+
+<p>Spark NLP 3.4.0 extends the support for Apache Spark 3.2.x major releases on Scala 2.12. We now support all 5 major Apache Spark and PySpark releases of 2.3.x, 2.4.x, 3.0.x, 3.1.x, and 3.2.x at once helping our community to migrate from earlier Apache Spark versions to newer releases without being worried about Spark NLP end of life support. We also extend support for new Databricks and EMR instances on Spark 3.2.x clusters.</p>
+
+<p>This release also comes with a brand new GPT2Transformer using OpenAI GPT-2 models for prediction at scale,  new ALBERT, XLNet, RoBERTa, XLM-RoBERTa, and Longformer annotators to use existing or fine-tuned models for Sequence Classification, new distributed and trainable Word2Vec annotators, new state-of-the-art transformer models in many languages, a new param to useBestModel in NerDL during training, bug fixes, and lots more!</p>
+
+<p>As always, we would like to thank our community for their feedback, questions, and feature requests.</p>
+
+<p>Major features and improvements</p>
+
+<ul>
+  <li><strong>NEW:</strong> Introducing <strong>GPT2Transformer</strong> annotator in Spark NLP 🚀  for Text Generation purposes. <code class="language-plaintext highlighter-rouge">GPT2Transformer</code> uses OpenAI GPT-2 models from HuggingFace 🤗  for prediction at scale in Spark NLP 🚀 . <code class="language-plaintext highlighter-rouge">GPT-2</code> is a transformer model trained on a very large corpus of English data in a self-supervised fashion. This means it was trained on the raw texts only, with no humans labelling them in any way (which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts. More precisely, it was trained to guess the next word in sentences</li>
+  <li><strong>NEW:</strong> Introducing <strong>RoBertaForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">RoBertaForSequenceClassification</code> can load RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">RobertaForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFRobertaForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing <strong>XlmRoBertaForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">XlmRoBertaForSequenceClassification</code> can load XLM-RoBERTa Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">XLMRobertaForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFXLMRobertaForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing <strong>LongformerForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code> can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFLongformerForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing <strong>AlbertForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code> can load ALBERT Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFAlbertForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing <strong>XlnetForSequenceClassification</strong> annotator in Spark NLP 🚀. <code class="language-plaintext highlighter-rouge">XlnetForSequenceClassification</code> can load XLNet Models with a sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks. This annotator is compatible with all the models trained/fine-tuned by using <code class="language-plaintext highlighter-rouge">XLNetForSequenceClassification</code> for <strong>PyTorch</strong> or <code class="language-plaintext highlighter-rouge">TFXLNetForSequenceClassification</code> for <strong>TensorFlow</strong> models in HuggingFace 🤗</li>
+  <li><strong>NEW:</strong> Introducing trainable and distributed Word2Vec annotators based on Word2Vec in Spark ML. You can train Word2Vec in a cluster on multiple machines to handle large-scale datasets and use the trained model for token-level classifications such as NerDL</li>
+  <li>Introducing <code class="language-plaintext highlighter-rouge">useBestModel</code> param in NerDLApproach annotator. This param in the NerDLApproach preserves and restores the model that has achieved the best performance at the end of the training. The priority is metrics from testDataset (micro F1), metrics from validationSplit (micro F1), and if none is set it will keep track of loss during the training</li>
+  <li>Support Apache Spark and PySpark 3.2.x on Scala 2.12. Spark NLP by default is shipped for Spark 3.0.x/3.1.x, but now you have <code class="language-plaintext highlighter-rouge">spark-nlp-spark32</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-gpu-spark32</code> packages</li>
+  <li>Adding a new param to sparknlp.start() function in Python for Apache Spark 3.2.x (<code class="language-plaintext highlighter-rouge">spark32=True</code>)</li>
+  <li>Update Colab and Kaggle scripts for faster setup. We no longer need to remove Java 11 in order to install Java 8 since Spark NLP works on Java 11. This makes the installation of Spark NLP on Colab and Kaggle as fast as <code class="language-plaintext highlighter-rouge">pip install spark-nlp pyspark==3.1.2</code></li>
+  <li>Add new scripts/notebook to generate custom TensroFlow graphs for <code class="language-plaintext highlighter-rouge">ContextSpellCheckerApproach</code> annotator</li>
+  <li>Add a new <code class="language-plaintext highlighter-rouge">graphFolder</code> param to <code class="language-plaintext highlighter-rouge">ContextSpellCheckerApproach</code> annotator. This param allows to train ContextSpellChecker from a custom made TensorFlow graph</li>
+  <li>Support DBFS file system in <code class="language-plaintext highlighter-rouge">graphFolder</code> param. Starting Spark NLP 3.4.0 you can point NerDLApproach or ContextSpellCheckerApproach to a TF graph hosted on Databricks</li>
+  <li>Add a new feature to all classifiers (<code class="language-plaintext highlighter-rouge">ForTokenClassification</code> and <code class="language-plaintext highlighter-rouge">ForSequenceClassification</code>) to retrieve classes from the pretrained models
+```python
+sequenceClassifier = XlmRoBertaForSequenceClassification <br />
+    .pretrained(‘xlm_roberta_base_sequence_classifier_ag_news’, ‘en’) <br />
+    .setInputCols([‘token’, ‘document’]) <br />
+    .setOutputCol(‘class’)</li>
+</ul>
+
+<p>print(sequenceClassifier.getClasses())</p>
+
+<p>#Sports, Business, World, Sci/Tech</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+* Add `inputFormats` param to DateMatcher and MultiDateMatcher annotators. DateMatcher and MultiDateMatcher can now define a list of acceptable input formats via date patterns to search in the text. Consequently, the output format will be defining the output pattern for the unique output format.
+
+```python
+date_matcher = DateMatcher() \
+    .setInputCols(['document']) \
+    .setOutputCol("date") \
+    .setInputFormats(["yyyy", "yyyy/dd/MM", "MM/yyyy"]) \
+    .setOutputFormat("yyyyMM") \ #previously called `.setDateFormat`
+    .setSourceLanguage("en")
+
+</code></pre></div></div>
+<ul>
+  <li>Enable batch processing in T5Transformer and MarianTransformer annotators</li>
+  <li>Add Schema to <code class="language-plaintext highlighter-rouge">readDataset</code> in CoNLL() class</li>
+  <li>Welcoming 6x new Databricks runtimes to our Spark NLP family:
+    <ul>
+      <li>Databricks 10.0</li>
+      <li>Databricks 10.0 ML GPU</li>
+      <li>Databricks 10.1</li>
+      <li>Databricks 10.1 ML GPU</li>
+      <li>Databricks 10.2</li>
+      <li>Databricks 10.2 ML GPU</li>
+    </ul>
+  </li>
+  <li>Welcoming 3x new EMR 6.x series to our Spark NLP family:
+    <ul>
+      <li>EMR 5.33.1 (Apache Spark 2.4.7 / Hadoop 2.10.1)</li>
+      <li>EMR 6.3.1 (Apache Spark 3.1.1 / Hadoop 3.2.1)</li>
+      <li>EMR 6.4.0 (Apache Spark 3.1.2 / Hadoop 3.2.1)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>For more details please check the official <a href="https://github.com/JohnSnowLabs/spark-nlp/releases/tag/3.4.0">release notes</a></strong></p>
+
+<h3 id="334">3.3.4</h3>
 
 <h4 id="john-snow-labs-spark-nlp-334-patch-release">John Snow Labs Spark-NLP 3.3.4: Patch release</h4>
 
@@ -1290,7 +1368,7 @@
   <li>Improvements in the API allow Annotators with Storage to save and load their RocksDB database independently and let it be shared across Annotators and let it be shared across Annotators</li>
 </ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2022-01-04T00:00:00+00:00">Jan 04, 2022</time>
+      <time itemprop="dateModified" datetime="2022-01-06T00:00:00+00:00">Jan 06, 2022</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1452,7 +1530,7 @@ hr.code-selector-underlie {
 <footer class="footer py-4 js-page-footer">
   <div class="main"><div itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content=""><meta itemprop="url" content="/"></div><div class="site-info mt-2">
-      <div>© 2021 John Snow Labs Inc.
+      <div>© 2022 John Snow Labs Inc.
         <a href="http://www.johnsnowlabs.com/terms-of-service">Terms of Service</a> | <a href="http://www.johnsnowlabs.com/privacy-policy/">Privacy Policy</a>
       </div>
     </div>
