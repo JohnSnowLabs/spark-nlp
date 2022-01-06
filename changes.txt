@@ -1,4 +1,2 @@
-docs/_includes/footer.html
-docs/en/release_notes.md
-docs/_includes/footer.html
-docs/en/release_notes.md
+docs/_data/navigation.yml
+docs/_data/navigation.yml
