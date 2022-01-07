@@ -21,7 +21,7 @@ This model extracts biological and genetics terms in cancer-related texts using 
 
 ## Predicted Entities
 
-
+`Amino_acid`, `Anatomical_system`, `Cancer`, `Cell`, `Cellular_component`, `Developing_anatomical_Structure`, `Gene_or_gene_product`, `Immaterial_anatomical_entity`, `Multi-tissue_structure`, `Organ`, `Organism`, `Organism_subdivision`, `Simple_chemical`, `Tissue`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
