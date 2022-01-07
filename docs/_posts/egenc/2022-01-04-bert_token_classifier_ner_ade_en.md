@@ -21,7 +21,7 @@ Detect adverse reactions of drugs in reviews, tweets, and medical text using the
 
 ## Predicted Entities
 
-
+`DRUG`, `ADE`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
