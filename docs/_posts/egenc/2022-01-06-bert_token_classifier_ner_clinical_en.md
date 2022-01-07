@@ -21,7 +21,7 @@ This model is a BERT-based version of the ner_clinical model and it is 4% better
 
 ## Predicted Entities
 
-
+`PROBLEM`, `TEST`, `TREATMENT`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -36,20 +36,20 @@ This model is a BERT-based version of the ner_clinical model and it is 4% better
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+     .setInputCols(["document"])\
+     .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-       .setInputCols("sentence")\
-       .setOutputCol("token")
+     .setInputCols("sentence")\
+     .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_clinical", "en", "clinical/models")\
-       .setInputCols("token", "sentence")\
-       .setOutputCol("ner")
+     .setInputCols("token", "sentence")\
+     .setOutputCol("ner")
   
 pipeline =  Pipeline(stages=[
        documentAssembler,
@@ -67,12 +67,15 @@ result = p_model.transform(spark.createDataFrame([[text]]).toDF("text"))
 val documentAssembler = DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
+  
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
    .setInputCols(["document"])
    .setOutputCol("sentence")
+   
 val tokenizer = Tokenizer()
    .setInputCols("sentence")
    .setOutputCol("token")
+   
 val tokenClassifier = BertForTokenClassification.load("models/bert_based_ner_clinical")
    .setInputCols(Array("token", "sentence"))
    .setOutputCol("ner")
