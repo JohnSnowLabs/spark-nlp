@@ -1,2 +1,2 @@
-docs/_data/navigation.yml
-docs/_data/navigation.yml
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_pipeline_components.md
