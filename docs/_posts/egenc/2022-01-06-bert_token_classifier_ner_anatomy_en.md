@@ -21,7 +21,7 @@ Pretrained named entity recognition deep learning model for anatomy terms. This 
 
 ## Predicted Entities
 
-
+`Anatomical_system`, `Cell`, `Cellular_component`, `Developing_anatomical_structure`, `Immaterial_anatomical_entity`, `Multi-tissue_structure`, `Organ`, `Organism_subdivision`, `Organism_substance`, `Pathological_formation`, `Tissue`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -65,13 +65,13 @@ result = pp_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_se
 ...
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_anatomy", "en", "clinical/models")
-  .setInputCols("token", "sentence")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+    .setInputCols("token", "sentence")
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter))
 
