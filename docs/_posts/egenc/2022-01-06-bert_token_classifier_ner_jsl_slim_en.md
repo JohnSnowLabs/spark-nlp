@@ -21,7 +21,7 @@ This is a pretrained named entity recognition deep learning model for clinical t
 
 ## Predicted Entities
 
-
+`Death_Entity`, `Medical_Device`, `Vital_Sign`, `Alergen`, `Drug`, `Clinical_Dept`, `Lifestyle`, `Symptom`, `Body_Part`, `Physical_Measurement`, `Admission_Discharge`, `Date_Time`, `Age`, `Birth_Entity`, `Header`, `Oncological`, `Substance_Quantity`, `Test_Result`, `Test`, `Procedure`, `Treatment`, `Disease_Syndrome_Disorder`, `Pregnancy_Newborn`, `Demographics`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -36,25 +36,25 @@ This is a pretrained named entity recognition deep learning model for clinical t
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-       .setInputCols(["document"])\
-       .setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-  .setInputCols("document")\
-  .setOutputCol("token")
+    .setInputCols("document")\
+    .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+    .setInputCols("token", "document")\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-        .setInputCols(["sentence","token","ner"])\
-        .setOutputCol("ner_chunk")
+    .setInputCols(["sentence","token","ner"])\
+    .setOutputCol("ner_chunk")
 
 pipeline = Pipeline(stages=[documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter])
 
@@ -66,25 +66,25 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-       .setInputCols(["document"])
-       .setOutputCol("sentence")
+    .setInputCols(["document"])
+    .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()
-       .setInputCols("sentence")
-       .setOutputCol("token")
+    .setInputCols("sentence")
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_jsl_slim", "en", "clinical/models")
-  .setInputCols("token", "sentence")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+    .setInputCols("token", "sentence")
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter))
 
