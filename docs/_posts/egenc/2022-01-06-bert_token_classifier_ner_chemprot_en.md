@@ -21,7 +21,7 @@ Detect chemical compounds and genes in the medical text using the pretrained NER
 
 ## Predicted Entities
 
-
+`CHEMICAL`, `GENE-Y`, `GENE-N`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -36,21 +36,22 @@ Detect chemical compounds and genes in the medical text using the pretrained NER
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 tokenizer = Tokenizer()\
-  .setInputCols(["document"])\
-  .setOutputCol("token")
+    .setInputCols(["document"])\
+    .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")\
-  .setInputCols("token", "document")\
-  .setOutputCol("ner")\
-  .setCaseSensitive(True)
+    .setInputCols("token", "document")\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-        .setInputCols(["document","token","ner"])\
-        .setOutputCol("ner_chunk")
+    .setInputCols(["document","token","ner"])\
+    .setOutputCol("ner_chunk")
+
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
@@ -61,21 +62,21 @@ result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sen
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val tokenizer = Tokenizer()
-  .setInputCols(["document"])
-  .setOutputCol("token")
+    .setInputCols(["document"])
+    .setOutputCol("token")
 
 val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_ner_chemprot", "en", "clinical/models")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+    .setInputCols("token", "document")
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
