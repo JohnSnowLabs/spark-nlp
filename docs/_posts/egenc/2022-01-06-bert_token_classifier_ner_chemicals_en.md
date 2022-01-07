@@ -21,7 +21,7 @@ Extract different types of chemical compounds mentioned in text using pretrained
 
 ## Predicted Entities
 
-
+`CHEM`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -51,6 +51,7 @@ tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifie
 ner_converter = NerConverter()\
   .setInputCols(["document","token","ner"])\
   .setOutputCol("ner_chunk")
+
 pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
