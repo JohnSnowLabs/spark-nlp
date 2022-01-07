@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 {:.h2_title}
 ## Description
-This model maps extracted medical entities to ICD10-CM codes using chunk embeddings.
+This model maps extracted medical entities to ICD10-CM codes using sentence embeddings.
 
 {:.h2_title}
 ## Predicted Entities 
