@@ -188,8 +188,8 @@ trait VocabParser extends SpecialClassParser {
 class NumberToken extends RegexParser with SerializableClass {
   /* used during candidate generation(correction) - must be finite */
   override var regex = "([0-9]{1,3}(\\.|,)[0-9]{1,3}|[0-9]{1,2}(\\.[0-9]{1,2})?(%)?|[0-9]{1,4})"
-  override val label = "_NUM_"
-  override val maxDist: Int = 2
+  override var label = "_NUM_"
+  override var maxDist: Int = 2
 
   transducer = generateTransducer
 
@@ -224,8 +224,8 @@ class NumberToken extends RegexParser with SerializableClass {
 class LocationClass() extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
-  override val label: String = "_LOC_"
-  override val maxDist: Int = 3
+  override var label: String = "_LOC_"
+  override var maxDist: Int = 3
 
   def this(path: String) = {
     this()
@@ -249,8 +249,8 @@ class LocationClass() extends VocabParser with SerializableClass {
 class MainVocab() extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
-  override val label: String = "_MAIN_"
-  override val maxDist: Int = 3
+  override var label: String = "_MAIN_"
+  override var maxDist: Int = 3
 
   def this(path: String) = {
     this()
@@ -273,8 +273,8 @@ class MainVocab() extends VocabParser with SerializableClass {
 class NamesClass extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
-  override val label: String = "_NAME_"
-  override val maxDist: Int = 3
+  override var label: String = "_NAME_"
+  override var maxDist: Int = 3
 
   def this(path: String) = {
     this()
@@ -298,8 +298,8 @@ class NamesClass extends VocabParser with SerializableClass {
 class MedicationClass extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
-  override val label: String = "_MED_"
-  override val maxDist: Int = 3
+  override var label: String = "_MED_"
+  override var maxDist: Int = 3
 
   def this(path: String) = {
     this()
@@ -322,8 +322,8 @@ class MedicationClass extends VocabParser with SerializableClass {
 class AgeToken extends RegexParser with SerializableClass {
 
   override var regex: String = "1?[0-9]{0,2}-(year|month|day)(s)?(-old)?"
-  override val label: String = "_AGE_"
-  override val maxDist: Int = 2
+  override var label: String = "_AGE_"
+  override var maxDist: Int = 2
 
   transducer = generateTransducer
   @throws[IOException]
@@ -343,8 +343,8 @@ class UnitToken extends VocabParser with SerializableClass {
   override var vocab: Set[String] = Set("MG=", "MEQ=", "TAB",
     "tablet", "mmHg", "TMIN", "TMAX", "mg/dL", "MMOL/L", "mmol/l", "mEq/L", "mmol/L",
     "mg", "ml", "mL", "mcg", "mcg/", "gram", "unit", "units", "DROP", "intl", "KG", "mcg/inh")
-  override val label: String = "_UNIT_"
-  override val maxDist: Int = 3
+  override var label: String = "_UNIT_"
+  override var maxDist: Int = 3
 
   transducer = generateTransducer
 
@@ -363,8 +363,8 @@ class UnitToken extends VocabParser with SerializableClass {
 class DateToken extends RegexParser with WeightedLevenshtein with SerializableClass {
 
   override var regex = "(01|02|03|04|05|06|07|08|09|10|11|12)\\/([0-2][0-9]|30|31)\\/(19|20)[0-9]{2}|[0-9]{2}\\/(19|20)[0-9]{2}|[0-2][0-9]:[0-5][0-9]"
-  override val label = "_DATE_"
-  override val maxDist: Int = 2
+  override var label = "_DATE_"
+  override var maxDist: Int = 2
 
   val dateRegex = "(01|02|03|04|05|06|07|08|09|10|11|12)/[0-3][0-9]/(1|2)[0-9]{3}".r
 
@@ -395,8 +395,8 @@ class DateToken extends RegexParser with WeightedLevenshtein with SerializableCl
 
 
 class GenericVocabParser(override var vocab: Set[String],
-                         override val label: String,
-                         override val maxDist: Int = 3)  extends VocabParser with SerializableClass {
+                         override var label: String,
+                         override var maxDist: Int = 3)  extends VocabParser with SerializableClass {
   transducer = generateTransducer
 
 
@@ -412,8 +412,8 @@ class GenericVocabParser(override var vocab: Set[String],
 }
 
 class GenericRegexParser(override var regex: String,
-                         override val label: String,
-                         override val maxDist: Int = 3) extends RegexParser with WeightedLevenshtein with SerializableClass {
+                         override var label: String,
+                         override var maxDist: Int = 3) extends RegexParser with WeightedLevenshtein with SerializableClass {
 
   transducer = generateTransducer
 
