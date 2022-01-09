@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spell Checker in English Text- Spark NLP Model</title><meta name="description" content="DescriptionSpell Checker is a sequence-to-sequence pipeline that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton...">
-<link rel="canonical" href="/2022/01/04/check_spelling_dl_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Clinical Deidentification- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline can be used to deidentify PHI information from German medical texts. The PHI information will be masked and obfuscated in the result...">
+<link rel="canonical" href="/2022/01/06/clinical_deidentification_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,17 +404,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 04, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-04T00:00:00+00:00"></div><header><h1>Spell Checker in English Text</h1></header></div><meta itemprop="headline" content="Spell Checker in English Text"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>en</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-04T00:00:00+00:00">
-    <meta itemprop="keywords" content="open_source,en"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 06, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-06T00:00:00+00:00"></div><header><h1>Clinical Deidentification</h1></header></div><meta itemprop="headline" content="Clinical Deidentification"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>deidentification</li><li>licensed</li><li>pipeline</li><li>de</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-06T00:00:00+00:00">
+    <meta itemprop="keywords" content="deidentification,licensed,pipeline,de"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Spell Checker is a sequence-to-sequence pipeline that detects and corrects spelling errors in your input text. It’s based on Levenshtein Automaton for generating candidate corrections and a Neural Language Model for ranking corrections. You can download the pretrained pipeline that comes ready to use.</p>
+<p>This pipeline can be used to deidentify PHI information from <strong>German</strong> medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">ID</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">DLN</code>, <code class="language-plaintext highlighter-rouge">PLATE</code> entities.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/check_spelling_dl_en_3.3.4_3.0_1641304582335.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_de_3.3.4_2.4_1641504439647.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -422,54 +422,38 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline_local</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"check_spelling_dl"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">testDoc</span> <span class="o">=</span> <span class="s">'''
-During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather.
-'''</span>
+<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">result</span><span class="o">=</span><span class="n">pipeline_local</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">testDoc</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipe</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked'</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'obfuscated'</span><span class="p">]))</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"check_spelling_dl"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"During the summer we have the hottest ueather. I have a black ueather jacket, so nice.I intrduce you to my sister, she is called ueather."</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span><span class="s">"de"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sample</span> <span class="k">=</span> <span class="s">"Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
+in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipe</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="s1">'During'</span>, <span class="s1">'During'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'the'</span>, <span class="s1">'the'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'summer'</span>, <span class="s1">'summer'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'we'</span>, <span class="s1">'we'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'have'</span>, <span class="s1">'have'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'the'</span>, <span class="s1">'the'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'hottest'</span>, <span class="s1">'hottest'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'ueather'</span>, <span class="s1">'weather'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'.'</span>, <span class="s1">'.'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'I'</span>, <span class="s1">'I'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'have'</span>, <span class="s1">'have'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'a'</span>, <span class="s1">'a'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'black'</span>, <span class="s1">'black'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'ueather'</span>, <span class="s1">'leather'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'jacket'</span>, <span class="s1">'jacket'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">','</span>, <span class="s1">','</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'so'</span>, <span class="s1">'so'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'nice'</span>, <span class="s1">'nice'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'.'</span>, <span class="s1">'.'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'I'</span>, <span class="s1">'I'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'intrduce'</span>, <span class="s1">'introduce'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'you'</span>, <span class="s1">'you'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'to'</span>, <span class="s1">'to'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'my'</span>, <span class="s1">'my'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'sister'</span>, <span class="s1">'sister'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">','</span>, <span class="s1">','</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'she'</span>, <span class="s1">'she'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'is'</span>, <span class="s1">'is'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'called'</span>, <span class="s1">'called'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'ueather'</span>, <span class="s1">'Heather'</span><span class="o">)</span>,
- <span class="o">(</span><span class="s1">'.'</span>, <span class="s1">'.'</span><span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;PATIENT&gt; wird am Morgen des &lt;DATE&gt; ins &lt;HOSPITAL&gt; <span class="k">in</span> &lt;CITY&gt; eingeliefert.
+&lt;PATIENT&gt; ist &lt;AGE&gt; Jahre alt und hat zu viel Wasser <span class="k">in </span>den Beinen.
+
+Mathias Farber wird am Morgen des 05-01-1978 ins Rechts der Isar Hospital <span class="k">in </span>Berlin eingeliefert.
+Mathias Farber ist 56 Jahre alt und hat zu viel Wasser <span class="k">in </span>den Beinen.
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -478,7 +462,7 @@ During the summer we have the hottest ueather. I have a black ueather jacket, so
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>check_spelling_dl</td>
+      <td>clinical_deidentification</td>
     </tr>
     <tr>
       <td>Type:</td>
@@ -486,11 +470,11 @@ During the summer we have the hottest ueather. I have a black ueather jacket, so
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.4+</td>
+      <td>Spark NLP for Healthcare 3.3.4+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -498,11 +482,11 @@ During the summer we have the hottest ueather. I have a black ueather jacket, so
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>de</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>118.1 MB</td>
+      <td>1.3 GB</td>
     </tr>
   </tbody>
 </table>
@@ -513,9 +497,14 @@ During the summer we have the hottest ueather. I have a black ueather jacket, so
   <li>DocumentAssembler</li>
   <li>SentenceDetectorDLModel</li>
   <li>TokenizerModel</li>
-  <li>ContextSpellCheckerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>ContextualParserModel</li>
+  <li>ChunkMergeModel</li>
+  <li>DeIdentificationModel</li>
 </ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-04T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-06T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -640,7 +629,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/04/bert_token_classifier_ner_ade_en.html">Detect Adverse Drug Events (BertForTokenClassification)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/04/match_chunks_en.html">Match Chunks in Texts</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/06/bert_token_classifier_ner_jsl_slim_en.html">Detect Clinical Entities (Slim version, BertForTokenClassifier)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/06/ner_deid_generic_de.html">Detect PHI for Deidentification (Generic)</a></div></div></div>
 
 </div>
 </div>
