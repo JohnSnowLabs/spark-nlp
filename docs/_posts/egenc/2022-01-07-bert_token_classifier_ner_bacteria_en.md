@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Detect Cancer Genetics (BertForTokenClassification)
+title: Detect Bacterial Species (BertForTokenClassification)
 author: John Snow Labs
-name: bert_token_classifier_ner_bionlp
-date: 2022-01-03
-tags: [bertfortokenclassification, ner, bionlp, en, licensed]
+name: bert_token_classifier_ner_bacteria
+date: 2022-01-07
+tags: [bacteria, bertfortokenclassification, ner, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.0
+edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -17,16 +17,16 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model extracts biological and genetics terms in cancer-related texts using pre-trained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
+Detect different types of species of bacteria in text using pretrained NER model. This model is trained with the `BertForTokenClassification` method from `transformers` library and imported into Spark NLP.
 
 ## Predicted Entities
 
-`Amino_acid`, `Anatomical_system`, `Cancer`, `Cell`, `Cellular_component`, `Developing_anatomical_Structure`, `Gene_or_gene_product`, `Immaterial_anatomical_entity`, `Multi-tissue_structure`, `Organ`, `Organism`, `Organism_subdivision`, `Simple_chemical`, `Tissue`
+`SPECIES`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_bionlp_en_3.4.0_2.4_1641222741515.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_bacteria_en_3.3.4_2.4_1641568604267.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -43,7 +43,7 @@ tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("token")
 
-tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")\
+tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bacteria", "en", "clinical/models")\
     .setInputCols("token", "document")\
     .setOutputCol("ner")\
     .setCaseSensitive(True)
@@ -59,7 +59,9 @@ pipeline = Pipeline(stages=[documentAssembler,
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
-test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""
+test_sentence = """Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
+sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""
 
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
@@ -72,15 +74,17 @@ val tokenizer = Tokenizer()
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-val tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")
+val tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bacteria", "en", "clinical/models")
       .setInputCols("token", "document")
       .setOutputCol("ner")
       .setCaseSensitive(True)
+
 val ner_converter = NerConverter()
       .setInputCols(Array("document","token","ner"))
       .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
+
 val data = Seq("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
@@ -109,16 +113,16 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_token_classifier_ner_bionlp|
-|Compatibility:|Spark NLP for Healthcare 3.4.0+|
+|Model Name:|bert_token_classifier_ner_bacteria|
+|Compatibility:|Spark NLP for Healthcare 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[ner]|
 |Language:|en|
-|Size:|404.4 MB|
+|Size:|404.3 MB|
 |Case sensitive:|true|
-|Max sentense length:|256|
+|Max sentense length:|512|
 
 ## Data Source
 
