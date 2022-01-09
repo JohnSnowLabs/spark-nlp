@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,9 +74,13 @@ case class ResourceMetadata
     }
 
     if (this.sparkVersion == that.sparkVersion) {
-      if (this.libVersion.get.toFloat > that.libVersion.get.toFloat) {
-        value = Some(1)
-      } else value = Some(-1)
+      if (this.libVersion.get.toFloat == that.libVersion.get.toFloat) {
+        value = orderByTimeStamp(this.time, that.time)
+      } else {
+        if (this.libVersion.get.toFloat > that.libVersion.get.toFloat) {
+          value = Some(1)
+        } else value = Some(-1)
+      }
     } else {
       if (this.sparkVersion.get.toFloat > that.sparkVersion.get.toFloat) {
         value = Some(1)
@@ -84,6 +88,10 @@ case class ResourceMetadata
     }
 
     value.get
+  }
+
+  private def orderByTimeStamp(thisTime: Timestamp, thatTime: Timestamp): Option[Int] = {
+    if (thisTime.after(thatTime)) Some(1) else Some(-1)
   }
 
 }
@@ -112,7 +120,8 @@ object ResourceMetadata {
         && Version.isCompatible(request.sparkVersion, item.sparkVersion)
       )
 
-    compatibleCandidates.sorted.lastOption
+    val sortedResult = compatibleCandidates.sorted
+    sortedResult.lastOption
   }
 
   def readResources(file: String): List[ResourceMetadata] = {

@@ -95,3 +95,20 @@ logger.experiment.display(tab='charts')
 </div>
 
 </details>
+
+### MLflow
+
+Spark NLP uses Spark MLlib Pipelines, what are natively supported by MLFlow.
+MLFlow is, as stated in their [official webpage](https://mlflow.org/), an open
+source platform for the machine learning lifecycle, that includes:
+* **Mlflow Tracking**: Record and query experiments: code, data, config, and
+  results
+* **MLflow Projects**: Package data science code in a format to reproduce runs
+  on any platform
+* **MLflow Models**: Deploy machine learning models in diverse serving
+  environments
+* **Model Registry**: Store, annotate, discover, and manage models in a central
+  repository
+
+For more information, please see the complete guide at [Experiment
+Tracking](/docs/en/mlflow).

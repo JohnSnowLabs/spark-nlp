@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.training &#8212; Spark NLP 3.3.4 documentation</title>
+    <title>sparknlp.training &#8212; Spark NLP 3.4.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -147,7 +147,7 @@
               <div>
                 
   <h1>Source code for sparknlp.training</h1><div class="highlight"><pre>
-<span></span><span class="c1">#  Copyright 2017-2021 John Snow Labs</span>
+<span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
 <span class="c1">#</span>
 <span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1">#  you may not use this file except in compliance with the License.</span>
@@ -272,7 +272,12 @@
 <span class="sd">        spark : :class:`pyspark.sql.SparkSession`</span>
 <span class="sd">            Initiated Spark Session with Spark NLP</span>
 <span class="sd">        path : str</span>
-<span class="sd">            Path to the resource</span>
+<span class="sd">            Path to the resource, it can take two forms; a path to a conll file, or a path to a folder containing multiple CoNLL files.</span>
+<span class="sd">            When the path points to a folder, the path must end in &#39;*&#39;.</span>
+<span class="sd">            Examples:</span>
+<span class="sd">                &quot;/path/to/single/file.conll&#39;</span>
+<span class="sd">                &quot;/path/to/folder/containing/multiple/files/*&#39;</span>
+
 <span class="sd">        read_as : str, optional</span>
 <span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
 <span class="sd">        partitions : sets the minimum number of partitions for the case of lifting multiple files in parallel into a single dataframe. Defaults to 8.</span>
@@ -527,7 +532,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
 </p>
     </div>
     

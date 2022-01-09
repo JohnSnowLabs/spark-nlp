@@ -49,11 +49,17 @@
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "resolve_entities_codes" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/resolve_entities_codes">Resolve Entities to Codes</a>
       </li>
-      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "recognize_social_determinants" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-        <a href="/recognize_social_determinants">Recognize Social Determinants</a>
-      </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_relationships" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/extract_relationships">Extract Relationships</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "radiology" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/radiology">Radiology</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "oncology" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/oncology">Oncology</a>
+      </li>
+      <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "social_determinants" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+        <a href="/social_determinants">Social Determinants</a>
       </li>
       <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "split_clean_medical_text" %} class="active"  {% endif %} {% endfor %} {% endif %} >
         <a href="/split_clean_medical_text">Split &amp; Clean Medical Text</a>

@@ -40,11 +40,13 @@ documentAssembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("ner_chunk")
 
-sbert_embedder = BertSentenceEmbeddings.pretrained("sent_biobert_clinical_base_cased", "en")\
+sbert_embedder = BertSentenceEmbeddings\
+      .pretrained("sent_biobert_clinical_base_cased", "en")\
       .setInputCols(["ner_chunk"])\
-      .setOutputCol("sbert_embeddings")
+      .setOutputCol("sbert_embeddings") 
 
-resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models") \
+resolver = SentenceEntityResolverModel\
+      .pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models") \
       .setInputCols(["ner_chunk", "sbert_embeddings"]) \
       .setOutputCol("cpt_code")
 
@@ -59,21 +61,23 @@ result = l_model.fullAnnotate(['coronary calcium score', 'heart surgery', 'ct sc
 
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-  .setInputCol("text")\
-  .setOutputCol("ner_chunk")
+val document_assembler = DocumentAssembler()
+     .setInputCol("text")
+     .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_biobert_clinical_base_cased", "en")\
-     .setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings
+     .pretrained("sent_biobert_clinical_base_cased", "en")
+     .setInputCols(Array("ner_chunk"))
      .setOutputCol("sbert_embeddings")
 
-val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models) \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+val resolver = SentenceEntityResolverModel
+     .pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models) 
+     .setInputCols(Array("ner_chunk", "sbert_embeddings"))
      .setOutputCol("cpt_code")
 
 val pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, resolver))
 val l_model = LightPipeline(pipelineModel)
-val result = l_model.fullAnnotate(['coronary calcium score', 'heart surgery', 'ct scan', 'bp value'])
+val result = l_model.fullAnnotate(Array("coronary calcium score", "heart surgery", "ct scan", "bp value"))
 ```
 </div>
 

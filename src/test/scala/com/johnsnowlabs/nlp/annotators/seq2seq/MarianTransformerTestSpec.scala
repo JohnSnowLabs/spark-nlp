@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,8 +48,9 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
     val marian = MarianTransformer.pretrained("opus_mt_mul_en", "xx")
       .setInputCols("sentence")
       .setOutputCol("translation")
+      .setBatchSize(8)
       .setMaxInputLength(50)
-    //      .setIgnoreTokenIds(Array(64171))
+      .setIgnoreTokenIds(Array(64171))
 
     val pipeline = new Pipeline()
       .setStages(Array(

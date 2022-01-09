@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -264,7 +264,7 @@ class ElmoEmbeddings(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = TokenizedWithSentence.unpack(annotations)
     if (sentences.nonEmpty) {
-      val embeddings = getModelIfNotSet.calculateEmbeddings(sentences, $(poolingLayer))
+      val embeddings = getModelIfNotSet.predict(sentences, $(poolingLayer))
 
       WordpieceEmbeddingsSentence.pack(embeddings)
     } else {

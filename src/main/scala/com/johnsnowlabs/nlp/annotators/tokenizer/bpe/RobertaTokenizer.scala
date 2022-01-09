@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,4 +21,4 @@ class RobertaTokenizer(
                         vocab: Map[String, Int],
                         specialTokens: SpecialTokens,
                         padWithSentenceTokens: Boolean = false
-                      ) extends Gpt2Tokenizer(merges, vocab, specialTokens, padWithSentenceTokens)
+                      ) extends Gpt2Tokenizer(merges, vocab, specialTokens, padWithSentenceTokens, prependString = "Ġ")

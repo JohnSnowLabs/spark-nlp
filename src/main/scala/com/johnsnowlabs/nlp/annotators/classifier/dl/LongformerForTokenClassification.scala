@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings LongformerEmbeddings]] for token-level embeddings
+ * @see [[LongformerForTokenClassification]] for token-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -158,9 +158,12 @@ class LongformerForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
-
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /**
    * Holding merges.txt coming from RoBERTa model
@@ -231,7 +234,7 @@ class LongformerForTokenClassification(override val uid: String)
             sentenceEndTokenId,
             padTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures,
             $$(merges),
             $$(vocabulary)
@@ -281,7 +284,7 @@ class LongformerForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        getLabels
+        $$(labels)
       )
     }) else {
       Seq(Seq.empty[Annotation])

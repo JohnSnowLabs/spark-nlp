@@ -75,6 +75,14 @@ class Extractor
     m ? m[1] : nil
   end
 
+  def doc_type
+    m = /\|Type:\|(.*?)\|/.match(@content)
+    if m
+      return m[1] == 'pipeline' ? 'pipeline': 'model'
+    end
+    nil
+  end
+
   def predicted_entities
     m = /## Predicted Entities(.*?)(##|{:\.btn-box\})/m.match(@content)
     if m
@@ -100,12 +108,12 @@ class Extractor
     has_apostrophe = buf.include?('`')
     buf = buf.gsub("\n", ' ')
     return nil unless has_comma || (has_apostrophe && buf.match?(/\A\S+\z/))
-    buf.scan(/`[^`]+`/).map { |v| v.gsub(/["`]/, '') }.select { |v| !v.empty? && !v.include?(',') }
+    buf.scan(/`[^`]+`/).map { |v| v.gsub(/["`]/, '') }.select { |v| !v.empty? && !v.include?(',') && !v.include?('|') }
   end
 
   def newline_separated_predicted_entities(buf)
     return nil unless buf.include? "\n"
-    return nil if buf.strip.start_with? '-'
+    return nil unless buf.strip.start_with? '-'
     buf.split("\n").collect { |v| v.gsub(/^-\s?/, '').gsub('`', '').strip }.select { |v| !v.empty? }
   end
 end
@@ -155,6 +163,10 @@ end
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
   extractor = Extractor.new(post.content)
+  doc_type = extractor.doc_type
+  if doc_type.nil?
+    doc_type = post.data['tags'].include?('pipeline') ? 'pipeline' : 'model'
+  end
 
   models_json[post.url] = {
     title: post.data['title'],
@@ -169,6 +181,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     tags: post.data['tags'],
     download_link: extractor.download_link,
     predicted_entities: extractor.predicted_entities || [],
+    type: doc_type,
   }
 end
 
@@ -188,19 +201,22 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     end
   end
 
+  supported = !!post.data['supported']
+  deprecated = !!post.data['deprecated']
   model = {
     id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
+    tags: post.data['tags'],
     task: post.data['task'],
     language: language,
     languages: languages,
     edition: post.data['edition'],
     edition_short: edition_short,
     date: post.data['date'].strftime('%F'),
-    supported: !!post.data['supported'],
-    deprecated: !!post.data['deprecated'],
+    supported: supported && !deprecated,
+    deprecated: deprecated,
     body: body,
     url: post.url
   }
@@ -270,6 +286,12 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
             "tags_glued": {
                 "type": "text"
             },
+            "predicted_entities": {
+              "type": "keyword"
+            },
+            "type": {
+              "type": "keyword"
+            },
             "task": {
                 "type": "keyword"
             },
@@ -315,6 +337,10 @@ Jekyll::Hooks.register :site, :post_render do |site|
       end
 
       models_json[model[:url]][:compatible_editions] = next_edition_short.empty? ? [] : Array(next_edition_short)
+      # Add model_type to search models
+      model[:type] = models_json[model[:url]][:type]
+      # Add predicted entities to search models
+      model[:predicted_entities] = models_json[model[:url]][:predicted_entities]
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)

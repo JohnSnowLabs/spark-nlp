@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -328,7 +328,7 @@ class BertSentenceEmbeddings(override val uid: String)
     val tokenizedSentences = tokenize(sentencesWithRow.map(_._1))
 
     //Process all sentences
-    val allAnnotations = getModelIfNotSet.calculateSentenceEmbeddings(
+    val allAnnotations = getModelIfNotSet.predictSequence(
       tokenizedSentences,
       sentencesWithRow.map(_._1),
       $(batchSize),
