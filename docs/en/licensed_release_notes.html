@@ -631,8 +631,7 @@ SSN : 13110587M565
 Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300"""</span>
 
-deid_pipeline.annotate<span class="o">(</span>text<span class="o">)</span>
-result <span class="o">=</span> deid_pipe.annotate<span class="o">(</span>sample<span class="o">)</span>
+result <span class="o">=</span> deid_pipe.annotate<span class="o">(</span>text<span class="o">)</span>
 
 print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>.join<span class="o">(</span>result[<span class="s1">'masked'</span><span class="o">]))</span>
 print<span class="o">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>.join<span class="o">(</span>result[<span class="s1">'obfuscated'</span><span class="o">]))</span>
