@@ -1,6 +1,2 @@
-docs/_posts/2020-11-27-sbiobertresolve_icd10cm_en.md
-docs/_posts/muhammetsnts/2021-06-24-ner_jsl_en.md
-docs/_posts/xusliebana/2021-12-15-mediacal_bert_token_classifier_ner_bacteria_en.md
-docs/_posts/2020-11-27-sbiobertresolve_icd10cm_en.md
-docs/_posts/muhammetsnts/2021-06-24-ner_jsl_en.md
-docs/_posts/xusliebana/2021-12-15-mediacal_bert_token_classifier_ner_bacteria_en.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
