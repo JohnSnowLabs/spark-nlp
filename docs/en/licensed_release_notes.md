@@ -13,10 +13,10 @@ sidebar:
 
 ## 3.4.0
 We are glad to announce that Spark NLP Healthcare 3.4.0 has been released!
-New features, new models, academic papers, a massive release!
+This is a massive release: new features, new models, academic papers, and more!
 
 # Release Notes Spark NLP Healthcare
-## 3.4.0
+
 We are glad to announce that Spark NLP Healthcare 3.4.0 has been released!.
 
 #### Highlights
