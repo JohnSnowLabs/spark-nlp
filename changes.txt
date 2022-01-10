@@ -1,2 +1,10 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+docs/assets/images/ocr/text_detection.png
+docs/en/ocr_object_detection.md
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/ocr_visual_document_understanding.md
+docs/assets/images/ocr/text_detection.png
+docs/en/ocr_object_detection.md
+docs/en/ocr_pipeline_components.md
+docs/en/ocr_release_notes.md
+docs/en/ocr_visual_document_understanding.md

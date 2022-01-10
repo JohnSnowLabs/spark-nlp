@@ -859,7 +859,7 @@ Currently available pre-trained model on the SROIE dataset.</p>
 </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">binary_to_image</span><span class="p">,</span>
     <span class="n">ocr</span><span class="p">,</span>
-    <span class="n">document_ner</span><span class="p">,</span>    
+    <span class="n">document_ner</span><span class="p">,</span>
 <span class="p">])</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -877,6 +877,186 @@ Currently available pre-trained model on the SROIE dataset.</p>
 | B-COMPANY, [word -&gt; AEON, token -&gt; aeon], []], [entity, 0, 0, B-COMPANY,|
 | [word -&gt; CO., token -&gt; co], ...                                         |
 +-------------------------------------------------------------------------+
+</code></pre></div></div>
+
+<h2 id="visualdocumentnerv2">VisualDocumentNERv2</h2>
+
+<p><code class="language-plaintext highlighter-rouge">VisualDocumentNERv2</code> is a DL model for NER documents which is an improved version of <code class="language-plaintext highlighter-rouge">VisualDocumentNER</code>. There is available pretrained model trained on FUNSD dataset.</p>
+
+<h4 id="input-columns-2">Input Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCols</td>
+      <td>Array[String]</td>
+      <td> </td>
+      <td>Сolumn names for tokens of the document and image</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="parameters-2">Parameters</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>maxSentenceLength</td>
+      <td>int</td>
+      <td>512</td>
+      <td>Maximum sentence length.</td>
+    </tr>
+    <tr>
+      <td>whiteList</td>
+      <td>Array[String]</td>
+      <td> </td>
+      <td>Whitelist of output labels</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="output-columns-2">Output Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>string</td>
+      <td>entities</td>
+      <td>Name of output column with entities Annotation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Example:</strong></p>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="k">var</span> <span class="n">dataFrame</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+
+<span class="k">var</span> <span class="n">bin2imTransformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
+<span class="nv">bin2imTransformer</span><span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_3BYTE_BGR</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ocr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToHocr</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setIgnoreResolution</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOcrParams</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"preserve_interword_spaces=0"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HocrTokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visualDocumentNER</span> <span class="k">=</span> <span class="nc">VisualDocumentNERv2</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"layoutlmv2_funsd"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"image"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">bin2imTransformer</span><span class="o">,</span>
+    <span class="n">ocr</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">visualDocumentNER</span>
+  <span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="n">pipeline</span>
+  <span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">dataFrame</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">dataFrame</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">cache</span><span class="o">()</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"entities"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> 
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
+
+<span class="n">binToImage</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToHocr</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOcrParams</span><span class="p">([</span><span class="s">"preserve_interword_spaces=0"</span><span class="p">])</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">HocrTokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">VisualDocumentNerV2</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"layoutlmv2_funsd"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"image"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entities"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binToImage</span><span class="p">,</span>
+    <span class="n">ocr</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">ner</span>
+    <span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">'filename'</span><span class="p">,</span> <span class="n">path</span>\<span class="n">_array</span><span class="p">.</span><span class="n">getItem</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="n">path_array</span><span class="p">)</span><span class="o">-</span> <span class="mi">1</span><span class="p">))</span> \
+    <span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"exploded_entities"</span><span class="p">,</span> <span class="n">f</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="s">"entities"</span><span class="p">))</span> \
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"filename"</span><span class="p">,</span> <span class="s">"exploded_entities"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+</div>
+
+<p>Output sample:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------+-------------------------------------------------------------------------------------------------------------------------+
+|filename |exploded_entities                                                                                                        |
++---------+-------------------------------------------------------------------------------------------------------------------------+
+|form1.jpg|[entity, 0, 6, i-answer, [x -&gt; 1027, y -&gt; 89, height -&gt; 19, confidence -&gt; 96, word -&gt; Version:, width -&gt; 90], []]        |
+|form1.jpg|[entity, 25, 35, b-header, [x -&gt; 407, y -&gt; 190, height -&gt; 37, confidence -&gt; 96, word -&gt; Institution, width -&gt; 241], []]  |
+|form1.jpg|[entity, 37, 40, i-header, [x -&gt; 667, y -&gt; 190, height -&gt; 37, confidence -&gt; 96, word -&gt; Name, width -&gt; 130], []]         |
+|form1.jpg|[entity, 42, 52, b-question, [x -&gt; 498, y -&gt; 276, height -&gt; 19, confidence -&gt; 96, word -&gt; Institution, width -&gt; 113], []]|
+|form1.jpg|[entity, 54, 60, i-question, [x -&gt; 618, y -&gt; 276, height -&gt; 19, confidence -&gt; 96, word -&gt; Address, width -&gt; 89], []]     |
++---------+-------------------------------------------------------------------------------------------------------------------------+
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2020-04-08T00:00:00+00:00">Apr 08, 2020</time>

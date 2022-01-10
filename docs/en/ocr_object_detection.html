@@ -702,6 +702,201 @@ It based on Cascade Region-based CNN network.</p>
 <p><strong>Output:</strong></p>
 
 <p><img src="/assets/images/ocr/signature.png" alt="image" /></p>
+
+<h2 id="imagetextdetector">ImageTextDetector</h2>
+
+<p><code class="language-plaintext highlighter-rouge">ImageTextDetector</code> is a DL model for detect text on the image.
+It based on CRAFT network architecture.</p>
+
+<h4 id="input-columns-1">Input Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCol</td>
+      <td>string</td>
+      <td>image</td>
+      <td>image struct (<a href="ocr_structures#image-schema">Image schema</a>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="parameters-1">Parameters</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>scoreThreshold</td>
+      <td>float</td>
+      <td>0.9</td>
+      <td>Score threshold for output regions.</td>
+    </tr>
+    <tr>
+      <td>sizeThreshold</td>
+      <td>int</td>
+      <td>5</td>
+      <td>Size threshold for detected text</td>
+    </tr>
+    <tr>
+      <td>textThreshold</td>
+      <td>float</td>
+      <td>0.4f</td>
+      <td>Text threshold</td>
+    </tr>
+    <tr>
+      <td>linkThreshold</td>
+      <td>float</td>
+      <td>0.4f</td>
+      <td>Link threshold</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>integer</td>
+      <td>0</td>
+      <td>Scale width to this value, if 0 use original width</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td>integer</td>
+      <td>0</td>
+      <td>Scale height to this value, if 0 use original height</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="output-columns-1">Output Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>string</td>
+      <td>table_regions</td>
+      <td>array of [Coordinaties]ocr_structures#coordinate-schema)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Example:</strong></p>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.transformers.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.ocr.OcrContext.implicits._</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"path to image"</span>
+
+<span class="c1">// Read image file as binary file</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">asImage</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="c1">// Define transformer for detect text</span>
+<span class="k">val</span> <span class="nv">text_detector</span> <span class="k">=</span> <span class="nc">ImageTextDetector</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"text_detection_v1"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text_regions"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageTextDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"text_regions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setSizeThreshold</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setScoreThreshold</span><span class="o">(</span><span class="mf">0.9</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setLinkThreshold</span><span class="o">(</span><span class="mf">0.4</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTextThreshold</span><span class="o">(</span><span class="mf">0.2</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setWidth</span><span class="o">(</span><span class="mi">1512</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setHeight</span><span class="o">(</span><span class="mi">2016</span><span class="o">)</span>
+
+
+<span class="n">pipeline</span> <span class="k">=</span> <span class="nc">PipelineModel</span><span class="o">(</span><span class="n">stages</span><span class="o">=[</span>
+    <span class="kt">binary_to_image</span>,
+    <span class="kt">text_detector</span>,
+    <span class="kt">draw_regions</span>
+<span class="o">])</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">)</span>
+
+<span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> 
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
+
+<span class="n">binary_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="c1"># Define transformer for detect text
+</span><span class="n">text_detector</span> <span class="o">=</span> <span class="n">ImageTextDetector</span> \
+  <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"text_detection_v1"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text_regions"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setSizeThreshold</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setScoreThreshold</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setLinkThreshold</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setTextThreshold</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setWidth</span><span class="p">(</span><span class="mi">1512</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setHeight</span><span class="p">(</span><span class="mi">2016</span><span class="p">)</span>
+
+<span class="n">draw_regions</span> <span class="o">=</span> <span class="n">ImageDrawRegions</span><span class="p">()</span> \
+  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"text_regions"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_with_regions"</span><span class="p">)</span>
+
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binary_to_image</span><span class="p">,</span>
+    <span class="n">text_detector</span><span class="p">,</span>
+    <span class="n">draw_regions</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">display_images</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">"image_with_regions"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+</div>
+
+<p><strong>Output:</strong></p>
+
+<p><img src="/assets/images/ocr/text_detection.png" alt="image" /></p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2020-04-08T00:00:00+00:00">Apr 08, 2020</time>
     </span><!-- start custom article footer snippet -->
