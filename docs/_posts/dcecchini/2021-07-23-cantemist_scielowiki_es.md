@@ -21,8 +21,7 @@ Detect tumor morphology entities in Spanish text.
 
 ## Predicted Entities
 
-- MORFOLOGIA_NEOPLASIA (morphology)
-- O (Others)
+`MORFOLOGIA_NEOPLASIA`, `O`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_TUMOR_ES/){:.button.button-orange}
