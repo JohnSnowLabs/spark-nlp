@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.annotators.common.{InfixToken, PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.serialization.{ArrayFeature, SetFeature}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, ParamsAndFeaturesWritable, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, AnnotatorType, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
 import org.apache.spark.ml.util.Identifiable
 
 /**
@@ -45,6 +45,20 @@ class RecursiveTokenizerModel(override val uid: String)
     with HasSimpleAnnotate[RecursiveTokenizerModel]
     with ParamsAndFeaturesWritable {
 
+  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
+  def this() = this(Identifiable.randomUID("RecursiveTokenizerModel"))
+
+  /** Output Annotator types: TOKEN
+   *
+   * @group anno
+   */
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
+  /** Input Annotator types: DOCUMENT
+   *
+   * @group anno
+   */
+  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
+
   /** prefixes
    *
    * @group param
@@ -55,7 +69,7 @@ class RecursiveTokenizerModel(override val uid: String)
    *
    * @group setParam
    * */
-  def setPrefixes(p: Array[String]): this.type = set(prefixes, p.sortBy(_.size).reverse)
+  def setPrefixes(p: Array[String]): this.type = set(prefixes, p.sortBy(_.length).reverse)
 
   /** suffixes
    *
@@ -67,7 +81,7 @@ class RecursiveTokenizerModel(override val uid: String)
    *
    * @group setParam
    * */
-  def setSuffixes(s: Array[String]): this.type = set(suffixes, s.sortBy(_.size).reverse)
+  def setSuffixes(s: Array[String]): this.type = set(suffixes, s.sortBy(_.length).reverse)
 
   /** infixes
    *
@@ -79,7 +93,7 @@ class RecursiveTokenizerModel(override val uid: String)
    *
    * @group setParam
    * */
-  def setInfixes(s: Array[String]): this.type = set(infixes, s.sortBy(_.size).reverse)
+  def setInfixes(s: Array[String]): this.type = set(infixes, s.sortBy(_.length).reverse)
 
   /** whitelist
    *
@@ -139,18 +153,6 @@ class RecursiveTokenizerModel(override val uid: String)
       tmp
     }.filter(!_.equals(""))
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
-  def this() = this(Identifiable.randomUID("SimpleTokenizerModel"))
-
-
-  /** Output Annotator types: TOKEN
-   *
-   * @group anno
-   */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.TOKEN
-  /** Input Annotator types: DOCUMENT
-   *
-   * @group anno
-   */
-  override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
 }
+
+object RecursiveTokenizerModel extends ParamsAndFeaturesReadable[RecursiveTokenizerModel]
