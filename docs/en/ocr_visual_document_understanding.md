@@ -273,7 +273,7 @@ Output:
 {:.table-model-big}
 | Param name | Type | Default | Column Data Description |
 | --- | --- | --- | --- |
-| inputCols | Array[String] | hocr | Сolumn names for HOCR of the document and image|
+| inputCols | Array[String] |  | Сolumn names for tokens of the document and image|
 
 
 #### Parameters
