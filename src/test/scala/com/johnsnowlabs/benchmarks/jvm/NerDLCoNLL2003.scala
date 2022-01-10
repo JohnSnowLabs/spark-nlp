@@ -83,7 +83,7 @@ object NerDLCoNLL2003 extends App {
     val model = new TensorflowNer(tf, encoder, Verbose.All)
     for (epoch <- 0 until 150) {
       model.train(trainDataset.grouped(32), trainDataset.size, Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]().grouped(32),
-        trainDataset.length, 1e-3f, 0.005f, 0.5f, 8, false, epoch, epoch + 1, outputLogsPath = "")
+        trainDataset.length, 1e-3f, 0.005f, 0.5f, 8, false, "f1_micro", epoch, epoch + 1, outputLogsPath = "")
 
       System.out.println("\n\nQuality on train data")
       model.measure(trainDataset.grouped(32), extended = true, outputLogsPath = "")
