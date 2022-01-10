@@ -11,8 +11,6 @@ sidebar:
     nav: sparknlp-healthcare
 ---
 
-# Release Notes Spark NLP Healthcare
-
 ## 3.4.0
 
 We are glad to announce that Spark NLP Healthcare 3.4.0 has been released!
