@@ -1,13 +1,13 @@
 ---
 layout: model
-title: Detect Cancer Genetics (BertForTokenClassification)
+title: Detect Cellular/Molecular Biology Entities (BertForTokenClassification)
 author: John Snow Labs
-name: bert_token_classifier_ner_bionlp
-date: 2022-01-03
-tags: [bertfortokenclassification, ner, bionlp, en, licensed]
+name: bert_token_classifier_ner_cellular
+date: 2022-01-06
+tags: [bertfortokenclassification, ner, cellular, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.4.0
+edition: Spark NLP for Healthcare 3.3.4
 spark_version: 2.4
 supported: true
 article_header:
@@ -17,16 +17,16 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model extracts biological and genetics terms in cancer-related texts using pre-trained NER model. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
+This model detects molecular biology-related terms in medical texts. This model is trained with the `BertForTokenClassification` method from the `transformers` library and imported into Spark NLP.
 
 ## Predicted Entities
 
-`Amino_acid`, `Anatomical_system`, `Cancer`, `Cell`, `Cellular_component`, `Developing_anatomical_Structure`, `Gene_or_gene_product`, `Immaterial_anatomical_entity`, `Multi-tissue_structure`, `Organ`, `Organism`, `Organism_subdivision`, `Simple_chemical`, `Tissue`
+`DNA`, `Cell_type`, `Cell_line`, `RNA`, `Protein`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_bionlp_en_3.4.0_2.4_1641222741515.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_cellular_en_3.3.4_2.4_1641455594142.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -35,53 +35,39 @@ This model extracts biological and genetics terms in cancer-related texts using 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-
-tokenizer = Tokenizer() \
-    .setInputCols(["document"]) \
-    .setOutputCol("token")
-
-tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")\
-    .setInputCols("token", "document")\
-    .setOutputCol("ner")\
-    .setCaseSensitive(True)
+...
+tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_cellular", "en", "clinical/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-    .setInputCols(["document","token","ner"])\
-    .setOutputCol("ner_chunk") 
+  .setInputCols(["document","token","ner"])\
+  .setOutputCol("ner_chunk")
 
-pipeline = Pipeline(stages=[documentAssembler, 
-                            tokenizer, 
-                            tokenClassifier, 
-                            ner_converter])
+pipeline = Pipeline(stages=[documentAssembler, sentence_detector, tokenizer, tokenClassifier, ner_converter])
 
 p_model = pipeline.fit(spark.createDataFrame(pd.DataFrame({'text': ['']})))
 
-test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay."""
+test_sentence = """Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive."""
 
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+...
 
-val tokenizer = Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_cellular", "en", "clinical/models")
+    .setInputCols("token", "document")
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
-val tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")
-      .setInputCols("token", "document")
-      .setOutputCol("ner")
-      .setCaseSensitive(True)
 val ner_converter = NerConverter()
-      .setInputCols(Array("document","token","ner"))
-      .setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
-val data = Seq("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.").toDF("text")
+
+val data = Seq("Detection of various other intracellular signaling proteins is also described. Genetic characterization of transactivation of the human T-cell leukemia virus type 1 promoter: Binding of Tax to Tax-responsive element 1 is mediated by the cyclic AMP-responsive members of the CREB/ATF family of transcription factors. To achieve a better understanding of the mechanism of transactivation by Tax of human T-cell leukemia virus type 1 Tax-responsive element 1 (TRE-1), we developed a genetic approach with Saccharomyces cerevisiae. We constructed a yeast reporter strain containing the lacZ gene under the control of the CYC1 promoter associated with three copies of TRE-1. Expression of either the cyclic AMP response element-binding protein (CREB) or CREB fused to the GAL4 activation domain (GAD) in this strain did not modify the expression of the reporter gene. Tax alone was also inactive.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -109,16 +95,16 @@ val result = pipeline.fit(data).transform(data)
 
 {:.table-model}
 |---|---|
-|Model Name:|bert_token_classifier_ner_bionlp|
-|Compatibility:|Spark NLP for Healthcare 3.4.0+|
+|Model Name:|bert_token_classifier_ner_cellular|
+|Compatibility:|Spark NLP for Healthcare 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[ner]|
 |Language:|en|
-|Size:|404.4 MB|
+|Size:|404.3 MB|
 |Case sensitive:|true|
-|Max sentense length:|256|
+|Max sentense length:|512|
 
 ## Data Source
 

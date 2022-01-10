@@ -108,8 +108,7 @@ SSN : 13110587M565
 Lizenznummer: B072RRE2I55
 Adresse : St.Johann-Straße 13 19300"""
 
-deid_pipeline.annotate(text)
-result = deid_pipe.annotate(sample)
+result = deid_pipe.annotate(text)
 
 print("\n".join(result['masked']))
 print("\n".join(result['obfuscated']))
