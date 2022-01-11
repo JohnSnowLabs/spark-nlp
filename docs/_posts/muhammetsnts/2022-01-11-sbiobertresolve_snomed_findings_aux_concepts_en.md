@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps clinical entities and concepts to Snomed codes using sbiobert_base_cased_mli Sentence Bert Embeddings. This is also capable of extracting Morph Abnormality, Procedure, Substance, Physical Object, and Body Structure concepts of Snomed codes. 
+This model maps clinical entities and concepts to Snomed codes using sbiobert_base_cased_mli Sentence Bert Embeddings. This is also capable of extracting `Morph Abnormality`, `Procedure`, `Substance`, `Physical Object`, and `Body Structure` concepts of Snomed codes. 
 
 In the metadata, the `all_k_aux_labels` can be divided to get further information: `ground truth`, `concept`, and `aux` .For example, in the example shared below the ground truth is `Atherosclerosis`, concept is `Observation`, and aux is `Morph Abnormality`
 
