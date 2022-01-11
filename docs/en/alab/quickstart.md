@@ -30,9 +30,9 @@ A highly efficient annotation tool for all enterprise teams who need to:
 All that **without writing a line of code**!
 
 
-Included with every Spark NLP subscription, or can be purchased on its own.  
+*FREE for all!*
 {:.btn-block}
-[Try Free](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa){:.button.button--primary.button--rounded.button--md}
+[Install Software](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa){:.button.button--primary.button--rounded.button--md}
 
 </div>
 
