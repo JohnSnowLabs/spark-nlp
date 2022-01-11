@@ -4786,6 +4786,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useBestModel
         Whether to restore and use the model that has achieved the best performance
         at the end of the training.
+    bestModelMetric
+        Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
     Examples
     --------
     >>> import sparknlp
@@ -4891,6 +4893,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useBestModel = Param(Params._dummy(), "useBestModel",
                          "Whether to restore and use the model that has achieved the best performance at the end of the training.",
                          TypeConverters.toBoolean)
+
+    bestModelMetric = Param(Params._dummy(), "bestModelMetric",
+                            "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model.",
+                            TypeConverters.toString)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -5086,6 +5092,16 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         """
         return self._set(useBestModel=value)
 
+    def setBestModelMetric(self, value):
+        """Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model when setUseBestModel is True
+
+        Parameters
+        ----------
+        value : str
+            Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
+        """
+        return self._set(bestModelMetric=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -5105,7 +5121,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             includeAllConfidenceScores=False,
             enableOutputLogs=False,
             enableMemoryOptimizer=False,
-            useBestModel=False
+            useBestModel=False,
+            bestModelMetric="f1_micro"
         )
 
 
