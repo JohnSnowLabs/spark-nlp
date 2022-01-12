@@ -22,7 +22,7 @@ Install Annotation Lab on a dedicated server to reduce the likelihood of conflic
 To install Annotation Lab run the following command:
 
 ```bash
-wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s --VERSION
+wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s VERSION
 ```
 
 For installing the latest available version of the Annotation Lab use:
@@ -36,7 +36,7 @@ To upgrade your Annotation Lab installation to a newer version, run the followin
 ### Upgrade 
 
 ```bash
-wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s --VERSION
+wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s VERSION
 ```
 Replace VERSION within the above one liners with the version you want to install.  
 
