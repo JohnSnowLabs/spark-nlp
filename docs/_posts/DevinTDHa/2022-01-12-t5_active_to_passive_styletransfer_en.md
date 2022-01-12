@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a text-to-text model based on T5 fine-tuned to generate informal text from a formal text input, for the task "transfer Active to Passive:". It is based on Prithiviraj Damodaran's Styleformer.
+This is a text-to-text model based on T5 fine-tuned to generate actively written text from a passively written text input, for the task "transfer Active to Passive:". It is based on Prithiviraj Damodaran's Styleformer.
 
 ## Predicted Entities
 
