@@ -158,8 +158,7 @@ class T5Transformer(override val uid: String)
 
   /** @group setParam */
   def setTask(value: String): T5Transformer.this.type = {
-    if (get(task).isEmpty)
-      set(task, value)
+    set(task, value)
     this
   }
 
