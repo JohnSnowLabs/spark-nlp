@@ -191,7 +191,7 @@ val ocr = new ImageToHocr()
 |Edition:|Official|
 |Language:|en|
 |Case sensitive:|false|
-|Max sentense length:|512|
+|Max sentence length:|512|
 
 ## Data Source
 

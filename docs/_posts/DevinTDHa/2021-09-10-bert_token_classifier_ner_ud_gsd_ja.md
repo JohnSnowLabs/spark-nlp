@@ -148,7 +148,7 @@ result.selectExpr("explode(arrays_zip(token.result, ner.result))")
 |Output Labels:|[ner]|
 |Language:|ja|
 |Case sensitive:|true|
-|Max sentense length:|128|
+|Max sentence length:|128|
 
 ## Data Source
 

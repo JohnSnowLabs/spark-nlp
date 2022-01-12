@@ -137,7 +137,7 @@ val result = pipeline.fit(data).transform(data)
 |Output Labels:|[ner]|
 |Language:|en|
 |Case sensitive:|true|
-|Max sentense length:|128|
+|Max sentence length:|128|
 
 ## Data Source
 

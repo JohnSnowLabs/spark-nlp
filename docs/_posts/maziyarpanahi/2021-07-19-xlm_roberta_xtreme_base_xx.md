@@ -61,7 +61,7 @@ val embeddings = XlmRoBertaEmbeddings.pretrained("xlm_roberta_xtreme_base", "xx"
 |Output Labels:|[embeddings]|
 |Language:|xx|
 |Case sensitive:|true|
-|Max sentense length:|128|
+|Max sentence length:|128|
 
 ## Data Source
 

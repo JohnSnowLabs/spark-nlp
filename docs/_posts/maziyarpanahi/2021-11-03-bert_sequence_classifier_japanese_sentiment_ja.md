@@ -95,7 +95,7 @@ val example = Seq("私は幸福である。").toDS.toDF("text")
 |Output Labels:|[class]|
 |Language:|ja|
 |Case sensitive:|false|
-|Max sentense length:|512|
+|Max sentence length:|512|
 
 ## Data Source
 

@@ -111,7 +111,7 @@ val result = pipeline.fit(example).transform(example)
 |Language:|en|
 |Size:|555.4 MB|
 |Case sensitive:|true|
-|Max sentense length:|4096|
+|Max sentence length:|4096|
 
 ## Data Source
 

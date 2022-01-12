@@ -98,7 +98,7 @@ val example = Seq("Disney Comics was a comic book publishing company operated by
 |Output Labels:|[class]|
 |Language:|en|
 |Case sensitive:|true|
-|Max sentense length:|512|
+|Max sentence length:|512|
 
 ## Data Source
 

@@ -77,7 +77,7 @@ val embeddings = LongformerEmbeddings.pretrained("longformer_base_4096", "en")
 |Output Labels:|[embeddings]|
 |Language:|en|
 |Case sensitive:|true|
-|Max sentense length:|4096|
+|Max sentence length:|4096|
 
 ## Data Source
 
