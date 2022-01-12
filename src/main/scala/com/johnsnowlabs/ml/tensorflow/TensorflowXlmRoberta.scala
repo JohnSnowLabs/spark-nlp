@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +120,7 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     runner
       .feed(_tfRoBertaSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"), tokenTensors)
@@ -153,7 +153,7 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
   }
 
 
-  def tagSentence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+  def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
 
@@ -173,7 +173,7 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
       maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
     }
 
-    val runner = tensorflowWrapper.getTFHubSession(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
+    val runner = tensorflowWrapper.getTFSessionWithSignature(configProtoBytes = configProtoBytes, savedSignatures = signatures, initAllTables = false).runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
@@ -194,10 +194,10 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
 
   }
 
-  def calculateEmbeddings(tokenizedSentences: Seq[TokenizedSentence],
-                          batchSize: Int,
-                          maxSentenceLength: Int
-                         ): Seq[WordpieceEmbeddingsSentence] = {
+  def predict(tokenizedSentences: Seq[TokenizedSentence],
+              batchSize: Int,
+              maxSentenceLength: Int
+             ): Seq[WordpieceEmbeddingsSentence] = {
 
     val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength)
     wordPieceTokenizedSentences.zipWithIndex.grouped(batchSize).flatMap { batch =>
@@ -235,10 +235,10 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
     }.toSeq
   }
 
-  def calculateSentenceEmbeddings(sentences: Seq[Sentence],
-                                  batchSize: Int,
-                                  maxSentenceLength: Int
-                                 ): Seq[Annotation] = {
+  def predictSequence(sentences: Seq[Sentence],
+                      batchSize: Int,
+                      maxSentenceLength: Int
+                     ): Seq[Annotation] = {
 
     val wordPieceTokenizedSentences = sentences.grouped(batchSize).flatMap { batch =>
       tokenizeSentence(batch, maxSentenceLength)
@@ -249,7 +249,7 @@ class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
       val tokensBatch = batch.map(x => (x._1._1, x._2))
       val sentencesBatch = batch.map(x => x._1._2)
       val encoded = prepareBatchInputs(tokensBatch, maxSentenceLength)
-      val embeddings = tagSentence(encoded)
+      val embeddings = tagSequence(encoded)
 
       sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
         Annotation(

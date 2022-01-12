@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ import scala.collection.JavaConversions.asScalaBuffer
 
 
 class TensorflowSpell(
-  val tensorflow: TensorflowWrapper,
-  val verboseLevel: Verbose.Value
-  ) extends Logging with Serializable {
+                       val tensorflow: TensorflowWrapper,
+                       val verboseLevel: Verbose.Value
+                     ) extends Logging with Serializable {
 
 
   val lossKey = "Add:0"
@@ -56,11 +56,11 @@ class TensorflowSpell(
   val initKey = "init"
 
   /* returns the loss associated with the last word, given previous history  */
-  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]], configProtoBytes: Option[Array[Byte]] = None) = {
+  def predict(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids: Array[Array[Int]], configProtoBytes: Option[Array[Byte]] = None): Iterator[Float] = {
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+    val lossWords = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
@@ -77,11 +77,11 @@ class TensorflowSpell(
 
 
   /* returns the loss associated with the last word, given previous history  */
-  def pplEachWord(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids:Array[Array[Int]], configProtoBytes: Option[Array[Byte]] = None) = {
+  def pplEachWord(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids: Array[Array[Int]], configProtoBytes: Option[Array[Byte]] = None): Array[Float] = {
 
     val tensors = new TensorResources
 
-    val lossWords = tensorflow.getSession(configProtoBytes=configProtoBytes).runner
+    val lossWords = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
       .feed(dropoutRate, tensors.createTensor(1.0f))
       .feed(wordIds, tensors.createTensor(dataset.map(_.dropRight(1))))
       .feed(contextIds, tensors.createTensor(cids.map(_.tail)))
@@ -96,14 +96,14 @@ class TensorflowSpell(
 
 
   def predict_(dataset: Array[Array[Int]], cids: Array[Array[Int]], cwids: Array[Array[Int]],
-               candCids:Array[Int], candWids:Array[Int],
+               candCids: Array[Int], candWids: Array[Int],
                configProtoBytes: Option[Array[Byte]] = None) = {
 
     val tensors = new TensorResources
     val paths = (dataset, cids, cwids).zipped.toList
 
     paths.flatMap { case (pathIds, pathCids, pathWids) =>
-      val lossWords = tensorflow.getSession(configProtoBytes = configProtoBytes).runner
+      val lossWords = tensorflow.getTFSession(configProtoBytes = configProtoBytes).runner
         .feed(dropoutRate, tensors.createTensor(1.0f))
         .feed(wordIds, tensors.createTensor(Array(pathIds)))
         .feed(contextIds, tensors.createTensor(Array(pathCids.tail)))
@@ -121,7 +121,7 @@ class TensorflowSpell(
   }
 
   def train(train: => Iterator[Array[LangModelSentence]], valid: => Iterator[Array[LangModelSentence]],
-            epochs: Int, batchSize:Int, initialRate:Float, finalRate:Float) = {
+            epochs: Int, batchSize: Int, initialRate: Float, finalRate: Float): Unit = {
 
     val graph = new Graph()
     val config = Array[Byte](50, 2, 32, 1, 56, 1)
@@ -173,12 +173,14 @@ class TensorflowSpell(
           trainLoss /= vws
           val trainPpl = math.exp(trainLoss)
           logger.debug(s"Training Step: ${extractInt(gs)}, LR: ${extractFloats(clr).head}\n Training PPL: $trainPpl")
-          trainLoss = 0.0; trainValidWords = 0
+          trainLoss = 0.0
+          trainValidWords = 0
         }
       }
 
       // The end of one epoch - run validation)
-      var devLoss = 0.0; var devValidWords = 0
+      var devLoss = 0.0
+      var devValidWords = 0
       val tensors = new TensorResources()
 
       for (batch <- valid) {
@@ -200,7 +202,6 @@ class TensorflowSpell(
       val devPpl = math.exp(devLoss)
       logger.debug(s"Validation PPL: $devPpl")
       if (devPpl < bestScore) {
-        //saver.save(sess, "model/best_model.ckpt")
         bestScore = devPpl
       }
     }

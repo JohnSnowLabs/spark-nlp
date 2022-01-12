@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -213,7 +213,6 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     assert(classes.size == 23, "")
 
   }
-
 
   "a Spell Checker" should "work in a pipeline with Tokenizer" taggedAs SlowTest in {
     val data = Seq("It was a cold , dreary day and the country was white with smow .",

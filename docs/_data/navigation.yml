@@ -44,28 +44,26 @@ sparknlp:
         url:    /docs/en/transformers
       - title:  Training
         url:    /docs/en/training
-      - title:  Third Party Projects
-        url:    /docs/en/third-party-projects
-      - title:  Models
-        url:    /models
+      - title:  Spark NLP Display
+        url:    /docs/en/display
+      - title:  Experiment Tracking
+        url:    /docs/en/mlflow
+      - title:  Productionizing Spark NLP
+        url:    /docs/en/production-readiness
+      - title:  GPU vs CPU benchmarks
+        url:    /docs/en/CPUvsGPUbenchmark
       - title:  Helpers
         url:    /docs/en/auxiliary
-      - title: Scala API (Scaladoc)
-        url: /api/
-      - title: Python API (Sphinx)
-        url: /api/python/
-      - title: Spark NLP Display
-        url: /docs/en/display
+      - title:  Scala API (Scaladoc)
+        url:    /api/
+      - title:  Python API (Sphinx)
+        url:    /api/python/
       - title:  Developers
-        url:  /docs/en/developers
-      - title:  Experiment Tracking
-        url:  /docs/en/mlflow
-      - title:  Productionizing Spark NLP
-        url:  /docs/en/production-readiness
-      - title: GPU vs CPU benchmark on ClassifierDL
-        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
-      - title: Release Notes
-        url: /docs/en/release_notes
+        url:    /docs/en/developers
+      - title:  Third Party Projects
+        url:    /docs/en/third-party-projects
+      - title:  Release Notes
+        url:    /docs/en/release_notes
 
 annotation-lab:
   - title: Annotation Lab
@@ -137,9 +135,9 @@ sparknlp-healthcare:
       - title: Release Notes
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
-        url: /docs/en/benchmark  
-      - title: CPUvsGPUBenchmark
-        url: /docs/en/CPUvsGPUbenchmark_healthcare      
+        url: /docs/en/benchmark
+      - title: GPU vs CPU benchmarks
+        url: /docs/en/CPUvsGPUbenchmark_healthcare
 
 
 spark-ocr:

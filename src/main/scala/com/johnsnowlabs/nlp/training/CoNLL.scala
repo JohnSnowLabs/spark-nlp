@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -324,8 +324,10 @@ case class CoNLL(documentCol: String = "document",
           readLines(lines).map(doc => coreTransformation(doc))
         }.persist(storageLevel)
 
-      spark.createDataFrame(rdd).
+      val df = spark.createDataFrame(rdd).
         toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
+
+      spark.createDataFrame(df.rdd, schema)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
       packDocs(readDocs(er), spark)

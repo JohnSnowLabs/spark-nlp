@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.T5Transformer &#8212; Spark NLP 3.3.4 documentation</title>
+    <title>sparknlp.annotator.T5Transformer &#8212; Spark NLP 3.4.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -142,6 +142,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.AlbertEmbeddings.html">
      sparknlp.annotator.AlbertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.AlbertForSequenceClassification.html">
+     sparknlp.annotator.AlbertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -285,6 +290,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.GPT2Transformer.html">
+     sparknlp.annotator.GPT2Transformer
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.GraphExtraction.html">
      sparknlp.annotator.GraphExtraction
     </a>
@@ -307,6 +317,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html">
      sparknlp.annotator.LongformerEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LongformerForSequenceClassification.html">
+     sparknlp.annotator.LongformerForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -432,6 +447,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html">
      sparknlp.annotator.RoBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RoBertaForSequenceClassification.html">
+     sparknlp.annotator.RoBertaForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -565,6 +585,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Word2VecApproach.html">
+     sparknlp.annotator.Word2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Word2VecModel.html">
+     sparknlp.annotator.Word2VecModel
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html">
      sparknlp.annotator.WordEmbeddings
     </a>
@@ -590,6 +620,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForSequenceClassification.html">
+     sparknlp.annotator.XlmRoBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForTokenClassification.html">
      sparknlp.annotator.XlmRoBertaForTokenClassification
     </a>
@@ -602,6 +637,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html">
      sparknlp.annotator.XlnetEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlnetForSequenceClassification.html">
+     sparknlp.annotator.XlnetForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -837,7 +877,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sparknlp.annotator.</span></span><span class="sig-name descname"><span class="pre">T5Transformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.AnnotatorModel</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sparknlp.common.HasBatchedAnnotate</span></code></p>
 <p>T5: the Text-To-Text Transfer Transformer</p>
 <p>T5 reconsiders all NLP tasks into a unified text-to-text-format where the
 input and output are always text strings, in contrast to BERT-style models
@@ -991,53 +1031,59 @@ our data set, pre-trained models, and code.</em></p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.extractParamMap" title="sparknlp.annotator.T5Transformer.extractParamMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractParamMap</span></code></a>([extra])</p></td>
 <td><p>Extracts the embedded default param values and user-supplied values, and then merges them with extra values from input into a flat param map, where the latter value is used if there exist conflicts, i.e., with ordering: default param values &lt; user-supplied values &lt; extra.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getInputCols" title="sparknlp.annotator.T5Transformer.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getBatchSize" title="sparknlp.annotator.T5Transformer.getBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getBatchSize</span></code></a>()</p></td>
+<td><p>Gets current batch size.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getInputCols" title="sparknlp.annotator.T5Transformer.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
 <td><p>Gets current column names of input annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getLazyAnnotator" title="sparknlp.annotator.T5Transformer.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getLazyAnnotator" title="sparknlp.annotator.T5Transformer.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
 <td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getOrDefault" title="sparknlp.annotator.T5Transformer.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getOrDefault" title="sparknlp.annotator.T5Transformer.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getOutputCol" title="sparknlp.annotator.T5Transformer.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getOutputCol" title="sparknlp.annotator.T5Transformer.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
 <td><p>Gets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getParam" title="sparknlp.annotator.T5Transformer.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getParam" title="sparknlp.annotator.T5Transformer.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getParamValue" title="sparknlp.annotator.T5Transformer.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.getParamValue" title="sparknlp.annotator.T5Transformer.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
 <td><p>Gets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.hasDefault" title="sparknlp.annotator.T5Transformer.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.hasDefault" title="sparknlp.annotator.T5Transformer.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.hasParam" title="sparknlp.annotator.T5Transformer.hasParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasParam</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.hasParam" title="sparknlp.annotator.T5Transformer.hasParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasParam</span></code></a>(paramName)</p></td>
 <td><p>Tests whether this instance contains a param with a given (string) name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.isDefined" title="sparknlp.annotator.T5Transformer.isDefined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isDefined</span></code></a>(param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.isDefined" title="sparknlp.annotator.T5Transformer.isDefined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isDefined</span></code></a>(param)</p></td>
 <td><p>Checks whether a param is explicitly set by user or has a default value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.isSet" title="sparknlp.annotator.T5Transformer.isSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isSet</span></code></a>(param)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.isSet" title="sparknlp.annotator.T5Transformer.isSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isSet</span></code></a>(param)</p></td>
 <td><p>Checks whether a param is explicitly set by user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.load" title="sparknlp.annotator.T5Transformer.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.load" title="sparknlp.annotator.T5Transformer.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
 <td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.loadSavedModel" title="sparknlp.annotator.T5Transformer.loadSavedModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code></a>(folder, spark_session)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.loadSavedModel" title="sparknlp.annotator.T5Transformer.loadSavedModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code></a>(folder, spark_session)</p></td>
 <td><p>Loads a locally saved model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.pretrained" title="sparknlp.annotator.T5Transformer.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.pretrained" title="sparknlp.annotator.T5Transformer.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
 <td><p>Downloads and loads a pretrained model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.read" title="sparknlp.annotator.T5Transformer.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.read" title="sparknlp.annotator.T5Transformer.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
 <td><p>Returns an MLReader instance for this class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.save" title="sparknlp.annotator.T5Transformer.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.save" title="sparknlp.annotator.T5Transformer.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
 <td><p>Save this ML instance to the given path, a shortcut of 'write().save(path)'.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.set" title="sparknlp.annotator.T5Transformer.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.set" title="sparknlp.annotator.T5Transformer.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setBatchSize" title="sparknlp.annotator.T5Transformer.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
+<td><p>Sets batch size.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.setConfigProtoBytes" title="sparknlp.annotator.T5Transformer.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
 <td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
@@ -1102,55 +1148,58 @@ our data set, pre-trained models, and code.</em></p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">configProtoBytes</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batchSize</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">doSample</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">configProtoBytes</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">doSample</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignoreTokenIds</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignoreTokenIds</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxOutputLength</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minOutputLength</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxOutputLength</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minOutputLength</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">noRepeatNgramSize</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">noRepeatNgramSize</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.params" title="sparknlp.annotator.T5Transformer.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.T5Transformer.params" title="sparknlp.annotator.T5Transformer.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">repetitionPenalty</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">repetitionPenalty</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">task</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">task</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">temperature</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">temperature</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topK</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topK</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topP</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">topP</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1207,6 +1256,20 @@ user-supplied values &lt; extra.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>merged param map</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.getBatchSize">
+<span class="sig-name descname"><span class="pre">getBatchSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.getBatchSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets current batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>Current batch size</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -1363,13 +1426,27 @@ Spark NLPs repositories otherwise.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setBatchSize">
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setBatchSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>v</strong><span class="classifier">int</span></dt><dd><p>Batch size</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.T5Transformer.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#T5Transformer.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.T5Transformer.setConfigProtoBytes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets configProto from tensorflow, serialized into byte array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+<dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
 </dd>
 </dl>
 </dd>
@@ -1657,7 +1734,7 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
 </p>
     </div>
     

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.NerDLApproach &#8212; Spark NLP 3.3.4 documentation</title>
+    <title>sparknlp.annotator.NerDLApproach &#8212; Spark NLP 3.4.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -142,6 +142,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.AlbertEmbeddings.html">
      sparknlp.annotator.AlbertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.AlbertForSequenceClassification.html">
+     sparknlp.annotator.AlbertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -285,6 +290,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.GPT2Transformer.html">
+     sparknlp.annotator.GPT2Transformer
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.GraphExtraction.html">
      sparknlp.annotator.GraphExtraction
     </a>
@@ -307,6 +317,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html">
      sparknlp.annotator.LongformerEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LongformerForSequenceClassification.html">
+     sparknlp.annotator.LongformerForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -432,6 +447,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html">
      sparknlp.annotator.RoBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RoBertaForSequenceClassification.html">
+     sparknlp.annotator.RoBertaForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -565,6 +585,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Word2VecApproach.html">
+     sparknlp.annotator.Word2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Word2VecModel.html">
+     sparknlp.annotator.Word2VecModel
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html">
      sparknlp.annotator.WordEmbeddings
     </a>
@@ -590,6 +620,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForSequenceClassification.html">
+     sparknlp.annotator.XlmRoBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForTokenClassification.html">
      sparknlp.annotator.XlmRoBertaForTokenClassification
     </a>
@@ -602,6 +637,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html">
      sparknlp.annotator.XlnetEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlnetForSequenceClassification.html">
+     sparknlp.annotator.XlnetForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -924,6 +964,47 @@ the score of the predicted tag, by default False</p>
 <dt><strong>enableMemoryOptimizer</strong></dt><dd><p>Whether to optimize for large datasets or not. Enabling this option can
 slow down training, by default False</p>
 </dd>
+<dt><strong>useBestModel</strong></dt><dd><p>Whether to restore and use the model that has achieved the best performance
+at the end of the training.</p>
+</dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——–</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
+<dt><strong>This CoNLL dataset already includes a sentence, token and label</strong></dt><dd></dd>
+<dt><strong>column with their respective annotator types. If a custom dataset is used,</strong></dt><dd></dd>
+<dt><strong>these need to be defined with for example:</strong></dt><dd></dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>&gt;&gt;&gt; documentAssembler = DocumentAssembler() **</dt><dd></dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>…     .setInputCol(“text”) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“document”)</strong></dt><dd></dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>&gt;&gt;&gt; sentence = SentenceDetector() **</dt><dd></dd>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>…     .setInputCols([“document”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“sentence”)</strong></dt><dd></dd>
+<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>&gt;&gt;&gt; tokenizer = Tokenizer() **</dt><dd></dd>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>…     .setInputCols([“sentence”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“token”)</strong></dt><dd></dd>
+<dt><strong>Then the training can start</strong></dt><dd></dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>&gt;&gt;&gt; embeddings = BertEmbeddings.pretrained() **</dt><dd></dd>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>…     .setInputCols([“sentence”, “token”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“embeddings”)</strong></dt><dd></dd>
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>&gt;&gt;&gt; nerTagger = NerDLApproach() **</dt><dd></dd>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>…     .setInputCols([“sentence”, “token”, “embeddings”]) **</dt><dd></dd>
+<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>…     .setLabelColumn(“label”) **</dt><dd></dd>
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>…     .setOutputCol(“ner”) **</dt><dd></dd>
+<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>…     .setMaxEpochs(1) **</dt><dd></dd>
+<dt><a href="#id27"><span class="problematic" id="id28">**</span></a>…     .setRandomSeed(0) **</dt><dd></dd>
+<dt><strong>…     .setVerbose(0)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipeline = Pipeline().setStages([</strong></dt><dd></dd>
+<dt><strong>…     embeddings,</strong></dt><dd></dd>
+<dt><strong>…     nerTagger</strong></dt><dd></dd>
+<dt><strong>… ])</strong></dt><dd></dd>
+<dt><strong>We use the sentences, tokens, and labels from the CoNLL dataset.</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; conll = CoNLL()</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; trainingData = conll.readDataset(spark, “src/test/resources/conll2003/eng.train”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -935,51 +1016,6 @@ slow down training, by default False</p>
 <dt><a class="reference internal" href="sparknlp.annotator.NerConverter.html#sparknlp.annotator.NerConverter" title="sparknlp.annotator.NerConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerConverter</span></code></a></dt><dd><p>to further process the results</p>
 </dd>
 </dl>
-</div>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-</pre></div>
-</div>
-<p>This CoNLL dataset already includes a sentence, token and label
-column with their respective annotator types. If a custom dataset is used,
-these need to be defined with for example:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Then the training can start</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-<span class="gp">... </span>    <span class="n">embeddings</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">nerTagger</span>
-<span class="gp">... </span><span class="p">])</span>
-</pre></div>
-</div>
-<p>We use the sentences, tokens, and labels from the CoNLL dataset.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s2">&quot;src/test/resources/conll2003/eng.train&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
-</pre></div>
 </div>
 <p class="rubric">Methods</p>
 <table class="longtable table autosummary">
@@ -1123,16 +1159,19 @@ these need to be defined with for example:</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="sparknlp.annotator.NerDLApproach.setTestDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code></a>(path[, read_as, options])</p></td>
 <td><p>Sets Path to test dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="sparknlp.annotator.NerDLApproach.setUseContrib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseContrib</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseBestModel" title="sparknlp.annotator.NerDLApproach.setUseBestModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseBestModel</span></code></a>(value)</p></td>
+<td><p>Whether to restore and use the model that has achieved the best performance at the end of the training.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="sparknlp.annotator.NerDLApproach.setUseContrib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseContrib</span></code></a>(v)</p></td>
 <td><p>Sets whether to use contrib LSTM Cells.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="sparknlp.annotator.NerDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="sparknlp.annotator.NerDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
 <td><p>Sets the proportion of training dataset to be validated against the model on each Epoch, by default it is 0.0 and off.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="sparknlp.annotator.NerDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="sparknlp.annotator.NerDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
 <td><p>Sets level of verbosity during training.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.write" title="sparknlp.annotator.NerDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.write" title="sparknlp.annotator.NerDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1213,13 +1252,16 @@ these need to be defined with for example:</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">testDataset</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useContrib</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useBestModel</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validationSplit</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useContrib</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validationSplit</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1463,7 +1505,7 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+<dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
 </dd>
 </dl>
 </dd>
@@ -1765,6 +1807,21 @@ during training.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setUseBestModel">
+<span class="sig-name descname"><span class="pre">setUseBestModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseBestModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseBestModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to restore and use the model that has achieved the best performance at the end of the training.
+The metric that is being monitored is F1 for testDataset and if it’s not set it will be validationSplit, and if it’s not set finally looks for loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to restore and use the model that has achieved the best performance at the end of the training.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setUseContrib">
 <span class="sig-name descname"><span class="pre">setUseContrib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setUseContrib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to use contrib LSTM Cells. Not compatible with Windows.
@@ -1871,7 +1928,7 @@ between 0.0 and 1.0.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
 </p>
     </div>
     

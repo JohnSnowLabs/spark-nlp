@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ class TensorflowClassifier(
         val dpTensor = tensors.createTensor(dropout.toFloat)
 
         val calculated = tensorflow
-          .getSession(configProtoBytes = configProtoBytes)
+          .getTFSession(configProtoBytes = configProtoBytes)
           .runner
           .feed(inputKey, inputTensor)
           .feed(labelKey, labelTensor)
@@ -150,7 +150,7 @@ class TensorflowClassifier(
     val inputs = encoder.extractSentenceEmbeddings(docs)
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputs))
       .fetch(predictionKey)
@@ -183,7 +183,7 @@ class TensorflowClassifier(
     val tensors = new TensorResources()
 
     val calculated = tensorflow
-      .getSession(configProtoBytes = configProtoBytes)
+      .getTFSession(configProtoBytes = configProtoBytes)
       .runner
       .feed(inputKey, tensors.createTensor(inputs))
       .fetch(predictionKey)

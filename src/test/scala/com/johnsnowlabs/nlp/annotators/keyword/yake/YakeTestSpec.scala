@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,9 +55,9 @@ class YakeTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, sentenceDetector, token, keywords))
 
     val result = pipeline.fit(testData).transform(testData)
-    result.select("text").show(3, false)
-    result.select("keywords").show(3, false)
-    result.select("keywords.result").show(3, false)
+    result.select("text").show(3)
+    result.select("keywords").show(3)
+    result.select("keywords.result").show(3)
     succeed
   }
 }

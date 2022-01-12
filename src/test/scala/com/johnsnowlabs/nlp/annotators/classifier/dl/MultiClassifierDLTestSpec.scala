@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,22 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.annotator.BertSentenceEmbeddings
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, udf}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class MultiClassifierDLTestSpec extends AnyFlatSpec {
 
-  val spark = ResourceHelper.getActiveSparkSession
+  val spark: SparkSession = ResourceHelper.getActiveSparkSession
 
   "MultiClassifierDL" should "correctly train E2E Challenge" taggedAs SlowTest in {
     def splitAndTrim = udf { labels: String =>
-      labels.split(", ").map(x=>x.trim)
+      labels.split(", ").map(x => x.trim)
     }
 
     val smallCorpus = spark.read
@@ -43,15 +43,14 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
       .drop("mr")
 
     println("count of training dataset: ", smallCorpus.count)
-    smallCorpus.select("labels").show()
-    smallCorpus.printSchema()
+    smallCorpus.select("labels").show(1)
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("ref")
       .setOutputCol("document")
       .setCleanupMode("shrink")
 
-    val embeddings = UniversalSentenceEncoder.pretrained()
+    val sentenceEmbeddings = BertSentenceEmbeddings.pretrained("sent_small_bert_L2_128")
       .setInputCols("document")
       .setOutputCol("embeddings")
 
@@ -59,8 +58,8 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCols("embeddings")
       .setOutputCol("category")
       .setLabelColumn("labels")
-      .setBatchSize(128)
-      .setMaxEpochs(10)
+      .setBatchSize(8)
+      .setMaxEpochs(1)
       .setLr(1e-3f)
       .setThreshold(0.5f)
       .setValidationSplit(0.1f)
@@ -70,12 +69,13 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
       .setStages(
         Array(
           documentAssembler,
-          embeddings,
+          sentenceEmbeddings,
           docClassifier
         )
       )
 
     val pipelineModel = pipeline.fit(smallCorpus)
+    pipelineModel.transform(smallCorpus).show(1)
 
   }
 

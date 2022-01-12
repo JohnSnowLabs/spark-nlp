@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDepe
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{ReadablePretrainedSentenceDetectorDL, ReadsSentenceDetectorDLGraph}
-import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{ReadGPT2TransformerTensorflowModel, ReadMarianMTTensorflowModel, ReadT5TransformerTensorflowModel, ReadablePretrainedGPT2TransformerModel, ReadablePretrainedMarianMTModel, ReadablePretrainedT5TransformerModel}
 import com.johnsnowlabs.nlp.annotators.spell.norvig.ReadablePretrainedNorvig
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.ReadablePretrainedSymmetric
 import com.johnsnowlabs.nlp.annotators.ws.ReadablePretrainedWordSegmenter
@@ -391,5 +391,37 @@ package object annotator {
   type DistilBertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification
 
   object DistilBertForSequenceClassification extends ReadablePretrainedDistilBertForSequenceModel with ReadDistilBertForSequenceTensorflowModel
+
+  type RoBertaForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification
+
+  object RoBertaForSequenceClassification extends ReadablePretrainedRoBertaForSequenceModel with ReadRoBertaForSequenceTensorflowModel
+
+  type XlmRoBertaForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification
+
+  object XlmRoBertaForSequenceClassification extends ReadablePretrainedXlmRoBertaForSequenceModel with ReadXlmRoBertaForSequenceTensorflowModel
+
+  type LongformerForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification
+
+  object LongformerForSequenceClassification extends ReadablePretrainedLongformerForSequenceModel with ReadLongformerForSequenceTensorflowModel
+
+  type AlbertForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification
+
+  object AlbertForSequenceClassification extends ReadablePretrainedAlbertForSequenceModel with ReadAlbertForSequenceTensorflowModel
+
+  type XlnetForSequenceClassification = com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification
+
+  object XlnetForSequenceClassification extends ReadablePretrainedXlnetForSequenceModel with ReadXlnetForSequenceTensorflowModel
+
+  type GPT2Transformer = com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer
+
+  object GPT2Transformer extends ReadablePretrainedGPT2TransformerModel with ReadGPT2TransformerTensorflowModel
+
+  type Word2VecApproach = com.johnsnowlabs.nlp.embeddings.Word2VecApproach
+
+  object Word2VecApproach extends DefaultParamsReadable[Word2VecApproach]
+
+  type Word2VecModel = com.johnsnowlabs.nlp.embeddings.Doc2VecModel
+
+  object Word2VecModel extends ReadablePretrainedWord2Vec
 
 }

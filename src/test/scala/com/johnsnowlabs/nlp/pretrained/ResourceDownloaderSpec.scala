@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,8 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import com.johnsnowlabs.tags.FastTest
-import com.johnsnowlabs.util.Version
+import com.johnsnowlabs.util.{Version, TrainingHelper}
+import com.johnsnowlabs.nlp.pretrained.ResourceType
 
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -97,8 +98,11 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
   }
 
   "Pretrained" should "allow download of BERT Tiny from public and community S3 Buckets" in{
-    BertEmbeddings.pretrained("small_bert_L2_128_test", lang = "en", remoteLoc = "@maziyarpanahi")
+    val bertModel = BertEmbeddings.pretrained("small_bert_L2_128_test", lang = "en", remoteLoc = "@maziyarpanahi")
     BertEmbeddings.pretrained("small_bert_L2_128", lang = "en")
+
+    TrainingHelper.saveModel(name = "tmp_small_bert", language=Some("en"), libVersion = Some(Version(3, 4, 0)),
+      sparkVersion = Some(Version(3, 0)), modelWriter = bertModel.write, folder="./tmp_model", category = Some(ResourceType.MODEL))
   }
 
 }

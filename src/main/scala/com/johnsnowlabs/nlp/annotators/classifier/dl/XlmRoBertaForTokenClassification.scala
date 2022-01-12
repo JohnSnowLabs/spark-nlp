@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,8 +85,7 @@ import java.io.File
  * +------------------------------------------------------------------------------------+
  * }}}
  *
- * @see [[com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings XlmRoBertaEmbeddings]] for token-level embeddings
- * @see [[com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings XlmRoBertaSentenceEmbeddings]] for sentence-level embeddings
+ * @see [[XlmRoBertaForTokenClassification]] for token-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -138,8 +137,12 @@ class XlmRoBertaForTokenClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with `config_proto.SerializeToString()`
    *
@@ -198,7 +201,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures
           )
         )
@@ -246,7 +249,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
         $(batchSize),
         $(maxSentenceLength),
         $(caseSensitive),
-        getLabels
+        $$(labels)
       )
     }) else {
       Seq(Seq.empty[Annotation])

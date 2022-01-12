@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,8 +84,7 @@ import java.io.File
  * +--------------------+
  * }}}
  *
- * @see [[DistilBertForSequenceClassification]] for token-level classification
- * @see [[com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings DistilBertEmbeddings]] for token embeddings
+ * @see [[DistilBertForSequenceClassification]] for sequence-level classification
  * @see [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of transformer based classifiers
  * @param uid required uid for storing annotator to disk
  * @groupname anno Annotator types
@@ -156,8 +155,12 @@ class DistilBertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
 
-  /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  /**
+   * Returns labels used to train this model
+   */
+  def getClasses: Array[String] = {
+    $$(labels).keys.toArray
+  }
 
   /** Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
    * Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
@@ -231,7 +234,7 @@ class DistilBertForSequenceClassification(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            tags = getLabels,
+            tags = $$(labels),
             signatures = getSignatures,
             $$(vocabulary)
           )
@@ -282,7 +285,7 @@ class DistilBertForSequenceClassification(override val uid: String)
           $(maxSentenceLength),
           $(caseSensitive),
           $(coalesceSentences),
-          getLabels
+          $$(labels)
         )
       }
       else {

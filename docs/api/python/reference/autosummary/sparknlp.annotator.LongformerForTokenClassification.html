@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.LongformerForTokenClassification &#8212; Spark NLP 3.3.4 documentation</title>
+    <title>sparknlp.annotator.LongformerForTokenClassification &#8212; Spark NLP 3.4.0 documentation</title>
     
   <link href="../../static/css/theme.css" rel="stylesheet">
   <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="sparknlp.annotator.MarianTransformer" href="sparknlp.annotator.MarianTransformer.html" />
-    <link rel="prev" title="sparknlp.annotator.LongformerEmbeddings" href="sparknlp.annotator.LongformerEmbeddings.html" />
+    <link rel="prev" title="sparknlp.annotator.LongformerForSequenceClassification" href="sparknlp.annotator.LongformerForSequenceClassification.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -142,6 +142,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.AlbertEmbeddings.html">
      sparknlp.annotator.AlbertEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.AlbertForSequenceClassification.html">
+     sparknlp.annotator.AlbertForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -285,6 +290,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.GPT2Transformer.html">
+     sparknlp.annotator.GPT2Transformer
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.GraphExtraction.html">
      sparknlp.annotator.GraphExtraction
     </a>
@@ -307,6 +317,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.LongformerEmbeddings.html">
      sparknlp.annotator.LongformerEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.LongformerForSequenceClassification.html">
+     sparknlp.annotator.LongformerForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -432,6 +447,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.RoBertaEmbeddings.html">
      sparknlp.annotator.RoBertaEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.RoBertaForSequenceClassification.html">
+     sparknlp.annotator.RoBertaForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -565,6 +585,16 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Word2VecApproach.html">
+     sparknlp.annotator.Word2VecApproach
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.Word2VecModel.html">
+     sparknlp.annotator.Word2VecModel
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.WordEmbeddings.html">
      sparknlp.annotator.WordEmbeddings
     </a>
@@ -590,6 +620,11 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForSequenceClassification.html">
+     sparknlp.annotator.XlmRoBertaForSequenceClassification
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlmRoBertaForTokenClassification.html">
      sparknlp.annotator.XlmRoBertaForTokenClassification
     </a>
@@ -602,6 +637,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="sparknlp.annotator.XlnetEmbeddings.html">
      sparknlp.annotator.XlnetEmbeddings
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparknlp.annotator.XlnetForSequenceClassification.html">
+     sparknlp.annotator.XlnetForSequenceClassification
     </a>
    </li>
    <li class="toctree-l2">
@@ -947,85 +987,88 @@ True</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getCaseSensitive" title="sparknlp.annotator.LongformerForTokenClassification.getCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getCaseSensitive</span></code></a>()</p></td>
 <td><p>Gets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getInputCols" title="sparknlp.annotator.LongformerForTokenClassification.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getClasses" title="sparknlp.annotator.LongformerForTokenClassification.getClasses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getClasses</span></code></a>()</p></td>
+<td><p>Returns labels used to train this model</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getInputCols" title="sparknlp.annotator.LongformerForTokenClassification.getInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getInputCols</span></code></a>()</p></td>
 <td><p>Gets current column names of input annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getLazyAnnotator" title="sparknlp.annotator.LongformerForTokenClassification.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getLazyAnnotator" title="sparknlp.annotator.LongformerForTokenClassification.getLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getLazyAnnotator</span></code></a>()</p></td>
 <td><p>Gets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getOrDefault" title="sparknlp.annotator.LongformerForTokenClassification.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getOrDefault" title="sparknlp.annotator.LongformerForTokenClassification.getOrDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOrDefault</span></code></a>(param)</p></td>
 <td><p>Gets the value of a param in the user-supplied param map or its default value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getOutputCol" title="sparknlp.annotator.LongformerForTokenClassification.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getOutputCol" title="sparknlp.annotator.LongformerForTokenClassification.getOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getOutputCol</span></code></a>()</p></td>
 <td><p>Gets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getParam" title="sparknlp.annotator.LongformerForTokenClassification.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getParam" title="sparknlp.annotator.LongformerForTokenClassification.getParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParam</span></code></a>(paramName)</p></td>
 <td><p>Gets a param by its name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getParamValue" title="sparknlp.annotator.LongformerForTokenClassification.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.getParamValue" title="sparknlp.annotator.LongformerForTokenClassification.getParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParamValue</span></code></a>(paramName)</p></td>
 <td><p>Gets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.hasDefault" title="sparknlp.annotator.LongformerForTokenClassification.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.hasDefault" title="sparknlp.annotator.LongformerForTokenClassification.hasDefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasDefault</span></code></a>(param)</p></td>
 <td><p>Checks whether a param has a default value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.hasParam" title="sparknlp.annotator.LongformerForTokenClassification.hasParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasParam</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.hasParam" title="sparknlp.annotator.LongformerForTokenClassification.hasParam"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hasParam</span></code></a>(paramName)</p></td>
 <td><p>Tests whether this instance contains a param with a given (string) name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.isDefined" title="sparknlp.annotator.LongformerForTokenClassification.isDefined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isDefined</span></code></a>(param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.isDefined" title="sparknlp.annotator.LongformerForTokenClassification.isDefined"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isDefined</span></code></a>(param)</p></td>
 <td><p>Checks whether a param is explicitly set by user or has a default value.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.isSet" title="sparknlp.annotator.LongformerForTokenClassification.isSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isSet</span></code></a>(param)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.isSet" title="sparknlp.annotator.LongformerForTokenClassification.isSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isSet</span></code></a>(param)</p></td>
 <td><p>Checks whether a param is explicitly set by user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.load" title="sparknlp.annotator.LongformerForTokenClassification.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.load" title="sparknlp.annotator.LongformerForTokenClassification.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path)</p></td>
 <td><p>Reads an ML instance from the input path, a shortcut of <cite>read().load(path)</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.loadSavedModel" title="sparknlp.annotator.LongformerForTokenClassification.loadSavedModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code></a>(folder, spark_session)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.loadSavedModel" title="sparknlp.annotator.LongformerForTokenClassification.loadSavedModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loadSavedModel</span></code></a>(folder, spark_session)</p></td>
 <td><p>Loads a locally saved model.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.pretrained" title="sparknlp.annotator.LongformerForTokenClassification.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.pretrained" title="sparknlp.annotator.LongformerForTokenClassification.pretrained"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pretrained</span></code></a>([name, lang, remote_loc])</p></td>
 <td><p>Downloads and loads a pretrained model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.read" title="sparknlp.annotator.LongformerForTokenClassification.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.read" title="sparknlp.annotator.LongformerForTokenClassification.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>()</p></td>
 <td><p>Returns an MLReader instance for this class.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.save" title="sparknlp.annotator.LongformerForTokenClassification.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.save" title="sparknlp.annotator.LongformerForTokenClassification.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
 <td><p>Save this ML instance to the given path, a shortcut of 'write().save(path)'.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.set" title="sparknlp.annotator.LongformerForTokenClassification.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.set" title="sparknlp.annotator.LongformerForTokenClassification.set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>(param, value)</p></td>
 <td><p>Sets a parameter in the embedded param map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setBatchSize" title="sparknlp.annotator.LongformerForTokenClassification.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setBatchSize" title="sparknlp.annotator.LongformerForTokenClassification.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
 <td><p>Sets batch size.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setCaseSensitive" title="sparknlp.annotator.LongformerForTokenClassification.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setCaseSensitive" title="sparknlp.annotator.LongformerForTokenClassification.setCaseSensitive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCaseSensitive</span></code></a>(value)</p></td>
 <td><p>Sets whether to ignore case in tokens for embeddings matching.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setConfigProtoBytes" title="sparknlp.annotator.LongformerForTokenClassification.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setConfigProtoBytes" title="sparknlp.annotator.LongformerForTokenClassification.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
 <td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setInputCols" title="sparknlp.annotator.LongformerForTokenClassification.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setInputCols" title="sparknlp.annotator.LongformerForTokenClassification.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
 <td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setLazyAnnotator" title="sparknlp.annotator.LongformerForTokenClassification.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setLazyAnnotator" title="sparknlp.annotator.LongformerForTokenClassification.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setMaxSentenceLength" title="sparknlp.annotator.LongformerForTokenClassification.setMaxSentenceLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setMaxSentenceLength" title="sparknlp.annotator.LongformerForTokenClassification.setMaxSentenceLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxSentenceLength</span></code></a>(value)</p></td>
 <td><p>Sets max sentence length to process, by default 128.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setOutputCol" title="sparknlp.annotator.LongformerForTokenClassification.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setOutputCol" title="sparknlp.annotator.LongformerForTokenClassification.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setParamValue" title="sparknlp.annotator.LongformerForTokenClassification.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.setParamValue" title="sparknlp.annotator.LongformerForTokenClassification.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParams</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.transform" title="sparknlp.annotator.LongformerForTokenClassification.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.transform" title="sparknlp.annotator.LongformerForTokenClassification.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.write" title="sparknlp.annotator.LongformerForTokenClassification.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.LongformerForTokenClassification.write" title="sparknlp.annotator.LongformerForTokenClassification.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1151,6 +1194,12 @@ user-supplied values &lt; extra.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.LongformerForTokenClassification.getClasses">
+<span class="sig-name descname"><span class="pre">getClasses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#LongformerForTokenClassification.getClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.LongformerForTokenClassification.getClasses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns labels used to train this model</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1340,7 +1389,7 @@ Spark NLPs repositories otherwise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>b</strong><span class="classifier">List[str]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+<dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
 </dd>
 </dl>
 </dd>
@@ -1461,11 +1510,11 @@ RecursivePipeline</p>
               
               <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="sparknlp.annotator.LongformerEmbeddings.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="sparknlp.annotator.LongformerForSequenceClassification.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">sparknlp.annotator.LongformerEmbeddings</p>
+            <p class="prev-next-title">sparknlp.annotator.LongformerForSequenceClassification</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="sparknlp.annotator.MarianTransformer.html" title="next page">
@@ -1495,7 +1544,7 @@ RecursivePipeline</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
 </p>
     </div>
     

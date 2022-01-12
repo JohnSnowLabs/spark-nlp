@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "3.3.4"
+  val currentVersion = "3.4.0"
+  val MavenSpark32 = s"com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:$currentVersion"
+  val MavenGpuSpark32 = s"com.johnsnowlabs.nlp:spark-nlp-gpu-spark32_2.12:$currentVersion"
   val MavenSpark30 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark30 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
   val MavenSpark24 = s"com.johnsnowlabs.nlp:spark-nlp-spark24_2.11:$currentVersion"
@@ -34,6 +36,7 @@ object SparkNLP {
    * @param gpu             start Spark NLP with GPU
    * @param spark23         start Spark NLP on Apache Spark 2.3.x
    * @param spark24         start Spark NLP on Apache Spark 2.4.x
+   * @param spark32         start Spark NLP on Apache Spark 3.2.x
    * @param memory          set driver memory for SparkSession
    * @param cache_folder    The location to download and exctract pretrained Models and Pipelines
    * @param log_folder      The location to save logs from annotators during training such as NerDLApproach, ClassifierDLApproach, SentimentDLApproach, MultiClassifierDLApproach, etc.
@@ -43,6 +46,7 @@ object SparkNLP {
   def start(gpu: Boolean = false,
             spark23: Boolean = false,
             spark24: Boolean = false,
+            spark32: Boolean = false,
             memory: String = "16G",
             cache_folder: String = "",
             log_folder: String = "",
@@ -60,10 +64,14 @@ object SparkNLP {
       build.config("spark.jars.packages", MavenGpuSpark23)
     } else if (gpu & spark24) {
       build.config("spark.jars.packages", MavenGpuSpark24)
+    } else if (gpu & spark32) {
+      build.config("spark.jars.packages", MavenGpuSpark32)
     } else if (spark23) {
       build.config("spark.jars.packages", MavenSpark23)
     } else if (spark24) {
       build.config("spark.jars.packages", MavenSpark24)
+    } else if (spark24) {
+      build.config("spark.jars.packages", MavenSpark32)
     } else if (gpu) {
       build.config("spark.jars.packages", MavenGpuSpark30)
     } else {
