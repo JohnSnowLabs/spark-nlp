@@ -436,4 +436,34 @@ class T5TestSpec extends AnyFlatSpec {
       "should not include ignored tokens")
   }
 
+  "Pretrained models" should "able to change task" taggedAs SlowTest in {
+    val testData = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "That is good.")
+    )).toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val t5 = T5Transformer.pretrained("t5_small")
+      .setTask("summarize:")
+      .setInputCols(Array("documents"))
+      .setMaxOutputLength(200)
+      .setOutputCol("translations")
+
+    t5.setTask("translate English to German:")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
+
+    val model = pipeline.fit(testData)
+    val results = model.transform(testData).cache()
+
+    val collected = results.selectExpr("explode(translations.result)").collect().head.getString(0)
+    val expected = "Das ist gut."
+    assert(
+      collected == expected,
+      "translation should be correct"
+    )
+  }
+
 }
