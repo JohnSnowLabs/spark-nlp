@@ -46,17 +46,15 @@ Spark NLP for Healthcare supports rule-based annotations via the ContextualParse
 
 Any user with admin privileges can see and edit the available rules under the `Available Rules` tab on the `Models Hub` page. Users can create new rules using the `+ Add Rules` button.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/storage.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
-![Screen Shot 2021-12-15 at 12 16 18 PM](https://user-images.githubusercontent.com/33893292/146135833-e38c1014-fb99-48c9-8580-638bb32a2f26.png)
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/rules_tab.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 There are two types of rules supported:
 
-- **`Regex Based:`** Users can define a regex that will be used to label all possible hit chunks and label them as being the target entity. For example, for labeling height entities the following regex can be used "[0-7]'((0?[0-9])|(1(0|1)))". All hits found in the task text that match the regex, are pre-annotated as heights.
+- **`Regex Based:`** Users can define a regex that will be used to label all possible hit chunks and label them as being the target entity. For example, for labeling height entities the following regex can be used `[0-7]'((0?[0-9])|(1(0|1)))`. All hits found in the task text that match the regex, are pre-annotated as heights.
 
 - **`Dictionary Based:`** Users can define and upload a CSV dictionary of keywords that cover the list of chunks that should be annotated as a target entity. For example, for the label female: woman, lady, girl, all occurrences of stings woman, lady, and girl within the text of a given task will be perannotated as female.   
 
-![addrule](https://user-images.githubusercontent.com/33893292/145990315-371dd27b-7feb-40c7-a98d-b5e353dc3908.jpg)
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/types_of_rules.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 After adding a rule on `Models Hub` page, the `Project Owner` or `Manager` can add the rule to the configuration of the project where he wants to use it. This can be done via the `Rules` tab from the `Project Setup` page under the `Project Configuration` tab. A valid Spark NLP for Healthcare license is required to deploy rules from project config.
 
