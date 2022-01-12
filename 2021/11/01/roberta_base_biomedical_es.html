@@ -9,7 +9,7 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Roberta Clinical Word Embeddings (Spanish)- Spark NLP Model</title><meta name="description" content="DescriptionBiomedical pretrained language model for Spanish, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to ...">
+<!-- End Google Tag Manager --><title>Roberta Clinical Word Embeddings (Spanish)- Spark NLP Model</title><meta name="description" content="DescriptionBiomedical pretrained language model for Spanish with a 768 embeddings dimension, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES...">
 <link rel="canonical" href="/2021/11/01/roberta_base_biomedical_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -410,7 +410,7 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Biomedical pretrained language model for Spanish, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.</p>
+<p>Biomedical pretrained language model for Spanish with a <code class="language-plaintext highlighter-rouge">768 embeddings dimension</code>, imported from Hugging Face (https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-es) to be used in SparkNLP using RobertaEmbeddings() transfformer class.</p>
 
 <p>This model is a RoBERTa-based model trained on a biomedical corpus in Spanish collected from several sources (see dataset section). The training corpus has been tokenized using a byte version of Byte-Pair Encoding (BPE) used in the original RoBERTA model with a vocabulary size of 52,000 tokens. The pretraining consists of a masked language model training at the subword level following the approach employed for the RoBERTa base model with the same hyperparameters as in the original work. The training lasted a total of 48 hours with 16 NVIDIA V100 GPUs of 16GB DDRAM, using Adam optimizer with a peak learning rate of 0.0005 and an effective batch size of 2,048 sentences.</p>
 
