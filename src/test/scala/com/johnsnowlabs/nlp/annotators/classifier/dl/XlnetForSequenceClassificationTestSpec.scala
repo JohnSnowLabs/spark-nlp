@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ class XlnetForSequenceClassificationTestSpec extends AnyFlatSpec {
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
     val loadedSequenceModel = XlnetForSequenceClassification.load("./tmp_forsequence_model")
-    loadedSequenceModel.getLabels
+    loadedSequenceModel.getClasses
 
   }
 

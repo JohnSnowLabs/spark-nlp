@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -164,6 +164,8 @@ class Doc2VecModel(override val uid: String)
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
   setDefault(
+    inputCols -> Array(TOKEN),
+    outputCol -> "doc2vec",
     vectorSize -> 100
   )
 

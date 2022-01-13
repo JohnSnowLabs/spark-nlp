@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,7 +279,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       }
 
       if (!useBestModel) {
-        lastCheckPoints = saveBestModel()
+        lastCheckPoints = tensorflow.getTFSession()
       }
 
     }
@@ -293,7 +293,8 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
   }
 
   def saveBestModel(): Session = {
-    tensorflow.getTFSession()
+    val newWrapper = new TensorflowWrapper(TensorflowWrapper.extractVariablesSavedModel(tensorflow.getTFSession()), tensorflow.graph)
+    newWrapper.getTFSession()
   }
 
   def calcStat(tp: Int, fp: Int, fn: Int): (Float, Float, Float) = {
