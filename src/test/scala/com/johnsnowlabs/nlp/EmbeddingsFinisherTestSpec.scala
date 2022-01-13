@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{Normalizer, SQLTransformer}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -59,7 +60,7 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setOutputAsVector(false)
       .setCleanAnnotations(false)
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -129,7 +130,7 @@ class EmbeddingsFinisherTestSpec extends AnyFlatSpec {
       .setOutputCol("normFeatures")
       .setP(1.0)
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
