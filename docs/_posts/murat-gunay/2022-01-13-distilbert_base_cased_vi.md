@@ -66,7 +66,7 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
 +-----+--------------------+
-|token|          embeddigns|
+|token|          embeddings|
 +-----+--------------------+
 |  Tôi|[-0.38760236, -0....|
 |  yêu|[-0.3357051, -0.5...|
