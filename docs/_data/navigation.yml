@@ -44,28 +44,26 @@ sparknlp:
         url:    /docs/en/transformers
       - title:  Training
         url:    /docs/en/training
-      - title:  Third Party Projects
-        url:    /docs/en/third-party-projects
-      - title:  Models
-        url:    /models
+      - title:  Spark NLP Display
+        url:    /docs/en/display
+      - title:  Experiment Tracking
+        url:    /docs/en/mlflow
+      - title:  Productionizing Spark NLP
+        url:    /docs/en/production-readiness
+      - title:  GPU vs CPU benchmarks
+        url:    /docs/en/CPUvsGPUbenchmark
       - title:  Helpers
         url:    /docs/en/auxiliary
-      - title: Scala API (Scaladoc)
-        url: /api/
-      - title: Python API (Sphinx)
-        url: /api/python/
-      - title: Spark NLP Display
-        url: /docs/en/display
+      - title:  Scala API (Scaladoc)
+        url:    /api/
+      - title:  Python API (Sphinx)
+        url:    /api/python/
       - title:  Developers
-        url:  /docs/en/developers
-      - title:  Experiment Tracking
-        url:  /docs/en/mlflow
-      - title:  Productionizing Spark NLP
-        url:  /docs/en/production-readiness
-      - title: GPU vs CPU benchmark on ClassifierDL
-        url: /docs/en/CPUvsGPUbenchmarkClassifierDL
-      - title: Release Notes
-        url: /docs/en/release_notes
+        url:    /docs/en/developers
+      - title:  Third Party Projects
+        url:    /docs/en/third-party-projects
+      - title:  Release Notes
+        url:    /docs/en/release_notes
 
 annotation-lab:
   - title: Annotation Lab
@@ -78,25 +76,25 @@ annotation-lab:
         url:    /docs/en/alab/start_page
       - title:  Project Setup
         url:    /docs/en/alab/project_setup
+      - title:  Import Documents
+        url:    /docs/en/alab/import
+      - title:  Tasks
+        url:    /docs/en/alab/tasks
+      - title:  Annotation 
+        url:    /docs/en/alab/annotation
       - title:  NLP Models Hub
         url:    /docs/en/alab/models_hub
       - title:  Preannotations with Spark NLP
         url:    /docs/en/alab/preannotations
       - title:  Active Learning
         url:    /docs/en/alab/active_learning
-      - title:  Import Documents
-        url:    /docs/en/alab/import
-      - title:  Tasks
-        url:    /docs/en/alab/tasks
-      - title:  Annotate
-        url:    /docs/en/alab/annotation
       - title:  Visual NER
         url:    /docs/en/alab/visual_ner
       - title:  Annotation Settings
         url:    /docs/en/alab/settings
       - title:  Analytics
         url:    /docs/en/alab/analytics
-      - title:  Export Data
+      - title:  Annotation Export
         url:    /docs/en/alab/export
       - title:  User Management
         url:    /docs/en/alab/user_management
@@ -137,7 +135,9 @@ sparknlp-healthcare:
       - title: Release Notes
         url: /docs/en/licensed_release_notes
       - title: Cluster Speed Benchmarks
-        url: /docs/en/benchmark      
+        url: /docs/en/benchmark
+      - title: GPU vs CPU benchmarks
+        url: /docs/en/CPUvsGPUbenchmark_healthcare
 
 
 spark-ocr:

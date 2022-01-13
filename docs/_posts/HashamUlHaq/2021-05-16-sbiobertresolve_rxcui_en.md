@@ -42,15 +42,17 @@ sbert_embedder = BertSentenceEmbeddings\
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")\
      .setInputCols(["ner_chunk_doc"])\
      .setOutputCol("sbert_embeddings")
+
 rxcui_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxcui","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
+     
 nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, rxcui_resolver])
 
-model = nlpPipeline.fit(spark.createDataFrame([["He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day"]]).toDF("text"))
+data = spark.createDataFrame([["He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day"]]).toDF("text")
 
-results = model.transform(data)
+results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 ...
@@ -60,13 +62,17 @@ val sbert_embedder = BertSentenceEmbeddings
      .pretrained("sbiobert_base_cased_mli","en","clinical/models")
      .setInputCols(Array("ner_chunk_doc"))
      .setOutputCol("sbert_embeddings")
-val rxcui_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxcui","en", "clinical/models")
+
+val rxcui_resolver = SentenceEntityResolverModel\
+     .pretrained("sbiobertresolve_rxcui","en", "clinical/models")
      .setInputCols(Array("ner_chunk", "sbert_embeddings"))
      .setOutputCol("resolution")
      .setDistanceFunction("EUCLIDEAN")
+
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, clinical_ner, ner_converter, chunk2doc, sbert_embedder, rxcui_resolver))
 
 val data = Seq("He was seen by the endocrinology service and she was discharged on 50 mg of eltrombopag oral at night, 5 mg amlodipine with meals, and metformin 1000 mg two times a day").toDF("text")
+
 val result = pipeline.fit(data).transform(data)
 ```
 </div>

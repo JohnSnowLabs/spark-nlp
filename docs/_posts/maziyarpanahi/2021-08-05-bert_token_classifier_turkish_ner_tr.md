@@ -23,13 +23,13 @@ Türk Adlandırılmış Varlık Tanıma
 
 ## Predicted Entities
 
-`B-LOC`
-`B-ORG`
-`B-PER`
-`I-LOC`
-`I-ORG`
-`I-PER`
-`O`
+- B-LOC
+- B-ORG
+- B-PER
+- I-LOC
+- I-ORG
+- I-PER
+- O
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

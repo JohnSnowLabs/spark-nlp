@@ -25,12 +25,12 @@ This NER model covers a subset of the 40 languages included in XTREME (shown her
 
 ## Predicted Entities
 
-`B-LOC` 
-`I-LOC`
-`B-ORG`
-`I-ORG`
-`B-PER`
-`I-PER`
+- B-LOC
+- I-LOC
+- B-ORG
+- I-ORG
+- B-PER
+- I-PER
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

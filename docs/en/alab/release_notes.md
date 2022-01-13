@@ -12,6 +12,47 @@ show_nav: true
 sidebar:
     nav: annotation-lab
 ---
+## 2.6.0
+Annotation Lab v2.6.0 improves the performance of the `Project Setup` page, adds a "View as" option in the `Labeling` Page, improves the layout of OCR-ed documents, adds the option to stop training and model server deployment from UI. Many more cool features are also delivered in this version to enhance usability and stabilize the product. Here are details of features and bug fixes included in this release.
+
+### Highlights
+- Performance improvement in Setup page. In previous versions of Annotation Lab, changes in Project Configuration would take a long time to validate if that project included a high volume of completions. The configuration validation time is now almost instant, even for projects with thousand of tasks. Multiple tests were conducted on projects with more than 13K+ tasks and thousands of extractions per task. For all of those test situations, the validation of the Project Configuration took under 2 seconds. Those tests results were replicated for all types of projects including NER, Image, Audio, Classification, and HTML projects.
+- New "View as" option in the labeling screen. When a user has multiple roles (Manager, Annotator, Reviewer), the Labeling Page should present and render different content and specific UX, depending on the role impersonated by the user. For a better user experience, this version adds a "View as" switch in the Labeling Page. Once the "View as" option is used to select a certain role, the selection is preserved even when the tab is closed or refreshed.
+- OCR Layout improvement. In previous versions of the Annotation Lab, layout was not preserved in OCRed tasks. Recognized texts would be placed in a top to bottom approach without considering the paragraph each token belonged to. From this version on, we are using layout-preserving transformers from Spark OCR. As a result, tokens that belong to the same paragraph are now grouped together, producing more meaningful output.
+- Ability to stop training and model server deployment. Up until now, training and model server deployment could be stopped by system admins only. This version of Annotation Lab provides Project Owners/Managers with the option to stop these processes simply by clicking a button in the UI. This option is necessary in many cases, such as when a manager/project owner starts the training process on a big project that takes a lot of resources and time, blocking access to preannotations to the other projects. 
+- Display meaningful message when training fails due to memory issues. In case the training of a model fails due to memory issues, the reason for the failure are available via the UI (i.e. out of memory error).
+- Allow combining NER labels and Classification classes from Spark NLP pipeline config. The earlier version had an issue with adding `choice` from the predefined classification model to an existing NER project. This issue has been fixed in this version.
+
+### Bug Fixes
+- Previously there was a UI reloading issue when a User was removed from the "Annotators" user group, which has now been fixed. The user can log in without the reloading issue, a warning is shown in UI regarding the missing annotator privilege.
+- Also, setting up the `HTML NER Tagging` project was not possible in the earlier version which has been fixed in this release.
+- On the labeling page, the renamed title of the next served task was not displayed. Similarly, in the Import page, the count of the tasks imported was missing in the Import Status dialog box. Now both these issues are fixed.
+
+## 2.5.0
+
+Annotation Lab v2.5.0 introduces support for rule based annotations, new search feature and COCO format export for Visual NER projects. It also includes fixes for the recently identified security issues and other known bugs. Below are the highlights of this release.
+
+### Highlights
+- Rule Based Annotations. Spark NLP for Healthcare supports rule-based annotations via the ContextualParser Annotator. In this release Annotationlab adds support for creating and using ContextualParser rules in NER project. Any user with admin privilegis can see rules under the `Available Rules` tab on the Models Hub page and can create new rules using the `+ Add Rule` button. After adding a rule on `Models Hub` page, the `Project Owner` or `Manager` can add the rule to the configuration of the project where he wants to use it. This can be done via the Rules tab from the `Project Setup` page under the `Project Configuration` tab. A valid Spark NLP for Healthcare licence is required to deploy rules from project config. Two types of rules are supported:1. `Regex Based`: User can enter the Regex which matches to the entities of the required label; and 2. `Dictionary Based`: User can create a dictionary of labels and user can upload the CSV of the list of entity that comes under the label.
+- Search through Visual NER Projects. For the Visual NER Projects, it is now possible to search for a keyword inside of image/pdf based tasks using the search box available on the top of the `Labeling` page. Currently, the search is performed on the current page only. 
+Furthermore, we have also extended the keyword-based task search already available for text-based projects for Visual NER Projects. On the `Tasks` page, use the search bar on the upper right side of the screen like you would do in other text-based projects, to identify all image/pdf tasks containing a given text.
+- COCO export for pdf tasks in `Visual NER Projects`. Up until now, the COCO format export was limited to simple image documents. With version 2.5.0, this functionality is extended to single-page or multi-page pdf documents. 
+- In **Classification Project**, users are now able to use different layouts for the list of choices:
+   - **`layout="select"`**: It will change choices from list of choices inline to dropdown layout. Possible values are `"select", "inline", "vertical"`
+   - **`choice="multiple"`**: Allow user to select multiple values from dropdown. Possible values are: `"single", "single-radio", "multiple"`
+- Better Toasts, Confirmation-Boxes and Masking UI on potentially longer operations.
+
+### Security Fixes
+- Annotationlab v2.5.0 got different Common Vulnerabilities and Exposures(CVE) issues fixed. As always, in this release we performed security scans to detect CVE issues, upgraded python packages to eliminate known vulnerabilities and also we made sure the CVE-2021-44228 (Log4j2 issue) is not present in any images used by Annotation Lab.
+- A reported issue when logout endpoint was sometimes redirected to insecure http after access token expired was also fixed.
+
+### Bug Fixes
+
+- The `Filters` option in the `Models Hub` page was not working properly. Now the "Free/Licensed" filter can be selected/deselected without getting any error.
+- After creating relations and saving/updating annotations for the Visual NER projects with multi-paged pdf files, the annotations and relations were not saved. 
+- An issue with missing text tokens in the exported JSON file for the Visual NER projects also have been fixed.
+
+
 ## 2.4.0
 
 Annotation Lab v2.4.0 adds relation creation features for Visual NER projects and redesigns the Spark NLP Pipeline Config on the Project Setup Page. Several bug fixes and stabilizations are also included. Following are the highlights:

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 John Snow Labs
+ * Copyright 2017-2022 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,9 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.storage.HasStorageRef
-
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{DoubleParam, IntParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.mllib.feature.Word2Vec
 import org.apache.spark.sql.{Dataset, SparkSession}
 
@@ -300,4 +299,8 @@ class Word2VecApproach(override val uid: String)
 
 }
 
+/**
+ * This is the companion object of [[Word2VecApproach]]. Please refer to that class for the documentation.
+ */
+object Word2VecApproach extends DefaultParamsReadable[Word2VecApproach]
 

@@ -31,21 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_SNOMED
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb
-        - title: Map oncology terminology to ICD-O taxonomy
-          id: icdo_coding
-          image: 
-              src: /assets/images/Detect_diagnosis_and_procedures.svg
-          image2: 
-              src: /assets/images/Detect_diagnosis_and_procedures_f.svg
-          excerpt: Automatically detect the tumor in your healthcare records and link it to the corresponding ICDO code using Spark NLP for Healthcare out of the box.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO
-          - text: Colab Netbook
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_SNOMED.ipynb        
         - title: Map clinical terminology to ICD-10-CM taxonomy
           id: icd10-cm_coding
           image: 
@@ -185,6 +171,34 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/ER_UMLS_CUI/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Map clinical terminology to HCPCS taxonomy
+          id: map_clinical_terminology_hcpcs_taxonomy  
+          image: 
+              src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy.svg
+          image2: 
+              src: /assets/images/Map_clinical_terminology_to_HCPCS_taxonomy_f.svg
+          excerpt: This demo shows how clinical terminology can be automatically mapped to the Healthcare Common procedure Coding System (HCPCS) taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_HCPCS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb
+        - title: Resolve Clinical Health Information using the NDC taxonomy
+          id: resolve_clinical_health_information_using_ndc_taxonomy   
+          image: 
+              src: /assets/images/Resolve_Clinical_Health_Information_using_the_NDC_taxonomy.svg
+          image2: 
+              src: /assets/images/Resolve_Clinical_Health_Information_using_the_NDC_taxonomy_f.svg
+          excerpt: This demo shows how clinical health information and concepts (like drugs/ingredients) can be mapped to codes using the NDC taxonomy.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ER_NDC/
           - text: Colab Netbook
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb

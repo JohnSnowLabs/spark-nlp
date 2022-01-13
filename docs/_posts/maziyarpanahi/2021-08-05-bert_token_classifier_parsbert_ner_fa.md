@@ -88,27 +88,27 @@ Please cite the following paper in your publication if you are using [ParsBERT](
 
 ## Predicted Entities
 
-`B-date`
-`B-event`
-`B-facility`
-`B-location`
-`B-money`
-`B-organization`
-`B-percent`
-`B-person`
-`B-product`
-`B-time`
-`I-date`
-`I-event`
-`I-facility`
-`I-location`
-`I-money`
-`I-organization`
-`I-percent`
-`I-person`
-`I-product`
-`I-time`
-`O`
+- B-date
+- B-event
+- B-facility
+- B-location
+- B-money
+- B-organization
+- B-percent
+- B-person
+- B-product
+- B-time
+- I-date
+- I-event
+- I-facility
+- I-location
+- I-money
+- I-organization
+- I-percent
+- I-person
+- I-product
+- I-time
+- O
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

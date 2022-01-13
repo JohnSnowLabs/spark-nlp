@@ -91,7 +91,7 @@ transformer = PdfToText() \
   .setInputCol("content") \
   .setOutputCol("text") \
   .setPageNumCol("pagenum") \
-  .setSplitPage(true)
+  .setSplitPage(True)
 
 data = transformer.transform(df)
 
@@ -194,7 +194,7 @@ pdfToImage = PdfToImage() \
  .setInputCol("content") \
  .setOutputCol("text") \
  .setPageNumCol("pagenum") \
- .setSplitPage(true)
+ .setSplitPage(True)
 
 data =  pdfToImage.transform(df)
 
@@ -2509,6 +2509,7 @@ data.show()
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | explodeCols | Array[string] | |Columns which need to explode |
+| rotated | boolean | False | Support rotated regions |
 
 #### Output Columns
 
@@ -2741,6 +2742,7 @@ result = pipeline.transform(df)
 | --- | --- | --- | --- |
 | lineWidth | Int | 4 | Line width for draw rectangles |
 | fontSize | Int | 12 | Font size for render labels and score |
+| rotated | boolean | False | Support rotated regions |
 
 #### Output Columns
 
