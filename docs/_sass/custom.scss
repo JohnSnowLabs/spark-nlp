@@ -33,7 +33,6 @@ h1,h2,h3,h4 {
 .blue {
 	color: $color-blue !important;
 }
-
 .pt0 {
 	padding-top: 0 !important;
 }
@@ -2082,6 +2081,10 @@ code {
 	}
 }
 
+.fwn {
+	font-weight: 300 !important;
+}
+
 .docs-wrapper {
 	margin: 0 auto;
 	width: 850px;
@@ -2108,6 +2111,11 @@ code {
 		margin: 0 auto 50px;
 		display: table;
 		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);
+		&.no_td_shadow {
+			tr {
+				box-shadow: none !important;
+			}
+		}
 		&.w7 {
 			width: 750px;
 		}
