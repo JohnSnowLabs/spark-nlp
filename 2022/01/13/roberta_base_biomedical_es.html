@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Clinical Deidentification- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline can be used to deidentify PHI information from German medical texts. The PHI information will be masked and obfuscated in the result...">
-<link rel="canonical" href="/2022/01/08/clinical_deidentification_de.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>RoBERTa base biomedical- Spark NLP Model</title><meta name="description" content="DescriptionThis model has been pulled from the HF Hub - https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-clinical-esThis is a result of reproduci...">
+<link rel="canonical" href="/2022/01/13/roberta_base_biomedical_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,17 +404,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 08, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-08T00:00:00+00:00"></div><header><h1>Clinical Deidentification</h1></header></div><meta itemprop="headline" content="Clinical Deidentification"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>deidentification</li><li>licensed</li><li>pipeline</li><li>de</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-08T00:00:00+00:00">
-    <meta itemprop="keywords" content="deidentification,licensed,pipeline,de"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>ireneisdoomed</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 13, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-13T00:00:00+00:00"></div><header><h1>RoBERTa base biomedical</h1></header></div><meta itemprop="headline" content="RoBERTa base biomedical"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-13T00:00:00+00:00">
+    <meta itemprop="keywords" content="es,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This pipeline can be used to deidentify PHI information from <strong>German</strong> medical texts. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask and obfuscate <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">CONTACT</code>, <code class="language-plaintext highlighter-rouge">ID</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">DLN</code>, <code class="language-plaintext highlighter-rouge">PLATE</code> entities.</p>
+<p>This model has been pulled from the HF Hub - https://huggingface.co/PlanTL-GOB-ES/roberta-base-biomedical-clinical-es</p>
+
+<p>This is a result of reproducing the tutorial for bringing HF’s models into Spark NLP - https://medium.com/spark-nlp/importing-huggingface-models-into-sparknlp-8c63bdea671d</p>
+
+<h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_de_3.4.0_2.4_1641636618956.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/community.johnsnowlabs.com/ireneisdoomed/roberta_base_biomedical_es_3.4.0_3.0_1642093372752.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -422,97 +426,25 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"term"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">sample</span> <span class="o">=</span> <span class="s">"""Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus eingeliefert. 
-Herr Michael Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.
+<span class="n">roberta_embeddings</span> <span class="o">=</span> <span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_base_biomedical"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"@ireneisdoomed"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"roberta_embeddings"</span><span class="p">)</span>
 
-Persönliche Daten :
-ID-Nummer: T0110053F
-Platte A-BC124
-Kontonummer: DE89370400440532013000
-SSN : 13110587M565
-Lizenznummer: B072RRE2I55
-Adresse : St.Johann-Straße 13 19300
-"""</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipe</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_with_chars'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'masked_fixed_length_chars'</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'obfuscated'</span><span class="p">]))</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">roberta_embeddings</span><span class="p">])</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 
-<span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"clinical_deidentification"</span><span class="o">,</span><span class="s">"de"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sample</span> <span class="k">=</span> <span class="s">"Zusammenfassung : Michael Berger wird am Morgen des 12 Dezember 2018 ins St.Elisabeth Krankenhaus eingeliefert. 
-Herr Michael Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.
-
-Persönliche Daten :
-ID-Nummer: T0110053F
-Platte A-BC124
-Kontonummer: DE89370400440532013000
-SSN : 13110587M565
-Lizenznummer: B072RRE2I55
-Adresse : St.Johann-Straße 13 19300"</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipe</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
-<span class="nt">------------------------------</span>
-Zusammenfassung : &lt;PATIENT&gt; wird am Morgen des &lt;DATE&gt; ins &lt;HOSPITAL&gt; eingeliefert.
-Herr &lt;PATIENT&gt; ist &lt;AGE&gt; Jahre alt und hat zu viel Wasser <span class="k">in </span>den Beinen.
-Persönliche Daten :
-ID-Nummer: &lt;ID&gt;
-Platte &lt;PLATE&gt;
-Kontonummer: &lt;ACCOUNT&gt;
-SSN : &lt;SSN&gt;
-Lizenznummer: &lt;DLN&gt;
-Adresse : &lt;STREET&gt; &lt;ZIP&gt;
-
-Masked with chars
-<span class="nt">------------------------------</span>
-Zusammenfassung : <span class="o">[</span><span class="k">************</span><span class="o">]</span> wird am Morgen des <span class="o">[</span><span class="k">**************</span><span class="o">]</span> ins <span class="o">[</span><span class="k">**********************</span><span class="o">]</span> eingeliefert.
-Herr <span class="o">[</span><span class="k">************</span><span class="o">]</span> ist <span class="k">**</span> Jahre alt und hat zu viel Wasser <span class="k">in </span>den Beinen.
-Persönliche Daten :
-ID-Nummer: <span class="o">[</span><span class="k">*******</span><span class="o">]</span>
-Platte <span class="o">[</span><span class="k">*****</span><span class="o">]</span>
-Kontonummer: <span class="o">[</span><span class="k">********************</span><span class="o">]</span>
-SSN : <span class="o">[</span><span class="k">**********</span><span class="o">]</span>
-Lizenznummer: <span class="o">[</span><span class="k">*********</span><span class="o">]</span>
-Adresse : <span class="o">[</span><span class="k">*****************</span><span class="o">]</span> <span class="o">[</span><span class="k">***</span><span class="o">]</span>
-
-Masked with fixed length chars
-<span class="nt">------------------------------</span>
-Zusammenfassung : <span class="k">****</span> wird am Morgen des <span class="k">****</span> ins <span class="k">****</span> eingeliefert.
-Herr <span class="k">****</span> ist <span class="k">****</span> Jahre alt und hat zu viel Wasser <span class="k">in </span>den Beinen.
-Persönliche Daten :
-ID-Nummer: <span class="k">****</span>
-Platte <span class="k">****</span>
-Kontonummer: <span class="k">****</span>
-SSN : <span class="k">****</span>
-Lizenznummer: <span class="k">****</span>
-Adresse : <span class="k">****</span> <span class="k">****</span>
-
-Obfusceted
-<span class="nt">------------------------------</span>
-Zusammenfassung : Herrmann Kallert wird am Morgen des 11-26-1977 ins International Neuroscience eingeliefert.
-Herr Herrmann Kallert ist 79 Jahre alt und hat zu viel Wasser <span class="k">in </span>den Beinen.
-Persönliche Daten :
-ID-Nummer: 136704D357
-Platte QA348G
-Kontonummer: 192837465738
-SSN : 1310011981M454
-Lizenznummer: XX123456
-Adresse : Klingelhöferring 31206
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -520,51 +452,39 @@ Adresse : Klingelhöferring 31206
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>clinical_deidentification</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>pipeline</td>
+      <td>roberta_base_biomedical</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.4.0+</td>
+      <td>Spark NLP 3.4.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
-      <td>Official</td>
+      <td>Community</td>
+    </tr>
+    <tr>
+      <td>Input Labels:</td>
+      <td>[document, token]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>de</td>
+      <td>es</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.3 GB</td>
+      <td>301.7 MB</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="included-models">Included Models</h2>
-
-<ul>
-  <li>DocumentAssembler</li>
-  <li>SentenceDetectorDLModel</li>
-  <li>TokenizerModel</li>
-  <li>WordEmbeddingsModel</li>
-  <li>MedicalNerModel</li>
-  <li>NerConverter</li>
-  <li>ContextualParserModel</li>
-  <li>ChunkMergeModel</li>
-  <li>DeIdentificationModel</li>
-  <li>DeIdentificationModel</li>
-  <li>Finisher</li>
-</ul>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-08T00:00:00+00:00"><!-- start custom article footer snippet -->
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-13T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -689,7 +609,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/07/bert_token_classifier_ner_bacteria_en.html">Detect Bacterial Species (BertForTokenClassification)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/11/pos_ud_bokmaal_nb.html">Part of Speech for Norwegian</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/12/t5_small_wikiSQL_en.html">T5-small fine-tuned on WikiSQL</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/13/distilbert_base_cased_vi.html">Vietnamese DistilBERT Base Cased Embeddings</a></div></div></div>
 
 </div>
 </div>
