@@ -141,9 +141,9 @@ sparknlp-healthcare:
       - title: Entity Resolver Models and Features
         url: /docs/en/resolver_models
       - title: Entity Resolver Model and NER Model Pairs
-        url: /docs/en/relation_extraction_model_pairs
-      - title: Relation Extraction Model and NER Model Pairs
         url: /docs/en/entity_resolver_model_ner_model_pairs
+      - title: Relation Extraction Model and NER Model Pairs
+        url: /docs/en/relation_extraction_model_pairs
 
 
 spark-ocr:
