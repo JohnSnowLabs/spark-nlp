@@ -45,7 +45,7 @@ tokenizer = Tokenizer()\
     .setInputCols("document")\
     .setOutputCol("token")
 
-roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es", "@ireneisdoomed")\
     .setInputCols(["document", "token"])\
     .setOutputCol("roberta_embeddings")
 
