@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Relation Extraction Model and NER Model Pairs
+title: Entity Resolver Model and NER Model Pairs
 permalink: /docs/en/entity_resolver_model_ner_model_pairs
 key: docs-concepts
 modify_date: "2021-08-31"
