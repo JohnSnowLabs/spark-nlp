@@ -15,7 +15,7 @@ sidebar:
 
 In the table below, you can find `Entity Resolver` models as well as its appropriate NER models and labels, that can return optimal results. 
 
-For instance, `sbiobertresolve_cpt_procedures_measurements_augmented` resolver model must be used with `sbiobert_base_cased_mli` as **embeddings**, `ner_jsl` as **NER model**, `Procedure` set in **setWhiteList()**.
+For instance, `sbiobertresolve_hcc_augmented` resolver model must be used with `sbiobert_base_cased_mli` as **embeddings**, `ner_clinical` as **NER model**, `PROBLEM` set in **setWhiteList()**.
 
 </div>
 <div class="h3-box" markdown="1">
