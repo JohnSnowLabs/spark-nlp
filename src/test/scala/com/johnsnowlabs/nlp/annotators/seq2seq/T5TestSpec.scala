@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
@@ -29,11 +30,9 @@ class T5TestSpec extends AnyFlatSpec {
 
   "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Which is the capital of France? Who was the first president of USA?"),
       (1, "Which is the capital of Bulgaria ?"),
       (2, "Who is Donald Trump?")
-
     )).toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
@@ -59,7 +58,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with maxLength=200 " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -97,7 +95,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -135,7 +132,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -175,7 +171,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with doSample=true, fixed random seed deactivated topK" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -214,7 +209,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with temperature to decrease the sensitivity to low probability candidates" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -255,7 +249,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with doSample and TopP" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -296,7 +289,6 @@ class T5TestSpec extends AnyFlatSpec {
 
   "t5-small" should "run SparkNLP pipeline with repetitionPenalty" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -334,9 +326,8 @@ class T5TestSpec extends AnyFlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline and ignore a token" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -357,7 +348,7 @@ class T5TestSpec extends AnyFlatSpec {
         " mostly by licensing his name. Trump and his businesses have been involved in more than 4,000 state and" +
         " federal legal actions, including six bankruptcies. He owned the Miss Universe brand of beauty pageants " +
         "from 1996 to 2015, and produced and hosted the reality television series The Apprentice from 2004 to 2015.")
-    )).toDF("id", "text").repartition(1)
+    )).toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -367,15 +358,21 @@ class T5TestSpec extends AnyFlatSpec {
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(200)
-      .setBatchSize(5)
-      .setNoRepeatNgramSize(3)
       .setIgnoreTokenIds(Array(12065)) //ignore token "vegetable"
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 
     val model = pipeline.fit(testData)
-    val results = model.transform(testData).cache()
+    val results = model.transform(testData)
+
+    Benchmark.time("Time to save pipeline the first time") {
+      results.select("summaries.result").write.mode("overwrite").save("./tmp_t5_pipeline")
+    }
+
+    Benchmark.time("Time to save pipeline the second time") {
+      results.select("summaries.result").write.mode("overwrite").save("./tmp_t5_pipeline")
+    }
 
     results.select("summaries.result").show(truncate = false)
 
@@ -386,9 +383,8 @@ class T5TestSpec extends AnyFlatSpec {
       "should not include ignored tokens")
   }
 
-  "t5-small" should "run SparkNLP pipeline and ignore a token" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline for translation" taggedAs SlowTest in {
     val testData = ResourceHelper.spark.createDataFrame(Seq(
-
       (1, "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
         " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
         "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
@@ -427,7 +423,13 @@ class T5TestSpec extends AnyFlatSpec {
     val model = pipeline.fit(testData)
     val results = model.transform(testData).cache()
 
-    results.select("summaries.result").show(truncate = false)
+    Benchmark.time("Time to save pipeline the first time") {
+      results.select("summaries.result").write.mode("overwrite").save("./tmp_t5_pipeline")
+    }
+
+    Benchmark.time("Time to save pipeline the second time") {
+      results.select("summaries.result").write.mode("overwrite").save("./tmp_t5_pipeline")
+    }
 
     assert(
       results

@@ -54,6 +54,24 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
   private val eosTokenId = 1L
   private val pieceSize = spp.getSppModel.getPieceSize
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput = Array.fill(1)(0L) ++ Array(eosTokenId)
+    tag(Seq(dummyInput),
+      minOutputLength = 0,
+      maxOutputLength = 1,
+      doSample = false,
+      temperature = 0f,
+      topK = 0,
+      topP = 0f,
+      repetitionPenalty = 0f,
+      noRepeatNgramSize = 0,
+      randomSeed = Option(0L),
+      ignoreTokenIds = Array(0)
+    )
+  }
+
+  sessionWarmup()
+
   def predict(sentences: Seq[Annotation],
               batchSize: Int,
               minOutputLength: Int,
@@ -102,18 +120,17 @@ class TensorflowT5(val tensorflow: TensorflowWrapper,
     }
   }
 
-  def tag(
-           batch: Seq[Array[Long]],
-           minOutputLength: Int,
-           maxOutputLength: Int,
-           doSample: Boolean,
-           temperature: Double,
-           topK: Int,
-           topP: Double,
-           repetitionPenalty: Double,
-           noRepeatNgramSize: Int,
-           randomSeed: Option[Long],
-           ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
+  def tag(batch: Seq[Array[Long]],
+          minOutputLength: Int,
+          maxOutputLength: Int,
+          doSample: Boolean,
+          temperature: Double,
+          topK: Int,
+          topP: Double,
+          repetitionPenalty: Double,
+          noRepeatNgramSize: Int,
+          randomSeed: Option[Long],
+          ignoreTokenIds: Array[Int] = Array()): Array[Array[Long]] = {
 
 
     /* Actual size of each sentence to skip padding in the TF model */

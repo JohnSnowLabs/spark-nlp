@@ -11685,7 +11685,7 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
-            batchSize=4
+            batchSize=1
         )
 
     @staticmethod
