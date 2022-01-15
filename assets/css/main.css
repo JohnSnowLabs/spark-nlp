@@ -6640,6 +6640,9 @@ code {
     .root[data-is-touch="false"] .go_next a:hover {
       text-decoration: none; }
 
+.fwn {
+  font-weight: 300 !important; }
+
 .docs-wrapper {
   margin: 0 auto;
   width: 850px;
@@ -6662,6 +6665,8 @@ code {
     margin: 0 auto 50px;
     display: table;
     box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15); }
+    .docs-wrapper .table-model-big.no_td_shadow tr {
+      box-shadow: none !important; }
     .docs-wrapper .table-model-big.w7 {
       width: 750px; }
     .docs-wrapper .table-model-big.db {
