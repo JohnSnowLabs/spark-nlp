@@ -1,8 +1,4 @@
-docs/_data/navigation.yml
-docs/_includes/article-header.html
-docs/_sass/custom.scss
-docs/en/best_practices_pretrained_models.md
-docs/_data/navigation.yml
-docs/_includes/article-header.html
-docs/_sass/custom.scss
-docs/en/best_practices_pretrained_models.md
+docs/_frontend/package.json
+docs/_frontend/yarn.lock
+docs/_frontend/package.json
+docs/_frontend/yarn.lock
