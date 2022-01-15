@@ -11768,7 +11768,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     Parameters
     ----------
     batchSize
-        Size of every batch, by default 8
+        Size of every batch, by default 1
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     langId
@@ -11914,7 +11914,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=4,
+            batchSize=1,
             maxInputLength=40,
             maxOutputLength=40,
             langId="",
