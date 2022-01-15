@@ -1,4 +1,2 @@
-docs/_frontend/package.json
 docs/_frontend/yarn.lock
-docs/_frontend/package.json
 docs/_frontend/yarn.lock
