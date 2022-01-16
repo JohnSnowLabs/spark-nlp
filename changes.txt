@@ -1,2 +1,2 @@
-docs/_frontend/yarn.lock
-docs/_frontend/yarn.lock
+docs/en/best_practices_pretrained_models.md
+docs/en/best_practices_pretrained_models.md
