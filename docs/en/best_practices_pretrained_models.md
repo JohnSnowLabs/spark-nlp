@@ -13,7 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## Entity Resolver models and features
+## Entity Resolver Models and Features
 
 In the table below, all **Entity Resolver** models, their features, appropriate **embeddings**, and AUX info are illustrated.
 
@@ -88,7 +88,7 @@ For instance, features of `sbertresolve_ner_model_finder` are under **FEATURES**
 </div>
 <div class="h3-box" markdown="1">
 
-## Entity Resolver model and NER model pairs
+## Entity Resolver Model and NER Model Pairs
 
 In the table below, you can find **Entity Resolver** models as well as its appropriate **NER** models and labels, that can return optimal results. 
 
@@ -269,7 +269,7 @@ For instance, `sbiobertresolve_hcc_augmented` resolver model must be used with `
 </div>
 <div class="h3-box" markdown="1">
 
-## Relation Extraction models and relation pairs table
+## Relation Extraction Models and Relation Pairs Table
 
 In the table below, available **Relation Extraction** models, its labels, optimal **NER model**, and meaningful relation pairs are illustrated.
 
