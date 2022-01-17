@@ -54,7 +54,7 @@ roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta", "es", "clinical/models")\
+clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_roberta", "es", "clinical/models")\
         .setInputCols(["sentence","token","embeddings"])\
         .setOutputCol("ner")
 
@@ -89,7 +89,7 @@ val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical",
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
-val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta", "es", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_roberta", "es", "clinical/models")
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
