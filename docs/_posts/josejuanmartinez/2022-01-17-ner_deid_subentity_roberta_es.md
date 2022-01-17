@@ -4,7 +4,7 @@ title: Detect PHI for Deidentification purposes (Spanish)
 author: John Snow Labs
 name: ner_deid_subentity_roberta
 date: 2022-01-17
-tags: [deid, es, licensed]
+tags: [deid, es, licensed, clinical]
 task: De-identification
 language: es
 edition: Spark NLP for Healthcare 3.3.4
@@ -17,9 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Named Entity recognition annotator allows for a generic model to be trained by utilizing a deep learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN. 
+Named Entity Recognition annotators allow for a generic model to be trained by using a Deep Learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN. 
 
-Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 13 entities. This NERmodel is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf dataset and several data augmentation mechanisms
+Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 13 entities. This NER model is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf dataset and several data augmentation mechanisms
 
 ## Predicted Entities
 
@@ -54,21 +54,16 @@ roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid", "es", "clinical/models")\
+clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta", "es", "clinical/models")\
         .setInputCols(["sentence","token","embeddings"])\
         .setOutputCol("ner")
-
-ner_converter = NerConverter()\
-        .setInputCols(["sentence","token","ner"])\
-        .setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,
         roberta_embeddings,
-        clinical_ner,
-        ner_converter])
+        clinical_ner])
 
 text = ['''
 Antonio Pérez Juan tiene 93 años, es empersario y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
@@ -95,15 +90,11 @@ val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical",
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
-val clinical_ner = MedicalNerModel.pretrained("ner_deid", "es", "clinical/models")
+val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta", "es", "clinical/models")
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
-val ner_converter = NerConverter()
-        .setInputCols(Array("sentence","token","ner"))
-        .setOutputCol("ner_chunk")
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
 
 val text = "Antonio Pérez Juan tiene 93 años, es empersario y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 
