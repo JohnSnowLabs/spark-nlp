@@ -66,7 +66,7 @@ nlpPipeline = Pipeline(stages=[
         clinical_ner])
 
 text = ['''
-Antonio Pérez Juan tiene 93 años, es empersario y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
+Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
 ''']
 
 df = spark.createDataFrame([text]).toDF("text")
@@ -96,7 +96,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta", "es"
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
 
-val text = "Antonio Pérez Juan tiene 93 años, es empersario y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
+val text = "Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 
 val df = Seq(text).toDF("text")
 
@@ -113,13 +113,7 @@ val results = pipeline.fit(data).transform(data)
 |     Antonio| B-PATIENT|
 |       Pérez| I-PATIENT|
 |        Juan| I-PATIENT|
-|       tiene|         O|
-|          93|         O|
-|        años|         O|
 |           ,|         O|
-|          es|         O|
-|  empersario|         O|
-|           y|         O|
 |      nacido|         O|
 |          en|         O|
 |       Cadiz|B-LOCATION|
