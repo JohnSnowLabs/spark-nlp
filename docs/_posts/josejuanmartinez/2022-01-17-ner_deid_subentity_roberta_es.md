@@ -4,7 +4,7 @@ title: Detect PHI for Deidentification purposes (Spanish)
 author: John Snow Labs
 name: ner_deid_subentity_roberta
 date: 2022-01-17
-tags: [deid, es, licensed, clinical]
+tags: [deid, es, licensed]
 task: De-identification
 language: es
 edition: Spark NLP for Healthcare 3.3.4
