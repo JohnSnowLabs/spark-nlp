@@ -35,110 +35,96 @@ This model maps clinical abbreviations and acronyms to their meanings using `sbi
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-documentAssembler = DocumentAssembler()\
+document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-      .setInputCols("document")\
-      .setOutputCol("sentence")
-
-tokenizer = Tokenizer() \
-      .setInputCols(["document"]) \
+tokenizer = Tokenizer()\
+      .setInputCols(["document"])\
       .setOutputCol("token")
 
-word_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical','en', 'clinical/models')\
-      .setInputCols(["sentence", "token"])\
-      .setOutputCol("embeddings")
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+      .setInputCols(["document", "token"])\
+      .setOutputCol("word_embeddings")
 
-ner = NerDLModel.pretrained("ner_radiology", "en", "clinical/models") \
-       .setInputCols(["sentence", "token", "embeddings"]) \
-       .setOutputCol("ner")
+clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") \
+      .setInputCols(["document", "token", "word_embeddings"]) \
+      .setOutputCol("ner")
 
-ner_converter = NerConverter() \
-       .setInputCols(["sentence", "token", "ner"]) \
-       .setOutputCol("ner_chunk")\
-       .setWhiteList(['Test'])
-
-c2doc = Chunk2Doc()\
-       .setInputCols("merged_chunk")\
-       .setOutputCol("ner_chunk_doc") 
+ner_converter = NerConverterInternal() \
+      .setInputCols(["document", "token", "ner"]) \
+      .setOutputCol("ner_chunk")\
+      .setWhiteList(['ABBR'])
 
 sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")\
-       .setInputCols(["document", "merged_chunk"])\
-       .setOutputCol("sentence_embeddings")\
-       .setChunkWeight(0.5)
+      .setInputCols(["document", "ner_chunk"])\
+      .setOutputCol("sentence_embeddings")\
+      .setChunkWeight(0.5)\
+      .setCaseSensitive(True)
 
-abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
-       .setInputCols(["merged_chunk", "sentence_embeddings"]) \
-       .setOutputCol("abbr_meaning")\
-       .setDistanceFunction("EUCLIDEAN")\
-       .setCaseSensitive(False)
     
+abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") \
+      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setOutputCol("abbr_meaning")\
+      .setDistanceFunction("EUCLIDEAN")\
+    
+
 resolver_pipeline = Pipeline(
     stages = [
-        documentAssembler,
-        sentenceDetector,
+        document_assembler,
         tokenizer,
         word_embeddings,
-        ner,
+        clinical_ner,
         ner_converter,
-        c2doc,
         sentence_chunk_embeddings,
         abbr_resolver
   ])
 
 model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
 
-sample_text = "HISTORY OF PRESENT ILLNESS: The patient three weeks ago was seen at another clinic for upper respiratory infection-type symptoms. She was diagnosed with a viral infection and had used OTC medications including Tylenol, Sudafed, and Nyquil."
+sample_text = "The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."
 abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
 ```
 ```scala
 
 
-val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+val document_assembler = DocumentAssembler()\
+      .setInputCol("text")
+      .setOutputCol("document")
 
-val sentenceDetector = new SentenceDetector()
-      .setInputCols("document")
-      .setOutputCol("sentence")
+val tokenizer = Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
 
-val tokenizer = new Tokenizer()
-      .setInputCols("sentence")
-      .setOutputCol("tokens")
-
-val wordEmbeddings = BertEmbeddings
-      .pretrained("biobert_pubmed_base_cased")
-      .setInputCols(Array("sentence", "tokens"))
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+      .setInputCols(Array("document", "token"))
       .setOutputCol("word_embeddings")
 
-val nerModel = NerDLModel
-      .pretrained("ner_radiology", "en", "clinical/models")
-      .setInputCols(Array("sentence", "tokens", "word_embeddings"))
+val clinical_ner = MedicalNerModel.pretrained("ner_abbreviation_clinical", "en", "clinical/models") 
+      .setInputCols(Array("document", "token", "word_embeddings")) 
       .setOutputCol("ner")
 
-val nerConverter = new NerConverter()
-      .setInputCols("sentence", "tokens", "ner")
+val ner_converter = NerConverterInternal() 
+      .setInputCols(Array("document", "token", "ner")) 
       .setOutputCol("ner_chunk")
-
-
-val c2doc = Chunk2Doc()
-      .setInputCols("merged_chunk")
-      .setOutputCol("ner_chunk_doc") 
+      .setWhiteList(Array("ABBR"))
 
 val sentence_chunk_embeddings = BertSentenceChunkEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
-      .setInputCols(Array("document", "merged_chunk"))
+      .setInputCols(Array("document", "ner_chunk"))
       .setOutputCol("sentence_embeddings")
       .setChunkWeight(0.5)
+      .setCaseSensitive(True)
 
+    
 val abbr_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_abbreviation_acronym", "en", "clinical/models") 
-      .setInputCols(Array("merged_chunk", "sentence_embeddings")) 
+      .setInputCols(Array("ner_chunk", "sentence_embeddings")) 
       .setOutputCol("abbr_meaning")
       .setDistanceFunction("EUCLIDEAN")
-      .setCaseSensitive(False)
     
-val resolver_pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter_icd, entity_extractor, chunk_merge, c2doc, sentence_chunk_embeddings, abbr_resolver))
 
-val sample_text = Seq("HISTORY OF PRESENT ILLNESS: The patient three weeks ago was seen at another clinic for upper respiratory infection-type symptoms. She was diagnosed with a viral infection and had used OTC medications including Tylenol, Sudafed, and Nyquil.").toDF("text")
+val resolver_pipeline = new Pipeline().setStages(document_assembler, tokenizer, word_embeddings, clinical_ner, ner_converter, sentence_chunk_embeddings, abbr_resolver)
+
+val sample_text = Seq("The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991.").toDF("text")
 val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ```
 </div>
@@ -146,9 +132,11 @@ val abbr_result = resolver_pipeline.fit(sample_text).transform(sample_text)
 ## Results
 
 ```bash
-|   sent_id | ner_chunk   | entity   | abbr_meaning     | all_k_results                                                                      | all_k_resolutions          |
-|----------:|:------------|:---------|:-----------------|:-----------------------------------------------------------------------------------|:---------------------------|
-|         0 | OTC         | ABBR     | over the counter | ['over the counter', 'ornithine transcarbamoylase', 'enteric-coated', 'thyroxine'] | ['OTC', 'OTC', 'EC', 'T4'] |
++-------+---------+------+------------------------+-------------------------------------------------------------------------+-----------------+---------------------------------+
+|sent_id|ner_chunk|entity|            abbr_meaning|                                                            all_k_results|all_k_resolutions|           all_k_cosine_distances|
++-------+---------+------+------------------------+-------------------------------------------------------------------------+-----------------+---------------------------------+
+|      0|       IR|  ABBR|interventional radiology|interventional radiology:::immediate-release:::(stage) IA:::intraarterial|IR:::IR:::IA:::IA|0.0156:::0.0945:::0.1046:::0.1111|
++-------+---------+------+------------------------+-------------------------------------------------------------------------+-----------------+---------------------------------+
 ```
 
 {:.model-param}
