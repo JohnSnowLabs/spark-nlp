@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned on emotion [dataset](https://huggingface.co/nlp/viewer/?dataset=emotion), leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
+This model was imported from `Hugging Face` and it's been fine-tuned on emotion [dataset](https://huggingface.co/nateraw/bert-base-uncased-emotion), leveraging `Bert` embeddings and `BertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 
@@ -103,6 +103,8 @@ val result = pipeline.fit(example).transform(example)
 
 ## Benchmarking
 
+NOTE: The author didn't share Precision / Recall / F1, only Validation Accuracy was shared as [Evaluation Results](https://huggingface.co/nateraw/bert-base-uncased-emotion#eval-results).
+
 ```bash
-Val. Accuracy : 0.931
+Validation Accuracy: 0.931 
 ```
