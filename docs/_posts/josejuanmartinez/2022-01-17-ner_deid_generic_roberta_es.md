@@ -95,8 +95,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_roberta", "es", 
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
 
-val text = "Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital
-Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
+val text = "Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 
 val df = Seq(text).toDF("text")
 
@@ -110,9 +109,9 @@ val results = pipeline.fit(data).transform(data)
 +------------+----------+
 |       token| ner_label|
 +------------+----------+
-|     Antonio| B-PATIENT|
-|       Pérez| I-PATIENT|
-|        Juan| I-PATIENT|
+|     Antonio|    B-NAME|
+|       Pérez|    I-NAME|
+|        Juan|    I-NAME|
 |           ,|         O|
 |      nacido|         O|
 |          en|         O|
@@ -131,9 +130,7 @@ val results = pipeline.fit(data).transform(data)
 |    Covid-19|         O|
 |          el|         O|
 |         dia|         O|
-|          14|    B-DATE|
-|          de|    I-DATE|
-|       Marzo|    I-DATE|
+|  14/03/2020|    B-DATE|
 |           y|         O|
 |        tuvo|         O|
 |         que|         O|
@@ -147,9 +144,9 @@ val results = pipeline.fit(data).transform(data)
 |monoclonales|         O|
 |          en|         O|
 |          la|         O|
-|     Clinica|B-HOSPITAL|
-|         San|I-HOSPITAL|
-|      Carlos|I-HOSPITAL|
+|     Clinica|B-LOCATION|
+|         San|I-LOCATION|
+|      Carlos|I-LOCATION|
 |           .|         O|
 +------------+----------+
 ```
