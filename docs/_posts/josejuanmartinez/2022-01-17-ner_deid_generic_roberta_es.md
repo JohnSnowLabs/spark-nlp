@@ -66,8 +66,7 @@ nlpPipeline = Pipeline(stages=[
         clinical_ner])
 
 text = ['''
-Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital
-Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
+Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
 ''']
 
 df = spark.createDataFrame([text]).toDF("text")
