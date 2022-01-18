@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Detect PHI for Deidentification purposes (Spanish)
+title: Detect PHI for Deidentification purposes (Spanish, Roberta embeddings)
 author: John Snow Labs
 name: ner_deid_subentity_roberta
 date: 2022-01-17
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Named Entity Recognition annotators allow for a generic model to be trained by using a Deep Learning architecture (Char CNNs - BiLSTM - CRF - word embeddings) inspired on a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM,CNN. 
 
-Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 13 entities. This NER model is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf dataset and several data augmentation mechanisms
+Deidentification NER (Spanish) is a Named Entity Recognition model that annotates text to find protected health information that may need to be de-identified. It detects 13 entities. This NER model is trained with a combination of custom datasets, Spanish 2002 conLL, MeddoProf dataset and several data augmentation mechanisms. This model uses Roberta Clinical Embeddings.
 
 ## Predicted Entities
 
