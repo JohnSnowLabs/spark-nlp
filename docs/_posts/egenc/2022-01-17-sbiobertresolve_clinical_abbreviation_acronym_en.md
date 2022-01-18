@@ -83,7 +83,7 @@ resolver_pipeline = Pipeline(
 model = resolver_pipeline.fit(spark.createDataFrame([['']]).toDF("text"))
 
 sample_text = "The patient admitted from the IR for aggressive irrigation of the Miami pouch. DISCHARGE DIAGNOSES: 1. A 58-year-old female with a history of stage 2 squamous cell carcinoma of the cervix status post total pelvic exenteration in 1991."
-abbr_result = model.transform(spark.createDataFrame([[text]]).toDF('text'))
+abbr_result = model.transform(spark.createDataFrame([[sample_text]]).toDF('text'))
 ```
 ```scala
 
