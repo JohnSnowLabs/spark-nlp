@@ -826,7 +826,9 @@ class RegexTokenizer(AnnotatorModel):
             toLowercase=False,
             minLength=1,
             pattern="\\s+",
-            positionalMask=False
+            positionalMask=False,
+            trimWhitespaces=False,
+            preserveIndexes=True
         )
 
     minLength = Param(Params._dummy(),
@@ -853,6 +855,16 @@ class RegexTokenizer(AnnotatorModel):
                            "positionalMask",
                            "Using a positional mask to guarantee the incremental progression of the tokenization.",
                            typeConverter=TypeConverters.toBoolean)
+
+    trimWhitespaces = Param(Params._dummy(),
+                            "trimWhitespaces",
+                            "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
+                            typeConverter=TypeConverters.toBoolean)
+
+    preserveIndexes = Param(Params._dummy(),
+                            "preserveIndexes",
+                            "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
+                            typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
         """Sets the minimum allowed legth for each token, by default 1.
@@ -905,6 +917,26 @@ class RegexTokenizer(AnnotatorModel):
             Whether to use a positional mask
         """
         return self._set(positionalMask=value)
+
+    def setTrimWhiteSpaces(self, value):
+        """Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.
+
+        Parameters
+        ----------
+        value : bool
+            Indicates whether to use a trimWhitespaces flag, by default False.
+        """
+        return self.set(self, trimWhitespaces=value)
+
+    def setPreserveIndexes(self, value):
+        """Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
+
+        Parameters
+        ----------
+        value : bool
+            Indicates whether to use a preserve initial indexes, by default True.
+        """
+        return self.set(self, preserveIndexes=value)
 
 
 class ChunkTokenizer(Tokenizer):
