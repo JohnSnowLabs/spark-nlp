@@ -1,2 +1,6 @@
-docs/en/best_practices_pretrained_models.md
-docs/en/best_practices_pretrained_models.md
+README.md
+docs/en/install.md
+python/README.md
+README.md
+docs/en/install.md
+python/README.md
