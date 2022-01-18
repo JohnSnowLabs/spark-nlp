@@ -43,6 +43,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
 - [Using Spark NLP](#usage)
+  - [Pacakges Chetsheet](#packages-cheatsheet)
   - [Spark Packages](#spark-packages)
   - [Scala](#scala)
     - [Maven](#maven)
@@ -864,7 +865,7 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: If you are launching a Databricks runtime that is not based on Apache Spark 3.x please choose a compatible [Spark NLP package](#spark-packages)
+NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 ## EMR Cluster
 
