@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face` and it's been fine-tuned for Danish language, leveraging Danish Bert embeddings and `BertForSequenceClassification` for text classification purposes. The model page of Hugging Face : [https://huggingface.co/DaNLP/da-bert-tone-sentiment-polarity](https://huggingface.co/DaNLP/da-bert-tone-sentiment-polarity)
+This model was imported from `Hugging Face` ([link](https://huggingface.co/DaNLP/da-bert-tone-sentiment-polarity)) and it's been finetuned for Danish language, leveraging Danish Bert embeddings and `BertForSequenceClassification` for text classification purposes.
 
 ## Predicted Entities
 
