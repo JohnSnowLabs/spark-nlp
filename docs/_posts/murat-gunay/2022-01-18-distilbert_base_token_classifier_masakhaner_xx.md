@@ -56,7 +56,7 @@ ner_converter = NerConverter()\
       .setOutputCol("ner_chunk")
       
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
-text = """Adebiyi Adedayo jẹ ọkan ninu awọn oṣiṣẹ Naijiria ni Unilever FMCG, ọkan ninu awọn ile-iṣẹ Multinational ni Abuja Nigeria, lati Oṣu Kẹwa 1994."""
+text = """Adebiyi Adedayo jẹ ọkan ninu awọn oṣiṣẹ Naijiria ni Unilever FMCG, ọkan ninu awọn ile-iṣẹ Multinational ni Abuja Naijiria, lati Oṣu Kẹwa 1994."""
 data = spark.createDataFrame([[text]]).toDF("text")
 
 result = nlpPipeline.fit(data).transform(data)
@@ -84,7 +84,7 @@ val ner_converter = NerConverter()
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Adebiyi Adedayo jẹ ọkan ninu awọn oṣiṣẹ Naijiria ni Unilever FMCG, ọkan ninu awọn ile-iṣẹ Multinational ni Abuja Nigeria, lati Oṣu Kẹwa 1994."].toDS.toDF("text")
+val example = Seq.empty["Adebiyi Adedayo jẹ ọkan ninu awọn oṣiṣẹ Naijiria ni Unilever FMCG, ọkan ninu awọn ile-iṣẹ Multinational ni Abuja Naijiria, lati Oṣu Kẹwa 1994."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -99,7 +99,7 @@ val result = pipeline.fit(example).transform(example)
 |Adebiyi Adedayo|PER      |
 |Naijiria       |LOC      |
 |Unilever FMCG  |ORG      |
-|Abuja Nigeria  |LOC      |
+|Abuja Naijiria |LOC      |
 |Oṣu Kẹwa 1994  |DATE     |
 +---------------+---------+
 ```
