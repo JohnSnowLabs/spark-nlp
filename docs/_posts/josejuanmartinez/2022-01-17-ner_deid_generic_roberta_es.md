@@ -70,6 +70,8 @@ Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infec
 ''']
 
 df = spark.createDataFrame([text]).toDF("text")
+
+results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
 val documentAssembler = DocumentAssembler()
