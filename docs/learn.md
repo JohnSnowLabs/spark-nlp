@@ -103,7 +103,7 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item"><iframe title="vimeo-player" src="https://player.vimeo.com/video/478640529" width="100%" height="305" frameborder="0" allowfullscreen></iframe><div class="video-descr">John Snow Labs NLU: Become a Data Science Superhero with One Line of Python code. Christian Kasim Loan - November, 2020</div></div></div>
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='bl64A0nXujg' -%}<div class="video-descr">Making State of the Art Natural Language Processing Easier to Apply. David Talby - 3 Nov 2020</div></div></div>
+<!--<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='bl64A0nXujg' -%}<div class="video-descr">Making State of the Art Natural Language Processing Easier to Apply. David Talby - 3 Nov 2020</div></div></div>-->
 
 </div></div>
 
@@ -338,7 +338,7 @@ modify_date: "2019-05-16"
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='dSKMNyo8fKw' -%}<div class="video-descr">Advancing the State of the Art in Applied Natural Language Processing | Healthcare NLP Summit 2021. David Talby - 21 Apr 2021</div></div></div>
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='mUpNZ6fbzkA' -%}<div class="video-descr">Connecting the Dots in Clinical Document Understanding &amp; Information Extraction I Health NLP Summit. Veysel Kocaman - 15 Apr 2021</div></div></div>
+<!--<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='mUpNZ6fbzkA' -%}<div class="video-descr">Connecting the Dots in Clinical Document Understanding &amp; Information Extraction I Health NLP Summit. Veysel Kocaman - 15 Apr 2021</div></div></div>-->
 
 <div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='iHjdqF6iCnU' -%}<div class="video-descr">Advanced Natural Language Processing with Apache Spark NLP. David Talby - 20 Aug 2020</div></div></div>
 
