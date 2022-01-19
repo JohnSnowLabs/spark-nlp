@@ -24,7 +24,7 @@ This model was imported from `Hugging Face` and it's been fine-tuned for 6 Scand
 `PER`, `ORG`, `LOC`, `MISC`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/public/NER_SCANDINAVIAN/){:.button.button-orange}{:target="_blank"}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_xx_3.3.2_2.4_1639044930234.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
       .setInputCols(["sentence"])\
       .setOutputCol("token")
 
-tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_scandi_ner", "xx"))\
+tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_scandi_ner", "xx")\
   .setInputCols(["sentence",'token'])\
   .setOutputCol("ner")
 
@@ -76,7 +76,7 @@ val tokenizer = Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_scandi_ner", "xx"))\
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_scandi_ner", "xx")\
   .setInputCols(Array("sentence","token"))\
   .setOutputCol("ner")
 
