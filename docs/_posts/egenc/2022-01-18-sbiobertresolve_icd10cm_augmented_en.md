@@ -41,7 +41,7 @@ document_assembler = DocumentAssembler()\
         .setOutputCol("document")
 
        
-sentence_detector = SentenceDetectorDLModel.pretrained("./home/sentence_detector_dl_healthcare_en_3.2.0_3.0_1628678815210")\
+sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
