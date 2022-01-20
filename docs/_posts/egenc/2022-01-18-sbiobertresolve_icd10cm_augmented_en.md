@@ -34,32 +34,31 @@ This model maps extracted medical entities to ICD10-CM codes using `sbiobert_bas
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
         .setInputCol(raw_text_colname)\
         .setOutputCol("document")
 
-# Sentence detector detects the start and end points of sentences and splits them up        
+       
 sentence_detector = SentenceDetectorDLModel.pretrained("./home/sentence_detector_dl_healthcare_en_3.2.0_3.0_1628678815210")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
- 
-# The tokenizer splits words into a format required for NLP
+
 tokenizer = Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-# Word embeddings trained on a PubMed dataset
+
 word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
         .setInputCols(["sentence","token"])\
         .setOutputCol("embeddings")
 
-# NER model trained on a large clinical dataset
+
 clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")\
         .setInputCols(["sentence","token","embeddings"])\
         .setOutputCol("ner")
 
-# Creates labeled chunks of words - these are our entities
 ner_converter = NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")\
