@@ -37,7 +37,7 @@ This model maps extracted medical entities to ICD10-CM codes using `sbiobert_bas
 
 ```python
 document_assembler = DocumentAssembler()\
-        .setInputCol(raw_text_colname)\
+        .setInputCol("text")\
         .setOutputCol("document")
 
        
