@@ -1,2 +1,2 @@
-docs/learn.md
-docs/learn.md
+docs/en/licensed_version_compatibility.md
+docs/en/licensed_version_compatibility.md
