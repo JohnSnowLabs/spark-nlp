@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.3.4 ScalaDoc  - com.johnsnowlabs.util.UpdateModels</title>
-          <meta name="description" content="Spark NLP 3.3.4 ScalaDoc - com.johnsnowlabs.util.UpdateModels" />
-          <meta name="keywords" content="Spark NLP 3.3.4 ScalaDoc com.johnsnowlabs.util.UpdateModels" />
+          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.util.UpdateModels</title>
+          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.util.UpdateModels" />
+          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.util.UpdateModels" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.3.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -175,6 +175,10 @@
                         <a href="HashUtil$.html" title="">HashUtil</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="InternalS3ResourceDownloader.html" title=""></a>
+                        <a href="InternalS3ResourceDownloader.html" title="">InternalS3ResourceDownloader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="object" href="LibrarySettings$.html" title=""></a>
                         <a href="LibrarySettings$.html" title="">LibrarySettings</a>
                       </li><li class="current-entities indented3">
@@ -271,7 +275,26 @@
         <div id="allMembers">
         
 
-        
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.johnsnowlabs.util.UpdateModels.CacheFolder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="CacheFolder=String"></a><a id="CacheFolder:CacheFolder"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#CacheFolder=String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">CacheFolder</span><span class="result alias"> = <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      
+    </li></ol>
+            </div>
 
         
 
@@ -383,9 +406,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.util.UpdateModels#defaultS3ResourceDownloader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="defaultS3ResourceDownloader:com.johnsnowlabs.nlp.pretrained.ResourceDownloader"></a><a id="defaultS3ResourceDownloader:ResourceDownloader"></a>
+      <a id="defaultS3ResourceDownloader:com.johnsnowlabs.util.InternalS3ResourceDownloader"></a><a id="defaultS3ResourceDownloader:InternalS3ResourceDownloader"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#defaultS3ResourceDownloader:com.johnsnowlabs.nlp.pretrained.ResourceDownloader" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#defaultS3ResourceDownloader:com.johnsnowlabs.util.InternalS3ResourceDownloader" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -394,7 +417,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">defaultS3ResourceDownloader</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.pretrained.ResourceDownloader">ResourceDownloader</span></span>
+        <span class="name">defaultS3ResourceDownloader</span><span class="result">: <a href="InternalS3ResourceDownloader.html" class="extype" name="com.johnsnowlabs.util.InternalS3ResourceDownloader">InternalS3ResourceDownloader</a></span>
       </span>
       
       
@@ -504,9 +527,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.util.UpdateModels#getLocalModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getLocalModels():List[com.johnsnowlabs.util.ResourceMetadataFolder]"></a><a id="getLocalModels():List[ResourceMetadataFolder]"></a>
+      <a id="getLocalModels(cache_folder:String):List[com.johnsnowlabs.util.ResourceMetadataFolder]"></a><a id="getLocalModels(String):List[ResourceMetadataFolder]"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#getLocalModels():List[com.johnsnowlabs.util.ResourceMetadataFolder]" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#getLocalModels(cache_folder:String):List[com.johnsnowlabs.util.ResourceMetadataFolder]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -515,7 +538,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getLocalModels</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="ResourceMetadataFolder.html" class="extype" name="com.johnsnowlabs.util.ResourceMetadataFolder">ResourceMetadataFolder</a>]</span>
+        <span class="name">getLocalModels</span><span class="params">(<span name="cache_folder">cache_folder: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="ResourceMetadataFolder.html" class="extype" name="com.johnsnowlabs.util.ResourceMetadataFolder">ResourceMetadataFolder</a>]</span>
       </span>
       
       
@@ -641,9 +664,9 @@
       
       
     </li><li name="com.johnsnowlabs.util.UpdateModels#refreshAndDowloadModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="refreshAndDowloadModels(resourceMetadatas:List[com.johnsnowlabs.util.ResourceMetadataFolder]):Unit"></a><a id="refreshAndDowloadModels(List[ResourceMetadataFolder]):Unit"></a>
+      <a id="refreshAndDowloadModels(resourceMetadatas:List[com.johnsnowlabs.util.ResourceMetadataFolder],cache_path:String):Unit"></a><a id="refreshAndDowloadModels(List[ResourceMetadataFolder],String):Unit"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#refreshAndDowloadModels(resourceMetadatas:List[com.johnsnowlabs.util.ResourceMetadataFolder]):Unit" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#refreshAndDowloadModels(resourceMetadatas:List[com.johnsnowlabs.util.ResourceMetadataFolder],cache_path:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -652,7 +675,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">refreshAndDowloadModels</span><span class="params">(<span name="resourceMetadatas">resourceMetadatas: <span class="extype" name="scala.List">List</span>[<a href="ResourceMetadataFolder.html" class="extype" name="com.johnsnowlabs.util.ResourceMetadataFolder">ResourceMetadataFolder</a>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">refreshAndDowloadModels</span><span class="params">(<span name="resourceMetadatas">resourceMetadatas: <span class="extype" name="scala.List">List</span>[<a href="ResourceMetadataFolder.html" class="extype" name="com.johnsnowlabs.util.ResourceMetadataFolder">ResourceMetadataFolder</a>]</span>, <span name="cache_path">cache_path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       
@@ -705,9 +728,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.util.UpdateModels#updateCacheModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="updateCacheModels():Unit"></a>
+      <a id="updateCacheModels(cache_folder:String):Unit"></a><a id="updateCacheModels(String):Unit"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#updateCacheModels():Unit" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#updateCacheModels(cache_folder:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -716,14 +739,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">updateCacheModels</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">updateCacheModels</span><span class="params">(<span name="cache_folder">cache_folder: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       
     </li><li name="com.johnsnowlabs.util.UpdateModels#updateModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="updateModels(date_cutoff:String):Unit"></a><a id="updateModels(String):Unit"></a>
+      <a id="updateModels(date_cutoff:String,cache_folder:String):Unit"></a><a id="updateModels(String,String):Unit"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#updateModels(date_cutoff:String):Unit" title="Permalink">
+      <a href="../../../com/johnsnowlabs/util/UpdateModels$.html#updateModels(date_cutoff:String,cache_folder:String):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -732,7 +755,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">updateModels</span><span class="params">(<span name="date_cutoff">date_cutoff: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">updateModels</span><span class="params">(<span name="date_cutoff">date_cutoff: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="cache_folder">cache_folder: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       

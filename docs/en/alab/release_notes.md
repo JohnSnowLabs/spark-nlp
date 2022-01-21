@@ -12,6 +12,22 @@ show_nav: true
 sidebar:
     nav: annotation-lab
 ---
+## 2.6.0
+Annotation Lab v2.6.0 improves the performance of the `Project Setup` page, adds a "View as" option in the `Labeling` Page, improves the layout of OCR-ed documents, adds the option to stop training and model server deployment from UI. Many more cool features are also delivered in this version to enhance usability and stabilize the product. Here are details of features and bug fixes included in this release.
+
+### Highlights
+- Performance improvement in Setup page. In previous versions of Annotation Lab, changes in Project Configuration would take a long time to validate if that project included a high volume of completions. The configuration validation time is now almost instant, even for projects with thousand of tasks. Multiple tests were conducted on projects with more than 13K+ tasks and thousands of extractions per task. For all of those test situations, the validation of the Project Configuration took under 2 seconds. Those tests results were replicated for all types of projects including NER, Image, Audio, Classification, and HTML projects.
+- New "View as" option in the labeling screen. When a user has multiple roles (Manager, Annotator, Reviewer), the Labeling Page should present and render different content and specific UX, depending on the role impersonated by the user. For a better user experience, this version adds a "View as" switch in the Labeling Page. Once the "View as" option is used to select a certain role, the selection is preserved even when the tab is closed or refreshed.
+- OCR Layout improvement. In previous versions of the Annotation Lab, layout was not preserved in OCRed tasks. Recognized texts would be placed in a top to bottom approach without considering the paragraph each token belonged to. From this version on, we are using layout-preserving transformers from Spark OCR. As a result, tokens that belong to the same paragraph are now grouped together, producing more meaningful output.
+- Ability to stop training and model server deployment. Up until now, training and model server deployment could be stopped by system admins only. This version of Annotation Lab provides Project Owners/Managers with the option to stop these processes simply by clicking a button in the UI. This option is necessary in many cases, such as when a manager/project owner starts the training process on a big project that takes a lot of resources and time, blocking access to preannotations to the other projects. 
+- Display meaningful message when training fails due to memory issues. In case the training of a model fails due to memory issues, the reason for the failure are available via the UI (i.e. out of memory error).
+- Allow combining NER labels and Classification classes from Spark NLP pipeline config. The earlier version had an issue with adding `choice` from the predefined classification model to an existing NER project. This issue has been fixed in this version.
+
+### Bug Fixes
+- Previously there was a UI reloading issue when a User was removed from the "Annotators" user group, which has now been fixed. The user can log in without the reloading issue, a warning is shown in UI regarding the missing annotator privilege.
+- Also, setting up the `HTML NER Tagging` project was not possible in the earlier version which has been fixed in this release.
+- On the labeling page, the renamed title of the next served task was not displayed. Similarly, in the Import page, the count of the tasks imported was missing in the Import Status dialog box. Now both these issues are fixed.
+
 ## 2.5.0
 
 Annotation Lab v2.5.0 introduces support for rule based annotations, new search feature and COCO format export for Visual NER projects. It also includes fixes for the recently identified security issues and other known bugs. Below are the highlights of this release.

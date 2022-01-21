@@ -20,19 +20,17 @@ sidebar:
 <div class="block-box with_i" style="width: 100%!important" markdown="1">
 <div class="block-box-inner" style="width: 100%!important" markdown="1">
 
-## Lightning fast annotation
+## Lightning fast annotation - for FREE
 
 A highly efficient annotation tool for all enterprise teams who need to:
 - annotate documents;
 - build ML models & get them to production;
 
-
 All that **without writing a line of code**!
 
 
-Included with every Spark NLP subscription, or can be purchased on its own.  
 {:.btn-block}
-[Try Free](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa){:.button.button--primary.button--rounded.button--md}
+[Install on AWS](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa){:.button.button--primary.button--rounded.button--md}
 
 </div>
 
