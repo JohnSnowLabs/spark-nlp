@@ -266,8 +266,22 @@ trait ReadablePretrainedUSEModel
 
   override def pretrained(name: String, lang: String): UniversalSentenceEncoder = super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder =
+  override def pretrained(name: String, lang: String, remoteLoc: String): UniversalSentenceEncoder = {
+    /**
+     * deprecated models in USE annotator
+     *
+     * we have newer and higher quality models introduced by the same team based on BERT
+     * [[https://nlp.johnsnowlabs.com/models?type=model&q=cmlm&edition=Spark+NLP CMLM Models]]
+     *
+     */
+    val deprecatedModels = Array("tfhub_use_xling_many", "tfhub_use_xling_en_de", "tfhub_use_xling_en_es", "tfhub_use_xling_en_fr")
+
+    require(!deprecatedModels.contains(name),
+      s"The model $name has been deprecated. Please either use `tfhub_use_multi` or `tfhub_use_multi_lg` for multi-lingual models " +
+        s"or you can use newer multi-lingual models for BertSentenceEmbeddings: https://nlp.johnsnowlabs.com/models?type=model&q=cmlm&edition=Spark+NLP")
+
     super.pretrained(name, lang, remoteLoc)
+  }
 }
 
 trait ReadUSETensorflowModel extends ReadTensorflowModel {
