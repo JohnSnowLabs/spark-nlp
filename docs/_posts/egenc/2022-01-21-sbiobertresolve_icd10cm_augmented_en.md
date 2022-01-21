@@ -83,7 +83,34 @@ data_ner = spark.createDataFrame([["A 28-year-old female with a history of gesta
 results = nlpPipeline.fit(data_ner).transform(data_ner)
 ```
 ```scala
-...
+val document_assembler = DocumentAssembler()
+        .setInputCol("text")
+        .setOutputCol("document")
+
+       
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+        .setInputCols(Array("document"))
+        .setOutputCol("sentence")
+
+val tokenizer = Tokenizer()
+        .setInputCols(Array("sentence"))
+        .setOutputCol("token")
+
+
+val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+        .setInputCols(Array("sentence","token"))
+        .setOutputCol("embeddings")
+
+
+val clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models")
+        .setInputCols(Array("sentence","token","embeddings"))
+        .setOutputCol("ner")
+
+val ner_converter = NerConverter()
+        .setInputCols(Array("sentence","token","ner"))
+        .setOutputCol("ner_chunk")
+        .setWhiteList(Array('PROBLEM'))
+
 
 val chunk2doc = Chunk2Doc().setInputCols("ner_chunk").setOutputCol("ner_chunk_doc")
  
