@@ -175,9 +175,9 @@ class RegexTokenizer(override val uid: String)
       "Using a trimWhitespaces flag to remove whitespaces from identified tokens.")
 
   /** @group setParam */
-  def setTrimWhiteSpaces(value: Boolean): this.type = set(trimWhitespaces, value)
+  def setTrimWhitespaces(value: Boolean): this.type = set(trimWhitespaces, value)
   /** @group getParam */
-  def getTrimWhiteSpaces: Boolean = $(trimWhitespaces)
+  def getTrimWhitespaces: Boolean = $(trimWhitespaces)
 
   /**
    * Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
@@ -316,7 +316,7 @@ class RegexTokenizer(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = if (getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
-    val tokenizedWithPolicies = applyTrimPolicies(tokenized, getTrimWhiteSpaces, getPreserveIndexes)
+    val tokenizedWithPolicies = applyTrimPolicies(tokenized, getTrimWhitespaces, getPreserveIndexes)
     TokenizedWithSentence.pack(tokenizedWithPolicies)
   }
 }
