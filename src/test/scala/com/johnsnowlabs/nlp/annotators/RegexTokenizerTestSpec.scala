@@ -260,7 +260,7 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
     val pattern = """^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"""
 
     val data = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345"),
+      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345")
     )).toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
@@ -307,7 +307,7 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
     val pattern = """^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"""
 
     val data = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345"),
+      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345")
     )).toDF("id", "text")
 
 
@@ -358,7 +358,7 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
     val pattern = """^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"""
 
     val data = ResourceHelper.spark.createDataFrame(Seq(
-      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345"),
+      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345")
     )).toDF("id", "text")
 
 
