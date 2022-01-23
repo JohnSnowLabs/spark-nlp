@@ -787,6 +787,12 @@ class RegexTokenizer(AnnotatorModel):
     positionalMask
         Using a positional mask to guarantee the incremental progression of the
         tokenization, by default False
+    trimWhitespace
+        Using a trimWhitespace flag to remove whitespaces from identified tokens,
+        by default False
+    preservePosition
+        Using a preservePosition flag to preserve initial indexes before eventual whitespaces removal in tokens,
+        by default True
 
     Examples
     --------
@@ -827,8 +833,8 @@ class RegexTokenizer(AnnotatorModel):
             minLength=1,
             pattern="\\s+",
             positionalMask=False,
-            trimWhitespaces=False,
-            preserveIndexes=True
+            trimWhitespace=False,
+            preservePosition=True
         )
 
     minLength = Param(Params._dummy(),
@@ -856,13 +862,13 @@ class RegexTokenizer(AnnotatorModel):
                            "Using a positional mask to guarantee the incremental progression of the tokenization.",
                            typeConverter=TypeConverters.toBoolean)
 
-    trimWhitespaces = Param(Params._dummy(),
-                            "trimWhitespaces",
+    trimWhitespace = Param(Params._dummy(),
+                            "trimWhitespace",
                             "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
                             typeConverter=TypeConverters.toBoolean)
 
-    preserveIndexes = Param(Params._dummy(),
-                            "preserveIndexes",
+    preservePosition = Param(Params._dummy(),
+                            "preservePosition",
                             "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
                             typeConverter=TypeConverters.toBoolean)
 
@@ -918,7 +924,7 @@ class RegexTokenizer(AnnotatorModel):
         """
         return self._set(positionalMask=value)
 
-    def setTrimWhitespaces(self, value):
+    def setTrimWhitespace(self, value):
         """Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.
 
         Parameters
@@ -926,9 +932,9 @@ class RegexTokenizer(AnnotatorModel):
         value : bool
             Indicates whether to use a trimWhitespaces flag, by default False.
         """
-        return self._set(trimWhitespaces=value)
+        return self._set(trimWhitespace=value)
 
-    def setPreserveIndexes(self, value):
+    def setPreservePosition(self, value):
         """Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
 
         Parameters
@@ -936,7 +942,7 @@ class RegexTokenizer(AnnotatorModel):
         value : bool
             Indicates whether to use a preserve initial indexes, by default True.
         """
-        return self._set(preserveIndexes=value)
+        return self._set(preservePosition=value)
 
 
 class ChunkTokenizer(Tokenizer):
