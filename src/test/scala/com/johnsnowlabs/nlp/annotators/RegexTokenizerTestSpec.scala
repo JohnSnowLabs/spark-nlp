@@ -324,8 +324,8 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
       .setPattern(pattern)
       .setPositionalMask(false)
-      .setTrimWhitespaces(true)
-      .setPreserveIndexes(true)
+      .setTrimWhitespace(true)
+      .setPreservePosition(true)
 
     val pipeline = new Pipeline()
       .setStages(Array(
@@ -375,8 +375,8 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
       .setPattern(pattern)
       .setPositionalMask(false)
-      .setTrimWhitespaces(true)
-      .setPreserveIndexes(false)
+      .setTrimWhitespace(true)
+      .setPreservePosition(false)
 
     val pipeline = new Pipeline()
       .setStages(Array(

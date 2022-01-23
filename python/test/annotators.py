@@ -333,8 +333,8 @@ class RegexTokenizerTestSpec(unittest.TestCase):
             .setInputCols(["sentence"]) \
             .setOutputCol("regex_token") \
             .setPattern(pattern) \
-            .setTrimWhitespaces(False) \
-            .setPreserveIndexes(True)
+            .setTrimWhitespace(False) \
+            .setPreservePosition(True)
 
         pipeline = Pipeline().setStages([document_assembler, sentence_detector, regex_tok])
 
@@ -2239,4 +2239,3 @@ class Word2VecTestSpec(unittest.TestCase):
         model.write().overwrite().save("./tmp_model")
         loaded_model = model.load("./tmp_model")
         loaded_model.transform(self.data).show()
-

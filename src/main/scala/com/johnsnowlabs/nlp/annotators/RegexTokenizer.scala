@@ -164,20 +164,20 @@ class RegexTokenizer(override val uid: String)
   def getPositionalMask: Boolean = $(positionalMask)
 
   /**
-   * Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.
+   * Indicates whether to use a trimWhitespace flag to remove whitespaces from identified tokens.
    * (Default: `false`).
    *
    * @group param
    * */
-  val trimWhitespaces: BooleanParam =
+  val trimWhitespace: BooleanParam =
     new BooleanParam(this,
-      "trimWhitespaces",
-      "Using a trimWhitespaces flag to remove whitespaces from identified tokens.")
+      "trimWhitespace",
+      "Using a trimWhitespace flag to remove whitespaces from identified tokens.")
 
   /** @group setParam */
-  def setTrimWhitespaces(value: Boolean): this.type = set(trimWhitespaces, value)
+  def setTrimWhitespace(value: Boolean): this.type = set(trimWhitespace, value)
   /** @group getParam */
-  def getTrimWhitespaces: Boolean = $(trimWhitespaces)
+  def getTrimWhitespace: Boolean = $(trimWhitespace)
 
   /**
    * Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
@@ -185,15 +185,15 @@ class RegexTokenizer(override val uid: String)
    *
    * @group param
    * */
-  val preserveIndexes: BooleanParam =
+  val preservePosition: BooleanParam =
     new BooleanParam(this,
-      "preserveIndexes",
-      "Using a preserveIndexes flag to preserve initial indexes before eventual whitespaces removal in tokens.")
+      "preservePosition",
+      "Using a preservePosition flag to preserve initial indexes before eventual whitespaces removal in tokens.")
 
   /** @group setParam */
-  def setPreserveIndexes(value: Boolean): this.type = set(preserveIndexes, value)
+  def setPreservePosition(value: Boolean): this.type = set(preservePosition, value)
   /** @group getParam */
-  def getPreserveIndexes: Boolean = $(preserveIndexes)
+  def getPreservePosition: Boolean = $(preservePosition)
 
   setDefault(
     inputCols -> Array(DOCUMENT),
@@ -202,8 +202,8 @@ class RegexTokenizer(override val uid: String)
     minLength -> 1,
     pattern -> "\\s+",
     positionalMask -> false,
-    trimWhitespaces -> false,
-    preserveIndexes -> true
+    trimWhitespace -> false,
+    preservePosition -> true
   )
 
   /**
@@ -272,16 +272,16 @@ class RegexTokenizer(override val uid: String)
   /**
    * This func applies policies for token trimming when activated.
    *
-   * @param inputTokSentences to apply the policies
-   * @param trimWhitespaces policy to trim whitespaces
-   * @param preserveIndexes policy to preserve indexing
+   * @param inputTokSentences input token sentences
+   * @param trimWhitespace policy to trim whitespaces in tokens
+   * @param preservePosition policy to preserve indexing in tokens
    * @return Seq of TokenizedSentence objects after applied policies transformations
    */
   def applyTrimPolicies(inputTokSentences: Seq[TokenizedSentence],
-                        trimWhitespaces: Boolean,
-                        preserveIndexes: Boolean): Seq[TokenizedSentence] = {
+                        trimWhitespace: Boolean,
+                        preservePosition: Boolean): Seq[TokenizedSentence] = {
 
-    val trimmingRegex = "\\s+"
+    val trimRegex = "\\s+"
     val emptyStr = ""
 
     val leftTrimRegex = "^\\s+"
@@ -290,9 +290,9 @@ class RegexTokenizer(override val uid: String)
     def policiesImpl(inputTokSentence: TokenizedSentence): TokenizedSentence = {
       val newIndexedTokens: Array[IndexedToken] = inputTokSentence.indexedTokens.map { indexedToken =>
         val inputToken = indexedToken.token
-        val trimmedToken = inputToken.replaceAll(trimmingRegex, emptyStr)
+        val trimmedToken = inputToken.replaceAll(trimRegex, emptyStr)
 
-        if (!preserveIndexes) {
+        if (!preservePosition) {
           val leftTrimmedToken = inputToken.replaceAll(leftTrimRegex, emptyStr)
           val beginPosOffset = inputToken.length - leftTrimmedToken.length
 
@@ -307,7 +307,7 @@ class RegexTokenizer(override val uid: String)
       TokenizedSentence(newIndexedTokens, inputTokSentence.sentenceIndex)
     }
 
-    !trimWhitespaces match {
+    !trimWhitespace match {
       case true => inputTokSentences
       case false => inputTokSentences.map(ts => policiesImpl(ts))
     }
@@ -316,7 +316,7 @@ class RegexTokenizer(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = SentenceSplit.unpack(annotations)
     val tokenized = if (getPositionalMask) tagWithPositionalMask(sentences) else tag(sentences)
-    val tokenizedWithPolicies = applyTrimPolicies(tokenized, getTrimWhitespaces, getPreserveIndexes)
+    val tokenizedWithPolicies = applyTrimPolicies(tokenized, getTrimWhitespace, getPreservePosition)
     TokenizedWithSentence.pack(tokenizedWithPolicies)
   }
 }
