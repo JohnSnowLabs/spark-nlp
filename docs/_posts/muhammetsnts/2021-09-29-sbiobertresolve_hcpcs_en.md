@@ -31,7 +31,7 @@ This model maps extracted medical entities to [Healthcare Common Procedure Codin
 
 ## How to use
 
-
+```sbiobertresolve_hcpcs``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Procedure``` set in ```.setWhiteList()```.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}

@@ -30,6 +30,12 @@ Relate scale items and their measurements according to NIHSS guidelines.
 
 ## How to use
 
+In the table below, `redl_nihss_biobert` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+|      RE MODEL      | RE MODEL LABES | NER MODEL | RE PAIRS                  |
+|:------------------:|:--------------:|:---------:|---------------------------|
+| redl_nihss_biobert | Has_Value, 0   | ner_nihss | [“No need to set pairs.”] |
+
 
 
 <div class="tabs-box" markdown="1">

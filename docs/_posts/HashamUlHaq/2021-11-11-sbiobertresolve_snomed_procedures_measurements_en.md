@@ -30,6 +30,12 @@ This model maps medical entities to SNOMED codes using Sentence Bert Embeddings.
 
 ## How to use
 
+```sbiobertresolve_snomed_procedures_measurements``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_jsl``` as NER model. ```Procedure, Test, BMI, HDL, LDL, Temperature, Total_Cholesterol, Triglycerides, Blood_Pressure``` set in ```.setWhiteList()```.
+
+```sbiobertresolve_snomed_procedures_measurements``` resolver model must be used with ```sbiobert_base_cased_mli``` as embeddings ```ner_measurements_clinical``` as NER model. ```Measurements``` set in ```.setWhiteList()```.
+
+Merge ner_jsl and ner_measurements_clinical model chunks.
+
 
 
 <div class="tabs-box" markdown="1">
