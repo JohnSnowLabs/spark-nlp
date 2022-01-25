@@ -90,7 +90,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setInputCols("sentence_embeddings")
       .setOutputCol("sarcasm")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,

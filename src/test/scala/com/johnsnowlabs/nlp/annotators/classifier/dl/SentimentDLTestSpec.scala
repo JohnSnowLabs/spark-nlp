@@ -96,7 +96,7 @@ class SentimentDLTestSpec extends AnyFlatSpec {
       .setThresholdLabel("neutral")
       .setOutputCol("sentiment")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
