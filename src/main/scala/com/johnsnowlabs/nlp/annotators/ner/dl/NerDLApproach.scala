@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, NAMED_ENTITY, TOKEN, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.common.{NerTagged, WordpieceEmbeddingsSentence}
-import com.johnsnowlabs.nlp.annotators.ner.{NerApproach, Verbose}
+import com.johnsnowlabs.nlp.annotators.ner.{ModelMetrics, NerApproach, Verbose}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{AnnotatorApproach, AnnotatorType, ParamsAndFeaturesWritable}
@@ -255,6 +255,12 @@ class NerDLApproach(override val uid: String)
    */
   val useBestModel = new BooleanParam(this, "useBestModel", "Whether to restore and use the model that has achieved the best performance at the end of the training.")
 
+  /** Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
+   *
+   * @group param
+   */
+  val bestModelMetric = new Param[String](this, "bestModelMetric", "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model")
+
   /** Learning Rate
    *
    * @group getParam
@@ -326,6 +332,12 @@ class NerDLApproach(override val uid: String)
    * @group getParam
    * */
   def getUseBestModel: Boolean = $(this.useBestModel)
+
+  /**
+   *
+   * @group getParam
+   */
+  def getBestModelMetric: String = $(bestModelMetric)
 
   /** Learning Rate
    *
@@ -432,6 +444,19 @@ class NerDLApproach(override val uid: String)
    * */
   def setUseBestModel(value: Boolean): NerDLApproach.this.type = set(this.useBestModel, value)
 
+  /**
+   *
+   * @group setParam
+   */
+  def setBestModelMetric(value: String): NerDLApproach.this.type = {
+
+    if (value == ModelMetrics.macroF1)
+      set(bestModelMetric, value)
+    else
+      set(bestModelMetric, ModelMetrics.microF1)
+    this
+  }
+
   setDefault(
     minEpochs -> 0,
     maxEpochs -> 70,
@@ -448,7 +473,8 @@ class NerDLApproach(override val uid: String)
     enableOutputLogs -> false,
     outputLogsPath -> "",
     enableMemoryOptimizer -> false,
-    useBestModel -> false
+    useBestModel -> false,
+    bestModelMetric -> ModelMetrics.microF1
   )
 
   override val verboseLevel: Verbose.Level = Verbose($(verbose))
@@ -520,6 +546,7 @@ class NerDLApproach(override val uid: String)
         $(dropout),
         $(batchSize),
         $(useBestModel),
+        $(bestModelMetric),
         graphFileName = graphFile,
         test = testIteratorFunc(),
         startEpoch = 0,
