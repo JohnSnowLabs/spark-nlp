@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
+import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -43,7 +43,7 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("embeddings")
       .setCaseSensitive(false)
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         tokenizer,

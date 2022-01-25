@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -98,7 +98,7 @@ class BigTextMatcherTestSpec extends AnyFlatSpec with BigTextMatcherBehaviors {
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,

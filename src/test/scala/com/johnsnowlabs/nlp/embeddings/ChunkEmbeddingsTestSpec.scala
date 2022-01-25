@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotator.{Chunker, PerceptronModel}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokenizer}
-import com.johnsnowlabs.nlp.base.{DocumentAssembler, RecursivePipeline}
+import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
 import com.johnsnowlabs.tags.FastTest
@@ -75,7 +75,7 @@ class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputAsVector(true)
       .setCleanAnnotations(false)
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -147,7 +147,7 @@ class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputAsArray(true)
       .setCleanAnnotations(false)
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
