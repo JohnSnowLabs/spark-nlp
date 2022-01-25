@@ -9,6 +9,7 @@ on:
       - 'example/**'
       - '**.md'
       - '**.yaml'
+      - '**.yml'
     branches:
       - 'master'
       - '*release*'
@@ -22,6 +23,7 @@ on:
       - 'example/**'
       - '**.md'
       - '**.yaml'
+      - '**.yml'
     branches:
       - 'master'
       - 'main'
