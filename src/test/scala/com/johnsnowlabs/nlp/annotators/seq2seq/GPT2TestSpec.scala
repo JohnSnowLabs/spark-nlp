@@ -56,9 +56,17 @@ class GPT2TestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
 
     val model = pipeline.fit(testData)
+    val results = model.transform(testData)
+
+    Benchmark.time("Time to save pipeline the first time", true) {
+      results.select("generation.result").write.mode("overwrite").save("./tmp_gpt_pipeline")
+    }
+
+    Benchmark.time("Time to save pipeline the second time", true) {
+      results.select("generation.result").write.mode("overwrite").save("./tmp_gpt_pipeline")
+    }
 
     Benchmark.time("Time to generate text", true) {
-      val results = model.transform(testData)
       results.select("generation.result").show(truncate = false)
     }
   }
