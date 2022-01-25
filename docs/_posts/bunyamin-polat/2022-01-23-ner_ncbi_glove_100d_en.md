@@ -17,7 +17,28 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-NCBI-NER is Named Entity Recognition (or NER) model, meaning it annotates text to find the name of disease. This NER model does not read words diractly but instead reads word embeddings, which represent words as vectors such that more semanticially words are closer together. NCBI-NER is trained with Glove_100d word emnbeddings, so be sure to use the same embeddings in the pipeline
+NCBI-NER is Named Entity Recognition (or NER) model, meaning it annotates text to find the name of disease. This NER model does not read words diractly but instead reads word embeddings, which represent words as vectors such that more semanticially words are closer together. NCBI-NER is trained with Glove_100d word emnbeddings, so be sure to use the same embeddings in the pipeline.
+
+This model was trained by using following parameters:
+
+```python
+
+nerTagger = NerDLApproach()\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setLabelColumn("label")\
+    .setOutputCol("ner")\
+    .setMaxEpochs(14)\
+    .setLr(0.003)\
+    .setDropout(0.5)\
+    .setBatchSize(10)\
+    .setRandomSeed(0)\
+    .setValidationSplit(0.2)\
+    .setVerbose(1)\
+    .setEvaluationLogExtended(True) \
+    .setEnableOutputLogs(True)\
+    .setIncludeConfidence(True)\
+    .setEnableMemoryOptimizer(True)
+```
 
 ## Predicted Entities
 
@@ -39,25 +60,13 @@ glove_embeddings = WordEmbeddingsModel.pretrained()\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
-nerTagger = NerDLApproach()\
+nerdl_model = NerDLModel.pretrained("ner_ncbi_glove_100d", "en", "@bunyamin-polat")\
     .setInputCols(["sentence", "token", "embeddings"])\
-    .setLabelColumn("label")\
-    .setOutputCol("ner")\
-    .setMaxEpochs(14)\
-    .setLr(0.003)\
-    .setDropout(0.5)\
-    .setBatchSize(10)\
-    .setRandomSeed(0)\
-    .setValidationSplit(0.2)\
-    .setVerbose(1)\
-    .setEvaluationLogExtended(True) \
-    .setEnableOutputLogs(True)\
-    .setIncludeConfidence(True)\
-    .setEnableMemoryOptimizer(True)
+    .setOutputCol("ner")
 
 ner_pipeline = Pipeline(stages=[
       glove_embeddings,
-      nerTagger
+      nerdl_model
 ])
 ```
 
