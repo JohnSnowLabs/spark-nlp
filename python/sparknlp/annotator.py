@@ -787,6 +787,12 @@ class RegexTokenizer(AnnotatorModel):
     positionalMask
         Using a positional mask to guarantee the incremental progression of the
         tokenization, by default False
+    trimWhitespace
+        Using a trimWhitespace flag to remove whitespaces from identified tokens,
+        by default False
+    preservePosition
+        Using a preservePosition flag to preserve initial indexes before eventual whitespaces removal in tokens,
+        by default True
 
     Examples
     --------
@@ -826,7 +832,9 @@ class RegexTokenizer(AnnotatorModel):
             toLowercase=False,
             minLength=1,
             pattern="\\s+",
-            positionalMask=False
+            positionalMask=False,
+            trimWhitespace=False,
+            preservePosition=True
         )
 
     minLength = Param(Params._dummy(),
@@ -853,6 +861,16 @@ class RegexTokenizer(AnnotatorModel):
                            "positionalMask",
                            "Using a positional mask to guarantee the incremental progression of the tokenization.",
                            typeConverter=TypeConverters.toBoolean)
+
+    trimWhitespace = Param(Params._dummy(),
+                            "trimWhitespace",
+                            "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
+                            typeConverter=TypeConverters.toBoolean)
+
+    preservePosition = Param(Params._dummy(),
+                            "preservePosition",
+                            "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
+                            typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
         """Sets the minimum allowed legth for each token, by default 1.
@@ -905,6 +923,26 @@ class RegexTokenizer(AnnotatorModel):
             Whether to use a positional mask
         """
         return self._set(positionalMask=value)
+
+    def setTrimWhitespace(self, value):
+        """Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.
+
+        Parameters
+        ----------
+        value : bool
+            Indicates whether to use a trimWhitespaces flag, by default False.
+        """
+        return self._set(trimWhitespace=value)
+
+    def setPreservePosition(self, value):
+        """Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
+
+        Parameters
+        ----------
+        value : bool
+            Indicates whether to use a preserve initial indexes, by default True.
+        """
+        return self._set(preservePosition=value)
 
 
 class ChunkTokenizer(Tokenizer):
