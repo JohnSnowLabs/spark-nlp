@@ -2,7 +2,7 @@
 layout: model
 title: word2vec_wiki_1000
 author: John Snow Labs
-name: frWiki_no_lem_no_postag_no_phrase_1000_cbow_cut100
+name: Word Embeddings for French (word2vec_wiki_1000)
 date: 2022-01-25
 tags: [embeddings, fr, open_source]
 task: Embeddings
