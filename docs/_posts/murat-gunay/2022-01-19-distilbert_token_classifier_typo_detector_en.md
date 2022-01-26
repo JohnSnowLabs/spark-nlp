@@ -47,7 +47,7 @@ tokenizer = Tokenizer()\
       .setInputCols(["sentence"])\
       .setOutputCol("token")
 
-tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_typo_detector", "en"))\
+tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_typo_detector", "en")\
   .setInputCols(["sentence",'token'])\
   .setOutputCol("ner")
 
@@ -74,7 +74,7 @@ val tokenizer = Tokenizer()
       .setInputCols(Array("sentence"))
       .setOutputCol("token")
 
-val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_typo_detector", "en"))\
+val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_typo_detector", "en")
   .setInputCols(Array("sentence","token"))
   .setOutputCol("ner")
 
