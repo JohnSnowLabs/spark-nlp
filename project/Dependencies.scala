@@ -13,39 +13,38 @@ object Dependencies {
   val is_spark23: String = System.getProperty("is_spark23", "false")
   val is_spark24: String = System.getProperty("is_spark24", "false")
   val is_spark30: String = System.getProperty("is_spark30", "false")
-  val is_spark32: String = System.getProperty("is_spark32", "false")
 
-  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark32)
+  val sparkVer: String = getSparkVersion(is_spark23, is_spark24, is_spark30)
 
   /** ------- Spark version end ------- */
 
 
   /** Package attributes */
-  def getPackageName(is_spark23: String, is_spark24: String, is_spark32: String, is_gpu: String): String = {
+  def getPackageName(is_spark23: String, is_spark24: String, is_spark30: String, is_gpu: String): String = {
     if (is_gpu.equals("true") && is_spark23.equals("true")) {
       "spark-nlp-gpu-spark23"
     } else if (is_gpu.equals("true") && is_spark24.equals("true")) {
       "spark-nlp-gpu-spark24"
-    } else if (is_gpu.equals("true") && is_spark32.equals("true")) {
-      "spark-nlp-gpu-spark32"
-    } else if (is_gpu.equals("true") && is_spark32.equals("false")) {
+    } else if (is_gpu.equals("true") && is_spark30.equals("true")) {
+      "spark-nlp-gpu-spark30"
+    } else if (is_gpu.equals("true") && is_spark30.equals("false")) {
       "spark-nlp-gpu"
     } else if (is_gpu.equals("false") && is_spark23.equals("true")) {
       "spark-nlp-spark23"
     } else if (is_gpu.equals("false") && is_spark24.equals("true")) {
       "spark-nlp-spark24"
-    } else if (is_gpu.equals("false") && is_spark32.equals("true")) {
-      "spark-nlp-spark32"
+    } else if (is_gpu.equals("false") && is_spark30.equals("true")) {
+      "spark-nlp-spark30"
     } else {
       "spark-nlp"
     }
   }
 
-  def getSparkVersion(is_spark23: String, is_spark24: String, is_spark32: String): String = {
+  def getSparkVersion(is_spark23: String, is_spark24: String, is_spark30: String): String = {
     if (is_spark24 == "true") spark24Ver
     else if (is_spark23 == "true") spark23Ver
-    else if (is_spark32 == "true") spark32Ver
-    else spark30Ver
+    else if (is_spark30 == "true") spark30Ver
+    else spark32Ver
   }
 
   def getJavaTarget(is_spark23: String, is_spark24: String): String = {
@@ -59,9 +58,11 @@ object Dependencies {
   /** ------- Scala version start ------- */
   lazy val scala211 = "2.11.12"
   lazy val scala212 = "2.12.10"
-  lazy val scalaVer: String = if (is_spark23 == "true" | is_spark24 == "true") scala211 else scala212
+  // TODO: let's choose the latest 2.13.x, once we start training/saving models on 2.13.x we cannot change it!
+  lazy val scala213 = "2.13.7"
+  lazy val scalaVer: String = if (is_spark23 == "true" | is_spark24 == "true") scala211 else if (is_spark30 == "true") scala212 else scala213
 
-  lazy val supportedScalaVersions = List(scala212, scala211)
+  lazy val supportedScalaVersions = List(scala213, scala212, scala211)
 
   val scalaTestVersion = "3.2.9"
 
@@ -86,7 +87,7 @@ object Dependencies {
   val greexVersion = "1.0"
   val greex = "com.navigamez" % "greex" % greexVersion
 
-  val json4sVersion: String = if (is_spark32 == "true") "3.7.0-M11" else "3.5.3"
+  val json4sVersion: String = if (is_spark30 == "true" || is_spark24 == "true" || is_spark23 == "true") "3.5.3" else "3.7.0-M11"
 
   val json4s = "org.json4s" %% "json4s-ext" % json4sVersion
 
@@ -96,10 +97,10 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowGPUVersion = "0.3.3"
+  val tensorflowGPUVersion = "0.3.4"
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowGPUVersion
 
-  val tensorflowCPUVersion = "0.3.3"
+  val tensorflowCPUVersion = "0.3.4"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
 
   /** ------- Dependencies end  ------- */

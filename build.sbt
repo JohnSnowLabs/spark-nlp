@@ -2,7 +2,7 @@ import Dependencies._
 import Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_spark23, is_spark24, is_spark32, is_gpu)
+name := getPackageName(is_spark23, is_spark24, is_spark30, is_gpu)
 
 organization := "com.johnsnowlabs.nlp"
 
