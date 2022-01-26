@@ -1,4 +1,4 @@
-docs/_frontend/src/models/App/App.js
-docs/_frontend/src/models/Sidebar/Sidebar.js
-docs/_frontend/src/models/App/App.js
-docs/_frontend/src/models/Sidebar/Sidebar.js
+README.md
+python/README.md
+README.md
+python/README.md
