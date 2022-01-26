@@ -3,7 +3,7 @@ Annotation tool json reader.
 {%- endcapture -%}
 
 {%- capture description -%}
-The annotation tool json reader is a reader that generate a assertion train set from the json from annotations labs exports.
+All the annotations from Annotation Lab can be exported in a standard JSON format as shown below. The JSON holds multiple types of annotations like NER, Assertion, and Relations. To generate training datasets from the json, a utility class `AnnotationToolJsonReader` can be used, which can generate training datasets for training NER and Assertion models. [AnnotationToolJsonReader Colab Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/AL_API_import_export_pre_annotate.ipynb) provides the code and details of processing the exported JSON to generate training datasets for NER and Assertion models in section 2. Users can distinguish between different label types by using constructor parameters described below. This notebook also explains how to connect to your Annotation Lab instance via API for uploading tasks, pre-annotations, and exporting entire projects.
 
 {%- endcapture -%}
 

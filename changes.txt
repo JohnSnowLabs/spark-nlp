@@ -1,4 +1,2 @@
-README.md
-python/README.md
-README.md
-python/README.md
+docs/en/licensed_training_entries/Annotation_tool_Json_reader.md
+docs/en/licensed_training_entries/Annotation_tool_Json_reader.md
