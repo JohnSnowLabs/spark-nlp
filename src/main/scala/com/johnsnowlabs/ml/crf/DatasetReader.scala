@@ -26,7 +26,9 @@ import scala.io.Source
 
 
 case class TextSentenceLabels(labels: Seq[String])
+
 case class TextSentenceAttrs(words: Seq[WordAttrs])
+
 case class WordAttrs(strAttrs: Seq[(String, String)], numAttrs: Array[Float] = Array.empty)
 
 
@@ -52,7 +54,7 @@ object DatasetReader {
 
     def addToResultIfExists(): Option[(TextSentenceLabels, TextSentenceAttrs)] = {
       if (tokens.nonEmpty) {
-        val result = (TextSentenceLabels(labels), TextSentenceAttrs(tokens))
+        val result = (TextSentenceLabels(labels.toSeq), TextSentenceAttrs(tokens.toSeq))
 
         labels = new ArrayBuffer[String]()
         tokens = new ArrayBuffer[WordAttrs]()
@@ -63,7 +65,7 @@ object DatasetReader {
       }
     }
 
-    lines.flatMap{line =>
+    lines.flatMap { line =>
       val words = line.split("\t")
       if (words.length <= 1) {
         addToResultIfExists()
@@ -88,10 +90,10 @@ object DatasetReader {
   def encodeDataset(source: TraversableOnce[(TextSentenceLabels, TextSentenceAttrs)]): CrfDataset = {
     val metadata = new DatasetEncoder()
 
-    val instances = source.map{case (textLabels, textSentence) =>
+    val instances = source.map { case (textLabels, textSentence) =>
       var prevLabel = metadata.startLabel
       val (labels, features) = textLabels.labels.zip(textSentence.words)
-        .map{case (label, word) =>
+        .map { case (label, word) =>
           val attrs = word.strAttrs.map(a => a._1 + "=" + a._2)
           val (labelId, features) = metadata.getFeatures(prevLabel, label, attrs, word.numAttrs)
           prevLabel = label
@@ -111,13 +113,13 @@ object DatasetReader {
   }
 
   def encodeSentence(sentence: TextSentenceAttrs, metadata: DatasetMetadata): Instance = {
-    val items = sentence.words.map{word =>
+    val items = sentence.words.map { word =>
       val strAttrs = word.strAttrs.flatMap { case (name, value) =>
         val key = name + "=" + value
         metadata.attr2Id.get(key)
       }.map((_, 1f))
 
-      val numAttrs = word.numAttrs.zipWithIndex.flatMap {case(value, idx) =>
+      val numAttrs = word.numAttrs.zipWithIndex.flatMap { case (value, idx) =>
         val key = "num" + idx
         val attr = metadata.attr2Id.get(key)
         attr.map(attrName => (attrName, value))
@@ -141,7 +143,7 @@ object DatasetReader {
   def readAndEncode(file: String, skipLines: Int, metadata: DatasetMetadata): TraversableOnce[(InstanceLabels, Instance)] = {
     val textDataset = readWithLabels(file, skipLines)
 
-    textDataset.map{case (sourceLabels, sourceInstance) =>
+    textDataset.map { case (sourceLabels, sourceInstance) =>
       val labels = encodeLabels(sourceLabels, metadata)
       val instance = encodeSentence(sourceInstance, metadata)
       (labels, instance)
