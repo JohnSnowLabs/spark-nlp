@@ -181,7 +181,7 @@ class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: 
     val tagsName = encoder.decodeOutputData(tagIds = tagsId)
     tensors.clearTensors()
 
-    tagsName.flatMap { score =>
+    tagsName.toSeq.flatMap { score =>
       val labels = score.filter(x => x._2 >= threshold).map(x => x._1)
       val documentBegin = docs.head._2.head.begin
       val documentEnd = docs.last._2.last.end
