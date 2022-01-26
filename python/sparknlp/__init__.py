@@ -189,7 +189,11 @@ def start(gpu=False,
                 spark_conf.set("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer)
                 spark_conf.set("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-                if gpu:
+                if spark32:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark32)
+                elif gpu and spark32:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark32)
+                elif gpu:
                     spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark)
                 else:
                     spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark)
