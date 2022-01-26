@@ -182,7 +182,7 @@ class TextMatcherModel(override val uid: String) extends AnnotatorModel[TextMatc
       }
     }
 
-    result
+    result.toSeq
   }
 
 }

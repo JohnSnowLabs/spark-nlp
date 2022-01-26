@@ -44,10 +44,10 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
 
       dataset.select(posColumn)
         .as[Array[Annotation]]
-        .map{
+        .map {
           annotations =>
             TaggedSentence(annotations
-              .map{annotation => IndexedTaggedWord(annotation.metadata("word"), annotation.result, annotation.begin, annotation.end)}
+              .map { annotation => IndexedTaggedWord(annotation.metadata("word"), annotation.result, annotation.begin, annotation.end) }
             )
         }.collect
     }
@@ -63,8 +63,7 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
    * @param ambiguityThreshold How much percentage of total amount of words are covered to be marked as frequent
    */
   def buildTagBook(taggedSentences: Array[TaggedSentence], frequencyThreshold: Int, ambiguityThreshold: Double):
-    Map[String, String] =
-  {
+  Map[String, String] = {
 
     val tagFrequenciesByWord = taggedSentences
       .flatMap(_.taggedWords)
@@ -79,7 +78,7 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
       val (tag, _) = tagFrequencies.maxBy(_._2)
       logger.debug(s"TRAINING: Ambiguity discarded on: << $word >> set to: << $tag >>")
       (word, tag)
-    }
+    }.toMap
   }
 
   /**
@@ -87,10 +86,10 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
    */
   def trainPerceptron(nIterations: Int, initialModel: TrainingPerceptronLegacy,
                       taggedSentences: Array[TaggedSentence], taggedWordBook: Map[String, String]):
-  AveragedPerceptron =
-  {
+  AveragedPerceptron = {
     val trainedModel = (1 to nIterations).foldLeft(initialModel) { (iteratedModel, iteration) => {
       logger.debug(s"TRAINING: Iteration n: $iteration")
+
       /**
        * In a shuffled sentences list, try to find tag of the word, hold the correct answer
        */
@@ -103,21 +102,24 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
         var prev2 = START(1)
         val context = START ++: taggedSentence.words.map(w => normalized(w)) ++: END
         taggedSentence.words.zipWithIndex.foreach { case (word, i) =>
-          val guess = taggedWordBook.getOrElse(word.toLowerCase,{
+          val guess = taggedWordBook.getOrElse(word.toLowerCase, {
             /**
              * if word is not found, collect its features which are used for prediction and predict
              */
             val features = getFeatures(i, word, context, prev, prev2)
             val guess = model.predict(features)
+
             /**
              * Update the model based on the prediction results
              */
             model.update(taggedSentence.tags(i), guess, features)
+
             /**
              * return the guess
              */
             guess
           })
+
           /**
            * shift the context
            */
@@ -126,7 +128,8 @@ trait PerceptronTrainingUtils extends PerceptronUtils {
         }
         model
       }
-    }}
+    }
+    }
     trainedModel.averageWeights()
   }
 

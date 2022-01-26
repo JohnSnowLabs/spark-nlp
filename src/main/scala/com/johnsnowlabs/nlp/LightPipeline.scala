@@ -18,6 +18,8 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
+import scala.collection.parallel.CollectionConverters._
+
 
 import scala.collection.JavaConverters._
 
@@ -57,7 +59,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
             inputCols.foldLeft(Seq.empty[Annotation])((inputs, name) => inputs ++ annotations.getOrElse(name, Nil))
           annotations.updated(annotator.getOutputCol, annotator.annotate(combinedAnnotations))
         case finisher: Finisher =>
-          annotations.filterKeys(finisher.getInputCols.contains)
+          annotations.filterKeys(finisher.getInputCols.contains).toMap
         case graphFinisher: GraphFinisher =>
           val annotated = getGraphFinisherOutput(annotations, graphFinisher)
           annotations.updated(graphFinisher.getOutputCol, annotated)
@@ -100,7 +102,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[JavaAnnotation]] = {
     fullAnnotate(target).mapValues(_.map(aa =>
-      JavaAnnotation(aa.annotatorType, aa.begin, aa.end, aa.result, aa.metadata.asJava)).asJava).asJava
+      JavaAnnotation(aa.annotatorType, aa.begin, aa.end, aa.result, aa.metadata.asJava)).asJava).toMap.asJava
   }
 
   def fullAnnotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[JavaAnnotation]]] = {
@@ -113,10 +115,10 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
     fullAnnotate(target).mapValues(_.map(a => {
       a.annotatorType match {
         case AnnotatorType.WORD_EMBEDDINGS |
-              AnnotatorType.SENTENCE_EMBEDDINGS if parseEmbeddingsVectors => a.embeddings.mkString(" ")
+             AnnotatorType.SENTENCE_EMBEDDINGS if parseEmbeddingsVectors => a.embeddings.mkString(" ")
         case _ => a.result
       }
-    }))
+    })).toMap
   }
 
   def annotate(targets: Array[String]): Array[Map[String, Seq[String]]] = {
@@ -126,7 +128,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   }
 
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target).mapValues(_.asJava).asJava
+    annotate(target).mapValues(_.asJava).toMap.asJava
   }
 
   def annotateJava(targets: java.util.ArrayList[String]): java.util.List[java.util.Map[String, java.util.List[String]]] = {

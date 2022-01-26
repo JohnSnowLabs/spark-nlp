@@ -192,7 +192,7 @@ class TokenAssembler(override val uid: String) extends AnnotatorModel[TokenAssem
 
       result.append(annotation)
     }
-    result
+    result.toSeq
   }
 
 }

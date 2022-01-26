@@ -23,7 +23,7 @@ import scala.collection.mutable.{ArrayBuffer, Map => MMap}
 class TupleKeyLongDoubleMapAccumulator(defaultMap: MMap[(String, String), (Long, Double)] = MMap.empty[(String, String), (Long, Double)])
   extends AccumulatorV2[((String, String), (Long, Double)), Map[(String, String), (Long, Double)]] {
 
-  val mmap = defaultMap
+  val mmap: MMap[(String, String), (Long, Double)] = defaultMap
 
   override def reset(): Unit = mmap.clear()
 

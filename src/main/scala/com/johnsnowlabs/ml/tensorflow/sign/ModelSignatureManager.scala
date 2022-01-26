@@ -177,7 +177,7 @@ object ModelSignatureManager {
   def extractSignatures(model: SavedModelBundle, saverDef: SaverDef): Option[Map[String, String]] = {
 
     val signatureCandidates = getSignaturesFromModel(model)
-    val signDefNames: Map[String, String] = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key))
+    val signDefNames: Map[String, String] = signatureCandidates.filterKeys(_.contains(ModelSignatureConstants.Name.key)).toMap
 
     val modelProvider = classifyProvider(signDefNames)
 

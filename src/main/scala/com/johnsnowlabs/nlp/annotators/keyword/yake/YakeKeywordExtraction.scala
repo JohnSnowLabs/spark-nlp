@@ -302,7 +302,7 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
         .groupBy(x => x._1.toLowerCase)
         .mapValues(x => x.map(y => y._2).length)
         .foreach(x => tokens.filter(y => y.token == x._1).head.numberOfSentences = x._2)
-      tokens
+      tokens.toSeq
     }
   }
 
@@ -428,7 +428,7 @@ class YakeKeywordExtraction(override val uid: String) extends AnnotatorModel[Yak
         }
       }
     )
-    annotatedKeywords
+    annotatedKeywords.toSeq
   }
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {

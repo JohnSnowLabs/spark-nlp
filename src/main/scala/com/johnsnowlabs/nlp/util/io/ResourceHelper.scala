@@ -61,7 +61,7 @@ object ResourceHelper {
       val files = fileSystem.listFiles(path, true)
       val buffer = ArrayBuffer.empty[InputStream]
       while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
-      buffer
+      buffer.toSeq
     }
     val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
       new BufferedSource(pp)("UTF-8")
@@ -83,13 +83,13 @@ object ResourceHelper {
         case "dbfs" =>
           val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
           val localFiles = ResourceHelper.listLocalFiles(dbfsPath)
-          localFiles.foreach{ localFile =>
+          localFiles.foreach { localFile =>
             val inputStream = ResourceHelper.getResourceStream(localFile.toString)
             val targetPath = destination + localFile.toString.split("/").last
             val targetFile = new File(targetPath)
             FileUtils.copyInputStreamToFile(inputStream, targetFile)
           }
-        case _  =>
+        case _ =>
           val files = fileSystem.listFiles(path, false)
           while (files.hasNext) {
             fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination))
@@ -179,7 +179,7 @@ object ResourceHelper {
           }
         }
       }
-      return result.distinct.sorted
+      return result.distinct.sorted.toSeq
     }
 
     throw new UnsupportedOperationException(s"Cannot list files for URL $dirURL")

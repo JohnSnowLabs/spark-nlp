@@ -124,7 +124,7 @@ class BigTextMatcherModel(override val uid: String) extends AnnotatorModel[BigTe
       }
     }
 
-    result
+    result.toSeq
   }
 
   override protected val databases: Array[Name] = BigTextMatcherModel.databases

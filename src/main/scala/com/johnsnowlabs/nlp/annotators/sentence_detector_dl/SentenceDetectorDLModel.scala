@@ -391,7 +391,7 @@ class SentenceDetectorDLModel(override val uid: String)
       }
     })
 
-    outputAnnotations
+    outputAnnotations.toSeq
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {

@@ -116,7 +116,7 @@ class RecursiveTokenizerModel(override val uid: String)
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
     annotations.flatMap { annotation =>
       tokenize(annotation.result).map(token => annotation.
-        copy(annotatorType = AnnotatorType.TOKEN, result = token, metadata = annotation.metadata.updated("sentence",
+        copy(annotatorType = AnnotatorType.TOKEN, result = token, metadata = annotation.metadata.toMap.updated("sentence",
           annotation.metadata.getOrElse("sentence", "0"))))
     }
 

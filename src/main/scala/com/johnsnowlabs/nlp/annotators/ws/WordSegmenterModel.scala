@@ -137,7 +137,7 @@ class WordSegmenterModel(override val uid: String)
   }
 
   def buildWordSegments(taggedSentences: Array[TaggedSentence]): Seq[Annotation] = {
-    taggedSentences.zipWithIndex.flatMap { case (taggedSentence, index) =>
+    taggedSentences.zipWithIndex.toSeq.flatMap { case (taggedSentence, index) =>
       val tagsSentence = taggedSentence.tags.mkString("")
       val wordIndexesByMatchedGroups = getWordIndexesByMatchedGroups(tagsSentence)
       if (wordIndexesByMatchedGroups.isEmpty) {
