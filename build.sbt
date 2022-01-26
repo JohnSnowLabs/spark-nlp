@@ -124,7 +124,14 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies ++
-        typedDependencyParserDependencies,
+        typedDependencyParserDependencies ++ {
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, major)) if major <= 12 =>
+            Seq()
+          case _ =>
+            Seq(scalaParallel)
+        }
+      },
     // TODO potentially improve this?
     mavenProps := {
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""

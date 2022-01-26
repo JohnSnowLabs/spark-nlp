@@ -103,5 +103,8 @@ object Dependencies {
   val tensorflowCPUVersion = "0.3.4"
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowCPUVersion
 
+  val scalaParallelVersion = "1.0.4"
+  val scalaParallel = "org.scala-lang.modules" %% "scala-parallel-collections" % scalaParallelVersion
+
   /** ------- Dependencies end  ------- */
 }
