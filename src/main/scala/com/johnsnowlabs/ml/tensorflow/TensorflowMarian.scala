@@ -270,7 +270,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
     val langIdPieceId = if (langId.nonEmpty) {
       vocabs.indexOf(langId)
     } else {
-      val lang = langCodeRe.findFirstIn(sentences.head.result.trim).getOrElse(-1L)
+      val lang = langCodeRe.findFirstIn(sentences.head.result.trim).getOrElse(-1L).toString
       vocabs.indexOf(lang)
     }
 

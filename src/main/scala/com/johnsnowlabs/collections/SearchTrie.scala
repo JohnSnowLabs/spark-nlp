@@ -46,7 +46,7 @@ case class SearchTrie
     * @param text test to search in
     * @return Iterator with pairs of (begin, end)
     */
-  def search(text: Seq[String]): Seq[(Int, Int)] = {
+  def search(text: collection.Seq[String]): collection.Seq[(Int, Int)] = {
     var nodeId = 0
     val result = new ArrayBuffer[(Int, Int)]()
 

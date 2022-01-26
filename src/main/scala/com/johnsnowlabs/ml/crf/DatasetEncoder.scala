@@ -132,7 +132,7 @@ class DatasetEncoder(val startLabel: String = "@#Start") {
     )
   }
 
-  private def copy[T : ClassTag](source: IndexedSeq[T]): Array[T] = {
+  private def copy[T : ClassTag](source: collection.IndexedSeq[T]): Array[T] = {
     if (source.length == 0) {
       Array.empty[T]
     } else {
