@@ -1343,6 +1343,10 @@
 <span class="sd">            Auxiliary label which maps resolved entities to additional labels</span>
 <span class="sd">       useAuxLabel</span>
 <span class="sd">            Use AuxLabel Col or not</span>
+<span class="sd">       overrideExistingCodes</span>
+<span class="sd">            Whether to override the codes present in a pretrained model with new codes when the training process begins with a pretrained model</span>
+<span class="sd">       dropCodesList</span>
+<span class="sd">            A list of codes in a pretrained model that will be omitted when the training process begins with a pretrained model</span>
 
 
 <span class="sd">       Examples</span>
@@ -1396,6 +1400,10 @@
     <span class="n">overrideExistingCodes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;overrideExistingCodes&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;Whether to override the existing codes with new data while continue the training from a pretrained model. Default value is false(keep all the codes).&quot;</span><span class="p">,</span>
                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">dropCodesList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;dropCodesList&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;List of codes in a pretrained model to leave out when continue training with new data.&quot;</span><span class="p">,</span>
+                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
     <span class="n">returnCosineDistances</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;returnCosineDistances&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;Extract Cosine Distances. TRUE or False&quot;</span><span class="p">,</span>
@@ -1461,9 +1469,11 @@
     <span class="k">def</span> <span class="nf">setPretrainedModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pretrainedModelPath</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
 
-    <span class="c1"># temporarily disabling this API</span>
-    <span class="c1">#def setOverrideExistingCodes(self, value):</span>
-    <span class="c1">#    return self._set(overrideExistingCodes=value)</span>
+    <span class="k">def</span> <span class="nf">setOverrideExistingCodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">overrideExistingCodes</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setDropCodesList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dropCodesList</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">SentenceEntityResolverModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
@@ -1554,6 +1564,8 @@
                         <span class="s2">&quot;Use AuxLabel Col or not&quot;</span><span class="p">,</span>
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
     <span class="n">searchTree</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;searchTree&quot;</span><span class="p">,</span> <span class="s2">&quot;Search tree for resolution&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+
+
 
     <span class="c1">##TODO add SetreturnCosineDistances.</span>
 
@@ -1676,6 +1688,13 @@
 <span class="sd">    blackList</span>
 <span class="sd">        List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
 
+<span class="sd">    maskingPolicy</span>
+<span class="sd">        Select the masking policy:</span>
+<span class="sd">            same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.</span>
+<span class="sd">            Example, Smith -&gt; [***].</span>
+<span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
+<span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
+<span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -1761,6 +1780,11 @@
                                     <span class="s2">&quot;dictionary with regular expression patterns that match some protected entity&quot;</span><span class="p">,</span>
                                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Mode for Anonimizer [&#39;mask&#39;|&#39;obfuscate&#39;]&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">maskingPolicy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maskingPolicy&quot;</span><span class="p">,</span> <span class="s2">&quot;Select the masking policy:&#39;same_length_chars&#39; or &#39;entity_labels&#39;.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">fixedMaskLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;fixedMaskLength&quot;</span><span class="p">,</span> <span class="s2">&quot;This is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking policy is selected.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+
     <span class="n">obfuscateDate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;obfuscateDate&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;When mode==&#39;obfuscate&#39; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible. When setting to ``true``, make sure dateFormats param fits the needs (default: false)&quot;</span><span class="p">,</span>
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
@@ -1839,9 +1863,33 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">m</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DeIdentification.setMaskingPolicy"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentification.html#sparknlp_jsl.annotator.DeIdentification.setMaskingPolicy">[docs]</a>    <span class="k">def</span> <span class="nf">setMaskingPolicy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the masking policy:</span>
+<span class="sd">            same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.</span>
+<span class="sd">            Example, Smith -&gt; [***].</span>
+<span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
+<span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
+<span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        m : str</span>
+<span class="sd">            The masking policy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maskingPolicy</span><span class="o">=</span><span class="n">m</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeIdentification.setFixedMaskLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentification.html#sparknlp_jsl.annotator.DeIdentification.setFixedMaskLength">[docs]</a>    <span class="k">def</span> <span class="nf">setFixedMaskLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Fixed mask length: this is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking</span>
+<span class="sd">            policy is selected.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        length : int</span>
+<span class="sd">           The mask length</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fixedMaskLength</span><span class="o">=</span><span class="n">length</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="DeIdentification.setObfuscateRefFile"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentification.html#sparknlp_jsl.annotator.DeIdentification.setObfuscateRefFile">[docs]</a>    <span class="k">def</span> <span class="nf">setObfuscateRefFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set file with the terms to be used for Obfuscation</span>
-
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        f : str</span>
@@ -2091,7 +2139,15 @@
 <span class="sd">        List of entities ignored for masking or obfuscation.The default values are: &quot;SSN&quot;,&quot;PASSPORT&quot;,&quot;DLN&quot;,&quot;NPI&quot;,&quot;C_CARD&quot;,&quot;IBAN&quot;,&quot;DEA&quot;</span>
 <span class="sd">    regexEntities</span>
 <span class="sd">        Keep the regex entities used in the regexPatternDictionary</span>
+<span class="sd">    maskingPolicy</span>
+<span class="sd">        Select the masking policy:</span>
+<span class="sd">            same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.</span>
+<span class="sd">            Example, Smith -&gt; [***].</span>
+<span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
+<span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
+<span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
 
+<span class="sd">    fixedMaskLength: this is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking policy is selected.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -2175,6 +2231,9 @@
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
     <span class="n">mode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Mode for Anonimizer [&#39;mask&#39;|&#39;ofuscate&#39;]&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    <span class="n">maskingPolicy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maskingPolicy&quot;</span><span class="p">,</span> <span class="s2">&quot;Select the masking policy:&#39;same_length_chars&#39; or &#39;entity_labels&#39;.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">fixedMaskLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;fixedMaskLength&quot;</span><span class="p">,</span> <span class="s2">&quot;This is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking policy is selected.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
     <span class="n">obfuscateDate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;obfuscateDate&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;When mode==&#39;obfuscate&#39; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible. When setting to `true`, make sure dateFormats param fits the needs (default: false)&quot;</span><span class="p">,</span>
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
@@ -2223,6 +2282,7 @@
     <span class="n">regexEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;regexEntities&quot;</span><span class="p">,</span>
                           <span class="s2">&quot;Keep the regex entities used in the regexPatternDictionary&quot;</span><span class="p">,</span>
                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;Mode for Anonimizer [&#39;mask&#39;|&#39;ofuscate&#39;]&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DeIdentificationModel.setMode"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setMode">[docs]</a>    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets mode for Anonimizer [&#39;mask&#39;|&#39;obfuscate&#39;]</span>
@@ -2233,6 +2293,32 @@
 <span class="sd">            Mode for Anonimizer [&#39;mask&#39;|&#39;obfuscate&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">m</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeIdentificationModel.setMaskingPolicy"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setMaskingPolicy">[docs]</a>    <span class="k">def</span> <span class="nf">setMaskingPolicy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the masking policy:</span>
+<span class="sd">            same_length_chars: Replace the obfuscated entity with a masking sequence composed of asterisks and surrounding squared brackets, being the total length of the masking sequence of the same length as the original sequence.</span>
+<span class="sd">            Example, Smith -&gt; [***].</span>
+<span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
+<span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
+<span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        m : str</span>
+<span class="sd">            The masking policy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maskingPolicy</span><span class="o">=</span><span class="n">m</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeIdentificationModel.setFixedMaskLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setFixedMaskLength">[docs]</a>    <span class="k">def</span> <span class="nf">setFixedMaskLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Fixed mask length: this is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking</span>
+<span class="sd">            policy is selected.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        length : int</span>
+<span class="sd">           The mask length</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fixedMaskLength</span><span class="o">=</span><span class="n">length</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="DeIdentificationModel.setDateTag"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.DeIdentificationModel.html#sparknlp_jsl.annotator.DeIdentificationModel.setDateTag">[docs]</a>    <span class="k">def</span> <span class="nf">setDateTag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set file with the terms to be used for Obfuscation</span>
@@ -3766,6 +3852,8 @@
 <span class="sd">        replace dictionary pairs</span>
 <span class="sd">    chunkPrecedence</span>
 <span class="sd">        Select what is the precedence when two chunks have the same start and end indices. Possible values are [entity|identifier|field]</span>
+<span class="sd">    blackList</span>
+<span class="sd">        If defined, list of entities to ignore. The rest will be proccessed.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -3830,6 +3918,8 @@
                             <span class="s2">&quot;chunkPrecedence&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Select what is the precedence when two chunks have the same start and end indices. Possible values are [entity|identifier|field]&quot;</span><span class="p">,</span>
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span> <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkMergeApproach.setMergeOverlapping"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks. Defaults false</span>
@@ -3887,6 +3977,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkPrecedence</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ChunkMergeApproach.setBlackList"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkMergeApproach.html#sparknlp_jsl.annotator.ChunkMergeApproach.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If defined, list of entities to ignore. The rest will be processed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities : list</span>
+<span class="sd">           If defined, list of entities to ignore. The rest will be processed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ChunkMergeApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach&quot;</span><span class="p">)</span>
@@ -3912,6 +4012,8 @@
 <span class="sd">        whether to merge overlapping matched chunks. Defaults false</span>
 <span class="sd">    chunkPrecedence</span>
 <span class="sd">        Select what is the precedence when two chunks have the same start and end indices. Possible values are [entity|identifier|field]</span>
+<span class="sd">    blackList</span>
+<span class="sd">        If defined, list of entities to ignore. The rest will be proccessed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMergeModel&quot;</span>
 
@@ -3929,6 +4031,8 @@
                             <span class="s2">&quot;chunkPrecedence&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Select what is the precedence when two chunks have the same start and end indices. Possible values are [entity|identifier|field]&quot;</span><span class="p">,</span>
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span> <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkMergeModel.setMergeOverlapping"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkMergeModel.html#sparknlp_jsl.annotator.ChunkMergeModel.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks. Defaults false</span>
@@ -4395,6 +4499,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    whiteList</span>
 <span class="sd">        If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
+<span class="sd">    blackList</span>
+<span class="sd">        If defined, list of entities to ignore. The rest will be proccessed. Do not include IOB prefix on labels</span>
 <span class="sd">    preservePosition</span>
 <span class="sd">        Whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
 <span class="sd">    greedyMode</span>
@@ -4465,6 +4571,8 @@
                                 <span class="s2">&quot;replaceDictResource&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;replace dictionary pairs&quot;</span><span class="p">,</span>
                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span> <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
+                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NerConverterInternal.setWhiteList"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.NerConverterInternal.html#sparknlp_jsl.annotator.NerConverterInternal.setWhiteList">[docs]</a>    <span class="k">def</span> <span class="nf">setWhiteList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
@@ -4475,6 +4583,17 @@
 <span class="sd">            If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">whiteList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerConverterInternal.setBlackList"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.NerConverterInternal.html#sparknlp_jsl.annotator.NerConverterInternal.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        entities : list</span>
+<span class="sd">           If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="NerConverterInternal.setPreservePosition"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.NerConverterInternal.html#sparknlp_jsl.annotator.NerConverterInternal.setPreservePosition">[docs]</a>    <span class="k">def</span> <span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets whether to preserve the original position of the tokens in the original document or use the modified tokens</span>
@@ -5577,6 +5696,11 @@
                                   <span class="s2">&quot;Whether to optimize for large datasets or not. Enabling this option can slow down training.&quot;</span><span class="p">,</span>
                                   <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
+    <span class="n">useBestModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useBestModel&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;Whether to restore and use the model that has achieved the best performance at the end of the training.&quot;</span><span class="p">,</span>
+                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+
     <span class="n">pretrainedModelPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;pretrainedModelPath&quot;</span><span class="p">,</span> <span class="s2">&quot;Path to an already trained MedicalNerModel, which is used as a starting point for training the new model.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
     <span class="n">overrideExistingTags</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;overrideExistingTags&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to override already learned tags when using a pretrained model to initialize the new model. Default is &#39;true&#39;.&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
@@ -5769,6 +5893,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableMemoryOptimizer</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="MedicalNerApproach.setUseBestModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalNerApproach.html#sparknlp_jsl.annotator.MedicalNerApproach.setUseBestModel">[docs]</a>    <span class="k">def</span> <span class="nf">setUseBestModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to restore and use the model that has achieved the best performance at the end of the training..</span>
+<span class="sd">        The metric that is being monitored is F1 for testDataset and if it&#39;s not set it will be validationSplit, and if it&#39;s not set finally looks for loss.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to return the model that has achieved the best metrics across epochs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useBestModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="MedicalNerApproach.setOutputLogsPath"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalNerApproach.html#sparknlp_jsl.annotator.MedicalNerApproach.setOutputLogsPath">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets folder path to save training logs.</span>
 
@@ -5903,6 +6038,8 @@
 <span class="sd">        Number of sentences to process in a single batch during inference</span>
 <span class="sd">    classes</span>
 <span class="sd">        Tags used to trained this NerDLModel</span>
+<span class="sd">    labelCasing:</span>
+<span class="sd">        Setting all labels of the NER models upper/lower case. values upper|lower</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -5970,6 +6107,15 @@
                     <span class="s2">&quot;get the tags used to trained this MedicalNerModel&quot;</span><span class="p">,</span>
                     <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
+    <span class="n">trainingClassDistribution</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                    <span class="s2">&quot;trainingClassDistribution&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;class counts for each of the classes during training&quot;</span><span class="p">,</span>
+                                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
+
+    <span class="n">labelCasing</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labelCasing&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;Setting all labels of the NER models upper/lower case. values upper|lower&quot;</span><span class="p">,</span>
+                    <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
 <div class="viewcode-block" id="MedicalNerModel.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalNerModel.html#sparknlp_jsl.annotator.MedicalNerModel.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
@@ -6011,6 +6157,22 @@
 <span class="sd">           number of sentences to process in a single batch during inference</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inferenceBatchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MedicalNerModel.setLabelCasing"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalNerModel.html#sparknlp_jsl.annotator.MedicalNerModel.setLabelCasing">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCasing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setting all labels of the NER models upper/lower case. values upper|lower</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">           Setting all labels of the NER models upper/lower case. values upper|lower</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelCasing</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+
+    <span class="k">def</span> <span class="nf">getTrainingClassDistribution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s1">&#39;getTrainingClassDistributionJava&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ner_dl&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -6476,7 +6638,50 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">groupBySentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span><span class="s2">&quot;groupBySentences&quot;</span><span class="p">,</span><span class="s2">&quot;This parameter allow split the paragraphs grouping the chunks by sentences.&quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;if is false we assume that we have 1 document annotations and all chunks are for this document.&quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;Use false if the input column of your chunk annotator was a sentenceDetector column.&quot;</span>
+                              <span class="s2">&quot;Use true when we have a sentence detector as input column or when the document have many sentences per row&quot;</span><span class="p">,</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">insertChunk</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span><span class="s2">&quot;insertChunk&quot;</span><span class="p">,</span><span class="s2">&quot;Whether to insert the chunk in the paragraph or not&quot;</span><span class="p">,</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">defaultEntity</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span><span class="s2">&quot;defaultEntity&quot;</span><span class="p">,</span><span class="s2">&quot;Add the default name for the entity that is between the init of the document and the first chunk&quot;</span><span class="p">,</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkSentenceSplitter&quot;</span>
+
+<div class="viewcode-block" id="ChunkSentenceSplitter.setGroupBySentences"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkSentenceSplitter.html#sparknlp_jsl.annotator.ChunkSentenceSplitter.setGroupBySentences">[docs]</a>    <span class="k">def</span> <span class="nf">setGroupBySentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the groupBySentences that allow split the paragraphs grouping the chunks by sentences.</span>
+<span class="sd">            If is false we assume that we have 1 document annotations and all chunks are for this document.</span>
+<span class="sd">            Use false if the input column of your chunk annotator was a sentenceDetector column.</span>
+<span class="sd">            Use true when we have a sentence detector as input column or when the document have many sentences per row</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : Boolean</span>
+<span class="sd">           Allow split the paragraphs grouping the chunks by sentences</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">groupBySentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ChunkSentenceSplitter.setInsertChunk"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkSentenceSplitter.html#sparknlp_jsl.annotator.ChunkSentenceSplitter.setInsertChunk">[docs]</a>    <span class="k">def</span> <span class="nf">setInsertChunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Whether to insert the chunk in the paragraph or not.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : Boolean</span>
+<span class="sd">           Whether to insert the chunk in the paragraph or not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">insertChunk</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ChunkSentenceSplitter.setDefaultEntity"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.ChunkSentenceSplitter.html#sparknlp_jsl.annotator.ChunkSentenceSplitter.setDefaultEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the key in the metadata dictionary that you want to filter (by default &#39;entity&#39;)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">           The key in the metadata dictionary that you want to filter (by default &#39;entity&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultEntity</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter&quot;</span><span class="p">,</span><span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ChunkSentenceSplitter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -6720,7 +6925,245 @@
                                                 <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="AnnotationMerger"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.AnnotationMerger.html#sparknlp_jsl.annotator.AnnotationMerger">[docs]</a><span class="k">class</span> <span class="nc">AnnotationMerger</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Merges Annotations from multiple columns.</span>
 
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types              Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``ANY``                                      ``ANY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputType</span>
+<span class="sd">        The type of the annotations that you want to merge. Possible values</span>
+<span class="sd">        ``document|token|wordpiece|word_embeddings|sentence_embeddings|category|date|sentiment|pos|chunk|named_entity|regex|dependency|labeled_dependency|language|keyword``</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">&gt;&gt;&gt; docs = [[&quot;&quot;]]</span>
+<span class="sd">&gt;&gt;&gt; test_data = spark.createDataFrame(docs).toDF(&quot;text&quot;)</span>
+<span class="sd">&gt;&gt;&gt; document1 = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document1&quot;)</span>
+<span class="sd">&gt;&gt;&gt; document2 = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document2&quot;)</span>
+<span class="sd">&gt;&gt;&gt; annotation_merger = AnnotationMerger()\</span>
+<span class="sd">...     .setInputCols(&quot;document1&quot;, &quot;document2&quot;)\</span>
+<span class="sd">...     .setInputType(&quot;document&quot;)\</span>
+<span class="sd">...     .setOutputCol(&quot;all_docs&quot;)</span>
+<span class="sd">&gt;&gt;&gt;</span>
+<span class="sd">&gt;&gt;&gt; pipeline = Pipeline().setStages([document1, document2, annotation_merger]).fit(docs)</span>
+<span class="sd">&gt;&gt;&gt; lp = LightPipeline(pipeline)</span>
+<span class="sd">&gt;&gt;&gt; lp.fullAnnotate(&quot;one doc to be replicated&quot;)</span>
+<span class="sd">[{&#39;document1&#39;: [Annotation(document, 0, 23, one doc to be replicated, {})], &#39;document2&#39;: [Annotation(document, 0, 23, one doc to be replicated, {})], &#39;all_docs&#39;: [Annotation(document, 0, 23, one doc to be replicated, {}), Annotation(document, 0, 23, one doc to be replicated, {})]}]</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AnnotationMerger&quot;</span>
+
+    <span class="n">inputType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputType&quot;</span><span class="p">,</span><span class="s2">&quot;The type of the entity that you want to filter by default sentence_embeddings.Possible values document|token|wordpiece|word_embeddings|&quot;</span>
+                                                   <span class="s2">&quot;sentence_embeddings|category|date|sentiment|pos|chunk|named_entity|regex|dependency|labeled_dependency|language|keyword &quot;</span><span class="p">,</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
+    
+<div class="viewcode-block" id="AnnotationMerger.setInputType"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.AnnotationMerger.html#sparknlp_jsl.annotator.AnnotationMerger.setInputType">[docs]</a>    <span class="k">def</span> <span class="nf">setInputType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the type of the entity that you want to filter by default sentence_embedding</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            The type of the entity that you want to filter by default sentence_embedding</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputType</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.AnnotationMerger&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AnnotationMerger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalBertForTokenClassifier"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier">[docs]</a><span class="k">class</span> <span class="nc">MedicalBertForTokenClassifier</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                    <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                    <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;MedicalBertForTokenClassifier can load Bert Models with a token</span>
+<span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
+<span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; embeddings = MedicalBertForTokenClassifier.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;bert_token_classifier_ner_bionlp&quot;``, if no name is</span>
+<span class="sd">    provided.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
+
+<span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
+<span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
+<span class="sd">    `Import Transformers into Spark NLP 🚀</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/discussions/5669&gt;`_.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
+<span class="sd">        memory, by default 8</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
+<span class="sd">        True</span>
+<span class="sd">    configProtoBytes</span>
+<span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Max sentence length to process, by default 128</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenClassifier = MedicalBertForTokenClassifier.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;, &quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(True)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     tokenClassifier</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures.&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;label.result&quot;).show(truncate=False)</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result</span>
+<span class="sd">    |</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[O, O, B-Organism, I-Organism, O, O, B-Organism, I-Organism, O, O, B-Cell, I-Cell, O,</span>
+<span class="sd">    O, O, B-Multi-tissue_structure, I-Multi-tissue_structure, O, B-Cell, I-Cell, O]|</span>
+<span class="sd">    +------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;MedicalBertForTokenClassifier&quot;</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
+                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        b : List[str]</span>
+<span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.setMaxSentenceLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForTokenClassifier&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MedicalBertForTokenClassifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        MedicalBertForTokenClassifier</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_MedicalBertTokenClassifierLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_MedicalBertTokenClassifierLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">MedicalBertForTokenClassifier</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.loadSavedModelOpenSource"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier.loadSavedModelOpenSource">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loadSavedModelOpenSource</span><span class="p">(</span><span class="n">bertForTokenClassifierPath</span><span class="p">,</span><span class="n">tfModelPath</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bertForTokenClassifierPath : str</span>
+<span class="sd">            Folder of the bertForTokenClassifier</span>
+<span class="sd">        tfModelPath : str</span>
+<span class="sd">            Folder taht contains the tf model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        MedicalBertForTokenClassifier</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_MedicalBertTokenClassifierLoaderOpensource</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_MedicalBertTokenClassifierLoaderOpensource</span><span class="p">(</span><span class="n">bertForTokenClassifierPath</span><span class="p">,</span><span class="n">tfModelPath</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">MedicalBertForTokenClassifier</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.pretrained"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl.annotator.MedicalBertForTokenClassifier.html#sparknlp_jsl.annotator.MedicalBertForTokenClassifier.pretrained">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bert_token_classifier_ner_bionlp&quot;</span><span class="p">,</span>  <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default</span>
+<span class="sd">            &quot;bert_base_token_classifier_conll03&quot;</span>
+<span class="sd">            lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">            remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        MedicalBertForTokenClassifier</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForTokenClassifier</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span><span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
               </div>
