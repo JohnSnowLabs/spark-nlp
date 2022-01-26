@@ -56,7 +56,7 @@ ner_converter = NerConverter()\
       .setOutputCol("ner_chunk")
       
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
-text = """Adebiyi Adedayo jẹ ọkan ninu awọn oṣiṣẹ Naijiria ni Unilever FMCG, ọkan ninu awọn ile-iṣẹ Multinational ni Abuja Naijiria, lati Oṣu Kẹwa 1994."""
+text = """Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde."""
 data = spark.createDataFrame([[text]]).toDF("text")
 
 result = nlpPipeline.fit(data).transform(data)
@@ -84,7 +84,7 @@ val ner_converter = NerConverter()
       
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
-val example = Seq.empty["Adebiyi Adedayo jẹ ọkan ninu awọn oṣiṣẹ Naijiria ni Unilever FMCG, ọkan ninu awọn ile-iṣẹ Multinational ni Abuja Naijiria, lati Oṣu Kẹwa 1994."].toDS.toDF("text")
+val example = Seq.empty["Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
@@ -93,15 +93,17 @@ val result = pipeline.fit(example).transform(example)
 ## Results
 
 ```bash
-+---------------+---------+
-|chunk          |ner_label|
-+---------------+---------+
-|Adebiyi Adedayo|PER      |
-|Naijiria       |LOC      |
-|Unilever FMCG  |ORG      |
-|Abuja Naijiria |LOC      |
-|Oṣu Kẹwa 1994  |DATE     |
-+---------------+---------+
++-------------------------------+---------+
+|chunk                          |ner_label|
++-------------------------------+---------+
+|Mohammed Sani Musa             |PER      |
+|Activate Technologies Limited  |ORG      |
+|ọdún-un 2019                   |DATE     |
+|All rogressives Congress       |ORG      |
+|APC                            |ORG      |
+|Ìlà-Oòrùn Niger                |LOC      |
+|Premium Times                  |ORG      |
++-------------------------------+---------+
 ```
 
 {:.model-param}
