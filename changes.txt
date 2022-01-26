@@ -1,2 +1,2 @@
-docs/en/licensed_training_entries/Annotation_tool_Json_reader.md
-docs/en/licensed_training_entries/Annotation_tool_Json_reader.md
+docs/en/nlp_server/installation.md
+docs/en/nlp_server/installation.md
