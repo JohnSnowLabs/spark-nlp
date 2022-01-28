@@ -304,6 +304,15 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
             },
             "url": {
               "type": "keyword"
+            },
+            "download_link": {
+              "type": "keyword"
+            },
+            "views": {
+              "type": "integer"
+            },
+            "downloads": {
+              "type": "integer"
             }
         }
       }
@@ -341,6 +350,8 @@ Jekyll::Hooks.register :site, :post_render do |site|
       model[:type] = models_json[model[:url]][:type]
       # Add predicted entities to search models
       model[:predicted_entities] = models_json[model[:url]][:predicted_entities]
+      # Add download_link to search models
+      model[:download_link] = models_json[model[:url]][:download_link]
 
       if client
         if force_reindex || uniq_for_indexing.include?(uniq)
