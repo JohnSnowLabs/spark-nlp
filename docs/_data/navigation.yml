@@ -92,6 +92,8 @@ annotation-lab:
         url:    /docs/en/alab/visual_ner
       - title:  Annotation Settings
         url:    /docs/en/alab/settings
+      - title:  Annotation Customizations
+        url:    /docs/en/alab/annotation_screen_customization        
       - title:  Analytics
         url:    /docs/en/alab/analytics
       - title:  Annotation Export
