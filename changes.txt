@@ -1,2 +1,10 @@
-docs/en/nlp_server/installation.md
-docs/en/nlp_server/installation.md
+docs/_data/navigation.yml
+docs/assets/images/annotation_lab/2.6.0/pagination_gif.gif
+docs/en/alab/annotation_screen_customization.md
+docs/en/alab/import.md
+docs/en/alab/settings.md
+docs/_data/navigation.yml
+docs/assets/images/annotation_lab/2.6.0/pagination_gif.gif
+docs/en/alab/annotation_screen_customization.md
+docs/en/alab/import.md
+docs/en/alab/settings.md
