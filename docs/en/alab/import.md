@@ -47,7 +47,7 @@ When importing tasks that already contain annotations (e.g. exported from anothe
  
 Pagination is a way of showing the text on multiple pages rather than putting them on a single page. This makes the UI more responsive as the annotations are spread across multiple pages.
  
-In order to implement the pagination, we add the tag "<pagebreak>" after a chunk of text before importing the task.
+In order to implement the pagination, we add the tag `<pagebreak>` after a chunk of text before importing the task.
 
 Import from JSON:
 
