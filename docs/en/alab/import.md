@@ -45,9 +45,10 @@ When importing tasks that already contain annotations (e.g. exported from anothe
 
 ## Import paginated tasks
  
-Pagination is a way of showing the text on multiple pages rather than putting them on a single page. This makes the UI more responsive as the annotations are spread across multiple pages.
+Pagination is a way of spliting the text content of a document on multiple pages rather than putting the entire text on a single page. This makes the UI more responsive and the annotation process easier.
  
-In order to implement the pagination, we add the tag `<pagebreak>` after a chunk of text before importing the task.
+For paginating the tasks, use the `<pagebreak>` tag when preparing the data to import as illustrated below.
+The `<pagebreak>` tag does not influence the indexes of the text chunks within the imported document.  
 
 Import from JSON:
 
@@ -82,12 +83,12 @@ Risks of anesthesia, bleeding, infection, pain, MI, DVT, PE, mesh erogenic expos
 discussed. The patient understood the risks of recurrence, etc, and wanted to proceed with the procedure. 
 ```
 
-When you upload the text file, a task will be created which will contain the entire data in the input file in paginated form.
+When you upload the text file, a task will be created containing the entire data in the input file in paginated form.
 
-we'll obtain the output illustrated below:
+The obtained  output is illustrated below:
 <img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/pagination_gif.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-When a task is paginated relations cannot be created between inter-page labels. 
+When a task is paginated it is not possible to create relations between labels situated on different pages. 
 {:.warning}
 
 
