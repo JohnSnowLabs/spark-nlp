@@ -68,11 +68,11 @@ case class PretrainedPipeline(
                              ) {
 
   /** Support for java default argument interoperability */
-  def this(downloadName: String) {
+  def this(downloadName: String) = {
     this(downloadName, "en", ResourceDownloader.publicLoc)
   }
 
-  def this(downloadName: String, lang: String) {
+  def this(downloadName: String, lang: String) = {
     this(downloadName, lang, ResourceDownloader.publicLoc)
   }
 

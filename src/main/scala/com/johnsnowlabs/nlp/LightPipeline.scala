@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.util.scala.CompatParColls.Converters._
+import com.johnsnowlabs.util.CompatParColls.Converters._
 
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}

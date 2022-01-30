@@ -21,6 +21,8 @@ import com.johnsnowlabs.nlp.{DocumentAssembler, SparkAccessor}
 import com.johnsnowlabs.nlp.annotators.spell.context.{ContextSpellCheckerApproach, ContextSpellCheckerModel}
 import org.apache.spark.ml.Pipeline
 
+import scala.collection.JavaConverters._
+
 object SpellCheckerUseCase extends App {
 
   // ==================================
@@ -44,8 +46,6 @@ object SpellCheckerUseCase extends App {
 
   val names = List("Achille", "Achillea", "Achilleo", "Achillina", "Achiropita", "Acilia", "Acilio", "Acquisto",
     "Acrisio", "Ada", "Adalberta", "Adalberto", "Adalciso", "Adalgerio", "Adalgisa")
-
-  import scala.collection.JavaConverters._
 
   val javaNames = new java.util.ArrayList[String](names.asJava)
 

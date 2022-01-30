@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.util.scala
-
-import scala.collection.parallel.CollectionConverters
+package com.johnsnowlabs.util
 
 private[johnsnowlabs] object CompatParColls {
-  val Converters: CollectionConverters.type = {
+  val Converters = {
     import Compat._
 
     {

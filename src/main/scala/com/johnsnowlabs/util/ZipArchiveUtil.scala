@@ -19,6 +19,7 @@ package com.johnsnowlabs.util
 import org.apache.commons.io.FileUtils
 
 import scala.collection.JavaConverters._
+
 import java.util.zip.{ZipEntry, ZipFile, ZipOutputStream}
 import java.io.{BufferedInputStream, File, FileInputStream, FileOutputStream, IOException}
 
