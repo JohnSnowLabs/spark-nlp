@@ -57,9 +57,9 @@ object Dependencies {
 
   /** ------- Scala version start ------- */
   lazy val scala211 = "2.11.12"
-  lazy val scala212 = "2.12.10"
+  lazy val scala212 = "2.12.15"
   // TODO: let's choose the latest 2.13.x, once we start training/saving models on 2.13.x we cannot change it!
-  lazy val scala213 = "2.13.7"
+  lazy val scala213 = "2.13.8"
   lazy val scalaVer: String = if (is_spark23 == "true" | is_spark24 == "true") scala211 else if (is_spark30 == "true") scala212 else scala213
 
   lazy val supportedScalaVersions = List(scala213, scala212, scala211)
