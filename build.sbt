@@ -12,6 +12,15 @@ version := "3.4.0"
 
 (ThisBuild / scalacOptions) += "-target:jvm-1.8"
 
+licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
+
+(ThisBuild / resolvers) := m2Resolvers
+
+// build.sbt
+ThisBuild / scalafixDependencies += "org.scala-lang.modules" %% "scala-collection-migrations" % "2.6.0"
+addCompilerPlugin(scalafixSemanticdb)
+scalacOptions ++= List("-Yrangepos", "-P:semanticdb:synthetics:on")
+
 scalacOptions ++= Seq(
   "-unchecked",
   "-feature",
@@ -32,10 +41,6 @@ Compile / doc / target := baseDirectory.value / "docs/api"
 // exclude memory-intensive modules from coverage
 coverageExcludedPackages := ".*nlp.embeddings.*;.*ml.tensorflow.*;.*nlp.annotators.classifier.dl.*;" +
   ".*nlp.annotators.seq2seq.*"
-
-licenses += "Apache-2.0" -> url("http://opensource.org/licenses/Apache-2.0")
-
-(ThisBuild / resolvers) := m2Resolvers
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".sbtcredentials")
 
