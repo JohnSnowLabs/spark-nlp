@@ -30,6 +30,7 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
+import scala.collection.JavaConverters._
 
 /** Implements a deep-learning based Noisy Channel Model Spell Algorithm.
  * Correction candidates are extracted combining context information and word information.
@@ -238,7 +239,6 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
 
   /** @group setParam */
   def setWeights(w: util.HashMap[String, util.HashMap[String, Double]]): this.type = {
-    import scala.collection.JavaConverters._
     val ws = w.asScala.mapValues(_.asScala.mapValues(_.toFloat).toMap).toMap
     set(weights, ws)
   }
@@ -451,8 +451,8 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   }
 
   def getClassCandidates(transducer: ITransducer[Candidate], token: String, label: String, maxDist: Int, limit: Int = 2) = {
-    import scala.collection.JavaConversions._
-    transducer.transduce(token, maxDist).map { cand =>
+
+    transducer.transduce(token, maxDist).asScala.map { cand =>
 
       // if weights are available, we use them
       val weight = weights.get.
@@ -464,11 +464,10 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
   }
 
   def getVocabCandidates(token: String, maxDist: Int) = {
-    import scala.collection.JavaConversions._
     val trans = $$(transducer).transducer
     // we use all case information as it comes
-    val plainCandidates = trans.transduce(token, maxDist).
-      toList.map(c => (c.term, c.term, c.distance.toFloat))
+    val plainCandidates = trans.transduce(token, maxDist)
+      .asScala.toList.map(c => (c.term, c.term, c.distance.toFloat))
 
     // We evaluate some case variations
     val tryUpperCase = getOrDefault(caseStrategy) == CandidateStrategy.ALL_UPPER_CASE ||
@@ -478,11 +477,11 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       getOrDefault(caseStrategy) == CandidateStrategy.ALL
 
     val caseCandidates = if (token.isUpperCase && tryUpperCase) {
-      trans.transduce(token.toLowerCase).toList.map(
+      trans.transduce(token.toLowerCase).asScala.toList.map(
         c => (c.term.toUpperCase, c.term, c.distance.toFloat)
       )
     } else if (token.isFirstLetterCapitalized && tryFirstCapitalized) {
-      trans.transduce(token.toLowerCase).toList.map(
+      trans.transduce(token.toLowerCase).asScala.toList.map(
         c => (c.term.capitalizeFirstLetter, c.term, c.distance.toFloat)
       )
     } else Seq.empty
@@ -528,11 +527,11 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
       //ToDo: This is a backup plan for empty DecodedPath -- fix me!!
       if (decodedPath.nonEmpty)
         sentTokens.zip(decodedPath).map { case (orig, correct) =>
-          orig.copy(result = correct, metadata = orig.metadata.updated("cost", cost.toString))
+          orig.copy(result = correct, metadata = orig.metadata.toMap.updated("cost", cost.toString))
         }
       else
         sentTokens.map(orig =>
-          orig.copy(metadata = orig.metadata.updated("cost", "0"))
+          orig.copy(metadata = orig.metadata.toMap.updated("cost", "0"))
         )
     }
 

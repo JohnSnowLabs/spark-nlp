@@ -23,6 +23,8 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType, HasFeatures}
+import com.johnsnowlabs.util.CompatParColls.Converters._
+
 import org.apache.commons.io.IOUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
@@ -31,14 +33,15 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 import org.tensorflow.Graph
+import org.tensorflow.proto.framework.GraphDef
 
 import java.io.{BufferedWriter, File, FileWriter}
 import java.util
-import org.tensorflow.proto.framework.GraphDef
 
 import scala.collection.mutable
 import scala.language.existentials
 
+import scala.collection.JavaConverters._
 
 case class LangModelSentence(ids: Array[Int], cids: Array[Int], cwids: Array[Int], len: Int)
 
@@ -350,9 +353,8 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    * @return
    */
   def addVocabClass(usrLabel: String, vocabList: util.ArrayList[String], userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
-    import scala.collection.JavaConverters._
-    val vocab = vocabList.asScala.to[collection.mutable.Set]
-    val nc = new GenericVocabParser(vocab, usrLabel, userDist)
+    val vocab = vocabList.asScala
+    val nc = new GenericVocabParser(collection.mutable.Set(vocab.toArray:_*) , usrLabel, userDist)
     setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
@@ -545,9 +547,9 @@ class ContextSpellCheckerApproach(override val uid: String) extends
   *
   * */
   private def createTransducer(vocab: List[String]) = {
-    import scala.collection.JavaConversions._
+
     new TransducerBuilder().
-      dictionary(vocab.sorted, true).
+      dictionary(vocab.asJavaCollection, true).
       algorithm(Algorithm.TRANSPOSITION).
       defaultMaxDistance(getOrDefault(wordMaxDistance)).
       includeDistance(true).

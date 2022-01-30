@@ -17,7 +17,9 @@
 package com.johnsnowlabs.util
 
 private[johnsnowlabs] object CompatParColls {
+  // DO NOT ADD type annotation
   val Converters = {
+    // DO NOT remove unused import
     import Compat._
 
     {

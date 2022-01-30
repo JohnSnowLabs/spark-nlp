@@ -30,7 +30,7 @@ import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.collection.mutable.Set
 import collection.JavaConverters._
-
+import scala.collection.mutable
 
 
 class TransducerSeqFeature(model: HasFeatures, override val name: String)
@@ -121,16 +121,16 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
 
 trait SpecialClassParser {
 
-  var label:String
+  var label: String
 
   @transient
-  var transducer : ITransducer[Candidate] = null
+  var transducer: ITransducer[Candidate] = null
   var maxDist: Int
 
   def generateTransducer: ITransducer[Candidate]
 
   def replaceWithLabel(tmp: String): String = {
-    if(!transducer.transduce(tmp, 0).iterator.hasNext)
+    if (!transducer.transduce(tmp, 0).iterator.hasNext)
       tmp
     else
       label
@@ -141,12 +141,12 @@ trait SpecialClassParser {
     this
   }
 
-  def inVocabulary(word:String): Boolean = transducer.transduce(word, 0).iterator.hasNext
+  def inVocabulary(word: String): Boolean = transducer.transduce(word, 0).iterator.hasNext
 }
 
 trait RegexParser extends SpecialClassParser {
 
-  var regex:String
+  var regex: String
 
   override def generateTransducer: ITransducer[Candidate] = {
 
@@ -167,7 +167,7 @@ trait RegexParser extends SpecialClassParser {
 
 trait VocabParser extends SpecialClassParser {
 
-  var vocab: Set[String]
+  var vocab: mutable.Set[String]
 
   def generateTransducer: ITransducer[Candidate] = {
 
@@ -180,7 +180,7 @@ trait VocabParser extends SpecialClassParser {
       build[Candidate]
   }
 
-  def loadDataset(path:String, col:Option[String] = None) = {
+  def loadDataset(path: String, col: Option[String] = None) = {
     Set() ++= (scala.io.Source.fromFile(path).getLines)
   }
 }
@@ -199,7 +199,7 @@ class NumberToken extends RegexParser with SerializableClass {
 
   def separate(word: String): String = {
     val matcher = numRegex.pattern.matcher(word)
-    if(matcher.matches) {
+    if (matcher.matches) {
       val result = word.replace(matcher.group(0), label)
       result
     }
@@ -243,7 +243,6 @@ class LocationClass() extends VocabParser with SerializableClass {
     serializeTransducer(aOutputStream, transducer)
   }
 }
-
 
 
 class MainVocab() extends VocabParser with SerializableClass {
@@ -294,7 +293,6 @@ class NamesClass extends VocabParser with SerializableClass {
 }
 
 
-
 class MedicationClass extends VocabParser with SerializableClass {
 
   override var vocab = Set.empty[String]
@@ -326,6 +324,7 @@ class AgeToken extends RegexParser with SerializableClass {
   override var maxDist: Int = 2
 
   transducer = generateTransducer
+
   @throws[IOException]
   private def readObject(aInputStream: ObjectInputStream): Unit = {
     transducer = deserializeTransducer(aInputStream)
@@ -394,9 +393,9 @@ class DateToken extends RegexParser with WeightedLevenshtein with SerializableCl
 }
 
 
-class GenericVocabParser(override var vocab: Set[String],
+class GenericVocabParser(override var vocab: mutable.Set[String],
                          override var label: String,
-                         override var maxDist: Int = 3)  extends VocabParser with SerializableClass {
+                         override var maxDist: Int = 3) extends VocabParser with SerializableClass {
   transducer = generateTransducer
 
 
