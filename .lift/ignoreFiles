@@ -4,6 +4,7 @@
 **/docs/**
 **/*.min.js
 **/*.js
+python/**
 
 ### Eclipse ###
 
