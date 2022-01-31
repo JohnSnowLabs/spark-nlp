@@ -53,8 +53,9 @@ berturk_pipeline = Pipeline(stages=[document_assembler, tokenizer, normalizer, s
 
 light_pipeline = LightPipeline(berturk_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
-result = light_pipeline.annotate("""Gidişin olsun, dönüşün olmasın inşallah senin..""")
+result = light_pipeline.annotate("""Gidişin olsun, dönüşün olmasın inşallah senin.""")
 result["class"]
+
 ```
 ```scala
 ...
