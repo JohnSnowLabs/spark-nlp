@@ -8,6 +8,6 @@ addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.34")
 
 /** scoverage */
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.8.2")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
 
 addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.3.1")
