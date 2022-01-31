@@ -5,7 +5,7 @@ seotitle: Spark NLP
 title: Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2022-01-01"
+modify_date: "2022-01-18"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -350,6 +350,8 @@ NOTE: Spark NLP 3.4.0 is based on TensorFlow 2.4.x which is compatible with CUDA
     3.2. Install New -> Maven -> Coordinates -> `com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.0` -> Install
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
+
+NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 </div><div class="h3-box" markdown="1">
 

@@ -43,6 +43,7 @@ Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http:
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
 - [Using Spark NLP](#usage)
+  - [Pacakges Chetsheet](#packages-cheatsheet)
   - [Spark Packages](#spark-packages)
   - [Scala](#scala)
     - [Maven](#maven)
@@ -330,11 +331,12 @@ NOTE: The EMR 6.0.0 is not supported by Spark NLP 3.4.0
 
 This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
 
-|ENV| Spark/PySpark 3.0.x/3.1.x | Spark/PySpark 3.2.x | Spark/PySpark 2.4.x | Spark/PySpark 2.3.x |
-|----|----------------|-------------|-------------|-------------|
-|CPU|`spark-nlp` |`spark-nlp-spark32` |`spark-nlp-spark24`|`spark-nlp-spark23`|
-|GPU|`spark-nlp-gpu` |`spark-nlp-gpu-spark32`|`spark-nlp-gpu-spark24`|`spark-nlp-gpu-spark23`|
-|Start Function|`sparknlp.start()`|`sparknlp.start(spark32=True)`|`sparknlp.start(spark24=True)`|`sparknlp.start(spark23=True)`
+|Apache Spark| Spark NLP on CPU | Spark NLP on GPU | Start()
+|------------|------------------|-------------|-------------|
+|3.0.x/3.1.x | `spark-nlp` | `spark-nlp-gpu` | `sparknlp.start()`|
+|3.2.x       | `spark-nlp-spark32` | `spark-nlp-gpu-spark32`|`sparknlp.start(spark32=True)`|
+|2.4.x       | `spark-nlp-spark24` | `spark-nlp-gpu-spark24`|`sparknlp.start(spark24=True)`|
+|2.3.x       | `spark-nlp-spark23` | `spark-nlp-gpu-spark23`|`sparknlp.start(spark23=True)`|
 
 ## Spark Packages
 
@@ -864,7 +866,7 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 4. Now you can attach your notebook to the cluster and use Spark NLP!
 
-NOTE: If you are launching a Databricks runtime that is not based on Apache Spark 3.x please choose a compatible [Spark NLP package](#spark-packages)
+NOTE: Databrick's runtimes support different Apache Spark major releases. Please make sure you choose the correct Spark NLP Maven pacakge name for your runtime from our [Pacakges Chetsheet](https://github.com/JohnSnowLabs/spark-nlp#packages-cheatsheet)
 
 ## EMR Cluster
 
