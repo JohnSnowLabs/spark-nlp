@@ -21,9 +21,7 @@ NER model that detects professions and occupations in Spanish texts. Trained wit
 
 ## Predicted Entities
 
-- `ACTIVIDAD` (occupation)
-- `PROFESION` (profession)
-- `SITUACION_LABORAL` (labor situation)
+`ACTIVIDAD`, `PROFESION`, `SITUACION_LABORAL`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
