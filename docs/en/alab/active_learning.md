@@ -35,20 +35,21 @@ It is possible to download training logs by clicking on the download logs icon (
 ## Training parameters
 
 In Annotation Lab versions prior to 1.8.0, for mixed projects containing multiple types of annotations in a single project like classifications, NER, and assertion status, multiple trainings were triggered at the same time using the same system resources and Spark NLP resources. In this case, the training component could fail because of resource limitations.
-In order to improve the usability of the system, Annotation Lab 1.8.0 added a drop-down option to choose which type of training to run next. The project Owner or Manager of a project can go to the "Advanced Options" and choose the training type. The drop-down gives a list of possible training types for that particular project based on defined Labeling Config. Another drop-down also lists available embeddings which can be used for training the model.
+
+In order to improve the usability of the system, Annotation Lab 1.8.0 added dropdown options to choose which type of training to run next. The project Owner or Manager of a project can scroll down to Training Settings and choose the training type. The drop-down gives a list of possible training types for that particular project based on defined Labeling Config. Another drop-down also lists available embeddings which can be used for training the model.
 
 <img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/trainig_models.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
-It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values on the popup window activated by the gear icon.
+It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values in Training Parameters.
 
-It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifing the targeted Tags on the Training Parameters (last option).
+It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifying the targeted Tags on the Training Parameters (last option).
 
 The Annotation Lab v1.8.0 includes additional filtering options for the training dataset based on the status of completions, either all submitted completions cab be used for training or only the reviewed ones.
 
 ## Transfer Learning
 Annotation Lab 2.0.0+ supports the Transfer Learning feature offered by [Spark NLP for Healthcare 3.1.2](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#support-for-fine-tuning-of-ner-models). 
-This feature is available for project manages and project owners, but only if a valid Spark NLP for Healthcare license is loaded into the Annotationl Lab. 
+This feature is available for project manages and project owners, but only if a valid Spark NLP for Healthcare license is loaded into the Annotation Lab. 
 In this case, the feature can be activated for any project by navigating to the Setup->Training & Active Learning. It requires the presence of a `base model` trained with [MedicalNERModel](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#1-medicalnermodel-annotator).
 
 If a MedicalNER model is available on the Models Hub section of the Annotation Lab, it can be chosen as a starting point of the training process. This means the `base model` will be Fine Tuned with the new training data.
