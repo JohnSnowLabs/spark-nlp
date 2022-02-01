@@ -50,12 +50,12 @@ abstract class AnnotatorModel[M <: Model[M]]
 
     val processedDataset = {
       this match {
-        case withAnnotate: HasSimpleAnnotate[M] =>
+        case withAnnotate: HasSimpleAnnotate[M @unchecked] =>
           inputDataset.withColumn(
             getOutputCol,
             wrapColumnMetadata({
               this match {
-                case a: HasRecursiveTransform[M] =>
+                case a: HasRecursiveTransform[M @unchecked] =>
                   a.dfRecAnnotate(recursivePipeline.get)(
                     array(getInputCols.map(c => dataset.col(c)): _*)
                   )
@@ -66,7 +66,7 @@ abstract class AnnotatorModel[M <: Model[M]]
               }
             })
           )
-        case withBatchAnnotate: HasBatchedAnnotate[M] =>
+        case withBatchAnnotate: HasBatchedAnnotate[M @unchecked] =>
           val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
           implicit val encoder: ExpressionEncoder[Row] = RowEncoder(newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {

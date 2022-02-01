@@ -23,6 +23,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.reflect.ClassTag

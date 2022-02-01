@@ -40,9 +40,9 @@ class TupleKeyLongDoubleMapAccumulator(defaultMap: MMap[(String, String), (Long,
   override def value: Map[(String, String), (Long, Double)] = mmap.toMap
 
   override def copy(): AccumulatorV2[((String, String), (Long, Double)), Map[(String, String), (Long, Double)]] = {
-    val m = ArrayBuffer.empty[((String, String), (Long, Double))]
-    this.mmap.copyToBuffer(m)
-    new TupleKeyLongDoubleMapAccumulator(MMap(m:_*))
+    val m = Seq.empty[((String, String), (Long, Double))]
+    this.mmap ++= m
+    new TupleKeyLongDoubleMapAccumulator(MMap(m: _*))
   }
 
   override def isZero: Boolean = mmap.isEmpty
@@ -74,9 +74,9 @@ class StringMapStringDoubleAccumulator(defaultMap: MMap[String, MMap[String, Dou
   override def value: Map[String, Map[String, Double]] = mmap.mapValues(_.toMap.filterNot(a => a._2 == 0)).toMap
 
   override def copy(): AccumulatorV2[(String, MMap[String, Double]), Map[String, Map[String, Double]]] = {
-    val m = ArrayBuffer.empty[(String, MMap[String, Double])]
-    this.mmap.copyToBuffer(m)
-    new StringMapStringDoubleAccumulator(MMap(m:_*))
+    val m = Seq.empty[(String, MMap[String, Double])]
+    this.mmap ++= m
+    new StringMapStringDoubleAccumulator(MMap(m: _*))
   }
 
   override def isZero: Boolean = mmap.isEmpty
