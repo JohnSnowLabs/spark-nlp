@@ -863,14 +863,14 @@ class RegexTokenizer(AnnotatorModel):
                            typeConverter=TypeConverters.toBoolean)
 
     trimWhitespace = Param(Params._dummy(),
-                            "trimWhitespace",
-                            "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
-                            typeConverter=TypeConverters.toBoolean)
+                           "trimWhitespace",
+                           "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
+                           typeConverter=TypeConverters.toBoolean)
 
     preservePosition = Param(Params._dummy(),
-                            "preservePosition",
-                            "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
-                            typeConverter=TypeConverters.toBoolean)
+                             "preservePosition",
+                             "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
+                             typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
         """Sets the minimum allowed legth for each token, by default 1.
