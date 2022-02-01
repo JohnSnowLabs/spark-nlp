@@ -50,6 +50,12 @@ The first section - **Regions** - gives a list overview of all annotated chunks.
 
 The second section - **Relations** - lists all the relations that have been labeled. When the user moves the mouse over one relation it is highlighted in the document. 
 
+## View As Feature
+
+For users that have multiple roles (Annotator and Reviewer), the labeling view can get confusing. To eliminate this confusion, From 2.6.0, the *View As* filter is added in labeling page too. When selecting *View As Annotator* option, the task is shown as if the only role the currently logged-in user has is Annotator. The same applies to *View As Reviewer*. Once the “View as” option is used to select a certain role, the selection is preserved even when the tab is closed or refreshed. This option is available only if the currently logged-in user has multiple roles. 
+
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/view_as_labeling.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+
 
 ## NER Labels
 To extract information using NER labels, first click on the label to select it or press the shortcut key assigned to it and then, with the mouse, select the relevant part of the text. Wrong extractions can be easily edited by clicking on them to select them and then by selecting the new label you want to assign to the text. 

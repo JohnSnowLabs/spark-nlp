@@ -15,50 +15,52 @@ sidebar:
 
 A **Project Owner** or a **Manager** can use the completed tasks (completions) from a project for training a new Spark NLP model. The training feature can be found on the Setup page.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/train_setup.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_setup_label.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_setup_pipeline.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_setup_model.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Named Entity Recognition Projects
 Named Entity Recognition (NER) projects usually include several labels. When the annotation team has generated a relevant sample of training data/examples for each one of the labels the Project Owner/Manager can use this data to train an DL model which can then be used to predict the labels on new tasks. 
 
 The NER models can be easily trained as illustrated below. 
 
-The "Train Now" button (See Arrow 6) can be used to trigger training of a new model when no other trainings or preannotations are in progress. Otherwise, the button is disabled. Information on the training progress is shown in the top right corner of Model Training tab. Here the user can get indications on the success or failure message depending on how the last training ended.
+The "Train Now" button (item 5) can be used to trigger training of a new model when no other trainings or preannotations are in progress. Otherwise, the button is disabled. Information on the training progress is shown in the top right corner of Model Training tab. Here the user can get indications on the success or failure message depending on how the last training ended.
 
 When triggering the training, users are prompted to choose either to immediately deploy models or just do training. If immediate deployment is chosen, then the Labeling config is updated according to the name of the new model (item 1 on the above image).
 
-It is possible to download training logs by clicking on the download logs icon (see item 9 on the above image) of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
+It is possible to download training logs by clicking on the download logs icon (see item 8 on the above image) of the recently trained NER model which includes information like training parameters and TF graph used along with precision, recall, f1 score, etc.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/train_ner.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/train_ner.gif" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Training parameters
 
 In Annotation Lab versions prior to 1.8.0, for mixed projects containing multiple types of annotations in a single project like classifications, NER, and assertion status, multiple trainings were triggered at the same time using the same system resources and Spark NLP resources. In this case, the training component could fail because of resource limitations.
 In order to improve the usability of the system, Annotation Lab 1.8.0 added a drop-down option to choose which type of training to run next. The project Owner or Manager of a project can go to the "Advanced Options" and choose the training type. The drop-down gives a list of possible training types for that particular project based on defined Labeling Config. Another drop-down also lists available embeddings which can be used for training the model.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.8.0/trainig_models.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/trainig_models.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 
 It is possible to tune the most common training parameters (Validation split ratio, Epoch, Learning rate, Decay, Dropout, and Batch) by editing their values on the popup window activated by the gear icon.
 
-It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifing the targeted Tags on the Training Parameters popup window (last option).
+It is also possible to train a model by using a sublist of tasks with predefined tags. This is done by specifing the targeted Tags on the Training Parameters (last option).
 
-The Annotation Lab v1.8.0 includes additional filtering options for the training dataset based on the status of completions, either all submitted completions cab be used for training or only the reviewed ones (a drop-down is added in the "Advanced Options").
+The Annotation Lab v1.8.0 includes additional filtering options for the training dataset based on the status of completions, either all submitted completions cab be used for training or only the reviewed ones.
 
 ## Transfer Learning
-Annotation Lab 2.0.0+ supports the Transfer Learning feature offerend by [Spark NLP for Healthcare 3.1.2](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#support-for-fine-tuning-of-ner-models). 
+Annotation Lab 2.0.0+ supports the Transfer Learning feature offered by [Spark NLP for Healthcare 3.1.2](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#support-for-fine-tuning-of-ner-models). 
 This feature is available for project manages and project owners, but only if a valid Spark NLP for Healthcare license is loaded into the Annotationl Lab. 
-In this case, the feature can be activated for any project by navigating to the Setup->Labeling Config -> Model Training -> Advanced Options. It requiers the presence of a `base model` trained with [MedicalNERModel](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#1-medicalnermodel-annotator).
+In this case, the feature can be activated for any project by navigating to the Setup->Training & Active Learning. It requires the presence of a `base model` trained with [MedicalNERModel](https://nlp.johnsnowlabs.com/docs/en/licensed_release_notes#1-medicalnermodel-annotator).
 
-If a MedicalNER model is available on the Models Hub section of the Annotation Lab, it can be choosen as a starting point of the training process. This means the `base model` will be Fine Tuned with the new training data.
+If a MedicalNER model is available on the Models Hub section of the Annotation Lab, it can be chosen as a starting point of the training process. This means the `base model` will be Fine Tuned with the new training data.
 
 When Fine Tuning is enabled, the same embeddings used for training the `base model` will be used to train the new model. Those need to be available on the Models Hub section as well. If present, embeddings will be automatically selected, otherwise users must go to the Models Hub page and download or upload them.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/transfer_learning.gif" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/transfer_learning.gif" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Custom Training Script
 If users want to change the default Training script present within the Annotation Lab, they can upload their own training pipeline. In the Training section of the Project Setup Page, admin users can upload the training scripts. At the moment we are supporting custom training script just for NER projects.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/2.0.0/custom_script.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/custom_script.png" style="width:80%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
 ## Selection of Completions
 During the annotation project lifetime, normally not all tasks/completions are ready to be used as a training dataset. This is why the training process selects completions based on their status:
@@ -70,7 +72,7 @@ During the annotation project lifetime, normally not all tasks/completions are r
 
 ## Assertion Status Projects
 
-NER configurations for the healthcare domain are often mixed with Assertion Status labels. In this case Annotation Lab offers support for training both types of models in one go. After the training is complete, the models will be listed in the Spark NLP Pipeline Config. On mouse over the model name in the Spark NLP pipeline config, the user can see more information about the model such as when it was trained and if the training was manually initiated or by the Active Learning process.
+NER configurations for the healthcare domain are often mixed with Assertion Status labels. In this case Annotation Lab offers support for training both types of models in one go. After the training is complete, the models will be listed in the Spark NLP Pipeline Config. Hovering mouse over the model name in the Spark NLP pipeline Config, the user can see more information about the model such as when it was trained and if the training was manually initiated or by the Active Learning process.
 
 Once the model(s) has been trained, the project configuration will be automatically updated to reference the new model for prediction. Notice below, for the Assertion Status **<Label>** tag the addition of model attribute to indicate which model will be used for task preannotation for this label.
 
@@ -151,18 +153,18 @@ The trained classification models are also available on the Spark NLP pipeline c
 If a project is set up to include Classification, Named Entity Recognition and Assertion Status labels and the three kinds of annotations are present in the training data, it is possible to train three models: one for Named Entity Recognition, one for Assertion Status, and one for Classification at the same time. The training logs from all three trainings can be downloaded at once by clicking the download button present in the Training section of the Setup Page. The newly trained models will be added to the Spark NLP pipeline config.
 
 ## Active Learning
-Project Owners or Managers can enable the Active Learning feature by clicking on the corresponding Switch (item 7 on the above image) available on Model Training tab. If this feature is enabled, the NER training gets triggered automatically on every 50 new completions. It is also possible to change the completions frequency by dropdown (8) which is visible only when Active Learning is enabled.
+Project Owners or Managers can enable the Active Learning feature by clicking on the corresponding Switch (item 6 on the above image) available on Model Training tab. If this feature is enabled, the NER training gets triggered automatically on every 50 new completions. It is also possible to change the completions frequency by dropdown (item 7) which is visible only when Active Learning is enabled.
 
 While enabling this feature, users are asked whether they want to deploy the newly trained model right after the training process or not.
 
-<img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/deployAL.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+<img class="image image--xl" src="/assets/images/annotation_lab/2.6.0/deployAL.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-If the user chooses not to automatically deploy the newly trained model, this can be done on demand by navigating to the Spark NLP pipeline config and filtering the model by name of the project (3) and select that new model trained by Active Learning. This will update the Labeling Config (name of the model in tag is changed). Hovering on each trained model will show the training date and time.
+If the user chooses not to automatically deploy the newly trained model, this can be done on demand by navigating to the Spark NLP pipeline Config and filtering the model by name of the project (item 3) and select that new model trained by Active Learning. This will update the Labeling Config (name of the model in tag is changed). Hovering on each trained model will show the training date and time.
 
 
 <img class="image image--xl" src="/assets/images/annotation_lab/1.6.0/ner_config.png" style="width:70%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 
-If the user opts for deploying the model after the training, the Project Configuration is automatically updated for each label that is not associated with a pretrained Spark NLP model, the model information is updated with the name of the new model.
+If the user opts to deploy the model after the training, the Project Configuration is automatically updated for each label that is not associated with a pretrained Spark NLP model, the model information is updated with the name of the new model.
 
 If there is any mistake in the name of models, the validation error is displayed in the Interface Preview Section present on the right side of the Labeling Config area.
 
