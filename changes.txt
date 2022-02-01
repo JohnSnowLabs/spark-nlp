@@ -1,4 +1,2 @@
-docs/_posts/dcecchini/2021-07-23-cantemist_scielowiki_es.md
-docs/_posts/dcecchini/2021-07-26-meddroprof_scielowiki_es.md
-docs/_posts/dcecchini/2021-07-23-cantemist_scielowiki_es.md
-docs/_posts/dcecchini/2021-07-26-meddroprof_scielowiki_es.md
+docs/_posts/murat-gunay/2021-12-03-xlm_roberta_large_token_classification_ner_id.md
+docs/_posts/murat-gunay/2021-12-03-xlm_roberta_large_token_classification_ner_id.md
