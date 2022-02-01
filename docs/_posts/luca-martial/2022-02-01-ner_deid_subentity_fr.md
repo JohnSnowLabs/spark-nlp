@@ -64,7 +64,7 @@ nlpPipeline = Pipeline(stages=[
         embeddings,
         clinical_ner])
 
-text = ['''Il s'agit d'un homme agé de 49 ans adressé au CHU de Montpellier pour un diabète mal contrôlé avec des symptômes datant de Mars 2015.'']
+text = ["Il s'agit d'un homme agé de 49 ans adressé au CHU de Montpellier pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."]
 
 df = spark.createDataFrame([text]).toDF("text")
 
@@ -93,7 +93,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "fr", "clini
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
-val text = "'Il s'agit d'un homme agé de 49 ans adressé au CHU de Montpellier pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."
+val text = "Il s'agit d'un homme agé de 49 ans adressé au CHU de Montpellier pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."
 
 val df = Seq(text).toDF("text")
 
