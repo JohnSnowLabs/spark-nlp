@@ -161,7 +161,7 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
       }
       if (regexPatterns.isDefined) {
 
-        val resultMatches = regexPatterns.get.flatMap{ regexPattern =>
+        val resultMatches = regexPatterns.get.flatMap { regexPattern =>
           val matchedResult = regexPattern.r.findFirstMatchIn(sentence.content)
           if (matchedResult.isDefined) {
             val begin = matchedResult.get.start + sentence.start
@@ -214,9 +214,9 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
   private def annotateEntitiesFromPatternsBySentence(sentences: Seq[Sentence],
                                                      patternsReader: Option[RegexPatternsReader]): Seq[Annotation] = {
 
-    val annotatedEntities = sentences.flatMap{ sentence =>
+    val annotatedEntities = sentences.flatMap { sentence =>
       val matchedEntities = getMatchedEntityBySentence(sentence, patternsReader)
-      matchedEntities.map{ case (indexedToken, label) =>
+      matchedEntities.map { case (indexedToken, label) =>
         val entityMetadata = getEntityMetadata(Some(label))
         Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
           entityMetadata ++ Map("sentence" -> sentence.index.toString))
