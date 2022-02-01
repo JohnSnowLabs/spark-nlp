@@ -863,14 +863,14 @@ class RegexTokenizer(AnnotatorModel):
                            typeConverter=TypeConverters.toBoolean)
 
     trimWhitespace = Param(Params._dummy(),
-                            "trimWhitespace",
-                            "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
-                            typeConverter=TypeConverters.toBoolean)
+                           "trimWhitespace",
+                           "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
+                           typeConverter=TypeConverters.toBoolean)
 
     preservePosition = Param(Params._dummy(),
-                            "preservePosition",
-                            "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
-                            typeConverter=TypeConverters.toBoolean)
+                             "preservePosition",
+                             "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
+                             typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
         """Sets the minimum allowed legth for each token, by default 1.
@@ -14903,6 +14903,11 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
                        "Whether to use RocksDB storage to serialize patterns",
                        typeConverter=TypeConverters.toBoolean)
 
+    sentenceMatch = Param(Params._dummy(),
+                          "sentenceMatch",
+                          "Whether to find match at sentence level. True: sentence level. False: token level",
+                          typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         super(EntityRulerApproach, self).__init__(
@@ -14941,6 +14946,16 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
             Whether to use RocksDB storage to serialize patterns.
         """
         return self._set(useStorage=value)
+
+    def setSentenceMatch(self, value):
+        """Sets whether to find match at sentence level.
+
+        Parameters
+        ----------
+        value : bool
+            True: sentence level. False: token level
+        """
+        return self._set(sentenceMatch=value)
 
     def _create_model(self, java_model):
         return EntityRulerModel(java_model=java_model)
