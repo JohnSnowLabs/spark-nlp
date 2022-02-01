@@ -314,11 +314,11 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
       val processedEntityPatterns: Array[EntityPattern] =
         entityPatterns
-        .groupBy(_.label)
-        .map{entityPattern =>
-          val patterns: Seq[String] = entityPattern._2.flatMap(ep => ep.patterns).distinct
-          EntityPattern(entityPattern._1, patterns)
-        }.toArray
+          .groupBy(_.label)
+          .map { entityPattern =>
+            val patterns: Seq[String] = entityPattern._2.flatMap(ep => ep.patterns).distinct
+            EntityPattern(entityPattern._1, patterns)
+          }.toArray
 
       processedEntityPatterns
 
@@ -400,6 +400,7 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
 
     val spark = patternsDataFrame.sparkSession
     val sparkVersion = Version.parse(spark.version).toFloat
+    // TODO: drop this feature and the UDF when we deprecated Spark 2.3 support
     if (sparkVersion < 2.4) {
       spark.udf.register("flatten", SparkUtil.flattenArrays)
     }

@@ -532,7 +532,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   private def getEntityRulerPipelineAtSentenceLevel(externalResource: ExternalResource, regexPatterns: Boolean = false,
-                                     useStorage: Boolean = true): PipelineModel = {
+                                                    useStorage: Boolean = true): PipelineModel = {
 
     val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
 
