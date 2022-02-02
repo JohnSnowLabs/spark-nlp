@@ -41,7 +41,7 @@ documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
@@ -73,15 +73,15 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
