@@ -61,7 +61,7 @@ result = deid_pipeline .annotate(sample)
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-val deid_pipeline = new PretrainedPipeline("clinical_deidentification_glove","en","clinical/models")
+val deid_pipeline = new PretrainedPipeline("deid_pipeline", "es", "clinical/models")
 
 sample = "Datos del paciente.
 Nombre:  Jose .
