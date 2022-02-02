@@ -54,15 +54,15 @@ embeddings = BertEmbeddings.pretrained("electra_medal_acronym", "en") \
 nlpPipeline= Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings])
 ```
 ```scala
-val documentAssembler= DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
-val sentenceDetector = SentenceDetector()
+val sentenceDetector = new SentenceDetector()
         .setInputCols(Array("document"))
         .setOutputCol("sentence")
 
-val tokenizer= Tokenizer()
+val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
