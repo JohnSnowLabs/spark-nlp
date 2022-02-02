@@ -61,7 +61,7 @@ result = deid_pipeline .annotate(sample)
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-val deid_pipeline = PretrainedPipeline("clinical_deidentification_glove","en","clinical/models")
+val deid_pipeline = new PretrainedPipeline("clinical_deidentification_glove","en","clinical/models")
 
 sample = "Datos del paciente.
 Nombre:  Jose .
@@ -85,7 +85,7 @@ Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura trata
 Remitido por: Dra. María Merino Viveros Hospital Universitario de Getafe Servicio de Endocrinología y Nutrición Carretera de Toledo km 12,500 28905 Getafe - Madrid (España) Correo electrónico: marietta84@hotmail.com
 "
 
-val result = deid_pipeline .annotate(sample)
+val result = deid_pipeline.annotate(sample)
 ```
 </div>
 
