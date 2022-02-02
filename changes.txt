@@ -1,2 +1,12 @@
-docs/_posts/murat-gunay/2021-12-03-xlm_roberta_large_token_classification_ner_id.md
-docs/_posts/murat-gunay/2021-12-03-xlm_roberta_large_token_classification_ner_id.md
+docs/_posts/josejuanmartinez/2021-11-01-roberta_base_biomedical_es.md
+docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
+docs/_posts/josejuanmartinez/2021-11-04-bert_sequence_classifier_question_statement_en.md
+docs/_posts/josejuanmartinez/2021-11-04-roberta_ner_diag_proc_es.md
+docs/_posts/josejuanmartinez/2021-11-05-bert_sequence_classifier_question_statement_clinical_en.md
+docs/_posts/josejuanmartinez/2022-01-04-electra_medal_acronym_en.md
+docs/_posts/josejuanmartinez/2021-11-01-roberta_base_biomedical_es.md
+docs/_posts/josejuanmartinez/2021-11-03-robertaresolve_snomed_es.md
+docs/_posts/josejuanmartinez/2021-11-04-bert_sequence_classifier_question_statement_en.md
+docs/_posts/josejuanmartinez/2021-11-04-roberta_ner_diag_proc_es.md
+docs/_posts/josejuanmartinez/2021-11-05-bert_sequence_classifier_question_statement_clinical_en.md
+docs/_posts/josejuanmartinez/2022-01-04-electra_medal_acronym_en.md
