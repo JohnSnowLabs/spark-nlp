@@ -354,7 +354,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
    */
   def addVocabClass(usrLabel: String, vocabList: util.ArrayList[String], userDist: Int = 3): ContextSpellCheckerApproach.this.type = {
     val vocab = vocabList.asScala
-    val nc = new GenericVocabParser(collection.mutable.Set(vocab.toArray:_*) , usrLabel, userDist)
+    val nc = new GenericVocabParser(collection.mutable.Set(vocab.toArray: _*), usrLabel, userDist)
     setSpecialClasses(getOrDefault(specialClasses) :+ nc)
   }
 
@@ -459,7 +459,7 @@ class ContextSpellCheckerApproach(override val uid: String) extends
     var vocab = collection.mutable.HashMap(dataset.select(getInputCols.head).as[Seq[Annotation]].
       flatMap(identity).
       groupByKey(_.result).
-      mapGroups { case (token, insts) => (token, insts.length.toDouble) }.
+      mapGroups { (token, insts) => (token, insts.length.toDouble) }.
       collect(): _*)
 
     // words appearing less that minCount times will be unknown
