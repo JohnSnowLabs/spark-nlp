@@ -71,7 +71,7 @@ df = spark.createDataFrame([text]).toDF("text")
 results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
@@ -79,7 +79,7 @@ val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_
         .setInputCols("document")
         .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
         .setInputCols("sentence")
         .setOutputCol("token")
 
