@@ -41,7 +41,7 @@ documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
         
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")\
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "xx", "clinical/models")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
 
@@ -75,7 +75,7 @@ val documentAssembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 
-val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models")
+val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "xx", "clinical/models")
         .setInputCols("document")
         .setOutputCol("sentence")
 
@@ -84,18 +84,18 @@ val tokenizer = Tokenizer()
         .setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("word2vec_wac_200", "fr")
-    .setInputCols("sentence", "token")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity", "fr", "clinical/models")
-        .setInputCols("sentence","token","embeddings")
+        .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
 
 val text = "Il s'agit d'un homme agé de 49 ans adressé au CHU de Montpellier pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."
 
-val df = Seq(text).toDF("text")
+val data = Seq(text).toDF("text")
 
 val results = pipeline.fit(data).transform(data)
 ```
