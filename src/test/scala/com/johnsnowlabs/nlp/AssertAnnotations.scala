@@ -23,23 +23,23 @@ import scala.collection.mutable
 
 object AssertAnnotations {
 
-  def getActualResult(dataSet: Dataset[_], columnName: String): Array[Seq[Annotation]] = {
+  def getActualResult(dataSet: Dataset[_], columnName: String): Array[collection.Seq[Annotation]] = {
     val result = columnName + ".result"
     val metadata = columnName + ".metadata"
     val begin = columnName + ".begin"
     val end = columnName + ".end"
     dataSet.select(result, metadata, begin,  end).rdd.map{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[Seq[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[Seq[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[Seq[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[Seq[Int]]
+      val resultSeq: collection.Seq[String] = row.get(0).asInstanceOf[collection.Seq[String]]
+      val metadataSeq: collection.Seq[Map[String, String]] = row.get(1).asInstanceOf[collection.Seq[Map[String, String]]]
+      val beginSeq: collection.Seq[Int] = row.get(2).asInstanceOf[collection.Seq[Int]]
+      val endSeq: collection.Seq[Int] = row.get(3).asInstanceOf[collection.Seq[Int]]
       resultSeq.zipWithIndex.map{ case (token, index) =>
         Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
       }
     }.collect()
   }
 
-  def assertFields(expectedResult: Array[Seq[Annotation]], actualResult: Array[Seq[Annotation]]): Unit = {
+  def assertFields(expectedResult: Array[Seq[Annotation]], actualResult: Array[collection.Seq[Annotation]]): Unit = {
     expectedResult.zipWithIndex.foreach { case (expectedAnnotationDocument, indexDocument) =>
       val actualDocument = actualResult(indexDocument)
       expectedAnnotationDocument.zipWithIndex.foreach { case (expectedAnnotation, index) =>

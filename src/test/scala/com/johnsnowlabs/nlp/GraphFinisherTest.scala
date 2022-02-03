@@ -23,8 +23,6 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.Dataset
 import org.scalatest.flatspec.AnyFlatSpec
 
-import scala.collection.mutable
-
 class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtractionFixture {
 
   spark.conf.set("spark.sql.crossJoin.enabled", "true")
@@ -142,7 +140,7 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       "path2" -> "sees,ccomp,goes,nsubj,Bill",
       "path3" -> "sees,ccomp,goes,nsubj,Bill,conj,Mary")
     val graphFinisher = new GraphFinisher()
-    val expectedResult= "[(sees,nsubj,John)],[(sees,ccomp,goes),(goes,nsubj,Bill)]," +
+    val expectedResult = "[(sees,nsubj,John)],[(sees,ccomp,goes),(goes,nsubj,Bill)]," +
       "[(sees,ccomp,goes),(goes,nsubj,Bill),(Bill,conj,Mary)]"
     val expectedAnnotated = Seq(Annotation(NODE, 0, 0, expectedResult, Map()))
 
@@ -152,16 +150,16 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
   }
 
   private def getFinisherAsArray(dataSet: Dataset[_]) = {
-    val paths = dataSet.select("finisher").rdd.map{row =>
-      val result: Seq[Seq[String]] = row.get(0).asInstanceOf[Seq[Seq[String]]]
+    val paths = dataSet.select("finisher").rdd.map { row =>
+      val result: collection.Seq[collection.Seq[String]] = row.get(0).asInstanceOf[collection.Seq[collection.Seq[String]]]
       result
     }.collect().toList
     paths.flatten
   }
 
   private def getFinisher(dataSet: Dataset[_], column: String) = {
-    val paths = dataSet.select(column).rdd.map{row =>
-      val result: Seq[String] = row.get(0).asInstanceOf[Seq[String]]
+    val paths = dataSet.select(column).rdd.map { row =>
+      val result: collection.Seq[String] = row.get(0).asInstanceOf[collection.Seq[String]]
       result
     }.collect().toList
     paths
