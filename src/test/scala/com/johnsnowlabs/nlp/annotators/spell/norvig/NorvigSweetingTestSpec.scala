@@ -46,7 +46,7 @@ class NorvigSweetingTestSpec extends AnyFlatSpec with NorvigSweetingBehaviors {
   "A spark spell checker using dataframes" should behave like sparkBasedSpellChecker(DataBuilder.basicDataBuild("efusive", "destroyd"), "TXTDS")
 
   "A good sized dataframe" should behave like sparkBasedSpellChecker(
-    AnnotatorBuilder.withDocumentAssembler(ContentProvider.parquetData.limit(5000))
+    AnnotatorBuilder.withDocumentAssembler(ContentProvider.parquetData.limit(50))
   )
 
   "A good sized dataframe trained with dataframe" should behave like datasetBasedSpellChecker
