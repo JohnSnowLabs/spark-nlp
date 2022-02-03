@@ -246,4 +246,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Extract neurologic deficits related to NIH Stroke Scale (NIHSS)
+          id: extract_neurologic_deficits_relatedNIH_stroke_scale 
+          image: 
+              src: /assets/images/Extract_neurologic_deficits_related_NIH_Stroke_Scale.svg
+          image2: 
+              src: /assets/images/Extract_neurologic_deficits_related_NIH_Stroke_Scale_f.svg
+          excerpt: This demo shows how neurologic deficits can be extracted in accordance with their NIH Stroke Scale using a Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_NIHSS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

@@ -117,4 +117,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
+        - title: Identify relations between scale items and measurements according to NIHSS
+          id: identify_relations_between_scale_items_their_measurements_according
+          image: 
+              src: /assets/images/Identify_relations_between_scale_items_measurements_according.svg
+          image2: 
+              src: /assets/images/Identify_relations_between_scale_items_measurements_according_f.svg
+          excerpt: This demo shows how relations between scale items and their measurements can be identified according to NIHSS guidelines using a Spark NLP Healthcare RE model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_NIHSS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
 ---
