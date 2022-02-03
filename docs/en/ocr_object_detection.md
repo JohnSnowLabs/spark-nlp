@@ -266,3 +266,95 @@ display_images(data, "image_with_regions")
 **Output:**
 
 ![image](/assets/images/ocr/text_detection.png)
+
+
+## ImageTextDetectorV2
+
+`ImageTextDetectorV2` is a DL model for detect text on the image.
+It based on CRAFT network architecture with refiner net. Refiner net 
+run as postprocessing and able to merge single words regions to line.
+It available only on Python side.
+
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCol | string | image | image struct ([Image schema](ocr_structures#image-schema)) |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| scoreThreshold | float | 0.7 | Score threshold for output regions.|
+| sizeThreshold | int | 10 | Threshold for height of the detected regions. |
+| textThreshold | float | 0.4f | Threshold for the region(text) score. The region score represents the probability that the given pixel is the center of the character. |
+| linkThreshold | float | 0.4f | Threshold for the the link(affinity) score. The link score represents the center probability of the space between adjacent characters. |
+| width | integer | 1280 | Width of the desired input image. Image will be resized to this width. |
+| withRefiner | boolean | false | Enable to run refiner net as postprocessing step. |
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | table_regions | array of [Coordinaties]ocr_structures#coordinate-schema)|
+
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+not implemented
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect text
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setScoreThreshold(0.5) \
+    .setTextThreshold(0.2) \
+    .setSizeThreshold(10) \
+    .setWithRefiner(True)
+
+draw_regions = ImageDrawRegions() \
+  .setInputCol("image") \
+  .setInputRegionsCol("text_regions") \
+  .setOutputCol("image_with_regions")
+
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    draw_regions
+])
+
+data = pipeline.transform(df)
+
+display_images(data, "image_with_regions")
+```
+
+</div>
+
+![image](/assets/images/ocr/text_detection1.png)

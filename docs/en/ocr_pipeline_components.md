@@ -2951,6 +2951,119 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 ```
 
+### ImageToTextV2
+
+`ImageToTextV2` based on transformers architecture and combine CV and NLP
+ in one model. It is visual encoder-decoder model. Encoder based on ViT 
+ and decoder on RoBERTa model.
+
+`ImageToTextV2` can work with CPU, but prefer to use GPU for 
+have acceptable performance.
+
+`ImageToTextV2` can recognize single line text or work together
+ with text detection model.
+
+#### Input Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| inputCols | Array[string] | [image] | Can use as input image struct ([Image schema](ocr_structures#image-schema))  and regions. |
+
+#### Parameters
+
+{:.table-model-big}
+| Param name | Type | Default | Description |
+| --- | --- | --- | --- |
+| lineTolerance | integer | 15 | Line tolerance in pixels. It using for group text regions by lines. |
+| borderWidth | integer | 5 | Value more then 0 enable to border text region with width equal to the value of the parameter. |
+| spaceWidth | integer | 10 | Value more then 0 enable to add white spaces between words on the image. |
+
+
+#### Output Columns
+
+{:.table-model-big}
+| Param name | Type | Default | Column Data Description |
+| --- | --- | --- | --- |
+| outputCol | string | text | Recognized text |
+
+**Example:**
+
+<div class="tabs-box pt0" markdown="1">
+
+{% include programmingLanguageSelectScalaPython.html %}
+
+```scala
+not implemented
+```
+
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read 
+    .format("binaryFile")
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setWithRefiner(True) \
+    .setSizeThreshold(20)
+
+ocr = ImageToTextV2.pretrained("ocr_base_printed", "en", "clinical/ocr") \
+    .setInputCols(["image", "text_regions"]) \
+    .setOutputCol("text")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    ocr
+])
+
+data = pipeline.transform(df)
+data.show()
+```
+
+</div>
+
+
+**Image:**
+
+![image](/assets/images/ocr/text_detection1.png)
+
+**Output:**
+
+```
+STARBUCKS STORE #10208
+11302 EUCLID AVENUE
+CLEVELAND, OH (216) 229-0749
+CHK 664290
+12/07/2014 06:43 PM
+1912003 DRAWER: 2. REG: 2
+VT PEP MOCHA 4.95
+SBUX CARD 4.95
+XXXXXXXXXXXX3228
+SUBTOTAL $4.95
+TOTAL $4.95
+CHANGE DUE $0.00
+---- CHECK CLOSED
+12/07/2014 06:43 PM
+SBUX CARD X3228 NEW BALANCE: 37.45
+CARD IS REGISTERED
+```
+
+
+
 ### ImageToTextPdf
 
 `ImageToTextPdf` runs OCR for input image, render recognized text to 

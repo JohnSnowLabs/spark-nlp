@@ -12,6 +12,34 @@ sidebar:
 ---
 
 
+## 3.11.0
+
+Release date: *-02-2022
+
+
+#### Overview
+
+
+#### New Features
+
+* Added [ImageTextDetectorV2](ocr_object_detection#imagetextdetectorv2) python transformer for detect printed and handwritten text
+ using CRAFT architecture with refiner net.
+* Added [ImageTextRecognizerV2](ocr_pipeline_components#imagetotextv2) python transformer for recognize
+ printed and handwritten text and based on TrOcr architecture.
+
+#### New Models
+
+* Text detection model based on CRAFT architecture with refiner net
+* Text recognition for printed text based on TrOcr
+
+
+#### New notebooks
+
+* [ImageTextDetectorV2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextDetection/SparkOcrImageTextDetectionV2.ipynb)
+* [Visual Document NER v2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextRecognition/SparkOCRImageTextRecognitonV2.ipynb)
+
+
+
 ## 3.10.0
 
 Release date: 10-01-2022
