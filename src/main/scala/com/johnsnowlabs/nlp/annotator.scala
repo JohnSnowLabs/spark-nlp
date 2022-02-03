@@ -420,7 +420,7 @@ package object annotator {
 
   object Word2VecApproach extends DefaultParamsReadable[Word2VecApproach]
 
-  type Word2VecModel = com.johnsnowlabs.nlp.embeddings.Doc2VecModel
+  type Word2VecModel = com.johnsnowlabs.nlp.embeddings.Word2VecModel
 
   object Word2VecModel extends ReadablePretrainedWord2Vec
 
