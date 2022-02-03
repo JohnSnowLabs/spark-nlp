@@ -30,8 +30,7 @@ import org.junit.Assert.assertEquals
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
-import scala.collection.convert.ImplicitConversions.{`collection asJava`, `iterable AsScalaIterable`}
-//import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 
 class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
@@ -411,10 +410,10 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     val sortedTransducers = loadedModel.specialTransducers.getOrDefault.sortBy(_.label)
 
     assert(sortedTransducers.head.label == "_DATE_")
-    assert(sortedTransducers.head.generateTransducer.transduce("10710/2018", 1).map(_.term()).contains("10/10/2018"))
+    assert(sortedTransducers.head.generateTransducer.transduce("10710/2018", 1).asScala.map(_.term()).toSet.contains("10/10/2018"))
 
     assert(sortedTransducers(1).label == "_NUM_")
-    assert(sortedTransducers(1).generateTransducer.transduce("50,C00", 1).map(_.term()).contains("50,000"))
+    assert(sortedTransducers(1).generateTransducer.transduce("50,C00", 1).asScala.map(_.term()).toSet.contains("50,000"))
 
     val trellis = Array(Array.fill(6)(("the", 0.8, "the")),
       Array.fill(6)(("end", 1.2, "end")), Array.fill(6)((".", 1.2, ".")))
@@ -427,7 +426,7 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     val number = new NumberToken
     val transducer = number.generateTransducer
 
-    assert(transducer.transduce("100.3").toList.exists(_.distance == 0))
+    assert(transducer.transduce("100.3").asScala.toList.exists(_.distance == 0))
     assert(number.separate("$40,000").equals(number.label))
   }
 
@@ -435,7 +434,7 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     val date = new DateToken
     val transducer = date.generateTransducer
 
-    assert(transducer.transduce("10/25/1982").toList.exists(_.distance == 0))
+    assert(transducer.transduce("10/25/1982").asScala.toList.exists(_.distance == 0))
     assert(date.separate("10/25/1982").equals(date.label))
   }
 
