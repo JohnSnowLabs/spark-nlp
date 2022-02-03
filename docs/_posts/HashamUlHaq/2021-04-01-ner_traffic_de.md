@@ -37,24 +37,24 @@ Detect entities related to road traffic using pretrained NER model.
 ```python
 
 ...
-embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
-clinical_ner = MedicalNerModel.pretrained("ner_traffic", "en", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
+embeddings_german = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")  .setInputCols(["sentence", "token"])  .setOutputCol("embeddings")
+clinical_ner = MedicalNerModel.pretrained("ner_traffic", "de", "clinical/models")   .setInputCols(["sentence", "token", "embeddings"])   .setOutputCol("ner")
 ...
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_clinical, clinical_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings_german, clinical_ner, ner_converter])
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 results = model.transform(spark.createDataFrame([["EXAMPLE_TEXT"]]).toDF("text"))
 ```
 ```scala
 
 ...
-val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+val embeddings_german = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_traffic", "en", "clinical/models")
+val ner = MedicalNerModel.pretrained("ner_traffic", "de", "clinical/models")
   .setInputCols(Array("sentence", "token", "embeddings"))
   .setOutputCol("ner")
 ...
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_clinical, ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings_german, ner, ner_converter))
 val result = pipeline.fit(Seq.empty[String]).transform(data)
 ```
 </div>
