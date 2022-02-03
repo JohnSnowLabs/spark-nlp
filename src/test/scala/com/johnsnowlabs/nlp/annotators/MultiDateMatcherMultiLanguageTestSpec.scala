@@ -96,10 +96,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -122,10 +119,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations(0).result == getTwoDaysAgoDate())
     assert(annotations(1).result == getNextWeekDate())
@@ -148,10 +142,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -173,10 +164,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -198,10 +186,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -225,10 +210,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -251,10 +233,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -276,10 +255,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -303,10 +279,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -328,10 +301,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -353,10 +323,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -380,10 +347,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -405,10 +369,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -430,10 +391,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -457,10 +415,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -482,10 +437,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 
@@ -507,10 +459,7 @@ class MultiDateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcher
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val results: Set[String] = annotations.map(_.result).toSet
 

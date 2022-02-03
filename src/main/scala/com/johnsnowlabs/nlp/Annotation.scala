@@ -149,12 +149,12 @@ object Annotation {
       }
   }
 
-  def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+  def getAnnotations(row: Row, colNum: Int): collection.Seq[Annotation] = {
+    row.getAs[collection.Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
-  def getAnnotations(row: Row, colName: String): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colName).map(obj => Annotation(obj))
+  def getAnnotations(row: Row, colName: String): collection.Seq[Annotation] = {
+    row.getAs[collection.Seq[Row]](colName).map(obj => Annotation(obj))
   }
 
   /** dataframe take of a specific annotation column */

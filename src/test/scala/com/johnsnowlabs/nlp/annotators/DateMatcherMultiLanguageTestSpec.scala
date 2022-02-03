@@ -46,10 +46,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "09/15/2012")
   }
@@ -68,10 +65,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "09/15/2012")
   }
@@ -89,10 +83,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "09/15/2012")
   }
@@ -113,10 +104,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusYears(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -141,10 +129,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusWeeks(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -169,10 +154,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusDays(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -197,10 +179,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusYears(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -225,10 +204,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusMonths(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -253,10 +229,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusWeeks(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -281,10 +254,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -309,10 +279,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(4L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -337,10 +304,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDateTime = LocalDateTime.now.plusHours(4)
     val formatter = DateTimeFormat.forPattern(DateFormat)
@@ -365,10 +329,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -387,10 +348,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "04/23/2019")
   }
@@ -409,10 +367,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "02/23/2019")
   }
@@ -433,10 +388,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusYears(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -461,10 +413,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusWeeks(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -489,10 +438,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusDays(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -517,10 +463,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusYears(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -545,10 +488,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusMonths(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -573,10 +513,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusWeeks(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -601,10 +538,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -629,10 +563,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(4L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -657,10 +588,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDateTime = LocalDateTime.now.plusHours(4)
     val formatter = DateTimeFormat.forPattern(DateFormat)
@@ -685,10 +613,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -707,10 +632,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -731,10 +653,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusYears(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -759,10 +678,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusWeeks(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -787,10 +703,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusDays(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -815,10 +728,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusYears(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -843,10 +753,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusMonths(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -871,10 +778,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusWeeks(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -899,10 +803,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -927,10 +828,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(4L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -955,10 +853,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDateTime = LocalDateTime.now.plusHours(4)
     val formatter = DateTimeFormat.forPattern(DateFormat)
@@ -983,10 +878,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -1005,10 +897,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -1029,10 +918,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusYears(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1057,10 +943,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusWeeks(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1085,10 +968,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusDays(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1113,10 +993,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusYears(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1141,10 +1018,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusMonths(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1169,10 +1043,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusWeeks(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1197,10 +1068,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1225,10 +1093,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(4L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1253,10 +1118,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDateTime = LocalDateTime.now.plusHours(4)
     val formatter = DateTimeFormat.forPattern(DateFormat)
@@ -1281,10 +1143,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -1303,10 +1162,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     assert(annotations.head.result == "05/23/2019")
   }
@@ -1327,10 +1183,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusYears(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1355,10 +1208,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusWeeks(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1383,10 +1233,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.minusDays(2L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1411,10 +1258,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusYears(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1439,10 +1283,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusMonths(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1467,10 +1308,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusWeeks(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1495,10 +1333,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(1L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1523,10 +1358,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDate = LocalDate.now.plusDays(4L)
     val formatter = DateTimeFormatter.ofPattern(DateFormat)
@@ -1551,10 +1383,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDateTime = LocalDateTime.now.plusHours(4)
     val formatter = DateTimeFormat.forPattern(DateFormat)
@@ -1581,10 +1410,7 @@ class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehav
 
     val annotated = pipeline.fit(data).transform(data)
 
-    val annotations: Seq[Annotation] =
-      Annotation.getAnnotations(
-        annotated.select("date").collect().head,
-        "date")
+    val annotations = Annotation.getAnnotations(annotated.select("date").collect().toSeq.head, "date")
 
     val localDateTime = LocalDateTime.now
     val formatter = DateTimeFormat.forPattern(DateFormat)
