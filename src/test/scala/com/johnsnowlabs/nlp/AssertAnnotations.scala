@@ -29,10 +29,10 @@ object AssertAnnotations {
     val begin = columnName + ".begin"
     val end = columnName + ".end"
     dataSet.select(result, metadata, begin,  end).rdd.map{ row=>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
-      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[mutable.WrappedArray[Map[String, String]]]
-      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[mutable.WrappedArray[Int]]
-      val endSeq: Seq[Int] = row.get(3).asInstanceOf[mutable.WrappedArray[Int]]
+      val resultSeq: Seq[String] = row.get(0).asInstanceOf[Seq[String]]
+      val metadataSeq: Seq[Map[String, String]] = row.get(1).asInstanceOf[Seq[Map[String, String]]]
+      val beginSeq: Seq[Int] = row.get(2).asInstanceOf[Seq[Int]]
+      val endSeq: Seq[Int] = row.get(3).asInstanceOf[Seq[Int]]
       resultSeq.zipWithIndex.map{ case (token, index) =>
         Annotation(TOKEN, beginSeq(index), endSeq(index), token, metadataSeq(index))
       }

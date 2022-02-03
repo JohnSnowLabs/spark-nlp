@@ -21,7 +21,6 @@ import com.johnsnowlabs.nlp.annotator.RecursiveTokenizer
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
@@ -31,7 +30,8 @@ import org.junit.Assert.assertEquals
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io._
-
+import scala.collection.convert.ImplicitConversions.{`collection asJava`, `iterable AsScalaIterable`}
+//import scala.jdk.CollectionConverters._
 
 class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
@@ -399,8 +399,6 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   "a model" should "serialize properly" taggedAs SlowTest in {
 
-    import scala.collection.JavaConversions._
-
     val ocrSpellModel = ContextSpellCheckerModel.pretrained()
     assert(ocrSpellModel.specialTransducers.getOrDefault.size == 5, "default pretrained should come with 5 classes")
 
@@ -421,12 +419,11 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
     val trellis = Array(Array.fill(6)(("the", 0.8, "the")),
       Array.fill(6)(("end", 1.2, "end")), Array.fill(6)((".", 1.2, ".")))
     val (decoded, cost) = loadedModel.decodeViterbi(trellis)
-    assert(decoded.deep.equals(Array("the", "end", ".").deep))
+    assert(java.util.Arrays.deepEquals(decoded.asInstanceOf[Array[Object]], Array("the", "end", ".")))
 
   }
 
   "number classes" should "recognize different number patterns" taggedAs FastTest in {
-    import scala.collection.JavaConversions._
     val number = new NumberToken
     val transducer = number.generateTransducer
 
@@ -435,7 +432,6 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
   }
 
   "date classes" should "recognize different date and time formats" taggedAs FastTest in {
-    import scala.collection.JavaConversions._
     val date = new DateToken
     val transducer = date.generateTransducer
 

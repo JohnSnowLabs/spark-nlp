@@ -112,7 +112,7 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
     tokenizerDataSet.select("token.result").show(1, truncate = false)
 
     val predictedTokensBySentences = tokenizerDataSet.select("token.result").rdd.map { row =>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[mutable.WrappedArray[String]]
+      val resultSeq: Seq[String] = row.get(0).asInstanceOf[Seq[String]]
       resultSeq.toList
     }.collect().toList
       .filter(predictedTokens => predictedTokens.nonEmpty)

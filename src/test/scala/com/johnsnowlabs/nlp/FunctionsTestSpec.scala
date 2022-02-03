@@ -67,7 +67,7 @@ class FunctionsTestSpec extends AnyFlatSpec {
       "hello world"
     })
 
-    val filtered = data.filterByAnnotationsCol("pos", (annotations: Seq[Annotation]) => {
+    val filtered = data.filterByAnnotationsCol("pos", (annotations: collection.Seq[Annotation]) => {
       annotations.exists(_.result == "JJ")
     })
 
