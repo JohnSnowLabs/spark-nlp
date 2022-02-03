@@ -168,7 +168,7 @@ class NerCrfModel(override val uid: String) extends AnnotatorModel[NerCrfModel] 
   /** @group getParam */
   def getIncludeConfidence: Boolean = $(includeConfidence)
 
-  setDefault[String, String](dictionaryFeatures, () => Map.empty())
+  setDefault[String, String](dictionaryFeatures, () => scala.collection.immutable.Map.empty[String, String])
   setDefault(includeConfidence, false)
 
   /**
