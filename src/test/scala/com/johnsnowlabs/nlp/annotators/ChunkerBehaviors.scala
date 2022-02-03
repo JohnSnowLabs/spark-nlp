@@ -186,7 +186,7 @@ trait ChunkerBehaviors {
 
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
       val finished_chunks = model.transform(testData).select("finished_chunks").collect().map(row =>
-        row.get(0).asInstanceOf[Seq[String]].toList)
+        row.get(0).asInstanceOf[collection.Seq[String]].toList)
       finished_chunks.map(row => assert(row.isEmpty))
     }
   }
@@ -239,7 +239,7 @@ trait ChunkerBehaviors {
       val model = this.chunkerModelBuilder(trainingPerceptronDF, regexParser)
 
       val finished_chunks = model.transform(dataset).select("finished_chunks").collect().map(row =>
-        row.get(0).asInstanceOf[Seq[String]].toList
+        row.get(0).asInstanceOf[collection.Seq[String]].toList
       )
       finished_chunks.map(row => assert(row.nonEmpty))
 

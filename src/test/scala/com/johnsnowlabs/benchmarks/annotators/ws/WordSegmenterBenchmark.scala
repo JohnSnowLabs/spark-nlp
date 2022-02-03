@@ -26,7 +26,6 @@ import org.apache.spark.sql.{DataFrame, Encoders}
 import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.tags.SlowTest
 
-import scala.collection.mutable
 
 class WordSegmenterBenchmark extends AnyFlatSpec {
 
@@ -78,8 +77,7 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
 
   it should "benchmark a word segmenter pretrained model" taggedAs SlowTest in {
     val emptyDataset = PipelineModels.dummyDataset
-    val modelPath = "./tmp_ontonotes_poc_dev_model"
-    val wordSegmenter = WordSegmenterModel.load(modelPath)
+    val wordSegmenter = WordSegmenterModel.pretrained()
     val pipeline = new Pipeline().setStages(Array(documentAssembler, wordSegmenter))
     val tokenizerPipeline = pipeline.fit(emptyDataset)
     val metrics = evaluateModel(tokenizerPipeline)
@@ -112,7 +110,7 @@ class WordSegmenterBenchmark extends AnyFlatSpec {
     tokenizerDataSet.select("token.result").show(1, truncate = false)
 
     val predictedTokensBySentences = tokenizerDataSet.select("token.result").rdd.map { row =>
-      val resultSeq: Seq[String] = row.get(0).asInstanceOf[Seq[String]]
+      val resultSeq: Seq[String] = row.get(0).asInstanceOf[collection.Seq[String]].toSeq
       resultSeq.toList
     }.collect().toList
       .filter(predictedTokens => predictedTokens.nonEmpty)

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.SparkAccessor
 import org.scalatest.flatspec.AnyFlatSpec
 
-class ChunkerTestSpec extends AnyFlatSpec with ChunkerBehaviors{
+class ChunkerTestSpec extends AnyFlatSpec with ChunkerBehaviors {
 
 
   "a chunker using a trained POS" should behave like testChunkingWithTrainedPOS(
@@ -72,12 +72,12 @@ class ChunkerTestSpec extends AnyFlatSpec with ChunkerBehaviors{
       correctChunkPhrases = Array("money market")),
 
     SentenceParams(sentence = "In the emergency room his ultrasound showed mild hydronephrosis with new perinephric fluid surrounding the transplant kidney",
-      POSFormatSentence = Array("IN","DT","NN","NN","PRP$","NN","VBD","JJ","NN","IN","JJ","JJ","NN","VBG","DT","NN","NN"),
+      POSFormatSentence = Array("IN", "DT", "NN", "NN", "PRP$", "NN", "VBD", "JJ", "NN", "IN", "JJ", "JJ", "NN", "VBG", "DT", "NN", "NN"),
       regexParser = Array("<NN><NN>"),
       correctChunkPhrases = Array("emergency room", "transplant kidney")),
 
     SentenceParams(sentence = "this should not return a chunk phrase because there is no match",
-      POSFormatSentence = Array("DT", "MD", "RB","VB", "DT", "NN", "NN", "IN", "EX", "VBZ", "DT", "NN"),
+      POSFormatSentence = Array("DT", "MD", "RB", "VB", "DT", "NN", "NN", "IN", "EX", "VBZ", "DT", "NN"),
       regexParser = Array("<NN><NNP>"),
       correctChunkPhrases = Array())
   )

@@ -241,7 +241,7 @@ trait EmbeddingsCoverage {
 
   def overallCoverage(dataset: DataFrame, embeddingsCol: String): CoverageResult = {
     val words = dataset.select(embeddingsCol).flatMap(row => {
-      val annotations = row.getAs[Seq[Row]](embeddingsCol)
+      val annotations = row.getAs[collection.Seq[Row]](embeddingsCol)
       annotations.map(annotation => Tuple2(
         annotation.getAs[Map[String, String]]("metadata")("token"),
         if (annotation.getAs[Map[String, String]]("metadata").getOrElse("isOOV", "false") == "false") 1 else 0))

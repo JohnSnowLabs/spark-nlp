@@ -358,16 +358,16 @@ class EntityRulerApproach(override val uid: String) extends AnnotatorApproach[En
     var id = ""
 
     patternsDataFrame.rdd.toLocalIterator.foreach { row =>
-      val patterns = row.getAs[Seq[String]]("patterns")
+      val patterns = row.getAs[collection.Seq[String]]("patterns")
       val label = row.getAs[String]("label")
       if (fieldId.nonEmpty) {
         id = row.getAs[String]("id")
       }
       val entity = if (fieldId.nonEmpty) s"$label,$id" else label
       storageReadWriter.getOrElse(None) match {
-        case patternsWriter: PatternsReadWriter => storePatterns(patterns.toIterator, entity, patternsWriter)
-        case regexPatternsWriter: RegexPatternsReadWriter => storeRegexPattern(patterns, entity, regexPatternsWriter)
-        case None => computePatterns(patterns, entity)
+        case patternsWriter: PatternsReadWriter => storePatterns(patterns.toSeq.toIterator, entity, patternsWriter)
+        case regexPatternsWriter: RegexPatternsReadWriter => storeRegexPattern(patterns.toSeq, entity, regexPatternsWriter)
+        case None => computePatterns(patterns.toSeq, entity)
       }
     }
   }
