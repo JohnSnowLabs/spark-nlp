@@ -69,8 +69,8 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
   }
 
   override def pack(items: Seq[T]): Seq[Annotation] = {
-    items.zipWithIndex.flatMap{ case (item, sentenceIndex) => item.indexedTaggedWords.map{ tag =>
-      val metadata: Map[String, String] =  if (tag.confidence.isDefined) {
+    items.zipWithIndex.flatMap { case (item, sentenceIndex) => item.indexedTaggedWords.map { tag =>
+      val metadata: Map[String, String] = if (tag.confidence.isDefined) {
         Map("word" -> tag.word) ++ tag.confidence.getOrElse(Array.empty[Map[String, String]]).flatten ++
           Map("sentence" -> sentenceIndex.toString)
       } else {
@@ -83,7 +83,8 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
         tag.tag,
         metadata
       )
-    }}
+    }
+    }
   }
 
   /**
@@ -102,7 +103,7 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
       .select(labelColumn, taggedCols: _*)
       .collect()
       .flatMap { row =>
-        val labelAnnotations = getAnnotations(row, 0)
+        val labelAnnotations = getAnnotations(row, 0).toSeq
         val sentenceAnnotations = (1 to taggedCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = unpack(sentenceAnnotations)
         val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
@@ -110,8 +111,8 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
       }
   }
 
-  def getAnnotations(row: Row, colNum: Int): Seq[Annotation] = {
-    row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
+  def getAnnotations(row: Row, colNum: Int): scala.collection.Seq[Annotation] = {
+    row.getAs[scala.collection.Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
   protected def getLabelsFromSentences(sentences: Seq[WordpieceEmbeddingsSentence],
@@ -178,7 +179,7 @@ object NerTagged extends Tagged[NerTaggedSentence] {
           .filter(s => s.tokens.nonEmpty)
           .sortBy(s => s.tokens.head.begin)
 
-        val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations)
+        val labels = getLabelsFromTaggedSentences(sentences, labelAnnotations.toSeq)
         labels.zip(sentences zip withEmbeddings)
           .map { case (l, (s, w)) => (l, s, w) }
       }
@@ -213,7 +214,7 @@ object NerTagged extends Tagged[NerTaggedSentence] {
           val labelAnnotations = getAnnotations(nextRow, 0)
           val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(nextRow, idx))
           val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
-          val labels = getLabelsFromSentences(sentences, labelAnnotations)
+          val labels = getLabelsFromSentences(sentences, labelAnnotations.toSeq)
           val thisOne = labels.zip(sentences)
 
           thisBatch = thisBatch ++ thisOne
@@ -237,7 +238,7 @@ object NerTagged extends Tagged[NerTaggedSentence] {
         val labelAnnotations = this.getAnnotations(row, 0)
         val sentenceAnnotations = (1 to sentenceCols.length).flatMap(idx => getAnnotations(row, idx))
         val sentences = WordpieceEmbeddingsSentence.unpack(sentenceAnnotations)
-        val labels = getLabelsFromSentences(sentences, labelAnnotations)
+        val labels = getLabelsFromSentences(sentences, labelAnnotations.toSeq)
         labels.zip(sentences)
       }, batchSize)
   }
