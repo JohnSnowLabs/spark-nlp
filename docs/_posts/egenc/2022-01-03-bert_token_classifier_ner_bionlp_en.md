@@ -64,11 +64,11 @@ test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transfor
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val document_assembler = DocumentAssembler()
+val document_assembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
