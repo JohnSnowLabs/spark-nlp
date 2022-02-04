@@ -24,7 +24,7 @@ import org.apache.spark.ml.Model
 import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.SparkSession
 
-trait DeepLearningEngine[T <: TransformerEmbeddings, P <: TransformerEmbeddings, E <: Model[E]]
+trait DeepLearningEngine[T, P, E <: Model[E]]
   extends TensorflowParams with WritePytorchModel {
 
   val deepLearningEngine = new Param[String](this, "deepLearningEngine",

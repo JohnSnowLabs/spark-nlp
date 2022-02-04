@@ -16,9 +16,12 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.DeepLearningEngine
+import com.johnsnowlabs.ml.pytorch.{PytorchMarian, PytorchWrapper, ReadPytorchModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.embeddings.LoadModel
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
@@ -123,11 +126,10 @@ import java.io.File
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-class MarianTransformer(override val uid: String) extends
-  AnnotatorModel[MarianTransformer]
+class MarianTransformer(override val uid: String) extends AnnotatorModel[MarianTransformer]
   with HasBatchedAnnotate[MarianTransformer]
-  with WriteTensorflowModel
-  with WriteSentencePieceModel {
+  with WriteSentencePieceModel
+  with DeepLearningEngine[TensorflowMarian, PytorchMarian, MarianTransformer] {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   def this() = this(Identifiable.randomUID("MARIAN_TRANSFORMER"))
@@ -226,60 +228,53 @@ class MarianTransformer(override val uid: String) extends
   /** @group getParam */
   def getIgnoreTokenIds: Array[Int] = $(ignoreTokenIds)
 
+  private var sppSrc: Option[SentencePieceWrapper] = None
+  private var sppTrg: Option[SentencePieceWrapper] = None
 
-  /**
-   * ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()
-   *
-   * @group param
-   * */
-  val configProtoBytes = new IntArrayParam(this, "configProtoBytes", "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
+  override def setModelIfNotSet(spark: SparkSession, tensorflowWrapper: TensorflowWrapper): MarianTransformer = {
 
-  /** @group getParam */
-  def setConfigProtoBytes(bytes: Array[Int]): MarianTransformer.this.type = set(this.configProtoBytes, bytes)
+    if (this.sppSrc.isEmpty || this.sppTrg.isEmpty) {
+      throw new IllegalArgumentException("Please set sentence piece data")
+    }
 
-  /** @group setParam * */
-  def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
-
-  /**
-   * It contains TF model signatures for the laded saved model
-   *
-   * @group param
-   * */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
-
-  /** @group setParam */
-  def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
-    this
-  }
-
-  /** @group getParam */
-  def getSignatures: Option[Map[String, String]] = get(this.signatures)
-
-  /** The Tensorflow Marian Model */
-  private var _model: Option[Broadcast[TensorflowMarian]] = None
-
-  /** @group setParam * */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper, sppSrc: SentencePieceWrapper, sppTrg: SentencePieceWrapper): this.type = {
-    if (_model.isEmpty) {
-      _model = Some(
+    if (tfModel.isEmpty) {
+      tfModel = Some(
         spark.sparkContext.broadcast(
           new TensorflowMarian(
-            tensorflow,
-            sppSrc,
-            sppTrg,
+            tensorflowWrapper,
+            this.sppSrc.get,
+            this.sppTrg.get,
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures
           )
         )
       )
     }
+
     this
   }
 
-  /** @group setParam * */
-  def getModelIfNotSet: TensorflowMarian = _model.get.value
+  def setSentencePiece(sppSrc: SentencePieceWrapper, sppTrg: SentencePieceWrapper): this.type ={
+    this.sppSrc = Some(sppSrc)
+    this.sppTrg = Some(sppTrg)
+
+    this
+  }
+
+  override def setPytorchModelIfNotSet(spark: SparkSession, pytorchWrapper: PytorchWrapper): MarianTransformer = {
+
+    if (this.sppSrc.isEmpty || this.sppTrg.isEmpty) {
+      throw new IllegalArgumentException("Please set sentence piece data")
+    }
+
+    if (pytorchModel.isEmpty) {
+      pytorchModel = Some(spark.sparkContext.broadcast(
+        new PytorchMarian(pytorchWrapper, this.sppSrc.get, this.sppTrg.get)
+      ))
+    }
+
+    this
+  }
 
   setDefault(
     maxInputLength -> 40,
@@ -308,15 +303,32 @@ class MarianTransformer(override val uid: String) extends
 
     val processedAnnotations = if (allAnnotations.nonEmpty) {
 
-      this.getModelIfNotSet.predict(
-        sentences = allAnnotations.map(_._1),
-        maxInputLength = $(maxInputLength),
-        maxOutputLength = $(maxOutputLength),
-        vocabs = $(vocabulary),
-        langId = $(langId),
-        batchSize = $(batchSize),
-        ignoreTokenIds = $(ignoreTokenIds)
-      ).toSeq
+      val output = getDeepLearningEngine match {
+        case "tensorflow" => {
+          this.getModelIfNotSet.predict(
+            sentences = allAnnotations.map(_._1),
+            maxInputLength = $(maxInputLength),
+            maxOutputLength = $(maxOutputLength),
+            vocabs = $(vocabulary),
+            langId = $(langId),
+            batchSize = $(batchSize),
+            ignoreTokenIds = $(ignoreTokenIds)
+          ).toSeq
+        }
+        case "pytorch" => {
+          this.getPytorchModelIfNotSet.predict(
+            sentences = allAnnotations.map(_._1),
+            maxInputLength = $(maxInputLength),
+            maxOutputLength = $(maxOutputLength),
+            vocabs = $(vocabulary),
+            langId = $(langId),
+            batchSize = $(batchSize),
+            ignoreTokenIds = $(ignoreTokenIds)
+          ).toSeq
+        }
+        case _ => throw new IllegalArgumentException(s"Deep learning engine $getDeepLearningEngine not supported")
+      }
+      output
     } else {
       Seq()
     }
@@ -340,10 +352,20 @@ class MarianTransformer(override val uid: String) extends
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_marian", MarianTransformer.tfFile, configProtoBytes = getConfigProtoBytes, savedSignatures = getSignatures)
-    writeSentencePieceModel(path, spark, getModelIfNotSet.sppSrc, "_src_marian", MarianTransformer.sppFile + "_src")
-    writeSentencePieceModel(path, spark, getModelIfNotSet.sppTrg, "_trg_marian", MarianTransformer.sppFile + "_trg")
 
+    getDeepLearningEngine match {
+      case "tensorflow" => {
+        writeTensorflowModelV2(path, spark, getModelIfNotSet.tensorflow, "_marian", MarianTransformer.tfFile,
+          configProtoBytes = getConfigProtoBytes, savedSignatures = getSignatures)
+        writeSentencePieceModel(path, spark, getModelIfNotSet.sppSrc, "_src_marian", MarianTransformer.sppFile + "_src")
+        writeSentencePieceModel(path, spark, getModelIfNotSet.sppTrg, "_trg_marian", MarianTransformer.sppFile + "_trg")
+      }
+      case "pytorch" => {
+        writePytorchModel(path, spark, getPytorchModelIfNotSet.pytorchWrapper, MarianTransformer.torchscriptFile)
+        writeSentencePieceModel(path, spark, getPytorchModelIfNotSet.sppSrc, "_src_marian", MarianTransformer.sppFile + "_src")
+        writeSentencePieceModel(path, spark, getPytorchModelIfNotSet.sppTrg, "_trg_marian", MarianTransformer.sppFile + "_trg")
+      }
+    }
   }
 
 }
@@ -362,61 +384,128 @@ trait ReadablePretrainedMarianMTModel extends ParamsAndFeaturesReadable[MarianTr
   override def pretrained(name: String, lang: String, remoteLoc: String): MarianTransformer = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
-  this: ParamsAndFeaturesReadable[MarianTransformer] =>
+trait ReadMarianMTTensorflowModel extends LoadModel[MarianTransformer]
+  with ParamsAndFeaturesReadable[MarianTransformer]
+  with ReadTensorflowModel
+  with ReadSentencePieceModel
+  with ReadPytorchModel {
 
   override val tfFile: String = "marian_tensorflow"
   override val sppFile: String = "marian_spp"
+  override val torchscriptFile: String = "marian_pytorch"
 
-  def readTensorflow(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_marian_tf", savedSignatures = instance.getSignatures, initAllTables = false)
+  addReader(readModel)
+
+  def readModel(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
+
     val sppSrc = readSentencePieceModel(path, spark, "_src_marian", sppFile + "_src")
     val sppTrg = readSentencePieceModel(path, spark, "_trg_marian", sppFile + "_trg")
-    instance.setModelIfNotSet(spark, tf, sppSrc, sppTrg)
+
+    instance.getDeepLearningEngine match {
+      case "tensorflow" => {
+        val tf = readTensorflowModel(path, spark, "_marian_tf", savedSignatures = instance.getSignatures, initAllTables = false)
+
+        instance.setSentencePiece(sppSrc, sppTrg).setModelIfNotSet(spark, tf)
+      }
+      case "pytorch" => {
+        val pytorchWrapper = readPytorchModel(s"$path/$torchscriptFile", spark, "_marian")
+        instance.setSentencePiece(sppSrc, sppTrg).setPytorchModelIfNotSet(spark, pytorchWrapper)
+      }
+      case _ => throw new IllegalArgumentException(s"Deep learning engine ${instance.getDeepLearningEngine} not supported")
+    }
   }
 
-  addReader(readTensorflow)
+  override protected def createEmbeddingsFromTensorflow(tfWrapper: TensorflowWrapper, signatures: Map[String, String],
+                                                        tfModelPath: String, spark: SparkSession): MarianTransformer = {
 
-  def loadSavedModel(folder: String, spark: SparkSession): MarianTransformer = {
+    val vocabulary = loadVocabulary(tfModelPath, "tensorflow")
+    val (sppSrc, sppTrg) = loadSentencePieceModel(tfModelPath, "tensorflow")
 
-    val f = new File(folder)
-    val assetsPath = folder + "/assets"
-    val savedModel = new File(folder, "saved_model.pb")
-    val sppSrcModel = new File(assetsPath, "source.spm")
-    val sppTrgModel = new File(assetsPath, "target.spm")
-    val sppVocab = new File(assetsPath, "vocabs.txt")
+    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
+    val marianMT = new MarianTransformer()
+      .setVocabulary(vocabulary)
+      .setSignatures(signatures)
+      .setSentencePiece(sppSrc, sppTrg)
+      .setModelIfNotSet(spark, tfWrapper)
 
-    require(f.exists, s"Folder $folder not found")
-    require(f.isDirectory, s"File $folder is not folder")
-    require(
-      savedModel.exists(),
-      s"savedModel file saved_model.pb not found in folder $folder"
-    )
-    require(sppSrcModel.exists(), s"SentencePiece model source.spm not found in folder $assetsPath")
-    require(sppTrgModel.exists(), s"SentencePiece model target.spm not found in folder $assetsPath")
-    require(sppVocab.exists(), s"SentencePiece model source.model not found in folder $assetsPath")
+    marianMT
+  }
+
+  override protected def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, torchModelPath: String,
+                                                     spark: SparkSession): MarianTransformer = {
+
+    val vocabulary = loadVocabulary(torchModelPath, "pytorch")
+    val (sppSrc, sppTrg) = loadSentencePieceModel(torchModelPath, "pytorch")
+
+    val marianMT = new MarianTransformer()
+      .setVocabulary(vocabulary)
+      .setSentencePiece(sppSrc, sppTrg)
+      .setPytorchModelIfNotSet(spark, pytorchWrapper)
+
+    marianMT
+  }
+
+  private def loadVocabulary(modelPath: String, engine: String): Array[String] = {
+    val sppVocab = if(engine == "pytorch") new File(modelPath, "vocabs.txt") else new File(modelPath + "/assets", "vocabs.txt")
+    require(sppVocab.exists(), s"Vocabulary file vocab.txt not found in folder $modelPath")
 
     val vocabResource = new ExternalResource(sppVocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
     val words = ResourceHelper.parseLines(vocabResource)
       .zipWithIndex.toMap.toSeq.sortBy(_._2).map(x => x._1.mkString).toArray
 
-    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
-    val sppSrc = SentencePieceWrapper.read(sppSrcModel.toString)
-    val sppTrg = SentencePieceWrapper.read(sppTrgModel.toString)
-
-    val _signatures = signatures match {
-      case Some(s) => s
-      case None => throw new Exception("Cannot load signature definitions from model!")
-    }
-
-    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
-    val marianMT = new MarianTransformer()
-      .setVocabulary(words)
-      .setSignatures(_signatures)
-      .setModelIfNotSet(spark, wrapper, sppSrc, sppTrg)
-
-    marianMT
+    words
   }
+
+  private def loadSentencePieceModel(modelPath: String, engine: String): (SentencePieceWrapper, SentencePieceWrapper) = {
+    val assetsPath = if(engine == "pytorch") modelPath else modelPath + "/assets"
+    val sppSrcModel = new File(assetsPath, "source.spm")
+    val sppTrgModel = new File(assetsPath, "target.spm")
+    require(sppSrcModel.exists(), s"SentencePiece model source.spm not found in folder $assetsPath")
+    require(sppTrgModel.exists(), s"SentencePiece model target.spm not found in folder $assetsPath")
+
+    (SentencePieceWrapper.read(sppSrcModel.toString), SentencePieceWrapper.read(sppTrgModel.toString))
+  }
+
+//  def loadSavedModelOld(folder: String, spark: SparkSession): MarianTransformer = {
+//
+//    val f = new File(folder)
+//    val assetsPath = folder + "/assets"
+//    val savedModel = new File(folder, "saved_model.pb")
+//    val sppSrcModel = new File(assetsPath, "source.spm")
+//    val sppTrgModel = new File(assetsPath, "target.spm")
+//    val sppVocab = new File(assetsPath, "vocabs.txt")
+//
+//    require(f.exists, s"Folder $folder not found")
+//    require(f.isDirectory, s"File $folder is not folder")
+//    require(
+//      savedModel.exists(),
+//      s"savedModel file saved_model.pb not found in folder $folder"
+//    )
+//    require(sppSrcModel.exists(), s"SentencePiece model source.spm not found in folder $assetsPath")
+//    require(sppTrgModel.exists(), s"SentencePiece model target.spm not found in folder $assetsPath")
+//    require(sppVocab.exists(), s"SentencePiece model source.model not found in folder $assetsPath")
+//
+//    val vocabResource = new ExternalResource(sppVocab.getAbsolutePath, ReadAs.TEXT, Map("format" -> "text"))
+//    val words = ResourceHelper.parseLines(vocabResource)
+//      .zipWithIndex.toMap.toSeq.sortBy(_._2).map(x => x._1.mkString).toArray
+//
+//    val (wrapper, signatures) = TensorflowWrapper.read(folder, zipped = false, useBundle = true, tags = Array("serve"), initAllTables = false)
+//    val sppSrc = SentencePieceWrapper.read(sppSrcModel.toString)
+//    val sppTrg = SentencePieceWrapper.read(sppTrgModel.toString)
+//
+//    val _signatures = signatures match {
+//      case Some(s) => s
+//      case None => throw new Exception("Cannot load signature definitions from model!")
+//    }
+//
+//    /** the order of setSignatures is important is we use getSignatures inside setModelIfNotSet */
+//    val marianMT = new MarianTransformer()
+//      .setVocabulary(words)
+//      .setSignatures(_signatures)
+//      .setModelIfNotSet(spark, wrapper, sppSrc, sppTrg)
+//
+//    marianMT
+//  }
 }
 
 /**

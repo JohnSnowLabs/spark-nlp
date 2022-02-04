@@ -199,7 +199,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  "BertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest ignore {
+  "BertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest in {
     //TODO: Load pretrained python model enable this test
     import spark.implicits._
 

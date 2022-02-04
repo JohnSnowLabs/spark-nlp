@@ -155,7 +155,7 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  "AlbertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest ignore {
+  "AlbertEmbeddings" should "predict with PyTorch model" taggedAs SlowTest in {
     //TODO: Load pretrained python model enable this test
     import spark.implicits._
 

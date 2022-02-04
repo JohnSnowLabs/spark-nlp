@@ -78,15 +78,15 @@ trait LoadModel[T] {
     createEmbeddingsFromTensorflow(tfWrapper, signatures, tfModelPath, spark)
   }
 
-  def createEmbeddingsFromTensorflow(tfWrapper: TensorflowWrapper, signatures: Map[String, String],
+  protected def createEmbeddingsFromTensorflow(tfWrapper: TensorflowWrapper, signatures: Map[String, String],
                                      tfModelPath: String, spark: SparkSession): T
 
   private def loadTorchScriptModel(torchModelPath: String, spark: SparkSession): T = {
-    val pytorchWrapper = PytorchWrapper(torchModelPath)
+    val pytorchWrapper = PytorchWrapper(torchModelPath + "/")
 
     createEmbeddingsFromPytorch(pytorchWrapper, torchModelPath, spark)
   }
 
-  def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, torchModelPath: String, spark: SparkSession): T
+  protected def createEmbeddingsFromPytorch(pytorchWrapper: PytorchWrapper, torchModelPath: String, spark: SparkSession): T
 
 }

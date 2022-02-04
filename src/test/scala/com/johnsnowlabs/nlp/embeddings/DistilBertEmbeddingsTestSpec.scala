@@ -139,7 +139,7 @@ class DistilBertEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  "DistilBert Embeddings" should "infer with Pytorch load model" taggedAs SlowTest ignore {
+  "DistilBert Embeddings" should "infer with Pytorch load model" taggedAs SlowTest in {
     //TODO: Load pretrained python model enable this test
     import spark.implicits._
 

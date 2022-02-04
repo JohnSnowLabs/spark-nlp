@@ -19,8 +19,8 @@ class PytorchAlbert(val pytorchWrapper: PytorchWrapper,
     val encoder = new SentencepieceEncoder(sentencePieceWrapper, caseSensitive, delimiterId = sentencePieceDelimiterId)
 
     val sentenceTokenPieces = tokenizedSentences.map { s =>
-      val shrinkedSentence = s.indexedTokens.take(maxSentenceLength - 2)
-      val wordpieceTokens = shrinkedSentence.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
+      val shrunkSentence = s.indexedTokens.take(maxSentenceLength - 2)
+      val wordpieceTokens = shrunkSentence.flatMap(token => encoder.encode(token)).take(maxSentenceLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
     sentenceTokenPieces
