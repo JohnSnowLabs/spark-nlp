@@ -66,22 +66,22 @@ sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bacteria", "en", "clinical/models")
-      .setInputCols("token", "document")
-      .setOutputCol("ner")
-      .setCaseSensitive(True)
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
-      .setInputCols(Array("document","token","ner"))
-      .setOutputCol("ner_chunk")
+val ner_converter = new NerConverter()
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 

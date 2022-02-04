@@ -62,23 +62,23 @@ test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transfor
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-  .setInputCol("text") 
-  .setOutputCol("document")
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-  .setInputCols("sentence") 
-  .setOutputCol("token")
+val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
-  .setMaxSentenceLength(512)
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
+    .setMaxSentenceLength(512)
   
-val ner_converter = NerConverter()
-  .setInputCols(Array("document","token","ner"))
-  .setOutputCol("ner_chunk")
+val ner_converter = new NerConverter()
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 val data = Seq("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.").toDF("text")
