@@ -62,14 +62,24 @@ test_sentence = """This is an 11-year-old female who comes in for two different 
 result = pp_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-...
+val document_assembler = new DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "en")
+	  .setInputCols(Array("document"))
+	  .setOutputCol("sentence")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence") 
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_anatomy", "en", "clinical/models")
-    .setInputCols("token", "sentence")
+    .setInputCols(Array("token", "sentence"))
     .setOutputCol("ner")
     .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("document","token","ner"))
     .setOutputCol("ner_chunk")
 
