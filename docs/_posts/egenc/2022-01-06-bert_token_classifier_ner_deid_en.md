@@ -60,22 +60,22 @@ test_sentence = """A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrick
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-  .setInputCols("document")
-  .setOutputCol("token")
+val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_deid", "en", "clinical/models")
-  .setInputCols("token", "document")
-  .setOutputCol("ner")
-  .setCaseSensitive(True)
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
-        .setInputCols(Array("document","token","ner"))
-        .setOutputCol("ner_chunk")
+val ner_converter = new NerConverter()
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
