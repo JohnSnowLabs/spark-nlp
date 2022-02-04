@@ -61,24 +61,24 @@ test_sentence = """The results have shown that the product p - choloroaniline is
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-  .setInputCol("text")
-  .setOutputCol("document")
+val document_assembler = new DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-  .setInputCols(["document"])
-  .setOutputCol("token")
+val tokenizer = new Tokenizer()
+    .setInputCols("document") 
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_chemicals", "en", "clinical/models")
-  .setInputCols("token", "document")
+  .setInputCols(Array("token", "document"))
   .setOutputCol("ner")
   .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
   .setInputCols(Array("document","token","ner"))
   .setOutputCol("ner_chunk")
 
-val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
+val pipeline =  new Pipeline().setStages(Array(document_assembler, tokenizer, tokenClassifier, ner_converter))
 
 val data = Seq("The results have shown that the product p - choloroaniline is not a significant factor in chlorhexidine - digluconate associated erosive cystitis. "A high percentage of kanamycin - colistin and povidone - iodine irrigations were associated with erosive cystitis.").toDF("text")
 
