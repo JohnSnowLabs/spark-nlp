@@ -54,10 +54,16 @@ test_sentence = """Detection of various other intracellular signaling proteins i
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-...
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol("text") 
+    .setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence") 
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_cellular", "en", "clinical/models")
-    .setInputCols("token", "document")
+    .setInputCols(Array("token", "sentence"))
     .setOutputCol("ner")
     .setCaseSensitive(True)
 
