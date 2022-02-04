@@ -65,24 +65,24 @@ test_sentence = """The human KCNJ9 (Kir 3.3, GIRK3) is a member of the G-protein
 result = model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-    .setInputCol("text")
+val documentAssembler = new DocumentAssembler() 
+    .setInputCol("text") 
     .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
-    .setInputCols(["document"])
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()
-    .setInputCols("sentence")
+val tokenizer = new Tokenizer()
+    .setInputCols("document") 
     .setOutputCol("token")
-
+    
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_drugs", "en", "clinical/models")
-    .setInputCols("token", "sentence")
+    .setInputCols(Array("token", "sentence"))
     .setOutputCol("ner")
     .setCaseSensitive(True)
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentence","token","ner"))
     .setOutputCol("ner_chunk")
     
