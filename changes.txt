@@ -1,2 +1,4 @@
-docs/_posts/HashamUlHaq/2021-04-01-ner_traffic_de.md
-docs/_posts/HashamUlHaq/2021-04-01-ner_traffic_de.md
+docs/_posts/luca-martial/2022-01-05-re_drugprot_clinical_en.md
+docs/_posts/luca-martial/2022-01-05-redl_drugprot_biobert_en.md
+docs/_posts/luca-martial/2022-01-05-re_drugprot_clinical_en.md
+docs/_posts/luca-martial/2022-01-05-redl_drugprot_biobert_en.md
