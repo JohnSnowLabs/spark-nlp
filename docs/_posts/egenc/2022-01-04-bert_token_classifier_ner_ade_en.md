@@ -62,21 +62,21 @@ test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transfor
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
   .setInputCol("text") 
   .setOutputCol("document")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
   .setInputCols("sentence") 
   .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_ade", "en", "clinical/models")
-  .setInputCols("token", "document")
+  .setInputCols(Array("token", "document"))
   .setOutputCol("ner")
   .setCaseSensitive(True)
   .setMaxSentenceLength(512)
   
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
   .setInputCols(Array("document","token","ner"))
   .setOutputCol("ner_chunk")
 
