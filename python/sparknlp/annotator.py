@@ -336,7 +336,7 @@ class Tokenizer(AnnotatorApproach):
     exceptionsPath = Param(Params._dummy(),
                            "exceptionsPath",
                            "path to file containing list of exceptions",
-                           typeConverter=TypeConverters.toString)
+                           typeConverter=TypeConverters.identity)
 
     caseSensitiveExceptions = Param(Params._dummy(),
                                     "caseSensitiveExceptions",
@@ -512,6 +512,21 @@ class Tokenizer(AnnotatorApproach):
             Words that won't be affected by tokenization rules
         """
         return self.getOrDefault("exceptions")
+
+    def setExceptionsPath(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Path to txt file with list of token exceptions
+
+        Parameters
+        ----------
+        path : str
+            Path to the source file
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+        """
+        opts = options.copy()
+        return self._set(exceptionsPath=ExternalResource(path, read_as, opts))
 
     def addException(self, value):
         """Adds an additional word that won't be affected by tokenization rules.
