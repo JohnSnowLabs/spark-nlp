@@ -5,7 +5,9 @@
 docs/**
 **/*.min.js
 **/*.js
+**/*.py
 python/**
+**/python/**
 
 ### Eclipse ###
 
