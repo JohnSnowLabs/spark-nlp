@@ -21,6 +21,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PredictionParametersTest {
 
@@ -56,8 +57,7 @@ public class PredictionParametersTest {
         PredictionParameters predictionParameters = new PredictionParameters();
         TObjectIntHashMap map = predictionParameters.transformToTroveMap(mapAsString);
 
-        assertFalse(map.isEmpty());
-
+        assertTrue(map.isEmpty());
     }
 
 }
