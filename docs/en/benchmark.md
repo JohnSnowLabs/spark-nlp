@@ -135,6 +135,7 @@ sidebar:
 | Standard\_D4s\_v3 | 16 GB          | 4             | Standard\_D4s\_v2 | 28 GB          | 8             | 1000              | 78000              | write\_deltalake | 8                     | 64           | 1000      | 22 sec   |
 
 </div>
+<div class="h3-box" markdown="1">
 
 ### Clinical Bert For Token Classification Benchmark Experiment
 
@@ -168,50 +169,56 @@ nlpPipeline = Pipeline(stages=[
 
 + In the second experiment, the data read from the delta table was written to the delta table after it was processed.
 
+</div>
+
 #### Bert For Token Classification Benchmark Table
 
 <div class="h3-box" markdown="1">
 
-<table>
-    <tr>
-        <td></td>
-        <td style="font-weight:bold"><center>Repartition<center></td>
-        <td style="font-weight:bold"><center>Time<center></td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold", rowspan=4>Read data from parquet</td>
-        <td><center>2</td>
-        <td><center>26.03 mins</td>
-    </tr>
-    <tr>
-        <td><center>64</td>
-        <td><center>10.84 mins</td>
-    </tr>
-    <tr>
-        <td><center>128</td>
-        <td><center>7.53 mins</td>
-    </tr>
-    <tr>
-        <td><center>1000</td>
-        <td><center>8.93 mins</td>
-    </tr>
-    <tr>
-        <td style="font-weight:bold", rowspan=4>Read data from delta table</td>
-        <td><center>2</td>
-        <td><center>40.50 mins</td>
-    </tr>
-    <tr>
-        <td><center>64</td>
-        <td><center>11.84 mins</td>
-    </tr>
-    <tr>
-        <td><center>128</td>
-        <td><center>6.79 mins</td>
-    </tr>
-    <tr>
-        <td><center>1000</td>
-        <td><center>6.92 mins</td>
-    </tr>
+<table class="table-model-big table3">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Repartition</th>
+            <th>Time</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <tr>
+            <td rowspan="4"><strong>Read data from parquet</strong></td>
+            <td>2</td>
+            <td>26.03 mins</td>
+        </tr>
+        <tr>
+            <td>64</td>
+            <td>10.84 mins</td>
+        </tr>
+        <tr>
+            <td>128</td>
+            <td>7.53 mins</td>
+        </tr>
+        <tr>
+            <td>1000</td>
+            <td>8.93 mins</td>
+        </tr>
+        <tr>
+            <td rowspan="4"><strong>Read data from delta table</strong></td>
+            <td>2</td>
+            <td>40.50 mins</td>
+        </tr>
+        <tr>
+            <td>64</td>
+            <td>11.84 mins</td>
+        </tr>
+        <tr>
+            <td>128</td>
+            <td>6.79 mins</td>
+        </tr>
+        <tr>
+            <td>1000</td>
+            <td>6.92 mins</td>
+        </tr>
+    </tbody>
 </table>
 
 </div>
