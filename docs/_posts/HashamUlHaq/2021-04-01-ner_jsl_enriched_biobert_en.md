@@ -71,3 +71,5 @@ val result = pipeline.fit(Seq.empty[String]).transform(data)
 |Input Labels:|[sentence, token, embeddings]|
 |Output Labels:|[ner]|
 |Language:|en|
+
+
