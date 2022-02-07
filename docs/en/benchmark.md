@@ -15,7 +15,7 @@ sidebar:
 
 ## Cluster Speed Benchmarks
 
-### Explanation of Benchmark Experiment
+### NER (BiLSTM-CNN-Char Architecture) Benchmark Experiment
 
 - **Dataset :** 1000 Clinical Texts from MTSamples Oncology Dataset, approx. 500 tokens per text.
 - **Driver :** Standard_D4s_v3 - 16 GB Memory - 4 Cores
@@ -42,23 +42,25 @@ sidebar:
         ])
 
   ```
+  
+**NOTES :**
 
-**The first experiment with 5 different cluster configurations :** `ner_chunk`  as a column in Spark NLP Pipeline (`ner_converter`) output data frame, exploded (lazy evaluation) as `ner_chunk` and `ner_label`. Then results were written as **parquet** and **delta** formats.
++ **The first experiment with 5 different cluster configurations :** `ner_chunk`  as a column in Spark NLP Pipeline (`ner_converter`) output data frame, exploded (lazy evaluation) as `ner_chunk` and `ner_label`. Then results were written as **parquet** and **delta** formats.
 
-**A second experiment with 2 different cluster configuration :** Spark NLP Pipeline output data frame (except `word_embeddings` column) was written as **parquet** and **delta** formats.
++ **A second experiment with 2 different cluster configuration :** Spark NLP Pipeline output data frame (except `word_embeddings` column) was written as **parquet** and **delta** formats.
 
-In the first experiment with the most basic driver node and worker **(1 worker x 4 cores)** configuration selection, it took **4.64 mins** and **4.53 mins** to write **4 partitioned data** as parquet and delta formats respectively.
++ In the first experiment with the most basic driver node and worker **(1 worker x 4 cores)** configuration selection, it took **4.64 mins** and **4.53 mins** to write **4 partitioned data** as parquet and delta formats respectively.
 
-With basic driver node and **8 workers (x8 cores)** configuration selection, it took **40 seconds** and **22 seconds** to write **1000 partitioned data** as parquet and delta formats respectively.
++ With basic driver node and **8 workers (x8 cores)** configuration selection, it took **40 seconds** and **22 seconds** to write **1000 partitioned data** as parquet and delta formats respectively.
 
-In the second experiment with basic driver node and **4 workers (x 4 cores)** configuration selection, it took **1.41 mins** as parquet and **1.42 mins** as delta format to write **16 partitioned (exploded results) data**.  **Without explode it took 1.08 mins as parquet and 1.12 mins as delta format to write the data frame.**
++ In the second experiment with basic driver node and **4 workers (x 4 cores)** configuration selection, it took **1.41 mins** as parquet and **1.42 mins** as delta format to write **16 partitioned (exploded results) data**.  **Without explode it took 1.08 mins as parquet and 1.12 mins as delta format to write the data frame.**
 
-Since given computation durations are highly dependent on different parameters including driver node and worker node configurations as well as partitions, **results show that explode method increases duration  %10-30  on chosen configurations.**
++ Since given computation durations are highly dependent on different parameters including driver node and worker node configurations as well as partitions, **results show that explode method increases duration  %10-30  on chosen configurations.**
 
 </div>
 <div class="h3-box" markdown="1">
 
-### BENCHMARK TABLES
+#### NER Benchmark Tables
 
 
 {:.table-model-big.db}
@@ -131,5 +133,85 @@ Since given computation durations are highly dependent on different parameters i
 | Standard\_D4s\_v3 | 16 GB          | 4             | Standard\_D4s\_v2 | 28 GB          | 8             | 1000              | 78000              | write\_deltalake | 8                     | 64           | 100       | 41 sec   |
 | Standard\_D4s\_v3 | 16 GB          | 4             | Standard\_D4s\_v2 | 28 GB          | 8             | 1000              | 78000              | write\_parquet   | 8                     | 64           | 1000      | 40 sec   |
 | Standard\_D4s\_v3 | 16 GB          | 4             | Standard\_D4s\_v2 | 28 GB          | 8             | 1000              | 78000              | write\_deltalake | 8                     | 64           | 1000      | 22 sec   |
+
+</div>
+
+### Clinical Bert For Token Classification Benchmark Experiment
+
+- **Dataset :** 7537 Clinical Texts from PubMed Dataset
+- **Driver :** Standard_DS3_v2 - 14GB Memory - 4 Cores
+- **Enable Autoscaling :** True
+- **Cluster Mode :** Standart
+- **Worker :**
+  - Standard_DS3_v2 - 14GB Memory - 4 Cores
+- **Versions :**
+  - **Databricks Runtime Version :** 10.0 (Apache Spark 3.2.0, Scala 2.12)
+  - **spark-nlp Version:** v3.4.0
+  - **spark-nlp-jsl Version :** v3.4.0
+  - **Spark Version :** v3.2.0
+- **Spark NLP Pipeline :**
+
+```
+nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        ner_jsl_slim_tokenClassifier,
+        ner_converter,
+        finisher])
+```
+
+**NOTES :**
+
++ In this experiment, the `bert_token_classifier_ner_jsl_slim` model was used to measure the inference time of clinical bert for token classification models in the databricks environment.
++ In the first experiment, the data read from the parquet file is saved as parquet after processing.
+
++ In the second experiment, the data read from the delta table was written to the delta table after it was processed.
+
+#### Bert For Token Classification Benchmark Table
+
+<div class="h3-box" markdown="1">
+
+<table>
+    <tr>
+        <td></td>
+        <td style="font-weight:bold"><center>Repartition<center></td>
+        <td style="font-weight:bold"><center>Time<center></td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold", rowspan=4>Read data from parquet</td>
+        <td><center>2</td>
+        <td><center>26.03 mins</td>
+    </tr>
+    <tr>
+        <td><center>64</td>
+        <td><center>10.84 mins</td>
+    </tr>
+    <tr>
+        <td><center>128</td>
+        <td><center>7.53 mins</td>
+    </tr>
+    <tr>
+        <td><center>1000</td>
+        <td><center>8.93 mins</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold", rowspan=4>Read data from delta table</td>
+        <td><center>2</td>
+        <td><center>40.50 mins</td>
+    </tr>
+    <tr>
+        <td><center>64</td>
+        <td><center>11.84 mins</td>
+    </tr>
+    <tr>
+        <td><center>128</td>
+        <td><center>6.79 mins</td>
+    </tr>
+    <tr>
+        <td><center>1000</td>
+        <td><center>6.92 mins</td>
+    </tr>
+</table>
 
 </div>
