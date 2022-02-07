@@ -1420,97 +1420,102 @@
   </table>
 
 </div>
+<div class="h3-box">
 
-<h3 id="clinical-bert-for-token-classification-benchmark-experiment">Clinical Bert For Token Classification Benchmark Experiment</h3>
+  <h3 id="clinical-bert-for-token-classification-benchmark-experiment">Clinical Bert For Token Classification Benchmark Experiment</h3>
 
-<ul>
-  <li><strong>Dataset :</strong> 7537 Clinical Texts from PubMed Dataset</li>
-  <li><strong>Driver :</strong> Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
-  <li><strong>Enable Autoscaling :</strong> True</li>
-  <li><strong>Cluster Mode :</strong> Standart</li>
-  <li><strong>Worker :</strong>
-    <ul>
-      <li>Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
-    </ul>
-  </li>
-  <li><strong>Versions :</strong>
-    <ul>
-      <li><strong>Databricks Runtime Version :</strong> 10.0 (Apache Spark 3.2.0, Scala 2.12)</li>
-      <li><strong>spark-nlp Version:</strong> v3.4.0</li>
-      <li><strong>spark-nlp-jsl Version :</strong> v3.4.0</li>
-      <li><strong>Spark Version :</strong> v3.2.0</li>
-    </ul>
-  </li>
-  <li><strong>Spark NLP Pipeline :</strong></li>
-</ul>
+  <ul>
+    <li><strong>Dataset :</strong> 7537 Clinical Texts from PubMed Dataset</li>
+    <li><strong>Driver :</strong> Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
+    <li><strong>Enable Autoscaling :</strong> True</li>
+    <li><strong>Cluster Mode :</strong> Standart</li>
+    <li><strong>Worker :</strong>
+      <ul>
+        <li>Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
+      </ul>
+    </li>
+    <li><strong>Versions :</strong>
+      <ul>
+        <li><strong>Databricks Runtime Version :</strong> 10.0 (Apache Spark 3.2.0, Scala 2.12)</li>
+        <li><strong>spark-nlp Version:</strong> v3.4.0</li>
+        <li><strong>spark-nlp-jsl Version :</strong> v3.4.0</li>
+        <li><strong>Spark Version :</strong> v3.2.0</li>
+      </ul>
+    </li>
+    <li><strong>Spark NLP Pipeline :</strong></li>
+  </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nlpPipeline = Pipeline(stages=[
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nlpPipeline = Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,
         ner_jsl_slim_tokenClassifier,
         ner_converter,
         finisher])
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<p><strong>NOTES :</strong></p>
+  <p><strong>NOTES :</strong></p>
 
-<ul>
-  <li>In this experiment, the <code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_jsl_slim</code> model was used to measure the inference time of clinical bert for token classification models in the databricks environment.</li>
-  <li>
-    <p>In the first experiment, the data read from the parquet file is saved as parquet after processing.</p>
-  </li>
-  <li>In the second experiment, the data read from the delta table was written to the delta table after it was processed.</li>
-</ul>
+  <ul>
+    <li>In this experiment, the <code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_jsl_slim</code> model was used to measure the inference time of clinical bert for token classification models in the databricks environment.</li>
+    <li>
+      <p>In the first experiment, the data read from the parquet file is saved as parquet after processing.</p>
+    </li>
+    <li>In the second experiment, the data read from the delta table was written to the delta table after it was processed.</li>
+  </ul>
+
+</div>
 
 <h4 id="bert-for-token-classification-benchmark-table">Bert For Token Classification Benchmark Table</h4>
 
 <div class="h3-box">
 
-  <table>
-    <tr>
-        <td></td>
-        <td style="font-weight:bold"><center>Repartition<center>&lt;/td&gt;
-        <td style="font-weight:bold"><center>Time<center>&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        &lt;td style="font-weight:bold", rowspan=4&gt;Read data from parquet&lt;/td&gt;
-        <td><center>2&lt;/td&gt;
-        <td><center>26.03 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        <td><center>64&lt;/td&gt;
-        <td><center>10.84 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        <td><center>128&lt;/td&gt;
-        <td><center>7.53 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        <td><center>1000&lt;/td&gt;
-        <td><center>8.93 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        &lt;td style="font-weight:bold", rowspan=4&gt;Read data from delta table&lt;/td&gt;
-        <td><center>2&lt;/td&gt;
-        <td><center>40.50 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        <td><center>64&lt;/td&gt;
-        <td><center>11.84 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        <td><center>128&lt;/td&gt;
-        <td><center>6.79 mins&lt;/td&gt;
-    &lt;/tr&gt;
-    <tr>
-        <td><center>1000&lt;/td&gt;
-        <td><center>6.92 mins&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
+  <table class="table-model-big table3">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Repartition</th>
+            <th>Time</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <tr>
+            <td rowspan="4"><strong>Read data from parquet</strong></td>
+            <td>2</td>
+            <td>26.03 mins</td>
+        </tr>
+        <tr>
+            <td>64</td>
+            <td>10.84 mins</td>
+        </tr>
+        <tr>
+            <td>128</td>
+            <td>7.53 mins</td>
+        </tr>
+        <tr>
+            <td>1000</td>
+            <td>8.93 mins</td>
+        </tr>
+        <tr>
+            <td rowspan="4"><strong>Read data from delta table</strong></td>
+            <td>2</td>
+            <td>40.50 mins</td>
+        </tr>
+        <tr>
+            <td>64</td>
+            <td>11.84 mins</td>
+        </tr>
+        <tr>
+            <td>128</td>
+            <td>6.79 mins</td>
+        </tr>
+        <tr>
+            <td>1000</td>
+            <td>6.92 mins</td>
+        </tr>
+    </tbody>
+</table>
 
-&lt;/div&gt;
-</center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></center></td></center></center></td></tr></table>
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-10-04T00:00:00+00:00">Oct 04, 2021</time>

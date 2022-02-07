@@ -1,2 +1,12 @@
+docs/Gemfile
+docs/Gemfile.lock
+docs/_sass/custom.scss
+docs/demos/languages_india.md
+docs/demos/middle_eastern_languages.md
 docs/en/benchmark.md
+docs/Gemfile
+docs/Gemfile.lock
+docs/_sass/custom.scss
+docs/demos/languages_india.md
+docs/demos/middle_eastern_languages.md
 docs/en/benchmark.md
