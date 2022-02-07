@@ -532,7 +532,7 @@
 
   <h2 id="cluster-speed-benchmarks">Cluster Speed Benchmarks</h2>
 
-  <h3 id="explanation-of-benchmark-experiment">Explanation of Benchmark Experiment</h3>
+  <h3 id="ner-bilstm-cnn-char-architecture-benchmark-experiment">NER (BiLSTM-CNN-Char Architecture) Benchmark Experiment</h3>
 
   <ul>
     <li><strong>Dataset :</strong> 1000 Clinical Texts from MTSamples Oncology Dataset, approx. 500 tokens per text.</li>
@@ -569,22 +569,33 @@
     </li>
   </ul>
 
-  <p><strong>The first experiment with 5 different cluster configurations :</strong> <code class="language-plaintext highlighter-rouge">ner_chunk</code>  as a column in Spark NLP Pipeline (<code class="language-plaintext highlighter-rouge">ner_converter</code>) output data frame, exploded (lazy evaluation) as <code class="language-plaintext highlighter-rouge">ner_chunk</code> and <code class="language-plaintext highlighter-rouge">ner_label</code>. Then results were written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
+  <p><strong>NOTES :</strong></p>
 
-  <p><strong>A second experiment with 2 different cluster configuration :</strong> Spark NLP Pipeline output data frame (except <code class="language-plaintext highlighter-rouge">word_embeddings</code> column) was written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
-
-  <p>In the first experiment with the most basic driver node and worker <strong>(1 worker x 4 cores)</strong> configuration selection, it took <strong>4.64 mins</strong> and <strong>4.53 mins</strong> to write <strong>4 partitioned data</strong> as parquet and delta formats respectively.</p>
-
-  <p>With basic driver node and <strong>8 workers (x8 cores)</strong> configuration selection, it took <strong>40 seconds</strong> and <strong>22 seconds</strong> to write <strong>1000 partitioned data</strong> as parquet and delta formats respectively.</p>
-
-  <p>In the second experiment with basic driver node and <strong>4 workers (x 4 cores)</strong> configuration selection, it took <strong>1.41 mins</strong> as parquet and <strong>1.42 mins</strong> as delta format to write <strong>16 partitioned (exploded results) data</strong>.  <strong>Without explode it took 1.08 mins as parquet and 1.12 mins as delta format to write the data frame.</strong></p>
-
-  <p>Since given computation durations are highly dependent on different parameters including driver node and worker node configurations as well as partitions, <strong>results show that explode method increases duration  %10-30  on chosen configurations.</strong></p>
+  <ul>
+    <li>
+      <p><strong>The first experiment with 5 different cluster configurations :</strong> <code class="language-plaintext highlighter-rouge">ner_chunk</code>  as a column in Spark NLP Pipeline (<code class="language-plaintext highlighter-rouge">ner_converter</code>) output data frame, exploded (lazy evaluation) as <code class="language-plaintext highlighter-rouge">ner_chunk</code> and <code class="language-plaintext highlighter-rouge">ner_label</code>. Then results were written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
+    </li>
+    <li>
+      <p><strong>A second experiment with 2 different cluster configuration :</strong> Spark NLP Pipeline output data frame (except <code class="language-plaintext highlighter-rouge">word_embeddings</code> column) was written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
+    </li>
+    <li>
+      <p>In the first experiment with the most basic driver node and worker <strong>(1 worker x 4 cores)</strong> configuration selection, it took <strong>4.64 mins</strong> and <strong>4.53 mins</strong> to write <strong>4 partitioned data</strong> as parquet and delta formats respectively.</p>
+    </li>
+    <li>
+      <p>With basic driver node and <strong>8 workers (x8 cores)</strong> configuration selection, it took <strong>40 seconds</strong> and <strong>22 seconds</strong> to write <strong>1000 partitioned data</strong> as parquet and delta formats respectively.</p>
+    </li>
+    <li>
+      <p>In the second experiment with basic driver node and <strong>4 workers (x 4 cores)</strong> configuration selection, it took <strong>1.41 mins</strong> as parquet and <strong>1.42 mins</strong> as delta format to write <strong>16 partitioned (exploded results) data</strong>.  <strong>Without explode it took 1.08 mins as parquet and 1.12 mins as delta format to write the data frame.</strong></p>
+    </li>
+    <li>
+      <p>Since given computation durations are highly dependent on different parameters including driver node and worker node configurations as well as partitions, <strong>results show that explode method increases duration  %10-30  on chosen configurations.</strong></p>
+    </li>
+  </ul>
 
 </div>
 <div class="h3-box">
 
-  <h3 id="benchmark-tables">BENCHMARK TABLES</h3>
+  <h4 id="ner-benchmark-tables">NER Benchmark Tables</h4>
 
   <table class="table-model-big db">
     <thead>
@@ -1408,6 +1419,98 @@
     </tbody>
   </table>
 
+</div>
+
+<h3 id="clinical-bert-for-token-classification-benchmark-experiment">Clinical Bert For Token Classification Benchmark Experiment</h3>
+
+<ul>
+  <li><strong>Dataset :</strong> 7537 Clinical Texts from PubMed Dataset</li>
+  <li><strong>Driver :</strong> Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
+  <li><strong>Enable Autoscaling :</strong> True</li>
+  <li><strong>Cluster Mode :</strong> Standart</li>
+  <li><strong>Worker :</strong>
+    <ul>
+      <li>Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
+    </ul>
+  </li>
+  <li><strong>Versions :</strong>
+    <ul>
+      <li><strong>Databricks Runtime Version :</strong> 10.0 (Apache Spark 3.2.0, Scala 2.12)</li>
+      <li><strong>spark-nlp Version:</strong> v3.4.0</li>
+      <li><strong>spark-nlp-jsl Version :</strong> v3.4.0</li>
+      <li><strong>Spark Version :</strong> v3.2.0</li>
+    </ul>
+  </li>
+  <li><strong>Spark NLP Pipeline :</strong></li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nlpPipeline = Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        ner_jsl_slim_tokenClassifier,
+        ner_converter,
+        finisher])
+</code></pre></div></div>
+
+<p><strong>NOTES :</strong></p>
+
+<ul>
+  <li>In this experiment, the <code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_jsl_slim</code> model was used to measure the inference time of clinical bert for token classification models in the databricks environment.</li>
+  <li>
+    <p>In the first experiment, the data read from the parquet file is saved as parquet after processing.</p>
+  </li>
+  <li>In the second experiment, the data read from the delta table was written to the delta table after it was processed.</li>
+</ul>
+
+<h4 id="bert-for-token-classification-benchmark-table">Bert For Token Classification Benchmark Table</h4>
+
+<div class="h3-box">
+
+  <table>
+    <tr>
+        <td></td>
+        <td style="font-weight:bold"><center>Repartition<center>&lt;/td&gt;
+        <td style="font-weight:bold"><center>Time<center>&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        &lt;td style="font-weight:bold", rowspan=4&gt;Read data from parquet&lt;/td&gt;
+        <td><center>2&lt;/td&gt;
+        <td><center>26.03 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        <td><center>64&lt;/td&gt;
+        <td><center>10.84 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        <td><center>128&lt;/td&gt;
+        <td><center>7.53 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        <td><center>1000&lt;/td&gt;
+        <td><center>8.93 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        &lt;td style="font-weight:bold", rowspan=4&gt;Read data from delta table&lt;/td&gt;
+        <td><center>2&lt;/td&gt;
+        <td><center>40.50 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        <td><center>64&lt;/td&gt;
+        <td><center>11.84 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        <td><center>128&lt;/td&gt;
+        <td><center>6.79 mins&lt;/td&gt;
+    &lt;/tr&gt;
+    <tr>
+        <td><center>1000&lt;/td&gt;
+        <td><center>6.92 mins&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/div&gt;
+</center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></td></center></td></tr></center></center></td></center></center></td></tr></table>
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2021-10-04T00:00:00+00:00">Oct 04, 2021</time>
