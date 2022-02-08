@@ -6,29 +6,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.Tokenizer &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>sparknlp.annotator.Tokenizer &#8212; Spark NLP 3.4.1 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet">
-  <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.be7d3bbb2ef33a8344ce.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -123,7 +123,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -840,6 +841,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -1069,43 +1073,46 @@ splitChars.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setExceptions" title="sparknlp.annotator.Tokenizer.setExceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExceptions</span></code></a>(value)</p></td>
 <td><p>Sets words that won't be affected by tokenization rules.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setInfixPatterns" title="sparknlp.annotator.Tokenizer.setInfixPatterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInfixPatterns</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setExceptionsPath" title="sparknlp.annotator.Tokenizer.setExceptionsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setExceptionsPath</span></code></a>(path[, read_as, options])</p></td>
+<td><p>Path to txt file with list of token exceptions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setInfixPatterns" title="sparknlp.annotator.Tokenizer.setInfixPatterns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInfixPatterns</span></code></a>(value)</p></td>
 <td><p>Sets regex patterns that match tokens within a single target.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setInputCols" title="sparknlp.annotator.Tokenizer.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setInputCols" title="sparknlp.annotator.Tokenizer.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
 <td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setLazyAnnotator" title="sparknlp.annotator.Tokenizer.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setLazyAnnotator" title="sparknlp.annotator.Tokenizer.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setMaxLength" title="sparknlp.annotator.Tokenizer.setMaxLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxLength</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setMaxLength" title="sparknlp.annotator.Tokenizer.setMaxLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxLength</span></code></a>(value)</p></td>
 <td><p>Sets the maximum allowed legth for each token, by default 99999.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setMinLength" title="sparknlp.annotator.Tokenizer.setMinLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinLength</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setMinLength" title="sparknlp.annotator.Tokenizer.setMinLength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinLength</span></code></a>(value)</p></td>
 <td><p>Sets the minimum allowed legth for each token, by default 0.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setOutputCol" title="sparknlp.annotator.Tokenizer.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setOutputCol" title="sparknlp.annotator.Tokenizer.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setParamValue" title="sparknlp.annotator.Tokenizer.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setParamValue" title="sparknlp.annotator.Tokenizer.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setPrefixPattern" title="sparknlp.annotator.Tokenizer.setPrefixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPrefixPattern</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setPrefixPattern" title="sparknlp.annotator.Tokenizer.setPrefixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPrefixPattern</span></code></a>(value)</p></td>
 <td><p>Sets regex with groups and begins with <code class="docutils literal notranslate"><span class="pre">\A</span></code> to match target prefix, by default <code class="docutils literal notranslate"><span class="pre">\A([^\s\w\$\.]*)</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setSplitChars" title="sparknlp.annotator.Tokenizer.setSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitChars</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setSplitChars" title="sparknlp.annotator.Tokenizer.setSplitChars"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitChars</span></code></a>(value)</p></td>
 <td><p>Sets character list used to separate from the inside of tokens.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setSplitPattern" title="sparknlp.annotator.Tokenizer.setSplitPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitPattern</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setSplitPattern" title="sparknlp.annotator.Tokenizer.setSplitPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSplitPattern</span></code></a>(value)</p></td>
 <td><p>Sets pattern to separate from the inside of tokens.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setSuffixPattern" title="sparknlp.annotator.Tokenizer.setSuffixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSuffixPattern</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setSuffixPattern" title="sparknlp.annotator.Tokenizer.setSuffixPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSuffixPattern</span></code></a>(value)</p></td>
 <td><p>Sets regex with groups and ends with <code class="docutils literal notranslate"><span class="pre">\z</span></code> to match target suffix, by default <code class="docutils literal notranslate"><span class="pre">([^\s\w]?)([^\s\w]*)\z</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setTargetPattern" title="sparknlp.annotator.Tokenizer.setTargetPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTargetPattern</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.setTargetPattern" title="sparknlp.annotator.Tokenizer.setTargetPattern"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTargetPattern</span></code></a>(value)</p></td>
 <td><p>Sets pattern to grab from text as token candidates, by default <code class="docutils literal notranslate"><span class="pre">\S+</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.write" title="sparknlp.annotator.Tokenizer.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.Tokenizer.write" title="sparknlp.annotator.Tokenizer.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1580,6 +1587,24 @@ default [‘.’, ‘,’, ‘;’, ‘:’, ‘!’, ‘?’, ‘*’, ‘-’,
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.Tokenizer.setExceptionsPath">
+<span class="sig-name descname"><span class="pre">setExceptionsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TEXT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'format':</span> <span class="pre">'text'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#Tokenizer.setExceptionsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.Tokenizer.setExceptionsPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to txt file with list of token exceptions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to the source file</p>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str, optional</span></dt><dd><p>How to read the file, by default ReadAs.TEXT</p>
+</dd>
+<dt><strong>options</strong><span class="classifier">dict, optional</span></dt><dd><p>Options to read the resource, by default {“format”: “text”}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.Tokenizer.setInfixPatterns">
 <span class="sig-name descname"><span class="pre">setInfixPatterns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#Tokenizer.setInfixPatterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.Tokenizer.setInfixPatterns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets regex patterns that match tokens within a single target. Groups
@@ -1775,7 +1800,7 @@ by default <code class="docutils literal notranslate"><span class="pre">([^\s\w]
               
               
               <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="sparknlp.annotator.Token2Chunk.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1798,8 +1823,8 @@ by default <code class="docutils literal notranslate"><span class="pre">([^\s\w]
       </div>
     </div>
   
-  <script src="../../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1810,7 +1835,7 @@ by default <code class="docutils literal notranslate"><span class="pre">([^\s\w]
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     
