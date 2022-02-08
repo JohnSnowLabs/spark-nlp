@@ -36,15 +36,15 @@ This model classifies the gender of a patient in a clinical document using conte
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+    .setInputCols(["document"]) \
+    .setOutputCol("token")
 
-sequenceClassifier = MedicalBertForSequenceClassification.pretrained('bert_sequence_classifier_gender', 'en', 'clinical/models')\
-  .setInputCols(["document",'token']) \
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_gender", "en", "clinical/models")\
+  .setInputCols(["document","token"]) \
   .setOutputCol("class") \
   .setCaseSensitive(True) \
   .setMaxSentenceLength(512)
@@ -68,7 +68,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained('bert_sequence_classifier_gender', 'en', 'clinical/models')
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_gender", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
