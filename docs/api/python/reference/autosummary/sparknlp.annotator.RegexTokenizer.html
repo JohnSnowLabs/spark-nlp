@@ -6,29 +6,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.RegexTokenizer &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>sparknlp.annotator.RegexTokenizer &#8212; Spark NLP 3.4.1 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet">
-  <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.be7d3bbb2ef33a8344ce.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -123,7 +123,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -840,6 +841,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -913,6 +917,12 @@ tokenizing, by default False</p>
 </dd>
 <dt><strong>positionalMask</strong></dt><dd><p>Using a positional mask to guarantee the incremental progression of the
 tokenization, by default False</p>
+</dd>
+<dt><strong>trimWhitespace</strong></dt><dd><p>Using a trimWhitespace flag to remove whitespaces from identified tokens,
+by default False</p>
+</dd>
+<dt><strong>preservePosition</strong></dt><dd><p>Using a preservePosition flag to preserve initial indexes before eventual whitespaces removal in tokens,
+by default True</p>
 </dd>
 </dl>
 </dd>
@@ -1037,8 +1047,14 @@ tokenization, by default False</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.RegexTokenizer.setPositionalMask" title="sparknlp.annotator.RegexTokenizer.setPositionalMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPositionalMask</span></code></a>(value)</p></td>
 <td><p>Sets whether to use a positional mask to guarantee the incremental progression of the tokenization, by default False.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.RegexTokenizer.setToLowercase" title="sparknlp.annotator.RegexTokenizer.setToLowercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setToLowercase</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.RegexTokenizer.setPreservePosition" title="sparknlp.annotator.RegexTokenizer.setPreservePosition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPreservePosition</span></code></a>(value)</p></td>
+<td><p>Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.RegexTokenizer.setToLowercase" title="sparknlp.annotator.RegexTokenizer.setToLowercase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setToLowercase</span></code></a>(value)</p></td>
 <td><p>Sets whether to convert all characters to lowercase before tokenizing, by default False.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.RegexTokenizer.setTrimWhitespace" title="sparknlp.annotator.RegexTokenizer.setTrimWhitespace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTrimWhitespace</span></code></a>(value)</p></td>
+<td><p>Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.RegexTokenizer.transform" title="sparknlp.annotator.RegexTokenizer.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(dataset[, params])</p></td>
 <td><p>Transforms the input dataset with optional parameters.</p></td>
@@ -1085,7 +1101,13 @@ tokenization, by default False</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">positionalMask</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">toLowercase</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">preservePosition</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">toLowercase</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trimWhitespace</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1366,6 +1388,20 @@ progression of the tokenization, by default False.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.RegexTokenizer.setPreservePosition">
+<span class="sig-name descname"><span class="pre">setPreservePosition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#RegexTokenizer.setPreservePosition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.RegexTokenizer.setPreservePosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Indicates whether to use a preserve initial indexes, by default True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.RegexTokenizer.setToLowercase">
 <span class="sig-name descname"><span class="pre">setToLowercase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#RegexTokenizer.setToLowercase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.RegexTokenizer.setToLowercase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets whether to convert all characters to lowercase before
@@ -1374,6 +1410,20 @@ tokenizing, by default False.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to convert all characters to lowercase before tokenizing</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.RegexTokenizer.setTrimWhitespace">
+<span class="sig-name descname"><span class="pre">setTrimWhitespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#RegexTokenizer.setTrimWhitespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.RegexTokenizer.setTrimWhitespace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Indicates whether to use a trimWhitespaces flag, by default False.</p>
 </dd>
 </dl>
 </dd>
@@ -1421,7 +1471,7 @@ tokenizing, by default False.</p>
               
               
               <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="sparknlp.annotator.RegexMatcherModel.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1444,8 +1494,8 @@ tokenizing, by default False.</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1456,7 +1506,7 @@ tokenizing, by default False.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

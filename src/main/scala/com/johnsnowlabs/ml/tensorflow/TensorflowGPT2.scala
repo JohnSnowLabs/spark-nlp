@@ -38,6 +38,24 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
   private val paddingTokenId = 50256
   private val eosTokenId = 50256
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput = Array.fill(128)(0) ++ Array(eosTokenId)
+    tag(Seq(dummyInput),
+      minOutputLength = 1,
+      maxOutputLength = 5,
+      doSample = false,
+      temperature = 0f,
+      topK = 0,
+      topP = 0f,
+      repetitionPenalty = 0f,
+      noRepeatNgramSize = 0,
+      randomSeed = Option(0),
+      ignoreTokenIds = Array(paddingTokenId)
+    )
+  }
+
+  sessionWarmup()
+
   def predict(sentences: Seq[Annotation],
               batchSize: Int,
               minOutputLength: Int,
@@ -89,18 +107,17 @@ class TensorflowGPT2(val tensorflow: TensorflowWrapper,
 
   }
 
-  def tag(
-           batch: Seq[Array[Int]],
-           minOutputLength: Int,
-           maxOutputLength: Int,
-           doSample: Boolean,
-           temperature: Double,
-           topK: Int,
-           topP: Double,
-           repetitionPenalty: Double,
-           noRepeatNgramSize: Int,
-           randomSeed: Option[Int],
-           ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+  def tag(batch: Seq[Array[Int]],
+          minOutputLength: Int,
+          maxOutputLength: Int,
+          doSample: Boolean,
+          temperature: Double,
+          topK: Int,
+          topP: Double,
+          repetitionPenalty: Double,
+          noRepeatNgramSize: Int,
+          randomSeed: Option[Int],
+          ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
 
     val numReturn_sequences = 1

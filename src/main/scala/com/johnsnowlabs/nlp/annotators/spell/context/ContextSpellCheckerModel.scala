@@ -515,7 +515,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
    * @return any number of annotations processed for every input annotation. Not necessary one to one relationship
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val decodedSentPaths = annotations.groupBy(_.metadata.getOrElse("sentence", "0")).mapValues { sentTokens =>
+    val decodedSentPaths = annotations.groupBy(_.metadata.getOrElse("sentence", "0").toInt).mapValues { sentTokens =>
       val (decodedPath, cost) = toOption(getOrDefault(useNewLines)).map { _ =>
         val idxs = Seq(-1) ++ sentTokens.zipWithIndex.filter { case (a, _) => a.result.equals(System.lineSeparator) || a.result.equals(System.lineSeparator * 2) }.
           map(_._2) ++ Seq(annotations.length)
@@ -536,7 +536,7 @@ class ContextSpellCheckerModel(override val uid: String) extends AnnotatorModel[
         )
     }
 
-    decodedSentPaths.values.flatten.toSeq
+    decodedSentPaths.values.toList.reverse.flatten
   }
 
   def toOption(boolean: Boolean): Option[Boolean] = {

@@ -6,29 +6,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.NerDLApproach &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>sparknlp.annotator.NerDLApproach &#8212; Spark NLP 3.4.1 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet">
-  <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.be7d3bbb2ef33a8344ce.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -123,7 +123,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -840,6 +841,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -966,6 +970,8 @@ slow down training, by default False</p>
 </dd>
 <dt><strong>useBestModel</strong></dt><dd><p>Whether to restore and use the model that has achieved the best performance
 at the end of the training.</p>
+</dd>
+<dt><strong>bestModelMetric</strong></dt><dd><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</p>
 </dd>
 <dt><strong>Examples</strong></dt><dd></dd>
 <dt><strong>——–</strong></dt><dd></dd>
@@ -1096,82 +1102,85 @@ at the end of the training.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setBatchSize" title="sparknlp.annotator.NerDLApproach.setBatchSize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBatchSize</span></code></a>(v)</p></td>
 <td><p>Sets batch size, by default 64.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setConfigProtoBytes" title="sparknlp.annotator.NerDLApproach.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setBestModelMetric" title="sparknlp.annotator.NerDLApproach.setBestModelMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setBestModelMetric</span></code></a>(value)</p></td>
+<td><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model when setUseBestModel is True</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setConfigProtoBytes" title="sparknlp.annotator.NerDLApproach.setConfigProtoBytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setConfigProtoBytes</span></code></a>(b)</p></td>
 <td><p>Sets configProto from tensorflow, serialized into byte array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setDropout" title="sparknlp.annotator.NerDLApproach.setDropout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDropout</span></code></a>(v)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setDropout" title="sparknlp.annotator.NerDLApproach.setDropout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDropout</span></code></a>(v)</p></td>
 <td><p>Sets dropout coefficient, by default 0.5.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer" title="sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableMemoryOptimizer</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer" title="sparknlp.annotator.NerDLApproach.setEnableMemoryOptimizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableMemoryOptimizer</span></code></a>(value)</p></td>
 <td><p>Sets Whether to optimize for large datasets or not, by default False.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEnableOutputLogs" title="sparknlp.annotator.NerDLApproach.setEnableOutputLogs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableOutputLogs</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEnableOutputLogs" title="sparknlp.annotator.NerDLApproach.setEnableOutputLogs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEnableOutputLogs</span></code></a>(value)</p></td>
 <td><p>Sets whether to use stdout in addition to Spark logs, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEntities" title="sparknlp.annotator.NerDLApproach.setEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code></a>(tags)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEntities" title="sparknlp.annotator.NerDLApproach.setEntities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEntities</span></code></a>(tags)</p></td>
 <td><p>Sets entities to recognize.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEvaluationLogExtended" title="sparknlp.annotator.NerDLApproach.setEvaluationLogExtended"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEvaluationLogExtended</span></code></a>(v)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setEvaluationLogExtended" title="sparknlp.annotator.NerDLApproach.setEvaluationLogExtended"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setEvaluationLogExtended</span></code></a>(v)</p></td>
 <td><p>Sets whether logs for validation to be extended, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setGraphFolder" title="sparknlp.annotator.NerDLApproach.setGraphFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFolder</span></code></a>(p)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setGraphFolder" title="sparknlp.annotator.NerDLApproach.setGraphFolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setGraphFolder</span></code></a>(p)</p></td>
 <td><p>Sets folder path that contain external graph files.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores" title="sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeAllConfidenceScores</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores" title="sparknlp.annotator.NerDLApproach.setIncludeAllConfidenceScores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeAllConfidenceScores</span></code></a>(value)</p></td>
 <td><p>Sets whether to include all confidence scores in annotation metadata or just the score of the predicted tag, by default False.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setIncludeConfidence" title="sparknlp.annotator.NerDLApproach.setIncludeConfidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setIncludeConfidence" title="sparknlp.annotator.NerDLApproach.setIncludeConfidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setIncludeConfidence</span></code></a>(value)</p></td>
 <td><p>Sets whether to include confidence scores in annotation metadata, by default False.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="sparknlp.annotator.NerDLApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setInputCols" title="sparknlp.annotator.NerDLApproach.setInputCols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setInputCols</span></code></a>(*value)</p></td>
 <td><p>Sets column names of input annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLabelColumn" title="sparknlp.annotator.NerDLApproach.setLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLabelColumn" title="sparknlp.annotator.NerDLApproach.setLabelColumn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLabelColumn</span></code></a>(value)</p></td>
 <td><p>Sets name of column for data labels.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLazyAnnotator" title="sparknlp.annotator.NerDLApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLazyAnnotator" title="sparknlp.annotator.NerDLApproach.setLazyAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLazyAnnotator</span></code></a>(value)</p></td>
 <td><p>Sets whether Annotator should be evaluated lazily in a RecursivePipeline.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLr" title="sparknlp.annotator.NerDLApproach.setLr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLr</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setLr" title="sparknlp.annotator.NerDLApproach.setLr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setLr</span></code></a>(v)</p></td>
 <td><p>Sets Learning Rate, by default 0.001.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setMaxEpochs" title="sparknlp.annotator.NerDLApproach.setMaxEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code></a>(epochs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setMaxEpochs" title="sparknlp.annotator.NerDLApproach.setMaxEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMaxEpochs</span></code></a>(epochs)</p></td>
 <td><p>Sets maximum number of epochs to train.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setMinEpochs" title="sparknlp.annotator.NerDLApproach.setMinEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code></a>(epochs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setMinEpochs" title="sparknlp.annotator.NerDLApproach.setMinEpochs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setMinEpochs</span></code></a>(epochs)</p></td>
 <td><p>Sets minimum number of epochs to train.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setOutputCol" title="sparknlp.annotator.NerDLApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setOutputCol" title="sparknlp.annotator.NerDLApproach.setOutputCol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputCol</span></code></a>(value)</p></td>
 <td><p>Sets output column name of annotations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setOutputLogsPath" title="sparknlp.annotator.NerDLApproach.setOutputLogsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code></a>(p)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setOutputLogsPath" title="sparknlp.annotator.NerDLApproach.setOutputLogsPath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setOutputLogsPath</span></code></a>(p)</p></td>
 <td><p>Sets folder path to save training logs.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setParamValue" title="sparknlp.annotator.NerDLApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setParamValue" title="sparknlp.annotator.NerDLApproach.setParamValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParamValue</span></code></a>(paramName)</p></td>
 <td><p>Sets the value of a parameter.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setPo" title="sparknlp.annotator.NerDLApproach.setPo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPo</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setPo" title="sparknlp.annotator.NerDLApproach.setPo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPo</span></code></a>(v)</p></td>
 <td><p>Sets Learning rate decay coefficient, by default 0.005.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setRandomSeed" title="sparknlp.annotator.NerDLApproach.setRandomSeed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code></a>(seed)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setRandomSeed" title="sparknlp.annotator.NerDLApproach.setRandomSeed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setRandomSeed</span></code></a>(seed)</p></td>
 <td><p>Sets random seed for shuffling.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="sparknlp.annotator.NerDLApproach.setTestDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code></a>(path[, read_as, options])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setTestDataset" title="sparknlp.annotator.NerDLApproach.setTestDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setTestDataset</span></code></a>(path[, read_as, options])</p></td>
 <td><p>Sets Path to test dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseBestModel" title="sparknlp.annotator.NerDLApproach.setUseBestModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseBestModel</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseBestModel" title="sparknlp.annotator.NerDLApproach.setUseBestModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseBestModel</span></code></a>(value)</p></td>
 <td><p>Whether to restore and use the model that has achieved the best performance at the end of the training.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="sparknlp.annotator.NerDLApproach.setUseContrib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseContrib</span></code></a>(v)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setUseContrib" title="sparknlp.annotator.NerDLApproach.setUseContrib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseContrib</span></code></a>(v)</p></td>
 <td><p>Sets whether to use contrib LSTM Cells.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="sparknlp.annotator.NerDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setValidationSplit" title="sparknlp.annotator.NerDLApproach.setValidationSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setValidationSplit</span></code></a>(v)</p></td>
 <td><p>Sets the proportion of training dataset to be validated against the model on each Epoch, by default it is 0.0 and off.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="sparknlp.annotator.NerDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.setVerbose" title="sparknlp.annotator.NerDLApproach.setVerbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setVerbose</span></code></a>(verboseValue)</p></td>
 <td><p>Sets level of verbosity during training.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.write" title="sparknlp.annotator.NerDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.write" title="sparknlp.annotator.NerDLApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1186,82 +1195,85 @@ at the end of the training.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batchSize</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">configProtoBytes</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bestModelMetric</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dropout</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">configProtoBytes</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">enableMemoryOptimizer</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dropout</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">enableOutputLogs</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">enableMemoryOptimizer</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">entities</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">enableOutputLogs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluationLogExtended</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">entities</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluationLogExtended</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphFolder</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">getter_attrs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">includeAllConfidenceScores</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">graphFolder</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">includeConfidence</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">includeAllConfidenceScores</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">includeConfidence</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">labelColumn</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputCols</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">labelColumn</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lr</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lazyAnnotator</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxEpochs</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">lr</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minEpochs</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">maxEpochs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">minEpochs</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputLogsPath</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputCol</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.params" title="sparknlp.annotator.NerDLApproach.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputLogsPath</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.NerDLApproach.params" title="sparknlp.annotator.NerDLApproach.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Returns all params ordered by name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">po</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">po</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">randomSeed</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">randomSeed</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">testDataset</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">testDataset</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useBestModel</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useBestModel</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useContrib</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useContrib</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validationSplit</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validationSplit</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1492,6 +1504,20 @@ uses <code class="xref py py-func docutils literal notranslate"><span class="pre
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>v</strong><span class="classifier">int</span></dt><dd><p>Batch size</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.NerDLApproach.setBestModelMetric">
+<span class="sig-name descname"><span class="pre">setBestModelMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#NerDLApproach.setBestModelMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.NerDLApproach.setBestModelMetric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model when setUseBestModel is True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</p>
 </dd>
 </dl>
 </dd>
@@ -1893,7 +1919,7 @@ between 0.0 and 1.0.</p>
               
               
               <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="sparknlp.annotator.NerCrfModel.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1916,8 +1942,8 @@ between 0.0 and 1.0.</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1928,7 +1954,7 @@ between 0.0 and 1.0.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

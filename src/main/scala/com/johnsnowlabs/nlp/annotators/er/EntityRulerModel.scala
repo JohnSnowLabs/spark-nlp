@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
-import com.johnsnowlabs.nlp.annotators.common.{TokenizedSentence, TokenizedWithSentence}
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, SentenceSplit, TokenizedSentence, TokenizedWithSentence}
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
@@ -63,6 +63,9 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
   private[er] val entityRulerFeatures: StructFeature[EntityRulerFeatures] =
     new StructFeature[EntityRulerFeatures](this, "Structure to store data when RocksDB is not used")
 
+  private[er] val sentenceMatch = new BooleanParam(this, "sentenceMatch",
+    "Whether to find match at sentence level. True: sentence level. False: token level")
+
   private[er] def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   private[er] def setRegexEntities(value: Array[String]): this.type = set(regexEntities, value)
@@ -70,6 +73,8 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
   private[er] def setEntityRulerFeatures(value: EntityRulerFeatures): this.type = set(entityRulerFeatures, value)
 
   private[er] def setUseStorage(value: Boolean): this.type = set(useStorage, value)
+
+  private[er] def setSentenceMatch(value: Boolean): this.type = set(sentenceMatch, value)
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator type */
   val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, TOKEN)
@@ -83,6 +88,11 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
    */
   def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
+    if ($(sentenceMatch)) getAnnotationBySentence(annotations) else getAnnotationByToken(annotations)
+
+  }
+
+  private def getAnnotationByToken(annotations: Seq[Annotation]): Seq[Annotation] = {
     val tokenizedWithSentences = TokenizedWithSentence.unpack(annotations)
     var annotatedEntities: Seq[Annotation] = Seq()
 
@@ -98,8 +108,15 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
     annotatedEntities
   }
 
+  private def getAnnotationBySentence(annotations: Seq[Annotation]): Seq[Annotation] = {
+    val patternsReader = if ($(useStorage)) Some(getReader(Database.ENTITY_REGEX_PATTERNS).asInstanceOf[RegexPatternsReader]) else None
+    val sentences = SentenceSplit.unpack(annotations)
+    annotateEntitiesFromPatternsBySentence(sentences, patternsReader)
+  }
+
   private def annotateEntitiesFromRegexPatterns(tokenizedWithSentences: Seq[TokenizedSentence],
                                                 regexPatternsReader: Option[RegexPatternsReader]): Seq[Annotation] = {
+
     val annotatedEntities = tokenizedWithSentences.flatMap { tokenizedWithSentence =>
       tokenizedWithSentence.indexedTokens.flatMap { indexedToken =>
         val entity = getMatchedEntity(indexedToken.token, regexPatternsReader)
@@ -134,8 +151,48 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
     matchesByEntity.headOption
   }
 
+  private def getMatchedEntityBySentence(sentence: Sentence, regexPatternsReader: Option[RegexPatternsReader]):
+  Array[(IndexedToken, String)] = {
+
+    val matchesByEntity = $(regexEntities).flatMap { regexEntity =>
+      val regexPatterns: Option[Seq[String]] = regexPatternsReader match {
+        case Some(rpr) => rpr.lookup(regexEntity)
+        case None => $$(entityRulerFeatures).regexPatterns.get(regexEntity)
+      }
+      if (regexPatterns.isDefined) {
+
+        val resultMatches = regexPatterns.get.flatMap { regexPattern =>
+          val matchedResult = regexPattern.r.findFirstMatchIn(sentence.content)
+          if (matchedResult.isDefined) {
+            val begin = matchedResult.get.start + sentence.start
+            val end = matchedResult.get.end + sentence.start - 1
+            Some(matchedResult.get.toString(), begin, end, regexEntity)
+          } else None
+        }
+
+        val filteredMatches = filterOverlappingMatches(resultMatches)
+        if (filteredMatches.nonEmpty) Some(filteredMatches) else None
+      } else None
+    }.flatten.sortBy(_._2)
+
+    matchesByEntity.map(matches => (IndexedToken(matches._1, matches._2, matches._3), matches._4))
+  }
+
+  private def filterOverlappingMatches(matches: Seq[(String, Int, Int, String)]): Seq[(String, Int, Int, String)] = {
+
+    val groupByBegin = matches.groupBy(_._2).filter(_._2.length > 1)
+    val groupByEnd = matches.groupBy(_._3).filter(_._2.length > 1)
+
+    val overlappingBegin = groupByBegin.flatMap(ngram => ngram._2.sortBy(_._1.length)).dropRight(1)
+    val overlappingEnd = groupByEnd.flatMap(ngram => ngram._2.sortBy(_._1.length)).dropRight(1)
+    val overlappingMatches = (overlappingBegin ++ overlappingEnd).toSeq.distinct
+
+    matches diff overlappingMatches
+  }
+
   private def annotateEntitiesFromPatterns(tokenizedWithSentences: Seq[TokenizedSentence],
                                            patternsReader: Option[PatternsReader]): Seq[Annotation] = {
+
     val annotatedEntities = tokenizedWithSentences.flatMap { tokenizedWithSentence =>
       tokenizedWithSentence.indexedTokens.flatMap { indexedToken =>
         val labelData: Option[String] = patternsReader match {
@@ -151,6 +208,20 @@ class EntityRulerModel(override val uid: String) extends AnnotatorModel[EntityRu
       }
     }
 
+    annotatedEntities
+  }
+
+  private def annotateEntitiesFromPatternsBySentence(sentences: Seq[Sentence],
+                                                     patternsReader: Option[RegexPatternsReader]): Seq[Annotation] = {
+
+    val annotatedEntities = sentences.flatMap { sentence =>
+      val matchedEntities = getMatchedEntityBySentence(sentence, patternsReader)
+      matchedEntities.map { case (indexedToken, label) =>
+        val entityMetadata = getEntityMetadata(Some(label))
+        Annotation(CHUNK, indexedToken.begin, indexedToken.end, indexedToken.token,
+          entityMetadata ++ Map("sentence" -> sentence.index.toString))
+      }
+    }
     annotatedEntities
   }
 

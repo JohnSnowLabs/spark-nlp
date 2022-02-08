@@ -336,7 +336,7 @@ class Tokenizer(AnnotatorApproach):
     exceptionsPath = Param(Params._dummy(),
                            "exceptionsPath",
                            "path to file containing list of exceptions",
-                           typeConverter=TypeConverters.toString)
+                           typeConverter=TypeConverters.identity)
 
     caseSensitiveExceptions = Param(Params._dummy(),
                                     "caseSensitiveExceptions",
@@ -512,6 +512,21 @@ class Tokenizer(AnnotatorApproach):
             Words that won't be affected by tokenization rules
         """
         return self.getOrDefault("exceptions")
+
+    def setExceptionsPath(self, path, read_as=ReadAs.TEXT, options={"format": "text"}):
+        """Path to txt file with list of token exceptions
+
+        Parameters
+        ----------
+        path : str
+            Path to the source file
+        read_as : str, optional
+            How to read the file, by default ReadAs.TEXT
+        options : dict, optional
+            Options to read the resource, by default {"format": "text"}
+        """
+        opts = options.copy()
+        return self._set(exceptionsPath=ExternalResource(path, read_as, opts))
 
     def addException(self, value):
         """Adds an additional word that won't be affected by tokenization rules.
@@ -787,6 +802,12 @@ class RegexTokenizer(AnnotatorModel):
     positionalMask
         Using a positional mask to guarantee the incremental progression of the
         tokenization, by default False
+    trimWhitespace
+        Using a trimWhitespace flag to remove whitespaces from identified tokens,
+        by default False
+    preservePosition
+        Using a preservePosition flag to preserve initial indexes before eventual whitespaces removal in tokens,
+        by default True
 
     Examples
     --------
@@ -826,7 +847,9 @@ class RegexTokenizer(AnnotatorModel):
             toLowercase=False,
             minLength=1,
             pattern="\\s+",
-            positionalMask=False
+            positionalMask=False,
+            trimWhitespace=False,
+            preservePosition=True
         )
 
     minLength = Param(Params._dummy(),
@@ -853,6 +876,16 @@ class RegexTokenizer(AnnotatorModel):
                            "positionalMask",
                            "Using a positional mask to guarantee the incremental progression of the tokenization.",
                            typeConverter=TypeConverters.toBoolean)
+
+    trimWhitespace = Param(Params._dummy(),
+                           "trimWhitespace",
+                           "Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.",
+                           typeConverter=TypeConverters.toBoolean)
+
+    preservePosition = Param(Params._dummy(),
+                             "preservePosition",
+                             "Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.",
+                             typeConverter=TypeConverters.toBoolean)
 
     def setMinLength(self, value):
         """Sets the minimum allowed legth for each token, by default 1.
@@ -905,6 +938,26 @@ class RegexTokenizer(AnnotatorModel):
             Whether to use a positional mask
         """
         return self._set(positionalMask=value)
+
+    def setTrimWhitespace(self, value):
+        """Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.
+
+        Parameters
+        ----------
+        value : bool
+            Indicates whether to use a trimWhitespaces flag, by default False.
+        """
+        return self._set(trimWhitespace=value)
+
+    def setPreservePosition(self, value):
+        """Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.
+
+        Parameters
+        ----------
+        value : bool
+            Indicates whether to use a preserve initial indexes, by default True.
+        """
+        return self._set(preservePosition=value)
 
 
 class ChunkTokenizer(Tokenizer):
@@ -4786,6 +4839,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useBestModel
         Whether to restore and use the model that has achieved the best performance
         at the end of the training.
+    bestModelMetric
+        Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
     Examples
     --------
     >>> import sparknlp
@@ -4891,6 +4946,10 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
     useBestModel = Param(Params._dummy(), "useBestModel",
                          "Whether to restore and use the model that has achieved the best performance at the end of the training.",
                          TypeConverters.toBoolean)
+
+    bestModelMetric = Param(Params._dummy(), "bestModelMetric",
+                            "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model.",
+                            TypeConverters.toString)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -5086,6 +5145,16 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
         """
         return self._set(useBestModel=value)
 
+    def setBestModelMetric(self, value):
+        """Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model when setUseBestModel is True
+
+        Parameters
+        ----------
+        value : str
+            Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model
+        """
+        return self._set(bestModelMetric=value)
+
     @keyword_only
     def __init__(self):
         super(NerDLApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach")
@@ -5105,7 +5174,8 @@ class NerDLApproach(AnnotatorApproach, NerApproach):
             includeAllConfidenceScores=False,
             enableOutputLogs=False,
             enableMemoryOptimizer=False,
-            useBestModel=False
+            useBestModel=False,
+            bestModelMetric="f1_micro"
         )
 
 
@@ -11685,7 +11755,7 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate):
             repetitionPenalty=1.0,
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
-            batchSize=4
+            batchSize=1
         )
 
     @staticmethod
@@ -11768,7 +11838,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
     Parameters
     ----------
     batchSize
-        Size of every batch, by default 8
+        Size of every batch, by default 1
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     langId
@@ -11914,7 +11984,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate):
             java_model=java_model
         )
         self._setDefault(
-            batchSize=4,
+            batchSize=1,
             maxInputLength=40,
             maxOutputLength=40,
             langId="",
@@ -14848,6 +14918,11 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
                        "Whether to use RocksDB storage to serialize patterns",
                        typeConverter=TypeConverters.toBoolean)
 
+    sentenceMatch = Param(Params._dummy(),
+                          "sentenceMatch",
+                          "Whether to find match at sentence level. True: sentence level. False: token level",
+                          typeConverter=TypeConverters.toBoolean)
+
     @keyword_only
     def __init__(self):
         super(EntityRulerApproach, self).__init__(
@@ -14886,6 +14961,16 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
             Whether to use RocksDB storage to serialize patterns.
         """
         return self._set(useStorage=value)
+
+    def setSentenceMatch(self, value):
+        """Sets whether to find match at sentence level.
+
+        Parameters
+        ----------
+        value : bool
+            True: sentence level. False: token level
+        """
+        return self._set(sentenceMatch=value)
 
     def _create_model(self, java_model):
         return EntityRulerModel(java_model=java_model)

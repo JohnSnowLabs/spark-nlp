@@ -17,10 +17,11 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.ContentProvider
-import com.johnsnowlabs.nlp.base.{DocumentAssembler, LightPipeline, RecursivePipeline}
+import com.johnsnowlabs.nlp.base.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PragmaticDetectionPerfTest extends AnyFlatSpec {
@@ -39,8 +40,8 @@ class PragmaticDetectionPerfTest extends AnyFlatSpec {
       .setOutputCol("sentence")
       .setUseAbbreviations(true)
 
-    val recursivePipeline = new RecursivePipeline().
-      setStages(Array(
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(
         documentAssembler,
         sentenceDetector
       ))
