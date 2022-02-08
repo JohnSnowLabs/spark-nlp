@@ -6,29 +6,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>sparknlp.annotator.EntityRulerApproach &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>sparknlp.annotator.EntityRulerApproach &#8212; Spark NLP 3.4.1 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet">
-  <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.be7d3bbb2ef33a8344ce.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -123,7 +123,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -840,6 +841,9 @@
 
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -1103,16 +1107,19 @@ set. In this case, the delimiter might be set by using
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setPatternsResource" title="sparknlp.annotator.EntityRulerApproach.setPatternsResource"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setPatternsResource</span></code></a>(path[, read_as, options])</p></td>
 <td><p>Sets Resource in JSON or CSV format to map entities to patterns.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setStoragePath" title="sparknlp.annotator.EntityRulerApproach.setStoragePath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStoragePath</span></code></a>(path, read_as)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setSentenceMatch" title="sparknlp.annotator.EntityRulerApproach.setSentenceMatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setSentenceMatch</span></code></a>(value)</p></td>
+<td><p>Sets whether to find match at sentence level.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setStoragePath" title="sparknlp.annotator.EntityRulerApproach.setStoragePath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStoragePath</span></code></a>(path, read_as)</p></td>
 <td><p>Sets path to file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setStorageRef" title="sparknlp.annotator.EntityRulerApproach.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setStorageRef" title="sparknlp.annotator.EntityRulerApproach.setStorageRef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setStorageRef</span></code></a>(value)</p></td>
 <td><p>Sets unique reference name for identification.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setUseStorage" title="sparknlp.annotator.EntityRulerApproach.setUseStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseStorage</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.setUseStorage" title="sparknlp.annotator.EntityRulerApproach.setUseStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setUseStorage</span></code></a>(value)</p></td>
 <td><p>Sets whether to use RocksDB storage to serialize patterns.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.write" title="sparknlp.annotator.EntityRulerApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.annotator.EntityRulerApproach.write" title="sparknlp.annotator.EntityRulerApproach.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
 <td><p>Returns an MLWriter instance for this ML instance.</p></td>
 </tr>
 </tbody>
@@ -1154,13 +1161,16 @@ set. In this case, the delimiter might be set by using
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">patternsResource</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">storagePath</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sentenceMatch</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">storageRef</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">storagePath</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useStorage</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">storageRef</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">useStorage</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1544,6 +1554,20 @@ RecursivePipeline</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.EntityRulerApproach.setSentenceMatch">
+<span class="sig-name descname"><span class="pre">setSentenceMatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../modules/sparknlp/annotator.html#EntityRulerApproach.setSentenceMatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.EntityRulerApproach.setSentenceMatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets whether to find match at sentence level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True: sentence level. False: token level</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.EntityRulerApproach.setStoragePath">
 <span class="sig-name descname"><span class="pre">setStoragePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sparknlp.annotator.EntityRulerApproach.setStoragePath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets path to file.</p>
@@ -1610,7 +1634,7 @@ RecursivePipeline</p>
               
               
               <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="sparknlp.annotator.ElmoEmbeddings.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1633,8 +1657,8 @@ RecursivePipeline</p>
       </div>
     </div>
   
-  <script src="../../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -1645,7 +1669,7 @@ RecursivePipeline</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     
