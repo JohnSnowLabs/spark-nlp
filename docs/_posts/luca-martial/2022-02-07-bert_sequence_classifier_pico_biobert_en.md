@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 Classify medical text according to the PICO framework.
 
+This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
+
 ## Predicted Entities
 
 `CONCLUSIONS`, `DESIGN_SETTING`, `INTERVENTION`, `PARTICIPANTS`, `FINDINGS`, `MEASUREMENTS`, `AIMS`
