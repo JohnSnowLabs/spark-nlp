@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This model classifies the gender of a patient in a clinical document using context.
 
+This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
+
 ## Predicted Entities
 
 `Female`, `Male`, `Unknown`
