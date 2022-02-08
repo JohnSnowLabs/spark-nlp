@@ -23,6 +23,8 @@ Classify texts/sentences in two categories:
 
 - `False` : The sentence doesn’t have any information about an ADE.
 
+This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
+
 ## Predicted Entities
 
 `True`, `False`
