@@ -52,13 +52,19 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
 
   private val langCodeRe = ">>.+<<".r
 
-  def tag(
-           batch: Seq[Array[Int]],
-           maxOutputLength: Int,
-           paddingTokenId: Int,
-           eosTokenId: Int,
-           vocabSize: Int,
-           ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+  private def sessionWarmup(): Unit = {
+    val dummyInput = Array.fill(1)(0)
+    tag(Seq(dummyInput), 0, 0, 0, 1)
+  }
+
+  sessionWarmup()
+
+  def tag(batch: Seq[Array[Int]],
+          maxOutputLength: Int,
+          paddingTokenId: Int,
+          eosTokenId: Int,
+          vocabSize: Int,
+          ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
     val sequencesLength = batch.map(x => x.length).toArray
@@ -245,7 +251,7 @@ class TensorflowMarian(val tensorflow: TensorflowWrapper,
    */
 
   def predict(sentences: Seq[Annotation],
-              batchSize: Int = 10,
+              batchSize: Int = 1,
               maxInputLength: Int,
               maxOutputLength: Int,
               vocabs: Array[String],
