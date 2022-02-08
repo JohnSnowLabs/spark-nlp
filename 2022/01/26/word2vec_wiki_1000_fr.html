@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Vietnamese DistilBERT Base Cased Embeddings- Spark NLP Model</title><meta name="description" content="DescriptionThis embeddings model was imported from Hugging Face. It’s a custom version of distilbert_base_multilingual_cased and it gives the same representa...">
-<link rel="canonical" href="/2022/01/13/distilbert_base_cased_vi.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Word Embeddings for French (word2vec_wiki_1000)- Spark NLP Model</title><meta name="description" content="DescriptionThis French Word2Vec model was trained by Jean-Philippe Fauconnier on a  French Wikipedia Dump of 2015 over a window size of 100 and dimensions of...">
+<link rel="canonical" href="/2022/01/26/word2vec_wiki_1000_fr.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,19 +404,19 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 13, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-13T00:00:00+00:00"></div><header class="main-docs"><h1>Vietnamese DistilBERT Base Cased Embeddings</h1></header></div><meta itemprop="headline" content="Vietnamese DistilBERT Base Cased Embeddings"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>embeddings</li><li>distilbert</li><li>vietnamese</li><li>vi</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-13T00:00:00+00:00">
-    <meta itemprop="keywords" content="embeddings,distilbert,vietnamese,vi,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 26, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-26T00:00:00+00:00"></div><header class="main-docs"><h1>Word Embeddings for French (word2vec_wiki_1000)</h1></header></div><meta itemprop="headline" content="Word Embeddings for French (word2vec_wiki_1000)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>fr</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-26T00:00:00+00:00">
+    <meta itemprop="keywords" content="fr,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This embeddings model was imported from <code class="language-plaintext highlighter-rouge">Hugging Face</code>. It’s a custom version of <code class="language-plaintext highlighter-rouge">distilbert_base_multilingual_cased</code> and it gives the same representations produced by the original model which preserves the original accuracy.</p>
+<p>This French Word2Vec model was trained by <a href="https://fauconnier.github.io/">Jean-Philippe Fauconnier</a> on a  <a href="https://dumps.wikimedia.org/frwiki/">French Wikipedia Dump of 2015</a> over a window size of 100 and dimensions of 1000.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_cased_vi_3.3.4_3.0_1642064850307.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/word2vec_wiki_1000_fr_3.4.0_3.0_1643203216331.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -424,43 +424,31 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">distilbert</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_base_cased"</span><span class="p">,</span> <span class="s">"vi"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">distilbert</span><span class="p">])</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""Tôi yêu Spark NLP"""</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+  
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"word2vec_wiki_1000"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DistilBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_cased"</span><span class="o">,</span> <span class="s">"vi"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Tôi yêu Spark NLP"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"word2vec_wiki_1000"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+--------------------+
-|token|          embeddings|
-+-----+--------------------+
-|  Tôi|[-0.38760236, <span class="nt">-0</span>....|
-|  yêu|[-0.3357051, <span class="nt">-0</span>.5...|
-|Spark|[-0.20642707, <span class="nt">-0</span>....|
-|  NLP|[-0.013280544, <span class="nt">-0</span>...|
-+-----+--------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -468,11 +456,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>distilbert_base_cased</td>
+      <td>word2vec_wiki_1000</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>embeddings</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.4+</td>
+      <td>Spark NLP 3.4.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -484,7 +476,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -492,19 +484,30 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>vi</td>
+      <td>fr</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>211.6 MB</td>
+      <td>248.8 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
       <td>false</td>
     </tr>
+    <tr>
+      <td>Dimension:</td>
+      <td>1000</td>
+    </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-13T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="references">References</h2>
+
+<p>This model was trained by <a href="https://fauconnier.github.io/">Jean-Philippe Fauconnier</a> on a <a href="https://dumps.wikimedia.org/frwiki/">French Wikipedia Dump of 2015</a>. <a href="#1">[1]</a></p>
+
+<p><a id="1">[1]</a>
+Fauconnier, Jean-Philippe (2015), French Word Embeddings, http://fauconnier.github.io</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-26T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -629,7 +632,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/13/roberta_base_biomedical_es.html">RoBERTa base biomedical</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/14/bert_sequence_classifier_emotion_en.html">Emotion Detection Classifier</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/26/albert_indic_xx.html">IndicBERT - Albert for 12 major Indian languages</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/02/01/word2vec_wac_200_fr.html">Word Embeddings for French (word2vec_wac_200)</a></div></div></div>
 
 </div>
 </div>

@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Vietnamese DistilBERT Base Cased Embeddings- Spark NLP Model</title><meta name="description" content="DescriptionThis embeddings model was imported from Hugging Face. It’s a custom version of distilbert_base_multilingual_cased and it gives the same representa...">
-<link rel="canonical" href="/2022/01/13/distilbert_base_cased_vi.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>IndicBERT - Albert for 12 major Indian languages- Spark NLP Model</title><meta name="description" content="DescriptionIndicBERT is a multilingual ALBERT model pretrained exclusively on 12 major Indian languages. It is pre-trained on our novel monolingual corpus of...">
+<link rel="canonical" href="/2022/01/26/albert_indic_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,19 +404,21 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 13, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-13T00:00:00+00:00"></div><header class="main-docs"><h1>Vietnamese DistilBERT Base Cased Embeddings</h1></header></div><meta itemprop="headline" content="Vietnamese DistilBERT Base Cased Embeddings"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>embeddings</li><li>distilbert</li><li>vietnamese</li><li>vi</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-13T00:00:00+00:00">
-    <meta itemprop="keywords" content="embeddings,distilbert,vietnamese,vi,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 26, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-26T00:00:00+00:00"></div><header class="main-docs"><h1>IndicBERT - Albert for 12 major Indian languages</h1></header></div><meta itemprop="headline" content="IndicBERT - Albert for 12 major Indian languages"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>albert</li><li>as</li><li>bn</li><li>en</li><li>gu</li><li>kn</li><li>ml</li><li>mr</li><li>or</li><li>pa</li><li>ta</li><li>te</li><li>xx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-26T00:00:00+00:00">
+    <meta itemprop="keywords" content="open_source,albert,as,bn,en,gu,kn,ml,mr,or,pa,ta,te,xx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This embeddings model was imported from <code class="language-plaintext highlighter-rouge">Hugging Face</code>. It’s a custom version of <code class="language-plaintext highlighter-rouge">distilbert_base_multilingual_cased</code> and it gives the same representations produced by the original model which preserves the original accuracy.</p>
+<p>IndicBERT is a multilingual ALBERT model pretrained exclusively on 12 major Indian languages. It is pre-trained on our novel monolingual corpus of around 9 billion tokens and subsequently evaluated on a set of diverse tasks. IndicBERT has much fewer parameters than other multilingual models (mBERT, XLM-R etc.) while it also achieves a performance on-par or better than these models.</p>
+
+<p>The 12 languages covered by IndicBERT are: Assamese, Bengali, English, Gujarati, Hindi, Kannada, Malayalam, Marathi, Oriya, Punjabi, Tamil, Telugu.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_cased_vi_3.3.4_3.0_1642064850307.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_indic_xx_3.4.0_3.0_1643211494926.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -424,42 +426,93 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="n">distilbert</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_base_cased"</span><span class="p">,</span> <span class="s">"vi"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">distilbert</span><span class="p">])</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""Tôi yêu Spark NLP"""</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">AlbertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"albert_indic"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">embeddingsFinisher</span> <span class="o">=</span> <span class="n">EmbeddingsFinisher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"finished_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputAsVector</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCleanAnnotations</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">embeddingsFinisher</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s">"கர்நாடக சட்டப் பேரவையில் வெற்றி பெற்ற எம்எல்ஏக்கள் இன்று பதவியேற்றுக் கொண்ட நிலையில் , காங்கிரஸ் எம்எல்ஏ ஆனந்த் சிங் க்கள் ஆப்சென்ட் ஆகி அதிர்ச்சியை ஏற்படுத்தியுள்ளார் . உச்சநீதிமன்ற உத்தரவுப்படி இன்று மாலை முதலமைச்சர் எடியூரப்பா இன்று நம்பிக்கை வாக்கெடுப்பு நடத்தி பெரும்பான்மையை நிரூபிக்க உச்சநீதிமன்றம் உத்தரவிட்டது ."</span><span class="p">],</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.Tokenizer</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.AlbertEmbeddings</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.EmbeddingsFinisher</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DistilBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_cased"</span><span class="o">,</span> <span class="s">"vi"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Tôi yêu Spark NLP"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">AlbertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"albert_indic"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddingsFinisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EmbeddingsFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"finished_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputAsVector</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCleanAnnotations</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">embeddings</span><span class="o">,</span>
+  <span class="n">embeddingsFinisher</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"கர்நாடக சட்டப் பேரவையில் வெற்றி பெற்ற எம்எல்ஏக்கள் இன்று பதவியேற்றுக் கொண்ட நிலையில் , காங்கிரஸ் எம்எல்ஏ ஆனந்த் சிங் க்கள் ஆப்சென்ட் ஆகி அதிர்ச்சியை ஏற்படுத்தியுள்ளார் . உச்சநீதிமன்ற உத்தரவுப்படி இன்று மாலை முதலமைச்சர் எடியூரப்பா இன்று நம்பிக்கை வாக்கெடுப்பு நடத்தி பெரும்பான்மையை நிரூபிக்க உச்சநீதிமன்றம் உத்தரவிட்டது ."</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(finished_embeddings) as result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+--------------------+
-|token|          embeddings|
-+-----+--------------------+
-|  Tôi|[-0.38760236, <span class="nt">-0</span>....|
-|  yêu|[-0.3357051, <span class="nt">-0</span>.5...|
-|Spark|[-0.20642707, <span class="nt">-0</span>....|
-|  NLP|[-0.013280544, <span class="nt">-0</span>...|
-+-----+--------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------------------------------------------------------+
+|                                                                          result|
++--------------------------------------------------------------------------------+
+|[0.2693195641040802,-0.6446362733840942,-0.05138964205980301,0.06030936539173...|
+|[0.027906809002161026,-0.37459731101989746,-0.08371371030807495,-0.0869174525...|
+|[0.3804604113101959,-0.7870151400566101,0.08463867008686066,-0.30186718702316...|
+|[0.15204764902591705,-0.26839596033096313,0.07375998795032501,-0.131638795137...|
+|[0.1482795625925064,-0.221298485994339,-0.022987276315689087,-0.2132280170917...|
++--------------------------------------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -468,11 +521,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>distilbert_base_cased</td>
+      <td>albert_indic</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.4+</td>
+      <td>Spark NLP 3.4.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -484,7 +537,7 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token]</td>
+      <td>[document, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
@@ -492,19 +545,19 @@
     </tr>
     <tr>
       <td>Language:</td>
-      <td>vi</td>
+      <td>xx</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>211.6 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>false</td>
+      <td>128.3 MB</td>
     </tr>
   </tbody>
 </table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-13T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 id="references">References</h2>
+
+<p>The model was exported from transformers and is based on https://github.com/AI4Bharat/indic-bert</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-26T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -629,7 +682,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/13/roberta_base_biomedical_es.html">RoBERTa base biomedical</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/14/bert_sequence_classifier_emotion_en.html">Emotion Detection Classifier</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/23/ner_ncbi_glove_100d_en.html">Detect DISEASE Entities in English Clinical Data</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/26/word2vec_wiki_1000_fr.html">Word Embeddings for French (word2vec_wiki_1000)</a></div></div></div>
 
 </div>
 </div>
