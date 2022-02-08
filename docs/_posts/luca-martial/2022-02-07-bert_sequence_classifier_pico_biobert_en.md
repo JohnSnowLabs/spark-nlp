@@ -36,15 +36,15 @@ Classify medical text according to the PICO framework.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
-    .setInputCols(['document']) \
-    .setOutputCol('token')
+    .setInputCols(["document"]) \
+    .setOutputCol("token")
 
-sequenceClassifier = MedicalBertForSequenceClassification.pretrained('bert_sequence_classifier_pico', 'en', 'clinical/models')\
-  .setInputCols(["document",'token'])\
+sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_pico", "en", "clinical/models")\
+  .setInputCols(["document","token"])\
   .setOutputCol("class")
 
 pipeline = Pipeline(stages=[
@@ -66,13 +66,13 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("token")
 
-val sequenceClassifier = MedicalBertForSequenceClassification.pretrained('bert_sequence_classifier_pico', 'en', 'clinical/models')
+val sequenceClassifier = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_pico", "en", "clinical/models")
     .setInputCols(Array("document","token"))
     .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documenter, tokenizer, sequenceClassifier))
 
-val data = Seq("To compare the results of recording enamel opacities using the TF and modified DDE indices."").toDF("text")
+val data = Seq("To compare the results of recording enamel opacities using the TF and modified DDE indices.").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
