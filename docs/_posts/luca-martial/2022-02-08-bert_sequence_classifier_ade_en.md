@@ -117,6 +117,8 @@ This model is trained on a custom dataset comprising of CADEC, DRUG-AE and Twime
 ## Benchmarking
 
 ```bash
+              precision    recall  f1-score   support
+
        False       0.97      0.97      0.97      6884
         True       0.87      0.85      0.86      1398
 
