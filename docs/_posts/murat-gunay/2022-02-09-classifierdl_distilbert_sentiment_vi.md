@@ -91,7 +91,7 @@ val lemmatizer = LemmatizerModel.pretrained("lemma", "vi")
         .setOutputCol("lemma")
 
 val distilbert = DistilBertEmbeddings.pretrained("distilbert_base_cased", "vi")
-  .setInputCols(Array("document",'token'))
+  .setInputCols(Array("document","token"))
   .setOutputCol("embeddings")
   .setCaseSensitive(False)
 
