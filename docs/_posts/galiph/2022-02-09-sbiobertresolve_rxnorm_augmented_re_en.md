@@ -99,8 +99,8 @@ rxnorm_weighted_pipeline_re = Pipeline(
         rxnorm_re
         ])
         
-sampleText = ["The patient was given metformin 125 mg, 250 mg of coumadin and then ibuprofen.",
-              "The patient was given coumadin 12 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
+sampleText = ["The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
+              "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
 
 data_df = spark.createDataFrame(sample_df)
 
@@ -163,8 +163,8 @@ val rxnorm_weighted_pipeline_re = new PipelineModel().setStages(Array(documenter
 
 val light_model = LightPipeline(rxnorm_weighted_pipeline_re)
 
-vat sampleText = Array("The patient was given metformin 125 mg, 250 mg of coumadin and then ibuprofen.",
-              "The patient was given coumadin 12 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
+vat sampleText = Array("The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen.",
+              "The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
 
 ```
 </div>
@@ -172,18 +172,17 @@ vat sampleText = Array("The patient was given metformin 125 mg, 250 mg of coumad
 ## Results
 
 ```bash
-+-----+----------------+------------+---------------------------------+|
-|index|           Chunk| RxNormCode |                     Concept_Names|
-+-----+----------------+------------+---------------------------------+|
-|    0|metformin 125 mg|      860974|    metformin hydrochloride 500 MG|
-|    0| 250 mg coumadin|      855339|   warfarin sodium 6 MG [Coumadin]|
-|    0|       ibuprofen|     1747293|               ibuprofen Injection|
-|    1|metformin 125 mg|      860974|    metformin hydrochloride 500 MG|
-|    1|  coumadin 12 mg|      855339|   warfarin sodium 6 MG [Coumadin]|
-|    1|   coumadin 5 mg|      855333|   warfarin sodium 5 MG [Coumadin]|
-|    1|        coumadin|      202421|                          Coumadin|
-|    1|amlodipine 10 MG|      308135|      amlodipine 10 MG Oral Tablet|
-+-----+----------------+------------+---------------------------------+|
++-----+----------------+--------------------------+--------------------------------------------------+
+|index|           chunk|rxnorm_code_weighted_08_re|                                      Concept_Name|
++-----+----------------+--------------------------+--------------------------------------------------+
+|    0|metformin 500 mg|                    860974|metformin hydrochloride 500 MG:::metformin 500 ...|
+|    0| 2.5 mg coumadin|                    855313|warfarin sodium 2.5 MG [Coumadin]:::warfarin so...|
+|    0|       ibuprofen|                   1747293|ibuprofen Injection:::ibuprofen Pill:::ibuprofe...|
+|    1|metformin 400 mg|                    332809|metformin 400 MG:::metformin 250 MG Oral Tablet...|
+|    1|   coumadin 5 mg|                    855333|warfarin sodium 5 MG [Coumadin]:::warfarin sodi...|
+|    1|        coumadin|                    202421|Coumadin:::warfarin sodium 2 MG/ML Injectable S...|
+|    1|amlodipine 10 MG|                    308135|amlodipine 10 MG Oral Tablet:::amlodipine 10 MG...|
++-----+----------------+--------------------------+--------------------------------------------------+
 ```
 
 {:.model-param}
