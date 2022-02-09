@@ -9,8 +9,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Typo Detector for Icelandic- Spark NLP Model</title><meta name="description" content="DescriptionThis model was imported from Hugging Face (link) and it’s been trained on a Icelandic synthetic data to detect typos, leveraging DistilBERT embedd...">
-<link rel="canonical" href="/2022/01/19/distilbert_token_classifier_typo_detector_is.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Clinical Deidentification (Spanish)- Spark NLP Model</title><meta name="description" content="DescriptionThis pipeline is trained with sciwiki_300d embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI informa...">
+<link rel="canonical" href="/2022/01/24/deid_pipeline_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -404,21 +404,17 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 19, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-19T00:00:00+00:00"></div><header class="main-docs"><h1>Typo Detector for Icelandic</h1></header></div><meta itemprop="headline" content="Typo Detector for Icelandic"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>typo</li><li>distilbert</li><li>icelandic</li><li>token_classification</li><li>is</li><li>open_source</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-19T00:00:00+00:00">
-    <meta itemprop="keywords" content="typo,distilbert,icelandic,token_classification,is,open_source"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+<!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 24, 2022</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-24T00:00:00+00:00"></div><header class="main-docs"><h1>Clinical Deidentification (Spanish)</h1></header></div><meta itemprop="headline" content="Clinical Deidentification (Spanish)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>deid</li><li>es</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-24T00:00:00+00:00">
+    <meta itemprop="keywords" content="deid,es,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model was imported from <code class="language-plaintext highlighter-rouge">Hugging Face</code> (<a href="https://huggingface.co/m3hrdadfi/typo-detector-distilbert-is">link</a>) and it’s been trained on a Icelandic synthetic data to detect typos, leveraging <code class="language-plaintext highlighter-rouge">DistilBERT</code> embeddings and <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code> for NER purposes. It classifies typo tokens as <code class="language-plaintext highlighter-rouge">PO</code>.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">PO</code></p>
+<p>This pipeline is trained with sciwiki_300d embeddings and can be used to deidentify PHI information from medical texts in Spanish. The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">E-MAIL</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">LOCATION</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">URL</code>, <code class="language-plaintext highlighter-rouge">IP</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">IDNUM</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">ACCOUNT</code>, <code class="language-plaintext highlighter-rouge">SSN</code>, <code class="language-plaintext highlighter-rouge">PLATE</code>, <code class="language-plaintext highlighter-rouge">SEX</code> and <code class="language-plaintext highlighter-rouge">IPADDR</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_typo_detector_is_3.3.4_3.0_1642599810600.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/deid_pipeline_es_3.4.0_3.0_1643048677200.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -426,68 +422,236 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"deid_pipeline"</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="s">"""Datos del paciente.
+Nombre:  Jose .
+Apellidos: Aranda Martinez.
+NHC: 2748903.
+NASS: 26 37482910 04.
+Domicilio: Calle Losada Martí 23, 5 B..
+Localidad/ Provincia: Madrid.
+CP: 28016.
+Datos asistenciales.
+Fecha de nacimiento: 15/04/1977.
+País: España.
+Edad: 37 años Sexo: F.
+Fecha de Ingreso: 05/06/2018.
+Médico: María Merino Viveros  NºCol: 28 28 35489.
+Informe clínico del paciente: varón de 37 años con vida previa activa que refiere dolores osteoarticulares de localización variable en el último mes y fiebre en la última semana con picos (matutino y vespertino) de 40 C las últimas 24-48 horas, por lo que acude al Servicio de Urgencias. Antes de comenzar el cuadro estuvo en Extremadura en una región endémica de brucella, ingiriendo leche de cabra sin pasteurizar y queso de dicho ganado. Entre los comensales aparecieron varios casos de brucelosis. Durante el ingreso para estudio del síndrome febril con antecedentes epidemiológicos de posible exposición a Brucella presenta un cuadro de orquiepididimitis derecha.
+La exploración física revela: Tª 40,2 C; T.A: 109/68 mmHg; Fc: 105 lpm. Se encuentra consciente, orientado, sudoroso, eupneico, con buen estado de nutrición e hidratación. En cabeza y cuello no se palpan adenopatías, ni bocio ni ingurgitación de vena yugular, con pulsos carotídeos simétricos. Auscultación cardíaca rítmica, sin soplos, roces ni extratonos. Auscultación pulmonar con conservación del murmullo vesicular. Abdomen blando, depresible, sin masas ni megalias. En la exploración neurológica no se detectan signos meníngeos ni datos de focalidad. Extremidades sin varices ni edemas. Pulsos periféricos presentes y simétricos. En la exploración urológica se aprecia el teste derecho aumentado de tamaño, no adherido a piel, con zonas de fluctuación e intensamente doloroso a la palpación, con pérdida del límite epidídimo-testicular y transiluminación positiva.
+Los datos analíticos muestran los siguentes resultados: Hemograma: Hb 13,7 g/dl; leucocitos 14.610/mm3 (neutrófilos 77%); plaquetas 206.000/ mm3. VSG: 40 mm 1ª hora. Coagulación: TQ 87%; TTPA 25,8 seg. Bioquímica: Glucosa 117 mg/dl; urea 29 mg/dl; creatinina 0,9 mg/dl; sodio 136 mEq/l; potasio 3,6 mEq/l; GOT 11 U/l; GPT 24 U/l; GGT 34 U/l; fosfatasa alcalina 136 U/l; calcio 8,3 mg/dl. Orina: sedimento normal.
+Durante el ingreso se solicitan Hemocultivos: positivo para Brucella y Serologías específicas para Brucella: Rosa de Bengala +++; Test de Coombs &gt; 1/1280; Brucellacapt &gt; 1/5120. Las pruebas de imagen solicitadas ( Rx tórax, Ecografía abdominal, TAC craneal, Ecocardiograma transtorácico) no evidencian patología significativa, excepto la Ecografía testicular, que muestra engrosamiento de la bolsa escrotal con pequeña cantidad de líquido con septos y testículo aumentado de tamaño con pequeñas zonas hipoecoicas en su interior que pueden representar microabscesos.
+Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura tratamiento sintomático (antitérmicos, antiinflamatorios, reposo y elevación testicular) así como tratamiento antibiótico específico: Doxiciclina 100 mg vía oral cada 12 horas (durante 6 semanas) y Estreptomicina 1 gramo intramuscular cada 24 horas (durante 3 semanas). El paciente mejora significativamente de su cuadro tras una semana de ingreso, decidiéndose el alta a su domicilio donde completó la pauta de tratamiento antibiótico. En revisiones sucesivas en consultas se constató la completa remisión del cuadro.
+Remitido por: Dra. María Merino Viveros Hospital Universitario de Getafe Servicio de Endocrinología y Nutrición Carretera de Toledo km 12,500 28905 Getafe - Madrid (España) Correo electrónico: marietta84@hotmail.com
+"""</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">DistilBertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_token_classifier_typo_detector"</span><span class="p">,</span> <span class="s">"is"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-      
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">tokenClassifier</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""Það er miög auðvelt að draga marktækar álykanir af texta með Spark NLP."""</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">deid_pipeline</span> <span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
+<span class="k">val</span> <span class="nv">deid_pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"deid_pipeline"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+<span class="n">sample</span> <span class="k">=</span> <span class="s">"Datos del paciente.
+Nombre:  Jose .
+Apellidos: Aranda Martinez.
+NHC: 2748903.
+NASS: 26 37482910 04.
+Domicilio: Calle Losada Martí 23, 5 B..
+Localidad/ Provincia: Madrid.
+CP: 28016.
+Datos asistenciales.
+Fecha de nacimiento: 15/04/1977.
+País: España.
+Edad: 37 años Sexo: F.
+Fecha de Ingreso: 05/06/2018.
+Médico: María Merino Viveros  NºCol: 28 28 35489.
+Informe clínico del paciente: varón de 37 años con vida previa activa que refiere dolores osteoarticulares de localización variable en el último mes y fiebre en la última semana con picos (matutino y vespertino) de 40 C las últimas 24-48 horas, por lo que acude al Servicio de Urgencias. Antes de comenzar el cuadro estuvo en Extremadura en una región endémica de brucella, ingiriendo leche de cabra sin pasteurizar y queso de dicho ganado. Entre los comensales aparecieron varios casos de brucelosis. Durante el ingreso para estudio del síndrome febril con antecedentes epidemiológicos de posible exposición a Brucella presenta un cuadro de orquiepididimitis derecha.
+La exploración física revela: Tª 40,2 C; T.A: 109/68 mmHg; Fc: 105 lpm. Se encuentra consciente, orientado, sudoroso, eupneico, con buen estado de nutrición e hidratación. En cabeza y cuello no se palpan adenopatías, ni bocio ni ingurgitación de vena yugular, con pulsos carotídeos simétricos. Auscultación cardíaca rítmica, sin soplos, roces ni extratonos. Auscultación pulmonar con conservación del murmullo vesicular. Abdomen blando, depresible, sin masas ni megalias. En la exploración neurológica no se detectan signos meníngeos ni datos de focalidad. Extremidades sin varices ni edemas. Pulsos periféricos presentes y simétricos. En la exploración urológica se aprecia el teste derecho aumentado de tamaño, no adherido a piel, con zonas de fluctuación e intensamente doloroso a la palpación, con pérdida del límite epidídimo-testicular y transiluminación positiva.
+Los datos analíticos muestran los siguentes resultados: Hemograma: Hb 13,7 g/dl; leucocitos 14.610/mm3 (neutrófilos 77%); plaquetas 206.000/ mm3. VSG: 40 mm 1ª hora. Coagulación: TQ 87%; TTPA 25,8 seg. Bioquímica: Glucosa 117 mg/dl; urea 29 mg/dl; creatinina 0,9 mg/dl; sodio 136 mEq/l; potasio 3,6 mEq/l; GOT 11 U/l; GPT 24 U/l; GGT 34 U/l; fosfatasa alcalina 136 U/l; calcio 8,3 mg/dl. Orina: sedimento normal.
+Durante el ingreso se solicitan Hemocultivos: positivo para Brucella y Serologías específicas para Brucella: Rosa de Bengala +++; Test de Coombs &gt; 1/1280; Brucellacapt &gt; 1/5120. Las pruebas de imagen solicitadas ( Rx tórax, Ecografía abdominal, TAC craneal, Ecocardiograma transtorácico) no evidencian patología significativa, excepto la Ecografía testicular, que muestra engrosamiento de la bolsa escrotal con pequeña cantidad de líquido con septos y testículo aumentado de tamaño con pequeñas zonas hipoecoicas en su interior que pueden representar microabscesos.
+Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura tratamiento sintomático (antitérmicos, antiinflamatorios, reposo y elevación testicular) así como tratamiento antibiótico específico: Doxiciclina 100 mg vía oral cada 12 horas (durante 6 semanas) y Estreptomicina 1 gramo intramuscular cada 24 horas (durante 3 semanas). El paciente mejora significativamente de su cuadro tras una semana de ingreso, decidiéndose el alta a su domicilio donde completó la pauta de tratamiento antibiótico. En revisiones sucesivas en consultas se constató la completa remisión del cuadro.
+Remitido por: Dra. María Merino Viveros Hospital Universitario de Getafe Servicio de Endocrinología y Nutrición Carretera de Toledo km 12,500 28905 Getafe - Madrid (España) Correo electrónico: marietta84@hotmail.com
+"</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_token_classifier_typo_detector"</span><span class="o">,</span> <span class="s">"is"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverter</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-      
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">example</span> <span class="k">=</span> <span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="err">"</span><span class="kt">Það</span> <span class="kt">er</span> <span class="kt">miög</span> <span class="kt">auðvelt</span> <span class="kt">að</span> <span class="kt">draga</span> <span class="kt">marktækar</span> <span class="kt">álykanir</span> <span class="kt">af</span> <span class="kt">texta</span> <span class="kt">með</span> <span class="kt">Spark</span> <span class="kt">NLP.</span><span class="err">"</span><span class="o">].</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">deid_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="n">sample</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+---------+
-|chunk   |ner_label|
-+--------+---------+
-|miög    |PO       |
-|álykanir|PO       |
-+--------+---------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
+<span class="nt">------------------------------</span>
+Datos del paciente.
+Nombre:  &lt;PATIENT&gt; <span class="nb">.</span>
+Apellidos: &lt;PATIENT&gt;.
+NHC: &lt;SSN&gt;.
+NASS: &lt;SSN&gt; &lt;SSN&gt; 04.
+Domicilio: &lt;LOCATION&gt;, 5 B..
+Localidad/ Provincia: &lt;LOCATION&gt;.
+CP: &lt;ZIP&gt;.
+Datos asistenciales.
+Fecha de nacimiento: &lt;DATE&gt;.
+País: &lt;LOCATION&gt;.
+Edad: &lt;AGE&gt; años Sexo: &lt;SEX&gt;.
+Fecha de Ingreso: &lt;DATE&gt;.
+&lt;PROFESSION&gt;: María Merino Viveros  NºCol: &lt;USERNAME&gt; &lt;USERNAME&gt; &lt;USERNAME&gt;.
+Informe clínico del paciente: &lt;SSN&gt; de &lt;AGE&gt; años con vida previa activa que refiere dolores osteoarticulares de localización variable en el último mes y fiebre en la última semana con picos <span class="o">(</span>matutino y vespertino<span class="o">)</span> de 40 C las últimas 24-48 horas, por lo que acude al Servicio de Urgencias.
+Antes de comenzar el cuadro estuvo en &lt;LOCATION&gt; en una región endémica de brucella, ingiriendo leche de cabra sin pasteurizar y queso de dicho ganado.
+Entre los comensales aparecieron varios casos de brucelosis.
+Durante el ingreso para estudio del síndrome febril con antecedentes epidemiológicos de posible exposición a Brucella presenta un cuadro de orquiepididimitis derecha.
+La exploración física revela: Tª 40,2 C<span class="p">;</span> T.A: 109/68 mmHg<span class="p">;</span> Fc: 105 lpm. Se encuentra consciente, orientado, sudoroso, eupneico, con buen estado de nutrición e hidratación.
+En cabeza y cuello no se palpan adenopatías, ni bocio ni ingurgitación de vena yugular, con pulsos carotídeos simétricos.
+Auscultación cardíaca rítmica, sin soplos, roces ni extratonos.
+Auscultación pulmonar con conservación del murmullo vesicular.
+Abdomen blando, depresible, sin masas ni megalias.
+En la exploración neurológica no se detectan signos meníngeos ni datos de focalidad.
+Extremidades sin varices ni edemas.
+Pulsos periféricos presentes y simétricos.
+En la exploración urológica se aprecia el teste derecho aumentado de tamaño, no adherido a piel, con zonas de fluctuación e intensamente doloroso a la palpación, con pérdida del límite epidídimo-testicular y transiluminación positiva.
+Los datos analíticos muestran los siguentes resultados: Hemograma: Hb 13,7 g/dl<span class="p">;</span> leucocitos 14.610/mm3 <span class="o">(</span>neutrófilos 77%<span class="o">)</span><span class="p">;</span> plaquetas 206.000/ mm3.
+VSG: 40 mm 1ª hora.
+Coagulación: TQ 87%<span class="p">;</span>
+TTPA 25,8 seg.
+Bioquímica: Glucosa 117 mg/dl<span class="p">;</span> urea 29 mg/dl<span class="p">;</span> creatinina 0,9 mg/dl<span class="p">;</span> sodio 136 mEq/l<span class="p">;</span> potasio 3,6 mEq/l<span class="p">;</span> GOT 11 U/l<span class="p">;</span> GPT 24 U/l<span class="p">;</span> GGT 34 U/l<span class="p">;</span> fosfatasa alcalina 136 U/l<span class="p">;</span> calcio 8,3 mg/dl.
+Orina: sedimento normal.
+Durante el ingreso se solicitan Hemocultivos: positivo para Brucella y Serologías específicas para Brucella: &lt;DOCTOR&gt; +++<span class="p">;</span>
+Test de Coombs <span class="o">&gt;</span> 1/1280<span class="p">;</span> Brucellacapt <span class="o">&gt;</span> 1/5120.
+Las pruebas de imagen solicitadas <span class="o">(</span> Rx tórax, Ecografía abdominal, TAC craneal, Ecocardiograma transtorácico<span class="o">)</span> no evidencian patología significativa, excepto la Ecografía testicular, que muestra engrosamiento de la bolsa escrotal con pequeña cantidad de líquido con septos y testículo aumentado de tamaño con pequeñas zonas hipoecoicas en su interior que pueden representar microabscesos.
+Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura tratamiento sintomático <span class="o">(</span>antitérmicos, antiinflamatorios, reposo y elevación testicular<span class="o">)</span> así como tratamiento antibiótico específico: Doxiciclina 100 mg vía oral cada 12 horas <span class="o">(</span>durante 6 semanas<span class="o">)</span> y Estreptomicina 1 gramo intramuscular cada 24 horas <span class="o">(</span>durante 3 semanas<span class="o">)</span><span class="nb">.</span>
+El paciente &lt;SSN&gt; significativamente de su cuadro tras una semana de ingreso, decidiéndose el alta a su domicilio donde completó la pauta de tratamiento antibiótico. En revisiones sucesivas en consultas se constató la completa remisión del cuadro.
+Remitido por: Dra.
+&lt;PATIENT&gt; &lt;LOCATION&gt; Servicio de Endocrinología y Nutrición &lt;LOCATION&gt; km 12,500 28905 &lt;LOCATION&gt; - &lt;LOCATION&gt; <span class="o">(</span>&lt;LOCATION&gt;<span class="o">)</span> Correo electrónico: &lt;E-MAIL&gt;
+
+Masked with chars
+<span class="nt">------------------------------</span>
+Datos del paciente.
+Nombre:  <span class="o">[</span><span class="k">**</span><span class="o">]</span> <span class="nb">.</span>
+Apellidos: <span class="o">[</span><span class="k">*************</span><span class="o">]</span><span class="nb">.</span>
+NHC: <span class="o">[</span><span class="k">*****</span><span class="o">]</span><span class="nb">.</span>
+NASS: <span class="k">**</span> <span class="o">[</span><span class="k">******</span><span class="o">]</span> 04.
+Domicilio: <span class="o">[</span><span class="k">*******************</span><span class="o">]</span>, 5 B..
+Localidad/ Provincia: <span class="o">[</span><span class="k">****</span><span class="o">]</span><span class="nb">.</span>
+CP: <span class="o">[</span><span class="k">***</span><span class="o">]</span><span class="nb">.</span>
+Datos asistenciales.
+Fecha de nacimiento: <span class="o">[</span><span class="k">********</span><span class="o">]</span><span class="nb">.</span>
+País: <span class="o">[</span><span class="k">****</span><span class="o">]</span><span class="nb">.</span>
+Edad: <span class="k">**</span> años Sexo: <span class="k">*</span><span class="nb">.</span>
+Fecha de Ingreso: <span class="o">[</span><span class="k">********</span><span class="o">]</span><span class="nb">.</span>
+<span class="o">[</span><span class="k">****</span><span class="o">]</span>: María Merino Viveros  NºCol: <span class="k">**</span> <span class="k">**</span> <span class="o">[</span><span class="k">***</span><span class="o">]</span><span class="nb">.</span>
+Informe clínico del paciente: <span class="o">[</span><span class="k">***</span><span class="o">]</span> de <span class="k">**</span> años con vida previa activa que refiere dolores osteoarticulares de localización variable en el último mes y fiebre en la última semana con picos <span class="o">(</span>matutino y vespertino<span class="o">)</span> de 40 C las últimas 24-48 horas, por lo que acude al Servicio de Urgencias.
+Antes de comenzar el cuadro estuvo en <span class="o">[</span><span class="k">*********</span><span class="o">]</span> en una región endémica de brucella, ingiriendo leche de cabra sin pasteurizar y queso de dicho ganado.
+Entre los comensales aparecieron varios casos de brucelosis.
+Durante el ingreso para estudio del síndrome febril con antecedentes epidemiológicos de posible exposición a Brucella presenta un cuadro de orquiepididimitis derecha.
+La exploración física revela: Tª 40,2 C<span class="p">;</span> T.A: 109/68 mmHg<span class="p">;</span> Fc: 105 lpm. Se encuentra consciente, orientado, sudoroso, eupneico, con buen estado de nutrición e hidratación.
+En cabeza y cuello no se palpan adenopatías, ni bocio ni ingurgitación de vena yugular, con pulsos carotídeos simétricos.
+Auscultación cardíaca rítmica, sin soplos, roces ni extratonos.
+Auscultación pulmonar con conservación del murmullo vesicular.
+Abdomen blando, depresible, sin masas ni megalias.
+En la exploración neurológica no se detectan signos meníngeos ni datos de focalidad.
+Extremidades sin varices ni edemas.
+Pulsos periféricos presentes y simétricos.
+En la exploración urológica se aprecia el teste derecho aumentado de tamaño, no adherido a piel, con zonas de fluctuación e intensamente doloroso a la palpación, con pérdida del límite epidídimo-testicular y transiluminación positiva.
+Los datos analíticos muestran los siguentes resultados: Hemograma: Hb 13,7 g/dl<span class="p">;</span> leucocitos 14.610/mm3 <span class="o">(</span>neutrófilos 77%<span class="o">)</span><span class="p">;</span> plaquetas 206.000/ mm3.
+VSG: 40 mm 1ª hora.
+Coagulación: TQ 87%<span class="p">;</span>
+TTPA 25,8 seg.
+Bioquímica: Glucosa 117 mg/dl<span class="p">;</span> urea 29 mg/dl<span class="p">;</span> creatinina 0,9 mg/dl<span class="p">;</span> sodio 136 mEq/l<span class="p">;</span> potasio 3,6 mEq/l<span class="p">;</span> GOT 11 U/l<span class="p">;</span> GPT 24 U/l<span class="p">;</span> GGT 34 U/l<span class="p">;</span> fosfatasa alcalina 136 U/l<span class="p">;</span> calcio 8,3 mg/dl.
+Orina: sedimento normal.
+Durante el ingreso se solicitan Hemocultivos: positivo para Brucella y Serologías específicas para Brucella: <span class="o">[</span><span class="k">*************</span><span class="o">]</span> +++<span class="p">;</span>
+Test de Coombs <span class="o">&gt;</span> 1/1280<span class="p">;</span> Brucellacapt <span class="o">&gt;</span> 1/5120.
+Las pruebas de imagen solicitadas <span class="o">(</span> Rx tórax, Ecografía abdominal, TAC craneal, Ecocardiograma transtorácico<span class="o">)</span> no evidencian patología significativa, excepto la Ecografía testicular, que muestra engrosamiento de la bolsa escrotal con pequeña cantidad de líquido con septos y testículo aumentado de tamaño con pequeñas zonas hipoecoicas en su interior que pueden representar microabscesos.
+Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura tratamiento sintomático <span class="o">(</span>antitérmicos, antiinflamatorios, reposo y elevación testicular<span class="o">)</span> así como tratamiento antibiótico específico: Doxiciclina 100 mg vía oral cada 12 horas <span class="o">(</span>durante 6 semanas<span class="o">)</span> y Estreptomicina 1 gramo intramuscular cada 24 horas <span class="o">(</span>durante 3 semanas<span class="o">)</span><span class="nb">.</span>
+El paciente <span class="o">[</span><span class="k">****</span><span class="o">]</span> significativamente de su cuadro tras una semana de ingreso, decidiéndose el alta a su domicilio donde completó la pauta de tratamiento antibiótico. En revisiones sucesivas en consultas se constató la completa remisión del cuadro.
+Remitido por: Dra.
+<span class="o">[</span><span class="k">******************</span><span class="o">]</span> <span class="o">[</span><span class="k">******************************</span><span class="o">]</span> Servicio de Endocrinología y Nutrición <span class="o">[</span><span class="k">*****************</span><span class="o">]</span> km 12,500 28905 <span class="o">[</span><span class="k">****</span><span class="o">]</span> - <span class="o">[</span><span class="k">****</span><span class="o">]</span> <span class="o">([</span><span class="k">****</span><span class="o">])</span> Correo electrónico: <span class="o">[</span><span class="k">********************</span><span class="o">]</span>
+
+Masked with fixed length chars
+<span class="nt">------------------------------</span>
+Datos del paciente.
+Nombre:  <span class="k">****</span> <span class="nb">.</span>
+Apellidos: <span class="k">****</span><span class="nb">.</span>
+NHC: <span class="k">****</span><span class="nb">.</span>
+NASS: <span class="k">****</span> <span class="k">****</span> 04.
+Domicilio: <span class="k">****</span>, 5 B..
+Localidad/ Provincia: <span class="k">****</span><span class="nb">.</span>
+CP: <span class="k">****</span><span class="nb">.</span>
+Datos asistenciales.
+Fecha de nacimiento: <span class="k">****</span><span class="nb">.</span>
+País: <span class="k">****</span><span class="nb">.</span>
+Edad: <span class="k">****</span> años Sexo: <span class="k">****</span><span class="nb">.</span>
+Fecha de Ingreso: <span class="k">****</span><span class="nb">.</span>
+<span class="k">****</span>: María Merino Viveros  NºCol: <span class="k">****</span> <span class="k">****</span> <span class="k">****</span><span class="nb">.</span>
+Informe clínico del paciente: <span class="k">****</span> de <span class="k">****</span> años con vida previa activa que refiere dolores osteoarticulares de localización variable en el último mes y fiebre en la última semana con picos <span class="o">(</span>matutino y vespertino<span class="o">)</span> de 40 C las últimas 24-48 horas, por lo que acude al Servicio de Urgencias.
+Antes de comenzar el cuadro estuvo en <span class="k">****</span> en una región endémica de brucella, ingiriendo leche de cabra sin pasteurizar y queso de dicho ganado.
+Entre los comensales aparecieron varios casos de brucelosis.
+Durante el ingreso para estudio del síndrome febril con antecedentes epidemiológicos de posible exposición a Brucella presenta un cuadro de orquiepididimitis derecha.
+La exploración física revela: Tª 40,2 C<span class="p">;</span> T.A: 109/68 mmHg<span class="p">;</span> Fc: 105 lpm. Se encuentra consciente, orientado, sudoroso, eupneico, con buen estado de nutrición e hidratación.
+En cabeza y cuello no se palpan adenopatías, ni bocio ni ingurgitación de vena yugular, con pulsos carotídeos simétricos.
+Auscultación cardíaca rítmica, sin soplos, roces ni extratonos.
+Auscultación pulmonar con conservación del murmullo vesicular.
+Abdomen blando, depresible, sin masas ni megalias.
+En la exploración neurológica no se detectan signos meníngeos ni datos de focalidad.
+Extremidades sin varices ni edemas.
+Pulsos periféricos presentes y simétricos.
+En la exploración urológica se aprecia el teste derecho aumentado de tamaño, no adherido a piel, con zonas de fluctuación e intensamente doloroso a la palpación, con pérdida del límite epidídimo-testicular y transiluminación positiva.
+Los datos analíticos muestran los siguentes resultados: Hemograma: Hb 13,7 g/dl<span class="p">;</span> leucocitos 14.610/mm3 <span class="o">(</span>neutrófilos 77%<span class="o">)</span><span class="p">;</span> plaquetas 206.000/ mm3.
+VSG: 40 mm 1ª hora.
+Coagulación: TQ 87%<span class="p">;</span>
+TTPA 25,8 seg.
+Bioquímica: Glucosa 117 mg/dl<span class="p">;</span> urea 29 mg/dl<span class="p">;</span> creatinina 0,9 mg/dl<span class="p">;</span> sodio 136 mEq/l<span class="p">;</span> potasio 3,6 mEq/l<span class="p">;</span> GOT 11 U/l<span class="p">;</span> GPT 24 U/l<span class="p">;</span> GGT 34 U/l<span class="p">;</span> fosfatasa alcalina 136 U/l<span class="p">;</span> calcio 8,3 mg/dl.
+Orina: sedimento normal.
+Durante el ingreso se solicitan Hemocultivos: positivo para Brucella y Serologías específicas para Brucella: <span class="k">****</span> +++<span class="p">;</span>
+Test de Coombs <span class="o">&gt;</span> 1/1280<span class="p">;</span> Brucellacapt <span class="o">&gt;</span> 1/5120.
+Las pruebas de imagen solicitadas <span class="o">(</span> Rx tórax, Ecografía abdominal, TAC craneal, Ecocardiograma transtorácico<span class="o">)</span> no evidencian patología significativa, excepto la Ecografía testicular, que muestra engrosamiento de la bolsa escrotal con pequeña cantidad de líquido con septos y testículo aumentado de tamaño con pequeñas zonas hipoecoicas en su interior que pueden representar microabscesos.
+Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura tratamiento sintomático <span class="o">(</span>antitérmicos, antiinflamatorios, reposo y elevación testicular<span class="o">)</span> así como tratamiento antibiótico específico: Doxiciclina 100 mg vía oral cada 12 horas <span class="o">(</span>durante 6 semanas<span class="o">)</span> y Estreptomicina 1 gramo intramuscular cada 24 horas <span class="o">(</span>durante 3 semanas<span class="o">)</span><span class="nb">.</span>
+El paciente <span class="k">****</span> significativamente de su cuadro tras una semana de ingreso, decidiéndose el alta a su domicilio donde completó la pauta de tratamiento antibiótico. En revisiones sucesivas en consultas se constató la completa remisión del cuadro.
+Remitido por: Dra.
+<span class="k">****</span> <span class="k">****</span> Servicio de Endocrinología y Nutrición <span class="k">****</span> km 12,500 28905 <span class="k">****</span> - <span class="k">****</span> <span class="o">(</span><span class="k">****</span><span class="o">)</span> Correo electrónico: <span class="k">****</span>
+
+Obfuscated
+<span class="nt">------------------------------</span>
+Datos del paciente.
+Nombre:  Sr. Lerma <span class="nb">.</span>
+Apellidos: Aristides Gonzalez Gelabert.
+NHC: BBBBBBBBQR648597.
+NASS: 041010000011 RZRM020101906017 04.
+Domicilio: Valencia, 5 B..
+Localidad/ Provincia: Madrid.
+CP: 99335.
+Datos asistenciales.
+Fecha de nacimiento: 25/04/1977.
+País: Barcelona.
+Edad: 8 años Sexo: F..
+Fecha de Ingreso: 02/08/2018.
+transportista: María Merino Viveros  NºCol: olegario10 olegario10 felisa78.
+Informe clínico del paciente: RZRM020101906017 de 8 años con vida previa activa que refiere dolores osteoarticulares de localización variable en el último mes y fiebre en la última semana con picos <span class="o">(</span>matutino y vespertino<span class="o">)</span> de 40 C las últimas 24-48 horas, por lo que acude al Servicio de Urgencias.
+Antes de comenzar el cuadro estuvo en Madrid en una región endémica de brucella, ingiriendo leche de cabra sin pasteurizar y queso de dicho ganado.
+Entre los comensales aparecieron varios casos de brucelosis.
+Durante el ingreso para estudio del síndrome febril con antecedentes epidemiológicos de posible exposición a Brucella presenta un cuadro de orquiepididimitis derecha.
+La exploración física revela: Tª 40,2 C<span class="p">;</span> T.A: 109/68 mmHg<span class="p">;</span> Fc: 105 lpm. Se encuentra consciente, orientado, sudoroso, eupneico, con buen estado de nutrición e hidratación.
+En cabeza y cuello no se palpan adenopatías, ni bocio ni ingurgitación de vena yugular, con pulsos carotídeos simétricos.
+Auscultación cardíaca rítmica, sin soplos, roces ni extratonos.
+Auscultación pulmonar con conservación del murmullo vesicular.
+Abdomen blando, depresible, sin masas ni megalias.
+En la exploración neurológica no se detectan signos meníngeos ni datos de focalidad.
+Extremidades sin varices ni edemas.
+Pulsos periféricos presentes y simétricos.
+En la exploración urológica se aprecia el teste derecho aumentado de tamaño, no adherido a piel, con zonas de fluctuación e intensamente doloroso a la palpación, con pérdida del límite epidídimo-testicular y transiluminación positiva.
+Los datos analíticos muestran los siguentes resultados: Hemograma: Hb 13,7 g/dl<span class="p">;</span> leucocitos 14.610/mm3 <span class="o">(</span>neutrófilos 77%<span class="o">)</span><span class="p">;</span> plaquetas 206.000/ mm3.
+VSG: 40 mm 1ª hora.
+Coagulación: TQ 87%<span class="p">;</span>
+TTPA 25,8 seg.
+Bioquímica: Glucosa 117 mg/dl<span class="p">;</span> urea 29 mg/dl<span class="p">;</span> creatinina 0,9 mg/dl<span class="p">;</span> sodio 136 mEq/l<span class="p">;</span> potasio 3,6 mEq/l<span class="p">;</span> GOT 11 U/l<span class="p">;</span> GPT 24 U/l<span class="p">;</span> GGT 34 U/l<span class="p">;</span> fosfatasa alcalina 136 U/l<span class="p">;</span> calcio 8,3 mg/dl.
+Orina: sedimento normal.
+Durante el ingreso se solicitan Hemocultivos: positivo para Brucella y Serologías específicas para Brucella: Dra. Laguna +++<span class="p">;</span>
+Test de Coombs <span class="o">&gt;</span> 1/1280<span class="p">;</span> Brucellacapt <span class="o">&gt;</span> 1/5120.
+Las pruebas de imagen solicitadas <span class="o">(</span> Rx tórax, Ecografía abdominal, TAC craneal, Ecocardiograma transtorácico<span class="o">)</span> no evidencian patología significativa, excepto la Ecografía testicular, que muestra engrosamiento de la bolsa escrotal con pequeña cantidad de líquido con septos y testículo aumentado de tamaño con pequeñas zonas hipoecoicas en su interior que pueden representar microabscesos.
+Con el diagnóstico de orquiepididimitis secundaria a Brucella se instaura tratamiento sintomático <span class="o">(</span>antitérmicos, antiinflamatorios, reposo y elevación testicular<span class="o">)</span> así como tratamiento antibiótico específico: Doxiciclina 100 mg vía oral cada 12 horas <span class="o">(</span>durante 6 semanas<span class="o">)</span> y Estreptomicina 1 gramo intramuscular cada 24 horas <span class="o">(</span>durante 3 semanas<span class="o">)</span><span class="nb">.</span>
+El paciente 041010000011 significativamente de su cuadro tras una semana de ingreso, decidiéndose el alta a su domicilio donde completó la pauta de tratamiento antibiótico. En revisiones sucesivas en consultas se constató la completa remisión del cuadro.
+Remitido por: Dra.
+Reinaldo Manjón Malo Barcelona Servicio de Endocrinología y Nutrición Valencia km 12,500 28905 Bilbao - Madrid <span class="o">(</span>Barcelona<span class="o">)</span> Correo electrónico: quintanasalome@example.net
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -496,56 +660,57 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>distilbert_token_classifier_typo_detector</td>
+      <td>deid_pipeline</td>
+    </tr>
+    <tr>
+      <td>Type:</td>
+      <td>pipeline</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP 3.3.4+</td>
+      <td>Spark NLP for Healthcare 3.4.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Open Source</td>
+      <td>Licensed</td>
     </tr>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[sentence, token]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[ner]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
-      <td>is</td>
+      <td>es</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>505.7 MB</td>
-    </tr>
-    <tr>
-      <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>256</td>
+      <td>281.3 MB</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="benchmarking">Benchmarking</h2>
+<h2 id="included-models">Included Models</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             precision  recall    f1-score  support
-
-micro avg    0.98954    0.967603  0.978448  43800.0
-macro avg    0.98954    0.967603  0.978448  43800.0
-weighted avg 0.98954    0.967603  0.978448  43800.0
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-19T00:00:00+00:00"><!-- start custom article footer snippet -->
+<ul>
+  <li>DocumentAssembler</li>
+  <li>SentenceDetectorDLModel</li>
+  <li>TokenizerModel</li>
+  <li>WordEmbeddingsModel</li>
+  <li>MedicalNerModel</li>
+  <li>NerConverter</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ContextualParserModel</li>
+  <li>ChunkMergeModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>DeIdentificationModel</li>
+  <li>Finisher</li>
+</ul>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-24T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -670,7 +835,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/19/distilbert_token_classifier_typo_detector_en.html">Typo Detector</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/21/ner_model_finder_en.html">NER Model Finder</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/23/ner_ncbi_glove_100d_en.html">Detect DISEASE Entities in English Clinical Data</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/26/albert_indic_xx.html">IndicBERT - Albert for 12 major Indian languages</a></div></div></div>
 
 </div>
 </div>
