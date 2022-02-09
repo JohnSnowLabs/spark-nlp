@@ -99,7 +99,7 @@ rxnorm_weighted_pipeline_re = Pipeline(
         rxnorm_re
         ])
         
-sampleText = ["The patient was given metformin 125 mg, 250 mg of coumadin and then one pill paracetamol and ibuprofen.",
+sampleText = ["The patient was given metformin 125 mg, 250 mg of coumadin and then ibuprofen.",
               "The patient was given coumadin 12 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
 
 data_df = spark.createDataFrame(sample_df)
@@ -163,7 +163,7 @@ val rxnorm_weighted_pipeline_re = new PipelineModel().setStages(Array(documenter
 
 val light_model = LightPipeline(rxnorm_weighted_pipeline_re)
 
-vat sampleText = Array("The patient was given metformin 125 mg, 250 mg of coumadin and then one pill paracetamol and ibuprofen.",
+vat sampleText = Array("The patient was given metformin 125 mg, 250 mg of coumadin and then ibuprofen.",
               "The patient was given coumadin 12 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
 
 ```
@@ -177,7 +177,6 @@ vat sampleText = Array("The patient was given metformin 125 mg, 250 mg of coumad
 +-----+----------------+------------+---------------------------------+|
 |    0|metformin 125 mg|      860974|    metformin hydrochloride 500 MG|
 |    0| 250 mg coumadin|      855339|   warfarin sodium 6 MG [Coumadin]|
-|    0|pill paracetamol|     1159287|                    piracetam Pill|
 |    0|       ibuprofen|     1747293|               ibuprofen Injection|
 |    1|metformin 125 mg|      860974|    metformin hydrochloride 500 MG|
 |    1|  coumadin 12 mg|      855339|   warfarin sodium 6 MG [Coumadin]|
