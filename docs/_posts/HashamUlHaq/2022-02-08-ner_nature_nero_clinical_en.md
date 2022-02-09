@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is based on the NERO corpus, capable of extracting general entities.
+This model is based on the NERO corpus, capable of extracting general entities. This model is trained to refute the claims made in https://www.nature.com/articles/s41540-021-00200-x regarding Spark NLP's performance and we hereby prove that we can get better than what is claimed. So, **this model is not meant to be used in production.**
 
 ## Predicted Entities
 
