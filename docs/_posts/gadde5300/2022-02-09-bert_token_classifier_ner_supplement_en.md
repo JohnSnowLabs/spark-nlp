@@ -21,7 +21,7 @@ This model is trained to extract benefits of using drugs for certain conditions.
 
 ## Predicted Entities
 
-
+`CONDITION`, `BENEFIT`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
