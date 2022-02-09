@@ -98,6 +98,14 @@ rxnorm_weighted_pipeline_re = Pipeline(
         drug_chunk_embeddings,
         rxnorm_re
         ])
+        
+sampleText = ["The patient was given metformin 125 mg, 250 mg of coumadin and then one pill paracetamol and ibuprofen.",
+              "The patient was given coumadin 12 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"]
+
+data_df = spark.createDataFrame(sample_df)
+
+results = rxnorm_weighted_pipeline_re.fit(data_df).transform(data_df)
+
 ```
 ```scala
 val documenter = DocumentAssembler() \
@@ -155,18 +163,28 @@ val rxnorm_weighted_pipeline_re = new PipelineModel().setStages(Array(documenter
 
 val light_model = LightPipeline(rxnorm_weighted_pipeline_re)
 
-val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", ""avandia 4 mg"))
+vat sampleText = Array("The patient was given metformin 125 mg, 250 mg of coumadin and then one pill paracetamol and ibuprofen.",
+              "The patient was given coumadin 12 mg, coumadin 5 mg, coumadin, amlodipine 10 MG")
+
 ```
 </div>
 
 ## Results
 
 ```bash
-|    |   RxNormCode | Resolution                               | all_k_results                     | all_k_distances                   | all_k_cosine_distances            | all_k_resolutions                                               | all_k_aux_labels                  |
-|---:|-------------:|:-----------------------------------------|:----------------------------------|:----------------------------------|:----------------------------------|:----------------------------------------------------------------|:----------------------------------|
-|  0 |       855333 | warfarin sodium 5 MG [Coumadin]          | 855333:::432467:::438740:::103... | 3.0367:::4.7790:::4.7790:::5.3... | 0.0161:::0.0395:::0.0395:::0.0... | warfarin sodium 5 MG [Coumadin]:::coumarin 5 MG Oral Tablet:... | Branded Drug Comp:::Clinical D... |
-|  1 |      1537020 | aspirin Effervescent Oral Tablet         | 1537020:::1191:::1295740:::405... | 0.0000:::0.0000:::4.1826:::5.7... | 0.0000:::0.0000:::0.0292:::0.0... | aspirin Effervescent Oral Tablet:::aspirin:::aspirin Oral Po... | Clinical Drug Form:::Ingredien... |
-|  2 |       261242 | rosiglitazone 4 MG Oral Tablet [Avandia] | 261242:::810073:::153845:::109... | 0.0000:::4.7482:::5.0125:::5.2... | 0.0000:::0.0365:::0.0409:::0.0... | rosiglitazone 4 MG Oral Tablet [Avandia]:::fesoterodine fuma... | Branded Drug:::Branded Drug Co... |
++-----+----------------+------------+---------------------------------+|
+|index|           Chunk| RxNormCode |                     Concept_Names|
++-----+----------------+------------+---------------------------------+|
+|    0|metformin 125 mg|      860974|    metformin hydrochloride 500 MG|
+|    0| 250 mg coumadin|      855339|   warfarin sodium 6 MG [Coumadin]|
+|    0|pill paracetamol|     1159287|                    piracetam Pill|
+|    0|       ibuprofen|     1747293|               ibuprofen Injection|
+|    1|metformin 125 mg|      860974|    metformin hydrochloride 500 MG|
+|    1|  coumadin 12 mg|      855339|   warfarin sodium 6 MG [Coumadin]|
+|    1|   coumadin 5 mg|      855333|   warfarin sodium 5 MG [Coumadin]|
+|    1|        coumadin|      202421|                          Coumadin|
+|    1|amlodipine 10 MG|      308135|      amlodipine 10 MG Oral Tablet|
++-----+----------------+------------+---------------------------------+|
 ```
 
 {:.model-param}
