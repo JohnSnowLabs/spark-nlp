@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pretrained pipeline classifies Urdu news upto 7 categories.
+This pretrained pipeline classifies Urdu news into up to 7 categories.
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/){:.button.button-orange}
