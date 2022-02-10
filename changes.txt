@@ -1,2 +1,2 @@
-docs/_posts/galiph/2022-02-09-sbiobertresolve_rxnorm_augmented_re_en.md
-docs/_posts/galiph/2022-02-09-sbiobertresolve_rxnorm_augmented_re_en.md
+docs/en/licensed_release_notes.md
+docs/en/licensed_release_notes.md
