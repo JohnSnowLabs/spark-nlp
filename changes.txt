@@ -1,6 +1,4 @@
-docs/_posts/maziyarpanahi/2021-09-26-albert_base_token_classifier_conll03_en.md
-docs/_posts/maziyarpanahi/2021-09-26-albert_large_token_classifier_conll03_en.md
-docs/_posts/maziyarpanahi/2021-09-26-albert_xlarge_token_classifier_conll03_en.md
-docs/_posts/maziyarpanahi/2021-09-26-albert_base_token_classifier_conll03_en.md
-docs/_posts/maziyarpanahi/2021-09-26-albert_large_token_classifier_conll03_en.md
-docs/_posts/maziyarpanahi/2021-09-26-albert_xlarge_token_classifier_conll03_en.md
+docs/_posts/maziyarpanahi/2021-10-09-longformer_base_token_classifier_conll03_en.md
+docs/_posts/maziyarpanahi/2021-10-09-longformer_large_token_classifier_conll03_en.md
+docs/_posts/maziyarpanahi/2021-10-09-longformer_base_token_classifier_conll03_en.md
+docs/_posts/maziyarpanahi/2021-10-09-longformer_large_token_classifier_conll03_en.md
