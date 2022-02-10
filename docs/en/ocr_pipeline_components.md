@@ -1976,23 +1976,36 @@ data.storeImage("corrected_image")
 ```
 
 ```python
+from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
+from sparkocr.utils import display_images
 
-val imagePath = "path to image"
+imagePath = "path to image"
 
-// Read image file as binary file
-val df = spark.read
-  .format("binaryFile")
-  .load(imagePath)
-  .asImage("image")
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath) 
 
-val transformer = new ImageSkewCorrector()
-  .setInputCol("image")
-  .setOutputCol("corrected_image")
-  .setAutomaticSkewCorrection(true)
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
 
-val data = transformer.transform(df)
-data.show()
+skew_corrector = ImageSkewCorrector() \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setAutomaticSkewCorrection(True)
+
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    skew_corrector
+])
+
+data = pipeline.transform(df)
+
+display_images(data, "corrected_image")
 ```
 
 </div>
