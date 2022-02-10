@@ -26,18 +26,19 @@ Release date: *-02-2022
  using CRAFT architecture with refiner net.
 * Added [ImageTextRecognizerV2](ocr_pipeline_components#imagetotextv2) python transformer for recognize
  printed and handwritten text and based on TrOcr architecture.
+* Added [FormRelationExtractor](ocr_visual_document_understanding#formrelationextractor) for detection 
+ relations between key and value entities in forms.
 
 #### New Models
 
 * Text detection model based on CRAFT architecture with refiner net
 * Text recognition for printed text based on TrOcr
 
-
 #### New notebooks
 
 * [ImageTextDetectorV2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextDetection/SparkOcrImageTextDetectionV2.ipynb)
 * [Visual Document NER v2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextRecognition/SparkOCRImageTextRecognitonV2.ipynb)
-
+* [SparkOcrFormRecognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb)
 
 
 ## 3.10.0
