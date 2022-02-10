@@ -34,7 +34,7 @@ elif [[ "$PYSPARK" == "2"* ]]; then
   export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
 
   wget -q "https://downloads.apache.org/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.7.tgz" > /dev/null
-  tar -xvf spark-2.4.8-bin-hadoop2.8.tgz > /dev/null
+  tar -xvf spark-2.4.8-bin-hadoop2.7.tgz > /dev/null
 
 else
   export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
