@@ -1,2 +1,2 @@
-docs/_posts/gadde5300/2021-12-10-bert_hi_en_ner_hi.md
-docs/_posts/gadde5300/2021-12-10-bert_hi_en_ner_hi.md
+docs/_posts/galiph/2022-02-09-sbiobertresolve_rxnorm_augmented_re_en.md
+docs/_posts/galiph/2022-02-09-sbiobertresolve_rxnorm_augmented_re_en.md

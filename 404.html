@@ -425,8 +425,8 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Extract conditions and benefits from drug reviews- Spark NLP Model</title><meta name="description" content="DescriptionThis model is trained to extract benefits of using drugs for certain conditions.Predicted EntitiesCONDITION, BENEFITLive DemoOpen in ColabDownload...">
-<link rel="canonical" href="/2022/02/09/bert_token_classifier_ner_supplement_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<!-- End Google Tag Manager --><title>Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli - EntityChunkEmbeddings)- Spark NLP Model</title><meta name="description" content="DescriptionThis model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes without specifying the relations between the entities (rel...">
+<link rel="canonical" href="/2022/02/09/sbiobertresolve_rxnorm_augmented_re_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -821,20 +821,20 @@
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Feb 09, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-02-09T00:00:00+00:00"></div><header class="main-docs"><h1>Extract conditions and benefits from drug reviews</h1></header></div><meta itemprop="headline" content="Extract conditions and benefits from drug reviews"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>bertfortokenclassification</li><li>licensed</li><li>ner</li><li>en</li><li>clinical</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-02-09T00:00:00+00:00">
-    <meta itemprop="keywords" content="bertfortokenclassification,licensed,ner,en,clinical"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-02-09T00:00:00+00:00"></div><header class="main-docs"><h1>Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli - EntityChunkEmbeddings)</h1></header></div><meta itemprop="headline" content="Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli - EntityChunkEmbeddings)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>rxnorm</li><li>licensed</li><li>en</li><li>clinical</li><li>entity_resolution</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-02-09T00:00:00+00:00">
+    <meta itemprop="keywords" content="rxnorm,licensed,en,clinical,entity_resolution"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model is trained to extract benefits of using drugs for certain conditions.</p>
+<p>This model maps clinical entities and concepts (like drugs/ingredients) to RxNorm codes without specifying the relations between the entities (relations are calculated on the fly inside the annotator) using sbiobert_base_cased_mli Sentence Bert Embeddings (EntityChunkEmbeddings). Embeddings used in this model are calculated with following weights : <code class="language-plaintext highlighter-rouge">{"DRUG": 0.8, "STRENGTH": 0.2, "ROUTE": 0.2, "FORM": 0.2}</code> . EntityChunkEmbeddings with those weights are required in the pipeline to get best result.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">CONDITION</code>, <code class="language-plaintext highlighter-rouge">BENEFIT</code></p>
+<p><code class="language-plaintext highlighter-rouge">RxNorm Codes</code>, <code class="language-plaintext highlighter-rouge">Concept Classes</code></p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_supplement_en_3.0.2_3.0_1644368324280.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_augmented_re_en_3.4.0_2.4_1644395696788.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -842,77 +842,152 @@
   <div class="top_tab_li">   
     <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button><button class="tab-li code-selector-un-active nlu-button">NLU</button>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
 
-<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_token_classifier_ner_supplement"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
+<span class="n">posology_ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_posology_large"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span>  <span class="n">Pipeline</span><span class="p">(</span>
-    <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-  <span class="n">documentAssembler</span><span class="p">,</span>
-  <span class="n">tokenizer</span><span class="p">,</span>
-  <span class="n">tokenClassifier</span><span class="p">,</span>
-  <span class="n">ner_converter</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
 
-<span class="n">sample_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Excellent!. The state of health improves, nervousness disappears, and night sleep improves. It also promotes hair and nail growth. I recommend :)"</span><span class="p">],[</span><span class="s">"Eager to have my ferritin grow and less hair loss."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">pos_tager</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">sample_df</span><span class="p">)</span>
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+
+<span class="n">drug_chunk_embeddings</span> <span class="o">=</span> <span class="n">EntityChunkEmbeddings</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"drug_chunk_embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setTargetEntities</span><span class="p">({</span><span class="s">"DRUG"</span><span class="p">:</span> <span class="p">[</span><span class="s">"STRENGTH"</span><span class="p">,</span> <span class="s">"ROUTE"</span><span class="p">,</span> <span class="s">"FORM"</span><span class="p">]})</span>\
+    <span class="p">.</span><span class="n">setEntityWeights</span><span class="p">({</span><span class="s">"DRUG"</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s">"STRENGTH"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s">"ROUTE"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s">"FORM"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">})</span>
+
+<span class="n">rxnorm_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_rxnorm_augmented_re"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"drug_chunk_embeddings"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"rxnorm_code"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+
+<span class="n">rxnorm_weighted_pipeline_re</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">documenter</span><span class="p">,</span>
+        <span class="n">sentence_detector</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">,</span>
+        <span class="n">posology_ner_model</span><span class="p">,</span>
+        <span class="n">ner_converter</span><span class="p">,</span>
+        <span class="n">pos_tager</span><span class="p">,</span>
+        <span class="n">dependency_parser</span><span class="p">,</span>
+        <span class="n">drug_chunk_embeddings</span><span class="p">,</span>
+        <span class="n">rxnorm_re</span>
+        <span class="p">])</span>
+        
+<span class="n">sampleText</span> <span class="o">=</span> <span class="p">[</span><span class="s">"The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen."</span><span class="p">,</span>
+              <span class="s">"The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"</span><span class="p">]</span>
+
+<span class="n">data_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sample_df</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">rxnorm_weighted_pipeline_re</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data_df</span><span class="p">)</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bert_token_classifier_ner_supplement"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span> <span class="o">\</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">posology_ner_model</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_posology_large"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))\</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"ner"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="nc">NerConverterInternal</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pos_tager</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">test_sentence</span> <span class="k">=</span> <span class="s">"Excellent!. The state of health improves, nervousness disappears, and night sleep improves. It also promotes hair and nail growth. I recommend :)"</span>
+<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">test_sentence</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="err">“</span><span class="n">text</span><span class="err">”</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">drug_chunk_embeddings</span> <span class="k">=</span> <span class="nc">EntityChunkEmbeddings</span><span class="o">()\</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobert_base_cased_mli"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))\</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"drug_chunk_embeddings"</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setMaxSyntacticDistance</span><span class="o">(</span><span class="mi">3</span><span class="o">)\</span>
+    <span class="o">.</span><span class="py">setTargetEntities</span><span class="o">({</span><span class="s">"DRUG"</span><span class="k">:</span> <span class="err">["</span><span class="kt">STRENGTH</span><span class="err">"</span><span class="o">,</span> <span class="s">"ROUTE"</span><span class="o">,</span> <span class="s">"FORM"</span><span class="err">]</span><span class="o">})\</span>
+    <span class="o">.</span><span class="py">setEntityWeights</span><span class="o">({</span><span class="s">"DRUG"</span><span class="k">:</span> <span class="err">0</span><span class="kt">.</span><span class="err">8</span><span class="o">,</span> <span class="s">"STRENGTH"</span><span class="k">:</span> <span class="err">0</span><span class="kt">.</span><span class="err">2</span><span class="o">,</span> <span class="s">"ROUTE"</span><span class="k">:</span> <span class="err">0</span><span class="kt">.</span><span class="err">2</span><span class="o">,</span> <span class="s">"FORM"</span><span class="k">:</span> <span class="err">0</span><span class="kt">.</span><span class="err">2</span><span class="o">})</span>
 
-<span class="nc">Val</span> <span class="n">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rxnorm_resolver</span> <span class="k">=</span> <span class="nc">SentenceEntityResolverModel</span><span class="o">\</span>
+      <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_rxnorm_augmented_re"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)\</span>
+      <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"drug_chunk_embeddings"</span><span class="o">))\</span>
+      <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)\</span>
+      <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">rxnorm_weighted_pipeline_re</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">posology_ner_model</span><span class="o">,</span> 
+           <span class="n">ner_converter</span><span class="o">,</span>  <span class="n">pos_tager</span><span class="o">,</span> <span class="n">dependency_parser</span><span class="o">,</span> <span class="n">drug_chunk_embeddings</span><span class="o">,</span> <span class="n">rxnorm_re</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">light_model</span> <span class="k">=</span> <span class="nc">LightPipeline</span><span class="o">(</span><span class="n">rxnorm_weighted_pipeline_re</span><span class="o">)</span>
+
+<span class="n">vat</span> <span class="n">sampleText</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"The patient was given metformin 500 mg, 2.5 mg of coumadin and then ibuprofen."</span><span class="o">,</span>
+              <span class="s">"The patient was given metformin 400 mg, coumadin 5 mg, coumadin, amlodipine 10 MG"</span><span class="o">)</span>
+
 </code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------+---------+
-|chunk      |ner_label|
-+-----------+---------+
-|nervousness|CONDITION|
-|night <span class="nb">sleep</span>|BENEFIT  |
-|hair       |BENEFIT  |
-|nail growth|BENEFIT  |
-|ferritin   |BENEFIT  |
-|hair loss  |CONDITION|
-+-----------+---------+
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----+----------------+--------------------------+--------------------------------------------------+
+|index|           chunk|rxnorm_code_weighted_08_re|                                      Concept_Name|
++-----+----------------+--------------------------+--------------------------------------------------+
+|    0|metformin 500 mg|                    860974|metformin hydrochloride 500 MG:::metformin 500 ...|
+|    0| 2.5 mg coumadin|                    855313|warfarin sodium 2.5 MG <span class="o">[</span>Coumadin]:::warfarin so...|
+|    0|       ibuprofen|                   1747293|ibuprofen Injection:::ibuprofen Pill:::ibuprofe...|
+|    1|metformin 400 mg|                    332809|metformin 400 MG:::metformin 250 MG Oral Tablet...|
+|    1|   coumadin 5 mg|                    855333|warfarin sodium 5 MG <span class="o">[</span>Coumadin]:::warfarin sodi...|
+|    1|        coumadin|                    202421|Coumadin:::warfarin sodium 2 MG/ML Injectable S...|
+|    1|amlodipine 10 MG|                    308135|amlodipine 10 MG Oral Tablet:::amlodipine 10 MG...|
++-----+----------------+--------------------------+--------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -921,11 +996,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>bert_token_classifier_ner_supplement</td>
+      <td>sbiobertresolve_rxnorm_augmented_re</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Spark NLP for Healthcare 3.0.2+</td>
+      <td>Spark NLP for Healthcare 3.4.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -937,11 +1012,11 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token]</td>
+      <td>[sentence_embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[rxnorm_code]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -949,37 +1024,14 @@
     </tr>
     <tr>
       <td>Size:</td>
-      <td>404.2 MB</td>
+      <td>759.7 MB</td>
     </tr>
     <tr>
       <td>Case sensitive:</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>Max sentence length:</td>
-      <td>512</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
-
-<h2 id="references">References</h2>
-
-<p>Trained on healthsea dataset: https://github.com/explosion/healthsea/tree/main/project/assets/ner</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              precision    recall  f1-score   support
-
-   B-BENEFIT       0.85      0.89      0.87       184
- B-CONDITION       0.82      0.90      0.86       202
-   I-BENEFIT       0.83      0.70      0.76        64
- I-CONDITION       0.81      0.76      0.78       100
-           O       1.00      0.99      1.00     12700
-
-    accuracy                           0.99     13250
-   macro avg       0.86      0.85      0.85     13250
-weighted avg       0.99      0.99      0.99     13250
-</code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-02-09T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1105,7 +1157,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/02/08/clinical_longformer_en.html">Clinical Longformer</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/02/09/bert_token_classifier_ner_supplement_en.html">Extract conditions and benefits from drug reviews</a></div></div></div>
 
 </div>
 </div>
