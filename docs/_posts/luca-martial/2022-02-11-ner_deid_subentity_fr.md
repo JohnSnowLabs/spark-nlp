@@ -4,7 +4,7 @@ title: Detect PHI for Deidentification purposes (French)
 author: John Snow Labs
 name: ner_deid_subentity
 date: 2022-02-11
-tags: [fr, licensed]
+tags: [deid, fr, licensed]
 task: De-identification
 language: fr
 edition: Spark NLP 3.4.1
