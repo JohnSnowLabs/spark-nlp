@@ -7,8 +7,8 @@ date: 2022-02-11
 tags: [deid, fr, licensed]
 task: De-identification
 language: fr
-edition: Spark NLP 3.4.1
-spark_version: 3.0
+edition: Spark NLP for Healthcare 3.4.1
+spark_version: 2.4
 supported: true
 article_header:
   type: cover
@@ -28,7 +28,7 @@ Deidentification NER (French) is a Named Entity Recognition model that annotates
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_fr_3.4.1_3.0_1644587481344.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_fr_3.4.1_2.4_1644591444704.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -145,7 +145,7 @@ val results = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_deid_generic|
-|Compatibility:|Spark NLP 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|
