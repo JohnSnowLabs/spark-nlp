@@ -144,5 +144,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_TR_SENTIMENT.ipynb
-            
+        - title: Urdu news classifier 
+          id: urdu_news_classifier  
+          image: 
+              src: /assets/images/Urdu_news_classifier.svg
+          image2: 
+              src: /assets/images/Urdu_news_classifier_f.svg
+          excerpt: This demo shows how to classify Urdu news into different categories, such as Science, Entertainment, etc.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb
+        - title: Urdu fake news classifier
+          id: urdu_fake_news_classifier
+          image: 
+              src: /assets/images/Urdu_fake_news.svg
+          image2: 
+              src: /assets/images/Urdu_fake_news_f.svg
+          excerpt: This demo shows how to detect fake Urdu news.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb
 ---
