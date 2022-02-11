@@ -86,7 +86,7 @@ We developed a clinical deidentification pretrained pipeline that can be used to
 
 ```bash
 from sparknlp.pretrained import PretrainedPipeline
-deid_pipeline = PretrainedPipeline("deid_pipeline", "es", "clinical/models")
+deid_pipeline = PretrainedPipeline("clinical_deidentification", "es", "clinical/models")
 
 sample_text = """Datos del paciente. Nombre:  Jose . Apellidos: Aranda Martinez. NHC: 2748903. NASS: 26 37482910."""
 
