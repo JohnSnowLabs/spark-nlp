@@ -24,6 +24,7 @@ use_language_switcher: "Python-Scala-Java"
 We used [TFAlbertForTokenClassification](https://huggingface.co/transformers/model_doc/albert.html#tfalbertfortokenclassification) to train this model and used `AlbertForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
+
 `LOC`, `ORG`, `PER`, `MISC`
 
 
