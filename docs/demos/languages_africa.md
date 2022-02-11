@@ -59,5 +59,33 @@ data:
             url:  https://demo.johnsnowlabs.com/public/AFRICAN_TRANSLATION_AFRIKAANS/
           - text: Colab Netbook
             type: blue_btn
-            url:      
+            url:   
+        - title: Analyze sentiment in Swahili text
+          id: analyze_sentiment_swahili_text 
+          image: 
+              src: /assets/images/Analyze_sentiment_in_Swahili_text.svg
+          image2: 
+              src: /assets/images/Analyze_sentiment_in_Swahili_text_f.svg
+          excerpt: This demo shows how to carry out sentiment analysis in Swahili texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/SENTIMENT_SW/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_SW.ipynb
+        - title: Recognize entities in 10 African languages 
+          id: recognize_entities_african_languages  
+          image: 
+              src: /assets/images/Recognize_entities_in_10_African_languages.svg
+          image2: 
+              src: /assets/images/Recognize_entities_in_10_African_languages_f.svg
+          excerpt: This demo shows how to extract dates, people, locations and organizations from texts written in any of 10 different African languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/public/Ner_masakhaner/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Ner_masakhaner.ipynb
 ---
