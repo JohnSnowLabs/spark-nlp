@@ -24,8 +24,8 @@ use_language_switcher: "Python-Scala-Java"
 We used [TFLongformerForTokenClassification](https://huggingface.co/transformers/model_doc/longformer.html#tflongformerfortokenclassification) to train this model and used `LongformerForTokenClassification` annotator in Spark NLP 🚀 for prediction at scale!
 
 ## Predicted Entities
-`PER`, `ORG`, `LOC`, `MISC`
 
+`PER`, `ORG`, `LOC`, `MISC`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
