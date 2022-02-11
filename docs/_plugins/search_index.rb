@@ -296,7 +296,8 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
                 "type": "keyword"
             },
             "name": {
-                "type": "text"
+                "type": "text",
+                "analyzer": "simple"
             },
             "title": {
                 "type": "text",
