@@ -100,7 +100,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|distilbert_sequence_classifier_ade|
-|Compatibility:|Spark NLP 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
