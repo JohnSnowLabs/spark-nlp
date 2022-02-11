@@ -96,7 +96,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|bert_sequence_classifier_pico_biobert|
-|Compatibility:|Spark NLP 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
