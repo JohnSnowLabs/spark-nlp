@@ -1,2 +1,2 @@
-docs/en/licensed_release_notes.md
-docs/en/licensed_release_notes.md
+CODE_OF_CONDUCT.md
+CODE_OF_CONDUCT.md
