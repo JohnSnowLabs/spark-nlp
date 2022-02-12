@@ -286,7 +286,7 @@ class Doc2VecApproach(override val uid: String)
       .setMaxSentenceLength($(maxSentenceLength))
       .setSeed($(seed))
 
-    val input = dataset.select(dataset.col(inputColumns)).rdd.map(r => r.getSeq[String](0))
+    val input = dataset.select(dataset.col(inputColumns)).rdd.map(r => r.getSeq[String](0)).cache()
 
     val model = word2Vec.fit(input)
 
