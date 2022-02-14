@@ -1,10 +1,4 @@
-docs/_posts/luca-martial/2021-12-20-ner_drugprot_clinical_en.md
-docs/_posts/luca-martial/2022-02-07-bert_sequence_classifier_pico_biobert_en.md
-docs/_posts/luca-martial/2022-02-08-bert_sequence_classifier_ade_en.md
-docs/_posts/luca-martial/2022-02-08-bert_sequence_classifier_gender_biobert_en.md
-docs/_posts/luca-martial/2022-02-08-distilbert_sequence_classifier_ade_en.md
-docs/_posts/luca-martial/2021-12-20-ner_drugprot_clinical_en.md
-docs/_posts/luca-martial/2022-02-07-bert_sequence_classifier_pico_biobert_en.md
-docs/_posts/luca-martial/2022-02-08-bert_sequence_classifier_ade_en.md
-docs/_posts/luca-martial/2022-02-08-bert_sequence_classifier_gender_biobert_en.md
-docs/_posts/luca-martial/2022-02-08-distilbert_sequence_classifier_ade_en.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_subentity_augmented_en.md
+docs/_posts/murat-gunay/2021-06-01-ner_deid_subentity_augmented_en.md
+docs/_posts/HashamUlHaq/2021-06-30-ner_deid_subentity_augmented_en.md
+docs/_posts/murat-gunay/2021-06-01-ner_deid_subentity_augmented_en.md
