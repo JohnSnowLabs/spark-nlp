@@ -7,7 +7,7 @@ date: 2022-02-08
 tags: [bert, sequence_classification, en, licensed]
 task: Text Classification
 language: en
-edition: Spark NLP 3.4.1
+edition: Spark NLP for Healthcare 3.4.1
 spark_version: 3.0
 supported: true
 article_header:
@@ -100,7 +100,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|distilbert_sequence_classifier_ade|
-|Compatibility:|Spark NLP 3.4.1+|
+|Compatibility:|Spark NLP for Healthcare 3.4.1+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[document, token]|
