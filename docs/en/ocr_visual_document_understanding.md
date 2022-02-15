@@ -421,8 +421,8 @@ It can detect relation only for key/value in same line.
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
 | lineTolerance | int | 15 | Line tolerance in pixels. This is the space between lines that will be assumed. It is used for grouping text regions by lines. |
-| keyPattern | String | question | Pattern for detect keys in form. |
-| valuePattern | String | answer | Pattern for detect values in form. |
+| keyPattern | String | question | Pattern of entity name for keys in form. |
+| valuePattern | String | answer | Pattern of entity name for values in form. |
 
 #### Output Columns
 
