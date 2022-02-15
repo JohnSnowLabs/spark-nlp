@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Image Text Detector based on the CRAFT architecture with refiner net,
+Image Text Detector based on the CRAFT architecture with refiner net.
 
 ## Predicted Entities
 
