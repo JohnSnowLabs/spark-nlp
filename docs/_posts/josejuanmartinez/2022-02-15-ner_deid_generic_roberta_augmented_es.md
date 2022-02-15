@@ -45,7 +45,6 @@ documentAssembler = DocumentAssembler()\
         .setInputCol("text")\
         .setOutputCol("document")
 
-# Feel free to experiment with multilingual or Spanish SentenceDetector instead
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
         .setInputCols(["document"])\
         .setOutputCol("sentence")
@@ -54,19 +53,19 @@ tokenizer = Tokenizer()\
         .setInputCols(["sentence"])\
         .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
-	.setInputCols(["sentence","token"])\
-	.setOutputCol("word_embeddings")
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")\
-        .setInputCols(["sentence","token","word_embeddings"])\
+clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_roberta_augmented", "es", "clinical/models")\
+        .setInputCols(["sentence","token","embeddings"])\
         .setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,
-        embeddings,
+        roberta_embeddings,
         clinical_ner])
 
 text = ['''
@@ -90,15 +89,15 @@ val tokenizer = new Tokenizer()
         .setInputCols(Array("sentence"))
         .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
-	.setInputCols(Array("sentence","token"))
-	.setOutputCol("word_embeddings")
+roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic_augmented", "es", "clinical/models")
-        .setInputCols(Array("sentence","token","word_embeddings"))
+        .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
 
 val text = "Antonio Miguel Martínez, un varón de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 
