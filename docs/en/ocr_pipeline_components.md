@@ -2966,15 +2966,13 @@ others. One could almost say they feed on and grow on ideas.
 
 ### ImageToTextV2
 
-`ImageToTextV2` based on transformers architecture and combine CV and NLP
- in one model. It is visual encoder-decoder model. Encoder based on ViT 
- and decoder on RoBERTa model.
+`ImageToTextV2` is based on the transformers architecture, and combines CV and NLP
+ in one model. It is a visual encoder-decoder model. The Encoder is based on ViT, 
+ and the decoder on RoBERTa model.
 
-`ImageToTextV2` can work with CPU, but prefer to use GPU for 
-have acceptable performance.
+`ImageToTextV2` can work on CPU, but GPU is preferred in order to achieve acceptable performance.
 
-`ImageToTextV2` can recognize single line text or work together
- with text detection model.
+`ImageToTextV2` can receive regions representing single line texts, or regions coming from a text detection model.
 
 #### Input Columns
 
@@ -2988,9 +2986,9 @@ have acceptable performance.
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
-| lineTolerance | integer | 15 | Line tolerance in pixels. It using for group text regions by lines. |
-| borderWidth | integer | 5 | Value more then 0 enable to border text region with width equal to the value of the parameter. |
-| spaceWidth | integer | 10 | Value more then 0 enable to add white spaces between words on the image. |
+| lineTolerance | integer | 15 | Line tolerance in pixels. It's used for grouping text regions by lines. |
+| borderWidth | integer | 5 | A value of more than 0 enables to border text regions with width equal to the value of the parameter. |
+| spaceWidth | integer | 10 | A value of more than 0 enables to add white spaces between words on the image. |
 
 
 #### Output Columns

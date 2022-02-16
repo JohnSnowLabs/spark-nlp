@@ -14,7 +14,7 @@ sidebar:
 
 ## 3.11.0
 
-Release date: *-02-2022
+Release date: 18-02-2022
 
 
 #### Overview
@@ -22,17 +22,16 @@ Release date: *-02-2022
 
 #### New Features
 
-* Added [ImageTextDetectorV2](ocr_object_detection#imagetextdetectorv2) python transformer for detect printed and handwritten text
+* Added [ImageTextDetectorV2](ocr_object_detection#imagetextdetectorv2) python transformer for detecting printed and handwritten text
  using CRAFT architecture with refiner net.
-* Added [ImageTextRecognizerV2](ocr_pipeline_components#imagetotextv2) python transformer for recognize
- printed and handwritten text and based on TrOcr architecture.
-* Added [FormRelationExtractor](ocr_visual_document_understanding#formrelationextractor) for detection 
- relations between key and value entities in forms.
+* Added [ImageTextRecognizerV2](ocr_pipeline_components#imagetotextv2) python transformer for recognizing
+ printed and handwritten text based on Transformer architecture.
+* Added [FormRelationExtractor](ocr_visual_document_understanding#formrelationextractor) for detecting relations between key and value entities in forms.
 
 #### New Models
 
-* Text detection model based on CRAFT architecture with refiner net
-* Text recognition for printed text based on TrOcr
+* Text detection model based on CRAFT architecture with refiner net.
+* Text recognition for printed text based on Transformer.
 
 #### New notebooks
 

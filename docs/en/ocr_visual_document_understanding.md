@@ -405,7 +405,7 @@ Output sample:
 
 `FormRelationExtractor` detect relation between keys and values detected by `VisualDocumentNERv2`.
 
-It can detect relation only for key/value in same line.
+It can detect relations only for key/value in same line.
 
 #### Input Columns
 

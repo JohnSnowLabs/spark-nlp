@@ -270,10 +270,10 @@ display_images(data, "image_with_regions")
 
 ## ImageTextDetectorV2
 
-`ImageTextDetectorV2` is a DL model for detect text on the image.
-It based on CRAFT network architecture with refiner net. Refiner net 
-run as postprocessing and able to merge single words regions to line.
-It available only on Python side.
+`ImageTextDetectorV2` is a DL model for detecting text on images.
+It is based on the CRAFT network architecture with refiner net. Refiner net 
+runs as postprocessing, and is able to merge single words regions into lines.
+Currently, it's available only on Python side.
 
 
 #### Input Columns
