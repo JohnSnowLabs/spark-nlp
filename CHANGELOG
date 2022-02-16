@@ -1,4 +1,31 @@
 ========
+3.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement TF Session warmup for MarianTransformer, T5Transformer, and GPT2Transformer annotators. The first inference for these annotators used to take between 15-20 seconds, now with the warmup session all the inferences including the first time will be the same https://github.com/JohnSnowLabs/spark-nlp/pull/6773
+* Add bestModelMetric param to choose between Micro-average or Macro-average for best model https://github.com/JohnSnowLabs/spark-nlp/pull/6749
+* Add trimWhitespace and preservePosition params to RegexTokenizer https://github.com/JohnSnowLabs/spark-nlp/pull/6806
+* Add a new `setSentenceMatchAdd` param to EntityRuler to match entities across documents/sentences and not just tokens https://github.com/JohnSnowLabs/spark-nlp/pull/6841
+* Add support spark32 and real_time_output flags in sparknlp.start() function at the same time https://github.com/JohnSnowLabs/spark-nlp/pull/6822
+
+----------------
+Bug Fixes
+----------------
+* Fix random NullPointerException when using TensorFlow models without Kyro serialization https://github.com/JohnSnowLabs/spark-nlp/pull/6741
+* Fix RecursiveTokenizerModel not being readable in a saved Pipeline https://github.com/JohnSnowLabs/spark-nlp/pull/6748
+* Fix ContextSpellCheckerApproach not being trained on Databricks https://github.com/JohnSnowLabs/spark-nlp/pull/6750
+* Fix ContextSpellCheckerModel wrong order of tokens it's used with Sentence Detectors https://github.com/JohnSnowLabs/spark-nlp/pull/6799
+* Fix GraphExtraction when fullAnnotate and document are used at the same time https://github.com/JohnSnowLabs/spark-nlp/pull/6845
+* Fix Word2VecModel being cast to Doc2VecModel by mistake https://github.com/JohnSnowLabs/spark-nlp/pull/6849
+* Fix broken sentence indexing in BertEmbeddings that impacted SentenceEmbeddings for text classification https://github.com/JohnSnowLabs/spark-nlp/pull/6867
+* Fix missing setExceotionsPath param in Tokenizer when it's used in Python https://github.com/JohnSnowLabs/spark-nlp/pull/6868
+* Fix the wrong metrics being mentioned when useBestModel was enabled. The documentation said Micro-averaged F1 but in fact, it was Macro-average F1. (this option is now available to choose which metric to be tracked)
+* Update broken slow unit tests https://github.com/JohnSnowLabs/spark-nlp/pull/6767
+
+
+========
 3.4.0
 ========
 ----------------

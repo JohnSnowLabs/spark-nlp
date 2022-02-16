@@ -92,15 +92,15 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -113,7 +113,7 @@ val drugprot_ner_tagger = MedicalNerModel.pretrained("ner_drugprot_clinical", "e
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -128,7 +128,7 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
-val drugprot_re_ner_chunk_filter = RENerChunksFilter()
+val drugprot_re_ner_chunk_filter = new RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
     .setOutputCol("re_ner_chunks")

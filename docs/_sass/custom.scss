@@ -1643,6 +1643,7 @@ a.btn1.small {
 .page__content {
 	flex: 1 1 auto;
 	position: relative;
+	padding-bottom: 90px;
 }
 
 .tab-wrapper-inner {
@@ -2111,6 +2112,17 @@ code {
 		margin: 0 auto 50px;
 		display: table;
 		box-shadow: 0px 0px 35px rgba(0, 152, 218, 0.15);
+		&.table3 {
+			tbody {
+				tr {
+					box-shadow: none !important;
+					td {
+						border: 1px solid #536B76 !important;
+						font-weight: normal !important;
+					}
+				}
+			}
+		}
 		&.no_td_shadow {
 			tr {
 				box-shadow: none !important;

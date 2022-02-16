@@ -48,7 +48,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -152,7 +152,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("document")
       .setOutputCol("sentence_embeddings")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -185,7 +185,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .setInputCols("sentence")
       .setOutputCol("sentence_embeddings")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,

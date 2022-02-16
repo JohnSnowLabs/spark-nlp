@@ -256,4 +256,46 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LEGAL_PT.ipynb
+        - title: Analyze sentiment in French texts
+          id: analyze_sentiment_french_texts  
+          image: 
+              src: /assets/images/Analyze_sentiment_French_texts.svg
+          image2: 
+              src: /assets/images/Analyze_sentiment_French_texts_f.svg
+          excerpt: This demo shows how sentiment can be identified (positive or negative) in French texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/SENTIMENT_FR/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_Fr_Sentiment.ipynb
+        - title: Recognize entities in  Scandinavian languages
+          id: recognize_entities_scandinavian_languages   
+          image: 
+              src: /assets/images/Recognize_entities_in__Scandinavian_languages.svg
+          image2: 
+              src: /assets/images/Recognize_entities_in__Scandinavian_languages_f.svg
+          excerpt: This demo shows how to extract people, locations and organizations from texts written in Scandinavian languages.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_SCANDINAVIAN/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb
+        - title: Recognize entities in 10 different high resourced languages
+          id: recognize_entities_different_high_resourced_languages    
+          image: 
+              src: /assets/images/Recognize_entities_in_10_different_high_resourced_languages.svg
+          image2: 
+              src: /assets/images/Recognize_entities_in_10_different_high_resourced_languages_f.svg
+          excerpt: This demo shows how to extract people, locations and organizations from texts written in up to 10 different languages (Arabic, Chinese, French, …).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/NER_HRL/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HRL.ipynb
 ---

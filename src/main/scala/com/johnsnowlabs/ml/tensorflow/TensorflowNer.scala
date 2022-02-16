@@ -161,6 +161,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
             dropout: Float,
             batchSize: Int = 8,
             useBestModel: Boolean = false,
+            bestModelMetric: String = ModelMetrics.microF1,
             startEpoch: Int = 0,
             endEpoch: Int,
             graphFileName: String = "",
@@ -250,7 +251,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       if (validationSplit > 0.0) {
         println(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength")
         outputLog(s"Quality on validation dataset (${validationSplit * 100}%), validation examples = $validLength", uuid, enableOutputLogs, outputLogsPath)
-        val (_, newValMicroF1) = measure(validDataset, extended = evaluationLogExtended, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
+        val (newValMicroF1, newValMacroF1) = measure(validDataset, extended = evaluationLogExtended, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
         if (useBestModel && bestModelMetric == ModelMetrics.valMicroF1) {
           if (newValMicroF1 >= lastValMicroF1) {
             lastCheckPoints = saveBestModel()
@@ -262,7 +263,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
       if (test.nonEmpty) {
         println("Quality on test dataset: ")
         outputLog("Quality on test dataset: ", uuid, enableOutputLogs, outputLogsPath)
-        val (_, newTestMicroF1) = measure(test, extended = evaluationLogExtended, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
+        val (newTestMicroF1, newTestMacroF1) = measure(test, extended = evaluationLogExtended, enableOutputLogs = enableOutputLogs, outputLogsPath = outputLogsPath, batchSize = batchSize, uuid = uuid)
         if (useBestModel && bestModelMetric == ModelMetrics.testMicroF1) {
           if (newTestMicroF1 >= lastTestMircoF1) {
             lastCheckPoints = saveBestModel()
@@ -422,6 +423,7 @@ class TensorflowNer(val tensorflow: TensorflowWrapper,
     println(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1")
     outputLog(s"Micro-average\t prec: $prec, rec: $rec, f1: $f1", uuid, enableOutputLogs, outputLogsPath)
 
+    // (Micro-average, Macro-average)
     (f1, macroF1)
   }
 }

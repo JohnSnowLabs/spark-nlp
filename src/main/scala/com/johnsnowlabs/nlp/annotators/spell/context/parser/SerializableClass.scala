@@ -51,6 +51,8 @@ trait SerializableClass extends Serializable with KryoSerializable {
     val transBytes = serializer.serialize(transducer)
     output.writeInt(transBytes.length)
     output.write(transBytes)
+    output.writeInt(maxDist)
+    output.writeString(label)
   }
 
   def read(kryo: Kryo, input: Input): Unit = {
@@ -59,5 +61,7 @@ trait SerializableClass extends Serializable with KryoSerializable {
     val bytes = new Array[Byte](size)
     input.read(bytes)
     transducer = serializer.deserialize(classOf[Transducer[DawgNode, Candidate]], bytes)
+    maxDist = input.readInt()
+    label = input.readString()
   }
 }

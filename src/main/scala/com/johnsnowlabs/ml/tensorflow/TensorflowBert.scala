@@ -227,7 +227,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
 
         /*All wordpiece embeddings*/
         val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-
+        val originalIndexedTokens = originalTokenSentences(sentence._2)
         /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
 
@@ -241,7 +241,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
         val tokensWithEmbeddings = sentence._1.tokens.zip(tokenEmbeddings).flatMap {
           case (token, tokenEmbedding) =>
             val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
-            val originalTokensWithEmbeddings = originalTokenSentences(sentence._2).indexedTokens.find(
+            val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens.find(
               p => p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart).map {
               token =>
                 val originalTokenWithEmbedding = TokenPieceEmbeddings(
@@ -259,7 +259,7 @@ class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
             originalTokensWithEmbeddings
         }
 
-        WordpieceEmbeddingsSentence(tokensWithEmbeddings, sentence._2)
+        WordpieceEmbeddingsSentence(tokensWithEmbeddings, originalIndexedTokens.sentenceIndex)
       }
     }.toSeq
   }

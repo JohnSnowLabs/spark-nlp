@@ -65,7 +65,7 @@ class NerConverterTest extends AnyFlatSpec {
       .setOutputCol("entities")
       .setPreservePosition(false)
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,

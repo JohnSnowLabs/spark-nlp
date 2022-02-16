@@ -5,29 +5,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator &#8212; Spark NLP 3.4.0 documentation</title>
+    <title>sparknlp.annotator &#8212; Spark NLP 3.4.1 documentation</title>
     
-  <link href="../../static/css/theme.css" rel="stylesheet">
-  <link href="../../static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
+    <link href="../../static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  
     
-  <link rel="stylesheet"
-    href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="../../static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="../../static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
     
       
-
+  
     
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../static/css/blank.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/styles/pydata-sphinx-theme.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
     
-  <link rel="preload" as="script" href="../../static/js/index.be7d3bbb2ef33a8344ce.js">
-
+    <link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
     <script src="../../static/underscore.js"></script>
@@ -120,7 +120,8 @@
           
             
             <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+            <div class="col-12 col-md-3 bd-sidebar">
+              <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
@@ -128,6 +129,9 @@
     
   </div>
 </nav>
+              </div>
+              <div class="sidebar-end-items">
+              </div>
             </div>
             
           
@@ -485,7 +489,7 @@
     <span class="n">exceptionsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                            <span class="s2">&quot;exceptionsPath&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;path to file containing list of exceptions&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span>
 
     <span class="n">caseSensitiveExceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                     <span class="s2">&quot;caseSensitiveExceptions&quot;</span><span class="p">,</span>
@@ -661,6 +665,21 @@
 <span class="sd">            Words that won&#39;t be affected by tokenization rules</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;exceptions&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tokenizer.setExceptionsPath"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer.setExceptionsPath">[docs]</a>    <span class="k">def</span> <span class="nf">setExceptionsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
+        <span class="sd">&quot;&quot;&quot;Path to txt file with list of token exceptions</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the source file</span>
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the file, by default ReadAs.TEXT</span>
+<span class="sd">        options : dict, optional</span>
+<span class="sd">            Options to read the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">exceptionsPath</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Tokenizer.addException"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.Tokenizer.html#sparknlp.annotator.Tokenizer.addException">[docs]</a>    <span class="k">def</span> <span class="nf">addException</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Adds an additional word that won&#39;t be affected by tokenization rules.</span>
@@ -936,6 +955,12 @@
 <span class="sd">    positionalMask</span>
 <span class="sd">        Using a positional mask to guarantee the incremental progression of the</span>
 <span class="sd">        tokenization, by default False</span>
+<span class="sd">    trimWhitespace</span>
+<span class="sd">        Using a trimWhitespace flag to remove whitespaces from identified tokens,</span>
+<span class="sd">        by default False</span>
+<span class="sd">    preservePosition</span>
+<span class="sd">        Using a preservePosition flag to preserve initial indexes before eventual whitespaces removal in tokens,</span>
+<span class="sd">        by default True</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -975,7 +1000,9 @@
             <span class="n">toLowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">minLength</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+&quot;</span><span class="p">,</span>
-            <span class="n">positionalMask</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">positionalMask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">trimWhitespace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">preservePosition</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
     <span class="n">minLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -1002,6 +1029,16 @@
                            <span class="s2">&quot;positionalMask&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Using a positional mask to guarantee the incremental progression of the tokenization.&quot;</span><span class="p">,</span>
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">trimWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">&quot;trimWhitespace&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">preservePosition</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;preservePosition&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RegexTokenizer.setMinLength"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RegexTokenizer.html#sparknlp.annotator.RegexTokenizer.setMinLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets the minimum allowed legth for each token, by default 1.</span>
@@ -1053,7 +1090,27 @@
 <span class="sd">        value : bool</span>
 <span class="sd">            Whether to use a positional mask</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">positionalMask</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">positionalMask</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RegexTokenizer.setTrimWhitespace"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RegexTokenizer.html#sparknlp.annotator.RegexTokenizer.setTrimWhitespace">[docs]</a>    <span class="k">def</span> <span class="nf">setTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Indicates whether to use a trimWhitespaces flag to remove whitespaces from identified tokens.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Indicates whether to use a trimWhitespaces flag, by default False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">trimWhitespace</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RegexTokenizer.setPreservePosition"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.RegexTokenizer.html#sparknlp.annotator.RegexTokenizer.setPreservePosition">[docs]</a>    <span class="k">def</span> <span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Indicates whether to use a preserve initial indexes before eventual whitespaces removal in tokens.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Indicates whether to use a preserve initial indexes, by default True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">preservePosition</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="ChunkTokenizer"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.ChunkTokenizer.html#sparknlp.annotator.ChunkTokenizer">[docs]</a><span class="k">class</span> <span class="nc">ChunkTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
@@ -4935,6 +4992,8 @@
 <span class="sd">    useBestModel</span>
 <span class="sd">        Whether to restore and use the model that has achieved the best performance</span>
 <span class="sd">        at the end of the training.</span>
+<span class="sd">    bestModelMetric</span>
+<span class="sd">        Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</span>
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
@@ -5040,6 +5099,10 @@
     <span class="n">useBestModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useBestModel&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Whether to restore and use the model that has achieved the best performance at the end of the training.&quot;</span><span class="p">,</span>
                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+    <span class="n">bestModelMetric</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;bestModelMetric&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model.&quot;</span><span class="p">,</span>
+                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NerDLApproach.setConfigProtoBytes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
@@ -5235,6 +5298,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useBestModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="NerDLApproach.setBestModelMetric"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.NerDLApproach.html#sparknlp.annotator.NerDLApproach.setBestModelMetric">[docs]</a>    <span class="k">def</span> <span class="nf">setBestModelMetric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model when setUseBestModel is True</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">bestModelMetric</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NerDLApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach&quot;</span><span class="p">)</span>
@@ -5254,7 +5327,8 @@
             <span class="n">includeAllConfidenceScores</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">enableOutputLogs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">enableMemoryOptimizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">useBestModel</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">useBestModel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">bestModelMetric</span><span class="o">=</span><span class="s2">&quot;f1_micro&quot;</span>
         <span class="p">)</span></div>
 
 
@@ -11834,7 +11908,7 @@
             <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
             <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[],</span>
-            <span class="n">batchSize</span><span class="o">=</span><span class="mi">4</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="T5Transformer.loadSavedModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.T5Transformer.html#sparknlp.annotator.T5Transformer.loadSavedModel">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -11917,7 +11991,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    batchSize</span>
-<span class="sd">        Size of every batch, by default 8</span>
+<span class="sd">        Size of every batch, by default 1</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
 <span class="sd">    langId</span>
@@ -12063,7 +12137,7 @@
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
-            <span class="n">batchSize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">maxInputLength</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
             <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
             <span class="n">langId</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -14997,6 +15071,11 @@
                        <span class="s2">&quot;Whether to use RocksDB storage to serialize patterns&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
+    <span class="n">sentenceMatch</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;sentenceMatch&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Whether to find match at sentence level. True: sentence level. False: token level&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">EntityRulerApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -15035,6 +15114,16 @@
 <span class="sd">            Whether to use RocksDB storage to serialize patterns.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useStorage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntityRulerApproach.setSentenceMatch"><a class="viewcode-back" href="../../reference/autosummary/sparknlp.annotator.EntityRulerApproach.html#sparknlp.annotator.EntityRulerApproach.setSentenceMatch">[docs]</a>    <span class="k">def</span> <span class="nf">setSentenceMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets whether to find match at sentence level.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True: sentence level. False: token level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sentenceMatch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">EntityRulerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
@@ -17398,8 +17487,8 @@
       </div>
     </div>
   
-  <script src="../../static/js/index.be7d3bbb2ef33a8344ce.js"></script>
-<footer class="footer mt-5 mt-md-0">
+    <script src="../../static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <footer class="footer mt-5 mt-md-0">
   <div class="container">
     
     <div class="footer-item">
@@ -17410,7 +17499,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br>
 </p>
     </div>
     

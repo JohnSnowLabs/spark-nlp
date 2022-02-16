@@ -46,4 +46,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb
+        - title: Extract the biomarker information
+          id: extract_biomarker_information 
+          image: 
+              src: /assets/images/Extract_brands_from_visual_documents.svg
+          image2: 
+              src: /assets/images/Extract_brands_from_visual_documents_f.svg
+          excerpt: This demo shows how biomarkers, therapies, oncological, and other general concepts can be extracted using Spark NLP Healthcare NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_BIOMARKER/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

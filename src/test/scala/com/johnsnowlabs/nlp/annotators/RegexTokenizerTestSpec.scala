@@ -254,4 +254,153 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
     val regexTokensPersistedResults = Annotation.collect(expectedPersisted, "regexToken").flatten.toSeq
     assert(regexTokensPersistedResults == expectedTokens)
   }
+
+  "RegexTokenizer" should "test for zipcodes with no trimming" taggedAs FastTest in {
+
+    val pattern = """^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"""
+
+    val data = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345")
+    )).toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val regexTokenizer = new RegexTokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+      .setPattern(pattern)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        regexTokenizer
+      ))
+
+    val pipeDF = pipeline.fit(data).transform(data).select("token")
+    val annotatedTokens = Annotation.collect(pipeDF, "token").flatten.toSeq
+
+    val expectedTokens = Seq(Annotation(TOKEN, 0, 8, "AL 123456", Map("sentence" -> "0")),
+      Annotation(TOKEN, 10, 10, "!", Map("sentence" -> "0")),
+      Annotation(TOKEN, 12, 12, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 14, 27, " TX 54321-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 29, 29, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 31, 34, " AL ", Map("sentence" -> "0")),
+      Annotation(TOKEN, 36, 36, ":", Map("sentence" -> "0")),
+      Annotation(TOKEN, 38, 47, "55555-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 49, 49, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 51, 61, " 12345-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 63, 63, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 65, 70, " 12345", Map("sentence" -> "0")))
+
+    assert(annotatedTokens == expectedTokens)
+  }
+
+  "RegexTokenizer" should "test for zipcodes with trimming and preserving indexes policies" taggedAs FastTest in {
+
+    val pattern = """^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"""
+
+    val data = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345")
+    )).toDF("id", "text")
+
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val regexTokenizer = new RegexTokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+      .setPattern(pattern)
+      .setPositionalMask(false)
+      .setTrimWhitespace(true)
+      .setPreservePosition(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        regexTokenizer
+      ))
+
+    val pipeDF = pipeline.fit(data).transform(data).select("token")
+    val annotatedTokens = Annotation.collect(pipeDF, "token").flatten.toSeq
+
+    val expectedTokens = Seq(Annotation(TOKEN, 0, 8, "AL123456", Map("sentence" -> "0")),
+      Annotation(TOKEN, 10, 10, "!", Map("sentence" -> "0")),
+      Annotation(TOKEN, 12, 12, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 14, 27, "TX54321-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 29, 29, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 31, 34, "AL", Map("sentence" -> "0")),
+      Annotation(TOKEN, 36, 36, ":", Map("sentence" -> "0")),
+      Annotation(TOKEN, 38, 47, "55555-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 49, 49, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 51, 61, "12345-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 63, 63, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 65, 70, "12345", Map("sentence" -> "0")))
+
+    assert(annotatedTokens == expectedTokens)
+  }
+
+  "RegexTokenizer" should "test for zipcodes with trimming and no preserving indexes policies" taggedAs FastTest in {
+
+    val pattern = """^(\\s+)|(?=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?<=[\\s+\"\'\|:;<=>!?~{}*+,$)\(&%\\[\\]])|(?=\.$)"""
+
+    val data = ResourceHelper.spark.createDataFrame(Seq(
+      (1, "AL 123456!, TX 54321-4444, AL :55555-4444, 12345-4444, 12345")
+    )).toDF("id", "text")
+
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val regexTokenizer = new RegexTokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+      .setPattern(pattern)
+      .setPositionalMask(false)
+      .setTrimWhitespace(true)
+      .setPreservePosition(false)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(
+        documentAssembler,
+        sentence,
+        regexTokenizer
+      ))
+
+    val pipeDF = pipeline.fit(data).transform(data).select("token")
+    val annotatedTokens = Annotation.collect(pipeDF, "token").flatten.toSeq
+
+    val expectedTokens = Seq(Annotation(TOKEN, 0, 8, "AL123456", Map("sentence" -> "0")),
+      Annotation(TOKEN, 10, 10, "!", Map("sentence" -> "0")),
+      Annotation(TOKEN, 12, 12, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 15, 27, "TX54321-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 29, 29, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 32, 33, "AL", Map("sentence" -> "0")),
+      Annotation(TOKEN, 36, 36, ":", Map("sentence" -> "0")),
+      Annotation(TOKEN, 38, 47, "55555-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 49, 49, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 52, 61, "12345-4444", Map("sentence" -> "0")),
+      Annotation(TOKEN, 63, 63, ",", Map("sentence" -> "0")),
+      Annotation(TOKEN, 66, 70, "12345", Map("sentence" -> "0")))
+
+    assert(annotatedTokens == expectedTokens)
+  }
 }

@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
@@ -115,7 +116,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq("John Snow lives in Winterfell").toDS.toDF("text")
     tokenizer.setExceptions(Array("John Snow"))
     val externalResource = ExternalResource(s"$testPath/patterns.csv", ReadAs.TEXT, Map("format" -> "csv", "delimiter" -> "\\|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, regexPatterns = true)
     val expectedEntities = Array(Seq(
       Annotation(CHUNK, 0, 8, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
       Annotation(CHUNK, 19, 28, "Winterfell", Map("entity" -> "LOCATION", "sentence" -> "0"))
@@ -301,7 +302,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val textDataSet = Seq("John Snow lives in Winterfell").toDS.toDF("text")
     tokenizer.setExceptions(Array("John Snow"))
     val externalResource = ExternalResource(s"$testPath/patterns.csv", ReadAs.TEXT, Map("format" -> "csv", "delimiter" -> "\\|"))
-    val entityRulerPipeline = getEntityRulerPipeline(externalResource, usageStorage = false)
+    val entityRulerPipeline = getEntityRulerPipeline(externalResource, regexPatterns = true, usageStorage = false)
     val expectedEntities = Array(Seq(
       Annotation(CHUNK, 0, 8, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
       Annotation(CHUNK, 19, 28, "Winterfell", Map("entity" -> "LOCATION", "sentence" -> "0"))
@@ -525,6 +526,209 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val entityRulerPipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, loadedEntityRulerModel))
 
     val resultDataSet = entityRulerPipeline.fit(emptyDataSet).transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  private def getEntityRulerPipelineAtSentenceLevel(externalResource: ExternalResource, regexPatterns: Boolean = false,
+                                                    useStorage: Boolean = true): PipelineModel = {
+
+    val sentenceDetector = new SentenceDetector().setInputCols("document").setOutputCol("sentence")
+
+    val entityRuler = new EntityRulerApproach()
+      .setInputCols("sentence", "token")
+      .setOutputCol("entities")
+      .setPatternsResource(externalResource.path, externalResource.readAs, externalResource.options)
+      .setEnablePatternRegex(regexPatterns)
+      .setUseStorage(useStorage)
+      .setSentenceMatch(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, entityRuler))
+    val entityRulerPipeline = pipeline.fit(emptyDataSet)
+
+    entityRulerPipeline
+  }
+
+  "An Entity Ruler model at sentence level" should "infer entities when reading JSON file" taggedAs FastTest in {
+    val textDataSet = Seq("Doctor John Snow lives in London, whereas Lord Commander Jon Snow lives in Castle Black").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.json", ReadAs.TEXT, Map("format" -> "json"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 0, 15, "Doctor John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 57, 64, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "0"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON file as Spark" taggedAs FastTest in {
+    val textDataSet = Seq("Doctor John Snow lives in London, whereas Lord Commander Jon Snow lives in Castle Black").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.json", ReadAs.SPARK, Map("format" -> "json"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 0, 15, "Doctor John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 57, 64, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "0"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON file without storage" taggedAs FastTest in {
+    val textDataSet = Seq("Doctor John Snow lives in London, whereas Lord Commander Jon Snow lives in Castle Black").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.json", ReadAs.TEXT, Map("format" -> "json"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, useStorage = false)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 0, 15, "Doctor John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 57, 64, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "0"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON file without storage and Spark" taggedAs FastTest in {
+    val textDataSet = Seq("Doctor John Snow lives in London, whereas Lord Commander Jon Snow lives in Castle Black").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.json", ReadAs.SPARK, Map("format" -> "json"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, useStorage = false)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 0, 15, "Doctor John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 57, 64, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "0"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON lines file" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON lines file as Spark" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.jsonl", ReadAs.SPARK, Map("format" -> "jsonl"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON lines file without storage" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.jsonl", ReadAs.TEXT, Map("format" -> "jsonl"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, useStorage = false)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading JSON lines file without storage and Spark" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.jsonl", ReadAs.SPARK, Map("format" -> "jsonl"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, useStorage = false)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "id" -> "names-with-j", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading CSV file" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.csv", ReadAs.TEXT,
+      Map("format" -> "csv", "delimiter" -> "\\|"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, regexPatterns = true)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading CSV file as Spark" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.csv", ReadAs.SPARK,
+      Map("format" -> "csv", "delimiter" -> "|"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, regexPatterns = true)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading CSV file without storage" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.csv", ReadAs.TEXT,
+      Map("format" -> "csv", "delimiter" -> "\\|"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, useStorage = false)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
+
+    AssertAnnotations.assertFields(expectedEntities, actualEntities)
+  }
+
+  it should "infer entities when reading CSV file without storage and Spark" taggedAs FastTest in {
+    val textDataSet = Seq("In London, John Snow is a Physician. In Castle Black, Jon Snow is a Lord Commander").toDS.toDF("text")
+    val externalResource = ExternalResource(s"$testPath/patterns.csv", ReadAs.SPARK,
+      Map("format" -> "csv", "delimiter" -> "|"))
+    val entityRulerPipeline = getEntityRulerPipelineAtSentenceLevel(externalResource, useStorage = false)
+    val expectedEntities = Array(Seq(
+      Annotation(CHUNK, 11, 19, "John Snow", Map("entity" -> "PERSON", "sentence" -> "0")),
+      Annotation(CHUNK, 54, 61, "Jon Snow", Map("entity" -> "PERSON", "sentence" -> "1"))
+    ))
+
+    val resultDataSet = entityRulerPipeline.transform(textDataSet)
     val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "entities")
 
     AssertAnnotations.assertFields(expectedEntities, actualEntities)

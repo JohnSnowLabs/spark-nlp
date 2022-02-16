@@ -91,7 +91,7 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
         finisher
       ))
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,

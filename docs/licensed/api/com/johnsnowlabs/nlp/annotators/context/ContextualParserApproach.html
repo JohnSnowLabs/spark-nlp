@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 3.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach</title>
-          <meta name="description" content="Spark NLP 3.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
-          <meta name="keywords" content="Spark NLP 3.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
+          <title>Spark NLP 3.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach</title>
+          <meta name="description" content="Spark NLP 3.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
+          <meta name="keywords" content="Spark NLP 3.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 3.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 3.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -222,7 +222,6 @@ An example pipeline could then be defined like this</p><pre><span class="kw">val
   .setOutputCol(<span class="lit">"entity"</span>)
   .setJsonPath(<span class="lit">"/path/to/regex_token.json"</span>)
   .setCaseSensitive(<span class="kw">true</span>)
-  .setContextMatch(<span class="kw">false</span>)
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
     documentAssembler,
     sentenceDetector,
@@ -234,11 +233,11 @@ An example pipeline could then be defined like this</p><pre><span class="kw">val
 +-------------------------------------------------------------------------------------------------------------------------+
 |col                                                                                                                      |
 +-------------------------------------------------------------------------------------------------------------------------+
-|{chunk, <span class="num">32</span>, <span class="num">39</span>, pT1bN0M0, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">0.13</span>, hits -&gt; regex, sentence -&gt; <span class="num">0</span>}, []}   |
-|{chunk, <span class="num">49</span>, <span class="num">50</span>, T5, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">0.13</span>, hits -&gt; regex, sentence -&gt; <span class="num">0</span>}, []}         |
-|{chunk, <span class="num">148</span>, <span class="num">156</span>, cT4bcN2M1, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">0.13</span>, hits -&gt; regex, sentence -&gt; <span class="num">1</span>}, []}|
-|{chunk, <span class="num">189</span>, <span class="num">194</span>, T?N3M1, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">0.13</span>, hits -&gt; regex, sentence -&gt; <span class="num">2</span>}, []}   |
-|{chunk, <span class="num">316</span>, <span class="num">323</span>, pT1bN0M0, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">0.13</span>, hits -&gt; regex, sentence -&gt; <span class="num">3</span>}, []} |
+|{chunk, <span class="num">32</span>, <span class="num">39</span>, pT1bN0M0, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">1.00</span>, sentence -&gt; <span class="num">0</span>}, []}                 |
+|{chunk, <span class="num">49</span>, <span class="num">50</span>, T5, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">1.00</span>, sentence -&gt; <span class="num">0</span>}, []}                       |
+|{chunk, <span class="num">148</span>, <span class="num">156</span>, cT4bcN2M1, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">1.00</span>, sentence -&gt; <span class="num">1</span>}, []}              |
+|{chunk, <span class="num">189</span>, <span class="num">194</span>, T?N3M1, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">1.00</span>, sentence -&gt; <span class="num">2</span>}, []}                 |
+|{chunk, <span class="num">316</span>, <span class="num">323</span>, pT1bN0M0, {field -&gt; Stage, normalized -&gt; , confidenceValue -&gt; <span class="num">1.00</span>, sentence -&gt; <span class="num">3</span>}, []}               |
 +-------------------------------------------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="ContextualParserModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserModel">ContextualParserModel</a> for the trained model</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -598,22 +597,6 @@ An example pipeline could then be defined like this</p><pre><span class="kw">val
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#contextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="contextMatch:org.apache.spark.ml.param.BooleanParam"></a><a id="contextMatch:BooleanParam"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#contextMatch:org.apache.spark.ml.param.BooleanParam" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">contextMatch</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to include context to annotate the hit (Default: true)</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#copy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="copy(extra:org.apache.spark.ml.param.ParamMap):org.apache.spark.ml.Estimator[M]"></a><a id="copy(ParamMap):Estimator[ContextualParserModel]"></a>
       <span class="permalink">
@@ -1736,22 +1719,6 @@ columns the possible matches.</p>
       </span>
       
       <p class="shortcomment cmt">Whether to use case sensitive when matching values (Default: false)</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setContextMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setContextMatch(value:Boolean):ContextualParserApproach.this.type"></a><a id="setContextMatch(Boolean):ContextualParserApproach.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#setContextMatch(value:Boolean):ContextualParserApproach.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setContextMatch</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to include context to annotate the hit (Default: true)</p>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):ContextualParserApproach.this.type"></a>
       <span class="permalink">
@@ -1897,22 +1864,6 @@ the possible matches.</p></div></div>
       </span>
       
       <p class="shortcomment cmt">Whether to match both prefix and suffix to annotate the hit (Default: false)</p>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#setUpdateTokenizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setUpdateTokenizer(value:Boolean):ContextualParserApproach.this.type"></a><a id="setUpdateTokenizer(Boolean):ContextualParserApproach.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#setUpdateTokenizer(value:Boolean):ContextualParserApproach.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setUpdateTokenizer</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to update tokenizer from pipeline when detecting multiple words on dictionary values (Default: true)</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -2012,22 +1963,6 @@ the possible matches.</p></div></div>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach">ContextualParserApproach</a> → Identifiable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.context.ContextualParserApproach#updateTokenizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
-      <a id="updateTokenizer:org.apache.spark.ml.param.BooleanParam"></a><a id="updateTokenizer:BooleanParam"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach.html#updateTokenizer:org.apache.spark.ml.param.BooleanParam" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">updateTokenizer</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to update tokenizer from pipeline when detecting multiple words on dictionary values (Default: true)</p>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">

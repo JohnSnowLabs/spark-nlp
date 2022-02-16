@@ -73,7 +73,7 @@ In our defense, this is a picture of a VW Beetle flower holder."""]
 res = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': test_sentences})))
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
+val documentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
@@ -81,7 +81,7 @@ val sentenceDetector = SentenceDetectorDLModel.pretrained()
     .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
