@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Clinical Deidentification (Spanish)
+title: Clinical Deidentification (Spanish, augmented)
 author: John Snow Labs
 name: clinical_deidentification_augmented
 date: 2022-02-15
