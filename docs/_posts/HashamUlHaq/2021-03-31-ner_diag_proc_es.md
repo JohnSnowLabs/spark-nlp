@@ -93,6 +93,8 @@ val result = pipeline.fit(data).transform(data)
 |Output Labels:|[ner]|
 |Language:|es|
 
+
+
 ## Benchmarking
 ```bash
 +-------------+------+------+------+------+---------+------+------+

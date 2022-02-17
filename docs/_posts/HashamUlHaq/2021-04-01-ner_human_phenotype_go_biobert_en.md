@@ -72,6 +72,7 @@ val result = pipeline.fit(Seq.empty[String]).transform(data)
 |Output Labels:|[ner]|
 |Language:|en|
 
+
 ## Benchmarking
 ```bash
 +------+------+-----+-----+------+---------+------+------+
