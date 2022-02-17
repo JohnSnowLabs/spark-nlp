@@ -1,4 +1,4 @@
-docs/demos/languages_india.md
-docs/learn.md
-docs/demos/languages_india.md
-docs/learn.md
+docs/assets/images/production-readiness/MicrosoftTeams-image.png
+docs/en/production-readiness.md
+docs/assets/images/production-readiness/MicrosoftTeams-image.png
+docs/en/production-readiness.md
