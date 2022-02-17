@@ -401,7 +401,7 @@ Check the Jobs [API](https://docs.databricks.com/dev-tools/api/latest/jobs.html)
 </div>
 <div class="h3-box" markdown="1">
 
-## Serving Spark NLP via API (1/2): Synapse and FastAPI
+## Productionizing Spark NLP using Synapse ML
 
 ![Rest API for John Snow Labs’ Spark NLP](https://cdn-images-1.medium.com/max/2118/1*I_lIG3imZDUAkS8aM4i4yA.png)
 
@@ -612,7 +612,7 @@ And last, but not least, let’s check the results:
 
 </div><div class="h3-box" markdown="1">
 
-## FastAPI and Spark NLP LightPipelines
+## Productionizing Spark NLP using FastAPI and LightPipelines
 
 ![Fast API serving of Spark NLP pipelines](https://cdn-images-1.medium.com/max/2046/1*du7p50wS_fIsaC_lR18qsg.png)
 
@@ -856,17 +856,5 @@ You can also prettify the json using the following function with the result of t
                }
                result[column].append(content)
        return result
-
-</div><div class="h3-box" markdown="1">
-
-## Do you want to know more?
-
-* Check the example notebooks in the Spark NLP Workshop repository, available [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/RestAPI)
-
-* Visit [John Snow Labs](https://www.johnsnowlabs.com/) and [Spark NLP Technical Documentation](https://nlp.johnsnowlabs.com/) websites
-
-* Follow us on Medium: [Spark NLP](https://medium.com/spark-nlp) and [Veysel Kocaman](https://vkocaman.medium.com/)
-
-* Write to support@johnsnowlabs.com for any additional request you may have
 
 </div>
