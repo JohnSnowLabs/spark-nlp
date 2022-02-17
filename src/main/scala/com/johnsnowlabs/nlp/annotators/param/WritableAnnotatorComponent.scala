@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.param
 
+@SerialVersionUID(131872618660943L)
 trait WritableAnnotatorComponent extends Serializable {
   def serialize: SerializedAnnotatorComponent[_ <: WritableAnnotatorComponent]
 }

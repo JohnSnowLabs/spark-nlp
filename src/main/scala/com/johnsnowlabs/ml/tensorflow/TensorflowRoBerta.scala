@@ -32,6 +32,7 @@ import scala.collection.JavaConverters._
  * @param configProtoBytes     ProtoBytes for TensorFlow session config
  * @param signatures           Model's inputs and output(s) signatures
  */
+@SerialVersionUID(108465285596706L)
 class TensorflowRoBerta(val tensorflowWrapper: TensorflowWrapper,
                         sentenceStartTokenId: Int,
                         sentenceEndTokenId: Int,

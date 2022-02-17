@@ -25,6 +25,7 @@ import scala.util.Random
 import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.proto.framework.GraphDef
 
+@SerialVersionUID(110621548029802L)
 class TensorflowSentenceDetectorDL(
                                     val model: TensorflowWrapper,
                                     val verboseLevel: Verbose.Value = Verbose.All,

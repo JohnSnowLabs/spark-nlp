@@ -47,7 +47,7 @@ case class ModelSignature(operation: String,
                           value: String,
                           matchingPatterns: List[String])
 
-
+@SerialVersionUID(186020885468857L)
 class TensorflowWrapper(var variables: Variables,
                         var graph: Array[Byte]) extends Serializable {
 

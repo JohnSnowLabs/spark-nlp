@@ -24,6 +24,7 @@ import com.johnsnowlabs.nlp.util.io.OutputHelper
 import scala.collection.mutable
 import scala.util.Random
 
+@SerialVersionUID(188830945871683L)
 class TensorflowClassifier(
                             val tensorflow: TensorflowWrapper,
                             val encoder: ClassifierDatasetEncoder,

@@ -35,6 +35,7 @@ import scala.collection.mutable
  * @param orderedAlphabets ordered ListMap of alphabets to be used to encode the inputs
  *
  * */
+@SerialVersionUID(182448962886290L)
 class TensorflowLD(val tensorflow: TensorflowWrapper,
                    configProtoBytes: Option[Array[Byte]] = None,
                    orderedLanguages: ListMap[String, Int],

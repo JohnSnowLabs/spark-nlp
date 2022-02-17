@@ -40,6 +40,7 @@ import scala.collection.JavaConverters._
  *
  *                             Source:  [[https://github.com/google-research/bert]]
  * */
+@SerialVersionUID(127176388137330L)
 class TensorflowBert(val tensorflowWrapper: TensorflowWrapper,
                      sentenceStartTokenId: Int,
                      sentenceEndTokenId: Int,

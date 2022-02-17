@@ -25,6 +25,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.math.exp
 
+@SerialVersionUID(120274873769475L)
 class TensorflowGPT2(val tensorflow: TensorflowWrapper,
                      val bpeTokenizer: Gpt2Tokenizer,
                      configProtoBytes: Option[Array[Byte]] = None

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
 
 /** Inspired on https://github.com/mdda/ConciseGreedyDependencyParser-in-Scala */
-
+@SerialVersionUID(164285316273142L)
 class DependencyMaker(tagger:Tagger) extends Serializable {
   val SHIFT:Move=0; val RIGHT:Move=1; val LEFT:Move=2; val INVALID:Move= -1
   def movesString(s:Set[Move]) = {

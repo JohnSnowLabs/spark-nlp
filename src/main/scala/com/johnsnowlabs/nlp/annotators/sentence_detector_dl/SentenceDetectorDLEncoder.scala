@@ -27,6 +27,7 @@ import org.apache.spark.ml.param.Param
 import scala.io.Source
 import org.json4s.jackson.Serialization
 
+@SerialVersionUID(112986025194248L)
 class SentenceDetectorDLEncoder extends Serializable {
 
   protected val windowSize = 5

@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotators.common.WordpieceEmbeddingsSentence
 
 import scala.collection.Map
 
+@SerialVersionUID(109232503554387L)
 class NerDatasetEncoder(val params: DatasetEncoderParams) extends Serializable {
 
   private val nonDefaultTags = params.tags

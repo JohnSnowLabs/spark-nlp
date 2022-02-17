@@ -32,6 +32,7 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
+@SerialVersionUID(177105061382704L)
 class TensorflowDistilBertClassification(val tensorflowWrapper: TensorflowWrapper,
                                          val sentenceStartTokenId: Int,
                                          val sentenceEndTokenId: Int,

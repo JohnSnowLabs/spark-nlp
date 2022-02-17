@@ -36,7 +36,7 @@ import scala.collection.mutable.{Map => MMap}
  * @groupprio getParam  5
  * @groupdesc param A list of (hyper-)parameter keys this annotator can take. Users can set and get the parameter values through setters and getters, respectively.
  */
-
+//@SerialVersionUID(169521053390383L)
 case class AveragedPerceptron(
                                tags: Array[String],
                                taggedWordBook: Map[String, String],
@@ -78,6 +78,7 @@ case class AveragedPerceptron(
   def getTaggedBook: Map[String, String] = taggedWordBook
 }
 
+@SerialVersionUID(104108120972206L)
 class TrainingPerceptronLegacy(
                                 tags: Array[String],
                                 taggedWordBook: Map[String, String],
@@ -177,7 +178,7 @@ class TrainingPerceptronLegacy(
 
       /**
        * update weights
-       */
+        */
       featuresWeight(feature)(tag) = weight + value
     }
 

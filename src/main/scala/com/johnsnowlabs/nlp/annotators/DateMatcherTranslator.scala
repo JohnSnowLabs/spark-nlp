@@ -38,7 +38,7 @@ case object MultiDatePolicy extends DateMatcherTranslatorPolicy {
   override def value: String = "multi"
 }
 
-
+@SerialVersionUID(114051250246689L)
 class DateMatcherTranslator(policy: DateMatcherTranslatorPolicy) extends Serializable {
 
   val SupportedLanguagesFilePath = "/date-matcher/supported_languages.txt"

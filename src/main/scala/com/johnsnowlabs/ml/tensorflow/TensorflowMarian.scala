@@ -41,6 +41,7 @@ import scala.collection.JavaConverters._
  * @param sppSrc           Contains the vocabulary for the target language.
  * @param sppTrg           Contains the vocabulary for the source language
  */
+@SerialVersionUID(102775212797036L)
 class TensorflowMarian(val tensorflow: TensorflowWrapper,
                        val sppSrc: SentencePieceWrapper,
                        val sppTrg: SentencePieceWrapper,

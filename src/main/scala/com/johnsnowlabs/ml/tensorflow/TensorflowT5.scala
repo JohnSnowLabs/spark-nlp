@@ -32,7 +32,7 @@ import scala.math._
  * @param spp              Albert SentencePiece model with SentencePieceWrapper
  * @param configProtoBytes Configuration for TensorFlow session
  */
-
+@SerialVersionUID(153107425878292L)
 class TensorflowT5(val tensorflow: TensorflowWrapper,
                    val spp: SentencePieceWrapper,
                    configProtoBytes: Option[Array[Byte]] = None
