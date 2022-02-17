@@ -1,2 +1,4 @@
-docs/en/licensed_install.md
-docs/en/licensed_install.md
+docs/demos/languages_india.md
+docs/learn.md
+docs/demos/languages_india.md
+docs/learn.md
