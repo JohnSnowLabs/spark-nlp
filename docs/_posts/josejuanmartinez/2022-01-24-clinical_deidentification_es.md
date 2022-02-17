@@ -2,7 +2,7 @@
 layout: model
 title: Clinical Deidentification (Spanish)
 author: John Snow Labs
-name: deid_pipeline
+name: clinical_deidentification
 date: 2022-01-24
 tags: [deid, es, licensed]
 task: De-identification
