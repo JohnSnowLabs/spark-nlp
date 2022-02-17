@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.storage
 
+@SerialVersionUID(105014511018936L)
 trait Database extends Serializable {
   val name: String
   override def toString: String = {

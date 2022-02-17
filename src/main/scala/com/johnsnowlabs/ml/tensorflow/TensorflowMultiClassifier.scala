@@ -23,6 +23,7 @@ import org.apache.spark.ml.util.Identifiable
 
 import scala.util.Random
 
+@SerialVersionUID(196684486821142L)
 class TensorflowMultiClassifier(val tensorflow: TensorflowWrapper, val encoder: ClassifierDatasetEncoder, override val verboseLevel: Verbose.Value)
   extends Serializable with Logging {
 

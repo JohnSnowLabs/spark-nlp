@@ -56,6 +56,7 @@ import scala.collection.JavaConverters._
  * @param sentenceEndTokenId   Id of sentence end Token.
  * @param configProtoBytes     Configuration for TensorFlow session
  */
+@SerialVersionUID(151859637336068L)
 class TensorflowDistilBert(val tensorflowWrapper: TensorflowWrapper,
                            sentenceStartTokenId: Int,
                            sentenceEndTokenId: Int,

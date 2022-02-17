@@ -47,7 +47,7 @@ import scala.collection.JavaConverters._
  *                         [[https://arxiv.org/abs/1802.05365]]
  *
  */
-
+@SerialVersionUID(126173323244180L)
 class TensorflowElmo(val tensorflow: TensorflowWrapper,
                      batchSize: Int,
                      configProtoBytes: Option[Array[Byte]] = None

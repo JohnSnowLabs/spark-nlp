@@ -16,5 +16,6 @@
 
 package com.johnsnowlabs.nlp.annotators.er
 
+@SerialVersionUID(170011195874373L)
 case class EntityRulerFeatures(patterns: Map[String, String], regexPatterns: Map[String, Seq[String]])
   extends Serializable

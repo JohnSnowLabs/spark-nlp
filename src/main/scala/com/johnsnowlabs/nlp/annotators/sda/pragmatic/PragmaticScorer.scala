@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory
  * Scorer is a rule based implementation inspired on http://fjavieralba.com/basic-sentiment-analysis-with-python.html
  * Its strategy is to tag words by a dictionary in a sentence context, and later identify such context to get amplifiers
  */
+@SerialVersionUID(139419481789513L)
 class PragmaticScorer(
                        sentimentDict: Map[String, String],
                        POSITIVE_VALUE: Double = 1.0,

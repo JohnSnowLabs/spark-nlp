@@ -59,6 +59,7 @@ import scala.collection.JavaConverters._
  * @param configProtoBytes Configuration for TensorFlow session
  */
 
+@SerialVersionUID(109139394247273L)
 class TensorflowAlbert(val tensorflow: TensorflowWrapper,
                        val spp: SentencePieceWrapper,
                        batchSize: Int,

@@ -24,6 +24,7 @@ import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
 
+@SerialVersionUID(148402594829421L)
 class SentencePieceWrapper(
                             var sppModel: Array[Byte]
                           ) extends Serializable {

@@ -32,6 +32,7 @@ import scala.collection.JavaConverters._
  * @param tags                 labels which model was trained with in order
  * @param signatures           TF v2 signatures in Spark NLP
  * */
+@SerialVersionUID(113564387504819L)
 class TensorflowRoBertaClassification(val tensorflowWrapper: TensorflowWrapper,
                                       val sentenceStartTokenId: Int,
                                       val sentenceEndTokenId: Int,

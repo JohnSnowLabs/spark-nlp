@@ -24,6 +24,7 @@ import com.github.liblevenshtein.serialization.PlainTextSerializer
 import com.github.liblevenshtein.transducer.{Candidate, ITransducer, Transducer}
 import com.esotericsoftware.kryo.Kryo
 
+@SerialVersionUID(111258924299110L)
 trait SerializableClass extends Serializable with KryoSerializable {
   this:SpecialClassParser =>
 

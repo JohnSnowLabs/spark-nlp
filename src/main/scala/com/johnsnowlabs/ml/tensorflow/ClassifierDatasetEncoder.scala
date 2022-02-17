@@ -22,6 +22,7 @@ import org.apache.spark.sql.functions.{col, explode, size}
 
 import scala.collection.mutable
 
+@SerialVersionUID(112462048007662L)
 class ClassifierDatasetEncoder(val params: ClassifierDatasetEncoderParams) extends Serializable {
 
   val tags2Id: Map[String, Int] = params.tags.zipWithIndex

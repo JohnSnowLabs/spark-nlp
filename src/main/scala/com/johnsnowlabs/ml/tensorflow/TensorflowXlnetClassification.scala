@@ -31,6 +31,7 @@ import scala.collection.JavaConverters._
  * @param tags              labels which model was trained with in order
  * @param signatures        TF v2 signatures in Spark NLP
  * */
+@SerialVersionUID(199003965729496L)
 class TensorflowXlnetClassification(val tensorflowWrapper: TensorflowWrapper,
                                     val spp: SentencePieceWrapper,
                                     configProtoBytes: Option[Array[Byte]] = None,

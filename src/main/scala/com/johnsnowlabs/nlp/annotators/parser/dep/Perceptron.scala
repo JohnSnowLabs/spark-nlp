@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
 
 import scala.collection.mutable
 
+@SerialVersionUID(107582264381823L)
 class Perceptron(nClasses:Int) extends Serializable {
   // These need not be visible outside the class
   type TimeStamp = Int

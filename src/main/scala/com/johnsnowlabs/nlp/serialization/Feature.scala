@@ -27,6 +27,7 @@ import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.reflect.ClassTag
 
+@SerialVersionUID(195511164260220L)
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](model: HasFeatures, val name: String) extends Serializable {
   model.features.append(this)
 

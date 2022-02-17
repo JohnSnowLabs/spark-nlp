@@ -27,6 +27,7 @@ import scala.collection.{Map, mutable}
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.JavaConverters._
 
+@SerialVersionUID(123505493299093L)
 class TensorflowNer(val tensorflow: TensorflowWrapper,
                     val encoder: NerDatasetEncoder,
                     override val verboseLevel: Verbose.Value

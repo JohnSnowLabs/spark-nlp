@@ -24,6 +24,7 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.mutable
 import scala.util.Random
 
+@SerialVersionUID(189421277280130L)
 class TensorflowSentiment(
                            val tensorflow: TensorflowWrapper,
                            val encoder: ClassifierDatasetEncoder,

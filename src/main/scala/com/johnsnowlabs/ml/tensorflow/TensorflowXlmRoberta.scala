@@ -59,7 +59,7 @@ import scala.collection.JavaConverters._
  * @param configProtoBytes  Configuration for TensorFlow session
  * @param signatures        Model's inputs and output(s) signatures
  */
-
+@SerialVersionUID(111350083808341L)
 class TensorflowXlmRoberta(val tensorflowWrapper: TensorflowWrapper,
                            val spp: SentencePieceWrapper,
                            caseSensitive: Boolean = true,
