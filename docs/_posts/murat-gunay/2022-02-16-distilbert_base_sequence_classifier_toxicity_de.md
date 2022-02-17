@@ -59,16 +59,16 @@ val document_assembler = DocumentAssembler()
     .setOutputCol("document")
 
 val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+    .setInputCols(Array("document")) 
     .setOutputCol("token")
 
 val tokenClassifier = DistilBertForSequenceClassification.pretrained("distilbert_base_sequence_classifier_toxicity", "de")
-      .setInputCols("document", "token")
+      .setInputCols(Array("document", "token"))
       .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, sequenceClassifier))
 
-val example = Seq.empty["Natürlich kann ich von zuwanderern mehr erwarten. muss ich sogar. sie müssen die sprache lernen, sie müssen die gepflogenheiten lernen und sich in die gesellschaft einfügen. dass muss ich nicht weil ich mich schon in die gesellschaft eingefügt habe. egal wo du hin ziehst, nirgendwo wird dir soviel zucker in den arsch geblasen wie in deutschland."].toDS.toDF("text")
+val example = Seq("Natürlich kann ich von zuwanderern mehr erwarten. muss ich sogar. sie müssen die sprache lernen, sie müssen die gepflogenheiten lernen und sich in die gesellschaft einfügen. dass muss ich nicht weil ich mich schon in die gesellschaft eingefügt habe. egal wo du hin ziehst, nirgendwo wird dir soviel zucker in den arsch geblasen wie in deutschland.").toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
