@@ -19,26 +19,31 @@ Release date: 18-02-2022
 
 #### Overview
 
+We are glad to announce that Spark OCR 3.11.0 has been released!.
+This release comes with new models, new features, bug fixes, and notebook examples.
 
 #### New Features
 
-* Added [ImageTextDetectorV2](ocr_object_detection#imagetextdetectorv2) python transformer for detecting printed and handwritten text
- using CRAFT architecture with refiner net.
-* Added [ImageTextRecognizerV2](ocr_pipeline_components#imagetotextv2) python transformer for recognizing
- printed and handwritten text based on Transformer architecture.
+* Added [ImageTextDetectorV2](ocr_object_detection#imagetextdetectorv2) Python Spark-OCR Transformer for detecting printed and handwritten text
+ using CRAFT architecture with Refiner Net.
+* Added [ImageTextRecognizerV2](ocr_pipeline_components#imagetotextv2) Python Spark-OCR Transformer for recognizing
+ printed and handwritten text based on Deep Learning Transformer Architecture.
 * Added [FormRelationExtractor](ocr_visual_document_understanding#formrelationextractor) for detecting relations between key and value entities in forms.
+* Added the capability of fine tuning VisualDocumentNerV2 models for key-value pairs extraction.
 
 #### New Models
 
-* Text detection model based on CRAFT architecture with refiner net.
-* Text recognition for printed text based on Transformer.
+* ImageTextDetectorV2: this extends the ImageTextDetectorV1 character level text detection model with a refiner net architecture.
+* Text recognition for printed text based on the Deep Learning Transformer Architecture.
 
 #### New notebooks
 
 * [ImageTextDetectorV2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextDetection/SparkOcrImageTextDetectionV2.ipynb)
-* [Visual Document NER v2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextRecognition/SparkOCRImageTextRecognitonV2.ipynb)
+* [Visual Document NER v2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextRecognition/SparkOcrImageToTextV2.ipynb)
 * [SparkOcrFormRecognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb)
-
+* [SparkOCRVisualDocumentNERv2FineTune](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/SparkOCRVisualDocumentNERv2FineTune.ipynb)
+* Creating Rest a API with Synapse to extract text from images, [SparkOcrRestApi](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/SparkOcrRestApi.ipynb)
+* Creating Rest a API with Synapse to extract text from PDFs, [SparkOcrRestApiPdf](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/SparkOcrRestApiPdf.ipynb)
 
 ## 3.10.0
 
