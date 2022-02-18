@@ -483,6 +483,28 @@
     </tr>
   </tbody>
 </table>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------+-------+------+------+-------+---------+------+------+
+|entity|     tp|    fp|    fn|  total|precision|recall|    f1|
++------+-------+------+------+-------+---------+------+------+
+|  DRUG|17470.0|1436.0|1951.0|19421.0|    0.924|0.8995|0.9116|
+|   ADE| 6010.0|1244.0|1886.0| 7896.0|   0.8285|0.7611|0.7934|
++------+-------+------+------+-------+---------+------+------+
+
++------------------+
+|             macro|
++------------------+
+|0.8525141088742945|
++------------------+
+
++------------------+
+|             micro|
++------------------+
+|0.8774545383517981|
++------------------+
+</code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-04-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

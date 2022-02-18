@@ -483,6 +483,36 @@
     </tr>
   </tbody>
 </table>
+
+<h2 id="benchmarking">Benchmarking</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------+-----+----+----+-----+---------+------+------+
+|                         entity|   tp|  fp|  fn|total|precision|recall|    f1|
++-------------------------------+-----+----+----+-----+---------+------+------+
+|                          Organ| 53.0|17.0|12.0| 65.0|   0.7571|0.8154|0.7852|
+|         Pathological_formation| 83.0|23.0|14.0| 97.0|    0.783|0.8557|0.8177|
+|             Organism_substance| 42.0| 1.0|14.0| 56.0|   0.9767|  0.75|0.8485|
+|               tissue_structure|131.0|28.0|49.0|180.0|   0.8239|0.7278|0.7729|
+|             Cellular_component| 17.0| 0.0|20.0| 37.0|      1.0|0.4595|0.6296|
+|                         Tissue| 27.0| 4.0|16.0| 43.0|    0.871|0.6279|0.7297|
+|              Anatomical_system| 15.0| 3.0| 8.0| 23.0|   0.8333|0.6522|0.7317|
+|Developing_anatomical_structure|  2.0| 1.0| 3.0|  5.0|   0.6667|   0.4|   0.5|
+|   Immaterial_anatomical_entity|  7.0| 2.0| 6.0| 13.0|   0.7778|0.5385|0.6364|
+|                           Cell|180.0| 6.0|15.0|195.0|   0.9677|0.9231|0.9449|
+|           Organism_subdivision| 11.0| 5.0|10.0| 21.0|   0.6875|0.5238|0.5946|
++-------------------------------+-----+----+----+-----+---------+------+------+
+
++------------------+
+|             macro|
++------------------+
+|0.7264701979913192|
++------------------+
+
++------------------+
+|             micro|
++------------------+
+|0.8108878300337679|
++------------------+
+</code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2021-04-01T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
