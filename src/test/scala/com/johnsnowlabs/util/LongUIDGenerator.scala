@@ -4,6 +4,9 @@ import com.johnsnowlabs.tags.FastTest
 import org.apache.commons.math3.random.RandomDataGenerator
 import org.scalatest.flatspec.AnyFlatSpec
 
+import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
+import java.nio.file.{Files, Paths}
+
 class LongUIDGenerator extends AnyFlatSpec{
 
   "LongUIDGenerator" should "load default property values" taggedAs FastTest in {
@@ -14,19 +17,52 @@ class LongUIDGenerator extends AnyFlatSpec{
           println(new RandomDataGenerator().nextLong(leftLimit, rightLimit))
         }
 
-//    val sheep = new Sheep("Stef")
-//    println(java.io.ObjectStreamClass.lookup(sheep.getClass()).getSerialVersionUID())
+    val myTestObj = new MyTestObj("Stef")
+    println(java.io.ObjectStreamClass.lookup(myTestObj.getClass()).getSerialVersionUID())
   }
 }
 
 
 @SerialVersionUID(136630359430337L)
-class Sheep(val name: String) extends Serializable {
+class MyTestObj(val name: String) extends Serializable {
   override def toString = name
   val greet: String = {
     s"Hello, $name"
   }
 }
+
+
+object SerializationDemoWriter extends App {
+
+  private def serializeMyTestObj = {
+    val dirPath = "tmp"
+    Files.createDirectories(Paths.get(dirPath))
+    val oos = new ObjectOutputStream(new FileOutputStream(dirPath.concat("/").concat("myTestObjInScala212")))
+    oos.writeObject(myTestObj)
+    oos.close
+    println(java.io.ObjectStreamClass.lookup(myTestObj.getClass()).getSerialVersionUID())
+  }
+
+  val myTestObj = new MyTestObj("Stef")
+  serializeMyTestObj
+  println(myTestObj)
+}
+
+object SerializationDemoReader extends App {
+
+  private def deserializeMyTestObj = {
+    val dirPath = "tmp"
+    val ois = new ObjectInputStream(new FileInputStream(dirPath.concat("/").concat("myTestObjInScala212")))
+    val myTestObj = ois.readObject.asInstanceOf[MyTestObj]
+    ois.close
+
+    myTestObj
+  }
+  val deserialized = deserializeMyTestObj
+  println(s"$deserialized with serial version UID ")
+  println(java.io.ObjectStreamClass.lookup(deserialized.getClass()).getSerialVersionUID())
+}
+
 
 class UIDMappingManager{
   def getMapping(): Unit ={
