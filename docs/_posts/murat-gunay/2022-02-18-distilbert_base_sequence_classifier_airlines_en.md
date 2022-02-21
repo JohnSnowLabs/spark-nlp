@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sentiment Analysis of Airline Comments
+title: Sentiment Analysis on texts about Airlines
 author: John Snow Labs
 name: distilbert_base_sequence_classifier_airlines
 date: 2022-02-18
@@ -17,10 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model was imported from `Hugging Face ([link](https://huggingface.co/tasosk/distilbert-base-uncased-airlines)) and it's been trained on tasosk/airlines dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. The model classifies `YES` or `NO` sentiments of texts related to airlines reviews.
-
-- `YES`: It recommends the airline.
-- `NO`: It doesn't recommend the airline.
+This model was imported from `Hugging Face` ([link](https://huggingface.co/tasosk/distilbert-base-uncased-airlines)) and it's been trained on tasosk/airlines dataset, leveraging `Distil-BERT` embeddings and `DistilBertForSequenceClassification` for text classification purposes. The model classifies texts into two categories: `YES` for positive comments, and `NO` for negative.
 
 ## Predicted Entities
 
@@ -57,11 +54,11 @@ example = spark.createDataFrame([["Jersey to London Gatwick with easyJet and ano
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
+val document_assembler = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
+val tokenizer = new Tokenizer() 
     .setInputCols(Array("document")) 
     .setOutputCol("token")
 
@@ -107,6 +104,5 @@ val result = pipeline.fit(example).transform(example)
 
 ```bash
 - Accuracy : 0.9288
-
 - F1-Score : 0.9289
 ```
