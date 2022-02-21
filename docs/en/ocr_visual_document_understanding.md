@@ -22,7 +22,7 @@ Please check also webinar: [Visual Document Understanding with Multi-Modal Image
 
 `VisualDocumentClassifier` is a DL model for classification documents using text and layout data.
 Currently available pretrained model on the Tabacco3482 dataset, that contains 3482 images belonging 
-to 10 different classes.
+to 10 different classes (Resume, News, Note, ADVE, Scientific, Report, Form, Letter, Email, Memo)
 
 #### Input Columns
 
