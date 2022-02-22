@@ -2,7 +2,7 @@
 layout: docs
 header: true
 seotitle: Spark NLP
-title: Serving Spark NLP via API&#58 SynapseML
+title: Serving Spark NLP&#58 SynapseML
 permalink: /docs/en/serving_spark_nlp_via_api_synapseml
 key: docs-experiment_tracking
 modify_date: "2022-02-18"
