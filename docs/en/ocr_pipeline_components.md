@@ -1474,7 +1474,7 @@ display_images(result, "transformed_image")
 
 ### ImageBinarizer
 
-`ImageBinarizer` transforms image to binary color schema by threshold.
+`ImageBinarizer` transforms image to binary color schema, based on threshold.
 
 ##### Input Columns
 
@@ -1559,11 +1559,11 @@ data.show()
 ### ImageAdaptiveBinarizer
 
 Supported Methods:
-- OTSU
+- OTSU.  Returns a single intensity threshold that separate pixels into two classes, foreground and background.
 - Gaussian local thresholding. Thresholds the image using a locally adaptive threshold that is computed
  using a local square region centered on each pixel.  The threshold is equal to the gaussian weighted sum 
  of the surrounding pixels times the scale.
-- Sauvola
+- Sauvola. Is a Local thresholding technique that are useful for images where the background is not uniform.
 
 
 #### Input Columns
