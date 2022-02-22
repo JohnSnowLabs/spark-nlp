@@ -117,8 +117,8 @@ data.select("pagenum", "text").show()
 
 `PdfToImage` renders PDF to an image. To be used with scanned PDF documents.
 Output dataframe contains `total_pages` field with total number of pages.
-For process pdf with big number of pages prefer to split pdf by setting `splitNumBatch` param.
-Number of partitions should be equal number of cores/executors.
+For process pdf with a big number of pages prefer to split pdf by setting `splitNumBatch` param.
+Number of partitions should be equal to number of cores/executors.
 
 ##### Input Columns
 
@@ -228,7 +228,7 @@ column and create multipage PDF document.
 
 **Example:**
 
-Read images and store it as single page PDF documents.
+Read images and store them as single page PDF documents.
 
 
 <div class="tabs-box pt0" markdown="1">
@@ -289,8 +289,8 @@ pdf_df.select("content").show()
 
 ### TextToPdf
 
-`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to same position
-with same font size as in original image or PDF.
+`TextToPdf` renders ocr results to PDF document as text layout. Each symbol will render to the same position
+with the same font size as in original image or PDF.
 If dataframe contains few records for same origin path, it groups image by origin
 column and create multipage PDF document.
 
@@ -1088,7 +1088,7 @@ data.select("tables").show()
 
 ### PptToPdf
 
-`PptToPdf` convert PPT and PPTX document to PDF document.
+`PptToPdf` convert PPT and PPTX documents to PDF document.
 
 ##### Input Columns
 
@@ -1364,14 +1364,14 @@ data.select("image").show()
 
 `GPUImageTransformer` allows to run image pre-processing operations on GPU.
 
-It supports following operations:
+It supports the following operations:
 - Scaling
 - Otsu thresholding
 - Huang thresholding
 - Erosion
 - Dilation
 
-`GPUImageTransformer` allows to add few operations. For add  operations need to call
+`GPUImageTransformer` allows to add few operations. To add operations you need to call
 one of the methods with params:
 
 {:.table-model-big}
