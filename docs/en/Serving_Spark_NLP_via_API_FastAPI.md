@@ -2,8 +2,8 @@
 layout: docs
 header: true
 seotitle: Spark NLP
-title: Serving Spark NLP via API FastAPI
-permalink: /docs/en/spark_nlp_via_api_fastapi
+title: Serving Spark NLP&#58 FastAPI
+permalink: /docs/en/serving_spark_nlp_via_api_fastapi
 key: docs-experiment_tracking
 modify_date: "2022-02-18"
 show_nav: true
