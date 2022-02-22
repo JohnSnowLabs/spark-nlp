@@ -48,7 +48,7 @@ sparknlp:
         url:    /docs/en/display
       - title:  Experiment Tracking
         url:    /docs/en/mlflow
-      - title:  Serving Spark NLP via API&#58 SynapseML
+      - title:  Serving Spark NLP API&#58 SynapseML
         url:    /docs/en/serving_spark_nlp_via_api_synapseml      
       - title:  Serving Spark NLP&#58 FastAPI
         url:    /docs/en/serving_spark_nlp_via_api_fastapi  
