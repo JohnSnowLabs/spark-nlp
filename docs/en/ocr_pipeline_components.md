@@ -2134,12 +2134,12 @@ data.select("path", "noiselevel").show()
 
 **python only**
 
-`ImageRemoveObjects` for remove background objects.
-It support removing:
-- objects less then elements of font with _minSizeFont_ size
-- objects less then _minSizeObject_
-- holes less then _minSizeHole_
-- objects more then _maxSizeObject_
+`ImageRemoveObjects` to remove background objects.
+It supports removing:
+- objects less than elements of font with _minSizeFont_ size
+- objects less than _minSizeObject_
+- holes less than _minSizeHole_
+- objects more than _maxSizeObject_
 
 #### Input Columns
 
@@ -2492,7 +2492,7 @@ data.show()
 
 ### ImageSplitRegions
 
-`ImageSplitRegions` splits image to regions.
+`ImageSplitRegions` splits image into regions.
 
 #### Input Columns
 
@@ -3344,7 +3344,7 @@ Next section describes the extra transformers
 
 ### PositionFinder
 
-`PositionFinder` find position of input text entities in original document.
+`PositionFinder` find the position of input text entities in the original document.
 
 #### Input Columns
 
@@ -3635,7 +3635,7 @@ results.show()
 ### FoundationOneReportParser
 
 `FoundationOneReportParser` is a transformer for parsing FoundationOne reports.
-Current implementation support parsing patient info, genomic, biomarker findings and gene lists
+Current implementation supports parsing patient info, genomic, biomarker findings and gene lists
 from appendix.
 Output format is json.
 
