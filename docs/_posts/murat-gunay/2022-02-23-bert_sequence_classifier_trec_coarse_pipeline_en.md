@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Classifier Pipeline to Identify Trec Data Classes
+title: Pipeline to Classify Texts into TREC-6 Classes
 author: John Snow Labs
 name: bert_sequence_classifier_trec_coarse_pipeline
 date: 2022-02-23
