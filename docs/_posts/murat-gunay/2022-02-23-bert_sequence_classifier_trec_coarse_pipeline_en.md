@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pretrained pipeline is built on **the top of** [bert_sequence_classifier_trec_coarse_en](https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html).
+This pretrained pipeline is built on the top of [bert_sequence_classifier_trec_coarse_en](https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html).
 
 The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. [here](https://search.r-project.org/CRAN/refmans/textdata/html/dataset_trec.html).
 
