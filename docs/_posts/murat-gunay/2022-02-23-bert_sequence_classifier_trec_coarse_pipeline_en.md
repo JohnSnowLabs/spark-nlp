@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This pretrained pipeline is built on [bert_sequence_classifier_trec_coarse_en](https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html) model which is imported from `HuggingFace`.
+This pretrained pipeline is built on **the top of** [bert_sequence_classifier_trec_coarse_en](https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html).
+
+The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. [here](https://search.r-project.org/CRAN/refmans/textdata/html/dataset_trec.html).
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -38,7 +40,7 @@ trec_pipeline.annotate("Germany is the largest country in Europe economically.")
 ```scala
 val trec_pipeline = new PretrainedPipeline("bert_sequence_classifier_trec_coarse_pipeline", lang = "en")
 
-val trec_pipeline.annotate("Germany is the largest country in Europe economically.")
+trec_pipeline.annotate("Germany is the largest country in Europe economically.")
 ```
 </div>
 
