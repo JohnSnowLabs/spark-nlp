@@ -13,15 +13,15 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## Serving Spark NLP via API (2/3): FastAPI and LightPipelines
+## Serving Spark NLP via FastAPI and LightPipelines
 
-![Rest API for John Snow Labs’ Spark NLP](https://cdn-images-1.medium.com/max/NaN/1*I_lIG3imZDUAkS8aM4i4yA.png)
+![Rest API for John Snow Labs’ Spark NLP](https://cdn-images-1.medium.com/max/2000/1*VaAlo-mt6U-sbbRCzThVXg.png)
 
-This is the second article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [FastAPI ](https://fastapi.tiangolo.com/)and [LightPipelines](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1) for a quick inference. Don’t forget to check the other articles in this series, namely:
+This is the second article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [FastAPI](https://fastapi.tiangolo.com/) and [LightPipelines](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1) for a quick inference. Don’t forget to check the other articles in this series, namely:
 
-* How to serve Spark NLP using Microsoft [Synapse ML](https://microsoft.github.io/SynapseML/) (Part 1/3), available [here](https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-1-3-microsoft-synapse-ml-2c77a3f61f9d).
+* How to serve Spark NLP using Microsoft [Synapse ML](https://microsoft.github.io/SynapseML/), available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_synapseml).
 
-* How to serve Spark NLP using [Databricks ](https://databricks.com/)Jobs and [MLFlow ](https://mlflow.org/)Rest APIs (Part 3/3), available [here](https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-3-3-databricks-and-mlflow-serve-apis-4ef113e7fac4).
+* How to serve Spark NLP using [Databricks](https://databricks.com/) Jobs and [MLFlow](https://mlflow.org/) Rest APIs, available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_databricks_mlflow).
 
 </div><div class="h3-box" markdown="1">
 
@@ -98,10 +98,10 @@ You can serve SparkNLP + FastAPI on Docker. To do that, we will create a project
 
 The aim of this file is to create a suitable Docker Image with all the OS and Python libraries required to run SparkNLP. Also, adds a entry endpoint for the FastAPI server (see below) and a main folder containing the actual code to run a pipeline on an input text and return the expected values.
 
-    **FROM **ubuntu:18.04
-    **RUN **apt-get update && apt-get -y update
+    FROM ubuntu:18.04
+    RUN apt-get update && apt-get -y update
 
-    **RUN **apt-get -y update \
+    RUN apt-get -y update \
         && apt-get install -y wget \
         && apt-get install -y jq \
         && apt-get install -y lsb-release \
@@ -111,29 +111,29 @@ The aim of this file is to create a suitable Docker Image with all the OS and Py
         && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
              /usr/share/man /usr/share/doc /usr/share/doc-base
 
-    **ENV **PYSPARK_DRIVER_PYTHON=python3
-    **ENV **PYSPARK_PYTHON=python3
+    ENV PYSPARK_DRIVER_PYTHON=python3
+    ENV PYSPARK_PYTHON=python3
 
-    **ENV **LC_ALL=C.UTF-8
-    **ENV **LANG=C.UTF-8
+    ENV LC_ALL=C.UTF-8
+    ENV LANG=C.UTF-8
 
-    **# We expose the FastAPI default port 8515**
-    **EXPOSE **8515
+    # We expose the FastAPI default port 8515
+    EXPOSE 8515
 
-    **# Install all Python required libraries**
-    **COPY **requirements.txt /
-    **RUN **pip install -r /requirements.txt
+    # Install all Python required libraries
+    COPY requirements.txt /
+    RUN pip install -r /requirements.txt
 
-    **# Adds the entrypoint to the FastAPI server**
-    **COPY **entrypoint.sh /
-    **RUN **chmod +x /entrypoint.sh
+    # Adds the entrypoint to the FastAPI server
+    COPY entrypoint.sh /
+    RUN chmod +x /entrypoint.sh
 
-    **# In /content folder we will have our main.py and the license files
-    COPY **./content/ /content/
-    **WORKDIR **content/
+    # In /content folder we will have our main.py and the license files
+    COPY ./content/ /content/
+    WORKDIR content/
 
-    **# We tell Docker to run this file when a container is instantiated**
-    **ENTRYPOINT **["/entrypoint.sh"]
+    # We tell Docker to run this file when a container is instantiated
+    ENTRYPOINT ["/entrypoint.sh"]
 
 </div><div class="h3-box" markdown="1">
 
@@ -141,11 +141,11 @@ The aim of this file is to create a suitable Docker Image with all the OS and Py
 
 This file describes which Python libraries will be required when creating the Docker image to run Spark NLP on FastAPI.
 
-    **pyspark**==3.1.2
-    **fastapi**==0.70.1
-    **uvicorn**==0.16
-    **wget**==3.2
-    **pandas**==1.4.1
+    pyspark==3.1.2
+    fastapi==0.70.1
+    uvicorn==0.16
+    wget==3.2
+    pandas==1.4.1
 
 </div><div class="h3-box" markdown="1">
 
@@ -153,140 +153,143 @@ This file describes which Python libraries will be required when creating the Do
 
 This file is the entry point of our Docker container, which carries out the following actions:
 
- 1. Takes the sparknlp_keys.json and exports its values as environment variables, as required by Spark NLP for Healthcare.
+ 1. Takes the `sparknlp_keys.json` and exports its values as environment variables, as required by Spark NLP for Healthcare.
 
  2. Installs the proper version of Spark NLP for Healthcare, getting the values from the license keys we have just exported in the previous step.
 
  3. Runs the main.py file, that will load the pipelines and create and endpoint to serve them.
 
-    *#!/bin/bash*
+    ```
+    #!/bin/bash
 
-    **# Load the license from sparknlp_keys.json and export the values as OS variables
-    ***export_json* () {
+    # Load the license from sparknlp_keys.json and export the values as OS variables
+    export_json () {
         for s in $(echo $values | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' $1 ); do
             export $s
         done
     }
 
-    **export_json **"/content/sparknlp_keys.json"
+    export_json "/content/sparknlp_keys.json"
 
-    **# Installs the proper version of Spark NLP for Healthcare
-    pip install **--upgrade spark-nlp-jsl==$JSL_VERSION --user --extra-index-url [https://pypi.johnsnowlabs.com/$SECRET](https://pypi.johnsnowlabs.com/$SECRET)
+    # Installs the proper version of Spark NLP for Healthcare
+    pip install --upgrade spark-nlp-jsl==$JSL_VERSION --user --extra-index-url [https://pypi.johnsnowlabs.com/$SECRET](https://pypi.johnsnowlabs.com/$SECRET)
 
     if [ $? != 0 ];
     then
         exit 1
     fi
 
-    **# Script to create FastAPI endpoints and preloading pipelines for inference
-    python3 **/content/main.py
+    # Script to create FastAPI endpoints and preloading pipelines for inference
+    python3 /content/main.py
+    ```
 
-***content/main.py*: Serving 2 pipelines in a FastAPI endpoint**
+### *content/main.py*: Serving 2 pipelines in a FastAPI endpoint
 
 To maximize the performance and minimize the latency, we are going to store two Spark NLP pipelines in memory, so that we load only once (at server start) and we just use them everytime we get an API request to infer.
 
-To do this, let’s create a **content/main.py** Python script to download the required resources, store them in memory and serve them in Rest API endpoints.
+To do this, let’s create a content/main.py Python script to download the required resources, store them in memory and serve them in Rest API endpoints.
 
 First, the import section
 
-    **import** uvicorn, json, os
-    **from** fastapi **import** FastAPI
-    **from** sparknlp.annotator **import** *****
-    **from **sparknlp_jsl.annotator **import *******
-    **from** sparknlp.base **import** *****
-    **import **sparknlp, sparknlp_jsl
-    **from **sparknlp.pretrained **import** PretrainedPipeline
+    import uvicorn, json, os
+    from fastapi import FastAPI
+    from sparknlp.annotator import *
+    from sparknlp_jsl.annotator import *
+    from sparknlp.base import *
+    import sparknlp, sparknlp_jsl
+    from sparknlp.pretrained import PretrainedPipeline
 
-    app **=** FastAPI()
-    pipelines **=** {}
+    app = FastAPI()
+    pipelines = {}
 
 Then, let’s define the endpoint to serve the pipeline:
 
-    **@app.get("/benchmark/pipeline")**
-    **async** **def** get_one_sequential_pipeline_result(modelname, text**=**''):
-        **return** pipelines[modelname]**.**annotate(text)
+    @app.get("/benchmark/pipeline")
+    async def get_one_sequential_pipeline_result(modelname, text=''):
+        return pipelines[modelname].annotate(text)
 
 Then, the startup event to preload the pipelines and start a Spark NLP Session:
 
-    **@app.on_event("startup")**
-    **async** **def** startup_event():
-        **with** open('/content/sparknlp_keys.json', 'r') **as** f:
-            license_keys **=** json**.**load(f)
+    @app.on_event("startup")
+    async def startup_event():
+        with open('/content/sparknlp_keys.json', 'r') as f:
+            license_keys = json.load(f)
 
-    **spark =** sparknlp_jsl**.**start(secret**=**license_keys['SECRE
+    spark = sparknlp_jsl.start(secret=license_keys['SECRET'])
         
-        **pipelines**['ner_profiling_clinical'] **=** *PretrainedPipeline*('ner_profiling_clinical', 'en', 'clinical/models')
+        pipelines['ner_profiling_clinical'] = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
         
-        **pipelines**['clinical_deidentification'] **=** *PretrainedPipeline*("clinical_deidentification", "en", "clinical/models")
+        pipelines['clinical_deidentification'] = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
 
 Finally, let’s run a uvicorn server, listening on port 8515 to the endpoints declared before:
 
-    **if __name__ == "__main__":**
-        uvicorn**.**run('main:app', host**=**'0.0.0.0', port**=**8515)
+    if __name__ == "__main__":
+        uvicorn.run('main:app', host='0.0.0.0', port=8515)
 
-**content/sparknlp_keys.json**
+### content/sparknlp_keys.json
 
 For using Spark NLP for Healthcare, please add your Spark NLP for Healthcare license keys to content/sparknlp_keys.jsonDThe file is ready, you only need to fulfill with your own values taken from the json file John Snow Labs has provided you with.
 
     {
-      "**AWS_ACCESS_KEY_ID**": "",
-      "**AWS_SECRET_ACCESS_KEY**": "",
-      "**SECRET**": "",
-      "**SPARK_NLP_LICENSE**": "",
-      "**JSL_VERSION**": "",
-      "**PUBLIC_VERSION**": ""
+      "AWS_ACCESS_KEY_ID": "",
+      "AWS_SECRET_ACCESS_KEY": "",
+      "SECRET": "",
+      "SPARK_NLP_LICENSE": "",
+      "JSL_VERSION": "",
+      "PUBLIC_VERSION": ""
     }
 
 And now, let’s run the server!
 
- 1. **Creating the Docker image and running the container**
+ 1. Creating the Docker image and running the container
+    ```
+    docker build -t johnsnowlabs/sparknlp:sparknlp_api .
 
-    **docker build** -t johnsnowlabs/sparknlp:sparknlp_api .
+    docker run -v jsl_keys.json:/content/sparknlp_keys.json -p 8515:8515 -it johnsnowlabs/sparknlp:sparknlp_api
+    ```
 
-    **docker run **-v jsl_keys.json:/content/sparknlp_keys.json -p 8515:8515 -it johnsnowlabs/sparknlp:sparknlp_api
-
-**2. Consuming the API using a Python script**
+2. Consuming the API using a Python script
 
 Lets import some libraries
 
-    **import** requests
-    **import** time
+    import requests
+    import time
 
 Then, let’s create a clinical note
 
-    **ner_text =** """
-    *A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. 
-    He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day.*
+    ner_text = """
+    A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. 
+    He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day.
     """
 
 We have preloaded and served two Pretrained Pipelines: clinical_deidentification and ner_profiling_clinical . In *modelname*, let’s set which one we want to check
 
     # Change this line to execute any of the two pipelines
-    **modelname =** '*clinical_deidentification*'
-    *# modelname = 'ner_profiling_clinical'*
+    modelname = 'clinical_deidentification'
+    # modelname = 'ner_profiling_clinical'
 
 And finally, let’s use the requestslibrary to send a test request to the endpoint and get the results.
 
-    **query =** f"?modelname={modelname}&text={ner_text}"
-    **url =** f"http://localhost:8515/benchmark/pipeline{query}"
+    query = f"?modelname={modelname}&text={ner_text}"
+    url = f"http://localhost:8515/benchmark/pipeline{query}"
 
-    **print**(requests**.**get(url))
+    print(requests.get(url))
 
-**Results (original and deidentified texts in json format)**
+Results (original and deidentified texts in json format)
 
     >> {
-    '*masked*': ['A **<AGE>** female with a history of gestational diabetes mellitus diagnosed ...],
+    'masked': ['A <AGE> female with a history of gestational diabetes mellitus diagnosed ...],
 
-    '*obfuscated*': ['A **48 female **with a history of gestational diabetes mellitus diagnosed ...'],
+    'obfuscated': ['A 48 female with a history of gestational diabetes mellitus diagnosed ...'],
 
-    '*ner_chunk*': ['**28-year-old**'],
+    'ner_chunk': ['28-year-old'],
 
-    '*sentence*': ['A 28-year-old female with a history of gestational diabetes mellitus diagnosed ...']
+    'sentence': ['A 28-year-old female with a history of gestational diabetes mellitus diagnosed ...']
     }
 
-You can also prettify the json using the following function with the result of the annotate() function:
+You can also prettify the json using the following function with the result of the `annotate()` function:
 
-    **def explode_annotate(ann_result):**
+    def explode_annotate(ann_result):
        '''
        Function to convert result object to json
        input: raw result

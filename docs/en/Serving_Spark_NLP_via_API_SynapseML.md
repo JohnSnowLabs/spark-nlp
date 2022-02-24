@@ -21,9 +21,9 @@ This is the first article of the “Serving Spark NLP via API” series, showcas
 
 Don’t forget to check the other articles in this series, namely:
 
-* How to serve Spark NLP using [FastAPI ](https://fastapi.tiangolo.com/)and [LightPipelines ](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1)(Part 2/3), available [here](https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-2-3-fastapi-and-lightpipelines-218d1980c9fc).
+* How to server Spark NLP using [FastAPI](https://fastapi.tiangolo.com/) and [LightPipelines](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1), available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_fastapi).
 
-* How to serve Spark NLP using [Databricks ](https://databricks.com/)Jobs and [MLFlow ](https://mlflow.org/)Rest APIs (Part 3/3), available [here](https://medium.com/@jjmcarrascosa/serving-spark-nlp-via-api-3-3-databricks-and-mlflow-serve-apis-4ef113e7fac4).
+* How to serve Spark NLP using [Databricks](https://databricks.com/) Jobs and [MLFlow](https://mlflow.org/) Rest APIs, available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_databricks_mlflow).
 
 </div><div class="h3-box" markdown="1">
 
@@ -92,74 +92,74 @@ We will skip here how to install Spark NLP. If you need to do that, please follo
 
 Synapse ML recommends using at least Spark 3.2, so first of all, let’s configure the Spark Session with the required jars packages(both for Synapse ML and Spark) with the the proper Spark version (take a look at the suffix spark-nlp-spark**32**) and also, very important, add to jars.repository the Maven repository for SynapseML.
 
-    **sparknlpjsl_jar =** "spark-nlp-jsl.jar"
+    sparknlpjsl_jar = "spark-nlp-jsl.jar"
 
-    **from** pyspark.sql **import** SparkSession
+    from pyspark.sql import SparkSession
 
-    **spark =** *SparkSession***.**builder \
-        **.**appName("Spark") \
-        **.**master("local[*]") \
-        **.***config*("spark.driver.memory", "16G") \
-        **.***config*("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-        **.***config*("spark.kryoserializer.buffer.max", "2000M") \
-        **.***config*("**spark.jars.packages**", "com.microsoft.azure:synapseml_2.12:0.9.5,com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.0")\
-        **.***config*("**spark.jars**", sparknlpjsl_jar)\
-        **.***config*("**spark.jars.repositories**", "https://mmlspark.azureedge.net/maven")\
-        **.**getOrCreate()
+    spark = *SparkSession*.builder \
+        .appName("Spark") \
+        .master("local[*]") \
+        .config("spark.driver.memory", "16G") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+        .config("spark.kryoserializer.buffer.max", "2000M") \
+        .config("spark.jars.packages", "com.microsoft.azure:synapseml_2.12:0.9.5,com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.0")\
+        .config("spark.jars", sparknlpjsl_jar)\
+        .config("spark.jars.repositories", "https://mmlspark.azureedge.net/maven")\
+        .getOrCreate()
 
 After the initialization, add your required imports (Spark NLP) and add to them the SynapseML-specific ones:
 
-    **import** sparknlp
-    **import** sparknlp_jsl
+    import sparknlp
+    import sparknlp_jsl
     ...
 
-    **import** synapse.ml
-    **from** synapse.ml.io **import** *****
+    import synapse.ml
+    from synapse.ml.io import *
 
 Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Resolution.
 
-    **document_assembler =** *DocumentAssembler*()\
-          **.**setInputCol("text")\
-          **.**setOutputCol("document")
+    document_assembler = DocumentAssembler()\
+          .setInputCol("text")\
+          .setOutputCol("document")
     
-    **sentenceDetectorDL =** *SentenceDetectorDLModel***.**pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
-          **.**setInputCols(["document"]) \
-          **.**setOutputCol("sentence")
+    sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
+          .setInputCols(["document"]) \
+          .setOutputCol("sentence")
     
-    **tokenizer =** *Tokenizer*()\
-          **.**setInputCols(["sentence"])\
-          **.**setOutputCol("token")
+    tokenizer = Tokenizer()\
+          .setInputCols(["sentence"])\
+          .setOutputCol("token")
     
-    **word_embeddings =** *WordEmbeddingsModel***.**pretrained("embeddings_clinical", "en", "clinical/models")\
-      **.**setInputCols(["sentence", "token"])\
-      **.**setOutputCol("word_embeddings")
+    word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+      .setInputCols(["sentence", "token"])\
+      .setOutputCol("word_embeddings")
     
-    **clinical_ner =** *MedicalNerModel***.**pretrained("ner_clinical", "en", "clinical/models") \
-          **.**setInputCols(["sentence", "token", "word_embeddings"]) \
-          **.**setOutputCol("ner")
+    clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+          .setInputCols(["sentence", "token", "word_embeddings"]) \
+          .setOutputCol("ner")
     
-    **ner_converter_icd =** *NerConverterInternal*() \
-          **.**setInputCols(["sentence", "token", "ner"]) \
-          **.**setOutputCol("ner_chunk")\
-          **.**setWhiteList(['PROBLEM'])\
-          **.**setPreservePosition(**False**)
+    ner_converter_icd = NerConverterInternal() \
+          .setInputCols(["sentence", "token", "ner"]) \
+          .setOutputCol("ner_chunk")\
+          .setWhiteList(['PROBLEM'])\
+          .setPreservePosition(False)
     
-    **c2doc =** *Chunk2Doc*()\
-          **.**setInputCols("ner_chunk")\
-          **.**setOutputCol("ner_chunk_doc") 
+    c2doc = Chunk2Doc()\
+          .setInputCols("ner_chunk")\
+          .setOutputCol("ner_chunk_doc") 
     
-    **sbert_embedder =** *BertSentenceEmbeddings***.**pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-          **.**setInputCols(["ner_chunk_doc"])\
-          **.**setOutputCol("sentence_embeddings")\
-          **.**setCaseSensitive(**False**)
+    sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+          .setInputCols(["ner_chunk_doc"])\
+          .setOutputCol("sentence_embeddings")\
+          .setCaseSensitive(False)
         
-    **icd_resolver =** *SentenceEntityResolverModel***.**pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-         **.**setInputCols(["ner_chunk", "sentence_embeddings"]) \
-         **.**setOutputCol("icd10cm_code")\
-         **.**setDistanceFunction("EUCLIDEAN")
+    icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+         .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+         .setOutputCol("icd10cm_code")\
+         .setDistanceFunction("EUCLIDEAN")
         
-    **resolver_pipeline =** *Pipeline*(
-        stages **=** [
+    resolver_pipeline = Pipeline(
+        stages = [
             document_assembler,
             sentenceDetectorDL,
             tokenizer,
@@ -173,11 +173,11 @@ Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Reso
 
 Let’s use a clinical note to test Synapse ML.
 
-    **clinical_note =** """A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation. Physical examination on presentation was significant for dry oral mucosa; significantly, her abdominal examination was benign with no tenderness, guarding, or rigidity."""
+    clinical_note = """A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation. Physical examination on presentation was significant for dry oral mucosa; significantly, her abdominal examination was benign with no tenderness, guarding, or rigidity."""
 
 Since SynapseML serves a RestAPI, we will be sending JSON requests. Let’s define a simple json with the clinical note:
 
-    **data_json =** {"*text*": clinical_note }
+    data_json = {"text": clinical_note }
 
 Now, let’s spin up a server using Synapse ML Spark Serving. It will consist of:
 
@@ -187,42 +187,76 @@ Now, let’s spin up a server using Synapse ML Spark Serving. It will consist of
 
  3. a write operation returning the output also in json format.
 
-    **#1: Creating the streaming server and transforming json to Spark Dataframe**
-    **serving_input =** spark**.**readStream**.**server() \
-        **.**address("localhost", 9999, "benchmark_api") \
-        **.**option("name", "benchmark_api") \
-        **.**load() \
-        **.**parseRequest("benchmark_api", data**.**schema)
-    
+    #1: Creating the streaming server and transforming json to Spark Dataframe
+    ```
+    serving_input = spark.readStream.server() \
+        .address("localhost", 9999, "benchmark_api") \
+        .option("name", "benchmark_api") \
+        .load() \
+        .parseRequest("benchmark_api", data.schema)
+    ```
 
-    **#2: Applying transform to the dataframe using our Spark NLP pipeline**
-    **serving_output =** resolver_p_model**.**transform(serving_input) \
-        **.**makeReply("icd10cm_code")
-    
+    #2: Applying transform to the dataframe using our Spark NLP pipeline
+    ```
+    serving_output = resolver_p_model.transform(serving_input) \
+        .makeReply("icd10cm_code")
+    ```    
 
-    **#3: Returning the response in json format**
-    **server =** serving_output**.**writeStream \
-          **.**server() \
-          **.**replyTo("benchmark_api") \
-          **.**queryName("benchmark_query") \
-          **.**option("checkpointLocation", "file:///tmp/checkpoints-{}"**.**format(uuid**.**uuid1())) \
-          **.**start()
+    #3: Returning the response in json format
+    ```
+    server = serving_output.writeStream \
+          .server() \
+          .replyTo("benchmark_api") \
+          .queryName("benchmark_query") \
+          .option("checkpointLocation", "file:///tmp/checkpoints-{}".format(uuid.uuid1())) \
+          .start()
+    ```
 
-And we are ready to test the endpoint using the requests library.
+And we are ready to test the endpoint using the `requests` library.
 
-    **import** requests
-    res **=** requests**.**post("http://localhost:9999/benchmark_api", data= json**.**dumps(data_json))
+    import requests
+    res = requests.post("http://localhost:9999/benchmark_api", data= json.dumps(data_json))
 
 And last, but not least, let’s check the results:
 
-    **for** i **in** range (0, len(response_list**.**json())):
-      print(response_list**.**json()[i]['result'])
+    for i in range (0, len(response_list.json())):
+      print(response_list.json()[i]['result'])
 
-**Results (list of ICD-10-CM codes from NER chunks)**
+Results (list of ICD-10-CM codes from NER chunks)
 
     >> O2441 O2411 P702 K8520 B159 E669 Z6841 R35 R631 R630 R111...
 
 </div><div class="h3-box" markdown="1">
+
+## SynapseML on Databricks
+
+You can also run the above code in Databricks. To do that, you only need to **remove** the **Creating a Spark Session**, since Databricks manages that session for you.
+
+After we remove that part of the code from our notebook, we need to set the same configuration params in the Cluster Configuration, so that Databricks spins a cluster with the proper jars and config params (similarly to what we did programatically in *Creating a Spark Session above*, but using *Databricks UI*)
+
+To do so, go to **Compute →Clusters** in Databricks and create a new cluster (name it, for instance, *Synapse*).
+
+![Creating a new cluster called “Synapse”](https://cdn-images-1.medium.com/max/2000/1*njxtH-sr06pBXlDbx1gtnQ.png)
+
+In your environment variables, as always, add the keys from your license in a *key=value* format
+
+![](https://cdn-images-1.medium.com/max/2000/1*kpurIakeiyDiSmdpCVxtOw.png)
+
+Then, in **Cluster → Libraries**, you need to install:
+
+* SynapseML jar (Maven → com.microsoft.azure:synapseml_2.12:0.9.5)
+
+* Spark NLP jar ( Maven →com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.1)
+
+* Spark NLP wheel (PyPi → spark-nlp==3.4.1)
+
+* OPTIONAL: Spark NLP for Healthcare jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → *dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.jar)*
+
+* OPTIONAL: Spark NLP for Healthcare wheel. Same that with the jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → *dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.whl)*
+
+And the rest of the code from the **Importing all the libraries** section and on remains exactly the same.
+
+![Synapse ML on Databricks: results](https://cdn-images-1.medium.com/max/2000/1*aeb15y1EG4w58Tpm5rGwBw.png)
 
 ## Do you want to know more?
 
