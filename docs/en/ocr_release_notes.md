@@ -100,8 +100,8 @@ Support Microsoft PPT and PPTX documents.
 
 #### New Features
 
-* Added [PptToPdf](ocr_pipeline_components#ppttopdf) transformer for convert PPT and PPTX slides to the PDF document.
-* Added [PptToTextTable](ocr_pipeline_components#ppttotexttable) transformer for extract tables from PPT and PPTX slides.
+* Added [PptToPdf](ocr_pipeline_components#ppttopdf) transformer for converting PPT and PPTX slides to the PDF document.
+* Added [PptToTextTable](ocr_pipeline_components#ppttotexttable) transformer for extracting tables from PPT and PPTX slides.
 
 
 #### New and updated notebooks
@@ -121,9 +121,9 @@ Improve table recognition and render OCR results to the PDF with original image
 
 #### New Features
 
-* Added [ImageToTextPdf](ocr_pipeline_components#imagetotextpdf) transformer for store recognized text to the searchable
+* Added [ImageToTextPdf](ocr_pipeline_components#imagetotextpdf) transformer for storing recognized text to the searchable
 PDF with original image
-* Added [PdfAssembler](ocr_pipeline_components#pdfassembler) for assemble multipage PDF document from single page PDF
+* Added [PdfAssembler](ocr_pipeline_components#pdfassembler) for assembling multipage PDF document from single page PDF
 documents
 
 
@@ -131,11 +131,11 @@ documents
 
 * Added support dbfs for store models. This allow to use models on Databricks.
 * Improved [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
-* Added params for tune [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
+* Added params for tuning [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector) algorithms
 * Added possibility to render detected lines to the original image in [ImageTableCellDetector](ocr_table_recognition#imagetablecelldetector)
-* Added support store recognized results to CSV in [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable)
+* Added support to store recognized results to CSV in [ImageCellsToTextTable](ocr_table_recognition#imagecellstotexttable)
 * Added [display_table](ocr_structures#displaytable) and [display_tables](ocr_structures#displaytables) functions
-* Added [display_pdf_file](ocr_structures#displaypdffile) function for display pdf in embedded pdf viewer
+* Added [display_pdf_file](ocr_structures#displaypdffile) function for displaying pdf in embedded pdf viewer
 * Updated license validator
 
 
@@ -155,12 +155,12 @@ Release date: 05-08-2021
 
 #### Overview
 
-Handwritten detection and improve visualization.
+Handwritten detection and visualization improvement.
 
 
 #### New Features
 
-* Added [ImageHandwrittenDetector](ocr_object_detection#imagehandwrittendetector) for detect 'signature', 'date', 'name',
+* Added [ImageHandwrittenDetector](ocr_object_detection#imagehandwrittendetector) for detecting 'signature', 'date', 'name',
  'title', 'address' and others handwritten text.
 * Added rendering labels and scores in [ImageDrawRegions](ocr_pipeline_components#imagedrawregions).
 * Added possibility to scale image to fixed size in [ImageScaler](ocr_pipeline_components#imagescaler)
@@ -229,7 +229,7 @@ More details please read in [Signature Detection in Spark OCR](https://medium.co
 
 #### New Features
 
-* [ImageSignatureDetector](ocr_object_detection#imagehandwrittendetector) is a DL model for detect signature on the image.
+* [ImageSignatureDetector](ocr_object_detection#imagehandwrittendetector) is a DL model for detecting signature on the image.
 
 
 #### New notebooks
@@ -246,8 +246,8 @@ Release date: 14-06-2021
 Table detection and recognition for scanned documents.
 
 For table detection we added ___ImageTableDetector___. 
-It based on __CascadeTabNet__ which used _Cascade mask Region-based CNN High-Resolution Network_ (Cascade mask R-CNN HRNet).
-Model was pre-trained on the __COCO dataset__ and fine tuned on __ICDAR 2019__ competitions dataset for table detection. It demonstrates state of the art results for ICDAR 2013 and TableBank. And top results for ICDAR 2019.
+It's based on __CascadeTabNet__ which used _Cascade mask Region-based CNN High-Resolution Network_ (Cascade mask R-CNN HRNet).
+The model was pre-trained on the __COCO dataset__ and fine-tuned on __ICDAR 2019__ competitions dataset for table detection. It demonstrates state of the art results for ICDAR 2013 and TableBank. And top results for ICDAR 2019.
 
 More details please read in [Table Detection & Extraction in Spark OCR](https://medium.com/spark-nlp/table-detection-extraction-in-spark-ocr-50765c6cedc9)
 

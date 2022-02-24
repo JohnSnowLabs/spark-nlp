@@ -47,7 +47,7 @@ You can start a spark REPL with Scala by running in your terminal a spark-shell 
 spark-shell --jars ####
 ```
 
-The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
+The #### is a secret url only available for license users. If you have purchased a license but did not receive it please contact us at info@johnsnowlabs.com.
 
 </div>
 
@@ -85,7 +85,7 @@ Install python package using pip:
 pip install spark-ocr==1.8.0.spark24 --extra-index-url #### --ignore-installed
 ```
 
-The #### is a secret url only avaliable for license users. If you have purchansed a license but did not receive it please contact us at info@johnsnowlabs.com.
+The #### is a secret url only available for license users. If you have purchased a license but did not receive it please contact us at info@johnsnowlabs.com.
 
 </div><div class="h3-box" markdown="1">
 
