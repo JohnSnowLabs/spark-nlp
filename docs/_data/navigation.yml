@@ -48,8 +48,12 @@ sparknlp:
         url:    /docs/en/display
       - title:  Experiment Tracking
         url:    /docs/en/mlflow
-      - title:  Productionizing Spark NLP
-        url:    /docs/en/production-readiness
+      - title:  Serving Spark NLP&#58 SynapseML
+        url:    /docs/en/serving_spark_nlp_via_api_synapseml      
+      - title:  Serving Spark NLP&#58 FastAPI
+        url:    /docs/en/serving_spark_nlp_via_api_fastapi  
+      - title:  Serving Spark NLP&#58 MLFlow on Databricks
+        url:    /docs/en/serving_spark_nlp_via_api_databricks_mlflow    
       - title:  GPU vs CPU benchmarks
         url:    /docs/en/CPUvsGPUbenchmark
       - title:  Helpers
