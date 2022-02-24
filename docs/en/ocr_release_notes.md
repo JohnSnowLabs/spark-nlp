@@ -303,7 +303,7 @@ Release date: 16-04-2021
 
 #### Overview
 
-Image processing on GPU. It is in 3..5 times faster than on CPU.
+Image processing on GPU. It is in 3.5 times faster than on CPU.
 
 More details please read in [GPU image preprocessing in Spark OCR](https://medium.com/spark-nlp/gpu-image-pre-processing-in-spark-ocr-3-1-0-6fc27560a9bb)
 
@@ -311,7 +311,7 @@ More details please read in [GPU image preprocessing in Spark OCR](https://mediu
 #### New Features
 
 * [GPUImageTransformer](ocr_pipeline_components#gpuimagetransformer) with support: scaling, erosion, delation, Otsu and Huang thresholding.
-* Added [display_images](ocr_structures#displayimages) util function for display images from Spark DataFrame in Jupyter notebooks.
+* Added [display_images](ocr_structures#displayimages) util function for displaying images from Spark DataFrame in Jupyter notebooks.
 
 #### Enhancements
 
@@ -643,7 +643,7 @@ added possibility to store results to PDF for keep original formatting.
 * Added setting resolution in `ImageToText`. And added `ignoreResolution` param with
   default `true` value to `ImageToText` transformer for back compatibility.
 * Added parsing resolution from image metadata in `BinaryToImage` transformer.
-* Added storing resolution in `PrfToImage` transformer.
+* Added storing resolution in `PdfToImage` transformer.
 * Added resolution field to Image schema.
 * Updated 'start' function for set 'PYSPARK_PYTHON' env variable.
 * Improve auto-scaling/skew correction:

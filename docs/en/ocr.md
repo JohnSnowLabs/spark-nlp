@@ -18,7 +18,7 @@ Spark OCR is another commercial extension of Spark NLP for optical character rec
 
 
 Spark OCR is built on top of ```Apache Spark``` and offers the following capabilities:
-- Image pre-processing algorithms to improve text recognition results:
+  - Image pre-processing algorithms to improve text recognition results:
   - Adaptive thresholding & denoising
   - Skew detection & correction
   - Adaptive scaling

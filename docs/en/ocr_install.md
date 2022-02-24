@@ -20,7 +20,7 @@ Currently, it supports 3.0.*, 2.4.* and 2.3.* versions of Spark.
 It is recommended to have basic knowledge of the framework and a working environment before using Spark OCR. Refer to Spark [documentation](http://spark.apache.org/docs/2.4.4/index.html) to get started with Spark.
 
 
-Spark OCR required:
+Spark OCR requires:
  - Scala 2.11 or 2.12 related to the Spark version
  - Python 3.7 + (in case using PySpark)
 

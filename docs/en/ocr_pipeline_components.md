@@ -33,8 +33,8 @@ Next section describes the transformers that deal with PDF files with the purpos
 {:.table-model-big}
 | Param name | Type | Default | Description |
 | --- | --- | --- | --- |
-| splitPage | bool | true | whether it needed to split document to pages |
-| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | 
+| splitPage | bool | true | Whether it needed to split document to pages |
+| textStripper | | TextStripperType.PDF_TEXT_STRIPPER | Extract unstructured text
 | sort | bool | false | Sort text during extraction with TextStripperType.PDF_LAYOUT_STRIPPER |
 | partitionNum | int| 0 | Force repartition dataframe if set to value more than 0. |
 | onlyPageNum | bool | false | Extract only page numbers. |
