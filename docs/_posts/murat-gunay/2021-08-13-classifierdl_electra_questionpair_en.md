@@ -24,8 +24,9 @@ Identifies whether two question sentences are semantically repetitive or differe
 `almost_same`, `not_same`.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+{:.btn-box}
+[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_QUESTIONPAIR/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_QUESTIONPAIRS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_electra_questionpair_en_3.1.3_2.4_1628840750568.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
