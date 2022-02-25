@@ -13,10 +13,6 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## Serving Spark NLP via FastAPI and LightPipelines
-
-![Rest API for John Snow Labs’ Spark NLP](https://cdn-images-1.medium.com/max/2000/1*VaAlo-mt6U-sbbRCzThVXg.png)
-
 This is the second article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [FastAPI](https://fastapi.tiangolo.com/) and [LightPipelines](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1) for a quick inference. Don’t forget to check the other articles in this series, namely:
 
 * How to serve Spark NLP using Microsoft [Synapse ML](https://microsoft.github.io/SynapseML/), available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_synapseml).
@@ -80,17 +76,17 @@ Read more about the performance advantages of using *LightPipelines *in [this ar
 
 You can serve SparkNLP + FastAPI on Docker. To do that, we will create a project with the following files:
 
-* Dockerfile: Image for creating a SparkNLP + FastAPI Docker image
+* **Dockerfile**: Image for creating a SparkNLP + FastAPI Docker image
 
-* requirements.txt: PIP Requirements
+* **requirements.txt**: PIP Requirements
 
-* entrypoint.sh: Dockerfile entrypoint
+* **entrypoint.sh**: Dockerfile entrypoint
 
-* content/: folder containing FastAPI webapp and SparkNLP keys
+* **content/**: folder containing FastAPI webapp and SparkNLP keys
 
-* content/main.py: FastAPI webapp, entrypoint
+* **content/main.py**: FastAPI webapp, entrypoint
 
-* content/sparknlp_keys.json: SparkNLP keys (for Healthcare or OCR)
+* **content/sparknlp_keys.json**: SparkNLP keys (for Healthcare or OCR)
 
 </div><div class="h3-box" markdown="1">
 
@@ -217,9 +213,9 @@ Then, the startup event to preload the pipelines and start a Spark NLP Session:
 
     spark = sparknlp_jsl.start(secret=license_keys['SECRET'])
         
-        pipelines['ner_profiling_clinical'] = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
+    pipelines['ner_profiling_clinical'] = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
         
-        pipelines['clinical_deidentification'] = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
+    pipelines['clinical_deidentification'] = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
 
 Finally, let’s run a uvicorn server, listening on port 8515 to the endpoints declared before:
 
