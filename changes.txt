@@ -1,6 +1,6 @@
-docs/en/Serving_Spark_NLP_via_API_Databricks_and_MLFlow.md
-docs/en/Serving_Spark_NLP_via_API_FastAPI.md
-docs/en/Serving_Spark_NLP_via_API_SynapseML.md
-docs/en/Serving_Spark_NLP_via_API_Databricks_and_MLFlow.md
-docs/en/Serving_Spark_NLP_via_API_FastAPI.md
-docs/en/Serving_Spark_NLP_via_API_SynapseML.md
+docs/_frontend/src/models/Sidebar/Sidebar.js
+docs/_frontend/src/models/Sidebar/Sidebar.module.css
+docs/_plugins/search_index.rb
+docs/_frontend/src/models/Sidebar/Sidebar.js
+docs/_frontend/src/models/Sidebar/Sidebar.module.css
+docs/_plugins/search_index.rb
