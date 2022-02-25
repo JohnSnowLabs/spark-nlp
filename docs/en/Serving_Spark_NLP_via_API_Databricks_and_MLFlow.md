@@ -13,10 +13,6 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## Serving Spark NLP via Databricks Jobs and MLFlow Serve APIs
-
-![Rest API for John Snow Labs’ Spark NLP](https://cdn-images-1.medium.com/max/2000/1*VaAlo-mt6U-sbbRCzThVXg.png)
-
 This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [Databricks](https://databricks.com/) Jobs and [MLFlow](https://www.mlflow.org/) Serve APIs.
 
 Don’t forget to check the other articles in this series, namely:
@@ -189,7 +185,7 @@ Then, create a Lemmatization pipeline:
 
 IMPORTANT: Last output column of the last component in the pipeline should be called prediction.
 
-Finally, let’s log the experiment. In the “Experiment Tracking” section, we used the pip_requirements parameter in the log_model() function to set the required libraries:
+Finally, let’s log the experiment. In the **Experiment Tracking** section, we used the pip_requirements parameter in the log_model() function to set the required libraries:
 
 ![Registration of a Spark NLP MLFlow experiment](https://cdn-images-1.medium.com/max/2198/1*WQl0tmVjuOsTP4GYBriBiA.png)
 
@@ -304,7 +300,7 @@ You can see the response in the same screen.
 
 By just using that Python code, you can already consume it for production purposes from any external web app.
 
-IMPORTANT: As per 17/02/2022, there is an issue being studied by Databricks team, regarding the creation on the fly of job clusters to serve MLFlow models that require configuring the Spark Session with specific jars. This will be fixed in later versions of Databricks. In the meantime, the way to go is using Databricks Jobs API.
+_IMPORTANT: As per 17/02/2022, there is an issue being studied by Databricks team, regarding the creation on the fly of job clusters to serve MLFlow models that require configuring the Spark Session with specific jars. This will be fixed in later versions of Databricks. In the meantime, the way to go is using Databricks Jobs API._
 
 </div><div class="h3-box" markdown="1">
 
@@ -399,7 +395,7 @@ Right now, the input text will be in input var. You can trigger an exception or 
 
 8. And finally, let’s use again dbutils to tell Databricks to spin off the run and return an exit parameter: the list of token strings.
     ```
-    dbutils.notebook.exit(*json*.*dumps*({
+    dbutils.notebook.exit(json.dumps({
       "status": "OK",
       "results": txt_results
     }))
@@ -435,7 +431,7 @@ You can use this for testing purposes, but the interesting part is calling it ex
     Body:
     {
         "job_id": [job_id, check it in the Jobs screen],
-        "notebook_params": {"*text*": "This is an example of how well the lemmatizer works"}
+        "notebook_params": {"text": "This is an example of how well the lemmatizer works"}
     }
     ```
 

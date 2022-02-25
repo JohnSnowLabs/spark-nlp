@@ -13,10 +13,6 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## Serving Spark NLP via API (1/3): Microsoft’s Synapse ML
-
-![Rest API for John Snow Labs’ Spark NLP](https://cdn-images-1.medium.com/max/2118/1*I_lIG3imZDUAkS8aM4i4yA.png)
-
 This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using Synapse ML
 
 Don’t forget to check the other articles in this series, namely:
@@ -96,7 +92,7 @@ Synapse ML recommends using at least Spark 3.2, so first of all, let’s configu
 
     from pyspark.sql import SparkSession
 
-    spark = *SparkSession*.builder \
+    spark = SparkSession.builder \
         .appName("Spark") \
         .master("local[*]") \
         .config("spark.driver.memory", "16G") \
@@ -244,15 +240,14 @@ In your environment variables, as always, add the keys from your license in a *k
 
 Then, in **Cluster → Libraries**, you need to install:
 
-* SynapseML jar (Maven → com.microsoft.azure:synapseml_2.12:0.9.5)
+* **SynapseML jar** (Maven → com.microsoft.azure:synapseml_2.12:0.9.5)
+* **Spark NLP jar** ( Maven →com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.1)
+* **Spark NLP wheel** (PyPi → spark-nlp==3.4.1)
+* If you are using Spark NLP for Healthcare
+  * **Spark NLP for Healthcare jar**. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → *dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.jar)*
+  * **Spark NLP for Healthcare wheel**. Same that with the jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → *dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.whl)*
 
-* Spark NLP jar ( Maven →com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.1)
-
-* Spark NLP wheel (PyPi → spark-nlp==3.4.1)
-
-* OPTIONAL: Spark NLP for Healthcare jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → *dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.jar)*
-
-* OPTIONAL: Spark NLP for Healthcare wheel. Same that with the jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → *dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.whl)*
+---
 
 And the rest of the code from the **Importing all the libraries** section and on remains exactly the same.
 
