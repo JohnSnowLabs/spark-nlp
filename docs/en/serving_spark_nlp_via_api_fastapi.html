@@ -530,10 +530,6 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="serving-spark-nlp-via-fastapi-and-lightpipelines">Serving Spark NLP via FastAPI and LightPipelines</h2>
-
-  <p><img src="https://cdn-images-1.medium.com/max/2000/1*VaAlo-mt6U-sbbRCzThVXg.png" alt="Rest API for John Snow Labs’ Spark NLP" /></p>
-
   <p>This is the second article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1">LightPipelines</a> for a quick inference. Don’t forget to check the other articles in this series, namely:</p>
 
   <ul>
@@ -628,22 +624,22 @@
 
   <ul>
     <li>
-      <p>Dockerfile: Image for creating a SparkNLP + FastAPI Docker image</p>
+      <p><strong>Dockerfile</strong>: Image for creating a SparkNLP + FastAPI Docker image</p>
     </li>
     <li>
-      <p>requirements.txt: PIP Requirements</p>
+      <p><strong>requirements.txt</strong>: PIP Requirements</p>
     </li>
     <li>
-      <p>entrypoint.sh: Dockerfile entrypoint</p>
+      <p><strong>entrypoint.sh</strong>: Dockerfile entrypoint</p>
     </li>
     <li>
-      <p>content/: folder containing FastAPI webapp and SparkNLP keys</p>
+      <p><strong>content/</strong>: folder containing FastAPI webapp and SparkNLP keys</p>
     </li>
     <li>
-      <p>content/main.py: FastAPI webapp, entrypoint</p>
+      <p><strong>content/main.py</strong>: FastAPI webapp, entrypoint</p>
     </li>
     <li>
-      <p>content/sparknlp_keys.json: SparkNLP keys (for Healthcare or OCR)</p>
+      <p><strong>content/sparknlp_keys.json</strong>: SparkNLP keys (for Healthcare or OCR)</p>
     </li>
   </ul>
 
@@ -784,9 +780,9 @@ async def startup_event():
 
 spark = sparknlp_jsl.start(secret=license_keys['SECRET'])
     
-    pipelines['ner_profiling_clinical'] = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
+pipelines['ner_profiling_clinical'] = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
     
-    pipelines['clinical_deidentification'] = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
+pipelines['clinical_deidentification'] = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
 </code></pre></div>  </div>
 
   <p>Finally, let’s run a uvicorn server, listening on port 8515 to the endpoints declared before:</p>

@@ -1,8 +1,6 @@
-docs/Gemfile
 docs/en/Serving_Spark_NLP_via_API_Databricks_and_MLFlow.md
 docs/en/Serving_Spark_NLP_via_API_FastAPI.md
 docs/en/Serving_Spark_NLP_via_API_SynapseML.md
-docs/Gemfile
 docs/en/Serving_Spark_NLP_via_API_Databricks_and_MLFlow.md
 docs/en/Serving_Spark_NLP_via_API_FastAPI.md
 docs/en/Serving_Spark_NLP_via_API_SynapseML.md

@@ -530,10 +530,6 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="serving-spark-nlp-via-databricks-jobs-and-mlflow-serve-apis">Serving Spark NLP via Databricks Jobs and MLFlow Serve APIs</h2>
-
-  <p><img src="https://cdn-images-1.medium.com/max/2000/1*VaAlo-mt6U-sbbRCzThVXg.png" alt="Rest API for John Snow Labs’ Spark NLP" /></p>
-
   <p>This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using <a href="https://databricks.com/">Databricks</a> Jobs and <a href="https://www.mlflow.org/">MLFlow</a> Serve APIs.</p>
 
   <p>Don’t forget to check the other articles in this series, namely:</p>
@@ -749,7 +745,7 @@ pipeline = Pipeline(stages=[
 
   <p>IMPORTANT: Last output column of the last component in the pipeline should be called prediction.</p>
 
-  <p>Finally, let’s log the experiment. In the “Experiment Tracking” section, we used the pip_requirements parameter in the log_model() function to set the required libraries:</p>
+  <p>Finally, let’s log the experiment. In the <strong>Experiment Tracking</strong> section, we used the pip_requirements parameter in the log_model() function to set the required libraries:</p>
 
   <p><img src="https://cdn-images-1.medium.com/max/2198/1*WQl0tmVjuOsTP4GYBriBiA.png" alt="Registration of a Spark NLP MLFlow experiment" /></p>
 
@@ -881,7 +877,7 @@ annotationType = T.StructType([
 
   <p>By just using that Python code, you can already consume it for production purposes from any external web app.</p>
 
-  <p>IMPORTANT: As per 17/02/2022, there is an issue being studied by Databricks team, regarding the creation on the fly of job clusters to serve MLFlow models that require configuring the Spark Session with specific jars. This will be fixed in later versions of Databricks. In the meantime, the way to go is using Databricks Jobs API.</p>
+  <p><em>IMPORTANT: As per 17/02/2022, there is an issue being studied by Databricks team, regarding the creation on the fly of job clusters to serve MLFlow models that require configuring the Spark Session with specific jars. This will be fixed in later versions of Databricks. In the meantime, the way to go is using Databricks Jobs API.</em></p>
 
 </div>
 <div class="h3-box">
@@ -985,7 +981,7 @@ spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
 </code></pre></div>      </div>
     </li>
     <li>And finally, let’s use again dbutils to tell Databricks to spin off the run and return an exit parameter: the list of token strings.
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dbutils.notebook.exit(*json*.*dumps*({
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dbutils.notebook.exit(json.dumps({
    "status": "OK",
    "results": txt_results
  }))
@@ -1027,7 +1023,7 @@ spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
  Body:
  {
      "job_id": [job_id, check it in the Jobs screen],
-     "notebook_params": {"*text*": "This is an example of how well the lemmatizer works"}
+     "notebook_params": {"text": "This is an example of how well the lemmatizer works"}
  }
 </code></pre></div>      </div>
     </li>
