@@ -24,7 +24,7 @@ This model maps phenotypic abnormalities encountered in human diseases to Human 
 This model returns Human Phenotype Ontology (HPO) codes for phenotypic abnormalities encountered in human diseases. It also returns associated codes from the following vocabularies for each HPO code: - MeSH (Medical Subject Headings)- SNOMED- UMLS (Unified Medical Language System ) - ORPHA (international reference resource for information on rare diseases and orphan drugs) - OMIM (Online Mendelian Inheritance in Man)
 
 {:.btn-box}
-[Live Demo](http://nlp.johnsnowlabs.com/demo){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_MSH/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_HPO_en_3.0.4_3.0_1621189482944.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 

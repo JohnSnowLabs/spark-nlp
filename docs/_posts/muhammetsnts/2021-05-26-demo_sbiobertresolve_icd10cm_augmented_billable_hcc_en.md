@@ -25,8 +25,8 @@ This model runs on Spark NLP for Heathcare v3.1.0 and after. The model maps extr
 Outputs 7-digit billable ICD codes. In the result, look for `aux_label` parameter in the metadata to get HCC status. The HCC status can be divided to get further information: `billable status`, `hcc status`, and `hcc score`.`For example, in the example shared below the `billable status` is 1, `hcc status` is 1, and `hcc score` is 8.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_ICD10_CM/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICD10_CM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/demo_sbiobertresolve_icd10cm_augmented_billable_hcc_en_3.0.3_3.0_1622041004614.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

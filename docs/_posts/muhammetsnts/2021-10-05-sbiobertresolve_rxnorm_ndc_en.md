@@ -24,8 +24,8 @@ This model maps `DRUG ` entities to RxNorm codes and their [National Drug Codes 
 `RxNorm Codes`, `NDC Codes`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_RXNORM/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_RXNORM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_RXNORM_NDC/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.Clinical_Entity_Resolvers.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/sbiobertresolve_rxnorm_ndc_en_3.2.3_2.4_1633424811842.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
