@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT). This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT).
+This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT).
 
 ## Predicted Entities
 
