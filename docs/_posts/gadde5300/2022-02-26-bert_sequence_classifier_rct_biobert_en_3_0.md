@@ -22,6 +22,7 @@ This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
 
 ## Predicted Entities
 
+`BACKGROUND`, `CONCLUSIONS`, `METHODS`, `OBJECTIVE`, `RESULTS`
 
 
 {:.btn-box}
