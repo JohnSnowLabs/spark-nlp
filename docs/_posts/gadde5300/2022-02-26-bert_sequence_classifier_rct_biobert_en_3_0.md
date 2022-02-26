@@ -17,8 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-A classifier for detecting the role of an RCT sentence.
-This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
+This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier that can classify the sections within the abstracts of scientific articles regarding randomized clinical trials (RCT).
 
 ## Predicted Entities
 
@@ -109,7 +108,7 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-https://github.com/Franck-Dernoncourt/pubmed-rct
+https://arxiv.org/abs/1710.06071
 
 ## Benchmarking
 
