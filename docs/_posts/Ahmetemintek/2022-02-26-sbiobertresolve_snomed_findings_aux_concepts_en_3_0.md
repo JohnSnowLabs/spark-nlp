@@ -23,6 +23,7 @@ In the metadata, the `all_k_aux_labels` can be divided to get further informatio
 
 ## Predicted Entities
 
+`SNOMED Codes`
 
 
 {:.btn-box}
