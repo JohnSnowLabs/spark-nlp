@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model maps drugs entities to ATC (Anatomic Therapeutic Chemical) codes using sbiobert_base_cased_mli Sentence Bert Embeddings.
+This model maps drugs entities to ATC (Anatomic Therapeutic Chemical) codes using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
 
 ## Predicted Entities
 
@@ -120,13 +120,13 @@ val posology_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/mo
 val ner_converter = NerConverterInternal()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk")
-      .setWhiteList(Array('DRUG'))
+      .setWhiteList(Array("DRUG"))
 
 val c2doc = Chunk2Doc()
       .setInputCols("ner_chunk")
       .setOutputCol("ner_chunk_doc") 
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "en", "clinical/models")
       .setInputCols("ner_chunk_doc")
       .setOutputCol("sentence_embeddings")
       .setCaseSensitive(False)
