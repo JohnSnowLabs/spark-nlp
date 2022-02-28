@@ -1,14 +1,14 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
+seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Serving Spark NLP&#58 MLFlow on Databricks
-permalink: /docs/en/serving_spark_nlp_via_api_databricks_mlflow
+permalink: /docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow
 key: docs-experiment_tracking
 modify_date: "2022-02-18"
 show_nav: true
 sidebar:
-    nav: sparknlp
+    nav: sparknlp-healthcare
 ---
 
 <div class="h3-box" markdown="1">
@@ -69,7 +69,7 @@ Spark NLP is a proud partner of Databricks and we offer a seamless integration w
 
 ### About MLFlow
 
-[MLFlow ](http://mlflow.com)is a serialization and Experiment Tracking platform, which also natively suports Spark NLP. We have a documentation entry about MLFlow in the “Experiment Tracking” section. It’s highly recommended that you take a look before moving forward in this document, since we will use some of the concepts explained there.
+[MLFlow ](http://mlflow.com)is a serialization and Experiment Tracking platform, which also natively supports Spark NLP. We have a documentation entry about MLFlow in the “Experiment Tracking” section. It’s highly recommended that you take a look before moving forward in this document, since we will use some of the concepts explained there.
 
 We will use MLFlow serialization to serve our Spark NLP models.
 
@@ -111,7 +111,7 @@ The cluster instantiated is prepared to use Spark NLP, but to make it production
 
 In that case, we did it adding both jars...
 
-```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0")```
+```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
 
 ...into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the `Compute` screen, selecting your Spark NLP cluster, and then going to ```Configuration -> Advanced Options -> Spark -> Spark Config```, as shown in the following image:
 
@@ -141,7 +141,7 @@ To check everything is ok, run the following lines:
 
 You should see the following output from the last line (versions may differ depending on which ones you used to configure your cluster)
 
-    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0'
+    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
 
 </div><div class="h3-box" markdown="1">
 
@@ -199,7 +199,7 @@ But we mentioned using conda is also available. Let’s use conda in this exampl
                 "pip": [              
                   'pyspark==3.1.1',
                   'mlflow==1.21.0',
-                  'spark-nlp==3.3.2'
+                  'spark-nlp==[YOUR_SPARKNLP_VERSION]'
                 ]
             }
         ],
@@ -323,7 +323,7 @@ To do that:
     ```
 
     ```
-    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0'
+    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
     ```
  
  4. Add the Spark NLP imports.
@@ -446,7 +446,7 @@ Results (list of lemmatized words)
       "results": ["This", "is", "a", "example", "of", "how", "lemmatizer", "work"]
     }}    
     
-The notebook will be prepared in the job, but idle, until you call it programatically, what will instantiate a run.
+The notebook will be prepared in the job, but idle, until you call it programmatically, what will instantiate a run.
 
 Check the Jobs [API](https://docs.databricks.com/dev-tools/api/latest/jobs.html) for more information about what you can do with it and how to adapt it to your solutions for production purposes.
 
