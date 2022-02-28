@@ -3540,23 +3540,36 @@ It supports keeping original ratio of image by padding the image in case fixed o
 <span class="nv">data</span><span class="o">.</span><span class="py">storeImage</span><span class="o">(</span><span class="s">"corrected_image"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparkocr.utils</span> <span class="kn">import</span> <span class="n">display_images</span>
 
-<span class="n">val</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
 
-<span class="o">//</span> <span class="n">Read</span> <span class="n">image</span> <span class="nb">file</span> <span class="k">as</span> <span class="n">binary</span> <span class="nb">file</span>
-<span class="n">val</span> <span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span>
-  <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">asImage</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span> 
 
-<span class="n">val</span> <span class="n">transformer</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ImageSkewCorrector</span><span class="p">()</span>
-  <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"corrected_image"</span><span class="p">)</span>
-  <span class="p">.</span><span class="n">setAutomaticSkewCorrection</span><span class="p">(</span><span class="n">true</span><span class="p">)</span>
+<span class="n">binary_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
 
-<span class="n">val</span> <span class="n">data</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">skew_corrector</span> <span class="o">=</span> <span class="n">ImageSkewCorrector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"corrected_image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setAutomaticSkewCorrection</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="c1"># Define pipeline
+</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binary_to_image</span><span class="p">,</span>
+    <span class="n">skew_corrector</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">display_images</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">"corrected_image"</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
@@ -5054,12 +5067,170 @@ late ideas in other designers, and they borrow and adapt ideas from
 others. One could almost say they feed on and grow on ideas.
 </code></pre></div></div>
 
+<h3 id="imagetotextv2">ImageToTextV2</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ImageToTextV2</code> is based on the transformers architecture, and combines CV and NLP
+ in one model. It is a visual encoder-decoder model. The Encoder is based on ViT, 
+ and the decoder on RoBERTa model.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ImageToTextV2</code> can work on CPU, but GPU is preferred in order to achieve acceptable performance.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ImageToTextV2</code> can receive regions representing single line texts, or regions coming from a text detection model.</p>
+
+<h4 id="input-columns-31">Input Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inputCols</td>
+      <td>Array[string]</td>
+      <td>[image]</td>
+      <td>Can use as input image struct (<a href="ocr_structures#image-schema">Image schema</a>)  and regions.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="parameters-20">Parameters</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>lineTolerance</td>
+      <td>integer</td>
+      <td>15</td>
+      <td>Line tolerance in pixels. It’s used for grouping text regions by lines.</td>
+    </tr>
+    <tr>
+      <td>borderWidth</td>
+      <td>integer</td>
+      <td>5</td>
+      <td>A value of more than 0 enables to border text regions with width equal to the value of the parameter.</td>
+    </tr>
+    <tr>
+      <td>spaceWidth</td>
+      <td>integer</td>
+      <td>10</td>
+      <td>A value of more than 0 enables to add white spaces between words on the image.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="output-columns-31">Output Columns</h4>
+
+<table class="table-model-big">
+  <thead>
+    <tr>
+      <th>Param name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Column Data Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>outputCol</td>
+      <td>string</td>
+      <td>text</td>
+      <td>Recognized text</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Example:</strong></p>
+
+<div class="tabs-box pt0">
+
+  <div class="top_tab_li">   
+    <button class="tab-li code-selector-active python-button">Python</button><button class="tab-li code-selector-un-active scala-button">Scala</button>
+</div>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">not</span> <span class="n">implemented</span>
+</code></pre></div>  </div>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">sparkocr.transformers</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"path to image"</span>
+
+<span class="c1"># Read image file as binary file
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> 
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
+
+<span class="n">binary_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">text_detector</span> <span class="o">=</span> <span class="n">ImageTextDetectorV2</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"image_text_detector_v2"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text_regions"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setWithRefiner</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setSizeThreshold</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToTextV2</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ocr_base_printed"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image"</span><span class="p">,</span> <span class="s">"text_regions"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="c1"># Define pipeline
+</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binary_to_image</span><span class="p">,</span>
+    <span class="n">text_detector</span><span class="p">,</span>
+    <span class="n">ocr</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+</div>
+
+<p><strong>Image:</strong></p>
+
+<p><img src="/assets/images/ocr/text_detection1.png" alt="image" /></p>
+
+<p><strong>Output:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>STARBUCKS STORE #10208
+11302 EUCLID AVENUE
+CLEVELAND, OH (216) 229-0749
+CHK 664290
+12/07/2014 06:43 PM
+1912003 DRAWER: 2. REG: 2
+VT PEP MOCHA 4.95
+SBUX CARD 4.95
+XXXXXXXXXXXX3228
+SUBTOTAL $4.95
+TOTAL $4.95
+CHANGE DUE $0.00
+---- CHECK CLOSED
+12/07/2014 06:43 PM
+SBUX CARD X3228 NEW BALANCE: 37.45
+CARD IS REGISTERED
+</code></pre></div></div>
+
 <h3 id="imagetotextpdf">ImageToTextPdf</h3>
 
 <p><code class="language-plaintext highlighter-rouge">ImageToTextPdf</code> runs OCR for input image, render recognized text to 
 the PDF as an invisible text layout with an original image.</p>
 
-<h4 id="input-columns-31">Input Columns</h4>
+<h4 id="input-columns-32">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5092,7 +5263,7 @@ the PDF as an invisible text layout with an original image.</p>
   </tbody>
 </table>
 
-<h4 id="parameters-20">Parameters</h4>
+<h4 id="parameters-21">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5113,7 +5284,7 @@ the PDF as an invisible text layout with an original image.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-31">Output Columns</h4>
+<h4 id="output-columns-32">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5194,7 +5365,7 @@ the PDF as an invisible text layout with an original image.</p>
 <p><code class="language-plaintext highlighter-rouge">ImageToHocr</code> runs OCR for input image, return recognized text and bounding boxes
 to <em>outputCol</em> column in HOCR format.</p>
 
-<h4 id="input-columns-32">Input Columns</h4>
+<h4 id="input-columns-33">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5215,7 +5386,7 @@ to <em>outputCol</em> column in HOCR format.</p>
   </tbody>
 </table>
 
-<h4 id="parameters-21">Parameters</h4>
+<h4 id="parameters-22">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5266,7 +5437,7 @@ to <em>outputCol</em> column in HOCR format.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-32">Output Columns</h4>
+<h4 id="output-columns-33">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5425,7 +5596,7 @@ to <em>outputCol</em> column in HOCR format.</p>
 <p><code class="language-plaintext highlighter-rouge">ImageBrandsToText</code> runs OCR for specified brands of input image, return recognized text
 to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.</p>
 
-<h4 id="input-columns-33">Input Columns</h4>
+<h4 id="input-columns-34">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5446,7 +5617,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="parameters-22">Parameters</h4>
+<h4 id="parameters-23">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5509,7 +5680,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-33">Output Columns</h4>
+<h4 id="output-columns-34">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5650,7 +5821,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <p><code class="language-plaintext highlighter-rouge">PositionFinder</code> find position of input text entities in original document.</p>
 
-<h4 id="input-columns-34">Input Columns</h4>
+<h4 id="input-columns-35">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5677,7 +5848,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="parameters-23">Parameters</h4>
+<h4 id="parameters-24">Parameters</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5710,7 +5881,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-34">Output Columns</h4>
+<h4 id="output-columns-35">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5854,7 +6025,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
 
 <p><code class="language-plaintext highlighter-rouge">UpdateTextPosition</code> update output text and keep old coordinates of original document.</p>
 
-<h4 id="input-columns-35">Input Columns</h4>
+<h4 id="input-columns-36">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -5881,7 +6052,7 @@ to <em>outputCol</em> and positions with font size to ‘positionsCol’ column.
   </tbody>
 </table>
 
-<h4 id="output-columns-35">Output Columns</h4>
+<h4 id="output-columns-36">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -6030,7 +6201,7 @@ Current implementation support parsing patient info, genomic, biomarker findings
 from appendix.
 Output format is json.</p>
 
-<h4 id="input-columns-36">Input Columns</h4>
+<h4 id="input-columns-37">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -6057,7 +6228,7 @@ Output format is json.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-36">Output Columns</h4>
+<h4 id="output-columns-37">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -6190,7 +6361,7 @@ Output format is json.</p>
 
 <p><strong>Output Annotator Type:</strong> DOCUMENT</p>
 
-<h4 id="input-columns-37">Input Columns</h4>
+<h4 id="input-columns-38">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -6211,7 +6382,7 @@ Output format is json.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-37">Output Columns</h4>
+<h4 id="output-columns-38">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -6323,7 +6494,7 @@ HocrTokenizer puts to metadata coordinates and ocr confidence.</p>
 
 <p><strong>Output Annotator Type:</strong> TOKEN</p>
 
-<h4 id="input-columns-38">Input Columns</h4>
+<h4 id="input-columns-39">Input Columns</h4>
 
 <table class="table-model-big">
   <thead>
@@ -6344,7 +6515,7 @@ HocrTokenizer puts to metadata coordinates and ocr confidence.</p>
   </tbody>
 </table>
 
-<h4 id="output-columns-38">Output Columns</h4>
+<h4 id="output-columns-39">Output Columns</h4>
 
 <table class="table-model-big">
   <thead>
