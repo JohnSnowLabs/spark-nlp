@@ -16,8 +16,8 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{TOKEN, WORD_EMBEDDINGS}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{DoubleParam, IntParam}
@@ -94,7 +94,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
  */
 class Word2VecApproach(override val uid: String)
   extends AnnotatorApproach[Word2VecModel]
-    with HasStorageRef {
+    with HasStorageRef
+    with HasEnableCachingProperties {
 
   def this() = this(Identifiable.randomUID("Word2VecApproach"))
 
@@ -169,7 +170,6 @@ class Word2VecApproach(override val uid: String)
   /**
    * The minimum number of times a token must appear to be included in the word2vec model's
    * vocabulary (Default: `5`).
-   *
    *
    * @group param
    */
@@ -287,7 +287,13 @@ class Word2VecApproach(override val uid: String)
 
     val input = dataset.select(dataset.col(inputColumns)).rdd.map(r => r.getSeq[String](0))
 
+    if (getEnableCaching)
+      input.cache()
+
     val model = word2Vec.fit(input)
+
+    if (getEnableCaching)
+      input.unpersist()
 
     new Word2VecModel()
       .setWordVectors(model.getVectors)
