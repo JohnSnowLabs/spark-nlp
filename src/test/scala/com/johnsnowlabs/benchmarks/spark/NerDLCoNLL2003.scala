@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.ner.{NerConverter, Verbose}
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 
 
 object NerDLCoNLL2003 extends App {
@@ -80,7 +80,7 @@ object NerDLCoNLL2003 extends App {
 
     val stages = createPipeline()
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(stages)
 
     pipeline.fit(dataset)

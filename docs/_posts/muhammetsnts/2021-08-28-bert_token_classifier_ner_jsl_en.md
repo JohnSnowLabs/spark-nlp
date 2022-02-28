@@ -152,14 +152,12 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
 ## Benchmarking
 
 ```bash
-                                    precision    recall  f1-score   support
+                                              precision recall   f1-score  support
 
                     Admission_Discharge       0.84      0.97      0.90       415
                                     Age       0.96      0.96      0.96      2434
                                 Alcohol       0.75      0.83      0.79       145
-                               Allergen       0.33      0.16      0.22        25
                                     BMI       1.00      0.77      0.87        26
-                           Birth_Entity       1.00      0.17      0.29        12
                          Blood_Pressure       0.86      0.88      0.87       597
                 Cerebrovascular_Disease       0.74      0.77      0.75       266
                           Clinical_Dept       0.90      0.92      0.91      2385
@@ -178,7 +176,6 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
            External_body_part_or_region       0.84      0.84      0.84      4805
                   Family_History_Header       1.00      1.00      1.00       889
                           Fetus_NewBorn       0.57      0.56      0.56       341
-                                   Form       0.53      0.43      0.48        81
                               Frequency       0.87      0.90      0.88      1718
                                  Gender       0.98      0.98      0.98      5666
                                     HDL       0.60      1.00      0.75         6
@@ -217,7 +214,6 @@ Trained on data gathered and manually annotated by John Snow Labs. https://www.j
                   Social_History_Header       0.95      0.99      0.97       825
                                Strength       0.71      0.55      0.62       227
                               Substance       0.85      0.81      0.83       193
-                     Substance_Quantity       0.00      0.00      0.00        28
                                 Symptom       0.84      0.86      0.85     23092
                             Temperature       0.94      0.97      0.96       410
                                    Test       0.84      0.88      0.86      9050

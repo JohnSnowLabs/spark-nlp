@@ -64,21 +64,22 @@ test_sentence = """Both the erbA IRES and the erbA/myb virus constructs transfor
 result = p_model.transform(spark.createDataFrame(pd.DataFrame({'text': [test_sentence]})))
 ```
 ```scala
-val document_assembler = DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("document")
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
 
-val tokenizer = Tokenizer()
-      .setInputCols(Array("document"))
-      .setOutputCol("token")
+val tokenizer = new Tokenizer()
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassification.pretrained("bert_token_classifier_ner_bionlp", "en", "clinical/models")
-      .setInputCols("token", "document")
-      .setOutputCol("ner")
-      .setCaseSensitive(True)
-val ner_converter = NerConverter()
-      .setInputCols(Array("document","token","ner"))
-      .setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
+
+val ner_converter = new NerConverter()
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 val data = Seq("Both the erbA IRES and the erbA/myb virus constructs transformed erythroid cells after infection of bone marrow or blastoderm cultures. The erbA/myb IRES virus exhibited a 5-10-fold higher transformed colony forming efficiency than the erbA IRES virus in the blastoderm assay.").toDF("text")
@@ -129,8 +130,6 @@ Trained on Cancer Genetics (CG) task of the BioNLP Shared Task 2013. https://acl
 ```bash
                                    precision    recall  f1-score   support
 
-                     B-Amino_acid       0.77      0.16      0.27        62
-              B-Anatomical_system       0.75      0.18      0.29        17
                          B-Cancer       0.88      0.82      0.85       924
                            B-Cell       0.84      0.86      0.85      1013
              B-Cellular_component       0.87      0.84      0.86       180
@@ -146,22 +145,16 @@ B-Developing_anatomical_structure       0.65      0.65      0.65        17
                 B-Simple_chemical       0.61      0.75      0.68       727
                          B-Tissue       0.74      0.83      0.78       184
                      I-Amino_acid       0.60      1.00      0.75         3
-              I-Anatomical_system       1.00      0.11      0.20         9
                          I-Cancer       0.91      0.69      0.78       604
                            I-Cell       0.98      0.74      0.84      1091
              I-Cellular_component       0.88      0.62      0.73        69
-I-Developing_anatomical_structure       0.00      0.00      0.00         4
-           I-Gene_or_gene_product       0.96      0.27      0.42      2354
-   I-Immaterial_anatomical_entity       0.38      0.30      0.33        10
          I-Multi-tissue_structure       0.89      0.86      0.87       162
                           I-Organ       0.67      0.59      0.62        17
                        I-Organism       0.84      0.45      0.59       120
-           I-Organism_subdivision       0.00      0.00      0.00         9
              I-Organism_substance       0.80      0.50      0.62        24
          I-Pathological_formation       0.81      0.56      0.67        39
-                I-Simple_chemical       0.92      0.15      0.26       622
                          I-Tissue       0.83      0.86      0.84       111
-                                O       0.00      0.00      0.00         0
+
 
                          accuracy                           0.64     12129
                         macro avg       0.73      0.56      0.60     12129

@@ -89,15 +89,15 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 ...
-val documenter = DocumentAssembler() 
+val documenter = new DocumentAssembler() 
     .setInputCol("text") 
     .setOutputCol("document")
 
-val sentencer = SentenceDetector()
+val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = sparknlp.annotators.Tokenizer()
+val tokenizer = new Tokenizer()
     .setInputCols("sentences")
     .setOutputCol("tokens")
 
@@ -110,7 +110,7 @@ val drugprot_ner_tagger = MedicalNerModel.pretrained("ner_drugprot_clinical", "e
     .setInputCols(Array("sentences", "tokens", "embeddings"))
     .setOutputCol("ner_tags") 
 
-val ner_converter = NerConverter()
+val ner_converter = new NerConverter()
     .setInputCols(Array("sentences", "tokens", "ner_tags"))
     .setOutputCol("ner_chunks")
 
@@ -185,20 +185,41 @@ This model was trained on the [DrugProt corpus](https://zenodo.org/record/511989
 ## Benchmarking
 
 ```bash
-                        precision    recall  f1-score   support
 
-             ACTIVATOR       0.39      0.29      0.33       235
-               AGONIST       0.71      0.67      0.69       138
-            ANTAGONIST       0.79      0.77      0.78       215
-      DIRECT-REGULATOR       0.64      0.77      0.70       442
-INDIRECT-DOWNREGULATOR       0.44      0.44      0.44       321
-  INDIRECT-UPREGULATOR       0.49      0.43      0.46       292
-             INHIBITOR       0.79      0.75      0.77      1119
-               PART-OF       0.74      0.82      0.78       246
-            PRODUCT-OF       0.51      0.37      0.43       153
-             SUBSTRATE       0.58      0.69      0.63       486
+                     precision    recall  f1-score   support
 
-              accuracy                           0.65      3647
-             macro avg       0.61      0.60      0.60      3647
-          weighted avg       0.65      0.65      0.64      3647
+ACTIVATOR              0.39      0.29      0.33       235
+AGONIST                0.71      0.67      0.69       138
+ANTAGONIST             0.79      0.77      0.78       215
+DIRECT-REGULATOR       0.64      0.77      0.70       442
+INDIRECT-DOWNREGULATOR 0.44      0.44      0.44       321
+INDIRECT-UPREGULATOR   0.49      0.43      0.46       292
+INHIBITOR              0.79      0.75      0.77      1119
+PART-OF                0.74      0.82      0.78       246
+PRODUCT-OF             0.51      0.37      0.43       153
+SUBSTRATE              0.58      0.69      0.63       486
+
+accuracy                                   0.65      3647
+macro avg              0.61      0.60      0.60      3647
+weighted avg           0.65      0.65      0.64      3647
+
+This model has been improved using a Deep Learning Relation Extraction approach, resulting in the model available [here](https://nlp.johnsnowlabs.com/2022/01/05/redl_drugprot_biobert_en.html) with the following metrics
+
+Relation                Recall  Precision       F1   Support
+
+ACTIVATOR               0.885      0.776     0.827       235
+AGONIST                 0.810      0.925     0.864       137
+ANTAGONIST              0.970      0.919     0.944       199
+DIRECT-REGULATOR        0.836      0.901     0.867       403
+INDIRECT-DOWNREGULATOR  0.885      0.850     0.867       313
+INDIRECT-UPREGULATOR    0.844      0.887     0.865       270
+INHIBITOR               0.947      0.937     0.942      1083
+PART-OF                 0.939      0.889     0.913       247
+PRODUCT-OF              0.697      0.953     0.805       145
+SUBSTRATE               0.912      0.884     0.898       468
+
+Avg.                    0.873      0.892     0.879
+
+Weighted Avg.           0.897      0.899     0.897
+
 ```

@@ -7,7 +7,7 @@ date: 2021-12-20
 tags: [ner, clinical, drugprot, en, licensed]
 task: Named Entity Recognition
 language: en
-edition: Spark NLP for Healthcare 3.3.3
+edition: Spark NLP for Healthcare 3.3.4
 spark_version: 3.0
 supported: true
 article_header:
@@ -87,7 +87,7 @@ val result = pipeline.fit(Seq.empty[EXAMPLE_TEXT]).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|ner_drugprot_clinical|
-|Compatibility:|Spark NLP for Healthcare 3.3.3+|
+|Compatibility:|Spark NLP for Healthcare 3.3.4+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

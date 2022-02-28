@@ -87,5 +87,19 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/PDF_TEXT_NER/
           - text: Colab Netbook
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb     
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/PDF_TEXT_NER.ipynb
+        - title: Extract brands from visual documents
+          id: extract_brands_from_visual_documents 
+          image: 
+              src: /assets/images/Extract_brands_from_visual_documents.svg
+          image2: 
+              src: /assets/images/Extract_brands_from_visual_documents_f.svg
+          excerpt: This demo shows how brands from image can be detected using Spark OCR.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/ocr/BRAND_EXTRACTION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/SparkOcrImageBrandsExtraction.ipynb  
 ---

@@ -21,6 +21,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -96,7 +97,7 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,
@@ -138,7 +139,7 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
       .setAnnotationSplitSymbol("@")
       .setValueSplitSymbol("#")
 
-    val recursivePipeline = new RecursivePipeline()
+    val recursivePipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentenceDetector,

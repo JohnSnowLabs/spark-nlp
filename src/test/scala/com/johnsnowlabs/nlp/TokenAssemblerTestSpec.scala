@@ -19,6 +19,7 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
+import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -51,7 +52,7 @@ class TokenAssemblerTestSpec extends AnyFlatSpec {
 
   def createPipeline(corpus: DataFrame): DataFrame = {
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
@@ -92,7 +93,7 @@ class TokenAssemblerTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document", "tokens"))
       .setOutputCol("newDocs")
       .setPreservePosition(false)
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         token,
@@ -157,7 +158,7 @@ class TokenAssemblerTestSpec extends AnyFlatSpec {
       .setCleanAnnotations(false)
       .setOutputCols("output")
 
-    val pipeline = new RecursivePipeline()
+    val pipeline = new Pipeline()
       .setStages(Array(
         documentAssembler,
         sentence,
