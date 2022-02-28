@@ -1,14 +1,14 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
+seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Serving Spark NLP&#58 FastAPI
-permalink: /docs/en/serving_spark_nlp_via_api_fastapi
+permalink: /docs/en/licensed_serving_spark_nlp_via_api_fastapi
 key: docs-experiment_tracking
 modify_date: "2022-02-18"
 show_nav: true
 sidebar:
-    nav: sparknlp
+    nav: sparknlp-healthcare
 ---
 
 <div class="h3-box" markdown="1">
@@ -54,9 +54,9 @@ Let’s have an overview of how to use Microsoft’s Synapse ML as an example fo
 [FastAPI](https://fastapi.tiangolo.com/) is, as defined by the creators…
 >  …a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints.
 
-FastAPI provides with a very good latency and response times that, all along witht the good performance of Spark NLP LightPipelines, makes this option the quickest one of the four described in the article.
+FastAPI provides with a very good latency and response times that, all along with the good performance of Spark NLP LightPipelines, makes this option the quickest one of the four described in the article.
 
-Read more about the performance advantages of using *LightPipelines *in [this article](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1) created by John Snow Labs Data Scientist Lead [Veysel Kocaman](https://vkocaman.medium.com/).
+Read more about the performance advantages of using *LightPipelines* in [this article](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1) created by John Snow Labs Data Scientist Lead [Veysel Kocaman](https://vkocaman.medium.com/).
 
 </div><div class="h3-box" markdown="1">
 
