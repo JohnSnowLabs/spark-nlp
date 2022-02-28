@@ -22,7 +22,7 @@ This model maps extracted medical entities to [Healthcare Common Procedure Codin
 
 ## Predicted Entities
 
-
+`HCPCS Codes`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/ER_HCPCS/){:.button.button-orange}
