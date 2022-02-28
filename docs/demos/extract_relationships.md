@@ -131,4 +131,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
+        - title: Identify Relations Between Drugs and ADE
+          id: identify_relations_between_drugs_and_ade
+          image: 
+              src: /assets/images/Identify_relations_between_drugs_and_ade.svg
+          image2: 
+              src: /assets/images/Identify_relations_between_drugs_and_ade_f.svg
+          excerpt: This demo shows how to detect relations between drugs and adverse reactions caused by them.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/RE_ADE/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb
 ---
