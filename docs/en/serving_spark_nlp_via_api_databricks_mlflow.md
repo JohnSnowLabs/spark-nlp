@@ -14,13 +14,7 @@ sidebar:
 <div class="h3-box" markdown="1">
 
 This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [Databricks](https://databricks.com/) Jobs and [MLFlow](https://www.mlflow.org/) Serve APIs.
-
-Don’t forget to check the other articles in this series, namely:
-
-* How to serve Spark NLP using Microsoft [Synapse ML](https://microsoft.github.io/SynapseML/), available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_synapseml).
-
-* How to server Spark NLP using [FastAPI](https://fastapi.tiangolo.com/) and [LightPipelines](https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1), available [here](https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_fastapi).
-
+You can find two more approaches (first, using FastAPI and second, using SynapseML) in the Spark NLP for Healthcare [documentation](https://nlp.johnsnowlabs.com/docs/en/licensed_install) page.
 </div><div class="h3-box" markdown="1">
 
 ## Background
@@ -34,8 +28,6 @@ Before starting, if you want to know more about all the advantages of using Spar
 * The official [technical documentation of Spark NLP](https://nlp.johnsnowlabs.com/);
 
 * [Spark NLP channel on Medium](https://medium.com/spark-nlp);
-
-* Also, follow [Veysel Kocaman](https://vkocaman.medium.com/), Data Scientist Lead and Head of Spark NLP for Healthcare, for the latests tips.
 
 </div><div class="h3-box" markdown="1">
 
@@ -111,7 +103,7 @@ The cluster instantiated is prepared to use Spark NLP, but to make it production
 
 In that case, we did it adding both jars...
 
-```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0")```
+```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
 
 ...into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the `Compute` screen, selecting your Spark NLP cluster, and then going to ```Configuration -> Advanced Options -> Spark -> Spark Config```, as shown in the following image:
 
@@ -141,7 +133,7 @@ To check everything is ok, run the following lines:
 
 You should see the following output from the last line (versions may differ depending on which ones you used to configure your cluster)
 
-    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0'
+    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
 
 </div><div class="h3-box" markdown="1">
 
@@ -199,7 +191,7 @@ But we mentioned using conda is also available. Let’s use conda in this exampl
                 "pip": [              
                   'pyspark==3.1.1',
                   'mlflow==1.21.0',
-                  'spark-nlp==3.3.2'
+                  'spark-nlp==[YOUR_SPARKNLP_VERSION]'
                 ]
             }
         ],
@@ -323,7 +315,7 @@ To do that:
     ```
 
     ```
-    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0'
+    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
     ```
  
  4. Add the Spark NLP imports.
