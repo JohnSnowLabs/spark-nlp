@@ -14,7 +14,7 @@ sidebar:
 
 ## 3.11.0
 
-Release date: 18-02-2022
+Release date: 28-02-2022
 
 
 #### Overview
