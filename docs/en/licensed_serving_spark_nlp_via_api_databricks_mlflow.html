@@ -9,9 +9,9 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Spark NLP</title><meta name="description" content="High Performance NLP with Apache Spark
+<!-- End Google Tag Manager --><title>Spark NLP for Healthcare | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/serving_spark_nlp_via_api_synapseml"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2 active"><a href="/docs/en/serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -519,27 +519,27 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Serving Spark NLP&#58 SynapseML</li>
+    <li>Serving Spark NLP&#58 MLFlow on Databricks</li>
   </ul>
-</div></div><header class="main-docs"><h1>Serving Spark NLP&#58 SynapseML</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header class="main-docs"><h1>Serving Spark NLP&#58 MLFlow on Databricks</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/Serving_Spark_NLP_via_API_SynapseML.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Serving Spark NLP&#58 SynapseML"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Serving Spark NLP&#58 MLFlow on Databricks"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <p>This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using Synapse ML</p>
+  <p>This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using <a href="https://databricks.com/">Databricks</a> Jobs and <a href="https://www.mlflow.org/">MLFlow</a> Serve APIs.</p>
 
   <p>Don’t forget to check the other articles in this series, namely:</p>
 
   <ul>
     <li>
-      <p>How to server Spark NLP using <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1">LightPipelines</a>, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_fastapi">here</a>.</p>
+      <p>How to serve Spark NLP using Microsoft <a href="https://microsoft.github.io/SynapseML/">Synapse ML</a>, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_synapseml">here</a>.</p>
     </li>
     <li>
-      <p>How to serve Spark NLP using <a href="https://databricks.com/">Databricks</a> Jobs and <a href="https://mlflow.org/">MLFlow</a> Rest APIs, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_databricks_mlflow">here</a>.</p>
+      <p>How to server Spark NLP using <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1">LightPipelines</a>, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_fastapi">here</a>.</p>
     </li>
   </ul>
 
@@ -576,21 +576,36 @@
 
   <p>There is a wide range of possibilities to add a web server and serve Spark NLP pipelines using RestAPI, and in this series of articles we are only describing some of them.</p>
 
-  <p>Let’s have an overview of how to use Microsoft’s Synapse ML as an example for that purpose.</p>
+  <p>Let’s have an overview of how to use Databricks Jobs API and MLFlow Serve as an example for that purpose.</p>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="microsofts-synapse-ml">Microsoft’s Synapse ML</h2>
+  <h2 id="databricks-jobs-and-mlflow-serve-apis">Databricks Jobs and MLFlow Serve APIs</h2>
 
-  <p><img src="https://cdn-images-1.medium.com/max/5120/1*kMSVrOL2fTq4AX93lIOPZQ.jpeg" alt="SynapseML serving of Spark NLP pipelines" /></p>
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*c0GXoX-ad0SLbT_SuExJ9g.png" alt="Using Databricks Jobs API to serve Spark NLP pipelines" /></p>
 
-  <p><a href="https://microsoft.github.io/SynapseML/docs/about/">Synapse ML</a> (previously named SparkMML) is, as they state in their official webpage:</p>
-  <blockquote>
-    <p>… an ecosystem of tools aimed towards expanding the distributed computing framework <a href="https://github.com/apache/spark">Apache Spark</a> in several new directions.</p>
-  </blockquote>
+</div>
+<div class="h3-box">
 
-  <p>They offer a seamless integratation with OpenCV, LightGBM, Microsoft Cognitive Tool and, the most relevant for our use case, <em>Spark Serving</em>, an extension of *Spark Streaming *with an integrated server and a Load Balancer, that can attend multiple requests via Rest API, balance and attend them leveraging the capabilities of a Spark Cluster. That means that you can sin up a server and attend requests that will be distributed transparently over a Spark NLP cluster, in a very effortless way.</p>
+  <h3 id="about-databricks">About Databricks</h3>
+
+  <p><a href="http://databricks.com">Databricks </a>is an enterprise software company founded by the creators of Apache Spark. The company has also created MLflow, the Serialization and Experiment tracking library you can use (inside or outside databricks), as described in the section “Experiment Tracking”.</p>
+
+  <p>Databricks develops a web-based platform for working with Spark, that provides automated cluster management and IPython-style notebooks. Their infrastructured is provided for training and production purposes, and is integrated in cloud platforms as Azure and AWS.</p>
+
+  <p>Spark NLP is a proud partner of Databricks and we offer a seamless integration with them — see <a href="https://www.johnsnowlabs.com/databricks/">Install on Databricks</a>. All Spark NLP capabilities run in Databricks, including MLFlow serialization and Experiment tracking, what can be used for serving Spark NLP for production purposes.</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*skSSkyIZTosgXlIRiz2ZTw.png" alt="Serving Spark NLP in Databricks with MLFlow" /></p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="about-mlflow">About MLFlow</h3>
+
+  <p><a href="http://mlflow.com">MLFlow </a>is a serialization and Experiment Tracking platform, which also natively supports Spark NLP. We have a documentation entry about MLFlow in the “Experiment Tracking” section. It’s highly recommended that you take a look before moving forward in this document, since we will use some of the concepts explained there.</p>
+
+  <p>We will use MLFlow serialization to serve our Spark NLP models.</p>
 
 </div>
 <div class="h3-box">
@@ -599,16 +614,16 @@
 
   <ul>
     <li>
-      <p><em>Ready-to-use server</em></p>
+      <p><em>Easily configurable and scalable clusters in Databricks</em></p>
     </li>
     <li>
-      <p><em>Includes a Load Balancer</em></p>
+      <p><em>Seamless integration of SPark NLP and Databricks for automatically creating Spark NLP clusters (check <a href="https://www.johnsnowlabs.com/databricks/">Install on Databricks URL</a>)</em></p>
     </li>
     <li>
-      <p><em>Distributes the work over a Spark Cluster</em></p>
+      <p><em>Integration with MLFlow, experiment tracking, etc.</em></p>
     </li>
     <li>
-      <p><em>Can be used for both Spark NLP and Spark OCR</em></p>
+      <p><em>Configure your training and serving environments separately. Use your serving environment for inference and scale it as you need.</em></p>
     </li>
   </ul>
 
@@ -619,212 +634,425 @@
 
   <ul>
     <li>
-      <p><em>For small use cases that don’t require big cluster processing, other approaches may be faster (as FastAPI using LightPipelines)</em></p>
+      <p><em>This approach does not allow you to customize your endpoints, it uses Databricks JOBS API ones</em></p>
     </li>
     <li>
-      <p><em>Requires using an external Framework</em></p>
-    </li>
-    <li>
-      <p><em>This approach does not allow you to customize your endpoints, it uses Synapse ML ones</em></p>
+      <p><em>Requires some time and expertise in Databricks to configure everything properly</em></p>
     </li>
   </ul>
 
 </div>
 <div class="h3-box">
 
-  <h3 id="how-to-set-up-synapse-ml-to-serve-spark-nlp-pipelines">How to set up Synapse ML to serve Spark NLP pipelines</h3>
+  <h3 id="creating-a-cluster-in-databricks">Creating a cluster in Databricks</h3>
 
-  <p>We will skip here how to install Spark NLP. If you need to do that, please follow this official webpage about how to install <a href="https://nlp.johnsnowlabs.com/docs/en/install">Spark NLP</a> or, if <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_install">Spark NLP for Healthcare</a> if you are using the Healthcare library.</p>
+  <p>As mentioned before, Spark NLP offers a seamless integration with Databricks. To create a cluster, please follow the instructions in <a href="https://www.johnsnowlabs.com/databricks/">Install on Databricks</a>.</p>
 
-  <p>Synapse ML recommends using at least Spark 3.2, so first of all, let’s configure the Spark Session with the required jars packages(both for Synapse ML and Spark) with the the proper Spark version (take a look at the suffix spark-nlp-spark<strong>32</strong>) and also, very important, add to jars.repository the Maven repository for SynapseML.</p>
+  <p>That cluster can be then replicated (cloned) for production purposes later on.</p>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sparknlpjsl_jar = "spark-nlp-jsl.jar"
+</div>
+<div class="h3-box">
 
-from pyspark.sql import SparkSession
+  <h3 id="configuring-databricks-for-serving-spark-nlp-on-mlflow">Configuring Databricks for serving Spark NLP on MLFlow</h3>
 
-spark = SparkSession.builder \
-    .appName("Spark") \
-    .master("local[*]") \
-    .config("spark.driver.memory", "16G") \
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-    .config("spark.kryoserializer.buffer.max", "2000M") \
-    .config("spark.jars.packages", "com.microsoft.azure:synapseml_2.12:0.9.5,com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.0")\
-    .config("spark.jars", sparknlpjsl_jar)\
-    .config("spark.jars.repositories", "https://mmlspark.azureedge.net/maven")\
-    .getOrCreate()
-</code></pre></div>  </div>
+  <p>In Databricks Runtime Version, select any Standard runtime, not ML ones… These add their version of MLFlow, and some incompatibilities may arise. For this example, we have used 8.3 (includes Apache Spark 3.1.1, Scala 2.12)</p>
 
-  <p>After the initialization, add your required imports (Spark NLP) and add to them the SynapseML-specific ones:</p>
+  <p>The cluster instantiated is prepared to use Spark NLP, but to make it production-ready using MLFlow, we need to add the MLFlow jar, in addition to the Spark NLP jar, as shown in the “Experiment Tracking” section.</p>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import sparknlp
-import sparknlp_jsl
-...
+  <p>In that case, we did it adding both jars…</p>
 
-import synapse.ml
-from synapse.ml.io import *
-</code></pre></div>  </div>
+  <p><code class="language-plaintext highlighter-rouge">("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")</code></p>
 
-  <p>Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Resolution.</p>
+  <p>…into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the <code class="language-plaintext highlighter-rouge">Compute</code> screen, selecting your Spark NLP cluster, and then going to <code class="language-plaintext highlighter-rouge">Configuration -&gt; Advanced Options -&gt; Spark -&gt; Spark Config</code>, as shown in the following image:</p>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>document_assembler = DocumentAssembler()\
-      .setInputCol("text")\
-      .setOutputCol("document")
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*DAQ2fCmtwWJ0RsJn-gkkEQ.png" alt="Adding the required jars to Spark Config" /></p>
 
-sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
-      .setInputCols(["document"]) \
-      .setOutputCol("sentence")
+  <p>In addition to Spark Config, we need to add the Spark NLP and MLFlow libraries to the Cluster. You can do that by going to Libraries inside your cluster. Make sure you have spark-nlp and mlflow. If not, you can install them either using PyPI or Maven artifacts. In the image below you can see the PyPI alternative:</p>
 
-tokenizer = Tokenizer()\
-      .setInputCols(["sentence"])\
-      .setOutputCol("token")
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*qmIv1w2IUwbJDeUya6OwaA.png" alt="Adding PyPI dependencies to Libraries" /></p>
 
-word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("word_embeddings")
+  <p>TIP: You can also use the Libraries section to add the jars (using Maven Coordinates) instead of setting them in the Spark Config, as showed before.</p>
 
-clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
-      .setInputCols(["sentence", "token", "word_embeddings"]) \
-      .setOutputCol("ner")
+</div>
+<div class="h3-box">
 
-ner_converter_icd = NerConverterInternal() \
-      .setInputCols(["sentence", "token", "ner"]) \
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(['PROBLEM'])\
-      .setPreservePosition(False)
+  <h2 id="creating-a-notebook">Creating a notebook</h2>
 
-c2doc = Chunk2Doc()\
-      .setInputCols("ner_chunk")\
-      .setOutputCol("ner_chunk_doc") 
+  <p>You are ready to create a notebook in Databricks and attach it to the recently created cluster. To do that, go to <code class="language-plaintext highlighter-rouge">Create --&gt; Notebook</code>, and select the cluster you want in the dropdown above your notebook. Make sure you have selected the cluster with the right Spark NLP + MLFlow configuration.</p>
 
-sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
-      .setInputCols(["ner_chunk_doc"])\
-      .setOutputCol("sentence_embeddings")\
-      .setCaseSensitive(False)
-    
-icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sentence_embeddings"]) \
-     .setOutputCol("icd10cm_code")\
-     .setDistanceFunction("EUCLIDEAN")
-    
-resolver_pipeline = Pipeline(
-    stages = [
-        document_assembler,
-        sentenceDetectorDL,
-        tokenizer,
-        word_embeddings,
-        clinical_ner,
-        ner_converter_icd,
-        c2doc,
-        sbert_embedder,
-        icd_resolver
-  ])
-</code></pre></div>  </div>
-
-  <p>Let’s use a clinical note to test Synapse ML.</p>
-
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clinical_note = """A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation. Physical examination on presentation was significant for dry oral mucosa; significantly, her abdominal examination was benign with no tenderness, guarding, or rigidity."""
-</code></pre></div>  </div>
-
-  <p>Since SynapseML serves a RestAPI, we will be sending JSON requests. Let’s define a simple json with the clinical note:</p>
-
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data_json = {"text": clinical_note }
-</code></pre></div>  </div>
-
-  <p>Now, let’s spin up a server using Synapse ML Spark Serving. It will consist of:</p>
+  <p>To check everything is ok, run the following lines:</p>
 
   <ol>
     <li>
-      <p>a streaming server that will receive a json and transform it into a Spark Dataframe</p>
+      <p>To check the session is running:</p>
+
+      <p><code class="language-plaintext highlighter-rouge">spark</code></p>
     </li>
     <li>
-      <p>a call to Spark NLP transform on the dataframe, using the pipeline</p>
+      <p>To check jars are in the session:</p>
+
+      <p><code class="language-plaintext highlighter-rouge">spark.sparkContext.getConf().get('spark.jars.packages')</code></p>
+    </li>
+  </ol>
+
+  <p>You should see the following output from the last line (versions may differ depending on which ones you used to configure your cluster)</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
+</code></pre></div>  </div>
+
+</div>
+<div class="h3-box">
+
+  <h2 id="logging-the-experiment-in-databricks-using-mlflow">Logging the experiment in Databricks using MLFlow</h2>
+
+  <p>As explained in the “Experiment Tracking” section, MLFlow can log Spark MLLib / NLP Pipelines as experiments, to carry out runs on them, track versions, etc.</p>
+
+  <p>MLFlow is natively integrated in Databricks, so we can leverage the <code class="language-plaintext highlighter-rouge">mlflow.spark.log_model()</code> function of the Spark flavour of MLFlow, to start tracking our Spark NLP pipelines.</p>
+
+  <p>Let’s first import our libraries:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import mlflow
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
+import pandas as pd
+from sparknlp.training import CoNLL
+import pyspark
+from pyspark.sql import SparkSession
+</code></pre></div>  </div>
+
+  <p>Then, create a Lemmatization pipeline:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>documentAssembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+tokenizer = Tokenizer() \
+    .setInputCols(["document"]) \
+    .setOutputCol("token")
+
+lemmatizer = LemmatizerModel.pretrained() \
+    .setInputCols(["token"]) \
+    .setOutputCol("prediction")  # It's mandatory to call it prediction
+
+pipeline = Pipeline(stages=[
+  documentAssembler, 
+  tokenizer,
+  lemmatizer
+ ])
+</code></pre></div>  </div>
+
+  <p>IMPORTANT: Last output column of the last component in the pipeline should be called prediction.</p>
+
+  <p>Finally, let’s log the experiment. In the <strong>Experiment Tracking</strong> section, we used the pip_requirements parameter in the log_model() function to set the required libraries:</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2198/1*WQl0tmVjuOsTP4GYBriBiA.png" alt="Registration of a Spark NLP MLFlow experiment" /></p>
+
+  <p>But we mentioned using conda is also available. Let’s use conda in this example:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda_env = {
+    'channels': ['conda-forge'],
+    'dependencies': [
+        'python=3.8.8',
+        {
+            "pip": [              
+              'pyspark==3.1.1',
+              'mlflow==1.21.0',
+              'spark-nlp==[YOUR_SPARKNLP_VERSION]'
+            ]
+        }
+    ],
+    'name': 'mlflow-env'
+}
+</code></pre></div>  </div>
+
+  <p>With this conda environment, we are ready to log our pipeline:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mlflow.spark.log_model(p_model, "lemmatizer", conda_env=conda_env)
+</code></pre></div>  </div>
+
+  <p>You should see an output similar to this one:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(6) Spark Jobs
+(1) MLflow run
+*Logged 1 run to an experiment in MLflow. Learn more*
+</code></pre></div>  </div>
+
+</div>
+<div class="h3-box">
+
+  <h2 id="experiment-ui">Experiment UI</h2>
+
+  <p>On the top right corner of your notebook, you will see the Experiment widget, and inside, as shown in the image below.</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*ZHic2YAYgZaX5I9p-UzFiw.png" alt="MLFlow Experiment UI" /></p>
+
+  <p>You can also access Experiments UI if you switch your environment from “Data Science &amp; Engineering” to “Machine Learning”, on the left panel…</p>
+
+  <p>Once in the experiment UI, you will see the following screen, where your experiments are tracked.</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2066/1*dezCQLDphnjd7aGGdK456Q.png" alt="Experiments screen in MLFlow" /></p>
+
+  <p>If you click on the Start Time cell of your experiment, you will reach the registered MLFlow run.</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*EfvX2LFkPq2fhXrxZ6L8jg.png" alt="MLFlow run screen" /></p>
+
+  <p>On the left panel you will see the MLFlow model and some other artifacts, as the conda.yml and pip_requirements.txt that manage the dependencies of your models.</p>
+
+  <p>On the right panel, you will see two snippets, about how to call to the model for inference internally from Databricks.</p>
+
+  <ol>
+    <li>Snippet for calling with a Pandas Dataframe:
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import mlflow
+logged_model = 'runs:/a8cf070528564792bbf66d82211db0a0/lemmatizer'
+</code></pre></div>      </div>
+
+      <h3 id="load-model-as-a-spark-udf">Load model as a Spark UDF.</h3>
+      <p><code class="language-plaintext highlighter-rouge">loaded_model = mlflow.pyfunc.spark_udf(spark, model_uri=logged_model)</code></p>
+
+      <h3 id="predict-on-a-spark-dataframe">Predict on a Spark DataFrame.</h3>
+      <p><code class="language-plaintext highlighter-rouge">columns = list(df.columns)
+df.withColumn('predictions', loaded_model(*columns)).collect()
+</code></p>
     </li>
     <li>
-      <p>a write operation returning the output also in json format.</p>
+      <p>Snippet for calling with a Spark Dataframe. We won’t include it in this documentation because that snippet does not include SPark NLP specificities. To make it work, the correct snippet should be:</p>
 
-      <p>#1: Creating the streaming server and transforming json to Spark Dataframe</p>
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>serving_input = spark.readStream.server() \
-    .address("localhost", 9999, "benchmark_api") \
-    .option("name", "benchmark_api") \
-    .load() \
-    .parseRequest("benchmark_api", data.schema)
+      <p><code class="language-plaintext highlighter-rouge">import mlflow
+ logged_model = 'runs:/a8cf070528564792bbf66d82211db0a0/lemmatizer'
+ loaded_model = mlflow.pyfunc.load_model(model_uri=logged_model)
+</code></p>
+
+      <p>### Predict on a Spark DataFrame.
+ <code class="language-plaintext highlighter-rouge">res_spark = loaded_model.predict(df_1_spark.rdd)</code></p>
+    </li>
+  </ol>
+
+  <p>IMPORTANT: You will only get the last column (prediction) results, which is a list of Rows of Annotation Types. To convert the result list into a Spark Dataframe, use the following schema:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import pyspark.sql.types as T
+import pyspark.sql.functions as f
+
+annotationType = T.StructType([
+            T.StructField('annotatorType', T.StringType(), False),
+            T.StructField('begin', T.IntegerType(), False),
+            T.StructField('end', T.IntegerType(), False),
+            T.StructField('result', T.StringType(), False),
+            T.StructField('metadata', T.MapType(T.StringType(), T.StringType()), False),
+            T.StructField('embeddings', T.ArrayType(T.FloatType()), False)
+        ])
+</code></pre></div>  </div>
+
+  <p>And then, get the results (for example, in res_spark) and apply the schema:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark_res = spark.createDataFrame(res_pandas[0], schema=annotationType)
+</code></pre></div>  </div>
+
+</div>
+<div class="h3-box">
+
+  <h2 id="calling-the-experiment-for-production-purposes-using-mlflow-rest-api">Calling the experiment for production purposes using MLFlow Rest API</h2>
+
+  <p>Instead of choosing a Batch Inference, you can select REST API. This will lead you to another screen, when the model will be loaded for production purposes in an independent cluster. Once deployed, you will be able to:</p>
+
+  <ol>
+    <li>
+      <p>Check the endpoint URL to consume the model externally;</p>
+    </li>
+    <li>
+      <p>Test the endpoint writing a json (in our example, ‘text’ is our first input col of the pipeline, so it shoud look similar to:</p>
+
+      <p><code class="language-plaintext highlighter-rouge">{"text": "This is a test of how the lemmatizer works"}</code></p>
+    </li>
+  </ol>
+
+  <p>You can see the response in the same screen.</p>
+
+  <ol>
+    <li>Check what is the Python code or cURL command to do that very same thing programatically.</li>
+  </ol>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2048/0*b1TSvjP7CUj6to2m.gif" alt="Example of an official Databricks MLFlow Rest API example" /></p>
+
+  <p>By just using that Python code, you can already consume it for production purposes from any external web app.</p>
+
+  <p><em>IMPORTANT: As per 17/02/2022, there is an issue being studied by Databricks team, regarding the creation on the fly of job clusters to serve MLFlow models that require configuring the Spark Session with specific jars. This will be fixed in later versions of Databricks. In the meantime, the way to go is using Databricks Jobs API.</em></p>
+
+</div>
+<div class="h3-box">
+
+  <h2 id="calling-the-experiment-for-production-purposes-using-databricks-asynchronous-jobs-api">Calling the experiment for production purposes using Databricks Asynchronous Jobs API</h2>
+
+  <h3 id="creating-the-notebook-for-the-inference-job">Creating the notebook for the inference job</h3>
+
+  <p>And last, but not least, another approach to consume models for production purposes. the Jobs API.</p>
+
+  <p>Databricks has its own API for managing jobs, that allows you to instantiate any notebook or script as a job, run it, stop it, and manage all the life cycle. And you can configure the cluster where this job will run before hand, what prevents having the issue described in point 3.</p>
+
+  <p>To do that:</p>
+
+  <ol>
+    <li>
+      <p>Create a new production cluster, as described before, cloning you training environment but adapting it to your needs for production purposes. Make sure the Spark Config is right, as described at the beginning of this documentation.</p>
+    </li>
+    <li>
+      <p>Create a new notebook. Always check that the jars are in the session:</p>
+
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark.sparkContext.getConf().get('spark.jars.packages')
 </code></pre></div>      </div>
 
-      <p>#2: Applying transform to the dataframe using our Spark NLP pipeline</p>
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>serving_output = resolver_p_model.transform(serving_input) \
-    .makeReply("icd10cm_code")
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
 </code></pre></div>      </div>
+    </li>
+    <li>
+      <p>Add the Spark NLP imports.</p>
 
-      <p>#3: Returning the response in json format</p>
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server = serving_output.writeStream \
-      .server() \
-      .replyTo("benchmark_api") \
-      .queryName("benchmark_query") \
-      .option("checkpointLocation", "file:///tmp/checkpoints-{}".format(uuid.uuid1())) \
-      .start()
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> import mlflow
+ import sparknlp
+ from sparknlp.base import *
+ from sparknlp.annotator import *
+ from pyspark.ml import Pipeline
+ import pandas as pd
+ from sparknlp.training import CoNLL
+ import pyspark
+ from pyspark.sql import SparkSession
+ import pyspark.sql.types as T
+ import pyspark.sql.functions as f
+ import json
+</code></pre></div>      </div>
+    </li>
+    <li>
+      <p>Let’s define that an input param called text will be sent in the request. Let’s get the text from that parameter using dbutils.</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> input = ""
+ try:
+   input = dbutils.widgets.get("text")
+   print('"text" input found: ' + input)
+ except:
+   print('Unable to run: dbutils.widgets.get("text"). Setting it to NOT_SET')
+   input = "NOT_SET"
 </code></pre></div>      </div>
     </li>
   </ol>
 
-  <p>And we are ready to test the endpoint using the <code class="language-plaintext highlighter-rouge">requests</code> library.</p>
+  <p>Right now, the input text will be in input var. You can trigger an exception or set the input to some default value if the parameter does not come in the request.</p>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import requests
-res = requests.post("http://localhost:9999/benchmark_api", data= json.dumps(data_json))
-</code></pre></div>  </div>
+  <ol>
+    <li>
+      <p>Let’s create a Spark Dataframe with the input</p>
 
-  <p>And last, but not least, let’s check the results:</p>
+      <p><code class="language-plaintext highlighter-rouge">df = spark.createDataFrame([[input]]).toDF('text')</code></p>
+    </li>
+    <li>
+      <p>And now, we just need to use the snippet for Spark Dataframe to consume MLFlow models, described above:</p>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i in range (0, len(response_list.json())):
-  print(response_list.json()[i]['result'])
-</code></pre></div>  </div>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> import mlflow
+ import pyspark.sql.types as T
+ import pyspark.sql.functions as f
 
-  <p>Results (list of ICD-10-CM codes from NER chunks)</p>
-
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; O2441 O2411 P702 K8520 B159 E669 Z6841 R35 R631 R630 R111...
-</code></pre></div>  </div>
+ logged_model = 'runs:/a8cf070528564792bbf66d82211db0a0/lemmatizer'
+ loaded_model = mlflow.pyfunc.load_model(model_uri=logged_model)
+</code></pre></div>      </div>
+    </li>
+  </ol>
 
 </div>
 <div class="h3-box">
 
-  <h2 id="synapseml-on-databricks">SynapseML on Databricks</h2>
+  <h3 id="predict-on-a-spark-dataframe-1">Predict on a Spark DataFrame.</h3>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>res_spark = loaded_model.predict(df_1_spark.rdd)
 
-  <p>You can also run the above code in Databricks. To do that, you only need to <strong>remove</strong> the <strong>Creating a Spark Session</strong>, since Databricks manages that session for you.</p>
+annotationType = T.StructType([
+            T.StructField('annotatorType', T.StringType(), False),
+            T.StructField('begin', T.IntegerType(), False),
+            T.StructField('end', T.IntegerType(), False),
+            T.StructField('result', T.StringType(), False),
+            T.StructField('metadata', T.MapType(T.StringType(), T.StringType()), False),
+            T.StructField('embeddings', T.ArrayType(T.FloatType()), False)
+        ])
+		
+spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
+</code></pre></div>  </div>
 
-  <p>After we remove that part of the code from our notebook, we need to set the same configuration params in the Cluster Configuration, so that Databricks spins a cluster with the proper jars and config params (similarly to what we did programatically in <em>Creating a Spark Session above</em>, but using <em>Databricks UI</em>)</p>
-
-  <p>To do so, go to <strong>Compute →Clusters</strong> in Databricks and create a new cluster (name it, for instance, <em>Synapse</em>).</p>
-
-  <p><img src="https://cdn-images-1.medium.com/max/2000/1*njxtH-sr06pBXlDbx1gtnQ.png" alt="Creating a new cluster called “Synapse”" /></p>
-
-  <p>In your environment variables, as always, add the keys from your license in a <em>key=value</em> format</p>
-
-  <p><img src="https://cdn-images-1.medium.com/max/2000/1*kpurIakeiyDiSmdpCVxtOw.png" alt="" /></p>
-
-  <p>Then, in <strong>Cluster → Libraries</strong>, you need to install:</p>
-
-  <ul>
-    <li><strong>SynapseML jar</strong> (Maven → com.microsoft.azure:synapseml_2.12:0.9.5)</li>
-    <li><strong>Spark NLP jar</strong> ( Maven →com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:3.4.1)</li>
-    <li><strong>Spark NLP wheel</strong> (PyPi → spark-nlp==3.4.1)</li>
-    <li>If you are using Spark NLP for Healthcare
-      <ul>
-        <li><strong>Spark NLP for Healthcare jar</strong>. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → <em>dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.jar)</em></li>
-        <li><strong>Spark NLP for Healthcare wheel</strong>. Same that with the jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → <em>dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_3_4_1.whl)</em></li>
-      </ul>
+  <ol>
+    <li>Let’s transform our lemmatized tokens from the Dataframe into a list of strings:
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lemmas = spark_res.select("result").collect()
+ txt_results = [x['result'] for x in lemmas]
+</code></pre></div>      </div>
     </li>
-  </ul>
+    <li>And finally, let’s use again dbutils to tell Databricks to spin off the run and return an exit parameter: the list of token strings.
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dbutils.notebook.exit(json.dumps({
+   "status": "OK",
+   "results": txt_results
+ }))
+</code></pre></div>      </div>
+    </li>
+  </ol>
 
-  <hr />
+</div>
+<div class="h3-box">
 
-  <p>And the rest of the code from the <strong>Importing all the libraries</strong> section and on remains exactly the same.</p>
+  <h3 id="configuring-the-job">Configuring the job</h3>
 
-  <p><img src="https://cdn-images-1.medium.com/max/2000/1*aeb15y1EG4w58Tpm5rGwBw.png" alt="Synapse ML on Databricks: results" /></p>
+  <p>Last, but not least. We need to precreate the job, so that we run it from the API. We could do that using the API as well, but we will show you how to do it using the UI.</p>
+
+  <p>On the left panel, go to Jobs and then Create Job.</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*XGxCvIy0JqPQElclU7gfZA.png" alt="Configuring the job with a notebook and a cluster" /></p>
+
+  <p>In the jobs screen, you will see you job created. It’s not running, it’s prepared to be called on demand, programatically or in the interface, with a text input param. Let’s see how to do that:</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="running-the-job">Running the job</h3>
+
+  <ol>
+    <li>In the jobs screen, if you click on the job, you will enter the Job screen, and be able to set your text input parameter and run the job manually.</li>
+  </ol>
+
+  <p><img src="https://cdn-images-1.medium.com/max/3664/1*-dayt-mDHanWLduP_nvkYg.png" alt="Jobs screen in Databricks" /></p>
+
+  <p>You can use this for testing purposes, but the interesting part is calling it externally, using the Databricks Jobs API.</p>
+
+  <ol>
+    <li>Using the Databricks Jobs API, from for example, Postman.
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> POST HTTP request
+ URL: https://[your_databricks_instance]/api/2.1/jobs/run-now
+ Authorization: [use Bearer Token. You can get it from Databricks, Settings, User Settings, Generate New Token.]
+ Body:
+ {
+     "job_id": [job_id, check it in the Jobs screen],
+     "notebook_params": {"text": "This is an example of how well the lemmatizer works"}
+ }
+</code></pre></div>      </div>
+    </li>
+  </ol>
+
+  <p>As it’s an asynchronous call, it will return the number a number of run, but no results. You will need to query for results using the number of the run and the following url <a href="https://[your_databricks_instance]/2.1/jobs/runs/get-output">https://[your_databricks_instance]/2.1/jobs/runs/get-output</a></p>
+
+  <p>You will get a big json, but the most relevant info, the output, will be up to the end:</p>
+
+  <p>Results (list of lemmatized words)</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"notebook_output": {
+  "status": "OK",
+  "results": ["This", "is", "a", "example", "of", "how", "lemmatizer", "work"]
+}}    
+</code></pre></div>  </div>
+
+  <p>The notebook will be prepared in the job, but idle, until you call it programmatically, what will instantiate a run.</p>
+
+  <p>Check the Jobs <a href="https://docs.databricks.com/dev-tools/api/latest/jobs.html">API</a> for more information about what you can do with it and how to adapt it to your solutions for production purposes.</p>
+
+</div>
+<div class="h3-box">
 
   <h2 id="do-you-want-to-know-more">Do you want to know more?</h2>
 
   <ul>
     <li>
-      <p>Check the example notebooks in the Spark NLP Workshop repository, available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/RestAPI">here</a></p>
+      <p>Check how to productionize Spark NLP in our official documentation <a href="https://nlp.johnsnowlabs.com/docs/en/production-readiness">here</a></p>
     </li>
     <li>
       <p>Visit <a href="https://www.johnsnowlabs.com/">John Snow Labs</a> and <a href="https://nlp.johnsnowlabs.com/">Spark NLP Technical Documentation</a> websites</p>
@@ -965,7 +1193,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/mlflow">Experiment Tracking</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></div><div class="next nav_link"><span>NEXT</span><a href="/licensed/api/">Scala API (Scaladoc)</a></div></div></div>
 
 </div>
 </div>

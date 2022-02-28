@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Spark NLP for Healthcare | John Snow Labs</title><meta name="description" content="High Performance NLP with Apache Spark
 ">
-<link rel="canonical" href="/docs/en/benchmark"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<link rel="canonical" href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2 active"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP for Healthcare</li><li class="toc-h2"><a href="/docs/en/license_getting_started">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/licensed_install">Installation</a></li><li class="toc-h2"><a href="/docs/en/licensed_annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/licensed_training">Training</a></li><li class="toc-h2"><a href="/docs/en/licensed_models">Models</a></li><li class="toc-h2"><a href="/docs/en/evaluation">Evaluation</a></li><li class="toc-h2 active"><a href="/docs/en/licensed_serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2"><a href="/docs/en/licensed_serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/licensed/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/licensed/api/python">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/licensed_version_compatibility">Version Compatibility</a></li><li class="toc-h2"><a href="/docs/en/licensed_release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/benchmark">Cluster Speed Benchmarks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/best_practices_pretrained_models">Best Practices Using Pretrained Models Together</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -519,1006 +519,327 @@
 <!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-nav"><div class="main-docs">
   <ul class="breadcrambs">
     <li><a href="/docs">Documentation</a></li>
-    <li>Developers Guideline</li>
+    <li>Serving Spark NLP&#58 SynapseML</li>
   </ul>
-</div></div><header class="main-docs"><h1>Developers Guideline</h1></header><span class="split-space">&nbsp;</span>
+</div></div><header class="main-docs"><h1>Serving Spark NLP&#58 SynapseML</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/benchmark.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Developers Guideline"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/licensed_serving_spark_nlp_via_api_synapseml.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Serving Spark NLP&#58 SynapseML"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="cluster-speed-benchmarks">Cluster Speed Benchmarks</h2>
+  <p>This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using Synapse ML</p>
 
-  <h3 id="ner-bilstm-cnn-char-architecture-benchmark-experiment">NER (BiLSTM-CNN-Char Architecture) Benchmark Experiment</h3>
-
-  <ul>
-    <li><strong>Dataset :</strong> 1000 Clinical Texts from MTSamples Oncology Dataset, approx. 500 tokens per text.</li>
-    <li><strong>Driver :</strong> Standard_D4s_v3 - 16 GB Memory - 4 Cores</li>
-    <li><strong>Enable Autoscaling :</strong> False</li>
-    <li><strong>Cluster Mode :</strong> Standart</li>
-    <li><strong>Worker :</strong>
-      <ul>
-        <li>Standard_D4s_v3 - 16 GB Memory - 4 Cores</li>
-        <li>Standard_D4s_v2 - 28 GB Memory - 8 Cores</li>
-      </ul>
-    </li>
-    <li><strong>Versions :</strong>
-      <ul>
-        <li><strong>Databricks Runtime Version :</strong> 8.3(Scala 2.12, Spark 3.1.1)</li>
-        <li><strong>spark-nlp Version:</strong> v3.2.3</li>
-        <li><strong>spark-nlp-jsl Version :</strong> v3.2.3</li>
-        <li><strong>Spark Version :</strong> v3.1.1</li>
-      </ul>
-    </li>
-    <li>
-      <p><strong>Spark NLP Pipeline :</strong></p>
-
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nlpPipeline = Pipeline(stages=[
-      documentAssembler,
-      sentenceDetector,
-      tokenizer,  
-      embeddings_clinical,  
-      clinical_ner,  
-      ner_converter
-      ])
-
-</code></pre></div>      </div>
-    </li>
-  </ul>
-
-  <p><strong>NOTES :</strong></p>
+  <p>Don’t forget to check the other articles in this series, namely:</p>
 
   <ul>
     <li>
-      <p><strong>The first experiment with 5 different cluster configurations :</strong> <code class="language-plaintext highlighter-rouge">ner_chunk</code>  as a column in Spark NLP Pipeline (<code class="language-plaintext highlighter-rouge">ner_converter</code>) output data frame, exploded (lazy evaluation) as <code class="language-plaintext highlighter-rouge">ner_chunk</code> and <code class="language-plaintext highlighter-rouge">ner_label</code>. Then results were written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
+      <p>How to server Spark NLP using <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1">LightPipelines</a>, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_fastapi">here</a>.</p>
     </li>
     <li>
-      <p><strong>A second experiment with 2 different cluster configuration :</strong> Spark NLP Pipeline output data frame (except <code class="language-plaintext highlighter-rouge">word_embeddings</code> column) was written as <strong>parquet</strong> and <strong>delta</strong> formats.</p>
-    </li>
-    <li>
-      <p>In the first experiment with the most basic driver node and worker <strong>(1 worker x 4 cores)</strong> configuration selection, it took <strong>4.64 mins</strong> and <strong>4.53 mins</strong> to write <strong>4 partitioned data</strong> as parquet and delta formats respectively.</p>
-    </li>
-    <li>
-      <p>With basic driver node and <strong>8 workers (x8 cores)</strong> configuration selection, it took <strong>40 seconds</strong> and <strong>22 seconds</strong> to write <strong>1000 partitioned data</strong> as parquet and delta formats respectively.</p>
-    </li>
-    <li>
-      <p>In the second experiment with basic driver node and <strong>4 workers (x 4 cores)</strong> configuration selection, it took <strong>1.41 mins</strong> as parquet and <strong>1.42 mins</strong> as delta format to write <strong>16 partitioned (exploded results) data</strong>.  <strong>Without explode it took 1.08 mins as parquet and 1.12 mins as delta format to write the data frame.</strong></p>
-    </li>
-    <li>
-      <p>Since given computation durations are highly dependent on different parameters including driver node and worker node configurations as well as partitions, <strong>results show that explode method increases duration  %10-30  on chosen configurations.</strong></p>
+      <p>How to serve Spark NLP using <a href="https://databricks.com/">Databricks</a> Jobs and <a href="https://mlflow.org/">MLFlow</a> Rest APIs, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_databricks_mlflow">here</a>.</p>
     </li>
   </ul>
 
 </div>
 <div class="h3-box">
 
-  <h4 id="ner-benchmark-tables">NER Benchmark Tables</h4>
+  <h2 id="background">Background</h2>
 
-  <table class="table-model-big db">
-    <thead>
-      <tr>
-        <th>driver_name</th>
-        <th>driver_memory</th>
-        <th>driver_cores</th>
-        <th>worker_name</th>
-        <th>worker_memory</th>
-        <th>worker_cores</th>
-        <th>input_data_rows</th>
-        <th>output_data_rows</th>
-        <th>action</th>
-        <th>total_worker_number</th>
-        <th>total_cores</th>
-        <th>partition</th>
-        <th>duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>1</td>
-        <td>4</td>
-        <td>4</td>
-        <td>4.64 min</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>1</td>
-        <td>4</td>
-        <td>4</td>
-        <td>4.53 min</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>1</td>
-        <td>4</td>
-        <td>10</td>
-        <td>4.42 min</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>1</td>
-        <td>4</td>
-        <td>10</td>
-        <td>4.55 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>1</td>
-        <td>4</td>
-        <td>100</td>
-        <td>4.19 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>1</td>
-        <td>4</td>
-        <td>100</td>
-        <td>4.18 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>1</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>5.01 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>1</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>4.99 mins</td>
-      </tr>
-    </tbody>
-  </table>
+  <p><a href="https://towardsdatascience.com/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59">Spark NLP</a> is a Natural Language Understanding Library built on top of Apache Spark, leveranging Spark MLLib pipelines, that allows you to run NLP models at scale, including SOTA Transformers. Therefore, it’s the only production-ready NLP platform that allows you to go from a simple PoC on 1 driver node, to scale to multiple nodes in a cluster, to process big amounts of data, in a matter of minutes.</p>
 
-  <table class="table-model-big db">
-    <thead>
-      <tr>
-        <th>driver_name</th>
-        <th>driver_memory</th>
-        <th>driver_cores</th>
-        <th>worker_name</th>
-        <th>worker_memory</th>
-        <th>worker_cores</th>
-        <th>input_data_rows</th>
-        <th>output_data_rows</th>
-        <th>action</th>
-        <th>total_worker_number</th>
-        <th>total_cores</th>
-        <th>partition</th>
-        <th>duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>2</td>
-        <td>8</td>
-        <td>10</td>
-        <td>2.82 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>2</td>
-        <td>8</td>
-        <td>10</td>
-        <td>2.82 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>2</td>
-        <td>8</td>
-        <td>100</td>
-        <td>2.27 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>2</td>
-        <td>8</td>
-        <td>100</td>
-        <td>2.25 min</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>2</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>2.65 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>2</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>2.7 mins</td>
-      </tr>
-    </tbody>
-  </table>
+  <p>Before starting, if you want to know more about all the advantages of using Spark NLP (as the ability to work at scale on <a href="https://nlp.johnsnowlabs.com/docs/en/install#offline">air-gapped environments</a>, for instance) we recommend you to take a look at the following resources:</p>
 
-  <table class="table-model-big db">
-    <thead>
-      <tr>
-        <th>driver_name</th>
-        <th>driver_memory</th>
-        <th>driver_cores</th>
-        <th>worker_name</th>
-        <th>worker_memory</th>
-        <th>worker_cores</th>
-        <th>input_data_rows</th>
-        <th>output_data_rows</th>
-        <th>action</th>
-        <th>total_worker_number</th>
-        <th>total_cores</th>
-        <th>partition</th>
-        <th>duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>10</td>
-        <td>1.4 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>10</td>
-        <td>1.76 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>16</td>
-        <td>1.41 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>16</td>
-        <td>1.42 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>32</td>
-        <td>1.36 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>32</td>
-        <td>1.35 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>100</td>
-        <td>1.21 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>100</td>
-        <td>1.24 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>1000</td>
-        <td>1.42 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>1000</td>
-        <td>1.46 mins</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big db">
-    <thead>
-      <tr>
-        <th>driver_name</th>
-        <th>driver_memory</th>
-        <th>driver_cores</th>
-        <th>worker_name</th>
-        <th>worker_memory</th>
-        <th>worker_cores</th>
-        <th>input_data_rows</th>
-        <th>output_data_rows</th>
-        <th>action</th>
-        <th>total_worker_number</th>
-        <th>total_cores</th>
-        <th>partition</th>
-        <th>duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>10</td>
-        <td>1.39 min</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>10</td>
-        <td>1.33 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>16</td>
-        <td>1.08 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>16</td>
-        <td>1,12 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>32</td>
-        <td>1.09 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>32</td>
-        <td>1.23 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>100</td>
-        <td>1.05 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>100</td>
-        <td>1.11 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_parquet</td>
-        <td>4</td>
-        <td>16</td>
-        <td>1000</td>
-        <td>1.37 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>1000</td>
-        <td>write_deltalake</td>
-        <td>4</td>
-        <td>16</td>
-        <td>1000</td>
-        <td>1.29 mins</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big db">
-    <thead>
-      <tr>
-        <th>driver_name</th>
-        <th>driver_memory</th>
-        <th>driver_cores</th>
-        <th>worker_name</th>
-        <th>worker_memory</th>
-        <th>worker_cores</th>
-        <th>input_data_rows</th>
-        <th>output_data_rows</th>
-        <th>action</th>
-        <th>total_worker_number</th>
-        <th>total_cores</th>
-        <th>partition</th>
-        <th>duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>8</td>
-        <td>32</td>
-        <td>32</td>
-        <td>1.21 mins</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>8</td>
-        <td>32</td>
-        <td>32</td>
-        <td>55.8 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>8</td>
-        <td>32</td>
-        <td>100</td>
-        <td>41 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>8</td>
-        <td>32</td>
-        <td>100</td>
-        <td>48 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>8</td>
-        <td>32</td>
-        <td>1000</td>
-        <td>1.36 min</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>8</td>
-        <td>32</td>
-        <td>1000</td>
-        <td>48 sec</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table-model-big db">
-    <thead>
-      <tr>
-        <th>driver_name</th>
-        <th>driver_memory</th>
-        <th>driver_cores</th>
-        <th>worker_name</th>
-        <th>worker_memory</th>
-        <th>worker_cores</th>
-        <th>input_data_rows</th>
-        <th>output_data_rows</th>
-        <th>action</th>
-        <th>total_worker_number</th>
-        <th>total_cores</th>
-        <th>partition</th>
-        <th>duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v2</td>
-        <td>28 GB</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>8</td>
-        <td>64</td>
-        <td>64</td>
-        <td>36 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v2</td>
-        <td>28 GB</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>8</td>
-        <td>64</td>
-        <td>64</td>
-        <td>19 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v2</td>
-        <td>28 GB</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>8</td>
-        <td>64</td>
-        <td>100</td>
-        <td>21 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v2</td>
-        <td>28 GB</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>8</td>
-        <td>64</td>
-        <td>100</td>
-        <td>41 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v2</td>
-        <td>28 GB</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_parquet</td>
-        <td>8</td>
-        <td>64</td>
-        <td>1000</td>
-        <td>40 sec</td>
-      </tr>
-      <tr>
-        <td>Standard_D4s_v3</td>
-        <td>16 GB</td>
-        <td>4</td>
-        <td>Standard_D4s_v2</td>
-        <td>28 GB</td>
-        <td>8</td>
-        <td>1000</td>
-        <td>78000</td>
-        <td>write_deltalake</td>
-        <td>8</td>
-        <td>64</td>
-        <td>1000</td>
-        <td>22 sec</td>
-      </tr>
-    </tbody>
-  </table>
+  <ul>
+    <li>
+      <p><a href="https://www.johnsnowlabs.com/">John Snow Labs webpage</a>;</p>
+    </li>
+    <li>
+      <p>The official <a href="https://nlp.johnsnowlabs.com/">technical documentation of Spark NLP</a>;</p>
+    </li>
+    <li>
+      <p><a href="https://medium.com/spark-nlp">Spark NLP channel on Medium</a>;</p>
+    </li>
+    <li>
+      <p>Also, follow <a href="https://vkocaman.medium.com/">Veysel Kocaman</a>, Data Scientist Lead and Head of Spark NLP for Healthcare, for the latests tips.</p>
+    </li>
+  </ul>
 
 </div>
 <div class="h3-box">
 
-  <h3 id="clinical-bert-for-token-classification-benchmark-experiment">Clinical Bert For Token Classification Benchmark Experiment</h3>
+  <h2 id="motivation">Motivation</h2>
+
+  <p>Spark NLP is server-agnostic, what means it does not come with an integrated API server, but offers a lot of options to serve NLP models using Rest APIs.</p>
+
+  <p>There is a wide range of possibilities to add a web server and serve Spark NLP pipelines using RestAPI, and in this series of articles we are only describing some of them.</p>
+
+  <p>Let’s have an overview of how to use Microsoft’s Synapse ML as an example for that purpose.</p>
+
+</div>
+<div class="h3-box">
+
+  <h2 id="microsofts-synapse-ml">Microsoft’s Synapse ML</h2>
+
+  <p><img src="https://cdn-images-1.medium.com/max/5120/1*kMSVrOL2fTq4AX93lIOPZQ.jpeg" alt="SynapseML serving of Spark NLP pipelines" /></p>
+
+  <p><a href="https://microsoft.github.io/SynapseML/docs/about/">Synapse ML</a> (previously named SparkMML) is, as they state in their official webpage:</p>
+  <blockquote>
+    <p>… an ecosystem of tools aimed towards expanding the distributed computing framework <a href="https://github.com/apache/spark">Apache Spark</a> in several new directions.</p>
+  </blockquote>
+
+  <p>They offer a seamless integratation with OpenCV, LightGBM, Microsoft Cognitive Tool and, the most relevant for our use case, <em>Spark Serving</em>, an extension of *Spark Streaming *with an integrated server and a Load Balancer, that can attend multiple requests via Rest API, balance and attend them leveraging the capabilities of a Spark Cluster. That means that you can sin up a server and attend requests that will be distributed transparently over a Spark NLP cluster, in a very effortless way.</p>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="strenghts">Strenghts</h3>
 
   <ul>
-    <li><strong>Dataset :</strong> 7537 Clinical Texts from PubMed Dataset</li>
-    <li><strong>Driver :</strong> Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
-    <li><strong>Enable Autoscaling :</strong> True</li>
-    <li><strong>Cluster Mode :</strong> Standart</li>
-    <li><strong>Worker :</strong>
-      <ul>
-        <li>Standard_DS3_v2 - 14GB Memory - 4 Cores</li>
-      </ul>
+    <li>
+      <p><em>Ready-to-use server</em></p>
     </li>
-    <li><strong>Versions :</strong>
-      <ul>
-        <li><strong>Databricks Runtime Version :</strong> 10.0 (Apache Spark 3.2.0, Scala 2.12)</li>
-        <li><strong>spark-nlp Version:</strong> v3.4.0</li>
-        <li><strong>spark-nlp-jsl Version :</strong> v3.4.0</li>
-        <li><strong>Spark Version :</strong> v3.2.0</li>
-      </ul>
+    <li>
+      <p><em>Includes a Load Balancer</em></p>
     </li>
-    <li><strong>Spark NLP Pipeline :</strong></li>
+    <li>
+      <p><em>Distributes the work over a Spark Cluster</em></p>
+    </li>
+    <li>
+      <p><em>Can be used for both Spark NLP and Spark OCR</em></p>
+    </li>
   </ul>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nlpPipeline = Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        ner_jsl_slim_tokenClassifier,
-        ner_converter,
-        finisher])
+</div>
+<div class="h3-box">
+
+  <h3 id="weaknesses">Weaknesses</h3>
+
+  <ul>
+    <li>
+      <p><em>For small use cases that don’t require big cluster processing, other approaches may be faster (as FastAPI using LightPipelines)</em></p>
+    </li>
+    <li>
+      <p><em>Requires using an external Framework</em></p>
+    </li>
+    <li>
+      <p><em>This approach does not allow you to customize your endpoints, it uses Synapse ML ones</em></p>
+    </li>
+  </ul>
+
+</div>
+<div class="h3-box">
+
+  <h3 id="how-to-set-up-synapse-ml-to-serve-spark-nlp-pipelines">How to set up Synapse ML to serve Spark NLP pipelines</h3>
+
+  <p>We will skip here how to install Spark NLP. If you need to do that, please follow this official webpage about how to install <a href="https://nlp.johnsnowlabs.com/docs/en/install">Spark NLP</a> or, if <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_install">Spark NLP for Healthcare</a> if you are using the Healthcare library.</p>
+
+  <p>Synapse ML recommends using at least Spark 3.2, so first of all, let’s configure the Spark Session with the required jars packages(both for Synapse ML and Spark) with the the proper Spark version (take a look at the suffix spark-nlp-spark<strong>32</strong>) and also, very important, add to jars.repository the Maven repository for SynapseML.</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sparknlpjsl_jar = "spark-nlp-jsl.jar"
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("Spark") \
+    .master("local[*]") \
+    .config("spark.driver.memory", "16G") \
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+    .config("spark.kryoserializer.buffer.max", "2000M") \
+    .config("spark.jars.packages", "com.microsoft.azure:synapseml_2.12:0.9.5,com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:[YOUR_SPARKNLP_VERSION])\
+    .config("spark.jars", sparknlpjsl_jar)\
+    .config("spark.jars.repositories", "https://mmlspark.azureedge.net/maven")\
+    .getOrCreate()
 </code></pre></div>  </div>
 
-  <p><strong>NOTES :</strong></p>
+  <p>After the initialization, add your required imports (Spark NLP) and add to them the SynapseML-specific ones:</p>
 
-  <ul>
-    <li>In this experiment, the <code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_jsl_slim</code> model was used to measure the inference time of clinical bert for token classification models in the databricks environment.</li>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import sparknlp
+import sparknlp_jsl
+...
+
+import synapse.ml
+from synapse.ml.io import *
+</code></pre></div>  </div>
+
+  <p>Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Resolution.</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>document_assembler = DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("document")
+
+sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
+      .setInputCols(["document"]) \
+      .setOutputCol("sentence")
+
+tokenizer = Tokenizer()\
+      .setInputCols(["sentence"])\
+      .setOutputCol("token")
+
+word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+  .setInputCols(["sentence", "token"])\
+  .setOutputCol("word_embeddings")
+
+clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
+      .setInputCols(["sentence", "token", "word_embeddings"]) \
+      .setOutputCol("ner")
+
+ner_converter_icd = NerConverterInternal() \
+      .setInputCols(["sentence", "token", "ner"]) \
+      .setOutputCol("ner_chunk")\
+      .setWhiteList(['PROBLEM'])\
+      .setPreservePosition(False)
+
+c2doc = Chunk2Doc()\
+      .setInputCols("ner_chunk")\
+      .setOutputCol("ner_chunk_doc") 
+
+sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
+      .setInputCols(["ner_chunk_doc"])\
+      .setOutputCol("sentence_embeddings")\
+      .setCaseSensitive(False)
+    
+icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
+     .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+     .setOutputCol("icd10cm_code")\
+     .setDistanceFunction("EUCLIDEAN")
+    
+resolver_pipeline = Pipeline(
+    stages = [
+        document_assembler,
+        sentenceDetectorDL,
+        tokenizer,
+        word_embeddings,
+        clinical_ner,
+        ner_converter_icd,
+        c2doc,
+        sbert_embedder,
+        icd_resolver
+  ])
+</code></pre></div>  </div>
+
+  <p>Let’s use a clinical note to test Synapse ML.</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clinical_note = """A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus (T2DM), one prior episode of HTG-induced pancreatitis three years prior to presentation, associated with an acute hepatitis, and obesity with a body mass index (BMI) of 33.5 kg/m2, presented with a one-week history of polyuria, polydipsia, poor appetite, and vomiting. Two weeks prior to presentation, she was treated with a five-day course of amoxicillin for a respiratory tract infection. She was on metformin, glipizide, and dapagliflozin for T2DM and atorvastatin and gemfibrozil for HTG. She had been on dapagliflozin for six months at the time of presentation. Physical examination on presentation was significant for dry oral mucosa; significantly, her abdominal examination was benign with no tenderness, guarding, or rigidity."""
+</code></pre></div>  </div>
+
+  <p>Since SynapseML serves a RestAPI, we will be sending JSON requests. Let’s define a simple json with the clinical note:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data_json = {"text": clinical_note }
+</code></pre></div>  </div>
+
+  <p>Now, let’s spin up a server using Synapse ML Spark Serving. It will consist of:</p>
+
+  <ol>
     <li>
-      <p>In the first experiment, the data read from the parquet file is saved as parquet after processing.</p>
+      <p>a streaming server that will receive a json and transform it into a Spark Dataframe</p>
     </li>
-    <li>In the second experiment, the data read from the delta table was written to the delta table after it was processed.</li>
-  </ul>
+    <li>
+      <p>a call to Spark NLP transform on the dataframe, using the pipeline</p>
+    </li>
+    <li>
+      <p>a write operation returning the output also in json format.</p>
+
+      <p>#1: Creating the streaming server and transforming json to Spark Dataframe</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>serving_input = spark.readStream.server() \
+    .address("localhost", 9999, "benchmark_api") \
+    .option("name", "benchmark_api") \
+    .load() \
+    .parseRequest("benchmark_api", data.schema)
+</code></pre></div>      </div>
+
+      <p>#2: Applying transform to the dataframe using our Spark NLP pipeline</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>serving_output = resolver_p_model.transform(serving_input) \
+    .makeReply("icd10cm_code")
+</code></pre></div>      </div>
+
+      <p>#3: Returning the response in json format</p>
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server = serving_output.writeStream \
+      .server() \
+      .replyTo("benchmark_api") \
+      .queryName("benchmark_query") \
+      .option("checkpointLocation", "file:///tmp/checkpoints-{}".format(uuid.uuid1())) \
+      .start()
+</code></pre></div>      </div>
+    </li>
+  </ol>
+
+  <p>And we are ready to test the endpoint using the <code class="language-plaintext highlighter-rouge">requests</code> library.</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import requests
+res = requests.post("http://localhost:9999/benchmark_api", data= json.dumps(data_json))
+</code></pre></div>  </div>
+
+  <p>And last, but not least, let’s check the results:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i in range (0, len(response_list.json())):
+  print(response_list.json()[i]['result'])
+</code></pre></div>  </div>
+
+  <p>Results (list of ICD-10-CM codes from NER chunks)</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; O2441 O2411 P702 K8520 B159 E669 Z6841 R35 R631 R630 R111...
+</code></pre></div>  </div>
 
 </div>
-
-<h4 id="bert-for-token-classification-benchmark-table">Bert For Token Classification Benchmark Table</h4>
-
 <div class="h3-box">
 
-  <table class="table-model-big table3">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Repartition</th>
-            <th>Time</th>
-        </tr>
-    </thead>    
-    <tbody>
-        <tr>
-            <td rowspan="4"><strong>Read data from parquet</strong></td>
-            <td>2</td>
-            <td>26.03 mins</td>
-        </tr>
-        <tr>
-            <td>64</td>
-            <td>10.84 mins</td>
-        </tr>
-        <tr>
-            <td>128</td>
-            <td>7.53 mins</td>
-        </tr>
-        <tr>
-            <td>1000</td>
-            <td>8.93 mins</td>
-        </tr>
-        <tr>
-            <td rowspan="4"><strong>Read data from delta table</strong></td>
-            <td>2</td>
-            <td>40.50 mins</td>
-        </tr>
-        <tr>
-            <td>64</td>
-            <td>11.84 mins</td>
-        </tr>
-        <tr>
-            <td>128</td>
-            <td>6.79 mins</td>
-        </tr>
-        <tr>
-            <td>1000</td>
-            <td>6.92 mins</td>
-        </tr>
-    </tbody>
-</table>
+  <h2 id="synapseml-on-databricks">SynapseML on Databricks</h2>
+
+  <p>You can also run the above code in Databricks. To do that, you only need to <strong>remove</strong> the <strong>Creating a Spark Session</strong>, since Databricks manages that session for you.</p>
+
+  <p>After we remove that part of the code from our notebook, we need to set the same configuration params in the Cluster Configuration, so that Databricks spins a cluster with the proper jars and config params (similarly to what we did programatically in <em>Creating a Spark Session above</em>, but using <em>Databricks UI</em>)</p>
+
+  <p>To do so, go to <strong>Compute →Clusters</strong> in Databricks and create a new cluster (name it, for instance, <em>Synapse</em>).</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*njxtH-sr06pBXlDbx1gtnQ.png" alt="Creating a new cluster called “Synapse”" /></p>
+
+  <p>In your environment variables, as always, add the keys from your license in a <em>key=value</em> format</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*kpurIakeiyDiSmdpCVxtOw.png" alt="" /></p>
+
+  <p>Then, in <strong>Cluster → Libraries</strong>, you need to install:</p>
+
+  <ul>
+    <li><strong>SynapseML jar</strong> (Maven → com.microsoft.azure:synapseml_2.12:0.9.5)</li>
+    <li><strong>Spark NLP jar</strong> ( Maven →com.johnsnowlabs.nlp:spark-nlp-spark32_2.12:[YOUR_SPARKNLP_VERSION])</li>
+    <li><strong>Spark NLP wheel</strong> (PyPi → spark-nlp==[YOUR_SPARKNLP_VERSION])</li>
+    <li>If you are using Spark NLP for Healthcare
+      <ul>
+        <li><strong>Spark NLP for Healthcare jar</strong>. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → <em>dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_[YOUR_SPARKNLP_VERSION].jar)</em></li>
+        <li><strong>Spark NLP for Healthcare wheel</strong>. Same that with the jar. Download the jar using the secret from your license, and then upload the jar to DBFS and add it in the Libraries section (DBFS/ADLS → <em>dbfs:/FileStore/johnsnowlabs/libs/spark_nlp_jsl_[YOUR_SPARKNLP_VERSION].whl)</em></li>
+      </ul>
+    </li>
+  </ul>
+
+  <hr />
+
+  <p>And the rest of the code from the <strong>Importing all the libraries</strong> section and on remains exactly the same.</p>
+
+  <p><img src="https://cdn-images-1.medium.com/max/2000/1*aeb15y1EG4w58Tpm5rGwBw.png" alt="Synapse ML on Databricks: results" /></p>
+
+  <h2 id="do-you-want-to-know-more">Do you want to know more?</h2>
+
+  <ul>
+    <li>
+      <p>Check the example notebooks in the Spark NLP Workshop repository, available <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/RestAPI">here</a></p>
+    </li>
+    <li>
+      <p>Visit <a href="https://www.johnsnowlabs.com/">John Snow Labs</a> and <a href="https://nlp.johnsnowlabs.com/">Spark NLP Technical Documentation</a> websites</p>
+    </li>
+    <li>
+      <p>Follow us on Medium: <a href="https://medium.com/spark-nlp">Spark NLP</a> and <a href="https://vkocaman.medium.com/">Veysel Kocaman</a></p>
+    </li>
+    <li>
+      <p>Write to support@johnsnowlabs.com for any additional request you may have</p>
+    </li>
+  </ul>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2021-10-04T00:00:00+00:00">Oct 04, 2021</time>
+      <time itemprop="dateModified" datetime="2022-02-18T00:00:00+00:00">Feb 18, 2022</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1644,7 +965,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/licensed_release_notes">Release Notes</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/CPUvsGPUbenchmark_healthcare">GPU vs CPU benchmarks</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/evaluation">Evaluation</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/licensed_serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></div></div></div>
 
 </div>
 </div>

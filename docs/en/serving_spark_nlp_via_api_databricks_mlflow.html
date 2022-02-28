@@ -388,7 +388,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_synapseml">Serving Spark NLP&#58 SynapseML</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></li><li class="toc-h2 active"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2 active"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59JLR64"
@@ -524,25 +524,14 @@
 </div></div><header class="main-docs"><h1>Serving Spark NLP&#58 MLFlow on Databricks</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/Serving_Spark_NLP_via_API_Databricks_and_MLFlow.md">
+            href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/en/serving_spark_nlp_via_api_databricks_mlflow.md">
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Serving Spark NLP&#58 MLFlow on Databricks"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <p>This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using <a href="https://databricks.com/">Databricks</a> Jobs and <a href="https://www.mlflow.org/">MLFlow</a> Serve APIs.</p>
-
-  <p>Don’t forget to check the other articles in this series, namely:</p>
-
-  <ul>
-    <li>
-      <p>How to serve Spark NLP using Microsoft <a href="https://microsoft.github.io/SynapseML/">Synapse ML</a>, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_synapseml">here</a>.</p>
-    </li>
-    <li>
-      <p>How to server Spark NLP using <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://medium.com/spark-nlp/spark-nlp-101-lightpipeline-a544e93f20f1">LightPipelines</a>, available <a href="https://nlp.johnsnowlabs.com/docs/en/serving_spark_nlp_via_api_fastapi">here</a>.</p>
-    </li>
-  </ul>
-
+  <p>This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using <a href="https://databricks.com/">Databricks</a> Jobs and <a href="https://www.mlflow.org/">MLFlow</a> Serve APIs.
+You can find two more approaches (first, using FastAPI and second, using SynapseML) in the Spark NLP for Healthcare <a href="https://nlp.johnsnowlabs.com/docs/en/licensed_install">documentation</a> page.</p>
 </div>
 <div class="h3-box">
 
@@ -561,9 +550,6 @@
     </li>
     <li>
       <p><a href="https://medium.com/spark-nlp">Spark NLP channel on Medium</a>;</p>
-    </li>
-    <li>
-      <p>Also, follow <a href="https://vkocaman.medium.com/">Veysel Kocaman</a>, Data Scientist Lead and Head of Spark NLP for Healthcare, for the latests tips.</p>
     </li>
   </ul>
 
@@ -661,7 +647,7 @@
 
   <p>In that case, we did it adding both jars…</p>
 
-  <p><code class="language-plaintext highlighter-rouge">("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0")</code></p>
+  <p><code class="language-plaintext highlighter-rouge">("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")</code></p>
 
   <p>…into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the <code class="language-plaintext highlighter-rouge">Compute</code> screen, selecting your Spark NLP cluster, and then going to <code class="language-plaintext highlighter-rouge">Configuration -&gt; Advanced Options -&gt; Spark -&gt; Spark Config</code>, as shown in the following image:</p>
 
@@ -697,7 +683,7 @@
 
   <p>You should see the following output from the last line (versions may differ depending on which ones you used to configure your cluster)</p>
 
-  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0'
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
 </code></pre></div>  </div>
 
 </div>
@@ -759,7 +745,7 @@ pipeline = Pipeline(stages=[
             "pip": [              
               'pyspark==3.1.1',
               'mlflow==1.21.0',
-              'spark-nlp==3.3.2'
+              'spark-nlp==[YOUR_SPARKNLP_VERSION]'
             ]
         }
     ],
@@ -902,7 +888,7 @@ annotationType = T.StructType([
       <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark.sparkContext.getConf().get('spark.jars.packages')
 </code></pre></div>      </div>
 
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0'
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
 </code></pre></div>      </div>
     </li>
     <li>
@@ -1193,7 +1179,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/serving_spark_nlp_via_api_fastapi">Serving Spark NLP&#58 FastAPI</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/mlflow">Experiment Tracking</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU benchmarks</a></div></div></div>
 
 </div>
 </div>
