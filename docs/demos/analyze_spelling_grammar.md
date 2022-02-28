@@ -88,8 +88,8 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TEXT_PREPROCESSING.ipynb     
-        - title: Text Generation for Linguistics
-          id: text_generation_for_linguistics
+        - title: Linguistic transformations on texts
+          id: linguistic_transformations_texts
           image: 
               src: /assets/images/Text_generation_for_linguistics.svg
           image2: 
