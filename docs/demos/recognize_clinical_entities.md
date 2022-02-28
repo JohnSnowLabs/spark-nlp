@@ -260,4 +260,32 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Recognize Clinical Abbreviations and Acronyms
+          id: recognize_clinical_abbreviations_and_acronyms
+          image: 
+              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms.svg
+          image2: 
+              src: /assets/images/Recognize_clinical_abbreviations_and_acronyms_f.svg
+          excerpt: This demo shows how to extract clinical abbreviations and acronyms from medical texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_ABBREVIATION/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+        - title: Recognize Concepts in Drug Development Trials
+          id: recognize_concepts_in_drug_development_trials
+          image: 
+              src: /assets/images/Recognize_concepts_in_drug_development_trials.svg
+          image2: 
+              src: /assets/images/Recognize_concepts_in_drug_development_trials_f.svg
+          excerpt: This demo shows how to extract concepts related to drug development including Trial Groups, End Points and Hazard Ratio.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DRUGS_DEVELOPMENT_TRIALS/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_BERT_TOKEN_CLASSIFIER.ipynb
 ---

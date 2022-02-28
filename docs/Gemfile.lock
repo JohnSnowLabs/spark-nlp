@@ -290,6 +290,7 @@ PLATFORMS
 DEPENDENCIES
   elasticsearch (~> 7.10)
   github-pages (= 220)
+  jekyll (~> 3.9)
   nokogiri (>= 1.12.5)
   wdm (~> 0.1.0)
   webrick
