@@ -34,10 +34,11 @@ This release comes with new models, new features, bug fixes, and notebook exampl
 #### New Models
 
 * ImageTextDetectorV2: this extends the ImageTextDetectorV1 character level text detection model with a refiner net architecture.
-* Text recognition for printed text based on the Deep Learning Transformer Architecture.
+* ImageTextRecognizerV2: Text recognition for printed text based on the Deep Learning Transformer Architecture.
 
 #### New notebooks
 
+* [SparkOcrImageToTextV2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextRecognition/SparkOcrImageToTextV2.ipynb)
 * [ImageTextDetectorV2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextDetection/SparkOcrImageTextDetectionV2.ipynb)
 * [Visual Document NER v2](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/TextRecognition/SparkOcrImageToTextV2.ipynb)
 * [SparkOcrFormRecognition](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/3110-release-candidate/jupyter/FormRecognition/SparkOcrFormRecognition.ipynb)
