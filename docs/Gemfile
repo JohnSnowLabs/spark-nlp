@@ -8,3 +8,5 @@ gem "elasticsearch", "~> 7.10"
 gem 'wdm', '~> 0.1.0'
 
 gem "webrick"
+
+gem "jekyll", "~> 3.9"

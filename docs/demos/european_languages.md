@@ -298,4 +298,18 @@ data:
           - text: Colab Netbook
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HRL.ipynb
+        - title: Toxic Content Classifier for Russian
+          id: toxic_content_classifier_for_russian    
+          image: 
+              src: /assets/images/Toxic_content_classifier_for_russian.svg
+          image2: 
+              src: /assets/images/Toxic_content_classifier_for_russian_f.svg
+          excerpt: This demo shows how to identify if a Russian text contains toxic content or not.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_RU_TOXIC/
+          - text: Colab Netbook
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_RU_TOXIC.ipynb
 ---
