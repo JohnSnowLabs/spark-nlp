@@ -69,7 +69,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "e
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
     
-atc_resolver = SentenceEntityResolverModel.load("sbiobertresolve_atc")\
+atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc")\
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("atc_code")\
       .setDistanceFunction("EUCLIDEAN")
