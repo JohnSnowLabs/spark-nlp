@@ -39,7 +39,7 @@ document_assembler = DocumentAssembler()\
       .setInputCol("text")\
       .setOutputCol("document")
 
-sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
+sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", "clinical/models") \
       .setInputCols(["document"]) \
       .setOutputCol("sentence")
 
@@ -69,7 +69,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "e
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
     
-atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc")\
+atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc", "en", "clinical/models")\
       .setInputCols(["ner_chunk", "sentence_embeddings"]) \
       .setOutputCol("atc_code")\
       .setDistanceFunction("EUCLIDEAN")
@@ -130,7 +130,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
       .setOutputCol("sentence_embeddings")
       .setCaseSensitive(False)
     
-val atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc")
+val atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc", "en", "clinical/models")
       .setInputCols(Array("ner_chunk", "sentence_embeddings"))
       .setOutputCol("atc_code")
       .setDistanceFunction("EUCLIDEAN")
