@@ -41,7 +41,7 @@ document_assembler = DocumentAssembler() \
 
 tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
-    .setOutputCol("token"
+    .setOutputCol("token")
 
 sequenceClassifier_loaded = MedicalBertForSequenceClassification.pretrained("bert_sequence_classifier_rct_biobert", "en", "clinical/models")\
   .setInputCols(["document",'token'])\
