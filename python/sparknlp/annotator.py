@@ -18,6 +18,7 @@ classes.
 
 import sys
 from sparknlp.common import *
+import sparknlp.internal as _internal
 
 # Do NOT delete. Looks redundant but this is key work around for python 2 support.
 if sys.version_info[0] == 2:
@@ -3137,7 +3138,7 @@ class SentenceDetectorParams:
                       typeConverter=TypeConverters.toInt)
 
 
-class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
+class SentenceDetector(AnnotatorModel, SentenceDetectorParams, _internal.AnnotateJava):
     """Annotator that detects sentence boundaries using any provided approach.
 
     Each extracted sentence can be returned in an Array or exploded to separate

@@ -12,20 +12,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import os
 import re
 import unittest
-import os
+
+from pyspark.ml.clustering import KMeans
+from pyspark.ml.feature import SQLTransformer
+from pyspark.sql.functions import split
 
 from sparknlp.annotator import *
 from sparknlp.base import *
 from sparknlp.training import *
-
 from test.util import SparkContextForTest
 from test.util import SparkSessionForTest
-
-from pyspark.ml.feature import SQLTransformer
-from pyspark.ml.clustering import KMeans
-from pyspark.sql.functions import split
 
 
 class BasicAnnotatorsTestSpec(unittest.TestCase):

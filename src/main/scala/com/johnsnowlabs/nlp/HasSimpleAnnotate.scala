@@ -20,9 +20,9 @@ import org.apache.spark.ml.Model
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 
-trait HasSimpleAnnotate[M <: Model[M]] {
+import scala.collection.JavaConverters._
 
-  this: AnnotatorModel[M] =>
+trait HasSimpleAnnotate[M <: Model[M]] extends AnnotatorModel[M] {
 
   /**
    * takes a document and annotations and produces new annotations of this annotator's annotation type
@@ -40,6 +40,26 @@ trait HasSimpleAnnotate[M <: Model[M]] {
   def dfAnnotate: UserDefinedFunction = udf {
     annotationProperties: Seq[AnnotationContent] =>
       annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+  }
+
+  def annotateJson(jsonMapAnnotations: java.util.List[java.util.Map[String, java.util.List[Float]]]):
+  java.util.List[java.util.Map[String, java.util.List[Float]]]= {
+
+    val annotation: Seq[Annotation] = jsonMapAnnotations.asScala.par.flatMap{ jsonMapAnnotation =>
+      jsonMapAnnotation.asScala.par.map{ case(jsonAnnotation, embeddings) =>
+        val annotation = Annotation.parseJson(jsonAnnotation)
+        Annotation(annotation.annotatorType, annotation.begin, annotation.end, annotation.result,
+          annotation.metadata, embeddings.asScala.toArray)
+      }
+    }.toList
+
+    annotate(annotation).par.map{ annotation =>
+      val annotationWithoutEmbeddings = Annotation(annotation.annotatorType, annotation.begin, annotation.end,
+        annotation.result, annotation.metadata)
+      val annotationJson = Annotation.toJson(annotationWithoutEmbeddings)
+      Map(annotationJson -> annotation.embeddings.toList.asJava).asJava
+    }.toList.asJava
+
   }
 
 }

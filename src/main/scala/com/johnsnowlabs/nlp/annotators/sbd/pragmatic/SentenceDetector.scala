@@ -18,9 +18,11 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.nlp.annotators.sbd.SentenceDetectorParams
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, JavaAnnotation}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.{DataFrame, Dataset}
+
+import scala.collection.JavaConverters._
 
 /**
   * Annotator that detects sentence boundaries using any provided approach.

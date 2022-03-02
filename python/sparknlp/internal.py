@@ -15,18 +15,21 @@
 """Contains Classes for implementing Spark NLP Annotators.
 """
 
+import re
+import json
 from abc import ABC
 
 from pyspark import SparkContext, keyword_only
 from pyspark.ml import PipelineModel
-from pyspark.ml.wrapper import JavaWrapper, JavaTransformer, JavaEstimator, JavaModel
-from pyspark.ml.util import JavaMLWritable, JavaMLReadable, JavaMLReader
-from pyspark.sql.dataframe import DataFrame
 from pyspark.ml.param.shared import Params
-import re
-
+from pyspark.ml.util import JavaMLWritable, JavaMLReadable, JavaMLReader
+from pyspark.ml.wrapper import JavaWrapper, JavaTransformer, JavaEstimator, JavaModel
+from pyspark.sql.dataframe import DataFrame
 
 # Helper class used to generate the getters for all params
+from sparknlp.annotation import Annotation
+
+
 class ParamsGettersSetters(Params):
     getter_attrs = []
 
@@ -266,6 +269,45 @@ class _LightPipeline(ExtendedJavaWrapper):
     def __init__(self, pipelineModel, parse_embeddings):
         super(_LightPipeline, self).__init__("com.johnsnowlabs.nlp.LightPipeline", pipelineModel._to_java(),
                                              parse_embeddings)
+
+
+class AnnotateJava:
+
+    def annotate(self, annotations, annotator):
+        json_annotations = self.annotationsToJson(annotations)
+        java_output_list = annotator.annotateJson(json_annotations)
+        processed_annotations = self.javaOutputToAnnotation(java_output_list)
+
+        return processed_annotations
+
+    def annotationsToJson(self, annotations):
+
+        json_annotations = []
+        for annotation in annotations:
+            json_annotation = json.dumps(annotation.__dict__)
+            embeddings = annotation.embeddings
+            json_annotations.append({json_annotation: embeddings})
+
+        return json_annotations
+
+    def javaOutputToAnnotation(self, java_output_list):
+        annotations = []
+        for java_output in java_output_list:
+            for annotation_str, embeddings in java_output.items():
+                annotation_dict = json.loads(annotation_str)
+                annotation = Annotation(annotation_dict['annotatorType'], int(annotation_dict['begin']),
+                                        int(annotation_dict['end']), annotation_dict['result'],
+                                        annotation_dict['metadata'], list(embeddings))
+
+                annotations.append(annotation)
+
+        return annotations
+
+
+class _SentenceDetector(ExtendedJavaWrapper):
+
+    def __init__(self):
+        super(_SentenceDetector, self).__init__("com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector")
 
 
 # ==================

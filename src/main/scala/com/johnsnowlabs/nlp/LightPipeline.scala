@@ -64,7 +64,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case rawModel: RawAnnotator[_] =>
           if (ignoreUnsupported) annotations
           else throw new IllegalArgumentException(s"model ${rawModel.uid} does not support LightPipeline." +
-            s" Call setIgnoreUnsupported(boolean) on LightPipeline to ignore")
+            s" Call setIgnoreUnsupported(true) on LightPipeline to ignore")
         case pipeline: PipelineModel =>
           new LightPipeline(pipeline, parseEmbeddingsVectors).fullAnnotate(target, annotations)
         case _ => annotations

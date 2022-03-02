@@ -16,10 +16,15 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.pretrained.ResourceMetadata.formats
+import com.johnsnowlabs.util.JsonParser
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.{Dataset, Row}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions.udf
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.write
+import org.json4s.{Formats, NoTypeHints}
 
 import scala.collection.Map
 
@@ -266,6 +271,15 @@ object Annotation {
         field.metadata.contains("annotatorType") &&
         field.metadata.getString("annotatorType") == annotatorType)
       .getOrElse(throw new IllegalArgumentException(s"Could not find a column of type $annotatorType in inputCols"))
+  }
+
+  def toJson(annotation: Annotation): String = {
+    write(annotation)
+  }
+
+  def parseJson(json: String): Annotation = {
+    JsonParser.formats = formats
+    JsonParser.parseObject[Annotation](json)
   }
 
 }

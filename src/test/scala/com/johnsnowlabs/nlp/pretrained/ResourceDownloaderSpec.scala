@@ -18,9 +18,7 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
 import com.johnsnowlabs.tags.FastTest
-import com.johnsnowlabs.util.{Version, TrainingHelper}
-import com.johnsnowlabs.nlp.pretrained.ResourceType
-
+import com.johnsnowlabs.util.{TrainingHelper, Version}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.sql.Timestamp

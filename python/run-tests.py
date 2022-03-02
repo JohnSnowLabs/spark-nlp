@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 from test.annotators import *
+from test.common import CustomAnnotatorTest
 from test.functions import FunctionMapColumnsTestSpec, FunctionMapColumnTestSpec
 from test.misc import *
 from test.base import *
@@ -116,3 +117,10 @@ unittest.TextTestRunner().run(ResourceDownloaderShowTestSpec())
 # Functions tests
 unittest.TextTestRunner().run(FunctionMapColumnsTestSpec())
 unittest.TextTestRunner().run(FunctionMapColumnTestSpec())
+
+# Custom Annotator Tests
+unittest.TextTestRunner().run(CustomAnnotatorTest())
+unittest.TextTestRunner().run(CustomAnnotatorLightPipelineTest())
+unittest.TextTestRunner().run(ThreeCustomAnnotatorsTwoAnnotatorsLightPipelineTest())
+unittest.TextTestRunner().run(OnlyAnnotatorsLightPipelineTest())
+unittest.TextTestRunner().run(CustomAnnotatorLongLightPipelineTest())
